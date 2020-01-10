@@ -16,8 +16,8 @@ For more information, see our [website](http://www.sandia.gov/biomechanics/).
 
 ### Get a local copy of the repository using `git clone` with SSH
 
-```bash
-$ cd ~        (optional, but recommended)
+```console
+$ cd ~  # Starting from the home directory is optional, but recommended.
 $ git clone git@github.com:sandialabs/sibl.git
 ```
 
