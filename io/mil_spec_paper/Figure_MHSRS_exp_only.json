@@ -1,0 +1,80 @@
+{
+    "exp-ave": {
+        "class": "model",
+        "folder": "../../../casco_sim/dot-exp-helmet-0305-hemi-001",
+        "file": "shells-impacts-ave.csv",
+        "skip_rows": 1,
+        "inverted": 0,
+        "plot_kwargs": {
+            "label": "DOT average (n=4)",
+            "color": "darkorange",
+            "linestyle": "-",
+            "linewidth": 8,
+            "alpha" : 0.5
+        }
+    },
+    "exp-1": {
+        "class": "model",
+        "folder": "../../../casco_sim/dot-exp-helmet-0305-hemi-001",
+        "file": "shell-2-impact-1.csv",
+        "skip_rows": 1,
+        "inverted": 0,
+        "plot_kwargs": {
+            "label": "DOT shell 2 impact 1",
+            "linestyle": "-.",
+            "linewidth": 2
+        }
+    },
+    "exp-2": {
+        "class": "model",
+        "folder": "../../../casco_sim/dot-exp-helmet-0305-hemi-001",
+        "file": "shell-2-impact-2.csv",
+        "skip_rows": 1,
+        "inverted": 0,
+        "plot_kwargs": {
+            "label": "DOT shell 2 impact 2",
+            "linestyle": ":",
+            "linewidth": 2
+        }
+    },
+    "exp-3": {
+        "class": "model",
+        "folder": "../../../casco_sim/dot-exp-helmet-0305-hemi-001",
+        "file": "shell-3-impact-1.csv",
+        "skip_rows": 1,
+        "inverted": 0,
+        "plot_kwargs": {
+            "label": "DOT shell 3 impact 1",
+            "linestyle": "--",
+            "linewidth": 2
+        }
+    },
+    "exp-4": {
+        "class": "model",
+        "folder": "../../../casco_sim/dot-exp-helmet-0305-hemi-001",
+        "file": "shell-3-impact-2.csv",
+        "skip_rows": 1,
+        "inverted": 0,
+        "plot_kwargs": {
+            "label": "DOT shell 3 impact 2",
+            "linestyle": "-",
+            "linewidth": 1
+        }
+    },
+    "Figure_MHSRS": {
+        "class": "view",
+        "folder": "output",
+        "file": "Figure_MHSRS_exp_only.pdf",
+        "figure_args": {
+            "figsize": "(8.0, 6.0)",
+            "xlim": "(-0.001, 0.0210)",
+            "ylim": "(-10, 80)"
+        },
+        "title": "MHSRS Figure 11: DOT translational, helmet, hemi",
+        "xlabel": "time (s)",
+        "ylabel": "deceleration (Gs)",
+        "display": 1,
+        "latex": 0,
+        "serialize": 1
+    }
+}

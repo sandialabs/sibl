@@ -1,0 +1,42 @@
+{
+    "dot-exp": {
+        "class": "model",
+        "folder": "../../../casco_sim/dot-exp-non-0305-mep-000",
+        "file": "out_mean.csv",
+        "skip_rows": 1,
+        "inverted": 0,
+        "plot_kwargs": {
+            "color": "black",
+            "label": "Exp DOT head form center",
+            "linestyle": "-.",
+            "linewidth": 2
+        }
+    },
+    "dot-025": {
+        "class": "model",
+        "folder": "../../../casco_sim/dot-5mm-non-0305-mep-025",
+        "file": "out_a_mid.csv",
+        "skip_rows": 1,
+        "inverted": 1,
+        "plot_kwargs": {
+            "color": "blue",
+            "label": "Sim DOT head form center",
+            "linestyle": "-",
+            "linewidth": 2
+        }
+    },
+    "Figure_2": {
+        "class": "view",
+        "folder": "output",
+        "file": "Figure_2.svg",
+        "figure_args": {
+            "figsize": "(8.0, 6.0)"
+        },
+        "title": "Figure 2: DOT translational, no helmet, MEP",
+        "xlabel": "time (s)",
+        "ylabel": "deceleration (Gs)",
+        "display": 1,
+        "latex": 0,
+        "serialize": 1
+    }
+}
