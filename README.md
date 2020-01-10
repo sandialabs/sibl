@@ -14,6 +14,8 @@ For more information, see our [website](http://www.sandia.gov/biomechanics/).
 
 ## Getting Started
 
+For an overview, [read the guide](https://guides.github.com/activities/hello-world/) from GitHub.
+
 ### Get a local copy of the repository using `git clone` with SSH
 
 ```console
