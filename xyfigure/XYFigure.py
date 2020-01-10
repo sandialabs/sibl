@@ -80,6 +80,7 @@ class XYView(XYBase):
         self._title = kwargs.get('title', default)
         self._xlabel = kwargs.get('xlabel', 'default x axis label')
         self._ylabel = kwargs.get('ylabel', 'default y axis label')
+        self._x_log_scale = kwargs.get('x_log_scale', None)
 
         # default = {'scale': 1, 'label': 'ylabel_rhs', 'verification': 0}
         self._yaxis_rhs = kwargs.get('yaxis_rhs', None)
@@ -124,9 +125,16 @@ class XYView(XYBase):
 
             for model in self._models:
                 if model.is_inverted:
-                    ax.plot(model.x + model._xoffset, -1.0 * model.y, **model.plot_kwargs)
+                    # needs rearchitecting, a logview descends from a view
+                    if self._x_log_scale:  # needs rearchitecting
+                        ax.semilogx(model.x + model._xoffset, -1.0 * model.y, **model.plot_kwargs)
+                    else:
+                        ax.plot(model.x + model._xoffset, -1.0 * model.y, **model.plot_kwargs)
                 else:
-                    ax.plot(model.x + model._xoffset, model.y, **model.plot_kwargs)
+                    if self._x_log_scale:  # needs rearchitecting
+                        ax.semilogx(model.x + model._xoffset, model.y, **model.plot_kwargs)
+                    else:
+                        ax.plot(model.x + model._xoffset, model.y, **model.plot_kwargs)
 
             if self._yaxis_rhs:
                 rhs_axis_scale = self._yaxis_rhs.get('scale', 1)
