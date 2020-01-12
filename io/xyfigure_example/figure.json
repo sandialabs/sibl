@@ -1,0 +1,42 @@
+{
+    "sine-data": {
+        "class": "model",
+        "folder": ".",
+        "file": "t_versus_sin_t.csv",
+        "skip_rows": 1,
+        "inverted": 0,
+        "plot_kwargs": {
+            "label": "sin(t)",
+            "color": "darkorange",
+            "linestyle": "-",
+            "linewidth": 8,
+            "alpha" : 0.5
+        }
+    },
+    "": {
+        "class": "model",
+        "folder": ".",
+        "file": "t_versus_cos_2t.csv",
+        "skip_rows": 1,
+        "inverted": 0,
+        "plot_kwargs": {
+            "label": "cos(2t)",
+            "linestyle": "-.",
+            "linewidth": 2
+        }
+    },
+    "figure-output": {
+        "class": "view",
+        "folder": ".",
+        "file": "figure_example.png",
+        "figure_args": {
+            "figsize": "(8.0, 6.0)"
+        },
+        "title": "Example using xyfigure",
+        "xlabel": "time (s)",
+        "ylabel": "functions of time f(t)",
+        "display": 1,
+        "latex": 0,
+        "serialize": 1
+    }
+}

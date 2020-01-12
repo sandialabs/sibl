@@ -10,7 +10,7 @@ For more information, see our [website](http://www.sandia.gov/biomechanics/).
 
 ## Library
 
-* XYFigure
+* [XYFigure](xyfigure/README.md)
 
 ## Getting Started
 
