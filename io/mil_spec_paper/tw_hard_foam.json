@@ -1,0 +1,66 @@
+{
+    "12": {
+        "class": "model",
+        "folder": "../../../casco_sim/experiment/foam",
+        "file": "HardFoam110iComp_12_mm_min.csv",
+        "skip_rows": 1,
+        "inverted": 0,
+        "plot_kwargs": {
+            "label": "12 mm/min"
+        }
+    },
+    "120": {
+        "class": "model",
+        "folder": "../../../casco_sim/experiment/foam",
+        "file": "HardFoam110iComp_120_mm_min.csv",
+        "skip_rows": 1,
+        "inverted": 0,
+        "plot_kwargs": {
+            "label": "120 mm/min"
+        }
+    },
+    "1200": {
+        "class": "model",
+        "folder": "../../../casco_sim/experiment/foam",
+        "file": "HardFoam110iComp_1200_mm_min.csv",
+        "skip_rows": 1,
+        "inverted": 0,
+        "plot_kwargs": {
+            "label": "1,200 mm/min"
+        }
+    },
+    "12000": {
+        "class": "model",
+        "folder": "../../../casco_sim/experiment/foam",
+        "file": "HardFoam110iComp_12000_mm_min.csv",
+        "skip_rows": 1,
+        "inverted": 0,
+        "plot_kwargs": {
+            "label": "12,000 mm/min"
+        }
+    },
+    "120000": {
+        "class": "model",
+        "folder": "../../../casco_sim/experiment/foam",
+        "file": "HardFoam110iComp_120000_mm_min.csv",
+        "skip_rows": 1,
+        "inverted": 0,
+        "plot_kwargs": {
+            "label": "120,000 mm/min"
+        }
+    },
+    "Figure": {
+        "class": "view",
+        "folder": "output",
+        "file": "tw_hard_foam.svg",
+        "figure_args": {
+            "figsize": "(8.0, 6.0)"
+        },
+        "title": "TW Hard Foam 110i Comp 12 to 120k mm per minute",
+        "xlabel": "Engineering Strain (%)",
+        "ylabel": "Engineering Stress (MPa)",
+        "display": 1,
+        "latex": 0,
+        "serialize": 1
+    }
+}
