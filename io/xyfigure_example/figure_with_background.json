@@ -31,22 +31,25 @@
         "folder": ".",
         "file": "figure_example.png",
         "figure_args": {
-            "figsize": "(8.0, 6.0)"
+            "figsize": "(8.0, 6.0)",
+            "xlim": "(-0.25, 2.25)",
+            "ylim": "-1.25, 1.25"
         },
         "title": "Example using xyfigure",
         "xlabel": "time (s)",
         "ylabel": "functions of time f(t)",
-        "xticks": "[0, 3.14159/2.0, 3.14159]",
+        "xticks": "np.pi * np.linspace(0, 2, 9)",
         "yticks": "[-1, -0.5, 0, 0.5, 1]",
-        "yaxis_rhs" : {
-            "scale": 1,
-            "label": "duplicated right-side axis"
+        "yaxis_rhs": {
+            "scale": 10,
+            "label": "right-hand-side label with 10 f(t) scale",
+            "yticks": "[-5, 0, 5]"
         },
         "background-image": {
             "folder": ".",
             "file": "sin-and-cos-one-period.png",
-            "offset": "(-0.07, 0.09)",
-            "scale": "(2, 1.365)"
+            "offset": "(-0.39, 0.09)",
+            "scale": "(1.175, 1.365)"
         },
         "display": 1,
         "latex": 0,
