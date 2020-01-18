@@ -18,6 +18,6 @@ The resulting figure, `figure_exmaple.png`,
 
 ![figure_example](../io/xyfigure_example/figure_example.png)
 
-will result, written to the `~/sibl/io/xyfigure/example/` folder.
+will result, written to the `~/sibl/io/xyfigure_example/` folder.
 
 For more information on the variations that are possible for formatting, see the [XYfigure_defaults.json](XYFigure_defaults.json) file.
