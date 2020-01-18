@@ -64,9 +64,7 @@
         "class": "view",
         "folder": "output",
         "file": "Figure_5.svg",
-        "figure_args": {
-            "figsize": "(8.0, 6.0)"
-        },
+        "size": "(8.0, 6.0)",
         "title": "Figure 5: Work in progress (DOT, Bob) translational, helmet, hemi",
         "xlabel": "time (s)",
         "ylabel": "deceleration (Gs)",

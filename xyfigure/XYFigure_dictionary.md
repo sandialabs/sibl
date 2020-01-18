@@ -31,7 +31,7 @@ Key | Value | Description
 --- | ----- | -----------
 `"linewidth":` | float | *optional*<br> Default value is `2.0`. See [matplotlib lines Line2D](https://matplotlib.org/api/_as_gen/matplotlib.lines.Line2D.html#matplotlib.lines.Line2D) for more detail.
 `"linestyle":` | string | *optional*<br>Default value is `"-"`, which is a solid line. See [matplotlib linestyles](https://matplotlib.org/3.1.0/gallery/lines_bars_and_markers/linestyles.html) for more detail.
-| | |Some frequently used *optional values* follow:
+| | |Some frequently used *optional values* follow.  If the keys are omitted, then the matplotlib defaults are used.
 `"label":` | string | *optional*<br>The string appearing in the legend correponding to the data.
 `"color:"` | string | *optional*<br>The [matplotlib color](https://matplotlib.org/3.1.1/tutorials/colors/colors.html) used to plot the data.
 `"alpha":` | float | *optional*<br>Real number in the range from `0` to `1`. Numbers toward `0` are more transparent and numbers toward `1` are more opaque.  
@@ -45,7 +45,9 @@ Key | Value | Description
 `"class":` | `"view"` | Specific string to generate the XYView Python class.
 `"folder":` | string | Value *relative to the current working directory* of the path and folder that contains the output figure data (if `"serialize"` is set to `"1"`).  For the current working directory, use `"."`.  If the folder does not exist at run time, the script will attempt to create the directory, pending the user's approval.
 `"file":` | string | Value of the figure output file (e.g., `my_output_file.png`) in `.xxx` format, where `xxx` is an image file format, typically `pdf`, `png`, or `svg`.  
-`"figure_args":` | string | *optional*<br>
+`"size":` | string | *optional*<br>String containing a tuple of `(width, height)` of the output figure in units of inches.  Default is `(11.0, 8.5)`, U.S. paper, landscape.
+`"xlim"` | string | *optional*<br>String containing a tuple of x-axis bounds `(x_min, x_max)`.  Default is matplotlib's automatic selection.
+`"ylim"` | string | *optional*<br>String containing a tuple of y-axis bounds `(y_min, y_max)`.  Default is matplotlib's automatic selection.
 `"title":` | string | *optional*<br>Figure label, top and centered.  Default is the base name of the `.json` input file, followed by the timestamp of the figure creation in `yyyy-mm-dd hh:mm:ss` format.
 `"xlabel":` | string | *optional*<br>The label for the x-axis.  Default is `default x axis label`.
 `"ylabel":` | string | *optional*<br>The label for the left-hand y-axis.  Default is `default y axis label.`
@@ -75,4 +77,4 @@ Key | Value | Description
 `"right":` | float | *optional*<br>Right-side extent of image in plot `x` coordinates.  Must be greater than the left-side extent. Default is `1.0`.
 `"bottom":` | float | *optional*<br>Bottom-side extent of image in plot `y` coordinates.   Must be less than the top-side extent. Default is `0.0`.
 `"top":` | float | *optional*<br>Top-side extent of image in plot `y` coordinates.  Must be greater than the bottom-side extent.  Default is `1.0`.
-
+`"alpha":` | float | *optional*<br>Real number in the range from 0 to 1. Numbers toward 0 are more transparent and numbers toward 1 are more opaque.  Default is `1.0` (fully opaque, no transparency).

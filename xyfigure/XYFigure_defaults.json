@@ -37,7 +37,7 @@
             "label": "acceleration $\\ddot{u}_i$ (G)", 
             "yticks": "[-5, 0, 5]"  # optional, omit for matplotlib defaults
         },
-        "background-image": {  # optional, omit for no background image
+        "background_image": {  # optional, omit for no background image
             "folder": ".",
             "file": "chess_800_800_px.png",
             "left": 1.0,  # left edge of image in xyfigure coordinates

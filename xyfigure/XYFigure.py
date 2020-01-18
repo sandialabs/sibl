@@ -40,7 +40,7 @@ class XYModel(XYBase):
         self._data = np.genfromtxt(path_and_file, dtype='float', delimiter=',', skip_header=self._skip_rows)
 
         # default value if plot_kwargs not client-supplied
-        default = {'linewidth': 2, 'linestyle': '-'}
+        default = {'linewidth': 2.0, 'linestyle': '-'}
         self._plot_kwargs = kwargs.get('plot_kwargs', default)
 
         self._inverted = kwargs.get('inverted', False)
@@ -93,10 +93,13 @@ class XYView(XYBase):
         self._yaxis_rhs = kwargs.get('yaxis_rhs', None)
 
         # default value if figure_kwargs not client-supplied
-        default = {'figsize': '(11.0, 8.5)'}  # inches, U.S. paper, landscape
-        self._figure_args = kwargs.get('figure_args', default)
+        # default = {'figsize': '(11.0, 8.5)'}  # inches, U.S. paper, landscape
+        # self._figure_args = kwargs.get('figure_args', default)
+        self._size_str = kwargs.get('size', '(11.0, 8.5)')
+        self._xlim_str = kwargs.get('xlim', None)
+        self._ylim_str = kwargs.get('ylim', None)
 
-        self._background_image = kwargs.get('background-image', None)
+        self._background_image = kwargs.get('background_image', None)
 
         self._display = kwargs.get('display', True)
         self._serialize = kwargs.get('serialize', False)
@@ -124,10 +127,13 @@ class XYView(XYBase):
             # fig, ax = plt.subplots(nrows=1, figsize=figsize_tuple)
             fig, ax = plt.subplots(nrows=1)
 
-            figsize_tuple_str = self._figure_args.get('figsize', None)
-            if figsize_tuple_str:
-                figsize_tuple = eval(figsize_tuple_str)
-                fig.set_size_inches(figsize_tuple)
+            #figsize_tuple_str = self._figure_args.get('figsize', None)
+            #if figsize_tuple_str:
+            #    figsize_tuple = eval(figsize_tuple_str)
+            #    fig.set_size_inches(figsize_tuple)
+            size_tuple = eval(self._size_str)
+            fig.set_size_inches(size_tuple)
+            print('Figure size set to ' +  str(size_tuple) + ' inches.')
 
             #fig.set_size_inches(figsize_tuple)  # https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure.set_size_inches
             # self._folder = kwargs.get('folder', None)
@@ -139,15 +145,16 @@ class XYView(XYBase):
                 # im = imageio.imread(path_and_file)
                 im = Image.open(path_and_file)
 
-                left = self._background_image.get('left', 0)
-                right = self._background_image.get('right', 1)
-                bottom = self._background_image.get('bottom', 0)
-                top = self._background_image.get('top', 1)
+                left = self._background_image.get('left', 0.0)
+                right = self._background_image.get('right', 1.0)
+                bottom = self._background_image.get('bottom', 0.0)
+                top = self._background_image.get('top', 1.0)
+                al = self._background_image.get('alpha', 1.0)
 
                 # https://github.com/matplotlib/matplotlib/issues/3173
                 # https://matplotlib.org/3.1.1/tutorials/intermediate/imshow_extent.html
-                new_extent=[left, right, bottom ,top]
-                im = ax.imshow(im, zorder=0, extent=new_extent, alpha=0.5, aspect='auto')
+                bounds = [left, right, bottom ,top]
+                im = ax.imshow(im, zorder=0, extent=bounds, alpha=al, aspect='auto')
 
             for model in self._models:
                 if model.is_inverted:
@@ -172,13 +179,19 @@ class XYView(XYBase):
                 # plt.yticks(ticks)
                 ax.set_yticks(ticks)
 
-            xlim_tuple_str = self._figure_args.get('xlim', None)
-            if xlim_tuple_str:
-                ax.set_xlim(eval(xlim_tuple_str))
+            # xlim_tuple_str = self._figure_args.get('xlim', None)
+            # if xlim_tuple_str:
+            #     ax.set_xlim(eval(xlim_tuple_str))
 
-            ylim_tuple_str = self._figure_args.get('ylim', None)
-            if ylim_tuple_str:
-                ax.set_ylim(eval(ylim_tuple_str))
+            # ylim_tuple_str = self._figure_args.get('ylim', None)
+            # if ylim_tuple_str:
+            #     ax.set_ylim(eval(ylim_tuple_str))
+
+            if self._xlim_str:
+                ax.set_xlim(eval(self._xlim_str))
+
+            if self._ylim_str:
+                ax.set_ylim(eval(self._ylim_str))
 
             if self._yaxis_rhs:
                 rhs_axis_scale = self._yaxis_rhs.get('scale', 1)

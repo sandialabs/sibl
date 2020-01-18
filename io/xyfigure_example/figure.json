@@ -29,9 +29,7 @@
         "class": "view",
         "folder": ".",
         "file": "figure_example.png",
-        "figure_args": {
-            "figsize": "(8.0, 6.0)"
-        },
+        "size": "(8.0, 6.0)",
         "title": "Example using xyfigure",
         "xlabel": "time (s)",
         "ylabel": "functions of time f(t)",
@@ -42,6 +40,6 @@
         },
         "display": 1,
         "latex": 0,
-        "serialize": 1
+        "serialize": 0
     }
 }

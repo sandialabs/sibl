@@ -30,11 +30,9 @@
         "class": "view",
         "folder": ".",
         "file": "figure_with_background.png",
-        "figure_args": {
-            "figsize": "(8.0, 6.0)",
-            "xlim": "(-0.25, 2.25)",
-            "ylim": "(-1.25, 1.25)"
-        },
+        "size": "(8.0, 6.0)",
+        "xlim": "(-0.25, 2.25)",
+        "ylim": "(-1.25, 1.25)",
         "title": "Example using xyfigure",
         "xlabel": "time (s)",
         "ylabel": "functions of time f(t)",
@@ -45,16 +43,17 @@
             "label": "right-hand-side label with 10 f(t) scale",
             "yticks": "[-5, 0, 5]"
         },
-        "background-image": {
+        "background_image": {
             "folder": ".",
             "file": "chess_800_800_px.png",
             "left": 1.0,
             "right": 2.0,
             "bottom": -0.5,
-            "top": 0.5
+            "top": 0.5,
+			"alpha": 0.5
         },
         "display": 1,
         "latex": 0,
-        "serialize": 1
+        "serialize": 0
     }
 }

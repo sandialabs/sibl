@@ -29,9 +29,7 @@
         "class": "view",
         "folder": "output",
         "file": "Figure_2.svg",
-        "figure_args": {
-            "figsize": "(8.0, 6.0)"
-        },
+        "size": "(8.0, 6.0)",
         "title": "Figure 2: DOT translational, no helmet, MEP",
         "xlabel": "time (s)",
         "ylabel": "deceleration (Gs)",

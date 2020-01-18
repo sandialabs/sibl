@@ -53,9 +53,7 @@
         "class": "view",
         "folder": "output",
         "file": "tw_hard_foam.svg",
-        "figure_args": {
-            "figsize": "(8.0, 6.0)"
-        },
+        "size": "(8.0, 6.0)",
         "title": "TW Hard Foam 110i Comp 12 to 120k mm per minute",
         "xlabel": "Engineering Strain (%)",
         "ylabel": "Engineering Stress (MPa)",

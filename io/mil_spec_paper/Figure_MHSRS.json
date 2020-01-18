@@ -107,9 +107,7 @@
         "class": "view",
         "folder": "output",
         "file": "Figure_MHSRS.svg",
-        "figure_args": {
-            "figsize": "(8.0, 6.0)"
-        },
+        "size": "(8.0, 6.0)",
         "title": "MHSRS Figure 11: (DOT, Bob) translational, helmet, hemi",
         "xlabel": "time (s)",
         "ylabel": "deceleration (Gs)",
