@@ -145,21 +145,14 @@ class XYView(XYBase):
                     else:
                         ax.plot(model.x + model._xoffset, model.y, **model.plot_kwargs)
 
-            if self._yaxis_rhs:
-                rhs_axis_scale = self._yaxis_rhs.get('scale', 1)
-                rhs_axis_label = self._yaxis_rhs.get('label', None)
-                rhs_yticks_str = self._yaxis_rhs.get('yticks', None)
+            if self._xticks_str:
+                ticks = eval(self._xticks_str)
+                # plt.xticks(ticks)
+                ax.set_xticks(ticks)
 
-                ax_rhs = fig.add_subplot(111, sharex=ax, frameon=False)
-                bottom, top = ax.get_ylim()
-                ax_rhs.set_ylim(rhs_axis_scale * bottom, rhs_axis_scale * top)
-                ax_rhs.yaxis.tick_right()
-                if rhs_yticks_str:
-                    ticks = eval(rhs_yticks_str)
-                    # ax_rhs.yaxis.yticks(ticks)
-                    plt.yticks(ticks)
-                ax_rhs.yaxis.set_label_position('right')
-                ax_rhs.set_ylabel(rhs_axis_label)
+            if self._yticks_str:
+                ticks = eval(self._yticks_str)
+                plt.yticks(ticks)
 
             xlim_tuple_str = self._figure_args.get('xlim', None)
             if xlim_tuple_str:
@@ -169,38 +162,48 @@ class XYView(XYBase):
             if ylim_tuple_str:
                 ax.set_ylim(eval(ylim_tuple_str))
 
+            if self._yaxis_rhs:
+                rhs_axis_scale = self._yaxis_rhs.get('scale', 1)
+                rhs_axis_label = self._yaxis_rhs.get('label', None)
+                rhs_yticks_str = self._yaxis_rhs.get('yticks', None)
+
+                ax2 = fig.add_subplot(111, sharex=ax, frameon=False)
+                bottom, top = ax.get_ylim()
+                ax2.set_ylim(rhs_axis_scale * bottom, rhs_axis_scale * top)
+                ax2.yaxis.tick_right()
+                if rhs_yticks_str:
+                    ticks = eval(rhs_yticks_str)
+                    # ax2.yaxis.set_yticks(ticks)
+                    ax2.set_yticks(ticks)
+                    # plt.yticks(ticks)
+                ax2.yaxis.set_label_position('right')
+                ax2.set_ylabel(rhs_axis_label)
+
             fig.suptitle(self._title)
             ax.set_xlabel(self._xlabel)
             ax.set_ylabel(self._ylabel)
             ax.grid()
             ax.legend()
 
-            if self._xticks_str:
-                ticks = eval(self._xticks_str)
-                plt.xticks(ticks)
+            #if self._background_image:
+            #    folder = self._background_image.get('folder', '.')
+            #    file = self._background_image.get('file', None)
+            #    path_and_file = os.path.join(folder, file)
+            #    # im = imageio.imread(path_and_file)
+            #    im = Image.open(path_and_file)
 
-            if self._yticks_str:
-                ticks = eval(self._yticks_str)
-                plt.yticks(ticks)
+            #    offset_tuple_str = self._background_image.get('offset', '0.0, 0.0')
+            #    dx, dy = eval(offset_tuple_str)  # offset x and y
 
-            if self._background_image:
-                folder = self._background_image.get('folder', '.')
-                file = self._background_image.get('file', None)
-                path_and_file = os.path.join(folder, file)
-                # im = imageio.imread(path_and_file)
-                im = Image.open(path_and_file)
-
-                offset_tuple_str = self._background_image.get('offset', '0.0, 0.0')
-                dx, dy = eval(offset_tuple_str)  # offset x and y
-
-                scale_tuple_str = self._background_image.get('scale', '1.0, 1.0')
-                sx, sy = eval(scale_tuple_str)  # scale x and y
-                # extent = [left, right, top, bottom]
-                left, right = plt.xlim()
-                bottom, top = plt.ylim()
-                new_extent=[sx * left + dx, sx * right + dx, sy * bottom + dy, sy * top + dy]
-                ax.imshow(im, zorder=0, extent=new_extent)
-                a = 4
+            #    scale_tuple_str = self._background_image.get('scale', '1.0, 1.0')
+            #    sx, sy = eval(scale_tuple_str)  # scale x and y
+            #    # extent = [left, right, top, bottom]
+            #    left, right = plt.xlim()
+            #    bottom, top = plt.ylim()
+            #    # new_extent=[sx * left + dx, sx * right + dx, sy * bottom + dy, sy * top + dy]
+            #    new_extent=[left, right, bottom ,top]
+            #    ax.imshow(im, zorder=0, extent=new_extent)
+            #    a = 4
 
 
             if self._display:

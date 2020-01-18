@@ -12,6 +12,17 @@ For more information, see our [website](http://www.sandia.gov/biomechanics/).
 
 * [XYFigure](xyfigure/README.md)
 
+## Prerequisites
+
+* Python 3
+* Scipy
+* Pillow 
+
+```console
+$ python3 -m pip install Pillow
+```
+
+
 ## Getting Started
 
 For an overview, [read the guide](https://guides.github.com/activities/hello-world/) from GitHub.
