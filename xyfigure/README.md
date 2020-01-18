@@ -24,10 +24,10 @@ For more information on the variations that are possible for formatting, see the
 
 ## Getting More Sophisticated
 
-Here we plot the [image](../io/xyfigure_example/chess_800_800_px.png), behind the figure, and specify some specific tick marks.
+Here we plot the chess board [image](../io/xyfigure_example/chess_800_800_px.png) behind the figure, and override the default tick marks with some specific tick marks.
 
 ![chess_800](../io/xyfigure_example/chess_800_800_px.png)
 
-The [json](../io/xy_figure_example/figure_with_background.json) file results in this figure:
+The [json](../io/xyfigure_example/figure_with_background.json) file results in this figure:
 
-![figure_example](../io/xyfigure_example/figure_example_with_background.png)
+![figure_example](../io/xyfigure_example/figure_with_background.png)
