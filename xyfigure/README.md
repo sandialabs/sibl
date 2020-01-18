@@ -24,11 +24,7 @@ For more information on the variations that are possible for formatting, see the
 
 ## Getting More Sophisticated
 
-Here we plot the chess board [image](../io/xyfigure_example/chess_800_800_px.png) 
-
-<p><img align="left" width="200" height="200" src="../io/xyfigure_example/chess_800_800_px.png"></p>
-
-behind the figure, and override the default tick marks with some specific tick marks.
+Here we plot the chess board [image](../io/xyfigure_example/chess_800_800_px.png) <img align="left" width="200" height="200" src="../io/xyfigure_example/chess_800_800_px.png"> behind the figure, and override the default tick marks with some specific tick marks.  We also use the alpha channel for a transparent chess board appearance.
 
 The [json](../io/xyfigure_example/figure_with_background.json) file results in this figure:
 
