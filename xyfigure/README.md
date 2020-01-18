@@ -20,7 +20,7 @@ The output file `figure_example.png` contains this figure:
 
 will result, written to the `~/sibl/io/xyfigure_example/` folder.
 
-For more information on the variations that are possible for formatting, see the [XYfigure_defaults.json](XYFigure_defaults.json) file and the [XYFigure dictionary](XYFigure_dictionary.md) documentation.
+For more information on the variations that are possible for formatting, see the the [XYFigure dictionary](XYFigure_dictionary.md) documentation.
 
 ## Getting More Sophisticated
 
