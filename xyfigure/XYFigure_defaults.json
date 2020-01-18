@@ -28,11 +28,22 @@
         },
         "title": "Figure 2: DOT, Bot, Bob translational, no helmet, MEP",  #  default is the "file" parameters, and YYYY-MM-DD post-fix
         "xlabel": "time (s)",  # default is "default x axis label"
-        "x_log_scale": 1,  # default is None (0), which is linear scale
+        "x_log_scale": 1,  # 1 for log_10 scale, omit or 0 for linear scale
         "ylabel": "acceleration (Gs)",  # default is "default y axis label"
+        "xticks": "[0, 0.50, np.pi/4, 1, np.pi/2, 2]",  # optional, omit for matplotlib defaults
+        "yticks": "[-1, -0.5, 0, 0.5, 1]",  # optional, omit for matplotlib defaults
         "yaxis_rhs": {  # optional, default is None (no right-hand-side yaxis)
             "scale": 10,
-            "label": "acceleration $\\ddot{u}_i$ (G)"
+            "label": "acceleration $\\ddot{u}_i$ (G)", 
+            "yticks": "[-5, 0, 5]"  # optional, omit for matplotlib defaults
+        },
+        "background-image": {  # optional, omit for no background image
+            "folder": ".",
+            "file": "chess_800_800_px.png",
+            "left": 1.0,  # left edge of image in xyfigure coordinates
+            "right": 2.0,  # right edge...
+            "bottom": -0.5,  # bottom edge...
+            "top": 0.5  # top edge...
         },
         "display": 1,  # bool, default is 1 (true), which shows to screen
         "latex": 0,  # bool, default is 0 (false), which is matplotlib fast

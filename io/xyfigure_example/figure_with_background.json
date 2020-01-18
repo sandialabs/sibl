@@ -29,16 +29,16 @@
     "figure-output": {
         "class": "view",
         "folder": ".",
-        "file": "figure_example.png",
+        "file": "figure_with_background.png",
         "figure_args": {
             "figsize": "(8.0, 6.0)",
             "xlim": "(-0.25, 2.25)",
-            "ylim": "-1.25, 1.25"
+            "ylim": "(-1.25, 1.25)"
         },
         "title": "Example using xyfigure",
         "xlabel": "time (s)",
         "ylabel": "functions of time f(t)",
-        "xticks": "np.pi * np.linspace(0, 2, 9)",
+        "xticks": "[0, 0.50, np.pi/4, 1, np.pi/2, 2]",
         "yticks": "[-1, -0.5, 0, 0.5, 1]",
         "yaxis_rhs": {
             "scale": 10,
@@ -47,12 +47,14 @@
         },
         "background-image": {
             "folder": ".",
-            "file": "sin-and-cos-one-period.png",
-            "offset": "(-0.39, 0.09)",
-            "scale": "(1.175, 1.365)"
+            "file": "chess_800_800_px.png",
+            "left": 1.0,
+            "right": 2.0,
+            "bottom": -0.5,
+            "top": 0.5
         },
         "display": 1,
         "latex": 0,
-        "serialize": 0
+        "serialize": 1
     }
 }

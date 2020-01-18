@@ -132,6 +132,23 @@ class XYView(XYBase):
             #fig.set_size_inches(figsize_tuple)  # https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure.set_size_inches
             # self._folder = kwargs.get('folder', None)
 
+            if self._background_image:
+                folder = self._background_image.get('folder', '.')
+                file = self._background_image.get('file', None)
+                path_and_file = os.path.join(folder, file)
+                # im = imageio.imread(path_and_file)
+                im = Image.open(path_and_file)
+
+                left = self._background_image.get('left', 0)
+                right = self._background_image.get('right', 1)
+                bottom = self._background_image.get('bottom', 0)
+                top = self._background_image.get('top', 1)
+
+                # https://github.com/matplotlib/matplotlib/issues/3173
+                # https://matplotlib.org/3.1.1/tutorials/intermediate/imshow_extent.html
+                new_extent=[left, right, bottom ,top]
+                im = ax.imshow(im, zorder=0, extent=new_extent, alpha=0.5, aspect='auto')
+
             for model in self._models:
                 if model.is_inverted:
                     # needs rearchitecting, a logview descends from a view
@@ -152,7 +169,8 @@ class XYView(XYBase):
 
             if self._yticks_str:
                 ticks = eval(self._yticks_str)
-                plt.yticks(ticks)
+                # plt.yticks(ticks)
+                ax.set_yticks(ticks)
 
             xlim_tuple_str = self._figure_args.get('xlim', None)
             if xlim_tuple_str:
@@ -184,27 +202,6 @@ class XYView(XYBase):
             ax.set_ylabel(self._ylabel)
             ax.grid()
             ax.legend()
-
-            #if self._background_image:
-            #    folder = self._background_image.get('folder', '.')
-            #    file = self._background_image.get('file', None)
-            #    path_and_file = os.path.join(folder, file)
-            #    # im = imageio.imread(path_and_file)
-            #    im = Image.open(path_and_file)
-
-            #    offset_tuple_str = self._background_image.get('offset', '0.0, 0.0')
-            #    dx, dy = eval(offset_tuple_str)  # offset x and y
-
-            #    scale_tuple_str = self._background_image.get('scale', '1.0, 1.0')
-            #    sx, sy = eval(scale_tuple_str)  # scale x and y
-            #    # extent = [left, right, top, bottom]
-            #    left, right = plt.xlim()
-            #    bottom, top = plt.ylim()
-            #    # new_extent=[sx * left + dx, sx * right + dx, sy * bottom + dy, sy * top + dy]
-            #    new_extent=[left, right, bottom ,top]
-            #    ax.imshow(im, zorder=0, extent=new_extent)
-            #    a = 4
-
 
             if self._display:
                 plt.show()

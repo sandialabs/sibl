@@ -14,10 +14,20 @@ $ cd ~/sibl/io/xyfigure_example/
 $ python ../../xyfigure/client.py figure.json
 ```
 
-The resulting figure, `figure_exmaple.png`, 
+The output file `figure_example.png` contains this figure:
 
 ![figure_example](../io/xyfigure_example/figure_example.png)
 
 will result, written to the `~/sibl/io/xyfigure_example/` folder.
 
 For more information on the variations that are possible for formatting, see the [XYfigure_defaults.json](XYFigure_defaults.json) file.
+
+## Getting More Sophisticated
+
+Here we plot the [image](../io/xyfigure_example/chess_800_800_px.png), behind the figure, and specify some specific tick marks.
+
+![chess_800](../io/xyfigure_example/chess_800_800_px.png)
+
+The [json](../io/xy_figure_example/figure_with_background.json) file results in this figure:
+
+![figure_example](../io/xyfigure_example/figure_example_with_background.png)
