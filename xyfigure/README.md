@@ -50,7 +50,7 @@ Here is the sine and cosine example from above, as a minimual [json](../io/xyfig
 }
 ```
 
-Here is the output that will be shown to the screen:
+Here is the output that will be shown to the screen (your date and time stamp in the title will be different, to reflect when you created the image):
 
 ![min_spec](../io/xyfigure_example/min_spec.png)
 
