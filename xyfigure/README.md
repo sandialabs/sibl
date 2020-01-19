@@ -1,4 +1,6 @@
-# Getting Started
+# xyfigure
+
+## Getting Started
 
 Here we create an example data file from an Excel spreadsheet and walk through the steps to create a simple `xyfigure`.
 
