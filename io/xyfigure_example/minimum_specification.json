@@ -1,0 +1,17 @@
+{
+    "sine-data": {
+        "class": "model",
+        "folder": ".",
+        "file": "t_versus_sin_t.csv"
+    },
+    "cosine-data": {
+        "class": "model",
+        "folder": ".",
+        "file": "t_versus_cos_2t.csv"
+    },
+    "figure-output": {
+        "class": "view",
+        "folder": ".",
+        "file": "minimum_specification.png"
+    }
+}

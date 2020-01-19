@@ -22,6 +22,37 @@ will result, written to the `~/sibl/io/xyfigure_example/` folder.
 
 For more information on the variations that are possible for formatting, see the the [XYFigure dictionary](XYFigure_dictionary.md) documentation.
 
+## Getting Minimalistic
+
+Most of the keywords documented in the dictionary are *optional*.  If the keywords are not specified, XYFigure selects sensible default values.  Users override the default behaviour by specifying *optional* keywords.  
+
+Here is the sine and cosine example from above, as a minimual [json](../io/xyfigure_example/minimum_specification.md) file, without any optional keywords:
+
+```json
+{
+    "sine-data": {
+        "class": "model",
+        "folder": ".",
+        "file": "t_versus_sin_t.csv"
+    },
+    "cosine-data": {
+        "class": "model",
+        "folder": ".",
+        "file": "t_versus_cos_2t.csv"
+    },
+    "figure-output": {
+        "class": "view",
+        "folder": ".",
+        "file": "minimum_specification.png"
+    }
+}
+```
+
+Here is the output that will be shown to the screen:
+
+![minimum_configuration](../io/xyfigure_example/minimum_configuration.png)
+
+
 ## Getting More Sophisticated
 
 Here we plot the chess board [image](../io/xyfigure_example/chess_800_800_px.png) <img align="left" width="200" height="200" src="../io/xyfigure_example/chess_800_800_px.png"> behind the figure, and override the default tick marks with some specific tick marks.  We also use the alpha channel for a transparent chess board appearance.
