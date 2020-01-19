@@ -26,7 +26,7 @@ For more information on the variations that are possible for formatting, see the
 
 Most of the keywords documented in the dictionary are *optional*.  If the keywords are not specified, XYFigure selects sensible default values.  Users override the default behaviour by specifying *optional* keywords.  
 
-Here is the sine and cosine example from above, as a minimual [json](../io/xyfigure_example/minimum_specification.md) file, without any optional keywords:
+Here is the sine and cosine example from above, as a minimual [json](../io/xyfigure_example/min_spec.md) file, without any optional keywords:
 
 ```json
 {
@@ -43,14 +43,14 @@ Here is the sine and cosine example from above, as a minimual [json](../io/xyfig
     "figure-output": {
         "class": "view",
         "folder": ".",
-        "file": "minimum_specification.png"
+        "file": "min_spec.png"
     }
 }
 ```
 
 Here is the output that will be shown to the screen:
 
-![minimum_configuration](../io/xyfigure_example/minimum_configuration.png)
+![min_spec](../io/xyfigure_example/min_spec.png)
 
 
 ## Getting More Sophisticated

@@ -12,6 +12,6 @@
     "figure-output": {
         "class": "view",
         "folder": ".",
-        "file": "minimum_specification.png"
+        "file": "min_spec.png"
     }
 }
