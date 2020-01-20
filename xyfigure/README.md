@@ -28,7 +28,7 @@ For more information on the variations that are possible for formatting, see the
 
 Most of the keywords documented in the [XYFigure dictionary](XYFigure_dictionary.md) are *optional*.  If the optional keywords are not specified, `xyfigure` selects sensible default values.  Users override the default behaviour by specifying the optional keywords.  
 
-Here is the sine and cosine example from above, as a minimual [json](../io/xyfigure_example/min_spec.json) file, without any optional keywords:
+Here is the sine and cosine example from above, as a minimal [json](../io/xyfigure_example/min_spec.json) file, without any optional keywords:
 
 ```json
 {
