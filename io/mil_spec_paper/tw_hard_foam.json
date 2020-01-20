@@ -59,6 +59,6 @@
         "ylabel": "Engineering Stress (MPa)",
         "display": 1,
         "latex": 0,
-        "serialize": 1
+        "serialize": 0
     }
 }

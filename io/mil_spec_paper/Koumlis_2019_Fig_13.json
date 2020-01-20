@@ -1,0 +1,35 @@
+{
+    "bounding_box": {
+        "class": "model",
+        "folder": ".",
+        "file": "Koumlis_2019_Fig_13_box.csv",
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "color": "magenta",
+            "linestyle": "dashed",
+            "marker": "o",
+            "markersize": 15,
+            "fillstyle": "none",
+            "alpha": 0.5
+        }
+    },
+    "figure-output": {
+        "class": "view",
+        "folder": "output",
+        "file": "Koumlis_2019_Fig_13_output.svg",
+        "size": "(8.0, 6.0)",
+        "title": "Koumlis 2019 Fig 13",
+        "xlabel": "nominal strain",
+        "ylabel": "nominal stress (MPa)",
+        "background_image": {
+            "folder": ".",
+            "file": "Koumlis_2019_Fig_13_trim.png",
+            "left": 0.0,
+            "right": 1.0,
+            "bottom": 0.0,
+            "top": 0.2,
+            "alpha": 0.5
+        },
+        "serialize": 0
+    }
+}
