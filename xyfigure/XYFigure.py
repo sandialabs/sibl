@@ -43,27 +43,30 @@ class XYModel(XYBase):
         default = {'linewidth': 2.0, 'linestyle': '-'}
         self._plot_kwargs = kwargs.get('plot_kwargs', default)
 
-        self._inverted = kwargs.get('inverted', False)
+        # self._inverted = kwargs.get('inverted', False)  # deprecated
+        self._xscale = kwargs.get('xscale', 1.0)
+        self._yscale = kwargs.get('yscale', 1.0)
         self._xoffset = kwargs.get('xoffset', 0.0)
+        self._yoffset = kwargs.get('yoffset', 0.0)
 
     @property
     def x(self):
         """Returns the model's x data."""
-        return self._data[:, 0]
+        return self._data[:, 0] * self._xscale + self._xoffset
 
     @property
     def y(self):
         """Returns the model's y data."""
-        return self._data[:, 1]
+        return self._data[:, 1] * self._yscale + self._yoffset
 
     @property
     def plot_kwargs(self):
         """Returns kwargs passed to matplotlib.pyplot.plot()."""
         return self._plot_kwargs
 
-    @property
-    def is_inverted(self):
-        return self._inverted
+    #@property
+    #def is_inverted(self):
+    #    return self._inverted
 
 ## View
 class XYView(XYBase):
@@ -157,17 +160,11 @@ class XYView(XYBase):
                 im = ax.imshow(im, zorder=0, extent=bounds, alpha=al, aspect='auto')
 
             for model in self._models:
-                if model.is_inverted:
-                    # needs rearchitecting, a logview descends from a view
-                    if self._x_log_scale:  # needs rearchitecting
-                        ax.semilogx(model.x + model._xoffset, -1.0 * model.y, **model.plot_kwargs)
-                    else:
-                        ax.plot(model.x + model._xoffset, -1.0 * model.y, **model.plot_kwargs)
+                # needs rearchitecting, a logview descends from a view
+                if self._x_log_scale:  # needs rearchitecting
+                    ax.semilogx(model.x, model.y, **model.plot_kwargs)
                 else:
-                    if self._x_log_scale:  # needs rearchitecting
-                        ax.semilogx(model.x + model._xoffset, model.y, **model.plot_kwargs)
-                    else:
-                        ax.plot(model.x + model._xoffset, model.y, **model.plot_kwargs)
+                    ax.plot(model.x, model.y, **model.plot_kwargs)
 
             if self._xticks_str:
                 ticks = eval(self._xticks_str)

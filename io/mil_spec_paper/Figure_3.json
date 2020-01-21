@@ -4,7 +4,7 @@
         "folder": "../../../casco_sim/bot-2mm-non-0305-mep-026",
         "file": "out_a12.csv",
         "skip_rows": 1,
-        "inverted": 1,
+        "yscale": -1.0,
         "plot_kwargs": {
             "color": "dimgray",
             "label": "Sim Mg human form c.g.",
@@ -17,7 +17,7 @@
         "folder": "../../../casco_sim/bob-1mm-5kg-non-0305-mep-033",
         "file": "bob-033-acg.csv",
         "skip_rows": 1,
-        "inverted": 1,
+        "yscale": -1.0,
         "plot_kwargs": {
             "color": "red",
             "label": "Sim human head c.g.",

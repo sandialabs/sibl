@@ -4,7 +4,6 @@
         "folder": "../../../casco_sim/dot-exp-non-0305-mep-000",
         "file": "out_mean.csv",
         "skip_rows": 1,
-        "inverted": 0,
         "plot_kwargs": {
             "color": "black",
             "label": "Exp DOT head form center",
@@ -17,7 +16,7 @@
         "folder": "../../../casco_sim/dot-5mm-non-0305-mep-025",
         "file": "out_a_mid.csv",
         "skip_rows": 1,
-        "inverted": 1,
+        "yscale": -1.0,
         "plot_kwargs": {
             "color": "blue",
             "label": "Sim DOT head form center",

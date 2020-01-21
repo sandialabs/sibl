@@ -4,7 +4,6 @@
         "folder": "../../../casco_sim/dot-exp-helmet-0305-hemi-001",
         "file": "shells-impacts-ave.csv",
         "skip_rows": 1,
-        "inverted": 0,
         "plot_kwargs": {
             "label": "DOT average (n=4)",
             "color": "darkorange",
@@ -18,7 +17,6 @@
         "folder": "../../../casco_sim/dot-exp-helmet-0305-hemi-001",
         "file": "shell-2-impact-1.csv",
         "skip_rows": 1,
-        "inverted": 0,
         "plot_kwargs": {
             "label": "DOT shell 2 impact 1",
             "linestyle": "-.",
@@ -30,7 +28,6 @@
         "folder": "../../../casco_sim/dot-exp-helmet-0305-hemi-001",
         "file": "shell-2-impact-2.csv",
         "skip_rows": 1,
-        "inverted": 0,
         "plot_kwargs": {
             "label": "DOT shell 2 impact 2",
             "linestyle": ":",
@@ -42,7 +39,6 @@
         "folder": "../../../casco_sim/dot-exp-helmet-0305-hemi-001",
         "file": "shell-3-impact-1.csv",
         "skip_rows": 1,
-        "inverted": 0,
         "plot_kwargs": {
             "label": "DOT shell 3 impact 1",
             "linestyle": "--",
@@ -54,7 +50,6 @@
         "folder": "../../../casco_sim/dot-exp-helmet-0305-hemi-001",
         "file": "shell-3-impact-2.csv",
         "skip_rows": 1,
-        "inverted": 0,
         "plot_kwargs": {
             "label": "DOT shell 3 impact 2",
             "linestyle": "-",

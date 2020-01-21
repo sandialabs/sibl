@@ -4,7 +4,6 @@
         "folder": "../../../casco_sim/dot-exp-helmet-0305-hemi-001",
         "file": "shells-impacts-ave.csv",
         "skip_rows": 1,
-        "inverted": 0,
         "plot_kwargs": {
             "label": "DOT average (n=4)",
             "color": "darkorange",
@@ -18,7 +17,6 @@
         "folder": "../../../casco_sim/dot-exp-helmet-0305-hemi-001",
         "file": "shell-2-impact-1.csv",
         "skip_rows": 1,
-        "inverted": 0,
         "plot_kwargs": {
             "label": "DOT shell 2 impact 1",
             "linestyle": "-.",
@@ -30,7 +28,6 @@
         "folder": "../../../casco_sim/dot-exp-helmet-0305-hemi-001",
         "file": "shell-2-impact-2.csv",
         "skip_rows": 1,
-        "inverted": 0,
         "plot_kwargs": {
             "label": "DOT shell 2 impact 2",
             "linestyle": ":",
@@ -42,7 +39,6 @@
         "folder": "../../../casco_sim/dot-exp-helmet-0305-hemi-001",
         "file": "shell-3-impact-1.csv",
         "skip_rows": 1,
-        "inverted": 0,
         "plot_kwargs": {
             "label": "DOT shell 3 impact 1",
             "linestyle": "--",
@@ -54,7 +50,6 @@
         "folder": "../../../casco_sim/dot-exp-helmet-0305-hemi-001",
         "file": "shell-3-impact-2.csv",
         "skip_rows": 1,
-        "inverted": 0,
         "plot_kwargs": {
             "label": "DOT shell 3 impact 2",
             "linestyle": "-",
@@ -66,7 +61,7 @@
         "folder": "../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-047",
         "file": "bob-047-acg.csv",
         "skip_rows": 1,
-        "inverted": 1,
+        "yscale": -1.0,
         "xoffset": 0.0025,
         "plot_kwargs": {
             "label": "10 fps (Bob-047) c.g.",
@@ -80,7 +75,7 @@
         "folder": "../../../casco_sim/bob-1mm-5kg-helmet2-0427-hemi-048",
         "file": "bob-048-acg.csv",
         "skip_rows": 1,
-        "inverted": 1,
+        "yscale": -1.0,
         "xoffset": 0.0025,
         "plot_kwargs": {
             "label": "14 fps (Bob-048) c.g.",
@@ -94,7 +89,7 @@
         "folder": "../../../casco_sim/bob-1mm-5kg-helmet2-0518-hemi-049",
         "file": "bob-049-acg.csv",
         "skip_rows": 1,
-        "inverted": 1,
+        "yscale": -1.0,
         "xoffset": 0.0025,
         "plot_kwargs": {
             "label": "17 fps (Bob-049) c.g.",

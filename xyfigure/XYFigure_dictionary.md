@@ -19,8 +19,11 @@ Key | Value | Description
 `"folder":` | string | Value *relative to the current working directory* of the path and folder that contains the input data.  For the current working directory, use `"."`.
 `"file":` | string | Value of the comma separated value input file in `.csv` (comma separated value) format.  The first column is the `x` values, the second column is the `y` values.  The `.csv` file can use any number of header rows.  Do not attempt to plot header rows; skip header rows with the `skip_rows` key.
 `"skip_rows":` | integer | *optional*<br>The number of header rows to skip upon reading in the `.csv` file.  Default value is `0`.
-`"inverted":` | Boolean | *optional*<br>`0` (default), which does **not** invert the `y` values.<br>`1` to invert the `y` data.  Multiplies all `y` data values by `-1`.
-`"xoffset":` | float | *optional*<br>Shifts all values of the `x` data to the left or the right by the `xoffset` value.  Default value is `0.0`.
+~~`"inverted":`~~ | ~~Boolean~~ | **deprecated**<br>use `"yscale": -1.0` instead<br>~~*optional*~~<br>~~`0` (default), which does **not** invert the `y` values.<br>`1` to invert the `y` data.  Multiplies all `y` data values by `-1`.~~
+`"xscale":` | float | *optional*<br>Scales all values of the `x` data `xscale` factor.  Default value is `1.0` (no scaling).  `xscale` is applied to the data prior to `xoffset`.
+`"xoffset":` | float | *optional*<br>Shifts all values of the `x` data to the left or the right by the `xoffset` value.  Default value is `0.0`.  `xoffset` is applied to the data after `xscale`.
+`"yscale":` | float | *optional*<br>Scales all values of the `y` data `yscale` factor.  Default value is `1.0` (no scaling).  `yscale` is applied to the data prior to `yoffset`.
+`"yoffset":` | float | *optional*<br>Shifts all values of the `y` data up or down by the `yoffset` value.  Default value is `0.0`.  `yoffset` is applied to the data after `yscale`.
 `"plot_kwargs":` | dict | Singleton that contains the [plot keywords dictionary](#plot-keywords-dictionary).
 
 #### Plot Keywords Dictionary
