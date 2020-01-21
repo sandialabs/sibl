@@ -2,7 +2,7 @@
     "12": {
         "class": "model",
         "folder": "../../../casco_sim/experiment/foam",
-        "file": "HardFoam110iComp_12_mm_min.csv",
+        "file": "SoftFoam83iComp_12_mm_min.csv",
         "skip_rows": 1,
         "plot_kwargs": {
             "label": "12 mm/min (0.02 /s)",
@@ -13,7 +13,7 @@
     "120": {
         "class": "model",
         "folder": "../../../casco_sim/experiment/foam",
-        "file": "HardFoam110iComp_120_mm_min.csv",
+        "file": "SoftFoam83iComp_120_mm_min.csv",
         "skip_rows": 1,
         "plot_kwargs": {
             "label": "120 mm/min (0.2 /s)",
@@ -24,7 +24,7 @@
     "1200": {
         "class": "model",
         "folder": "../../../casco_sim/experiment/foam",
-        "file": "HardFoam110iComp_1200_mm_min.csv",
+        "file": "SoftFoam83iComp_1200_mm_min.csv",
         "skip_rows": 1,
         "plot_kwargs": {
             "label": "1,200 mm/min (2 /s)",
@@ -35,7 +35,7 @@
     "12000": {
         "class": "model",
         "folder": "../../../casco_sim/experiment/foam",
-        "file": "HardFoam110iComp_12000_mm_min.csv",
+        "file": "SoftFoam83iComp_12000_mm_min.csv",
         "skip_rows": 1,
         "plot_kwargs": {
             "label": "12,000 mm/min (20 /s)",
@@ -43,23 +43,12 @@
             "linewidth": 5
         }
     },
-    "120000": {
-        "class": "model",
-        "folder": "../../../casco_sim/experiment/foam",
-        "file": "HardFoam110iComp_120000_mm_min.csv",
-        "skip_rows": 1,
-        "plot_kwargs": {
-            "label": "120,000 mm/min (200 /s)",
-            "color": "black",
-            "linewidth": 5
-        }
-    },
     "Figure": {
         "class": "view",
         "folder": "output",
-        "file": "tw_hard_foam.svg",
+        "file": "tw_soft_foam.svg",
         "size": "(8.0, 6.0)",
-        "title": "TW Hard Foam 110i Comp 12 to 120k mm per minute",
+        "title": "TW Soft Foam 83i Comp 12 to 12k mm per minute",
         "xlabel": "Engineering Strain (%)",
         "ylabel": "Engineering Stress (MPa)",
         "display": 1,
