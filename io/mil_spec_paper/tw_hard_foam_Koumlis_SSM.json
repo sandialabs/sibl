@@ -1,0 +1,102 @@
+{
+    "12": {
+        "class": "model",
+        "folder": "../../../casco_sim/experiment/foam",
+        "file": "HardFoam110iComp_12_mm_min.csv",
+        "skip_rows": 1,
+        "xscale": 0.01,
+        "plot_kwargs": {
+            "label": "12 mm/min (0.02 /s)",
+            "color": "slateblue",
+            "linewidth": 5
+        }
+    },
+    "120": {
+        "class": "model",
+        "folder": "../../../casco_sim/experiment/foam",
+        "file": "HardFoam110iComp_120_mm_min.csv",
+        "skip_rows": 1,
+        "xscale": 0.01,
+        "plot_kwargs": {
+            "label": "120 mm/mim (0.2 /s)",
+            "color": "green",
+            "linewidth": 5
+        }
+    },
+    "1200": {
+        "class": "model",
+        "folder": "../../../casco_sim/experiment/foam",
+        "file": "HardFoam110iComp_1200_mm_min.csv",
+        "skip_rows": 1,
+        "xscale": 0.01,
+        "plot_kwargs": {
+            "label": "1,200 mm/min (2 /s)",
+            "color": "blue",
+            "linewidth": 5
+        }
+    },
+    "12000": {
+        "class": "model",
+        "folder": "../../../casco_sim/experiment/foam",
+        "file": "HardFoam110iComp_12000_mm_min.csv",
+        "skip_rows": 1,
+        "xscale": 0.01,
+        "plot_kwargs": {
+            "label": "12,000 mm/min (20 /s)",
+            "color": "orange",
+            "linewidth": 5
+        }
+    },
+    "120000": {
+        "class": "model",
+        "folder": "../../../casco_sim/experiment/foam",
+        "file": "HardFoam110iComp_120000_mm_min.csv",
+        "skip_rows": 1,
+        "xscale": 0.01,
+        "plot_kwargs": {
+            "label": "120,000 mm/min (200 /s)",
+            "color": "black",
+            "linewidth": 5
+        }
+    },
+    "SSM200": {
+        "class": "model",
+        "folder": "../../../casco_sim/foam_opt",
+        "file": "history_hard.csv",
+        "skip_rows": 3,
+        "skip_rows_footer": 4,
+        "xscale": -1,
+        "xoffset": 1,
+        "yscale": -0.00000001,
+        "xcolumn": 12,
+        "ycolumn": 30,
+        "plot_kwargs": {
+            "label": "SSM hard foam (200 /s)",
+            "color": "magenta",
+            "linewidth": 5, 
+            "linestyle": "dashed"
+        }
+    },
+    "Figure": {
+        "class": "view",
+        "folder": "output",
+        "file": "tw_hard_foam_Koumlis_compare.svg",
+        "size": "(11.0, 8.5)",
+        "title": "TW Hard Foam 110i; Koumlis 2019",
+        "xlabel": "Engineering Strain (cm/cm)",
+        "ylabel": "Engineering Stress (MPa)",
+        "ylim": "(0.0, 0.6)",
+        "display": 1,
+        "latex": 0,
+        "background_image": {
+            "folder": ".",
+            "file": "Koumlis_2019_Fig_11_trim.png",
+            "left": 0.0,
+            "right": 1.0,
+            "bottom": 0.0,
+            "top": 0.6,
+            "alpha": 0.5
+        },
+        "serialize": 0
+    }
+}

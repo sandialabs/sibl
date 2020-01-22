@@ -34,10 +34,14 @@ class XYModel(XYBase):
         super().__init__(**kwargs)
 
         self._skip_rows = kwargs.get('skip_rows', 0)
+        self._skip_rows_footer = kwargs.get('skip_rows_footer', 0)
+        self._xcolumn = kwargs.get('xcolumn', 0)  # default to the first column
+        self._ycolumn = kwargs.get('ycolumn', 1)  # default to the second column
 
         # self._data = np.genfromtxt(self._file, dtype='float', delimiter=',', skip_header=self._skip_rows)
         path_and_file = os.path.join(self._folder, self._file)
-        self._data = np.genfromtxt(path_and_file, dtype='float', delimiter=',', skip_header=self._skip_rows)
+        #self._data = np.genfromtxt(path_and_file, dtype='float', delimiter=',', skip_header=self._skip_rows)
+        self._data = np.genfromtxt(path_and_file, dtype='float', delimiter=',', skip_header=self._skip_rows, skip_footer=self._skip_rows_footer, usecols=(self._xcolumn, self._ycolumn))
 
         # default value if plot_kwargs not client-supplied
         default = {'linewidth': 2.0, 'linestyle': '-'}
