@@ -80,7 +80,7 @@
     "Figure": {
         "class": "view",
         "folder": "output",
-        "file": "tw_hard_foam_Koumlis_compare.svg",
+        "file": "tw_hard_foam_Koumlis_SSM.svg",
         "size": "(11.0, 8.5)",
         "title": "TW Hard Foam 110i; Koumlis 2019",
         "xlabel": "Engineering Strain (cm/cm)",
