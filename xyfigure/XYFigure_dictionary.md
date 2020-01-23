@@ -57,8 +57,8 @@ Key | Value | Description
 `"title":` | string | *optional*<br>Figure label, top and centered.  Default is `default title`. 
 `"xlabel":` | string | *optional*<br>The label for the x-axis.  Default is `default x axis label`.
 `"ylabel":` | string | *optional*<br>The label for the left-hand y-axis.  Default is `default y axis label.`
-`"xticks":` | string | *optional*<br>Contains an array of ascending real numbers, indicating tick placement.  May use all of the `numpy` syntax.  Example: `"[0, 0.50, np.pi/4, 1, np.pi/2, 2]"`.  Default is matplotlib's choice for tick marks.
-`"yticks":` | string | *optional*<br>Same as documentation for `xticks`.
+`"xticks":` | float array | *optional*<br>Contains an array of ascending real numbers, indicating tick placement.  Example: `[0.0, 0.5, 1.0, 1.5, 2.0]`.  Default is matplotlib's choice for tick marks.
+`"yticks":` | float array | *optional*<br>Same as documentation for `xticks`.
 `"yaxis_rhs":` | dict | *optional*<br>Singleton that contains the [yaxis_rhs dictionary](#yaxis_rhs-dictionary).
 `"background_image":` | dict | *optional*<br>Singleton that contains the [background_image dictionary](#background_image-dictionary).
 `"display":` | Boolean | *optional*<br>`0` to suppress showing figure in GUI, useful when serializing multiple figures during a parameter search loop.<br>`1` (default value) to show figure interactively, and to pause script execution.
@@ -72,7 +72,7 @@ Key | Value | Description
 --- | ----- | -----------
 `"scale":` | string | *optional*<br>The factor that multiplies the left-hand y-axis to produce the right-hand y-axis.  For example, if the left-hand y-axis is in `meters`, and the right-hand y-axis is in `centimeters`, the value of `scale` should be set to `100`.  Default value is `1`.
 `"label":` | string | *optional*<br>The right-hand-side y-axis label.  Default is an empty string (`None`).
-`"yticks":` | string | *optional*<br>Same as documentation for `xticks`.
+`"yticks":` | float array | *optional*<br>Same as documentation for `xticks`.
 
 #### background_image Dictionary
 

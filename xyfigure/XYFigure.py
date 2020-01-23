@@ -87,8 +87,10 @@ class XYView(XYBase):
         self._xlabel = kwargs.get('xlabel', 'default x axis label')
         self._ylabel = kwargs.get('ylabel', 'default y axis label')
 
-        self._xticks_str = kwargs.get('xticks', None)
-        self._yticks_str = kwargs.get('yticks', None)
+        # self._xticks_str = kwargs.get('xticks', None)
+        self._xticks = kwargs.get('xticks', None)
+        # self._yticks_str = kwargs.get('yticks', None)
+        self._yticks = kwargs.get('yticks', None)
         # self._yticks_rhs_str = kwargs.get('yticks_rhs', None)
 
         self._x_log_scale = kwargs.get('x_log_scale', None)
@@ -176,15 +178,19 @@ class XYView(XYBase):
                 else:
                     ax.plot(model.x, model.y, **model.plot_kwargs)
 
-            if self._xticks_str:
-                ticks = eval(self._xticks_str)
+            # if self._xticks_str:
+            if self._xticks:
+                # ticks = eval(self._xticks_str)
                 # plt.xticks(ticks)
-                ax.set_xticks(ticks)
+                #ax.set_xticks(ticks)
+                ax.set_xticks(self._xticks)
 
-            if self._yticks_str:
-                ticks = eval(self._yticks_str)
+            # if self._yticks_str:
+            if self._yticks:
+                # ticks = eval(self._yticks_str)
                 # plt.yticks(ticks)
-                ax.set_yticks(ticks)
+                # ax.set_yticks(ticks)
+                ax.set_yticks(self._yticks)
 
             # xlim_tuple_str = self._figure_args.get('xlim', None)
             # if xlim_tuple_str:
@@ -209,7 +215,8 @@ class XYView(XYBase):
             if self._yaxis_rhs:
                 rhs_axis_scale = self._yaxis_rhs.get('scale', 1)
                 rhs_axis_label = self._yaxis_rhs.get('label', None)
-                rhs_yticks_str = self._yaxis_rhs.get('yticks', None)
+                # rhs_yticks_str = self._yaxis_rhs.get('yticks', None)
+                rhs_yticks = self._yaxis_rhs.get('yticks', None)
 
                 ax2 = fig.add_subplot(111, sharex=ax, frameon=False)
                 bottom, top = ax.get_ylim()  # get from left-hand-side y-axis
@@ -225,10 +232,12 @@ class XYView(XYBase):
                 # ax2.ticklabel_format(axis='both', style='scientific', scilimits=(0,0))
                 # plt.ticklabel_format(axis='y', style='scientific', useOffset=False)
                 # ax2.ticklabel_format(axis='y', style='scientific', useOffset=False)
-                if rhs_yticks_str:
-                    ticks = eval(rhs_yticks_str)
+                # if rhs_yticks_str:
+                if rhs_yticks:
+                    # ticks = eval(rhs_yticks_str)
                     # ax2.yaxis.set_yticks(ticks)
-                    ax2.set_yticks(ticks)
+                    # ax2.set_yticks(ticks)
+                    ax2.set_yticks(rhs_yticks)
                     # plt.yticks(ticks)
                 ax2.yaxis.set_label_position('right')
                 ax2.set_ylabel(rhs_axis_label)
