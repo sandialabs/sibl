@@ -51,10 +51,10 @@ Key | Value | Description
 `"class":` | `"view"` | Specific string to generate the XYView Python class.
 `"folder":` | string | Value *relative to the current working directory* of the path and folder that contains the output figure data (if `"serialize"` is set to `"1"`).  For the current working directory, use `"."`.  If the folder does not exist at run time, the script will attempt to create the directory, pending the user's approval.
 `"file":` | string | Value of the figure output file (e.g., `my_output_file.png`) in `.xxx` format, where `xxx` is an image file format, typically `pdf`, `png`, or `svg`.  
-`"size":` | string | *optional*<br>String containing a tuple of `(width, height)` of the output figure in units of inches.  Default is `(11.0, 8.5)`, U.S. paper, landscape.
-`"xlim"` | string | *optional*<br>String containing a tuple of x-axis bounds `(x_min, x_max)`.  Default is matplotlib's automatic selection.
-`"ylim"` | string | *optional*<br>String containing a tuple of y-axis bounds `(y_min, y_max)`.  Default is matplotlib's automatic selection.
-`"title":` | string | *optional*<br>Figure label, top and centered.  Default is the base name of the `.json` input file, followed by the timestamp of the figure creation in `yyyy-mm-dd hh:mm:ss` format.
+`"size":` | float array | *optional*<br>Array of floats containing the `[width, height]` of the output figure in units of inches.  Default is `[11.0, 8.5]`, U.S. paper, landscape.
+`"xlim"` | float array | *optional*<br>Array of floats containing the x-axis bounds `[x_min, x_max]`.  Default is matplotlib's automatic selection.
+`"ylim"` | float array | *optional*<br>Array of floats containing the y-axis bounds `[y_min, y_max]`.  Default is matplotlib's automatic selection.
+`"title":` | string | *optional*<br>Figure label, top and centered.  Default is `default title`. 
 `"xlabel":` | string | *optional*<br>The label for the x-axis.  Default is `default x axis label`.
 `"ylabel":` | string | *optional*<br>The label for the left-hand y-axis.  Default is `default y axis label.`
 `"xticks":` | string | *optional*<br>Contains an array of ascending real numbers, indicating tick placement.  May use all of the `numpy` syntax.  Example: `"[0, 0.50, np.pi/4, 1, np.pi/2, 2]"`.  Default is matplotlib's choice for tick marks.
@@ -63,6 +63,7 @@ Key | Value | Description
 `"background_image":` | dict | *optional*<br>Singleton that contains the [background_image dictionary](#background_image-dictionary).
 `"display":` | Boolean | *optional*<br>`0` to suppress showing figure in GUI, useful when serializing multiple figures during a parameter search loop.<br>`1` (default value) to show figure interactively, and to pause script execution.
 `"latex":` | string | *optional*<br>`0` (default) uses matplotlib default fonts, results in fast generation of figures.<br>`1` uses LaTeX fonts, can be slow to generate, but produces production-quality results.
+`"details"`: | Boolean | *optional*<br>`0` (default) dot **not** show plot details.<br>`1` shows plot details including source `.json` file, user, date (`yyyy-mm-dd` format), and time (`hh:mm:ss` format) the figure was generated.
 `"serialize":` | string | *optional*<br>`0` (default) does **not** save figure to the file system.<br>`1` saves figure to the file system.  Tested on local drives, but not on network drives.
 
 #### yaxis_rhs Dictionary

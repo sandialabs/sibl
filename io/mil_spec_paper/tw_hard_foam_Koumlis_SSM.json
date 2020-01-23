@@ -67,7 +67,7 @@
         "skip_rows_footer": 4,
         "xscale": -1,
         "xoffset": 1,
-        "yscale": -0.00000001,
+        "yscale": -0.0000001,
         "xcolumn": 12,
         "ycolumn": 30,
         "plot_kwargs": {
@@ -81,13 +81,22 @@
         "class": "view",
         "folder": "output",
         "file": "tw_hard_foam_Koumlis_SSM.svg",
-        "size": "(11.0, 8.5)",
+        "size": [11.0, 8.5],
         "title": "TW Hard Foam 110i; Koumlis 2019",
         "xlabel": "Engineering Strain (cm/cm)",
         "ylabel": "Engineering Stress (MPa)",
-        "ylim": "(0.0, 0.6)",
+        "ylim": [0.0, 0.6],
         "display": 1,
         "latex": 0,
+        "yaxis_rhs": {
+            "scale": 1.0e7,
+            "label": "Engineering Stress (dyne/cm^2)",
+            "ticklabel_format": {
+                "axis": "y",
+                "style": "scientific",
+                "scilimits": [0, 0]
+            }
+        },
         "background_image": {
             "folder": ".",
             "file": "Koumlis_2019_Fig_11_trim.png",
@@ -97,6 +106,7 @@
             "top": 0.6,
             "alpha": 0.5
         },
+        "details": 1,
         "serialize": 0
     }
 }

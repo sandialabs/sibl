@@ -71,7 +71,7 @@ def main(argv):
 
     for view in views:
         view.models = models  # register models with views
-        view.figure()  
+        view.figure()
 
     print('End of client execution.')
 

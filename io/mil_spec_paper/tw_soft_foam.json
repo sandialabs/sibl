@@ -47,7 +47,7 @@
         "class": "view",
         "folder": "output",
         "file": "tw_soft_foam.svg",
-        "size": "(8.0, 6.0)",
+        "size": [8.0, 6.0],
         "title": "TW Soft Foam 83i Comp 12 to 12k mm per minute",
         "xlabel": "Engineering Strain (%)",
         "ylabel": "Engineering Stress (MPa)",

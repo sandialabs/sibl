@@ -63,11 +63,11 @@
         "class": "view",
         "folder": "output",
         "file": "tw_hard_foam_Koumlis_compare.svg",
-        "size": "(11.0, 8.5)",
+        "size": [11.0, 8.5],
         "title": "TW Hard Foam 110i; Koumlis 2019",
         "xlabel": "Engineering Strain (cm/cm)",
         "ylabel": "Engineering Stress (MPa)",
-        "ylim": "(0.0, 0.6)",
+        "ylim": [0.0, 0.6],
         "display": 1,
         "latex": 0,
         "background_image": {

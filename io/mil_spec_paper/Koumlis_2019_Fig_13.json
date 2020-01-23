@@ -17,7 +17,7 @@
         "class": "view",
         "folder": "output",
         "file": "Koumlis_2019_Fig_13_output.svg",
-        "size": "(8.0, 6.0)",
+        "size": [8.0, 6.0],
         "title": "Koumlis 2019 Fig 13",
         "xlabel": "nominal strain",
         "ylabel": "nominal stress (MPa)",

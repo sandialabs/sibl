@@ -83,10 +83,7 @@ class XYView(XYBase):
         self._file_base = self._file.split('.')[0]
 
         # default value if figure_kwargs not client-supplied
-        now = datetime.now()
-        now_string = now.strftime("%Y-%m-%d %H:%M:%S")
-        default = self._file_base + ' ' + now_string
-        self._title = kwargs.get('title', default)
+        self._title = kwargs.get('title', 'default title')
         self._xlabel = kwargs.get('xlabel', 'default x axis label')
         self._ylabel = kwargs.get('ylabel', 'default y axis label')
 
@@ -102,13 +99,17 @@ class XYView(XYBase):
         # default value if figure_kwargs not client-supplied
         # default = {'figsize': '(11.0, 8.5)'}  # inches, U.S. paper, landscape
         # self._figure_args = kwargs.get('figure_args', default)
-        self._size_str = kwargs.get('size', '(11.0, 8.5)')
-        self._xlim_str = kwargs.get('xlim', None)
-        self._ylim_str = kwargs.get('ylim', None)
+        # self._size_str = kwargs.get('size', '(11.0, 8.5)')
+        self._size = kwargs.get('size', [11.0, 8.5])
+        #self._xlim_str = kwargs.get('xlim', None)
+        #self._ylim_str = kwargs.get('ylim', None)
+        self._xlim = kwargs.get('xlim', None)
+        self._ylim = kwargs.get('ylim', None)
 
         self._background_image = kwargs.get('background_image', None)
 
         self._display = kwargs.get('display', True)
+        self._details = kwargs.get('details', False)
         self._serialize = kwargs.get('serialize', False)
         self._latex = kwargs.get('latex', False)
         if self._latex:
@@ -134,13 +135,18 @@ class XYView(XYBase):
             # fig, ax = plt.subplots(nrows=1, figsize=figsize_tuple)
             fig, ax = plt.subplots(nrows=1)
 
+            # ax.ticklabel_format(axis='y', style='scientific')
+            # ax.ticklabel_format(axis='both', style='scientific', scilimits=(0,0))
+
             #figsize_tuple_str = self._figure_args.get('figsize', None)
             #if figsize_tuple_str:
             #    figsize_tuple = eval(figsize_tuple_str)
             #    fig.set_size_inches(figsize_tuple)
-            size_tuple = eval(self._size_str)
-            fig.set_size_inches(size_tuple)
-            print('Figure size set to ' +  str(size_tuple) + ' inches.')
+            # size_tuple = eval(self._size_str)
+            # fig.set_size_inches(size_tuple)
+            fig.set_size_inches(self._size)
+            # print('Figure size set to ' +  str(size_tuple) + ' inches.')
+            print('Figure size set to ' +  str(self._size) + ' inches.')
 
             #fig.set_size_inches(figsize_tuple)  # https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure.set_size_inches
             # self._folder = kwargs.get('folder', None)
@@ -188,11 +194,17 @@ class XYView(XYBase):
             # if ylim_tuple_str:
             #     ax.set_ylim(eval(ylim_tuple_str))
 
-            if self._xlim_str:
-                ax.set_xlim(eval(self._xlim_str))
+            # if self._xlim_str:
+            #     ax.set_xlim(eval(self._xlim_str))
 
-            if self._ylim_str:
-                ax.set_ylim(eval(self._ylim_str))
+            # if self._ylim_str:
+            #     ax.set_ylim(eval(self._ylim_str))
+
+            if self._xlim:
+                ax.set_xlim(self._xlim)
+
+            if self._ylim:
+                ax.set_ylim(self._ylim)
 
             if self._yaxis_rhs:
                 rhs_axis_scale = self._yaxis_rhs.get('scale', 1)
@@ -200,9 +212,19 @@ class XYView(XYBase):
                 rhs_yticks_str = self._yaxis_rhs.get('yticks', None)
 
                 ax2 = fig.add_subplot(111, sharex=ax, frameon=False)
-                bottom, top = ax.get_ylim()
+                bottom, top = ax.get_ylim()  # get from left-hand-side y-axis
                 ax2.set_ylim(rhs_axis_scale * bottom, rhs_axis_scale * top)
                 ax2.yaxis.tick_right()
+                # ax2.ticklabel_format(axis='both', style='scientific', scilimits=(0,0))
+                # ax.ticklabel_format(axis='both', style='scientific', scilimits=(0,0))
+                # _ticklabel_format = self._yaxis_rhs.get('ticklabel_format', None)
+                # _ticklabel_format = self._yaxis_rhs.get('ticklabel_format', None)
+                # if _ticklabel_format:
+                #     scilimits_str = _ticklabel_format.get('scilimitsl', "(0, 0)")
+                #     ax2.ticklabel_format(**_ticklabel_format)
+                # ax2.ticklabel_format(axis='both', style='scientific', scilimits=(0,0))
+                # plt.ticklabel_format(axis='y', style='scientific', useOffset=False)
+                # ax2.ticklabel_format(axis='y', style='scientific', useOffset=False)
                 if rhs_yticks_str:
                     ticks = eval(rhs_yticks_str)
                     # ax2.yaxis.set_yticks(ticks)
@@ -216,6 +238,13 @@ class XYView(XYBase):
             ax.set_ylabel(self._ylabel)
             ax.grid()
             ax.legend()
+
+            if self._details:
+                now = datetime.now()
+                now_str = now.strftime("%Y-%m-%d %H:%M:%S")
+                user = str(os.environ.get('USERNAME'))
+                details_str = self._file + ' created ' + now_str + ' by ' + user
+                ax.set_title(details_str, fontsize=10, ha='center', color='dimgray')
 
             if self._display:
                 plt.show()
