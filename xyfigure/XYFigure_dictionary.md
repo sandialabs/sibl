@@ -63,7 +63,7 @@ Key | Value | Description
 `"background_image":` | dict | *optional*<br>Singleton that contains the [background_image dictionary](#background_image-dictionary).
 `"display":` | Boolean | *optional*<br>`0` to suppress showing figure in GUI, useful when serializing multiple figures during a parameter search loop.<br>`1` (default value) to show figure interactively, and to pause script execution.
 `"latex":` | string | *optional*<br>`0` (default) uses matplotlib default fonts, results in fast generation of figures.<br>`1` uses LaTeX fonts, can be slow to generate, but produces production-quality results.
-`"details"`: | Boolean | *optional*<br>`0` (default) dot **not** show plot details.<br>`1` shows plot details including source `.json` file, user, date (`yyyy-mm-dd` format), and time (`hh:mm:ss` format) the figure was generated.
+`"details"`: | Boolean | *optional*<br>`0` (default) dot **not** show plot details.<br>`1` shows plot details of figure file name, date (`yyyy-mm-dd` format), and time (`hh:mm:ss` format) the figure was generated, and username.
 `"serialize":` | string | *optional*<br>`0` (default) does **not** save figure to the file system.<br>`1` saves figure to the file system.  Tested on local drives, but not on network drives.
 
 #### yaxis_rhs Dictionary
