@@ -10,7 +10,9 @@ For more information, see our [website](http://www.sandia.gov/biomechanics/).
 
 ## Library
 
-* [XYFigure](xyfigure/README.md)
+* XYFigure 
+  * [Getting started](xyfigure/README.md)
+  * [Documentation](xyfigure/XYFigure_dictionary.md)
 
 ## Prerequisites
 
@@ -22,8 +24,7 @@ For more information, see our [website](http://www.sandia.gov/biomechanics/).
 $ python3 -m pip install Pillow
 ```
 
-
-## Getting Started
+## Workflow
 
 For an overview, [read the guide](https://guides.github.com/activities/hello-world/) from GitHub.
 
@@ -35,6 +36,8 @@ $ git clone git@github.com:sandialabs/sibl.git
 ```
 
 ### Push to the repository
+
+If you update the codebase, and wish to have the modifications merged into the main repository, you will need to either *push to the repository* if you are a collaborator (information below), or *create a pull request* if you have forked the repo (information to come).
 
 In the `~/sibl/.git/config` file, add the following:
 
