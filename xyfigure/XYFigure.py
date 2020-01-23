@@ -109,7 +109,7 @@ class XYView(XYBase):
         self._background_image = kwargs.get('background_image', None)
 
         self._display = kwargs.get('display', True)
-        self._details = kwargs.get('details', False)
+        self._details = kwargs.get('details', True)
         self._serialize = kwargs.get('serialize', False)
         self._latex = kwargs.get('latex', False)
         if self._latex:
