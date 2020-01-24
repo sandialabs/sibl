@@ -5,8 +5,8 @@
         "file": "shells-impacts-ave.csv",
         "skip_rows": 1,
         "plot_kwargs": {
-            "label": "DOT average (n=4)",
-            "color": "blue",
+            "label": "exp DOT average (n=4)",
+            "color": "orange",
             "linestyle": "-",
             "linewidth": 3
         }
@@ -17,7 +17,7 @@
         "file": "shell-2-impact-1.csv",
         "skip_rows": 1,
         "plot_kwargs": {
-            "label": "DOT shell 2 impact 1",
+            "label": "exp DOT shell 2 impact 1",
             "linestyle": "-.",
             "linewidth": 2
         }
@@ -28,7 +28,7 @@
         "file": "shell-2-impact-2.csv",
         "skip_rows": 1,
         "plot_kwargs": {
-            "label": "DOT shell 2 impact 2",
+            "label": "exp DOT shell 2 impact 2",
             "linestyle": ":",
             "linewidth": 2
         }
@@ -39,7 +39,7 @@
         "file": "shell-3-impact-1.csv",
         "skip_rows": 1,
         "plot_kwargs": {
-            "label": "DOT shell 3 impact 1",
+            "label": "exp DOT shell 3 impact 1",
             "linestyle": "--",
             "linewidth": 2
         }
@@ -50,9 +50,36 @@
         "file": "shell-3-impact-2.csv",
         "skip_rows": 1,
         "plot_kwargs": {
-            "label": "DOT shell 3 impact 2",
+            "label": "exp DOT shell 3 impact 2",
             "linestyle": "-",
             "linewidth": 1
+        }
+    },
+    "cg": {
+        "class": "model",
+        "folder": "../../../casco_sim/dot-5mm-helmet-0305-hemi-062",
+        "file": "history.csv",
+        "ycolumn": 24,
+        "xoffset": 0.00125,
+        "yscale": 0.00101971621,
+        "skip_rows": 3,
+        "plot_kwargs": {
+            "label": "sim DOT uddot_cg_z",
+            "linewidth": 3,
+            "color": "navy",
+            "alpha": 0.6
+        },
+        "signal_process": {
+            "process1": {
+                "butterworth": {
+                    "cutoff": 1650,
+                    "order": 4,
+                    "type": "low"
+                }
+            },
+            "process2": {
+                "gradient": 1
+            }
         }
     },
     "Figure_5": {
@@ -60,11 +87,11 @@
         "folder": "output",
         "file": "Figure_5.svg",
         "size": [8.0, 6.0],
-        "title": "Figure 5: Work in progress (DOT, Bob) translational, helmet, hemi",
+        "title": "Figure 5: DOT (exp v sim) translational, helmet, hemi",
         "xlabel": "time (s)",
         "ylabel": "deceleration (Gs)",
         "display": 1,
         "latex": 0,
-        "serialize": 0
+        "serialize": 1
     }
 }
