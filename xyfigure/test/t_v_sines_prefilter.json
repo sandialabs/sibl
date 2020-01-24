@@ -1,0 +1,49 @@
+{
+    "time-position-low-frequency": {
+        "class": "model",
+        "folder": ".",
+        "file": "t_v_sines.csv",
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "label": "u1 from t_v_sines.csv",
+            "marker": "o",
+            "linestyle": "-"
+        }
+    },
+    "time-position-high-frequency": {
+        "class": "model",
+        "folder": ".",
+        "file": "t_v_sines.csv",
+        "skip_rows": 1,
+        "ycolumn": 2,
+        "plot_kwargs": {
+            "label": "u2 from t_v_sines.csv",
+            "marker": "o",
+            "linestyle": "-"
+        }
+    },
+    "time-position-combined": {
+        "class": "model",
+        "folder": ".",
+        "file": "t_v_sines.csv",
+        "skip_rows": 1,
+        "ycolumn": 3,
+        "plot_kwargs": {
+            "label": "(u1 + u2) from t_v_sines.csv",
+            "marker": "o",
+            "linestyle": "-"
+        }
+    },
+    "the-figure": {
+        "class": "view",
+        "folder": ".",
+        "file": "t_v_sines_prefilter.svg",
+        "title": "u1 = sin(2 pi t), u2 = sin(20 pi t), u3 = u1 + u2",
+        "xlabel": "time (s)",
+        "ylabel": "position (m)",
+        "size": [8.0, 6.0],
+        "display": 1,
+        "details": 0,
+        "serialize": 1
+    }
+}

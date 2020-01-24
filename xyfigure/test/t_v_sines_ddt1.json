@@ -1,0 +1,30 @@
+{
+    "time-velocity": {
+        "class": "model",
+        "folder": ".",
+        "file": "t_v_sines.csv",
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "label": "d/dt (t_v_sines.csv)",
+            "marker": "o",
+            "linestyle": "-"
+        },
+        "signal_process": {
+            "process1": {
+                "gradient": 1
+            }
+        }
+    },
+    "the-figure": {
+        "class": "view",
+        "folder": ".",
+        "file": "t_v_sines_ddt1.svg",
+        "title": "u_dot = d/dt (sin(2*pi*t)) = 2*pi*cos(2*pi*t)",
+        "xlabel": "time (s)",
+        "ylabel": "velocity (m/s)",
+        "size": [8.0, 6.0],
+        "display": 1,
+        "details": 0,
+        "serialize": 1
+    }
+}
