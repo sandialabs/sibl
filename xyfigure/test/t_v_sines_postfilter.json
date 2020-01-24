@@ -10,35 +10,32 @@
             "linestyle": "-"
         }
     },
-    "time-position-high-frequency": {
-        "class": "model",
-        "folder": ".",
-        "file": "t_v_sines.csv",
-        "skip_rows": 1,
-        "ycolumn": 2,
-        "plot_kwargs": {
-            "label": "u2 = sin(10 * 2 pi t)",
-            "marker": "o",
-            "linestyle": "-"
-        }
-    },
-    "time-position-combined": {
+    "time-position-filtered-frequency": {
         "class": "model",
         "folder": ".",
         "file": "t_v_sines.csv",
         "skip_rows": 1,
         "ycolumn": 3,
         "plot_kwargs": {
-            "label": "u3 = u1 + u2",
+            "label": "u3_filtered = (u1 + u2)_filtered",
             "marker": "o",
             "linestyle": "-"
+        },
+        "signal_process": {
+            "process1": {
+                "butterworth": {
+                    "cutoff": 5,
+                    "order": 4,
+                    "type": "low"
+                }
+            }
         }
     },
     "the-figure": {
         "class": "view",
         "folder": ".",
-        "file": "t_v_sines_prefilter.svg",
-        "title": "u1, u2, and u3 from t_v_sines.csv",
+        "file": "t_v_sines_postfilter.svg",
+        "title": "u1 and u3_filtered from t_v_sines.csv", 
         "xlabel": "time (s)",
         "ylabel": "position (m)",
         "size": [8.0, 6.0],

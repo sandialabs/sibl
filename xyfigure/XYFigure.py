@@ -8,6 +8,7 @@ import sys
 from abc import ABC
 from datetime import datetime
 import numpy as np
+from scipy import signal
 import matplotlib.pyplot as plt
 # import imageio
 from PIL import Image
@@ -60,8 +61,40 @@ class XYModel(XYBase):
                 process_dict = self._signal_process.get(process_id)
                 key = next(iter(process_dict))
                 value = process_dict[key]
-                if key == 'low_pass_filter':
-                    print('Signal process: ' + key + ' with cutoff frequency of ' + str(value) + ' Hz.')
+                if key == 'butterworth':
+                    fc = value.get('cutoff', None)  # Hz, cutoff frequency
+                    if fc is None:
+                        print('Error: keyword "cutoff" not found.')
+                        sys.exit('Abnormal termination.')
+
+                    filter_order = value.get('order', None)
+                    if filter_order is None:
+                        print('Error: keyword "order" not found.')
+                        sys.exit('Abnormal termination.')
+
+                    filter_type = value.get('type', None)
+                    if filter_type is None:
+                        print('Error: keyword "type" not found.')
+                        sys.exit('Abnormal termination.')
+
+                    print('Signal process ' + key + ' with:')
+                    print(f'  cutoff frequency = {fc} Hz')
+                    print(f'  filter order = {filter_order}')
+                    print('  filter type = ' + filter_type)
+
+                    dt = self._data[1, 0] - self._data[0, 0]  # sample delta t
+                    print(f'  sample delta t = {dt} seconds')
+
+                    fs = 1.0/dt  # Hz
+                    print(f'  sample frequency = {fs} Hz')
+
+                    Wn = fc / (fs / 2)  # normalized critical frequency
+                    print(f'  normalized critical frequency = {Wn} Hz/Hz')
+
+                    b, a = signal.butter(filter_order, Wn, filter_type)
+                    yfiltered = signal.filtfilt(b, a, self._data[:, 1])
+                    self._data[:, 1] = yfiltered  # overwrite
+
                 elif key == 'gradient':
                     print('Signal process: ' + key + ' applied ' + str(value) + ' time(s)')
                     # numerical gradient

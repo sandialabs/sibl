@@ -36,8 +36,10 @@ b, a = signal.butter(filter_order, Wn, filter_type)
 u3_filtered = signal.filtfilt(b, a, u3)
 
 # visualization service begin
-plt.plot(t2, u1, label='u1', linewidth=3, alpha=0.7)
-plt.plot(t2, u2, label='u2')
+u1str = 'u1 = sin(' + str(f1) + ' * 2 pi t)'
+u2str = 'u2 = sin(' + str(f2) + ' * 2 pi t)'
+plt.plot(t2, u1, label=u1str, linewidth=3, alpha=0.7)
+plt.plot(t2, u2, label=u2str)
 plt.plot(t2, u3, label='u3 = u1 + u2')
 plt.plot(t2, u3_filtered, label='u3 filtered', linestyle='dashed')
 plt.legend()

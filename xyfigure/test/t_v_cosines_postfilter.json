@@ -1,0 +1,97 @@
+{
+    "time-position-low-frequency": {
+        "class": "model",
+        "folder": ".",
+        "file": "t_v_cosines.csv",
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "label": "u1 = cos(2 pi t)",
+            "color": "red",
+            "linewidth": 3,
+            "linestyle": "-"
+        }
+    },
+    "time-position-mid-frequency": {
+        "class": "model",
+        "folder": ".",
+        "file": "t_v_cosines.csv",
+        "skip_rows": 1,
+        "ycolumn": 2,
+        "plot_kwargs": {
+            "label": "u2 = cos(2 * 2 pi t)",
+            "color": "magenta",
+            "linewidth": 3,
+            "linestyle": "-"
+        }
+    },
+    "time-position-high-frequency": {
+        "class": "model",
+        "folder": ".",
+        "file": "t_v_cosines.csv",
+        "skip_rows": 1,
+        "ycolumn": 3,
+        "plot_kwargs": {
+            "label": "u3 = cos(100 * 2 pi t)",
+            "color": "gray",
+            "alpha": 0.5
+        }
+    },
+    "time-position-combined": {
+        "class": "model",
+        "folder": ".",
+        "file": "t_v_cosines.csv",
+        "skip_rows": 1,
+        "ycolumn": 4,
+        "plot_kwargs": {
+            "label": "u4 = u1 + u2 + u3",
+            "color": "blue",
+            "alpha": 0.3
+        }
+    },
+    "time-position-low-and-mid-frequency": {
+        "class": "model",
+        "folder": ".",
+        "file": "t_v_cosines.csv",
+        "skip_rows": 1,
+        "ycolumn": 5,
+        "plot_kwargs": {
+            "label": "u1 + u2 ~= u4_filtered",
+            "color": "lime",
+            "linewidth": 3,
+            "linestyle": "-"
+        }
+    },
+    "time-position-combined-filtered": {
+        "class": "model",
+        "folder": ".",
+        "file": "t_v_cosines.csv",
+        "skip_rows": 1,
+        "ycolumn": 4,
+        "plot_kwargs": {
+            "label": "u4_filtered",
+            "color": "blue",
+            "linewidth": 3,
+            "linestyle": "--"
+        },
+        "signal_process": {
+            "process1": {
+                "butterworth": {
+                    "cutoff": 5,
+                    "order": 4,
+                    "type": "low"
+                }
+            }
+        }
+    },
+    "the-figure": {
+        "class": "view",
+        "folder": ".",
+        "file": "t_v_cosines_postfilter.svg",
+        "title": "u1, u2, u3, u4, and u4_filtered from t_v_cosines.csv",
+        "xlabel": "time (s)",
+        "ylabel": "position (m)",
+        "display": 1,
+        "details": 0,
+        "serialize": 0
+    }
+}

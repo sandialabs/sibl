@@ -1,0 +1,61 @@
+{
+    "time-position-low-frequency": {
+        "class": "model",
+        "folder": ".",
+        "file": "t_v_cosines.csv",
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "label": "u1 = cos(2 pi t)",
+            "color": "red",
+            "linewidth": 3,
+            "linestyle": "-"
+        }
+    },
+    "time-position-mid-frequency": {
+        "class": "model",
+        "folder": ".",
+        "file": "t_v_cosines.csv",
+        "skip_rows": 1,
+        "ycolumn": 2,
+        "plot_kwargs": {
+            "label": "u2 = cos(2 * 2 pi t)",
+            "color": "lime",
+            "linewidth": 3,
+            "linestyle": "-"
+        }
+    },
+    "time-position-high-frequency": {
+        "class": "model",
+        "folder": ".",
+        "file": "t_v_cosines.csv",
+        "skip_rows": 1,
+        "ycolumn": 3,
+        "plot_kwargs": {
+            "label": "u3 = cos(100 * 2 pi t)",
+            "color": "silver",
+            "linestyle": "-"
+        }
+    },
+    "time-position-combined": {
+        "class": "model",
+        "folder": ".",
+        "file": "t_v_cosines.csv",
+        "skip_rows": 1,
+        "ycolumn": 4,
+        "plot_kwargs": {
+            "label": "u4 = u1 + u2 + u3",
+            "color": "blue"
+        }
+    },
+    "the-figure": {
+        "class": "view",
+        "folder": ".",
+        "file": "t_v_cosines_prefilter.svg",
+        "title": "u1, u2, u3, and u4 from t_v_cosines.csv",
+        "xlabel": "time (s)",
+        "ylabel": "position (m)",
+        "display": 1,
+        "details": 0,
+        "serialize": 0
+    }
+}
