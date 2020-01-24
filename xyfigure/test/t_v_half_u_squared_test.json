@@ -1,0 +1,25 @@
+{
+    "time-displacement": {
+        "class": "model",
+        "folder": ".",
+        "file": "t_v_half_u_squared.csv",
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "label": "t_v_half_u_squared.csv",
+            "marker": "o",
+            "linestyle": "-"
+        }
+    },
+    "the-figure": {
+        "class": "view",
+        "folder": ".",
+        "file": "t_v_half_squared_test.svg",
+        "title": "u = 1/2 t^2",
+        "xlabel": "time (s)",
+        "ylabel": "displacement (m)",
+        "size": [8.0, 6.0],
+        "display": 1,
+        "details": 0,
+        "serialize": 1
+    }
+}

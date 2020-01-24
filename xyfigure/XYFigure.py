@@ -53,6 +53,28 @@ class XYModel(XYBase):
         self._xoffset = kwargs.get('xoffset', 0.0)
         self._yoffset = kwargs.get('yoffset', 0.0)
 
+        self._signal_process = kwargs.get('signal_process', None)
+
+        if self._signal_process:
+            for process_id in self._signal_process:
+                process_dict = self._signal_process.get(process_id)
+                key = next(iter(process_dict))
+                value = process_dict[key]
+                if key == 'low_pass_filter':
+                    print('Signal process: ' + key + ' with cutoff frequency of ' + str(value) + ' Hz.')
+                elif key == 'gradient':
+                    print('Signal process: ' + key + ' applied ' + str(value) + ' time(s)')
+                    # numerical gradient
+                    # https://docs.scipy.org/doc/numpy/reference/generated/numpy.gradient.html
+                    for k in range(value):
+                        ydot = np.gradient(self._data[:, 1], self._data[:, 0], edge_order=2)
+                        self._data[:, 1] = ydot  # overwrite
+                        print(f'  Derivative {k+1} completed.')
+                else:
+                    print('Error: Signal process key not implemented.')
+                    sys.exit('Abnormal termination.')
+                a = 4 
+
     @property
     def x(self):
         """Returns the model's x data."""

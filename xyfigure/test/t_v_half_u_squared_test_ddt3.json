@@ -1,0 +1,30 @@
+{
+    "time-jerk": {
+        "class": "model",
+        "folder": ".",
+        "file": "t_v_half_u_squared.csv",
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "label": "d^3/dt^3 (t_v_half_u_squared.csv)",
+            "marker": "o",
+            "linestyle": "-"
+        },
+        "signal_process": {
+            "process1": {
+                "gradient": 3
+            }
+        }
+    },
+    "the-figure": {
+        "class": "view",
+        "folder": ".",
+        "file": "t_v_half_squared_test_ddt3.svg",
+        "title": "u_dddot = d^3/dt^3 (1/2 t^2) = 0",
+        "xlabel": "time (s)",
+        "ylabel": "jerk (m/s^3)",
+        "size": [8.0, 6.0],
+        "display": 1,
+        "details": 0,
+        "serialize": 1
+    }
+}

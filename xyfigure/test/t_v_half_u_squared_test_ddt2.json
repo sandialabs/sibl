@@ -1,0 +1,30 @@
+{
+    "time-acceleration": {
+        "class": "model",
+        "folder": ".",
+        "file": "t_v_half_u_squared.csv",
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "label": "d^2/dt^2 (t_v_half_u_squared.csv)",
+            "marker": "o",
+            "linestyle": "-"
+        },
+        "signal_process": {
+            "process1": {
+                "gradient": 2
+            }
+        }
+    },
+    "the-figure": {
+        "class": "view",
+        "folder": ".",
+        "file": "t_v_half_squared_test_ddt2.svg",
+        "title": "u_ddot = d^2/dt^2 (1/2 t^2) = 1",
+        "xlabel": "time (s)",
+        "ylabel": "acceleration (m/s^2)",
+        "size": [8.0, 6.0],
+        "display": 1,
+        "details": 0,
+        "serialize": 1
+    }
+}
