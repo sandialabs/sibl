@@ -53,10 +53,12 @@ def main(argv):
         print('Abnormal script termination.')
         sys.exit('Two image files must be specified as arguments.')
 
-    if same(file_a, file_b, verbose=True):
-        print('same method returned True.')
-    else:
-        print('same method returned False.')
+    # if same(file_a, file_b, verbose=True):
+    #     print('same method returned True.')
+    # else:
+    #     print('same method returned False.')
+    same(file_a, file_b, verbose=True)
+
 
 if __name__ == '__main__':
     main(sys.argv[1:])
