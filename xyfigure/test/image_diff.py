@@ -5,15 +5,9 @@ import numpy as np
 # import imageio
 from PIL import Image, ImageChops
 
-def main(argv):
+def same(file_a, file_b, verbose=0):
 
-    try:
-        file_a = argv[0]
-        file_b = argv[1]
-    except IndexError as error:
-        print(f'Error: {error}.')
-        print('Abnormal script termination.')
-        sys.exit('Two image files must be specified as arguments.')
+    is_same = False
 
     try:
         im_a = Image.open(file_a)
@@ -29,15 +23,40 @@ def main(argv):
     im_b_size = im_b.size
     
     if im_a_size == im_b_size:
-        print('Images are the same size.')
-        diff = ImageChops.difference(im_a, im_b)
+        if verbose:
+            print('Images are the same size.')
+
+        diff = ImageChops.difference(im_a, im_b)  # Chops is channel operations.
+
         # Image.getbbox() gets the bounding box of all the non-zero regions in the image.
         if diff.getbbox():
-            print('Images pixels are different.')
+            if verbose:
+                print('Images pixels are different.')
         else:
-            print('Images pixels are the same.')
+            if verbose: 
+                print('Images pixels are the same.')
+            is_same = True
     else:
-        print('Images are not the same size.')
+        if verbose:
+            print('Images are not the same size.')
+
+    return is_same
+
+
+def main(argv):
+
+    try:
+        file_a = argv[0]
+        file_b = argv[1]
+    except IndexError as error:
+        print(f'Error: {error}.')
+        print('Abnormal script termination.')
+        sys.exit('Two image files must be specified as arguments.')
+
+    if same(file_a, file_b, verbose=True):
+        print('same method returned True.')
+    else:
+        print('same method returned False.')
 
 if __name__ == '__main__':
     main(sys.argv[1:])
