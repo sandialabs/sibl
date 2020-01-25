@@ -4,10 +4,12 @@
 
 Here we create an example data file from an Excel spreadsheet and walk through the steps to create a simple `xyfigure`.
 
+### Workflow
+
 * Create the example data [file](../io/xyfigure_example/t_versus_f_source.xlsx) in Microsoft Excel.  Here we create a time column `t` (the x-axis), and two functions (two different data series for the y-axis) of time columns `sin(t)` and `cos(2t)`.  
 
 > Generally this file does not come from an Excel file; rather, it will come from the output of a simulation.
-* Export two `.csv` files as the [sin](../io/xyfigure_example/t_versus_sin_t.csv) and [cos](../io/xyfigure_example/t_versus_cos_2t.csv) files.
+* Export two `.csv` files as the [sin](../io/xyfigure_example/t_versus_sin_t.csv) and [cos](../io/xyfigure_example/t_versus_cos_2t.csv) files.  
 * Create and update the [json](../io/xyfigure_example/figure.json) file, which controls the appearance of the figure.
 * From the folder that contains the json file, run the Python script:
 
@@ -22,7 +24,16 @@ The output file `figure_example.png` contains this figure:
 
 will result, written to the `~/sibl/io/xyfigure_example/` folder.
 
-For more information on the variations that are possible for formatting, see the the [XYFigure dictionary](XYFigure_dictionary.md) documentation.
+### Next Steps
+
+* Observation:
+  * If all data comes from a [single source file](../io/xyfigure_example/t_versus_f_source.xlsx), as in the example above, the workflow can modified to be more efficient.  How?
+  * Instead of creating *separate* `.csv` files with `x,y` pairs, create only *one* `.csv` file and specify a non-default `"ycolumn"` value in the `.json` file for the cosine data.
+* Exercise: 
+  * For the above example, export only *one* `.csv` file with three columns of data, `time,sin(t),cos(2t)` and use `"ycolumn": 2` for the `cos(2t)`.  
+  * See the [XYFigure dictionary](XYFigure_dictionary.md) for a description of `"ycolumn"`.  
+  * Create the same output to verify both workflows produce the same result.
+* Scan through the keywords available in the [XYFigure dictionary](XYFigure_dictionary.md) documentation.
 
 ## Getting Minimalistic
 
