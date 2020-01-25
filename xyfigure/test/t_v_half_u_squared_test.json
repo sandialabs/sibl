@@ -13,11 +13,11 @@
     "the-figure": {
         "class": "view",
         "folder": ".",
-        "file": "t_v_half_squared_test.svg",
+        "file": "t_v_half_squared_test.png",
         "title": "u = 1/2 t^2",
         "xlabel": "time (s)",
         "ylabel": "displacement (m)",
-        "size": [8.0, 6.0],
+        "size": [4.0, 3.0],
         "display": 1,
         "details": 0,
         "serialize": 1
