@@ -39,7 +39,7 @@ Key | Value | Description
 `"linestyle":` | string | *optional*<br>Default value is `"-"`, which is a solid line. See [matplotlib linestyles](https://matplotlib.org/3.1.0/gallery/lines_bars_and_markers/linestyles.html) for more detail.
 | | |Some frequently used *optional values* follow.  If the keys are omitted, then the matplotlib defaults are used.
 `"label":` | string | *optional*<br>The string appearing in the legend correponding to the data.
-`"color:"` | string | *optional*<br>The [matplotlib color](https://matplotlib.org/3.1.1/tutorials/colors/colors.html) used to plot the data.
+`"color:"` | string | *optional*<br>The [matplotlib color](https://matplotlib.org/3.1.1/tutorials/colors/colors.html) used to plot the data.  Also, [predefined color](https://matplotlib.org/3.1.0/gallery/color/named_colors.html) names.
 `"alpha":` | float | *optional*<br>Real number in the range from `0` to `1`. Numbers toward `0` are more transparent and numbers toward `1` are more opaque.  
 
 ### View Dictionary
