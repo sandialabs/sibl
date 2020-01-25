@@ -13,12 +13,12 @@
     "the-figure": {
         "class": "view",
         "folder": ".",
-        "file": "t_v_sines.svg",
+        "file": "t_v_sines.png",
         "title": "u = sin(2*pi*t)",
         "xlabel": "time (s)",
         "ylabel": "position (m)",
-        "size": [8.0, 6.0],
-        "display": 1,
+        "size": [4.0, 3.0],
+        "display": 0,
         "details": 0,
         "serialize": 1
     }
