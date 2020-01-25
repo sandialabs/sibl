@@ -33,7 +33,7 @@ def main(argv):
         diff = ImageChops.difference(im_a, im_b)
         # Image.getbbox() gets the bounding box of all the non-zero regions in the image.
         if diff.getbbox():
-            print('Images pixel are different.')
+            print('Images pixels are different.')
         else:
             print('Images pixels are the same.')
     else:
