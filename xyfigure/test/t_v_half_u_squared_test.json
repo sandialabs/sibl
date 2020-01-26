@@ -10,7 +10,7 @@
             "linestyle": "-"
         }
     },
-    "the-figure": {
+    "figure": {
         "class": "view",
         "folder": ".",
         "file": "t_v_half_squared_test.png",

@@ -47,7 +47,7 @@
             "color": "blue"
         }
     },
-    "the-figure": {
+    "figure": {
         "class": "view",
         "folder": ".",
         "file": "t_v_cosines_prefilter.svg",

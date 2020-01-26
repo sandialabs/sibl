@@ -34,7 +34,7 @@
             "linestyle": "-"
         }
     },
-    "the-figure": {
+    "figure": {
         "class": "view",
         "folder": ".",
         "file": "t_v_sines_prefilter.svg",
