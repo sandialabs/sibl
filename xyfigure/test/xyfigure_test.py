@@ -41,6 +41,7 @@ class TestImageDiff(unittest.TestCase):
         cls._orig = 'image_diff_test_original.png'
         cls._same = 'image_diff_test_clone.png'
         cls._diff = 'image_diff_test_different.png'
+        cls._out = 'temp'  # put test files into sibl/xyfigure/test/temp/
 
     @classmethod
     def tearDownClass(cls):
@@ -56,20 +57,24 @@ class TestImageDiff(unittest.TestCase):
 
     def test_sines(self):
         jfile = 't_v_sines.json'
-        # print(f'Original json file is {jfile}')
+        print(f'Original json file is {jfile}')
 
-        jfile_test = jfile.split('.')[0] + '_test.json'
-        # print(f'Temporary json file is {jfile_test}')
+        # jfile_test = jfile.split('.')[0] + '_test.json'
+        jfile_test = os.path.join(self._out, jfile.split('.')[0] + '_test.json')
+        print(f'Temporary json file is {jfile_test}')
 
         with open(jfile, 'r') as fin:
             dict_test = json.load(fin)
             # print(dict_test)
 
-            file_a = dict_test['the-figure']['file']
-            file_b = file_a.split('.')[0] + '_test.png'
-            # print(file_a)
-            # print(file_b)
-            dict_test['the-figure']['file'] = file_b
+            file_a = dict_test['figure']['file']
+            print(f'Original png file is {file_a}')
+
+            # file_b = file_a.split('.')[0] + '_test.png'
+            file_b = os.path.join(self._out, file_a.split('.')[0] + '_test.png')
+            print(f'Temporary png file is {file_b}')
+
+            dict_test['figure']['file'] = file_b
             # print(dict_test)
 
             with open(jfile_test, 'w') as outfile:
@@ -79,8 +84,8 @@ class TestImageDiff(unittest.TestCase):
         
             self.assertTrue(same(file_a, file_b))
 
-            os.remove(jfile_test)
-            os.remove(file_b)
+            # os.remove(jfile_test)
+            # os.remove(file_b)
 
 
 

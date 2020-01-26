@@ -10,11 +10,11 @@
             "linestyle": "-"
         }
     },
-    "the-figure": {
+    "figure": {
         "class": "view",
         "folder": ".",
         "file": "t_v_sines.png",
-        "title": "u = sin(2*pi*t)",
+        "title": "u = sin(2 pi t)",
         "xlabel": "time (s)",
         "ylabel": "position (m)",
         "size": [4.0, 3.0],
