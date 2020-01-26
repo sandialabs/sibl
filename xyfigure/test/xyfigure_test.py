@@ -1,12 +1,20 @@
 """
-This module is a unit test of the xyfigure.py script.
+This module is a unit test of the xyfigure service.
 To run
 
-$ python -m unittest xyfigure_test.py
+$ python -m unittest xyfigure_test.py     # for default interaction, and 
+$ python -m unittest -v xyfigure_test.py  # for higher verbosity
 
 """
-import unittest
+# standard library imports
 import json
+import os
+import sys
+import unittest
+
+# third-party imports
+
+# local imports
 # from test.image_diff import same
 # import test.image_diff as idff
 # import image_diff as idff
@@ -14,22 +22,39 @@ import json
 from image_diff import same
 # from ..client import main
 #from .. client import main
-import os
-import sys
 sys.path.insert(0, '../')
 import client as xyfigure_client  # from parent directory
 
+
 class TestImageDiff(unittest.TestCase):
 
-    # def __init__(self):
-    #     # super().__init__()
+    # https://stackoverflow.com/questions/23667610/what-is-the-difference-between-setup-and-setupclass-in-python-unittest/23670844
+    # The difference manifests itself when you have more than one test method 
+    # in your class. setUpClass and tearDownClass are run once for the whole class; 
+    # setUp and tearDown are run before and after each test method.
 
-    # self._original = 'image_diff_test_original.png'
-    # self._clone = 'image_diff_test_clone.png'
-    # self._different = 'image_diff_test_different.png'
+    @classmethod
+    def setUpClass(cls):
+        cls._path_str = 'sibl/xyfigure/test/xyfigure_test.py'
+        print(cls._path_str + ' initialized.')
+
+        cls._orig = 'image_diff_test_original.png'
+        cls._same = 'image_diff_test_clone.png'
+        cls._diff = 'image_diff_test_different.png'
+
+    @classmethod
+    def tearDownClass(cls):
+        print(cls._path_str + ' completed.')
+
+    def test_same(self):
+        # self.assertTrue(same(self._orig, self._same, verbose=True))
+        self.assertTrue(same(self._orig, self._same))
+
+    def test_different(self):
+        self.assertFalse(same(self._orig, self._diff))
+        self.assertFalse(same(self._same, self._diff))
 
     def test_sines(self):
-
         jfile = 't_v_sines.json'
         # print(f'Original json file is {jfile}')
 
@@ -58,16 +83,6 @@ class TestImageDiff(unittest.TestCase):
             os.remove(file_b)
 
 
-    def test_same(self):
-        # self.assertTrue(idff.same(self._original, self._clone), verbose=True))
-        # idff.same(self._original, self._clone, verbose=True)
-        self.assertTrue(same('image_diff_test_original.png', 'image_diff_test_clone.png'))
-
-    def test_different(self):
-        # self.assertTrue(idff.same(self._original, self._clone), verbose=True))
-        # idff.same(self._original, self._clone, verbose=True)
-        self.assertFalse(same('image_diff_test_original.png', 'image_diff_test_different.png'))
-        self.assertFalse(same('image_diff_test_clone.png', 'image_diff_test_different.png'))
 
 if __name__ == '__main__':
     unittest.main()
