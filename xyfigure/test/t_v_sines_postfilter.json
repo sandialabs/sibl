@@ -34,13 +34,13 @@
     "figure": {
         "class": "view",
         "folder": ".",
-        "file": "t_v_sines_postfilter.svg",
+        "file": "t_v_sines_postfilter.png",
         "title": "u1 and u3_filtered from t_v_sines.csv", 
         "xlabel": "time (s)",
         "ylabel": "position (m)",
         "size": [8.0, 6.0],
-        "display": 1,
+        "display": 0,
         "details": 0,
-        "serialize": 0
+        "serialize": 1
     }
 }

@@ -37,13 +37,13 @@
     "figure": {
         "class": "view",
         "folder": ".",
-        "file": "t_v_sines_prefilter.svg",
+        "file": "t_v_sines_prefilter.png",
         "title": "u1, u2, and u3 from t_v_sines.csv",
         "xlabel": "time (s)",
         "ylabel": "position (m)",
         "size": [8.0, 6.0],
-        "display": 1,
+        "display": 0,
         "details": 0,
-        "serialize": 0
+        "serialize": 1
     }
 }

@@ -86,12 +86,13 @@
     "figure": {
         "class": "view",
         "folder": ".",
-        "file": "t_v_cosines_postfilter.svg",
+        "file": "t_v_cosines_postfilter.png",
         "title": "u1, u2, u3, u4, and u4_filtered from t_v_cosines.csv",
         "xlabel": "time (s)",
         "ylabel": "position (m)",
-        "display": 1,
+        "size": [8.0, 6.0],
+        "display": 0,
         "details": 0,
-        "serialize": 0
+        "serialize": 1
     }
 }

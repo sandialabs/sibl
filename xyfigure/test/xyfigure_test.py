@@ -72,9 +72,7 @@ class TestImageDiff(unittest.TestCase):
 
             xyfigure_client.main([jfile_test])
         
-            # cls.assertTrue(same(file_a, file_b))
             return (file_a, file_b)
-
 
     def test_same(self):
         # self.assertTrue(same(self._orig, self._same, verbose=True))
@@ -84,67 +82,55 @@ class TestImageDiff(unittest.TestCase):
         self.assertFalse(same(self._orig, self._diff))
         self.assertFalse(same(self._same, self._diff))
 
+    def test_cosines_prefilter(self):
+        jfile = 't_v_cosines_prefilter.json'
+        fa, fb = self.compare_test_to_reference(jfile)
+        self.assertTrue(same(fa, fb))
+
+    def test_cosines_postfilter(self):
+        jfile = 't_v_cosines_postfilter.json'
+        fa, fb = self.compare_test_to_reference(jfile)
+        self.assertTrue(same(fa, fb))
+
     def test_sine(self):
         jfile = 't_v_sines.json'
-
-        # print(f'Original json file is {jfile}')
-
-        # # jfile_test = jfile.split('.')[0] + '_test.json'
-        # jfile_test = os.path.join(self._out, jfile.split('.')[0] + '_test.json')
-        # print(f'Temporary json file is {jfile_test}')
-
-        # with open(jfile, 'r') as fin:
-        #     dict_test = json.load(fin)
-        #     # print(dict_test)
-
-        #     file_a = dict_test['figure']['file']
-        #     print(f'Original png file is {file_a}')
-
-        #     # file_b = file_a.split('.')[0] + '_test.png'
-        #     file_b = os.path.join(self._out, file_a.split('.')[0] + '_test.png')
-        #     print(f'Temporary png file is {file_b}')
-
-        #     dict_test['figure']['file'] = file_b
-        #     # print(dict_test)
-
-        #     with open(jfile_test, 'w') as outfile:
-        #         json.dump(dict_test, outfile)
-
-        #     xyfigure_client.main([jfile_test])
-        
-        #    self.assertTrue(same(file_a, file_b))
-        self.assertTrue(self.compare_test_to_reference(jfile))
+        fa, fb = self.compare_test_to_reference(jfile)
+        self.assertTrue(same(fa, fb))
 
     def test_sine_time_derivative(self):
         jfile = 't_v_sines_ddt1.json'
-        # print(f'Original json file is {jfile}')
+        fa, fb = self.compare_test_to_reference(jfile)
+        self.assertTrue(same(fa, fb))
 
-        # # jfile_test = jfile.split('.')[0] + '_test.json'
-        # jfile_test = os.path.join(self._out, jfile.split('.')[0] + '_test.json')
-        # print(f'Temporary json file is {jfile_test}')
+    def test_sines_prefilter(self):
+        jfile = 't_v_sines_prefilter.json'
+        fa, fb = self.compare_test_to_reference(jfile)
+        self.assertTrue(same(fa, fb))
 
-        # with open(jfile, 'r') as fin:
-        #     dict_test = json.load(fin)
-        #     # print(dict_test)
+    def test_sines_postfilter(self):
+        jfile = 't_v_sines_postfilter.json'
+        fa, fb = self.compare_test_to_reference(jfile)
+        self.assertTrue(same(fa, fb))
 
-        #     file_a = dict_test['figure']['file']
-        #     print(f'Original png file is {file_a}')
+    def test_quadratic(self):
+        jfile = 't_v_half_u_squared_test.json'
+        fa, fb = self.compare_test_to_reference(jfile)
+        self.assertTrue(same(fa, fb))
 
-        #     # file_b = file_a.split('.')[0] + '_test.png'
-        #     file_b = os.path.join(self._out, file_a.split('.')[0] + '_test.png')
-        #     print(f'Temporary png file is {file_b}')
+    def test_quadratic_ddt1(self):
+        jfile = 't_v_half_u_squared_test_ddt1.json'
+        fa, fb = self.compare_test_to_reference(jfile)
+        self.assertTrue(same(fa, fb))
 
-        #     dict_test['figure']['file'] = file_b
-        #     # print(dict_test)
+    def test_quadratic_ddt2(self):
+        jfile = 't_v_half_u_squared_test_ddt2.json'
+        fa, fb = self.compare_test_to_reference(jfile)
+        self.assertTrue(same(fa, fb))
 
-        #     with open(jfile_test, 'w') as outfile:
-        #         json.dump(dict_test, outfile)
-
-        #     xyfigure_client.main([jfile_test])
-        
-        #     self.assertTrue(same(file_a, file_b))
-
-        self.assertTrue(self.compare_test_to_reference(jfile))
+    def test_quadratic_ddt3(self):
+        jfile = 't_v_half_u_squared_test_ddt3.json'
+        fa, fb = self.compare_test_to_reference(jfile)
+        self.assertTrue(same(fa, fb))
 
 
 if __name__ == '__main__':

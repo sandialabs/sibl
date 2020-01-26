@@ -17,7 +17,7 @@
         "title": "u = sin(2 pi t)",
         "xlabel": "time (s)",
         "ylabel": "position (m)",
-        "size": [4.0, 3.0],
+        "size": [8.0, 6.0],
         "display": 0,
         "details": 0,
         "serialize": 1

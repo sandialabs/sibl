@@ -18,12 +18,12 @@
     "figure": {
         "class": "view",
         "folder": ".",
-        "file": "t_v_half_squared_test_ddt3.svg",
+        "file": "t_v_half_squared_test_ddt3.png",
         "title": "u_dddot = d^3/dt^3 (1/2 t^2) = 0",
         "xlabel": "time (s)",
         "ylabel": "jerk (m/s^3)",
         "size": [8.0, 6.0],
-        "display": 1,
+        "display": 0,
         "details": 0,
         "serialize": 1
     }
