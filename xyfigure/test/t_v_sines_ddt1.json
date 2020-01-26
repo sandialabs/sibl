@@ -18,12 +18,12 @@
     "figure": {
         "class": "view",
         "folder": ".",
-        "file": "t_v_sines_ddt1.svg",
-        "title": "u_dot = d/dt (sin(2*pi*t)) = 2*pi*cos(2*pi*t)",
+        "file": "t_v_sines_ddt1.png",
+        "title": "u_dot = d/dt (sin(2 pi t)) = 2 pi cos(2 pi t)",
         "xlabel": "time (s)",
         "ylabel": "velocity (m/s)",
         "size": [8.0, 6.0],
-        "display": 1,
+        "display": 0,
         "details": 0,
         "serialize": 1
     }

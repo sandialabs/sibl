@@ -47,6 +47,35 @@ class TestImageDiff(unittest.TestCase):
     def tearDownClass(cls):
         print(cls._path_str + ' completed.')
 
+    @classmethod
+    def compare_test_to_reference(cls, jfile):
+        print(f'Reference json file is {jfile}')
+
+        jfile_test = os.path.join(cls._out, jfile.split('.')[0] + '_test.json')
+        print(f'Test json file is {jfile_test}')
+
+        with open(jfile, 'r') as fin:
+            dict_test = json.load(fin)  # make a copy of reference json
+            # print(dict_test)  # for debug
+
+            file_a = dict_test['figure']['file']
+            print(f'Reference png file is {file_a}')
+
+            file_b = os.path.join(cls._out, file_a.split('.')[0] + '_test.png')
+            print(f'Test png file is {file_b}')
+
+            dict_test['figure']['file'] = file_b  # replace png file name
+            # print(dict_test)  # for debug
+
+            with open(jfile_test, 'w') as outfile:
+                json.dump(dict_test, outfile)
+
+            xyfigure_client.main([jfile_test])
+        
+            # cls.assertTrue(same(file_a, file_b))
+            return (file_a, file_b)
+
+
     def test_same(self):
         # self.assertTrue(same(self._orig, self._same, verbose=True))
         self.assertTrue(same(self._orig, self._same))
@@ -55,38 +84,67 @@ class TestImageDiff(unittest.TestCase):
         self.assertFalse(same(self._orig, self._diff))
         self.assertFalse(same(self._same, self._diff))
 
-    def test_sines(self):
+    def test_sine(self):
         jfile = 't_v_sines.json'
-        print(f'Original json file is {jfile}')
 
-        # jfile_test = jfile.split('.')[0] + '_test.json'
-        jfile_test = os.path.join(self._out, jfile.split('.')[0] + '_test.json')
-        print(f'Temporary json file is {jfile_test}')
+        # print(f'Original json file is {jfile}')
 
-        with open(jfile, 'r') as fin:
-            dict_test = json.load(fin)
-            # print(dict_test)
+        # # jfile_test = jfile.split('.')[0] + '_test.json'
+        # jfile_test = os.path.join(self._out, jfile.split('.')[0] + '_test.json')
+        # print(f'Temporary json file is {jfile_test}')
 
-            file_a = dict_test['figure']['file']
-            print(f'Original png file is {file_a}')
+        # with open(jfile, 'r') as fin:
+        #     dict_test = json.load(fin)
+        #     # print(dict_test)
 
-            # file_b = file_a.split('.')[0] + '_test.png'
-            file_b = os.path.join(self._out, file_a.split('.')[0] + '_test.png')
-            print(f'Temporary png file is {file_b}')
+        #     file_a = dict_test['figure']['file']
+        #     print(f'Original png file is {file_a}')
 
-            dict_test['figure']['file'] = file_b
-            # print(dict_test)
+        #     # file_b = file_a.split('.')[0] + '_test.png'
+        #     file_b = os.path.join(self._out, file_a.split('.')[0] + '_test.png')
+        #     print(f'Temporary png file is {file_b}')
 
-            with open(jfile_test, 'w') as outfile:
-                json.dump(dict_test, outfile)
+        #     dict_test['figure']['file'] = file_b
+        #     # print(dict_test)
 
-            xyfigure_client.main([jfile_test])
+        #     with open(jfile_test, 'w') as outfile:
+        #         json.dump(dict_test, outfile)
+
+        #     xyfigure_client.main([jfile_test])
         
-            self.assertTrue(same(file_a, file_b))
+        #    self.assertTrue(same(file_a, file_b))
+        self.assertTrue(self.compare_test_to_reference(jfile))
 
-            # os.remove(jfile_test)
-            # os.remove(file_b)
+    def test_sine_time_derivative(self):
+        jfile = 't_v_sines_ddt1.json'
+        # print(f'Original json file is {jfile}')
 
+        # # jfile_test = jfile.split('.')[0] + '_test.json'
+        # jfile_test = os.path.join(self._out, jfile.split('.')[0] + '_test.json')
+        # print(f'Temporary json file is {jfile_test}')
+
+        # with open(jfile, 'r') as fin:
+        #     dict_test = json.load(fin)
+        #     # print(dict_test)
+
+        #     file_a = dict_test['figure']['file']
+        #     print(f'Original png file is {file_a}')
+
+        #     # file_b = file_a.split('.')[0] + '_test.png'
+        #     file_b = os.path.join(self._out, file_a.split('.')[0] + '_test.png')
+        #     print(f'Temporary png file is {file_b}')
+
+        #     dict_test['figure']['file'] = file_b
+        #     # print(dict_test)
+
+        #     with open(jfile_test, 'w') as outfile:
+        #         json.dump(dict_test, outfile)
+
+        #     xyfigure_client.main([jfile_test])
+        
+        #     self.assertTrue(same(file_a, file_b))
+
+        self.assertTrue(self.compare_test_to_reference(jfile))
 
 
 if __name__ == '__main__':
