@@ -1,0 +1,4 @@
+# ignore temporary compare output files
+*.json
+*.png
+

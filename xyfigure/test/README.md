@@ -1,0 +1,51 @@
+# Test Cases
+
+## General
+
+### Image Same or Different
+
+* [image_diff_test.py](image_diff_test.py) is used with image_diff_test_original.png:
+![image_diff_test_original](image_diff_test_original.png)
+with image_diff_test_clone.png:
+![image_diff_test_clone](image_diff_test_clone.png)
+and with image_diff_test_different.png:
+![image_diff_test_different](image_diff_test_different.png)
+
+## Signal Processing
+
+### Differentiation
+
+#### Quadratic Function as Source
+
+* source signal with
+[t_v_half_u_squared_test.json](t_v_half_u_squared_test.json):
+![t_v_half_u_squared_test](t_v_half_u_squared_test.png)
+* first derivative with
+[t_v_half_u_squared_test_ddt1.json](t_v_half_u_squared_test_ddt1.json):
+![t_v_half_u_squared_test_ddt1](t_v_half_u_squared_test_ddt1.png)
+* second derivative with
+[t_v_half_u_squared_test_ddt2.json](t_v_half_u_squared_test_ddt2.json):
+![t_v_half_u_squared_test_ddt2](t_v_half_u_squared_test_ddt2.png)
+* third derivative with
+[t_v_half_u_squared_test_ddt3.json](t_v_half_u_squared_test_ddt3.json):
+![t_v_half_u_squared_test_ddt3](t_v_half_u_squared_test_ddt3.png)
+
+#### Sine Function as Source
+
+* source signal with
+[t_v_sines.json](t_v_sines.json):
+![t_v_sines](t_v_sines.png)
+* first derivative with
+[t_v_sines_ddt1.json](t_v_sines_ddt1.json):
+![t_v_sines_ddt1](t_v_sines_ddt1.png)
+
+### Butterworth Filter
+
+* [signal_test.py](signal_test.py) unit test of scipy library
+* cosines with [t_v_cosines_prefilter.json](t_v_cosines_prefilter.json):
+![t_v_cosines_prefilter](t_v_cosines_prefilter.png) and with [t_v_cosines_postfilter.json](t_v_cosines_postfilter.json) 
+![t_v_cosines_postfilter](t_v_cosines_postfilter.png)
+* sines with [t_v_sines_prefilter.json](t_v_sines_prefilter.json)
+![t_v_sines_prefilter](t_v_sines_prefilter.png)
+and [t_v_sines_postfilter.json](t_v_sines_postfilter.json)
+![t_v_sines_prefilter](t_v_sines_postfilter.png)

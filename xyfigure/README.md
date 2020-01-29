@@ -34,6 +34,7 @@ will result, written to the `~/sibl/io/xyfigure_example/` folder.
   * See the [XYFigure dictionary](XYFigure_dictionary.md) for a description of `"ycolumn"`.  
   * Create the same output to verify both workflows produce the same result.
 * Scan through the keywords available in the [XYFigure dictionary](XYFigure_dictionary.md) documentation.
+* Scan through the tests in the [test cases](test/README.md)
 
 ## Getting Minimalistic
 

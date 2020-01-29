@@ -18,7 +18,7 @@
     "figure": {
         "class": "view",
         "folder": ".",
-        "file": "t_v_half_squared_test_ddt1.png",
+        "file": "t_v_half_u_squared_test_ddt1.png",
         "title": "u_dot = d/dt (1/2 t^2) = t",
         "xlabel": "time (s)",
         "ylabel": "velocity (m/s)",

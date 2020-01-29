@@ -13,6 +13,7 @@ For more information, see our [website](http://www.sandia.gov/biomechanics/).
 * XYFigure 
   * [Getting started](xyfigure/README.md)
   * [Documentation](xyfigure/XYFigure_dictionary.md)
+  * [Test Cases](xyfigure/test/README.md)
 
 ## Prerequisites
 
