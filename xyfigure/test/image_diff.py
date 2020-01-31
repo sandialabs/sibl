@@ -77,7 +77,7 @@ def same(file_a, file_b, verbose=0):
             data_diff = data_a - data_b
 
             data_diff_norm = np.linalg.norm(data_diff)
-            image_tol = 1.0  # tolerance for the L2norm to be same or different
+            image_tol = 10.0  # tolerance for the L2norm to be same or different
 
             # if np.abs(data_diff_norm) < image_tol:
             #     same_pixels = True
