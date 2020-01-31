@@ -94,7 +94,9 @@ def same(file_a, file_b, verbose=0):
                     print(f'  Images have same number of channels? [T/F]: {same_channels}')
                     print('Images are different.')
     
-            print(f'Returning {same_pixels}')
+            if verbose:
+                print(f'Returning {same_pixels}')
+
             return same_pixels
 
     except IOError:
