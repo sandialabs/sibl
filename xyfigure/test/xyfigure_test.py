@@ -38,9 +38,17 @@ class TestImageDiff(unittest.TestCase):
         cls._path_str = 'sibl/xyfigure/test/xyfigure_test.py'
         print(cls._path_str + ' initialized.')
 
-        cls._orig = 'image_diff_test_original.png'
-        cls._same = 'image_diff_test_clone.png'
-        cls._diff = 'image_diff_test_different.png'
+        cls._orig = 'image_diff_test.png'
+        cls._clone = 'image_diff_test_clone.png'
+        cls._diff = 'image_diff_test_diff.png'
+
+        cls._rgb_orig = 'H_460_460_px_RGB_634800.png'
+        cls._rgb_clone = 'H_460_460_px_RGB_634800_clone.png' 
+
+        cls._rgba_orig = 'H_460_460_px_RGBA_846400.png'
+        cls._rgba_clone = 'H_460_460_px_RGBA_846400_clone.png' 
+        cls._rgba_diff = 'H_460_460_px_RGBA_846400_diff.png' 
+
         cls._out = 'temp'  # put test files into sibl/xyfigure/test/temp/
 
     @classmethod
@@ -76,11 +84,18 @@ class TestImageDiff(unittest.TestCase):
 
     def test_same(self):
         # self.assertTrue(same(self._orig, self._same, verbose=True))
-        self.assertTrue(same(self._orig, self._same))
+        self.assertTrue(same(self._orig, self._clone))
+        self.assertTrue(same(self._rgb_orig, self._rgb_clone))
+        self.assertTrue(same(self._rgba_orig, self._rgba_clone))
 
     def test_different(self):
         self.assertFalse(same(self._orig, self._diff))
-        self.assertFalse(same(self._same, self._diff))
+        self.assertFalse(same(self._clone, self._diff))
+
+        self.assertFalse(same(self._rgb_orig, self._rgba_orig))
+
+        self.assertFalse(same(self._rgba_orig, self._rgba_diff))
+        self.assertFalse(same(self._rgba_clone, self._rgba_diff))
 
     def test_cosines_prefilter(self):
         jfile = 't_v_cosines_prefilter.json'

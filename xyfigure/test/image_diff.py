@@ -35,7 +35,14 @@ def same(file_a, file_b, verbose=0):
         Boolean:  True for images are the same; False for images are different.
     """
 
-    is_same = False
+    same_xy_dimension = False
+    same_mode = False
+    same_channels = False
+    same_pixels = False
+
+    if verbose:
+        print(f'Image 1 file name: {file_a}')
+        print(f'Image 2 file name: {file_b}')
 
     try:
         im_a = Image.open(file_a)
@@ -50,39 +57,51 @@ def same(file_a, file_b, verbose=0):
     im_a_size = im_a.size
     im_b_size = im_b.size
 
-    if im_a_size == im_b_size:
-        if verbose:
-            print('Images are the same size.')
+    same_xy_dimension = im_a_size == im_b_size
+
+    if verbose:
+        print('Test 1 of 2: Dimensionality comparison')
+        print(f'  (x,y) dimension of image 1 is {im_a_size}')
+        print(f'  (x,y) dimension of image 2 is {im_b_size}')
+
+    same_mode = im_a.mode == im_b.mode
+
+    if same_xy_dimension and same_mode:
 
         data_a = np.array(im_a.getdata()).flatten()
         data_b = np.array(im_b.getdata()).flatten()
-        data_diff = data_a - data_b
-        data_diff_norm = np.linalg.norm(data_diff)
-        image_tol = 1.0  # tolerance for the L2norm to be same or different
 
-        if np.abs(data_diff_norm) > image_tol:
+        same_channels = data_a.size == data_b.size
+
+        if same_channels:
+            data_diff = data_a - data_b
+
+            data_diff_norm = np.linalg.norm(data_diff)
+            image_tol = 1.0  # tolerance for the L2norm to be same or different
+
+            # if np.abs(data_diff_norm) < image_tol:
+            #     same_pixels = True
+
+            same_pixels = np.abs(data_diff_norm) < image_tol
+
             if verbose:
-                print('Images pixels are different.')
-        else:
-            if verbose:
-                print('Images pixels are the same.')
-            is_same = True
+                print(f'  Images (x,y) dimensions are the same? [T/F]: {same_xy_dimension}')
+                print(f'  Images have same mode? [T/F]: {same_mode}')
+                print(f'  Images have same number of channels? [T/F]: {same_channels}')
+                print('Test 2 of 2: Pixel-by-pixel comparison')
+                print(f'  Size of data image 1 is {data_a.size}')
+                print(f'  Size of data image 2 is {data_b.size}')
+                print(f'  Pixels are the same? [T/F]: {same_pixels}')
 
-        # diff = ImageChops.difference(im_a, im_b)  # Chops is channel operations.
-
-        # # Image.getbbox() gets the bounding box of all the non-zero regions in the image.
-        # if diff.getbbox():
-        #     if verbose:
-        #         print('Images pixels are different.')
-        # else:
-        #     if verbose:
-        #         print('Images pixels are the same.')
-        #     is_same = True
     else:
         if verbose:
-            print('Images are not the same size.')
+            print(f'  Images (x,y) dimensions are the same? [T/F]: {same_xy_dimension}')
+            print(f'  Images have same mode? [T/F]: {same_mode}')
+            print(f'  Images have same number of channels? [T/F]: {same_channels}')
+            print('Images are different.')
 
-    return is_same
+    print(f'Returning {same_pixels}')
+    return same_pixels
 
 
 def main(argv):
@@ -107,10 +126,6 @@ def main(argv):
         print('Abnormal script termination.')
         sys.exit('Two image files must be specified as arguments.')
 
-    # if same(file_a, file_b, verbose=True):
-    #     print('same method returned True.')
-    # else:
-    #     print('same method returned False.')
     same(file_a, file_b, verbose=True)
 
 

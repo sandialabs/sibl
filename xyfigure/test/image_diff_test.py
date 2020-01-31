@@ -16,9 +16,9 @@ class TestImageDiff(unittest.TestCase):
         cls._path_str = 'sibl/xyfigure/test/image_diff_test.py'
         print(cls._path_str + ' initialized.')
 
-        cls._orig = 'image_diff_test_original.png'
+        cls._orig = 'image_diff_test.png'
         cls._same = 'image_diff_test_clone.png'
-        cls._diff = 'image_diff_test_different.png'
+        cls._diff = 'image_diff_test_diff.png'
 
     @classmethod
     def tearDownClass(cls):
