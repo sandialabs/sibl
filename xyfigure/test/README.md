@@ -4,13 +4,13 @@
 
 ### Image Same or Different
 
-* [image_diff_test.py](image_diff_test.py) is used with image_diff_test_original.png:
-![image_diff_test](image_diff_test.png) which was created with 
-[t_v_half_u_squared_test.json](t_v_half_u_squared_test.json) and then the output figure was renamed to image_diff_test.png.
-A duplicate image was then created as image_diff_test_clone.png:
+* The .png output figure from [t_v_half_u_squared_test.json](t_v_half_u_squared_test.json) was renamed to image_diff_test.png:
+![image_diff_test](image_diff_test.png)
+* A duplicate image was then created as image_diff_test_clone.png:
 ![image_diff_test_clone](image_diff_test_clone.png)
-and with image_diff_test_diff.png:
+* A final modified image image_diff_test_diff.png was created:
 ![image_diff_test_diff](image_diff_test_diff.png)
+The test script [image_diff_test.py](image_diff_test.py) is then used to assess same or different status.
 
 ## Signal Processing
 
