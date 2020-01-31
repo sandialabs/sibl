@@ -5,12 +5,12 @@
 ### Image Same or Different
 
 * [image_diff_test.py](image_diff_test.py) is used with image_diff_test_original.png:
-![image_diff_test_original](image_diff_test_original.png) which was created with 
-[t_v_half_u_squared_test.json](t_v_half_u_squared_test.json) and then the output figure was renamed to image_diff_test_original.png.
+![image_diff_test](image_diff_test.png) which was created with 
+[t_v_half_u_squared_test.json](t_v_half_u_squared_test.json) and then the output figure was renamed to image_diff_test.png.
 A duplicate image was then created as image_diff_test_clone.png:
 ![image_diff_test_clone](image_diff_test_clone.png)
-and with image_diff_test_different.png:
-![image_diff_test_different](image_diff_test_different.png)
+and with image_diff_test_diff.png:
+![image_diff_test_diff](image_diff_test_diff.png)
 
 ## Signal Processing
 
