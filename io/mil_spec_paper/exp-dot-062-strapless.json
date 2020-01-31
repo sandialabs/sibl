@@ -1,0 +1,68 @@
+{
+    "cg-exp-z": {
+        "class": "model",
+        "folder": "../../../casco_sim/experiment/strapless",
+        "file": "2020-01-30-10fps-strapless.csv",
+        "ycolumn": 3,
+        "xoffset": -0.008,
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "label": "helmet uddot_cg_z",
+            "color": "darkorange",
+            "linestyle": "dashed",
+            "linewidth": 2
+        }
+    },
+    "cg-exp": {
+        "class": "model",
+        "folder": "../../../casco_sim/experiment/strapless",
+        "file": "2020-01-30-10fps-strapless.csv",
+        "ycolumn": 4,
+        "xoffset": -0.008,
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "label": "helmet uddot_cg_resultant",
+            "color": "gray",
+            "linestyle": "dashdot",
+            "linewidth": 2
+        }
+    },
+    "cg-sim": {
+        "class": "model",
+        "folder": "../../../casco_sim/dot-5mm-helmet-0305-hemi-062",
+        "file": "history.csv",
+        "ycolumn": 24,
+        "yscale": 0.00101971621,
+        "skip_rows": 3,
+        "plot_kwargs": {
+            "label": "Sim DOT uddot_cg_z (Dot-062)",
+            "color": "blue",
+            "linestyle": "dotted",
+            "linewidth": 2
+        },
+        "signal_process": {
+            "process1": {
+                "butterworth": {
+                    "cutoff": 1650,
+                    "order": 4,
+                    "type": "low"
+                }
+            },
+            "process2": {
+                "gradient": 1
+            }
+        }
+    },
+    "figure": {
+        "class": "view",
+        "folder": "output",
+        "file": "exp-dot-062-strapless.svg",
+        "title": "strapless experiment vs. dot-062 sim",
+        "xlabel": "time (s)",
+        "ylabel": "deceleration (G)",
+        "size": [8.0, 6.0],
+        "display": 1,
+        "details": 1,
+        "serialize": 1
+    }
+}

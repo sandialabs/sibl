@@ -20,7 +20,20 @@
         "yscale": -1.0,
         "plot_kwargs": {
             "color": "red",
-            "label": "Sim human head c.g.",
+            "label": "Sim human head c.g. Wc=1650 Hz",
+            "linestyle": "-",
+            "linewidth": 2
+        }
+    },
+    "bob-033-2000-Hz": {
+        "class": "model",
+        "folder": "../../../casco_sim/bob-1mm-5kg-non-0305-mep-033",
+        "file": "bob-033-wc-2000Hz.csv",
+        "skip_rows": 1,
+        "yscale": -1.0,
+        "plot_kwargs": {
+            "color": "purple",
+            "label": "Sim human head c.g. Wc=2000 Hz",
             "linestyle": "-",
             "linewidth": 2
         }
@@ -35,6 +48,6 @@
         "ylabel": "deceleration (Gs)",
         "display": 1,
         "latex": 0,
-        "serialize": 0 
+        "serialize": 1 
     }
 }
