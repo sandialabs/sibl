@@ -10,7 +10,8 @@ $ python -m unittest -v xyfigure_test.py  # for higher verbosity
 import json
 import os
 import sys
-import unittest
+# import unittest
+from unittest import TestCase, main
 
 # third-party imports
 
@@ -26,7 +27,7 @@ sys.path.insert(0, '../')
 import client as xyfigure_client  # from parent directory
 
 
-class TestImageDiff(unittest.TestCase):
+class TestImageDiff(TestCase):
 
     # https://stackoverflow.com/questions/23667610/what-is-the-difference-between-setup-and-setupclass-in-python-unittest/23670844
     # The difference manifests itself when you have more than one test method 

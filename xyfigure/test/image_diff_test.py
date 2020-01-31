@@ -6,10 +6,11 @@ $ python -m unittest image_diff_test.py     # for default interaction, and
 $ python -m unittest -v image_diff_test.py  # for higher verbosity
 
 """
-import unittest
+# import unittest
+from unittest import TestCase, main
 from image_diff import same
 
-class TestImageDiff(unittest.TestCase):
+class TestImageDiff(TestCase):
 
     @classmethod
     def setUpClass(cls):
