@@ -52,11 +52,12 @@ Key | Value | Description
 `"folder":` | string | Value *relative to the current working directory* of the path and folder that contains the output figure data (if `"serialize"` is set to `"1"`).  For the current working directory, use `"."`.  If the folder does not exist at run time, the script will attempt to create the directory, pending the user's approval.
 `"file":` | string | Value of the figure output file (e.g., `my_output_file.png`) in `.xxx` format, where `xxx` is an image file format, typically `pdf`, `png`, or `svg`.  
 `"size":` | float array | *optional*<br>Array of floats containing the `[width, height]` of the output figure in units of inches.  Default is `[11.0, 8.5]`, U.S. paper, landscape.
+`"dpi":` | integer | *optional*<br>Dots per inch used for the output figure.  Default is `300`.
 `"xlim"` | float array | *optional*<br>Array of floats containing the x-axis bounds `[x_min, x_max]`.  Default is matplotlib's automatic selection.
 `"ylim"` | float array | *optional*<br>Array of floats containing the y-axis bounds `[y_min, y_max]`.  Default is matplotlib's automatic selection.
 `"title":` | string | *optional*<br>Figure label, top and centered.  Default is `default title`. 
 `"xlabel":` | string | *optional*<br>The label for the x-axis.  Default is `default x axis label`.
-`"ylabel":` | string | *optional*<br>The label for the left-hand y-axis.  Default is `default y axis label.`
+`"ylabel":` | string | *optional*<br>The label for the left-hand y-axis.  Default is `default y axis label`.
 `"xticks":` | float array | *optional*<br>Contains an array of ascending real numbers, indicating tick placement.  Example: `[0.0, 0.5, 1.0, 1.5, 2.0]`.  Default is matplotlib's choice for tick marks.
 `"yticks":` | float array | *optional*<br>Same as documentation for `xticks`.
 `"yaxis_rhs":` | dict | *optional*<br>Singleton that contains the [yaxis_rhs dictionary](#yaxis_rhs-dictionary).

@@ -158,6 +158,8 @@ class XYView(XYBase):
         # self._figure_args = kwargs.get('figure_args', default)
         # self._size_str = kwargs.get('size', '(11.0, 8.5)')
         self._size = kwargs.get('size', [11.0, 8.5])
+        self._dpi = kwargs.get('dpi', 300)
+        print(f'Figure dpi set to {self._dpi}')
         #self._xlim_str = kwargs.get('xlim', None)
         #self._ylim_str = kwargs.get('ylim', None)
         self._xlim = kwargs.get('xlim', None)
@@ -326,7 +328,8 @@ class XYView(XYBase):
                         print('Abnormal script termination.')
                         sys.exit('Folder misspecified.')
 
-                fig.savefig(os.path.join(abs_path, self._file), dpi=300)
+                # fig.savefig(os.path.join(abs_path, self._file), dpi=300)
+                fig.savefig(os.path.join(abs_path, self._file), dpi=self._dpi, bbox_inches='tight')  # avoid cutoff of labels
                 print('Figure saved to folder: ' + abs_path)
                 print(f'Figure filename: {self._file}')
 

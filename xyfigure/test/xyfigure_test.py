@@ -5,6 +5,10 @@ To run
 $ python -m unittest xyfigure_test.py     # for default interaction, and 
 $ python -m unittest -v xyfigure_test.py  # for higher verbosity
 
+to test just one of the test methods:
+
+$ python -m unittest xyfigure_test.TestImageDiff.test_same  # e.g., to test the test_same() method
+
 """
 # standard library imports
 import json
