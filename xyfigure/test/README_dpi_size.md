@@ -4,7 +4,7 @@
 
 * Typical input file: [sines-2-2-200.json](sines-2-2-200.json)
 
-`json`        | dpi: 200       | dpi: 300
+size v dpi        | dpi: 200       | dpi: 300
 ------------- |:-------------: | :----------:
 size: 2.0, 2.0 | <img alt="sines-2-2-200" src="sines-2-2-200.png"/> | <img alt="sines-2-2-300" src="sines-2-2-300.png"/> 
 size: 3.0, 3.0 | <img alt="sines-3-3-200" src="sines-3-3-200.png"/> | <img alt="sines-3-3-300" src="sines-3-3-300.png"/> 
