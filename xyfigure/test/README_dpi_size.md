@@ -1,6 +1,4 @@
-# Figure Size, Figure dpi
-
-## Change figure size, hold dpi constant 
+# Figure size versus dpi
 
 * Typical input file: [sines-2-2-200.json](sines-2-2-200.json)
 
