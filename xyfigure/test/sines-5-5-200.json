@@ -1,0 +1,26 @@
+{
+    "time-position": {
+        "class": "model",
+        "folder": ".",
+        "file": "t_v_sines.csv",
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "label": "t_v_sines.csv",
+            "marker": "o",
+            "linestyle": "-"
+        }
+    },
+    "figure": {
+        "class": "view",
+        "folder": ".",
+        "file": "sines-5-5-200.png",
+        "title": "u = sin(2 pi t)",
+        "xlabel": "time (s)",
+        "ylabel": "position (m)",
+        "size": [5.0, 5.0],
+        "dpi": 200,
+        "display": 0,
+        "details": 0,
+        "serialize": 1
+    }
+}
