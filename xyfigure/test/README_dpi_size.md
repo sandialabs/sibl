@@ -13,3 +13,7 @@ size: 6.0, 6.0 | <img alt="sines-6-6-200" src="sines-6-6-200.png"/> | <img alt="
 Note: the above images are scaled to show differences in variation of size versus dpi.  The actual sizes are accurate, shown below for the dpi: 200 case, with side lengths ranging from 2.0 to 6.0:
 
 ![sines-composite-200](sines-composite-200.png)
+
+For comparison, the dpi: 300 case is shown below.  Note that the final images are all the same dimension, with side length from 2.0 to 6.0 inches.  The quality of the text and images, by way of the dpi setting, is better for the 300 dpi than the 200 dpi case.
+
+![sines-composite-300](sines-composite-300.png)
