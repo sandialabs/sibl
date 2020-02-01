@@ -2,6 +2,7 @@
 This module is a unit test of the image_diff.py script.
 To run
 
+# python image_diff_test.py                 # or
 $ python -m unittest image_diff_test.py     # for default interaction, and
 $ python -m unittest -v image_diff_test.py  # for higher verbosity
 
@@ -35,4 +36,4 @@ class TestImageDiff(TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main()
+    main()  # calls unittest.main()

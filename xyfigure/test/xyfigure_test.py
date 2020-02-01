@@ -2,6 +2,7 @@
 This module is a unit test of the xyfigure service.
 To run
 
+$ python xyfigure_test.py                 # or
 $ python -m unittest xyfigure_test.py     # for default interaction, and 
 $ python -m unittest -v xyfigure_test.py  # for higher verbosity
 
@@ -154,4 +155,4 @@ class TestImageDiff(TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main()
+    main()  # calls unittest.main()
