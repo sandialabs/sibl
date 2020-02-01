@@ -159,7 +159,6 @@ class XYView(XYBase):
         # self._size_str = kwargs.get('size', '(11.0, 8.5)')
         self._size = kwargs.get('size', [11.0, 8.5])
         self._dpi = kwargs.get('dpi', 300)
-        print(f'Figure dpi set to {self._dpi}')
         #self._xlim_str = kwargs.get('xlim', None)
         #self._ylim_str = kwargs.get('ylim', None)
         self._xlim = kwargs.get('xlim', None)
@@ -192,7 +191,8 @@ class XYView(XYBase):
             # fig, ax = plt.subplots(nrows=1, **self._figure_args)
             # fig, ax = plt.subplots(nrows=1)  # temporary
             # fig, ax = plt.subplots(nrows=1, figsize=figsize_tuple)
-            fig, ax = plt.subplots(nrows=1)
+            fig, ax = plt.subplots(nrows=1, dpi=self._dpi)
+            print(f'Figure dpi set to {self._dpi}')
 
             # ax.ticklabel_format(axis='y', style='scientific')
             # ax.ticklabel_format(axis='both', style='scientific', scilimits=(0,0))
@@ -206,6 +206,9 @@ class XYView(XYBase):
             fig.set_size_inches(self._size)
             # print('Figure size set to ' +  str(size_tuple) + ' inches.')
             print('Figure size set to ' +  str(self._size) + ' inches.')
+
+            # dpi versus fig size
+            # https://stackoverflow.com/questions/47633546/relationship-between-dpi-and-figure-size
 
             #fig.set_size_inches(figsize_tuple)  # https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure.set_size_inches
             # self._folder = kwargs.get('folder', None)
