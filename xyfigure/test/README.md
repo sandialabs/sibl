@@ -4,6 +4,8 @@
 
 ### Image Same or Different
 
+*Used to prevent regressions.*
+
 #### Test Small Files 
 
 * Test two files, without alpha channel <img alt="H_460_460_px_RGB_634800" src="H_460_460_px_RGB_634800.png" width="100"/> and <img alt="H_460_460_px_RGB_634800_clone" src="H_460_460_px_RGB_634800_clone.png" width="100"/>, original and clone, respectively
