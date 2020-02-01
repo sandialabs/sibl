@@ -6,9 +6,9 @@
 
 `json`        | Image
 ------------- |:-------------:
-"size": [2.0, 2.0], "dpi": 200 | <img alt="sines-2-2-200" src="sines-2-2-200.png" width="400px"/> 
-"size": [3.0, 3.0], "dpi": 200 | <img alt="sines-3-3-200" src="sines-3-3-200.png" width="600px"/> 
-"size": [4.0, 4.0], "dpi": 200 | <img alt="sines-4-4-200" src="sines-4-4-200.png" width="800px"/> 
+"size": [2.0, 2.0], "dpi": 200 | <img alt="sines-2-2-200" src="sines-2-2-200.png" width="200"/> 
+"size": [3.0, 3.0], "dpi": 200 | <img alt="sines-3-3-200" src="sines-3-3-200.png" width="300"/> 
+"size": [4.0, 4.0], "dpi": 200 | <img alt="sines-4-4-200" src="sines-4-4-200.png" width="400"/> 
 
 
 
