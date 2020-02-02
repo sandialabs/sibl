@@ -16,3 +16,8 @@
 ![t_v_sines_prefilter](t_v_sines_prefilter.png)
 and [t_v_sines_postfilter.json](t_v_sines_postfilter.json)
 ![t_v_sines_prefilter](t_v_sines_postfilter.png)
+
+## Serialization test
+
+* [signal_process_serialize.json](signal_process_serialize.json)
+![signal_process_serialize](signal_process_serialize.png)

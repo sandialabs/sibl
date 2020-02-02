@@ -113,6 +113,11 @@ class TestImageDiff(TestCase):
         fa, fb = self.compare_test_to_reference(jfile)
         self.assertTrue(same(fa, fb))
 
+    def test_signal_process_serialize(self):
+        jfile = 'signal_process_serialize.json'
+        fa, fb = self.compare_test_to_reference(jfile)
+        self.assertTrue(same(fa, fb))
+
     def test_sine(self):
         jfile = 't_v_sines.json'
         fa, fb = self.compare_test_to_reference(jfile)
@@ -156,3 +161,4 @@ class TestImageDiff(TestCase):
 
 if __name__ == '__main__':
     main()  # calls unittest.main()
+

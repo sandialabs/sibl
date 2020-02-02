@@ -95,6 +95,29 @@ class XYModel(XYBase):
                     yfiltered = signal.filtfilt(b, a, self._data[:, 1])
                     self._data[:, 1] = yfiltered  # overwrite
 
+                    serialize = value.get('serialize', 0)  # default is not to serialize
+                    if serialize:
+                        folder = value.get('folder', '.')  # default to current folder
+                        file = value.get('file', str(process_id) + '.csv')  # defaults to the process id
+                        path_and_file = os.path.join(folder, file)
+
+                        abs_path = os.path.join(os.getcwd(), folder)
+                        if not os.path.isdir(abs_path):
+                            print(f'Folder needed but not found: "{abs_path}"')
+                            val = input('Create folder? [y]es or [n]o : ')
+                            if val == 'y':
+                                os.mkdir(folder)
+                                print(f'Created folder: "{folder}"')
+                            else:
+                                print('Check accuracy of folders in database.')
+                                print('Abnormal script termination.')
+                                sys.exit('Folder misspecified.')
+
+                        np.savetxt(path_and_file, np.transpose([self._data[:, 0], self._data[:, 1]]), delimiter=',')
+                        print('  figure saved to folder: ' + abs_path)
+                        print(f'  figure filename: {file}')
+
+
                 elif key == 'gradient':
                     print('Signal process: ' + key + ' applied ' + str(value) + ' time(s)')
                     # numerical gradient
@@ -106,7 +129,8 @@ class XYModel(XYBase):
                 else:
                     print('Error: Signal process key not implemented.')
                     sys.exit('Abnormal termination.')
-                a = 4 
+                
+                print('  Signal process ' + key + ' completed.')
 
     @property
     def x(self):

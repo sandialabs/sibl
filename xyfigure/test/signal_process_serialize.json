@@ -1,0 +1,76 @@
+{
+    "time-position-low-frequency": {
+        "class": "model",
+        "folder": ".",
+        "file": "t_v_sines.csv",
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "label": "u1 = sin(2 pi t)",
+            "marker": "o",
+            "color": "magenta",
+            "linestyle": "-"
+        }
+    },
+    "unfiltered-signal": {
+        "class": "model",
+        "folder": ".",
+        "file": "t_v_sines.csv",
+        "skip_rows": 1,
+        "ycolumn": 3,
+        "plot_kwargs": {
+            "label": "u3 = u1 + u2",
+            "marker": "o",
+            "color": "green",
+            "linestyle": "solid"
+        }
+    },
+    "unfiltered-signal-for-butterworth": {
+        "class": "model",
+        "folder": ".",
+        "file": "t_v_sines.csv",
+        "skip_rows": 1,
+        "ycolumn": 3,
+        "plot_kwargs": {
+            "label": "u3_filtered",
+            "color": "blue",
+            "linestyle": "solid"
+        },
+        "signal_process": {
+            "process1": {
+                "butterworth": {
+                    "cutoff": 5,
+                    "order": 4,
+                    "type": "low",
+                    "serialize": 1,
+                    "folder": ".",
+                    "file": "t_v_sines_filtered.csv"
+                }
+            }
+        }
+    },
+    "filtered-signal": {
+        "class": "model",
+        "folder": ".",
+        "file": "t_v_sines_filtered.csv",
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "label": "u3_filtered serialize check",
+            "color": "orange",
+            "linestyle": "dotted",
+            "linewidth": 4
+        }
+    },
+    "figure": {
+        "class": "view",
+        "folder": ".",
+        "file": "signal_process_serialize.png",
+        "title": "u3_unfiltered and u3_filtered from t_v_sines.csv", 
+        "xlabel": "time (s)",
+        "ylabel": "position (m)",
+        "size": [8.0, 6.0],
+        "dpi": 300,
+        "display": 0,
+        "details": 0,
+        "serialize": 1
+    }
+}
