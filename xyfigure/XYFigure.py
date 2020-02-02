@@ -27,6 +27,26 @@ class XYBase(ABC):
         self._folder = kwargs['folder']
         self._file = kwargs['file']
 
+    """
+    Makes certain the path to the folder for pending serialization exists.
+    If it doesn't exist, ask the user if the folder should be created or not.
+    Print the full path to the command line.
+    Returns the absolute path for pending serialization.
+    """
+    def absolute_path(self, folder):
+        abs_path = os.path.join(os.getcwd(), folder)
+        if not os.path.isdir(abs_path):
+            print(f'Folder needed but not found: "{abs_path}"')
+            val = input('Create folder? [y]es or [n]o : ')
+            if val == 'y':
+                os.mkdir(folder)
+                print(f'Created folder: "{folder}"')
+            else:
+                print('Check accuracy of folders in database.')
+                print('Abnormal script termination.')
+                sys.exit('Folder misspecified.')
+        print(f'  serialized path = {abs_path}')
+        return abs_path
 
 ## Model
 class XYModel(XYBase):
@@ -96,21 +116,7 @@ class XYModel(XYBase):
                     serialize = value.get('serialize', 0)  # default is not to serialize
                     if serialize:
                         folder = value.get('folder', '.')  # default to current folder
-                        # path_and_file = os.path.join(folder, file)
-
-                        abs_path = os.path.join(os.getcwd(), folder)
-                        if not os.path.isdir(abs_path):
-                            print(f'Folder needed but not found: "{abs_path}"')
-                            val = input('Create folder? [y]es or [n]o : ')
-                            if val == 'y':
-                                os.mkdir(folder)
-                                print(f'Created folder: "{folder}"')
-                            else:
-                                print('Check accuracy of folders in database.')
-                                print('Abnormal script termination.')
-                                sys.exit('Folder misspecified.')
-                        print(f'  serialized path = {abs_path}')
-
+                        abs_path = self.absolute_path(folder)
                         filename = value.get('file', str(process_id) + '.csv')  # defaults to the process id
                         abs_path_and_file = os.path.join(abs_path, filename)
                         np.savetxt(abs_path_and_file, np.transpose([self._data[:, 0], self._data[:, 1]]), delimiter=',')
@@ -292,19 +298,7 @@ class XYView(XYBase):
                 plt.show()
             if self._serialize:
                 folder = self._folder
-                abs_path = os.path.join(os.getcwd(), folder)
-                if not os.path.isdir(abs_path):
-                    print(f'Folder needed but not found: "{abs_path}"')
-                    val = input('Create folder? [y]es or [n]o : ')
-                    if val == 'y':
-                        os.mkdir(folder)
-                        print(f'Created folder: "{folder}"')
-                    else:
-                        print('Check accuracy of folders in database.')
-                        print('Abnormal script termination.')
-                        sys.exit('Folder misspecified.')
-                print(f'  serialized path = {abs_path}')
-
+                abs_path = self.absolute_path(folder)
                 abs_path_and_file = os.path.join(abs_path, self._file)
                 fig.savefig(abs_path_and_file, dpi=self._dpi, bbox_inches='tight')  # avoid cutoff of labels
                 print(f'  serialized file = {self._file}')
