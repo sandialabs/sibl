@@ -24,7 +24,7 @@
             "linewidth": 2
         }
     },
-    "Figure_2": {
+    "figure": {
         "class": "view",
         "folder": "output",
         "file": "Figure_2.svg",

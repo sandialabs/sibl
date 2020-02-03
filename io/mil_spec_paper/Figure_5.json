@@ -78,11 +78,13 @@
                 }
             },
             "process2": {
-                "gradient": 1
+                "gradient": {
+                    "order": 1
+                }
             }
         }
     },
-    "Figure_5": {
+    "figure": {
         "class": "view",
         "folder": "output",
         "file": "Figure_5.svg",

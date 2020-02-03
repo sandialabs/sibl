@@ -49,7 +49,9 @@
                 }
             },
             "process2": {
-                "gradient": 1
+                "gradient": {
+                    "order": 1
+                }
             }
         }
     },

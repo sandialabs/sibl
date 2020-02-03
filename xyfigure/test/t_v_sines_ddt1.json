@@ -11,7 +11,9 @@
         },
         "signal_process": {
             "process1": {
-                "gradient": 1
+                "gradient": {
+                    "order": 1
+                }
             }
         }
     },

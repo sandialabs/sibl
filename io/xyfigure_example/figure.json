@@ -23,18 +23,18 @@
             "linewidth": 2
         }
     },
-    "figure-output": {
+    "figure": {
         "class": "view",
         "folder": ".",
         "file": "figure_example.png",
-        "size": "(8.0, 6.0)",
+        "size": [8.0, 6.0],
         "title": "Example using xyfigure",
         "xlabel": "time (s)",
         "ylabel": "functions of time f(t)",
         "yaxis_rhs": {
             "scale": 10,
             "label": "right-hand-side label with 10 f(t) scale",
-            "yticks": "[-10, -5, 0, 5, 10]"
+            "yticks": [-10, -5, 0, 5, 10]
         },
         "display": 1,
         "latex": 0,

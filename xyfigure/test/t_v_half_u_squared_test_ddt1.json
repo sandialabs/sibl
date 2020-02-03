@@ -11,7 +11,12 @@
         },
         "signal_process": {
             "process1": {
-                "gradient": 1
+                "gradient": {
+                    "order": 1,
+                    "serialize": 1,
+                    "folder": ".",
+                    "file": "t_v_half_u_squared_test_ddt1_test.csv"
+                }
             }
         }
     },

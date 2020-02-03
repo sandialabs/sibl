@@ -4,7 +4,6 @@
         "folder": ".",
         "file": "t_versus_sin_t.csv",
         "skip_rows": 1,
-        "inverted": 0,
         "plot_kwargs": {
             "label": "sin(t)",
             "color": "darkorange",
@@ -18,7 +17,6 @@
         "folder": ".",
         "file": "t_versus_cos_2t.csv",
         "skip_rows": 1,
-        "inverted": 0,
         "plot_kwargs": {
             "label": "cos(2t)",
             "color": "green",
@@ -26,22 +24,22 @@
             "linewidth": 2
         }
     },
-    "figure-output": {
+    "figure": {
         "class": "view",
         "folder": ".",
         "file": "figure_with_background.png",
-        "size": "(8.0, 6.0)",
-        "xlim": "(-0.25, 2.25)",
-        "ylim": "(-1.25, 1.25)",
+        "size": [8.0, 6.0],
+        "xlim": [-0.25, 2.25],
+        "ylim": [-1.25, 1.25],
         "title": "Example using xyfigure",
         "xlabel": "time (s)",
         "ylabel": "functions of time f(t)",
-        "xticks": "[0, 0.50, np.pi/4, 1, np.pi/2, 2]",
-        "yticks": "[-1, -0.5, 0, 0.5, 1]",
+        "xticks": [0, 0.50, 0.785, 1, 1.57, 2],
+        "yticks": [-1, -0.5, 0, 0.5, 1],
         "yaxis_rhs": {
             "scale": 10,
             "label": "right-hand-side label with 10 f(t) scale",
-            "yticks": "[-5, 0, 5]"
+            "yticks": [-5, 0, 5]
         },
         "background_image": {
             "folder": ".",

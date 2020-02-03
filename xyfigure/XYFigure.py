@@ -27,13 +27,13 @@ class XYBase(ABC):
         self._folder = kwargs['folder']
         self._file = kwargs['file']
 
-    """
-    Makes certain the path to the folder for pending serialization exists.
-    If it doesn't exist, ask the user if the folder should be created or not.
-    Print the full path to the command line.
-    Returns the absolute path for pending serialization.
-    """
     def absolute_path(self, folder):
+        """
+        Makes certain the path to the folder for pending serialization exists.
+        If it doesn't exist, ask the user if the folder should be created or not.
+        Print the full path to the command line.
+        Returns the absolute path for pending serialization.
+        """
         abs_path = os.path.join(os.getcwd(), folder)
         if not os.path.isdir(abs_path):
             print(f'Folder needed but not found: "{abs_path}"')
@@ -117,24 +117,41 @@ class XYModel(XYBase):
                     if serialize:
                         folder = value.get('folder', '.')  # default to current folder
                         abs_path = self.absolute_path(folder)
-                        filename = value.get('file', str(process_id) + '.csv')  # defaults to the process id
+                        # defaults to the process id
+                        filename = value.get('file', str(process_id) + '.csv')
                         abs_path_and_file = os.path.join(abs_path, filename)
                         np.savetxt(abs_path_and_file, np.transpose([self._data[:, 0], self._data[:, 1]]), delimiter=',')
                         print(f'  serialized file = {filename}')
 
-
                 elif key == 'gradient':
-                    print('Signal process: ' + key + ' applied ' + str(value) + ' time(s)')
+
+                    gradient_order = value.get('order', None)
+                    if gradient_order is None:
+                        print('Error: keyword "order" not found.')
+                        sys.exit('Abnormal termination.')
+
+                    print('Signal process: ' + key + ' applied ' + str(gradient_order) + ' time(s)')
                     # numerical gradient
                     # https://docs.scipy.org/doc/numpy/reference/generated/numpy.gradient.html
-                    for k in range(value):
+                    # for k in range(value):
+                    for k in range(gradient_order):
                         ydot = np.gradient(self._data[:, 1], self._data[:, 0], edge_order=2)
                         self._data[:, 1] = ydot  # overwrite
                         print(f'  Derivative {k+1} completed.')
+
+                    serialize = value.get('serialize', 0)  # default is not to serialize
+                    if serialize:
+                        folder = value.get('folder', '.')  # default to current folder
+                        abs_path = self.absolute_path(folder)
+                        # defaults to the process id
+                        filename = value.get('file', str(process_id) + '.csv')
+                        abs_path_and_file = os.path.join(abs_path, filename)
+                        np.savetxt(abs_path_and_file, np.transpose([self._data[:, 0], self._data[:, 1]]), delimiter=',')
+                        print(f'  serialized file = {filename}')
                 else:
                     print('Error: Signal process key not implemented.')
                     sys.exit('Abnormal termination.')
-                
+
                 print('  Signal process ' + key + ' completed.')
 
     @property

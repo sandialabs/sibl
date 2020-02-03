@@ -20,11 +20,11 @@ def same(file_a, file_b, verbose=0):
     Creates to image files from the image string arguments, then gets the
     pixel data from each image.  Subtracts pixel information of file_b from
     file_a, and creates a numpy array, which is the pixel-by-pixel difference
-    of the two images.  
+    of the two images.
 
     If the L2 norm of the difference array is less than a small tolerance, the
     two images are classified as the same.  Otherwise, they are classified as
-    different. 
+    different.
 
     Args:
         file_a (string) The first of two image file names.
@@ -50,34 +50,34 @@ def same(file_a, file_b, verbose=0):
             # im_b = Image.open(file_b)
             im_a_size = im_a.size
             im_b_size = im_b.size
-    
+
             same_xy_dimension = im_a_size == im_b_size
-    
+
             if verbose:
                 print('Test 1 of 2: Dimensionality comparison')
                 print(f'  (x,y) dimension of image 1 is {im_a_size}')
                 print(f'  (x,y) dimension of image 2 is {im_b_size}')
-    
+
             same_mode = im_a.mode == im_b.mode
-    
+
             if same_xy_dimension and same_mode:
-            
+
                 data_a = np.array(im_a.getdata()).flatten()
                 data_b = np.array(im_b.getdata()).flatten()
-    
+
                 same_channels = data_a.size == data_b.size
-    
+
                 if same_channels:
                     data_diff = data_a - data_b
-    
+
                     data_diff_norm = np.linalg.norm(data_diff)
                     image_tol = 10.0  # tolerance for the L2norm to be same or different
-    
+
                     # if np.abs(data_diff_norm) < image_tol:
                     #     same_pixels = True
-    
+
                     same_pixels = np.abs(data_diff_norm) < image_tol
-    
+
                     if verbose:
                         print(f'  Images (x,y) dimensions are the same? [T/F]: {same_xy_dimension}')
                         print(f'  Images have same mode? [T/F]: {same_mode}')
@@ -86,14 +86,14 @@ def same(file_a, file_b, verbose=0):
                         print(f'  Size of data image 1 is {data_a.size}')
                         print(f'  Size of data image 2 is {data_b.size}')
                         print(f'  Pixels are the same? [T/F]: {same_pixels}')
-    
+
             else:
                 if verbose:
                     print(f'  Images (x,y) dimensions are the same? [T/F]: {same_xy_dimension}')
                     print(f'  Images have same mode? [T/F]: {same_mode}')
                     print(f'  Images have same number of channels? [T/F]: {same_channels}')
                     print('Images are different.')
-    
+
             if verbose:
                 print(f'Returning {same_pixels}')
 
