@@ -3,17 +3,17 @@
 ## Quadratic Function
 
 * source signal with
-[t_v_half_u_squared_test.json](t_v_half_u_squared_test.json):
-![t_v_half_u_squared_test](t_v_half_u_squared_test.png)
+[u-squared.json](u-squared.json):
+![u-squared](u-squared.png)
 * first derivative with
-[t_v_half_u_squared_test_ddt1.json](t_v_half_u_squared_test_ddt1.json):
-![t_v_half_u_squared_test_ddt1](t_v_half_u_squared_test_ddt1.png)
+[u-squared-ddt1.json](u-squared-ddt1.json):
+![u-squared-ddt1](u-squared-ddt1.png)
 * second derivative with
-[t_v_half_u_squared_test_ddt2.json](t_v_half_u_squared_test_ddt2.json):
-![t_v_half_u_squared_test_ddt2](t_v_half_u_squared_test_ddt2.png)
+[u-squared-ddt2.json](u-squared-ddt2.json):
+![u-squared-ddt2](u-squared-ddt2.png)
 * third derivative with
-[t_v_half_u_squared_test_ddt3.json](t_v_half_u_squared_test_ddt3.json):
-![t_v_half_u_squared_test_ddt3](t_v_half_u_squared_test_ddt3.png)
+[u-squared-ddt3.json](u-squared-ddt3.json):
+![u-squared-ddt3](u-squared-ddt3.png)
 
 ## Sine Function
 

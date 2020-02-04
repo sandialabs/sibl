@@ -1,18 +1,21 @@
 {
-    "time-jerk": {
+    "time-velocity": {
         "class": "model",
         "folder": ".",
-        "file": "t_v_half_u_squared.csv",
+        "file": "u-squared.csv",
         "skip_rows": 1,
         "plot_kwargs": {
-            "label": "d^3/dt^3 (t_v_half_u_squared.csv)",
+            "label": "d/dt (u-squared.csv)",
             "marker": "o",
             "linestyle": "-"
         },
         "signal_process": {
             "process1": {
                 "gradient": {
-                    "order": 3
+                    "order": 1,
+                    "serialize": 1,
+                    "folder": ".",
+                    "file": "u-squared-sig-proc-1.csv"
                 }
             }
         }
@@ -20,10 +23,10 @@
     "figure": {
         "class": "view",
         "folder": ".",
-        "file": "t_v_half_u_squared_test_ddt3.png",
-        "title": "u_dddot = d^3/dt^3 (1/2 t^2) = 0",
+        "file": "u-squared-ddt1.png",
+        "title": "u_dot = d/dt (1/2 t^2) = t",
         "xlabel": "time (s)",
-        "ylabel": "jerk (m/s^3)",
+        "ylabel": "velocity (m/s)",
         "size": [8.0, 6.0],
         "display": 0,
         "details": 0,

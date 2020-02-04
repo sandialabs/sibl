@@ -139,22 +139,22 @@ class TestImageDiff(TestCase):
         self.assertTrue(same(fa, fb))
 
     def test_quadratic(self):
-        jfile = 't_v_half_u_squared_test.json'
+        jfile = 'u-squared.json'
         fa, fb = self.compare_test_to_reference(jfile)
         self.assertTrue(same(fa, fb))
 
     def test_quadratic_ddt1(self):
-        jfile = 't_v_half_u_squared_test_ddt1.json'
+        jfile = 'u-squared-ddt1.json'
         fa, fb = self.compare_test_to_reference(jfile)
         self.assertTrue(same(fa, fb))
 
     def test_quadratic_ddt2(self):
-        jfile = 't_v_half_u_squared_test_ddt2.json'
+        jfile = 'u-squared-ddt2.json'
         fa, fb = self.compare_test_to_reference(jfile)
         self.assertTrue(same(fa, fb))
 
     def test_quadratic_ddt3(self):
-        jfile = 't_v_half_u_squared_test_ddt3.json'
+        jfile = 'u-squared-ddt3.json'
         fa, fb = self.compare_test_to_reference(jfile)
         self.assertTrue(same(fa, fb))
 
