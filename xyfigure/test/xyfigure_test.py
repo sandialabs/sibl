@@ -35,8 +35,8 @@ import client as xyfigure_client  # from parent directory
 class TestImageDiff(TestCase):
 
     # https://stackoverflow.com/questions/23667610/what-is-the-difference-between-setup-and-setupclass-in-python-unittest/23670844
-    # The difference manifests itself when you have more than one test method 
-    # in your class. setUpClass and tearDownClass are run once for the whole class; 
+    # The difference manifests itself when you have more than one test method
+    # in your class. setUpClass and tearDownClass are run once for the whole class;
     # setUp and tearDown are run before and after each test method.
 
     @classmethod
@@ -49,11 +49,11 @@ class TestImageDiff(TestCase):
         cls._diff = 'image_diff_test_diff.png'
 
         cls._rgb_orig = 'H_460_460_px_RGB_634800.png'
-        cls._rgb_clone = 'H_460_460_px_RGB_634800_clone.png' 
+        cls._rgb_clone = 'H_460_460_px_RGB_634800_clone.png'
 
         cls._rgba_orig = 'H_460_460_px_RGBA_846400.png'
-        cls._rgba_clone = 'H_460_460_px_RGBA_846400_clone.png' 
-        cls._rgba_diff = 'H_460_460_px_RGBA_846400_diff.png' 
+        cls._rgba_clone = 'H_460_460_px_RGBA_846400_clone.png'
+        cls._rgba_diff = 'H_460_460_px_RGBA_846400_diff.png'
 
         cls._out = 'temp'  # put test files into sibl/xyfigure/test/temp/
 
@@ -161,4 +161,3 @@ class TestImageDiff(TestCase):
 
 if __name__ == '__main__':
     main()  # calls unittest.main()
-
