@@ -2,7 +2,7 @@
     "time-position-low-frequency": {
         "class": "model",
         "folder": ".",
-        "file": "t_v_cosines.csv",
+        "file": "cosines.csv",
         "skip_rows": 1,
         "plot_kwargs": {
             "label": "u1 = cos(2 pi t)",
@@ -14,7 +14,7 @@
     "time-position-mid-frequency": {
         "class": "model",
         "folder": ".",
-        "file": "t_v_cosines.csv",
+        "file": "cosines.csv",
         "skip_rows": 1,
         "ycolumn": 2,
         "plot_kwargs": {
@@ -27,7 +27,7 @@
     "time-position-high-frequency": {
         "class": "model",
         "folder": ".",
-        "file": "t_v_cosines.csv",
+        "file": "cosines.csv",
         "skip_rows": 1,
         "ycolumn": 3,
         "plot_kwargs": {
@@ -39,7 +39,7 @@
     "time-position-combined": {
         "class": "model",
         "folder": ".",
-        "file": "t_v_cosines.csv",
+        "file": "cosines.csv",
         "skip_rows": 1,
         "ycolumn": 4,
         "plot_kwargs": {
@@ -51,7 +51,7 @@
     "time-position-low-and-mid-frequency": {
         "class": "model",
         "folder": ".",
-        "file": "t_v_cosines.csv",
+        "file": "cosines.csv",
         "skip_rows": 1,
         "ycolumn": 5,
         "plot_kwargs": {
@@ -64,7 +64,7 @@
     "time-position-combined-filtered": {
         "class": "model",
         "folder": ".",
-        "file": "t_v_cosines.csv",
+        "file": "cosines.csv",
         "skip_rows": 1,
         "ycolumn": 4,
         "plot_kwargs": {
@@ -86,7 +86,7 @@
     "figure": {
         "class": "view",
         "folder": ".",
-        "file": "t_v_cosines_postfilter.png",
+        "file": "cosines-postfilter.png",
         "title": "u1, u2, u3, u4, and u4_filtered from t_v_cosines.csv",
         "xlabel": "time (s)",
         "ylabel": "position (m)",

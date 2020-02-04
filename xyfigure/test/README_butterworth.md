@@ -6,9 +6,9 @@
 
 ## Cosines test
 
-* cosines with [t_v_cosines_prefilter.json](t_v_cosines_prefilter.json):
-![t_v_cosines_prefilter](t_v_cosines_prefilter.png) and with [t_v_cosines_postfilter.json](t_v_cosines_postfilter.json) 
-![t_v_cosines_postfilter](t_v_cosines_postfilter.png)
+* cosines with [cosines-prefilter.json](cosines-prefilter.json):
+![cosines-prefilter](cosines-prefilter.png) and with [cosines-postfilter.json](cosines-postfilter.json)
+![cosines-postfilter](cosines-postfilter.png)
 
 ## Sines test
 

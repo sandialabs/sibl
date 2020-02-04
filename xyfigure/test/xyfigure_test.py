@@ -104,12 +104,12 @@ class TestImageDiff(TestCase):
         self.assertFalse(same(self._rgba_clone, self._rgba_diff))
 
     def test_cosines_prefilter(self):
-        jfile = 't_v_cosines_prefilter.json'
+        jfile = 'cosines-prefilter.json'
         fa, fb = self.compare_test_to_reference(jfile)
         self.assertTrue(same(fa, fb))
 
     def test_cosines_postfilter(self):
-        jfile = 't_v_cosines_postfilter.json'
+        jfile = 'cosines-postfilter.json'
         fa, fb = self.compare_test_to_reference(jfile)
         self.assertTrue(same(fa, fb))
 
