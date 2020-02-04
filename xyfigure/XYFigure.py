@@ -17,6 +17,29 @@ from PIL import Image
 #rc('font', **{'family': 'serif', 'serif': ['Computer Modern Roman']})
 #rc('text', usetex=True)
 
+
+# Helper functions
+def absolute_path(folder):
+    """
+    Makes certain the path to the folder for pending serialization exists.
+    If it doesn't exist, ask the user if the folder should be created or not.
+    Print the full path to the command line.
+    Returns the absolute path for pending serialization.
+    """
+    abs_path = os.path.join(os.getcwd(), folder)
+    if not os.path.isdir(abs_path):
+        print(f'Folder needed but not found: "{abs_path}"')
+        val = input('Create folder? [y]es or [n]o : ')
+        if val == 'y':
+            os.mkdir(folder)
+            print(f'Created folder: "{folder}"')
+        else:
+            print('Check accuracy of folders in database.')
+            print('Abnormal script termination.')
+            sys.exit('Folder misspecified.')
+    print(f'  serialized path = {abs_path}')
+    return abs_path
+
 # Figure Service
 ## Abstract Base Class
 class XYBase(ABC):
@@ -26,27 +49,13 @@ class XYBase(ABC):
     def __init__(self, **kwargs):
         self._folder = kwargs['folder']
         self._file = kwargs['file']
+        self._abs_path_and_file = os.path.join('.', 'serialize_placeholder.txt')
 
-    def absolute_path(self, folder):
-        """
-        Makes certain the path to the folder for pending serialization exists.
-        If it doesn't exist, ask the user if the folder should be created or not.
-        Print the full path to the command line.
-        Returns the absolute path for pending serialization.
-        """
-        abs_path = os.path.join(os.getcwd(), folder)
-        if not os.path.isdir(abs_path):
-            print(f'Folder needed but not found: "{abs_path}"')
-            val = input('Create folder? [y]es or [n]o : ')
-            if val == 'y':
-                os.mkdir(folder)
-                print(f'Created folder: "{folder}"')
-            else:
-                print('Check accuracy of folders in database.')
-                print('Abnormal script termination.')
-                sys.exit('Folder misspecified.')
-        print(f'  serialized path = {abs_path}')
-        return abs_path
+    def serialize(self, folder, filename):
+        """Contains precursors to serialized, used by all descendants."""
+        abs_path = absolute_path(folder)
+        # defaults to the process id
+        self._abs_path_and_file = os.path.join(abs_path, filename)
 
 ## Model
 class XYModel(XYBase):
@@ -116,12 +125,14 @@ class XYModel(XYBase):
                     serialize = value.get('serialize', 0)  # default is not to serialize
                     if serialize:
                         folder = value.get('folder', '.')  # default to current folder
-                        abs_path = self.absolute_path(folder)
-                        # defaults to the process id
                         filename = value.get('file', str(process_id) + '.csv')
-                        abs_path_and_file = os.path.join(abs_path, filename)
-                        np.savetxt(abs_path_and_file, np.transpose([self._data[:, 0], self._data[:, 1]]), delimiter=',')
-                        print(f'  serialized file = {filename}')
+
+                        #  abs_path = absolute_path(folder)
+                        #  # defaults to the process id
+                        #  abs_path_and_file = os.path.join(abs_path, filename)
+                        #  np.savetxt(abs_path_and_file, np.transpose([self._data[:, 0], self._data[:, 1]]), delimiter=',')
+                        #  print(f'  serialized file = {filename}')
+                        self.serialize(folder, filename)
 
                 elif key == 'gradient':
 
@@ -142,12 +153,14 @@ class XYModel(XYBase):
                     serialize = value.get('serialize', 0)  # default is not to serialize
                     if serialize:
                         folder = value.get('folder', '.')  # default to current folder
-                        abs_path = self.absolute_path(folder)
-                        # defaults to the process id
                         filename = value.get('file', str(process_id) + '.csv')
-                        abs_path_and_file = os.path.join(abs_path, filename)
-                        np.savetxt(abs_path_and_file, np.transpose([self._data[:, 0], self._data[:, 1]]), delimiter=',')
-                        print(f'  serialized file = {filename}')
+
+                        # abs_path = absolute_path(folder)
+                        # # defaults to the process id
+                        # abs_path_and_file = os.path.join(abs_path, filename)
+                        # np.savetxt(abs_path_and_file, np.transpose([self._data[:, 0], self._data[:, 1]]), delimiter=',')
+                        # print(f'  serialized file = {filename}')
+                        self.serialize(folder, filename)
                 else:
                     print('Error: Signal process key not implemented.')
                     sys.exit('Abnormal termination.')
@@ -168,6 +181,14 @@ class XYModel(XYBase):
     def plot_kwargs(self):
         """Returns kwargs passed to matplotlib.pyplot.plot()."""
         return self._plot_kwargs
+
+    def serialize(self, folder, filename):  # extend base class
+        super().serialize(folder, filename)
+        # defaults to the process id
+        # abs_path_and_file = os.path.join(abs_path, filename)
+        # np.savetxt(abs_path_and_file, np.transpose([self._data[:, 0], self._data[:, 1]]), delimiter=',')
+        np.savetxt(self._abs_path_and_file, np.transpose([self._data[:, 0], self._data[:, 1]]), delimiter=',')
+        print(f'  serialized model to file = {filename}')
 
     #@property
     #def is_inverted(self):
@@ -227,14 +248,16 @@ class XYView(XYBase):
 
             # dpi versus fig size
             # https://stackoverflow.com/questions/47633546/relationship-between-dpi-and-figure-size
-            fig, ax = plt.subplots(nrows=1, dpi=self._dpi)
+            # fig, ax = plt.subplots(nrows=1, dpi=self._dpi)
+            self._figure, ax = plt.subplots(nrows=1, dpi=self._dpi)
             print(f'Figure dpi set to {self._dpi}')
 
             # ax.ticklabel_format(axis='y', style='scientific')
             # ax.ticklabel_format(axis='both', style='scientific', scilimits=(0,0))
 
             # https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure.set_size_inches
-            fig.set_size_inches(self._size)
+            # fig.set_size_inches(self._size)
+            self._figure.set_size_inches(self._size)
             print('Figure size set to ' +  str(self._size) + ' inches.')
 
             if self._background_image:
@@ -279,7 +302,8 @@ class XYView(XYBase):
                 # rhs_yticks_str = self._yaxis_rhs.get('yticks', None)
                 rhs_yticks = self._yaxis_rhs.get('yticks', None)
 
-                ax2 = fig.add_subplot(111, sharex=ax, frameon=False)
+                # ax2 = fig.add_subplot(111, sharex=ax, frameon=False)
+                ax2 = self._figure.add_subplot(111, sharex=ax, frameon=False)
                 bottom, top = ax.get_ylim()  # get from left-hand-side y-axis
                 ax2.set_ylim(rhs_axis_scale * bottom, rhs_axis_scale * top)
                 ax2.yaxis.tick_right()
@@ -298,7 +322,8 @@ class XYView(XYBase):
                 ax2.yaxis.set_label_position('right')
                 ax2.set_ylabel(rhs_axis_label)
 
-            fig.suptitle(self._title)
+            # fig.suptitle(self._title)
+            self._figure.suptitle(self._title)
             ax.set_xlabel(self._xlabel)
             ax.set_ylabel(self._ylabel)
             ax.grid()
@@ -314,13 +339,21 @@ class XYView(XYBase):
             if self._display:
                 plt.show()
             if self._serialize:
-                folder = self._folder
-                abs_path = self.absolute_path(folder)
-                abs_path_and_file = os.path.join(abs_path, self._file)
-                fig.savefig(abs_path_and_file, dpi=self._dpi, bbox_inches='tight')  # avoid cutoff of labels
-                print(f'  serialized file = {self._file}')
+                # folder = self._folder
+                # abs_path = absolute_path(folder)
+                # abs_path_and_file = os.path.join(abs_path, self._file)
+                # # fig.savefig(abs_path_and_file, dpi=self._dpi, bbox_inches='tight')  # avoid cutoff of labels
+                # self._figure.savefig(abs_path_and_file, dpi=self._dpi, bbox_inches='tight')  # avoid cutoff of labels
+                # print(f'  serialized file = {self._file}')
+                self.serialize(self._folder, self._file)
 
         #return fig, ax  # return so clients to further embellish
+
+    def serialize(self, folder, filename):  # extend base class
+        super().serialize(folder, filename)
+        # fig.savefig(self._abs_path_and_file, dpi=self._dpi, bbox_inches='tight')  # avoid cutoff of labels
+        self._figure.savefig(self._abs_path_and_file, dpi=self._dpi, bbox_inches='tight')  # avoid cutoff of labels
+        print(f'  serialized view to file = {self._file}')
 
 ## Figure Factory
 FACTORY_ITEMS = {
