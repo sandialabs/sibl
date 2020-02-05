@@ -7,10 +7,10 @@
         "xoffset": -0.008,
         "skip_rows": 1,
         "plot_kwargs": {
-            "label": "helmet uddot_crown_z",
+            "label": "exp helmet uddot_crown_z fc=1650 Hz",
             "color": "darkorange",
-            "linestyle": "dashed",
-            "linewidth": 1
+            "linestyle": "solid",
+            "linewidth": 2
         }
     },
     "cg-helmet-exp": {
@@ -21,10 +21,10 @@
         "xoffset": -0.008,
         "skip_rows": 1,
         "plot_kwargs": {
-            "label": "helmet uddot_crown_resultant",
+            "label": "exp helmet uddot_crown_resultant fc=1650 Hz",
             "color": "orange",
-            "linestyle": "solid",
-            "linewidth": 2
+            "linestyle": "dashed",
+            "linewidth": 1
         }
     },
     "cg-dot-sim": {
@@ -35,7 +35,7 @@
         "yscale": 0.00101971621,
         "skip_rows": 3,
         "plot_kwargs": {
-            "label": "Sim DOT uddot_cg_z (Dot-062)",
+            "label": "sim DOT uddot_cg_z (Dot-062) fc=1650 Hz",
             "color": "blue",
             "linestyle": "dotted",
             "linewidth": 2
@@ -63,7 +63,7 @@
         "yscale": 0.00101971621,
         "skip_rows": 3,
         "plot_kwargs": {
-            "label": "Sim helmet uddot_crown_z (Dot-062)",
+            "label": "sim helmet uddot_crown_z (Dot-062) fc=1650 Hz",
             "color": "dimgray",
             "linestyle": "solid",
             "linewidth": 2
