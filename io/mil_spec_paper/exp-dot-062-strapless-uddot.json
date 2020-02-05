@@ -86,7 +86,7 @@
     "figure": {
         "class": "view",
         "folder": "output",
-        "file": "exp-dot-062-strapless-uddot.png",
+        "file": "exp-dot-062-strapless-uddot.svg",
         "title": "strapless experiment vs. dot-062 sim",
         "xlabel": "time (s)",
         "ylabel": "deceleration (G)",
