@@ -65,7 +65,7 @@
         "plot_kwargs": {
             "label": "Sim helmet uddot_crown_z (Dot-062)",
             "color": "dimgray",
-            "linestyle": "dashed",
+            "linestyle": "solid",
             "linewidth": 2
         },
         "signal_process": {
@@ -86,7 +86,7 @@
     "figure": {
         "class": "view",
         "folder": "output",
-        "file": "exp-dot-062-strapless.png",
+        "file": "exp-dot-062-strapless-uddot.png",
         "title": "strapless experiment vs. dot-062 sim",
         "xlabel": "time (s)",
         "ylabel": "deceleration (G)",

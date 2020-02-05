@@ -5,26 +5,24 @@
         "file": "2020-01-30-10fps-strapless.csv",
         "ycolumn": 3,
         "xoffset": -0.008,
+        "yscale": 981.0,
         "skip_rows": 1,
         "plot_kwargs": {
             "label": "helmet uddot_crown_z",
             "color": "darkorange",
             "linestyle": "dashed",
             "linewidth": 1
-        }
-    },
-    "cg-helmet-exp": {
-        "class": "model",
-        "folder": "../../../casco_sim/experiment/strapless",
-        "file": "2020-01-30-10fps-strapless.csv",
-        "ycolumn": 4,
-        "xoffset": -0.008,
-        "skip_rows": 1,
-        "plot_kwargs": {
-            "label": "helmet uddot_crown_resultant",
-            "color": "orange",
-            "linestyle": "solid",
-            "linewidth": 2
+        },
+        "signal_process": {
+            "process1": {
+                "integration": {
+                    "order": 1,
+                    "initial_conditions": [-0.305810],
+                    "serialize": 1,
+                    "folder": ".",
+                    "file": "2020-01-30-10fps-strapless-udot.csv"
+                }
+            }
         }
     },
     "cg-dot-sim": {
@@ -32,27 +30,12 @@
         "folder": "../../../casco_sim/dot-5mm-helmet-0305-hemi-062",
         "file": "history.csv",
         "ycolumn": 24,
-        "yscale": 0.00101971621,
         "skip_rows": 3,
         "plot_kwargs": {
-            "label": "Sim DOT uddot_cg_z (Dot-062)",
+            "label": "Sim DOT udot_cg_z (Dot-062)",
             "color": "blue",
             "linestyle": "dotted",
             "linewidth": 2
-        },
-        "signal_process": {
-            "process1": {
-                "butterworth": {
-                    "cutoff": 1650,
-                    "order": 4,
-                    "type": "low"
-                }
-            },
-            "process2": {
-                "gradient": {
-                    "order": 1
-                }
-            }
         }
     },
     "cg-helmet-sim": {
@@ -60,13 +43,26 @@
         "folder": "../../../casco_sim/dot-5mm-helmet-0305-hemi-062",
         "file": "history.csv",
         "ycolumn": 30,
-        "yscale": 0.00101971621,
         "skip_rows": 3,
         "plot_kwargs": {
-            "label": "Sim helmet uddot_crown_z (Dot-062)",
-            "color": "dimgray",
+            "label": "Sim helmet udot_crown_z (Dot-062)",
+            "color": "gray",
             "linestyle": "dashed",
-            "linewidth": 2
+            "linewidth": 0.5
+        }
+    },
+    "cg-helmet-sim-filtered": {
+        "class": "model",
+        "folder": "../../../casco_sim/dot-5mm-helmet-0305-hemi-062",
+        "file": "history.csv",
+        "ycolumn": 30,
+        "skip_rows": 3,
+        "plot_kwargs": {
+            "label": "Sim helmet udot_crown_z (Dot-062) fc=1650 Hz",
+            "color": "dimgray",
+            "linestyle": "solid",
+            "linewidth": 3,
+            "alpha": 0.5
         },
         "signal_process": {
             "process1": {
@@ -75,22 +71,21 @@
                     "order": 4,
                     "type": "low"
                 }
-            },
-            "process2": {
-                "gradient": {
-                    "order": 1
-                }
             }
         }
     },
     "figure": {
         "class": "view",
         "folder": "output",
-        "file": "exp-dot-062-strapless.png",
+        "file": "exp-dot-062-strapless-udot.png",
         "title": "strapless experiment vs. dot-062 sim",
         "xlabel": "time (s)",
-        "ylabel": "deceleration (G)",
+        "ylabel": "velocity (cm/s)",
         "xlim": [-0.001, 0.020],
+        "yaxis_rhs": {
+            "scale": 0.0328084,
+            "label": "velocity (ft/s)"
+        },
         "size": [8.0, 6.0],
         "dpi": 300,
         "display": 0,
