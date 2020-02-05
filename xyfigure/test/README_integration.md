@@ -9,7 +9,8 @@
   * `u''(0) = -10` m/s^2
   * `u'(0) = 100` m/s
   * `u(0) = 1000` m
-done with [zeros-int3.json](zeros-int3.json), resulting in zeros-int3.png ![zeros-int3](zeros-int3.png)
+  
+Implemented with [zeros-int3.json](zeros-int3.json), resulting in zeros-int3.png ![zeros-int3](zeros-int3.png)
 and the signal process output file (triple integration of jerk to get displacement) as [zeros-int3.csv](zeros-int3.csv).
 
 The closed form solution for the acceleration is
@@ -23,5 +24,5 @@ The closed form solution for the velocity is
 
 The closed form solution for the displacement is
 * `u(t) = int(u') dt + u(0)`
-* `----> = -5*t^2 + 100*t + 1000` m
-* `----> = 1000 + [0 95 180 255 320 375 420 455 480 495 500]`
+* `---> = -5*t^2 + 100*t + 1000` m
+* `---> = 1000 + [0 95 180 255 320 375 420 455 480 495 500]`
