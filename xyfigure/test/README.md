@@ -6,3 +6,4 @@
 * Image processing
   * [Butterworth filter](README_butterworth.md)
   * [Differentiation](README_differentiation.md)
+  * [Integration](README_integration.md)

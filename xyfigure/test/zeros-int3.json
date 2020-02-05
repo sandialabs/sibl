@@ -1,21 +1,22 @@
 {
-    "time-jerk": {
+    "model": {
         "class": "model",
         "folder": ".",
-        "file": "u-squared.csv",
-        "skip_rows": 1,
+        "file": "zeros.csv",
+        "skip_rows": 0,
         "plot_kwargs": {
-            "label": "d^3/dt^3 (u-squared.csv)",
+            "label": "zeros.csv",
             "marker": "o",
             "linestyle": "-"
         },
         "signal_process": {
             "process1": {
-                "gradient": {
+                "integration": {
                     "order": 3,
+                    "initial_conditions": [-10, 100, 1000],
                     "serialize": 1,
                     "folder": ".",
-                    "file": "zeros.csv"
+                    "file": "zeros-int3.csv"
                 }
             }
         }
@@ -23,10 +24,10 @@
     "figure": {
         "class": "view",
         "folder": ".",
-        "file": "u-squared-ddt3.png",
-        "title": "u_dddot = d^3/dt^3 (1/2 t^2) = 0",
+        "file": "zeros-int3.png",
+        "title": "triple integration of constant zero jerk plus inital conditions",
         "xlabel": "time (s)",
-        "ylabel": "jerk (m/s^3)",
+        "ylabel": "distance (m)",
         "size": [8.0, 6.0],
         "display": 0,
         "details": 0,

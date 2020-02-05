@@ -9,6 +9,7 @@ from abc import ABC
 from datetime import datetime
 import numpy as np
 from scipy import signal
+from scipy.integrate import cumtrapz
 import matplotlib.pyplot as plt
 # import imageio
 from PIL import Image
@@ -88,6 +89,7 @@ class XYModel(XYBase):
                 process_dict = self._signal_process.get(process_id)
                 key = next(iter(process_dict))
                 value = process_dict[key]
+
                 if key == 'butterworth':
                     fc = value.get('cutoff', None)  # Hz, cutoff frequency
                     if fc is None:
@@ -161,6 +163,44 @@ class XYModel(XYBase):
                         # np.savetxt(abs_path_and_file, np.transpose([self._data[:, 0], self._data[:, 1]]), delimiter=',')
                         # print(f'  serialized file = {filename}')
                         self.serialize(folder, filename)
+
+                elif key == 'integration':
+
+                    integration_order = value.get('order', None)
+                    if integration_order is None:
+                        print('Error: keyword "order" not found.')
+                        sys.exit('Abnormal termination.')
+
+                    print('Signal process: ' + key + ' applied ' + str(integration_order) + ' time(s) with')
+
+                    default_ics = np.zeros(integration_order)
+                    ics = value.get('initial_conditions', default_ics)
+
+                    print(f'initial condition(s) as {ics}')
+
+                    if len(ics) != integration_order:
+                        print('Error: length of initial condition(s) array')
+                        print('must be equal to the order of integration.')
+                        print(f'Specified order = {integration_order}')
+                        print(f'Length of intial condition(s) array = {len(ics)}')
+                        sys.exit('Abnormal termination.')
+
+                    # https://docs.scipy.org/doc/numpy/reference/generated/numpy.trapz.html
+                    # https://docs.scipy.org/doc/scipy-0.14.0/reference/generated/scipy.integrate.cumtrapz.html
+                    for k in range(integration_order):
+                        # inty = np.trapz(self._data[:, 1], self._data[:, 0]) + ics[k]
+                        # inty = cumtrapz(self._data[:, 1], self._data[:, 0], initial=ics[k])
+                        inty = cumtrapz(self._data[:, 1], self._data[:, 0], initial=0) + ics[k]
+                        self._data[:, 1] = inty  # overwrite
+                        print(f'  Integral {k+1} completed.')
+
+                    serialize = value.get('serialize', 0)  # default is not to serialize
+                    if serialize:
+                        folder = value.get('folder', '.')  # default to current folder
+                        filename = value.get('file', str(process_id) + '.csv')
+
+                        self.serialize(folder, filename)
+
                 else:
                     print('Error: Signal process key not implemented.')
                     sys.exit('Abnormal termination.')

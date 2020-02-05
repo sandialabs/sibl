@@ -1,0 +1,25 @@
+{
+    "model": {
+        "class": "model",
+        "folder": ".",
+        "file": "zeros.csv",
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "label": "zeros.csv",
+            "marker": "o",
+            "linestyle": "-"
+        }
+    },
+    "figure": {
+        "class": "view",
+        "folder": ".",
+        "file": "zeros.png",
+        "title": "constant zero signal",
+        "xlabel": "time (s)",
+        "ylabel": "jerk (m/s^3)",
+        "size": [8.0, 6.0],
+        "display": 0,
+        "details": 0,
+        "serialize": 1
+    }
+}
