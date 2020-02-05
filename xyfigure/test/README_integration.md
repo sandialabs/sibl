@@ -15,7 +15,7 @@ and the signal process output file (triple integration of jerk to get displaceme
 
 The closed form solution for the acceleration is
 * `u''(t) = int(u''') dt + u''(0) = -10 * [1 1 1 1 1 1 1 1 1 1 1]` m/s^2
-* `----> = -10` m/s^2
+* `-----> = -10` m/s^2
 
 The closed form solution for the velocity is
 * `u'(t) = int(u'') dt + u'(0) = -10 [0 1 2 3 4 5 6 7 8 9 10] + 100` m/s
