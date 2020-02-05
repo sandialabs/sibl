@@ -1,6 +1,6 @@
 # Integration
 
-**Important Note:**  The initial conditions are in units of the native signal.  Therefore, if the native signal will be scaled (e.g., going from m/s^2 to G or *vice versa*), care must be taken on the units of the initial condition.  The initial condition is applied **before** any scaling.  
+**Important Note:**  The initial conditions are in units of the native signal.  Therefore, if the native signal will be scaled (e.g., going from m/s^2 to G or *vice versa*), care must be taken on the units of the initial conditions.  The initial conditions are applied **before** any scaling.  
 
 ## Constant Function
 
