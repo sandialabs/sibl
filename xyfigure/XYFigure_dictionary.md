@@ -35,14 +35,14 @@ The model dictionary contains items that describe how each `(x,y)` data set is c
 
 Dictionary that overrides the [`matplotlib.pyplot.plot()` kwargs](https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.plot.html) default values.  Default values used by XYModel follow:
 
-Key | Value | Description 
---- | ----- | -----------
-`"linewidth":` | float | *optional*<br> Default value is `2.0`. See [matplotlib lines Line2D](https://matplotlib.org/api/_as_gen/matplotlib.lines.Line2D.html#matplotlib.lines.Line2D) for more detail.
-`"linestyle":` | string | *optional*<br>Default value is `"-"`, which is a solid line. See [matplotlib linestyles](https://matplotlib.org/3.1.0/gallery/lines_bars_and_markers/linestyles.html) for more detail.
-| | |Some frequently used *optional values* follow.  If the keys are omitted, then the matplotlib defaults are used.
-`"label":` | string | *optional*<br>The string appearing in the legend correponding to the data.
-`"color:"` | string | *optional*<br>The [matplotlib color](https://matplotlib.org/3.1.1/tutorials/colors/colors.html) used to plot the data.  Also, [predefined color](https://matplotlib.org/3.1.0/gallery/color/named_colors.html) names.
-`"alpha":` | float | *optional*<br>Real number in the range from `0` to `1`. Numbers toward `0` are more transparent and numbers toward `1` are more opaque.  
+|     |
+| --- |
+| `"linewidth":` float <br><br>*optional*<br> Default value is `2.0`. See [matplotlib lines Line2D](https://matplotlib.org/api/_as_gen/matplotlib.lines.Line2D.html#matplotlib.lines.Line2D) for more detail.
+| `"linestyle":` string <br><br>*optional*<br>Default value is `"-"`, which is a solid line. See [matplotlib linestyles](https://matplotlib.org/3.1.0/gallery/lines_bars_and_markers/linestyles.html) for more detail.
+| *Some frequently used *optional values* follow.  If the keys are omitted, then the matplotlib defaults are used.*
+| `"label":` string <br><br>*optional*<br>The string appearing in the legend correponding to the data.
+| `"color:"` string <br><br>*optional*<br>The [matplotlib color](https://matplotlib.org/3.1.1/tutorials/colors/colors.html) used to plot the data.  Also, [predefined color](https://matplotlib.org/3.1.0/gallery/color/named_colors.html) names.
+| `"alpha":` float <br><br>*optional*<br>Real number in the range from `0` to `1`. Numbers toward `0` are more transparent and numbers toward `1` are more opaque.  
 
 ### View Dictionary
 
