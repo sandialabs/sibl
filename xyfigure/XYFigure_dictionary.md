@@ -1,8 +1,15 @@
 # XYFigure Dictionary
 
+Below are dictionary `"key": value` pairs, followed by a description, for each of the XYFigure dictionary constitutents.
+
 ## Main XYFigure Dictionary
 
 The XYFigure dictionary is the main dictionary.  It is composed of one or more `model` dictionaries, followed by a single `view` dictionary.
+
+|     |
+| --- |
+| `"model_name":` dict<br>A unique `string`.  Contains the [`model` dictionary](#model-dictionary).  Non-singleton; supports `1..n` models.
+| `"view_name":` dict<br>A unique `string`.  Contains the [`view` dictionary](#view-dictionary).  Singleton, supports only `1` view.<br>**Note:** In general, this `"view_name"` key can be any unique string.  However, when the `.json` input file is to be used with the unit tests, this `"view_name"` key string must be exactly set to `"figure"` for the unit tests to work properly.
 
 Key | Value | Description 
 --- | ----- | -----------
