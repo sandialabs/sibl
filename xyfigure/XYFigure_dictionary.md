@@ -23,7 +23,7 @@ The model dictionary contains items that describe how each `(x,y)` data set is c
 | `"skip_rows":` integer <br><br>*optional*<br>The number of header rows to skip at the *beginning* of the `.csv` file.  Default value is `0`.
 | `"skip_rows_footer":` integer <br><br>*optional*<br>The number of footer rows to skip at the *end* of the `.csv` file.  Default value is `0`.
 | `"xcolumn":` integer <br><br>*optional*<br>The *zero-based index* of the data column to plotted on the x-axis.  Default is `0`, which is the **first column** of the `.csv` file.
-| `"ycolumn":` | integer | *optional*<br>The *zero-based index* of the data column to be plotted on the y-axis.  Default is `1`, which is the **second column** of the `.csv` file.
+| `"ycolumn":` integer <br><br>*optional*<br>The *zero-based index* of the data column to be plotted on the y-axis.  Default is `1`, which is the **second column** of the `.csv` file.
 | ~~`"inverted":`~~ ~~Boolean~~ <br><br>**deprecated**<br>use `"yscale": -1.0` instead<br>~~*optional*~~<br>~~`0` (default), which does **not** invert the `y` values.<br>`1` to invert the `y` data.  Multiplies all `y` data values by `-1`.~~
 | `"xscale":` float <br><br>*optional*<br>Scales all values of the `x` data `xscale` factor.  Default value is `1.0` (no scaling).  `xscale` is applied to the data prior to `xoffset`.
 | `"xoffset":` float <br><br>*optional*<br>Shifts all values of the `x` data to the left or the right by the `xoffset` value.  Default value is `0.0`.  `xoffset` is applied to the data after `xscale`.
