@@ -8,7 +8,7 @@ import json
 # from datetime import datetime
 # from XYFigure import XYFactory, XYModel, XYView
 # from XYFigure import XYFactory
-from xyfigure import XYFactory
+from factory import XYFactory
 from xymodel import XYModel
 from xyview import XYView
 
