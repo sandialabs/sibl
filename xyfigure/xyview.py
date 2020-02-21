@@ -6,6 +6,10 @@ from PIL import Image
 
 from xybase import XYBase
 
+#from matplotlib import rc
+#rc('font', **{'family': 'serif', 'serif': ['Computer Modern Roman']})
+#rc('text', usetex=True)
+
 class XYView(XYBase):
     """Creates a view that sees models."""
     def __init__(self, **kwargs):
