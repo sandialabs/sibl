@@ -1,0 +1,115 @@
+{
+    "exp-ave": {
+        "class": "model",
+        "folder": "../../../casco_sim/dot-exp-helmet-0305-hemi-001",
+        "file": "shells-impacts-ave.csv",
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "label": "Exp DOT, average (n=4)",
+            "color": "darkorange",
+            "linestyle": "dashed",
+            "linewidth": 3
+        }
+    },
+    "dot-cg": {
+        "class": "model",
+        "folder": "../../../casco_sim/dot-5mm-helmet-0305-hemi-062",
+        "file": "history.csv",
+        "ycolumn": 24,
+        "xoffset": 0.00125,
+        "yscale": 0.00101971621,
+        "skip_rows": 3,
+        "plot_kwargs": {
+            "label": "Sim DOT (Dot-062)",
+            "linewidth": 2,
+            "color": "blue",
+            "linestyle": "dotted"
+        },
+        "signal_process": {
+            "process1": {
+                "butterworth": {
+                    "cutoff": 1650,
+                    "order": 4,
+                    "type": "low"
+                }
+            },
+            "process2": {
+                "gradient": {
+                    "order": 1
+                }
+            }
+        }
+    },
+    "bot-cg": {
+        "class": "model",
+        "folder": "../../../casco_sim/bot-1mm-5kg-helmet2-0305-hemi-064b",
+        "file": "history.csv",
+        "ycolumn": 46,
+        "xoffset": 0.00125,
+        "yscale": -0.00101971621,
+        "skip_rows": 3,
+        "plot_kwargs": {
+            "label": "Sim Mg head (Bot-064b)",
+            "linewidth": 3,
+            "color": "dimgray",
+            "linestyle": "dashdot"
+        },
+        "signal_process": {
+            "process1": {
+                "butterworth": {
+                    "cutoff": 1650,
+                    "order": 4,
+                    "type": "low"
+                }
+            },
+            "process2": {
+                "gradient": {
+                    "order": 1
+                }
+            }
+        }
+    },
+    "bob-cg-low-freq": {
+        "class": "model",
+        "folder": "../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-063c",
+        "file": "history.csv",
+        "ycolumn": 46,
+        "xoffset": 0.00125,
+        "yscale": -0.00101971621,
+        "skip_rows": 3,
+        "plot_kwargs": {
+            "label": "Sim human head (Bob-063c) Wc=825 Hz",
+            "linewidth": 2,
+            "color": "red",
+            "linestyle": "solid"
+        },
+        "signal_process": {
+            "process1": {
+                "butterworth": {
+                    "cutoff": 825,
+                    "order": 4,
+                    "type": "low"
+                }
+            },
+            "process2": {
+                "gradient": {
+                    "order": 1
+                }
+            }
+        }
+    },
+    "figure": {
+        "class": "view",
+        "folder": "output",
+        "file": "Figure_5b_sim.svg",
+        "size": [8.0, 6.0],
+        "dpi": 200,
+        "xlim": [0, 0.020],
+        "title": "Figure 5b: Translational, helmet, hemi",
+        "xlabel": "time (s)",
+        "ylabel": "vertical c.g. deceleration (Gs)",
+        "display": 1,
+        "latex": 0,
+        "serialize": 1
+    }
+}

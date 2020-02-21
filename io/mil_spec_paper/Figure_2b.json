@@ -1,0 +1,97 @@
+{
+    "dot-exp": {
+        "class": "model",
+        "folder": "../../../casco_sim/dot-exp-non-0305-mep-000",
+        "file": "out_mean.csv",
+        "skip_rows": 1,
+        "xoffset": -0.002,
+        "plot_kwargs": {
+            "color": "darkorange",
+            "label": "Exp DOT (Exp-000)",
+            "linestyle": "dashed",
+            "linewidth": 2
+        }
+    },
+    "dot-025": {
+        "class": "model",
+        "folder": "../../../casco_sim/dot-5mm-non-0305-mep-025",
+        "file": "out_a_mid.csv",
+        "skip_rows": 1,
+        "yscale": -1.0,
+        "plot_kwargs": {
+            "color": "blue",
+            "label": "Sim DOT (Dot-025)",
+            "linestyle": "dotted",
+            "linewidth": 2
+        }
+    },
+    "bot-026": {
+        "class": "model",
+        "folder": "../../../casco_sim/bot-2mm-non-0305-mep-026",
+        "file": "out_a12.csv",
+        "skip_rows": 1,
+        "yscale": -1.0,
+        "plot_kwargs": {
+            "color": "dimgray",
+            "label": "Sim Mg head (Bot-026)",
+            "linestyle": "dashdot",
+            "linewidth": 2
+        }
+    },
+    "bob-033": {
+        "class": "model",
+        "folder": "../../../casco_sim/bob-1mm-5kg-non-0305-mep-033",
+        "file": "bob-033-acg.csv",
+        "skip_rows": 1,
+        "yscale": -1.0,
+        "plot_kwargs": {
+            "color": "red",
+            "label": "Sim human head (Bob-033)",
+            "linestyle": "solid",
+            "linewidth": 2
+        }
+    },
+    "bob-033-alt": {
+        "class": "model",
+        "folder": "../../../casco_sim/bob-1mm-5kg-non-0305-mep-033",
+        "file": "history.csv",
+        "skip_rows": 3,
+        "ycolumn": 32,
+        "yscale": -0.00101936,
+        "plot_kwargs": {
+            "color": "red",
+            "label": "Sim human head (Bob-033) Wc=825 Hz",
+            "linestyle": "dashed",
+            "linewidth": 3,
+            "alpha": 0.5
+        },
+        "signal_process": {
+            "process1": {
+                "butterworth": {
+                    "cutoff": 825,
+                    "order": 4,
+                    "type": "low"
+                 }
+            },
+            "process2": {
+                "gradient": {
+                    "order": 1
+                }
+            }
+        }
+    },
+    "figure": {
+        "class": "view",
+        "folder": "output",
+        "file": "Figure_2b.svg",
+        "size": [8.0, 6.0],
+        "dpi": 200,
+        "xlim": [0, 0.010],
+        "title": "Figure 2b: Translational, no helmet, MEP",
+        "xlabel": "time (s)",
+        "ylabel": "vertical c.g. deceleration (Gs)",
+        "display": 1,
+        "latex": 0,
+        "serialize": 1
+    }
+}

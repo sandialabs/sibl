@@ -373,7 +373,8 @@ class XYView(XYBase):
                 now = datetime.now()
                 now_str = now.strftime("%Y-%m-%d %H:%M:%S")
                 user = str(os.getlogin())
-                details_str = self._file + ' created ' + now_str + ' by ' + user
+                host = str(os.getenv('HOSTNAME'))
+                details_str = self._file + ' created ' + now_str + ' by ' + user + ' on ' + host
                 ax.set_title(details_str, fontsize=10, ha='center', color='dimgray')
 
             if self._display:
