@@ -24,3 +24,4 @@ class XYFactory:
         # If we get here, we did not return an instance, so warn.
         print(f'Warning: {item} requested but not provided by this factory, returning None.')
         return None
+
