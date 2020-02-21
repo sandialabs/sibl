@@ -8,7 +8,7 @@ The Sandia Injury Biomechanics Laboratory analyzes injury due to blast, ballisti
 
 For more information, see our [website](http://www.sandia.gov/biomechanics/).
 
-## Library
+## Library [![](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/downloads/release/python-3610/) [![](https://img.shields.io/github/license/ResidentMario/missingno.svg)](https://github.com/sandialabs/sibl#license)
 
 * XYFigure 
   * [Getting started](xyfigure/README.md)
@@ -17,7 +17,7 @@ For more information, see our [website](http://www.sandia.gov/biomechanics/).
 
 ## Prerequisites
 
-* Python 3
+* Python 3.6 or higher (the library requires f-strings)
 * Scipy
 * Pillow 
 
