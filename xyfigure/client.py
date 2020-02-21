@@ -1,12 +1,16 @@
 #!/usr/bin/env python
-import os
+# import os
 import sys
 import json
 # import numpy as np
 # import matplotlib.pyplot as plt
 # from abc import ABC
 # from datetime import datetime
-from XYFigure import XYFactory, XYModel, XYView
+# from XYFigure import XYFactory, XYModel, XYView
+# from XYFigure import XYFactory
+from xyfigure import XYFactory
+from xymodel import XYModel
+from xyview import XYView
 
 
 def main(argv):
