@@ -1,0 +1,45 @@
+{
+    "strain": {
+        "class": "model",
+        "folder": "../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-063c",
+        "file": "gray_white_strain.csv",
+        "xcolumn": 1,
+        "ycolumn": 2,
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "label": "95th percentile strain",
+            "linewidth": 2
+        }
+    },
+    "strain-rate": {
+        "class": "model",
+        "folder": "../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-063c",
+        "file": "gray_white_strain_rate.csv",
+        "xcolumn": 1,
+        "ycolumn": 2,
+        "yscale": 0.0001,
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "label": "95th percertile strain rate",
+            "linewidth": 2
+        }
+    },
+    "figure": {
+        "class": "view",
+        "folder": "output",
+        "file": "Figure_5b_ssr.svg",
+        "size": [8.0, 6.0],
+        "dpi": 200,
+        "xlim": [0, 0.020],
+        "title": "Figure 5b: Sim human head (Bob-063c) gray and white matter strain and strain rate",
+        "xlabel": "time (s)",
+        "ylabel": "maximum principal Green-Lagrange strain (cm/cm)",
+        "yaxis_rhs": {
+            "scale": 10000,
+            "label": "maximum principal Green-Lagrange strain rate (1/s)"
+        },
+        "display": 1,
+        "latex": 0,
+        "serialize": 1
+    }
+}
