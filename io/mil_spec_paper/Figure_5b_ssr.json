@@ -20,7 +20,7 @@
         "yscale": 0.0001,
         "skip_rows": 1,
         "plot_kwargs": {
-            "label": "95th percertile strain rate",
+            "label": "95th percentile strain rate",
             "linewidth": 2
         }
     },
