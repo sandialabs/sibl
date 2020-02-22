@@ -1,7 +1,5 @@
 # Sandia Injury Biomechanics Laboratory (SIBL)
 
-![banner](img/blast_feature_960.jpg)
-
 ## Purpose
 
 The Sandia Injury Biomechanics Laboratory analyzes injury due to blast, ballistics, and blunt trauma to help the nation protect the U.S. warfighter. Our contributions to the science of injury causation and prevention aim to significantly reduce the U.S. warfighter's exposure to serious, severe, and fatal injuries.
