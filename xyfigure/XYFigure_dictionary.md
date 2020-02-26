@@ -39,7 +39,7 @@ Dictionary that overrides the [`matplotlib.pyplot.plot()` kwargs](https://matplo
 | --- |
 | `"linewidth":` float <br><br>*optional*<br> Default value is `2.0`. See [matplotlib lines Line2D](https://matplotlib.org/api/_as_gen/matplotlib.lines.Line2D.html#matplotlib.lines.Line2D) for more detail.
 | `"linestyle":` string <br><br>*optional*<br>Default value is `"-"`, which is a solid line. See [matplotlib linestyles](https://matplotlib.org/3.1.0/gallery/lines_bars_and_markers/linestyles.html) for more detail.
-| <br>> *Some frequently used *optional values* follow.<br>> If the keys are omitted, then the matplotlib defaults are used.*<br><br>
+| <br>*Some frequently used *optional values* follow.<br>If the keys are omitted, then the matplotlib defaults are used.*<br><br>
 | `"marker":` string <br><br>*optional*<br>The string to designate a marker at the data point.  See [matplotlib marker](https://matplotlib.org/3.1.1/api/markers_api.html#module-matplotlib.markers) documentation.
 | `"label":` string <br><br>*optional*<br>The string appearing in the legend correponding to the data.
 | `"color:"` string <br><br>*optional*<br>The [matplotlib color](https://matplotlib.org/3.1.1/tutorials/colors/colors.html) used to plot the data.  Also, [predefined color](https://matplotlib.org/3.1.0/gallery/color/named_colors.html) names.
