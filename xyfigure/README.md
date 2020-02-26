@@ -15,7 +15,7 @@ Here we create an example data file from an Excel spreadsheet and walk through t
 
 ```console
 $ cd ~/sibl/io/xyfigure_example/
-$ python ../../xyfigure/client.py figure.json
+$ python ../../xyfigure/xyfigure.py figure.json
 ```
 
 The output file `figure_example.png` contains this figure:
@@ -31,14 +31,14 @@ will result, written to the `~/sibl/io/xyfigure_example/` folder.
   * Instead of creating *separate* `.csv` files with `x,y` pairs, create only *one* `.csv` file and specify a non-default `"ycolumn"` value in the `.json` file for the cosine data.
 * Exercise: 
   * For the above example, export only *one* `.csv` file with three columns of data, `time,sin(t),cos(2t)` and use `"ycolumn": 2` for the `cos(2t)`.  
-  * See the [XYFigure dictionary](XYFigure_dictionary.md) for a description of `"ycolumn"`.  
+  * See the [documentation](documentation.md) for a description of `"ycolumn"`.  
   * Create the same output to verify both workflows produce the same result.
-* Scan through the keywords available in the [XYFigure dictionary](XYFigure_dictionary.md) documentation.
-* Scan through the tests in the [test cases](test/README.md)
+* Scan through the keywords available in the [documentation](documentation.md).
+* Scan through the tests in the [test cases](test/README.md).
 
 ## Getting Minimalistic
 
-Most of the keywords documented in the [XYFigure dictionary](XYFigure_dictionary.md) are *optional*.  If the optional keywords are not specified, `xyfigure` selects sensible default values.  Users override the default behaviour by specifying the optional keywords.  
+Most of the keywords documented in the [documentation](documentation.md) are *optional*.  If the optional keywords are not specified, `xyfigure` selects sensible default values.  Users override the default behaviour by specifying the optional keywords.  
 
 Here is the sine and cosine example from above, as a minimal [json](../io/xyfigure_example/min_spec.json) file, without any optional keywords:
 
@@ -65,7 +65,6 @@ Here is the sine and cosine example from above, as a minimal [json](../io/xyfigu
 Here is the output that will be shown to the screen (your date and time stamp in the title will be different, to reflect when you created the image):
 
 ![min_spec](../io/xyfigure_example/min_spec.png)
-
 
 ## Getting More Sophisticated
 
