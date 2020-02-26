@@ -1,0 +1,56 @@
+{
+    "bob-063c-histogram-data-subset": {
+        "class": "model",
+        "folder": ".",
+        "file": "histogram_1000000+_points.csv",
+        "skip_rows": 2,
+        "plot_kwargs": {
+            "label": "Bob-063c 1,294,607 elements, time step 90 (t=17.8 ms)",
+            "linewidth": 0.0,
+            "marker": "o",
+            "markersize": 2,
+            "mec": "None",
+            "mfc": "midnightblue",
+            "alpha": 0.01
+        }
+    },
+    "strain-rate-threshold-95th" : {
+        "class": "model",
+        "folder": ".",
+        "file": "histogram_strain_rate_95th.csv",
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "label": "strain rate 95th percentile",
+            "linewidth": 1,
+            "linestyle": "dashed",
+            "color": "orange",
+            "alpha": 0.8
+        }
+    },
+    "strain-threshold-95th" : {
+        "class": "model",
+        "folder": ".",
+        "file": "histogram_strain_95th.csv",
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "label": "strain 95th percentile",
+            "linewidth": 1,
+            "linestyle": "dashdot",
+            "color": "red",
+            "alpha": 0.4
+        }
+    },
+    "figure": {
+        "class": "view",
+        "folder": ".",
+        "file": "histogram_1000000+_points.png",
+        "title": "strain rate versus strain in gray/white matter",
+        "xlabel": "max(eig(GL strain rate)) (1/s)",
+        "ylabel": "max(eig(GL strain)) (cm/cm)",
+        "xlim": [0, 140],
+        "ylim": [0, 0.03],
+        "size": [8.0, 6.0],
+        "dpi": 200,
+        "serialize": 0
+    }
+}

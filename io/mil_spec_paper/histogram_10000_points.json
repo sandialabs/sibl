@@ -1,0 +1,25 @@
+{
+    "bob-063c-histogram-data-subset": {
+        "class": "model",
+        "folder": ".",
+        "file": "histogram_10000_points.csv",
+        "skip_rows": 2,
+        "plot_kwargs": {
+            "label": "Bob-063c-subset (10,000 elements), time step 90 (t=17.8 ms)",
+            "linewidth": 0.0,
+            "marker": "+", 
+            "color": "midnightblue",
+            "alpha": 0.99
+        }
+    },
+    "figure": {
+        "class": "view",
+        "folder": ".",
+        "file": "histogram_10000_points.png",
+        "title": "strain rate versus strain 10000 points subset",
+        "xlabel": "max(eig(GL strain rate)) (1/s)",
+        "ylabel": "max(eig(GL strain)) (cm/cm)",
+        "size": [8.0, 6.0],
+        "dpi": 200
+    }
+}
