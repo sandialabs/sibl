@@ -4,7 +4,7 @@ Below are dictionary `"key": value` pairs, followed by a description, for each o
 
 ## Main XYFigure Dictionary
 
-The XYFigure dictionary is the main dictionary.  It is composed of one or more `model` dictionaries, followed by a single `view` dictionary.
+The XYFigure dictionary is the main dictionary.  It is composed of one or more [`model` dictionaries](#model-dictionary), followed by a single [`view` dictionary](#view-dictionary).
 
 |     |
 | --- |
@@ -39,7 +39,8 @@ Dictionary that overrides the [`matplotlib.pyplot.plot()` kwargs](https://matplo
 | --- |
 | `"linewidth":` float <br><br>*optional*<br> Default value is `2.0`. See [matplotlib lines Line2D](https://matplotlib.org/api/_as_gen/matplotlib.lines.Line2D.html#matplotlib.lines.Line2D) for more detail.
 | `"linestyle":` string <br><br>*optional*<br>Default value is `"-"`, which is a solid line. See [matplotlib linestyles](https://matplotlib.org/3.1.0/gallery/lines_bars_and_markers/linestyles.html) for more detail.
-| *Some frequently used *optional values* follow.  If the keys are omitted, then the matplotlib defaults are used.*
+| <br>> *Some frequently used *optional values* follow.<br>> If the keys are omitted, then the matplotlib defaults are used.*<br><br>
+| `"marker":` string <br><br>*optional*<br>The string to designate a marker at the data point.  See [matplotlib marker](https://matplotlib.org/3.1.1/api/markers_api.html#module-matplotlib.markers) documentation.
 | `"label":` string <br><br>*optional*<br>The string appearing in the legend correponding to the data.
 | `"color:"` string <br><br>*optional*<br>The [matplotlib color](https://matplotlib.org/3.1.1/tutorials/colors/colors.html) used to plot the data.  Also, [predefined color](https://matplotlib.org/3.1.0/gallery/color/named_colors.html) names.
 | `"alpha":` float <br><br>*optional*<br>Real number in the range from `0` to `1`. Numbers toward `0` are more transparent and numbers toward `1` are more opaque.  
