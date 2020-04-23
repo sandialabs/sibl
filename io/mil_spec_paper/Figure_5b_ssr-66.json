@@ -1,0 +1,120 @@
+{
+    "strain1": {
+        "class": "model",
+        "folder": "/nscratch/rjterps/casco_sim/bob-1mm-5kg-helmet2-0305-hemi-066",
+        "file": "max_principal_green_lagrange_strain.csv",
+        "xcolumn": 1,
+        "ycolumn": 2,
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "label": "95th percentile gl strain ",
+            "linewidth": 2
+        }
+    },
+    "strain1-restart": {
+        "class": "model",
+        "folder": "/nscratch/rjterps/casco_sim/bob-1mm-5kg-helmet2-0305-hemi-066",
+        "file": "max_principal_green_lagrange_strain-r1.csv",
+        "xcolumn": 1,
+        "ycolumn": 2,
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "label": "95th percentile gl strain-r1",
+            "linewidth": 2
+        }
+    },
+    "strain-rate1": {
+        "class": "model",
+        "folder": "/nscratch/rjterps/casco_sim/bob-1mm-5kg-helmet2-0305-hemi-066",
+        "file": "max_principal_green_lagrange_strain_rate.csv",
+        "xcolumn": 1,
+        "ycolumn": 2,
+        "yscale": 0.0005,
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "label": "95th percentile gl strain rate",
+            "linewidth": 2
+        }
+    },
+    "strain-rate1-restart": {
+        "class": "model",
+        "folder": "/nscratch/rjterps/casco_sim/bob-1mm-5kg-helmet2-0305-hemi-066",
+        "file": "max_principal_green_lagrange_strain_rate-r1.csv",
+        "xcolumn": 1,
+        "ycolumn": 2,
+        "yscale": 0.0005,
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "label": "95th percentile gl strain rate-r1",
+            "linewidth": 2
+        }
+    },
+    "strain2": {
+        "class": "model",
+        "folder": "/nscratch/rjterps/casco_sim/bob-1mm-5kg-helmet2-0305-hemi-066",
+        "file": "e_vm.csv",
+        "xcolumn": 1,
+        "ycolumn": 2,
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "label": "95th percentile vm strain",
+            "linewidth": 2
+        }
+    },
+    "strain2-restart": {
+        "class": "model",
+        "folder": "/nscratch/rjterps/casco_sim/bob-1mm-5kg-helmet2-0305-hemi-066",
+        "file": "e_vm-r1.csv",
+        "xcolumn": 1,
+        "ycolumn": 2,
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "label": "95th percentile vm strain-r1",
+            "linewidth": 2
+        }
+    },
+    "strain-rate2": {
+        "class": "model",
+        "folder": "/nscratch/rjterps/casco_sim/bob-1mm-5kg-helmet2-0305-hemi-066",
+        "file": "e_dot_vm.csv",
+        "xcolumn": 1,
+        "ycolumn": 2,
+        "yscale": 0.0005,
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "label": "95th percentile vm strain rate",
+            "linewidth": 2
+        }
+    },
+    "strain-rate2-restart": {
+        "class": "model",
+        "folder": "/nscratch/rjterps/casco_sim/bob-1mm-5kg-helmet2-0305-hemi-066",
+        "file": "e_dot_vm-r1.csv",
+        "xcolumn": 1,
+        "ycolumn": 2,
+        "yscale": 0.0005,
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "label": "95th percentile vm strain rate-r1",
+            "linewidth": 2
+        }
+    },
+    "figure": {
+        "class": "view",
+        "folder": "output",
+        "file": "Figure_5b_ssr-66.png",
+        "size": [8.0, 6.0],
+        "dpi": 100,
+        "xlim": [0, 0.040],
+        "title": "Figure 5b: Sim human head (Bob-065*) gray and white matter strain and strain rate",
+        "xlabel": "time (s)",
+        "ylabel": "maximum principal g-l strain (cm/cm)",
+        "yaxis_rhs": {
+            "scale": 2000,
+            "label": "maximum principal g-l strain rate (1/s)"
+        },
+        "display": 1,
+        "latex": 0,
+        "serialize": 1
+    }
+}
