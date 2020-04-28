@@ -8,7 +8,7 @@
             "label": "Exp DOT, average (n=4)",
             "color": "darkorange",
             "linestyle": "dashed",
-            "linewidth": 3
+            "linewidth": 4
         }
     },
     "dot-cg": {
@@ -16,19 +16,20 @@
         "folder": "../../../casco_sim/dot-5mm-helmet-0305-hemi-062",
         "file": "history.csv",
         "ycolumn": 24,
-        "xoffset": 0.00125,
+        "# xoffset": 0.00125,
         "yscale": 0.00101971621,
         "skip_rows": 3,
         "plot_kwargs": {
-            "label": "Sim DOT (Dot-062) Wc=1650 Hz",
-            "linewidth": 2,
+            "label": "Sim DOT (Dot-062) Wc=500 Hz",
+            "linewidth": 1,
             "color": "blue",
-            "linestyle": "dotted"
+            "alpha": 0.9,
+            "linestyle": "solid"
         },
         "signal_process": {
             "process1": {
                 "butterworth": {
-                    "cutoff": 1650,
+                    "cutoff": 500,
                     "order": 4,
                     "type": "low"
                 }
@@ -45,19 +46,20 @@
         "folder": "../../../casco_sim/bot-1mm-5kg-helmet2-0305-hemi-064b",
         "file": "history.csv",
         "ycolumn": 46,
-        "xoffset": 0.00125,
+        "# xoffset": 0.00125,
         "yscale": -0.00101971621,
         "skip_rows": 3,
         "plot_kwargs": {
-            "label": "Sim Mg head (Bot-064b) Wc=1650 Hz",
+            "label": "Sim Mg head (Bot-064b) Wc=500 Hz",
             "linewidth": 3,
+            "alpha": 0.6,
             "color": "dimgray",
             "linestyle": "dashdot"
         },
         "signal_process": {
             "process1": {
                 "butterworth": {
-                    "cutoff": 1650,
+                    "cutoff": 500,
                     "order": 4,
                     "type": "low"
                 }
@@ -71,48 +73,22 @@
     },
     "bob-cg-low-freq-restart-0": {
         "class": "model",
-        "folder": "../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-063e",
+        "folder": "../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-063f",
         "file": "history.csv",
         "ycolumn": 46,
-        "xoffset": 0.00125,
+        "# xoffset": 0.00125,
         "yscale": -0.00101971621,
         "skip_rows": 3,
         "plot_kwargs": {
-            "label": "Sim human head (Bob-063e) Wc=825 Hz",
-            "linewidth": 2,
+            "label": "Sim human head (Bob-063f) Wc=500 Hz",
+            "linewidth": 3,
+            "alpha": 0.6,
             "linestyle": "solid"
         },
         "signal_process": {
             "process1": {
                 "butterworth": {
-                    "cutoff": 825,
-                    "order": 4,
-                    "type": "low"
-                }
-            },
-            "process2": {
-                "gradient": {
-                    "order": 1
-                }
-            }
-        }
-    },
-    "bob-cg-low-freq-restart-1": {
-        "class": "model",
-        "folder": "../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-063e",
-        "file": "history.csv-s0003",
-        "ycolumn": 46,
-        "xoffset": 0.00125,
-        "yscale": -0.00101971621,
-        "skip_rows": 3,
-        "plot_kwargs": {
-            "linewidth": 2,
-            "linestyle": "solid"
-        },
-        "signal_process": {
-            "process1": {
-                "butterworth": {
-                    "cutoff": 825,
+                    "cutoff": 500,
                     "order": 4,
                     "type": "low"
                 }
@@ -127,15 +103,15 @@
     "figure": {
         "class": "view",
         "folder": "output",
-        "file": "Figure_5b_sim.svg",
+        "file": "Figure_5b_sim_063f.svg",
         "size": [8.0, 6.0],
         "dpi": 100,
-        "xlim": [0, 0.040],
+        "xlim": [0, 0.020],
         "title": "Figure 5b: Translational, helmet, hemi",
         "xlabel": "time (s)",
         "ylabel": "vertical c.g. deceleration (Gs)",
         "display": 1,
         "latex": 0,
-        "serialize": 0
+        "serialize": 1
     }
 }
