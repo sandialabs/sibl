@@ -1,0 +1,40 @@
+{
+    "strain-mps-rate":{
+        "class": "model",
+        "folder": "../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-063f",
+        "file": "max_principal_green_lagrange_strain_rate.csv",
+        "xcolumn": 1,
+        "ycolumn": 2,
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "label": "95th percentile max(eig(GL strain rate))",
+            "linewidth": 2
+        }
+    },
+    "strain-rate-dev": {
+        "class": "model",
+        "folder": "../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-063f",
+        "file": "e_dot_vm.csv",
+        "xcolumn": 1,
+        "ycolumn": 2,
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "label": "95th percentile vm(GL strain rate)",
+            "linewidth": 2
+        }
+    },
+    "figure": {
+        "class": "view",
+        "folder": "output",
+        "file": "Figure_5b_mps_vm_dot_063f.svg",
+        "size": [8.0, 6.0],
+        "dpi": 100,
+        "xlim": [0, 0.060],
+        "title": "Figure 5b: Bob-063f gray-white matter strain rate, relax = (1/700) s",
+        "xlabel": "time (s)",
+        "ylabel": "Green-Lagrange strain rate MPS and VM (1/s)",
+        "display": 1,
+        "latex": 0,
+        "serialize": 1
+    }
+}
