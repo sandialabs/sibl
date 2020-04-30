@@ -11,6 +11,17 @@
             "linewidth": 2
         }
     },
+    "strain-mps-s0003": {
+        "class": "model",
+        "folder": "../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-063f",
+        "file": "max_principal_green_lagrange_strain-s0003.csv",
+        "xcolumn": 1,
+        "ycolumn": 2,
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "linewidth": 2
+        }
+    },
     "strain-dev": {
         "class": "model",
         "folder": "../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-063f",
@@ -20,6 +31,17 @@
         "skip_rows": 1,
         "plot_kwargs": {
             "label": "95th percentile vm(GL strain)",
+            "linewidth": 2
+        }
+    },
+    "strain-dev-s0003": {
+        "class": "model",
+        "folder": "../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-063f",
+        "file": "e_vm-s0003.csv",
+        "xcolumn": 1,
+        "ycolumn": 2,
+        "skip_rows": 1,
+        "plot_kwargs": {
             "linewidth": 2
         }
     },
