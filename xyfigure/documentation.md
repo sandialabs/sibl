@@ -4,7 +4,7 @@ Below are dictionary `"key": value` pairs, followed by a description, for each o
 
 ## Main XYFigure Dictionary
 
-The XYFigure dictionary is the main dictionary.  It is composed of one or more [`model` dictionaries](#model-dictionary), followed by a single [`view` dictionary](#view-dictionary).  Signal processing may be performed on one or more models to create a new model, which can also be used by the view.  A conceptual flow diagram is shown below the main XYFigure dictionary.
+The XYFigure dictionary is the main dictionary.  It is composed of one or more [`model` dictionaries](#model-dictionary), followed by a single [`view` dictionary](#view-dictionary).  Signal processing may be performed on one or more models, using the [`signal_process` dictionary](#signal-processing-keywords-dictionary), to create a new model, which can also be used by the view.  A conceptual flow diagram is shown below the main XYFigure dictionary.
 
 |     |     |     |
 | --- | --- | --- |
