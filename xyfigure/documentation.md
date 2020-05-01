@@ -18,7 +18,7 @@ The XYFigure dictionary is the main dictionary.  It is composed of one or more [
     ┌───────────────┐                         │                          │               │
     │     Model     │─────────────────────────┤                          │               │
     └───────────────┘                         │                          │               │
-            │                                 │                          │     View      │
+            │                                 │                          │     View      │ 
                                               ├─────────────────────┬───▶│               │
             │                                 │                     │    │               │
     ┌───────────────┐                         │                     │    │               │
