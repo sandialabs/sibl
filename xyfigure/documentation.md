@@ -30,6 +30,7 @@ The model dictionary contains items that describe how each `(x,y)` data set is c
 | `"yscale":`           | float     | *optional*<br>Scales all values of the `y` data `yscale` factor.  Default value is `1.0` (no scaling).  `yscale` is applied to the data prior to `yoffset`.
 | `"yoffset":`          | float     | *optional*<br>Shifts all values of the `y` data up or down by the `yoffset` value.  Default value is `0.0`.  `yoffset` is applied to the data after `yscale`.
 | `"plot_kwargs":`      | dict      | Singleton that contains the [plot keywords dictionary](#plot-keywords-dictionary).
+| `"signal_process":`   | dict      | Singleton that contains the [signal processing keywords dictionary](#signal-processing-keywords-dictionary).
 
 #### Plot Keywords Dictionary
 
@@ -44,6 +45,37 @@ Dictionary that overrides the [`matplotlib.pyplot.plot()` kwargs](https://matplo
 | `"label":`     | string | *optional*<br>The string appearing in the legend correponding to the data.
 | `"color:"`     | string | *optional*<br>The [matplotlib color](https://matplotlib.org/3.1.1/tutorials/colors/colors.html) used to plot the data.  Also, [predefined color](https://matplotlib.org/3.1.0/gallery/color/named_colors.html) names.
 | `"alpha":`     | float  | *optional*<br>Real number in the range from `0` to `1`. Numbers toward `0` are more transparent and numbers toward `1` are more opaque.  
+
+#### Signal Processing Keywords Dictionary
+
+```bash
+        "signal_process": {
+            "process0": {
+                "process_base": {
+                    "serialize": 1,
+                    "folder": ".",
+                    "file": "processed_output_file.csv"                
+                }
+            }
+            "process1": {
+                "butterworth": {
+                    "cutoff": 5,
+                    "order": 4,
+                    "type": "low"
+                }
+            }
+            "process2": {
+                "gradient": {
+                    "order": 1
+                }
+            }
+            "process3": {
+                "integration": {
+                    "order": 3,
+                    "initial_conditions": [-10, 100, 1000]
+                }
+            }
+```
 
 ### View Dictionary
 
