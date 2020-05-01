@@ -12,29 +12,21 @@ The XYFigure dictionary is the main dictionary.  It is composed of one or more [
 | `"view_name":`  | dict | A unique `string`.  Contains the [`view` dictionary](#view-dictionary).  Singleton, supports only `1` view.<br>**Note:** In general, this `"view_name"` key can be any unique string.  However, when the `.json` input file is to be used with the unit tests, this `"view_name"` key string must be exactly set to `"figure"` for the unit tests to work properly.
 
     ┌───────────────┐                                                    ┌───────────────┐
-    │               │                                                    │               │
     │     Model     │─────────────────────────┐                          │               │
-    │               │                         │                          │               │
     └───────────────┘                         │                          │               │
                                               │                          │               │
     ┌───────────────┐                         │                          │               │
-    │               │                         │                          │               │
     │     Model     │─────────────────────────┤                          │               │
-    │               │                         │                          │               │
     └───────────────┘                         │                          │               │
             │                                 │                          │     View      │
                                               ├─────────────────────┬───▶│               │
             │                                 │                     │    │               │
     ┌───────────────┐                         │                     │    │               │
-    │               │                         │                     │    │               │
     │     Model     │──┬──────────────────────┘                     │    │               │
-    │               │  │   ┌───────────────┐                        │    │               │
-    └───────────────┘  │   │               │    ┌───────────────┐   │    │               │
-                       │   │    Signal     │    │               │   │    │               │
+    └───────────────┘  │   ┌───────────────┐                        │    │               │
+                       │   │    Signal     │    ┌───────────────┐   │    │               │
                        └──▶│    Process    │───▶│     Model     │───┘    │               │
-                           │               │    │               │        │               │
-                           │               │    └───────────────┘        │               │
-                           └───────────────┘                             └───────────────┘
+                           └───────────────┘    └───────────────┘        └───────────────┘
 
 
 ### Model Dictionary
