@@ -4,12 +4,30 @@ Below are dictionary `"key": value` pairs, followed by a description, for each o
 
 ## Main XYFigure Dictionary
 
-The XYFigure dictionary is the main dictionary.  It is composed of one or more [`model` dictionaries](#model-dictionary), followed by a single [`view` dictionary](#view-dictionary).
+The XYFigure dictionary is the main dictionary.  It is composed of one or more [`model` dictionaries](#model-dictionary), followed by a single [`view` dictionary](#view-dictionary).  Signal processing may be performed on one or more models, using the [`signal_process` dictionary](#signal-processing-keywords-dictionary), to create a new model, which can also be used by the view.  A conceptual flow diagram is shown below the main XYFigure dictionary.
 
 |     |     |     |
 | --- | --- | --- |
 | `"model_name":` | dict | A unique `string`.  Contains the [`model` dictionary](#model-dictionary).  Non-singleton; supports `1..n` models.
 | `"view_name":`  | dict | A unique `string`.  Contains the [`view` dictionary](#view-dictionary).  Singleton, supports only `1` view.<br>**Note:** In general, this `"view_name"` key can be any unique string.  However, when the `.json` input file is to be used with the unit tests, this `"view_name"` key string must be exactly set to `"figure"` for the unit tests to work properly.
+
+    ┌───────────────┐                                                    ┌───────────────┐
+    │     Model     │─────────────────────────┐                          │               │
+    └───────────────┘                         │                          │               │
+                                              │                          │               │
+    ┌───────────────┐                         │                          │               │
+    │     Model     │─────────────────────────┤                          │               │
+    └───────────────┘                         │                          │               │
+            │                                 │                          │     View      │ 
+                                              ├─────────────────────┬───▶│               │
+            │                                 │                     │    │               │
+    ┌───────────────┐                         │                     │    │               │
+    │     Model     │──┬──────────────────────┘                     │    │               │
+    └───────────────┘  │   ┌───────────────┐                        │    │               │
+                       │   │    Signal     │    ┌───────────────┐   │    │               │
+                       └──▶│    Process    │───▶│     Model     │───┘    │               │
+                           └───────────────┘    └───────────────┘        └───────────────┘
+
 
 ### Model Dictionary
 
@@ -30,6 +48,7 @@ The model dictionary contains items that describe how each `(x,y)` data set is c
 | `"yscale":`           | float     | *optional*<br>Scales all values of the `y` data `yscale` factor.  Default value is `1.0` (no scaling).  `yscale` is applied to the data prior to `yoffset`.
 | `"yoffset":`          | float     | *optional*<br>Shifts all values of the `y` data up or down by the `yoffset` value.  Default value is `0.0`.  `yoffset` is applied to the data after `yscale`.
 | `"plot_kwargs":`      | dict      | Singleton that contains the [plot keywords dictionary](#plot-keywords-dictionary).
+| `"signal_process":`   | dict      | Singleton that contains the [signal processing keywords dictionary](#signal-processing-keywords-dictionary).
 
 #### Plot Keywords Dictionary
 
@@ -44,6 +63,63 @@ Dictionary that overrides the [`matplotlib.pyplot.plot()` kwargs](https://matplo
 | `"label":`     | string | *optional*<br>The string appearing in the legend correponding to the data.
 | `"color:"`     | string | *optional*<br>The [matplotlib color](https://matplotlib.org/3.1.1/tutorials/colors/colors.html) used to plot the data.  Also, [predefined color](https://matplotlib.org/3.1.0/gallery/color/named_colors.html) names.
 | `"alpha":`     | float  | *optional*<br>Real number in the range from `0` to `1`. Numbers toward `0` are more transparent and numbers toward `1` are more opaque.  
+
+#### Signal Processing Keywords Dictionary
+
+This dictionary is currently under active development.  For additional documentation, see
+
+* [Butterworth filter](test/README_butterworth.md)
+* [Differentiation](test/README_differentiation.md)
+* [Integration](test/README_integration.md)
+
+Below is a summary of the `"key": value` pairs available within the `signal_process` dictionary.
+
+```bash
+        "signal_process": {
+            "process1": {
+                "butterworth": {
+                    "cutoff": 5,
+                    "order": 4,
+                    "type": "low"
+                }
+            }
+            "process2": {
+                "gradient": {
+                    "order": 1
+                }
+            }
+            "process3": {
+                "integration": {
+                    "order": 3,
+                    "initial_conditions": [-10, 100, 1000]
+                }
+            }
+            "process4": {
+                "crosscorrelation": {
+                    "models": ["model_name_0", "model_name_1"],
+                    "mode": "full" (or "valid" or "same")
+                }
+            }
+            "process5: {
+                "tpav": { (tpav is three-points angular velocity)
+                    "models": ["model_name_0", "model_name_1", "model_name_2"]
+                }
+            }
+        }      
+```
+
+All processes support serialization, via
+
+```bash
+        "signal_process": {
+            "process_integer": {
+                "process_key_string": {
+                    "serialize": 1,
+                    "folder": ".",
+                    "file": "processed_output_file.csv"                
+                }
+            }
+```
 
 ### View Dictionary
 
