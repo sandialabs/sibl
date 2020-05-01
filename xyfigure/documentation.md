@@ -75,6 +75,17 @@ Dictionary that overrides the [`matplotlib.pyplot.plot()` kwargs](https://matplo
                     "initial_conditions": [-10, 100, 1000]
                 }
             }
+            "process4": {
+                "crosscorrelation": {
+                    "models": ["model_name_0", "model_name_1"],
+                    "mode": "full" (or "valid" or "same")
+                }
+            }
+            "process5: {
+                "tpav": { (tpav is three-points angular velocity)
+                    "models": ["model_name_0", "model_name_1", "model_name_2"],
+                }
+            }
         }      
 ```
 
