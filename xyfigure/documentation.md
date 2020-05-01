@@ -75,6 +75,7 @@ Dictionary that overrides the [`matplotlib.pyplot.plot()` kwargs](https://matplo
                     "initial_conditions": [-10, 100, 1000]
                 }
             }
+        }      
 ```
 
 ### View Dictionary
