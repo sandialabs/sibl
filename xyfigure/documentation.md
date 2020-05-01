@@ -83,7 +83,7 @@ Dictionary that overrides the [`matplotlib.pyplot.plot()` kwargs](https://matplo
             }
             "process5: {
                 "tpav": { (tpav is three-points angular velocity)
-                    "models": ["model_name_0", "model_name_1", "model_name_2"],
+                    "models": ["model_name_0", "model_name_1", "model_name_2"]
                 }
             }
         }      
