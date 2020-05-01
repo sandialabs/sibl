@@ -48,15 +48,16 @@ Dictionary that overrides the [`matplotlib.pyplot.plot()` kwargs](https://matplo
 
 #### Signal Processing Keywords Dictionary
 
+This dictionary is currently under active development.  For additional documentation, see
+
+* [Butterworth filter](test/README_butterworth.md)
+* [Differentiation](test/README_differentiation.md)
+* [Integration](test/README_integration.md)
+
+Below is a summary of the `"key": value` pairs available within the `signal_process` dictionary.
+
 ```bash
         "signal_process": {
-            "process0": {
-                "process_base": {
-                    "serialize": 1,
-                    "folder": ".",
-                    "file": "processed_output_file.csv"                
-                }
-            }
             "process1": {
                 "butterworth": {
                     "cutoff": 5,
@@ -87,6 +88,19 @@ Dictionary that overrides the [`matplotlib.pyplot.plot()` kwargs](https://matplo
                 }
             }
         }      
+```
+
+All processes support serialization, via
+
+```bash
+        "signal_process": {
+            "process_integer": {
+                "process_key_string": {
+                    "serialize": 1,
+                    "folder": ".",
+                    "file": "processed_output_file.csv"                
+                }
+            }
 ```
 
 ### View Dictionary
