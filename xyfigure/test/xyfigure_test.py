@@ -24,11 +24,15 @@ from unittest import TestCase, main
 # import test.image_diff as idff
 # import image_diff as idff
 # import client as xyfigure_client
-from image_diff import same
+# from image_diff import same
+from xyfigure.test.image_diff import same
+
 # from ..client import main
 #from .. client import main
-sys.path.insert(0, '../')
-import client as xyfigure_client  # from parent directory
+# sys.path.insert(0, '../')
+# import xyfigure as xyfigure_client  # from parent directory
+# import client as xyfigure_client  # from parent directory
+import xyfigure.client as xyfigure_client 
 
 
 class TestImageDiff(TestCase):

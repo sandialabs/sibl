@@ -1,11 +1,14 @@
 import os
 import sys
 
+from importlib import import_module
+
 import numpy as np
 from scipy import signal
 from scipy.integrate import cumtrapz
 
-from xybase import XYBase
+# from xybase import XYBase
+from xyfigure.xybase import XYBase
 
 class XYModel(XYBase):
     """The data to be plotted in XY format."""
@@ -39,6 +42,11 @@ class XYModel(XYBase):
                 value = process_dict[key]
 
                 if key == 'butterworth':
+
+                    # process_module = import_module(f'{key}.process')
+                    # process_object = getattr(process_module, 'Process')
+
+
                     fc = value.get('cutoff', None)  # Hz, cutoff frequency
                     if fc is None:
                         print('Error: keyword "cutoff" not found.')

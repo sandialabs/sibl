@@ -68,9 +68,9 @@
         "xlabel": "time (s)",
         "ylabel": "position (m)",
         "size": [8.0, 6.0],
-        "dpi": 300,
-        "display": 0,
+        "dpi": 100,
+        "display": 1,
         "details": 0,
-        "serialize": 1
+        "serialize": 0
     }
 }

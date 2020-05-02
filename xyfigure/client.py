@@ -8,9 +8,13 @@ import json
 # from datetime import datetime
 # from XYFigure import XYFactory, XYModel, XYView
 # from XYFigure import XYFactory
-from factory import XYFactory
-from xymodel import XYModel
-from xyview import XYView
+# from factory import XYFactory
+# from xyfigure.factory import XYFactory
+from xyfigure.factory import XYFactory
+# from xymodel import XYModel
+from xyfigure.xymodel import XYModel
+# from xyview import XYView
+from xyfigure.xyview import XYView
 
 
 def main(argv):

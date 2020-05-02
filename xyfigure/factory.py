@@ -3,8 +3,10 @@
 # To run from command line with Python3:
 # [base_directory]: $ python ~/sibl/xyfigure/client.py input_file.json
 
-from xymodel import XYModel
-from xyview import XYView
+# from xymodel import XYModel
+from xyfigure.xymodel import XYModel
+# from xyview import XYView
+from  xyfigure.xyview import XYView
 
 ## Figure Factory
 FACTORY_ITEMS = {

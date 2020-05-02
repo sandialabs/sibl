@@ -4,7 +4,8 @@ from datetime import datetime
 import matplotlib.pyplot as plt
 from PIL import Image
 
-from xybase import XYBase
+# from xybase import XYBase
+from xyfigure.xybase import XYBase
 
 #from matplotlib import rc
 #rc('font', **{'family': 'serif', 'serif': ['Computer Modern Roman']})

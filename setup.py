@@ -4,8 +4,8 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="sibllib",
-    version="0.0.2",
+    name="xyfigure",
+    version="0.0.3",
     author="Chad B. Hovey",
     author_email="chovey@sandia.gov",
     description="A library for xy plotting and processing",
