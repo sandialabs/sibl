@@ -15,7 +15,7 @@ Here we create an example data file from an Excel spreadsheet and walk through t
 
 ```console
 $ cd ~/sibl/io/xyfigure_example/
-$ python ../../xyfigure/xyfigure.py figure.json
+$ python ../../xyfigure/client.py figure.json
 ```
 
 The output file `figure_example.png` contains this figure:
