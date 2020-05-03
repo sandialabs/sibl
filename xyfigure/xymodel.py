@@ -1,7 +1,8 @@
 import os
 import sys
 
-from importlib import import_module
+# from importlib import import_module
+# import importlib.util as ilu
 
 import numpy as np
 from scipy import signal
@@ -9,6 +10,7 @@ from scipy.integrate import cumtrapz
 
 # from xybase import XYBase
 from xyfigure.xybase import XYBase
+
 
 class XYModel(XYBase):
     """The data to be plotted in XY format."""
@@ -27,7 +29,6 @@ class XYModel(XYBase):
         default = {'linewidth': 2.0, 'linestyle': '-'}
         self._plot_kwargs = kwargs.get('plot_kwargs', default)
 
-        # self._inverted = kwargs.get('inverted', False)  # deprecated
         self._xscale = kwargs.get('xscale', 1.0)
         self._yscale = kwargs.get('yscale', 1.0)
         self._xoffset = kwargs.get('xoffset', 0.0)
@@ -41,127 +42,142 @@ class XYModel(XYBase):
                 key = next(iter(process_dict))
                 value = process_dict[key]
 
-                if key == 'butterworth':
+                try:
+                    method = getattr(self, key)
+                    method(value)
+                except AttributeError as error:
+                    print(f'Error: invalid signal process key: {key}')
+                    print(error.__class__.__name__)
 
-                    # process_module = import_module(f'{key}.process')
-                    # process_object = getattr(process_module, 'Process')
+                # process_module = module(f'{key}.process')
+                # if process_module:
+                #     process_object = getattr(process_module, 'Process')
+                #     pobject = process_object(self._data, **value)
+                #     # self._data[:, 1] = yfiltered  # overwrite y-axis now that it is filtered
+                #     yfiltered = pobject.processed_data()
+                #     self._data[:, 1] = yfiltered  # overwrite y-axis now that it is filtered
+
+                # if key == 'butterworth':
+
+                #     # process_module = import_module(f'{key}.process')
+                #     # process_object = getattr(process_module, 'Process')
 
 
-                    fc = value.get('cutoff', None)  # Hz, cutoff frequency
-                    if fc is None:
-                        print('Error: keyword "cutoff" not found.')
-                        sys.exit('Abnormal termination.')
+                #     fc = value.get('cutoff', None)  # Hz, cutoff frequency
+                #     if fc is None:
+                #         print('Error: keyword "cutoff" not found.')
+                #         sys.exit('Abnormal termination.')
 
-                    filter_order = value.get('order', None)
-                    if filter_order is None:
-                        print('Error: keyword "order" not found.')
-                        sys.exit('Abnormal termination.')
+                #     filter_order = value.get('order', None)
+                #     if filter_order is None:
+                #         print('Error: keyword "order" not found.')
+                #         sys.exit('Abnormal termination.')
 
-                    filter_type = value.get('type', None)
-                    if filter_type is None:
-                        print('Error: keyword "type" not found.')
-                        sys.exit('Abnormal termination.')
+                #     filter_type = value.get('type', None)
+                #     if filter_type is None:
+                #         print('Error: keyword "type" not found.')
+                #         sys.exit('Abnormal termination.')
 
-                    print('Signal process ' + key + ' with:')
-                    print(f'  cutoff frequency = {fc} Hz')
-                    print(f'  filter order = {filter_order}')
-                    print('  filter type = ' + filter_type)
+                #     print('Signal process ' + key + ' with:')
+                #     print(f'  cutoff frequency = {fc} Hz')
+                #     print(f'  filter order = {filter_order}')
+                #     print('  filter type = ' + filter_type)
 
-                    dt = self._data[1, 0] - self._data[0, 0]  # sample delta t
-                    print(f'  sample delta t = {dt} seconds')
+                #     dt = self._data[1, 0] - self._data[0, 0]  # sample delta t
+                #     print(f'  sample delta t = {dt} seconds')
 
-                    fs = 1.0/dt  # Hz
-                    print(f'  sample frequency = {fs} Hz')
+                #     fs = 1.0/dt  # Hz
+                #     print(f'  sample frequency = {fs} Hz')
 
-                    Wn = fc / (fs / 2)  # normalized critical frequency
-                    print(f'  normalized critical frequency = {Wn} Hz/Hz')
+                #     Wn = fc / (fs / 2)  # normalized critical frequency
+                #     print(f'  normalized critical frequency = {Wn} Hz/Hz')
 
-                    b, a = signal.butter(filter_order, Wn, filter_type)
-                    yfiltered = signal.filtfilt(b, a, self._data[:, 1])
-                    self._data[:, 1] = yfiltered  # overwrite
+                #     b, a = signal.butter(filter_order, Wn, filter_type)
+                #     yfiltered = signal.filtfilt(b, a, self._data[:, 1])
+                #     self._data[:, 1] = yfiltered  # overwrite
 
-                    serialize = value.get('serialize', 0)  # default is not to serialize
-                    if serialize:
-                        folder = value.get('folder', '.')  # default to current folder
-                        filename = value.get('file', str(process_id) + '.csv')
+                #     serialize = value.get('serialize', 0)  # default is not to serialize
+                #     if serialize:
+                #         folder = value.get('folder', '.')  # default to current folder
+                #         filename = value.get('file', str(process_id) + '.csv')
 
-                        #  abs_path = absolute_path(folder)
-                        #  # defaults to the process id
-                        #  abs_path_and_file = os.path.join(abs_path, filename)
-                        #  np.savetxt(abs_path_and_file, np.transpose([self._data[:, 0], self._data[:, 1]]), delimiter=',')
-                        #  print(f'  serialized file = {filename}')
-                        self.serialize(folder, filename)
+                #         #  abs_path = absolute_path(folder)
+                #         #  # defaults to the process id
+                #         #  abs_path_and_file = os.path.join(abs_path, filename)
+                #         #  np.savetxt(abs_path_and_file, np.transpose([self._data[:, 0], self._data[:, 1]]), delimiter=',')
+                #         #  print(f'  serialized file = {filename}')
+                #         self.serialize(folder, filename)
 
-                elif key == 'gradient':
+                # elif key == 'gradient':
 
-                    gradient_order = value.get('order', None)
-                    if gradient_order is None:
-                        print('Error: keyword "order" not found.')
-                        sys.exit('Abnormal termination.')
+                #     gradient_order = value.get('order', None)
+                #     if gradient_order is None:
+                #         print('Error: keyword "order" not found.')
+                #         sys.exit('Abnormal termination.')
 
-                    print('Signal process: ' + key + ' applied ' + str(gradient_order) + ' time(s)')
-                    # numerical gradient
-                    # https://docs.scipy.org/doc/numpy/reference/generated/numpy.gradient.html
-                    # for k in range(value):
-                    for k in range(gradient_order):
-                        ydot = np.gradient(self._data[:, 1], self._data[:, 0], edge_order=2)
-                        self._data[:, 1] = ydot  # overwrite
-                        print(f'  Derivative {k+1} completed.')
+                #     print('Signal process: ' + key + ' applied ' + str(gradient_order) + ' time(s)')
+                #     # numerical gradient
+                #     # https://docs.scipy.org/doc/numpy/reference/generated/numpy.gradient.html
+                #     # for k in range(value):
+                #     for k in range(gradient_order):
+                #         ydot = np.gradient(self._data[:, 1], self._data[:, 0], edge_order=2)
+                #         self._data[:, 1] = ydot  # overwrite
+                #         print(f'  Derivative {k+1} completed.')
 
-                    serialize = value.get('serialize', 0)  # default is not to serialize
-                    if serialize:
-                        folder = value.get('folder', '.')  # default to current folder
-                        filename = value.get('file', str(process_id) + '.csv')
+                #     serialize = value.get('serialize', 0)  # default is not to serialize
+                #     if serialize:
+                #         folder = value.get('folder', '.')  # default to current folder
+                #         filename = value.get('file', str(process_id) + '.csv')
 
-                        # abs_path = absolute_path(folder)
-                        # # defaults to the process id
-                        # abs_path_and_file = os.path.join(abs_path, filename)
-                        # np.savetxt(abs_path_and_file, np.transpose([self._data[:, 0], self._data[:, 1]]), delimiter=',')
-                        # print(f'  serialized file = {filename}')
-                        self.serialize(folder, filename)
+                #         # abs_path = absolute_path(folder)
+                #         # # defaults to the process id
+                #         # abs_path_and_file = os.path.join(abs_path, filename)
+                #         # np.savetxt(abs_path_and_file, np.transpose([self._data[:, 0], self._data[:, 1]]), delimiter=',')
+                #         # print(f'  serialized file = {filename}')
+                #         self.serialize(folder, filename)
 
-                elif key == 'integration':
+                # elif key == 'integration':
 
-                    integration_order = value.get('order', None)
-                    if integration_order is None:
-                        print('Error: keyword "order" not found.')
-                        sys.exit('Abnormal termination.')
+                #     integration_order = value.get('order', None)
+                #     if integration_order is None:
+                #         print('Error: keyword "order" not found.')
+                #         sys.exit('Abnormal termination.')
 
-                    print('Signal process: ' + key + ' applied ' + str(integration_order) + ' time(s) with')
+                #     print('Signal process: ' + key + ' applied ' + str(integration_order) + ' time(s) with')
 
-                    default_ics = np.zeros(integration_order)
-                    ics = value.get('initial_conditions', default_ics)
+                #     default_ics = np.zeros(integration_order)
+                #     ics = value.get('initial_conditions', default_ics)
 
-                    print(f'initial condition(s) as {ics}')
+                #     print(f'initial condition(s) as {ics}')
 
-                    if len(ics) != integration_order:
-                        print('Error: length of initial condition(s) array')
-                        print('must be equal to the order of integration.')
-                        print(f'Specified order = {integration_order}')
-                        print(f'Length of intial condition(s) array = {len(ics)}')
-                        sys.exit('Abnormal termination.')
+                #     if len(ics) != integration_order:
+                #         print('Error: length of initial condition(s) array')
+                #         print('must be equal to the order of integration.')
+                #         print(f'Specified order = {integration_order}')
+                #         print(f'Length of intial condition(s) array = {len(ics)}')
+                #         sys.exit('Abnormal termination.')
 
-                    # https://docs.scipy.org/doc/numpy/reference/generated/numpy.trapz.html
-                    # https://docs.scipy.org/doc/scipy-0.14.0/reference/generated/scipy.integrate.cumtrapz.html
-                    for k in range(integration_order):
-                        # inty = np.trapz(self._data[:, 1], self._data[:, 0]) + ics[k]
-                        # inty = cumtrapz(self._data[:, 1], self._data[:, 0], initial=ics[k])
-                        inty = cumtrapz(self._data[:, 1], self._data[:, 0], initial=0) + ics[k]
-                        self._data[:, 1] = inty  # overwrite
-                        print(f'  Integral {k+1} completed.')
+                #     # https://docs.scipy.org/doc/numpy/reference/generated/numpy.trapz.html
+                #     # https://docs.scipy.org/doc/scipy-0.14.0/reference/generated/scipy.integrate.cumtrapz.html
+                #     for k in range(integration_order):
+                #         # inty = np.trapz(self._data[:, 1], self._data[:, 0]) + ics[k]
+                #         # inty = cumtrapz(self._data[:, 1], self._data[:, 0], initial=ics[k])
+                #         inty = cumtrapz(self._data[:, 1], self._data[:, 0], initial=0) + ics[k]
+                #         self._data[:, 1] = inty  # overwrite
+                #         print(f'  Integral {k+1} completed.')
 
-                    serialize = value.get('serialize', 0)  # default is not to serialize
-                    if serialize:
-                        folder = value.get('folder', '.')  # default to current folder
-                        filename = value.get('file', str(process_id) + '.csv')
+                #     serialize = value.get('serialize', 0)  # default is not to serialize
+                #     if serialize:
+                #         folder = value.get('folder', '.')  # default to current folder
+                #         filename = value.get('file', str(process_id) + '.csv')
 
-                        self.serialize(folder, filename)
+                #         self.serialize(folder, filename)
 
-                else:
-                    print('Error: Signal process key not implemented.')
-                    sys.exit('Abnormal termination.')
+                # else:
+                #     print('Error: Signal process key not implemented.')
+                #     sys.exit('Abnormal termination.')
 
-                print('  Signal process ' + key + ' completed.')
+                print('  Signal process "' + key + '" completed.')
 
     @property
     def x(self):
@@ -180,12 +196,121 @@ class XYModel(XYBase):
 
     def serialize(self, folder, filename):  # extend base class
         super().serialize(folder, filename)
-        # defaults to the process id
-        # abs_path_and_file = os.path.join(abs_path, filename)
-        # np.savetxt(abs_path_and_file, np.transpose([self._data[:, 0], self._data[:, 1]]), delimiter=',')
-        np.savetxt(self._abs_path_and_file, np.transpose([self._data[:, 0], self._data[:, 1]]), delimiter=',')
-        print(f'  serialized model to file = {filename}')
+        np.savetxt(self._path_file_output, np.transpose([self._data[:, 0], self._data[:, 1]]), delimiter=',')
+        print(f'  serialized model to: {self._path_file_output}')
 
-    #@property
-    #def is_inverted(self):
-    #    return self._inverted
+
+    def butterworth(self, value):
+
+        fc = value.get('cutoff', None)  # Hz, cutoff frequency
+        if fc is None:
+            print('Error: keyword "cutoff" not found.')
+            sys.exit('Abnormal termination.')
+        
+        filter_order = value.get('order', None)
+        if filter_order is None:
+            print('Error: keyword "order" not found.')
+            sys.exit('Abnormal termination.')
+        
+        filter_type = value.get('type', None)
+        if filter_type is None:
+            print('Error: keyword "type" not found.')
+            sys.exit('Abnormal termination.')
+        
+        print('Signal process "butterworth" with:')
+        print(f'  cutoff frequency = {fc} Hz')
+        print(f'  filter order = {filter_order}')
+        print('  filter type = ' + filter_type)
+        
+        dt = self._data[1, 0] - self._data[0, 0]  # sample delta t
+        print(f'  sample delta t = {dt} seconds')
+        
+        fs = 1.0/dt  # Hz
+        print(f'  sample frequency = {fs} Hz')
+        
+        Wn = fc / (fs / 2)  # normalized critical frequency
+        print(f'  normalized critical frequency = {Wn} Hz/Hz')
+        
+        b, a = signal.butter(filter_order, Wn, filter_type)
+        yfiltered = signal.filtfilt(b, a, self._data[:, 1])
+        self._data[:, 1] = yfiltered  # overwrite
+        
+        serialize = value.get('serialize', 0)  # default is not to serialize
+        if serialize:
+            folder = value.get('folder', '.')  # default to current folder
+            file_output = value.get('file', None)
+
+            if file_output is None:
+                print('Error: keyword "file" not found.')
+                sys.exit('Abnormal termination.')
+            else:
+                self.serialize(folder, file_output)
+
+
+    def gradient(self, value):
+
+        gradient_order = value.get('order', None)
+        if gradient_order is None:
+            print('Error: keyword "order" not found.')
+            sys.exit('Abnormal termination.')
+
+        print('Signal process: "gradient" applied ' + str(gradient_order) + ' time(s)')
+        # numerical gradient
+        # https://docs.scipy.org/doc/numpy/reference/generated/numpy.gradient.html
+        # for k in range(value):
+        for k in range(gradient_order):
+            ydot = np.gradient(self._data[:, 1], self._data[:, 0], edge_order=2)
+            self._data[:, 1] = ydot  # overwrite
+            print(f'  Derivative {k+1} completed.')
+
+        serialize = value.get('serialize', 0)  # default is not to serialize
+        if serialize:
+            folder = value.get('folder', '.')  # default to current folder
+            file_output = value.get('file', None)
+
+            if file_output is None:
+                print('Error: keyword "file" not found.')
+                sys.exit('Abnormal termination.')
+            else:
+                self.serialize(folder, file_output)
+
+    def integration(self, value):
+
+        integration_order = value.get('order', None)
+        if integration_order is None:
+            print('Error: keyword "order" not found.')
+            sys.exit('Abnormal termination.')
+
+        print('Signal process: "integration" applied ' + str(integration_order) + ' time(s) with')
+
+        default_ics = np.zeros(integration_order)
+        ics = value.get('initial_conditions', default_ics)
+
+        print(f'initial condition(s) as {ics}')
+
+        if len(ics) != integration_order:
+            print('Error: length of initial condition(s) array')
+            print('must be equal to the order of integration.')
+            print(f'Specified order = {integration_order}')
+            print(f'Length of intial condition(s) array = {len(ics)}')
+            sys.exit('Abnormal termination.')
+
+        # https://docs.scipy.org/doc/numpy/reference/generated/numpy.trapz.html
+        # https://docs.scipy.org/doc/scipy-0.14.0/reference/generated/scipy.integrate.cumtrapz.html
+        for k in range(integration_order):
+            # inty = np.trapz(self._data[:, 1], self._data[:, 0]) + ics[k]
+            # inty = cumtrapz(self._data[:, 1], self._data[:, 0], initial=ics[k])
+            inty = cumtrapz(self._data[:, 1], self._data[:, 0], initial=0) + ics[k]
+            self._data[:, 1] = inty  # overwrite
+            print(f'  Integral {k+1} completed.')
+
+        serialize = value.get('serialize', 0)  # default is not to serialize
+        if serialize:
+            folder = value.get('folder', '.')  # default to current folder
+            file_output = value.get('file', None)
+
+            if file_output is None:
+                print('Error: keyword "file" not found.')
+                sys.exit('Abnormal termination.')
+            else:
+                self.serialize(folder, file_output)

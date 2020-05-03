@@ -2,14 +2,7 @@
 # import os
 import sys
 import json
-# import numpy as np
-# import matplotlib.pyplot as plt
-# from abc import ABC
-# from datetime import datetime
-# from XYFigure import XYFactory, XYModel, XYView
-# from XYFigure import XYFactory
 # from factory import XYFactory
-# from xyfigure.factory import XYFactory
 from xyfigure.factory import XYFactory
 # from xymodel import XYModel
 from xyfigure.xymodel import XYModel
@@ -54,20 +47,6 @@ def main(argv):
 
     for item in database:
         kwargs = database[item]
-        # i = factory.create(item, kwargs)  # it's static!
-        # folder = kwargs['folder']
-        # try:
-        #     os.chdir(folder)
-        # except FileNotFoundError:
-        #     print(f'Folder needed but not found: "{folder}"')
-        #     val = input('Create folder? [y]es or [n]o : ')
-        #     if val == 'y':
-        #         os.mkdir(folder)
-        #         print(f'Created folder: "{folder}"')
-        #     else:
-        #         print('Check accuracy of folders in database.')
-        #         print('Abnormal script termination.')
-        #         sys.exit('Folder misspecified.')
         i = XYFactory.create(item, **kwargs)
         if i:
             items.append(i)

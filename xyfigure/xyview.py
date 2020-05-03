@@ -42,7 +42,7 @@ class XYView(XYBase):
 
         self._display = kwargs.get('display', True)
         self._details = kwargs.get('details', True)
-        self._serialize = kwargs.get('serialize', False)
+        # self._serialize = kwargs.get('serialize', False) # moved up to XYBase
         self._latex = kwargs.get('latex', False)
         if self._latex:
             from matplotlib import rc
@@ -155,19 +155,11 @@ class XYView(XYBase):
 
             if self._display:
                 plt.show()
-            if self._serialize:
-                # folder = self._folder
-                # abs_path = absolute_path(folder)
-                # abs_path_and_file = os.path.join(abs_path, self._file)
-                # # fig.savefig(abs_path_and_file, dpi=self._dpi, bbox_inches='tight')  # avoid cutoff of labels
-                # self._figure.savefig(abs_path_and_file, dpi=self._dpi, bbox_inches='tight')  # avoid cutoff of labels
-                # print(f'  serialized file = {self._file}')
-                self.serialize(self._folder, self._file)
 
-        #return fig, ax  # return so clients to further embellish
+            if self._serialize:
+                self.serialize(self._folder, self._file)
 
     def serialize(self, folder, filename):  # extend base class
         super().serialize(folder, filename)
-        # fig.savefig(self._abs_path_and_file, dpi=self._dpi, bbox_inches='tight')  # avoid cutoff of labels
-        self._figure.savefig(self._abs_path_and_file, dpi=self._dpi, bbox_inches='tight')  # avoid cutoff of labels
-        print(f'  serialized view to file = {self._file}')
+        self._figure.savefig(self._path_file_output, dpi=self._dpi, bbox_inches='tight')  # avoid cutoff of labels
+        print(f'  serialized view to file = {self._path_file_output}')
