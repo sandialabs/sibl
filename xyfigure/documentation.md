@@ -4,12 +4,15 @@ Below are dictionary `"key": value` pairs, followed by a description, for each o
 
 ## Main XYFigure Dictionary
 
-The XYFigure dictionary is the main dictionary.  It is composed of one or more [`model` dictionaries](#model-dictionary), followed by one or more [`view` dictionaries](#view-dictionary).
+The XYFigure dictionary is the main dictionary.  
+
+* It is stored in an ordinary text file in `.json` format.
+* It is composed of one or more [`model` dictionaries](#model-dictionary), followed by one or more [`view` dictionaries](#view-dictionary).
 
 |     |     |     |
 | --- | --- | --- |
-| `"model_name":` | dict | A `string` that is a globally unique identifier (`guid`) in the `.json` file.  Contains the [`model` dictionary](#model-dictionary).  Non-singleton; supports `1..m` models.
-| `"view_name":`  | dict | A `string` that is a globally unique identifier (`guid`) in the `.json` file.  Contains the [`view` dictionary](#view-dictionary).  Non-singleton, supports `1..n` views.<br><br>**Note:** In general, this `"view_name"` key can be any unique string.  However, when the `.json` input file is to be used with the unit tests, this `"view_name"` key string must be exactly set to `"figure"` for the unit tests to work properly.
+| `"model_name":` | dict | The key `"model_name"` is a `string` that must be a globally unique identifier (`guid`) in the `.json` file.  Contains the [`model` dictionary](#model-dictionary).  Non-singleton; supports `1..m` models.
+| `"view_name":`  | dict | The key `"view_name"` is a `string` that must be a globally unique identifier (`guid`) in the `.json` file.  The key Contains the [`view` dictionary](#view-dictionary).  Non-singleton, supports `1..n` views.<br><br>**Note:** In general, this `"view_name"` key can be any unique string.  However, when the `.json` input file is to be used with the unit tests, this `"view_name"` key string must be exactly set to `"figure"` for the unit tests to work properly.
 
 There are three common variations to the XYFigure dictionary:
 
@@ -20,13 +23,13 @@ There are three common variations to the XYFigure dictionary:
 * **1:n** 
   * Several models
   * One view
-  * This is an advanced option, wherein multiple models are plotted to the same figure.
+  * This is an advanced option, wherein multiple models are plotted to the same figure.  Considerations such as y-axis limits or the possibility of dual y-axes can become important.
 * **m:n** 
   * Several models
   * Several views
   * This is the most advanced combination of the three, where all the models are created, and views explicity specify which models get plotted to a particular figure.
 
-Signal processing may be performed on one or more models, using the [`signal_process` dictionary](#signal-processing-keywords-dictionary), to create a new model, which can also be used by the view.  A conceptual flow diagram of multiple models, one with signal processing, is used with one view is shown below. 
+Signal processing may be performed on one or more models, using the [`signal_process` dictionary](#signal-processing-keywords-dictionary), to create a new model, which can also be used by the view.  A conceptual flow diagram of multiple models, one with signal processing, and one view is shown below. 
 
 
     ┌───────────────┐                                                    ┌───────────────┐
@@ -94,31 +97,31 @@ Below is a summary of the `"key": value` pairs available within the `signal_proc
 
 ```bash
         "signal_process": {
-            "process-guid-1": {
+            "process_guid_1": {
                 "butterworth": {
                     "cutoff": 5,
                     "order": 4,
                     "type": "low"
                 }
             }
-            "process-guid-2": {
+            "process_guid_2": {
                 "gradient": {
                     "order": 1
                 }
             }
-            "process-guid-3": {
+            "process_guid_3": {
                 "integration": {
                     "order": 3,
                     "initial_conditions": [-10, 100, 1000]
                 }
             }
-            "process-guid-4": {
+            "process_guid_4": {
                 "crosscorrelation": {
                     "models": ["model_name_0", "model_name_1"],
                     "mode": "full" (or "valid" or "same")
                 }
             }
-            "process-guid-5: {
+            "process_guid_5: {
                 "tpav": { (tpav is three-points angular velocity)
                     "models": ["model_name_0", "model_name_1", "model_name_2"]
                 }
@@ -146,7 +149,7 @@ The view dictionary contains items that describe how the main figure is construc
 |     |     |     |
 | --- | --- | --- |
 | `"class":`            | `"view"`    | Specific string to generate the XYView Python class. In the view dictionary, the `"class"` key must have a value of `"view"`.
-| `"model_keys"`:       | string array | *optional*<br>`["model_guid_1", "model_guid_2", model_guid_3"]` (for example), an array of `1..m` strings that identifies the model `guid` to be plotted in this particular view.  If `"model_keys"` is not specified in a particular view, then all models will be plotted to the view.
+| `"model_keys"`:       | string array | *optional*<br>`["model_guid_1", "model_guid_2", model_guid_3"]` (for example), an array of `1..m` strings that identifies the model `guid` to be plotted in this particular view.  If `"model_keys"` is not specified in a particular view, then all models will be plotted to the view, which is the default behavior.
 | `"folder":`           | string      | Value *relative to the current working directory* of the path and folder that contains the output figure data (if `"serialize"` is set to `"1"`).  For the current working directory, use `"."`.  If the folder does not exist at run time, the script will attempt to create the directory, pending the user's approval.
 | `"file":`             | string      | Value of the figure output file (e.g., `my_output_file.png`) in `.xxx` format, where `xxx` is an image file format, typically `pdf`, `png`, or `svg`.  
 | `"size":`             | float array | *optional*<br>Array of floats containing the `[width, height]` of the output figure in units of inches.  Default is `[11.0, 8.5]`, U.S. paper, landscape.  [Example](test/README_dpi_size.md)

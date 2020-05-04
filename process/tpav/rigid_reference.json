@@ -1,0 +1,55 @@
+{
+    "angle": {
+        "class": "model",
+        "folder": "input",
+        "file": "rigid_reference.csv",
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "color": "navy",
+            "linestyle": "solid",
+	    "label": "rigid reference angle"
+        }
+    },
+    "angular_velocity": {
+        "class": "model",
+        "folder": "input",
+        "file": "rigid_reference.csv",
+        "ycolumn": 2,
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "color": "navy",
+            "linestyle": "solid",
+            "label": "rigid reference angular velocity"
+        }
+    },
+    "figure": {
+        "class": "view",
+        "model_keys": ["angle"],
+        "folder": "output",
+        "file": "rigid_angle_v_time.pdf",
+        "size": [8.0, 6.0],
+        "xlabel": "time (s)",
+        "ylabel": "angle (rad)",
+        "title": "",
+        "dpi": 100,
+        "details": 0,
+        "display": 1,
+        "latex": 0,
+        "serialize": 1
+    },
+    "figure_2": {
+        "class": "view",
+        "model_keys": ["angular_velocity"],
+        "folder": "output",
+        "file": "rigid_angular_velocity_v_time.pdf",
+        "size": [8.0, 6.0],
+        "xlabel": "time (s)",
+        "ylabel": "angular velocity (rad/s)",
+        "title": "",
+        "dpi": 100,
+        "details": 0,
+        "display": 1,
+        "latex": 0,
+        "serialize": 1
+    }
+}
