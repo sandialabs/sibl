@@ -8,8 +8,8 @@ The XYFigure dictionary is the main dictionary.  It is composed of one or more [
 
 |     |     |     |
 | --- | --- | --- |
-| `"model_name":` | dict | A unique `string`.  Contains the [`model` dictionary](#model-dictionary).  Non-singleton; supports `1..n` models.
-| `"view_name":`  | dict | A unique `string`.  Contains the [`view` dictionary](#view-dictionary).  Singleton, supports only `1` view.<br>**Note:** In general, this `"view_name"` key can be any unique string.  However, when the `.json` input file is to be used with the unit tests, this `"view_name"` key string must be exactly set to `"figure"` for the unit tests to work properly.
+| `"model_name":` | dict | A `string` that is a globally unique identifier (guid); the name appears only once in the `.json` file.  Contains the [`model` dictionary](#model-dictionary).  Non-singleton; supports `1..n` models.
+| `"view_name":`  | dict | A `string` that is a globally unique identifier (guid); the name appears only once in the `.json` file.  Contains the [`view` dictionary](#view-dictionary).  Singleton, supports only `1` view.<br>**Note:** In general, this `"view_name"` key can be any unique string.  However, when the `.json` input file is to be used with the unit tests, this `"view_name"` key string must be exactly set to `"figure"` for the unit tests to work properly.
 
     ┌───────────────┐                                                    ┌───────────────┐
     │     Model     │─────────────────────────┐                          │               │
