@@ -9,9 +9,9 @@ For more information, see our [website](http://www.sandia.gov/biomechanics/).
 ## Library [![python](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/downloads/release/python-3610/) [![license](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/sandialabs/sibl#license)
 
 * XYFigure
-  * [Getting started](xyfigure/README.md)
-  * [Documentation](xyfigure/documentation.md)
-  * [Test Cases](xyfigure/test/README.md)
+  * [Getting started](https://github.com/sandialabs/sibl/blob/master/xyfigure/README.md)
+  * [Documentation](https://github.com/sandialabs/sibl/blob/master/xyfigure/documentation.md)
+  * [Test Cases](https://github.com/sandialabs/sibl/blob/master/xyfigure/test/README.md)
 
 ## Prerequisites
 
