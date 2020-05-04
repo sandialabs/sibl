@@ -29,7 +29,10 @@ class XYBase(ABC):
     """
     Base class to collect all data and methods common to XYBase descendants.
     """
-    def __init__(self, **kwargs):
+    def __init__(self, guid, **kwargs):
+
+        self._guid = guid
+
         self._serialize = kwargs.get('serialize', False) # moved up from XYView
 
         default_folder = "."
@@ -51,6 +54,11 @@ class XYBase(ABC):
 
         self._path_file_input = os.path.join(abs_path, self._file)
         self._path_file_output = None
+
+    @property
+    def guid(self):
+        return self._guid
+
 
     def serialize(self, folder, filename):
         """

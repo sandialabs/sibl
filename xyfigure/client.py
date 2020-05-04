@@ -57,9 +57,17 @@ def main(argv):
     views = [i for i in items if isinstance(i, XYView)]
 
     for view in views:
-        view.models = models  # register models with views
-        view.figure()
+        print(f'Creating view with guid = "{view.guid}"')
+        if view.model_keys: # register only selected models with current view
+            print(f'  Adding {view.model_keys} model(s) to current view.')
+            view.models = [m for m in models if m.guid in view.model_keys]
+            view.figure()  # must be within this subset scope
+        else: 
+            print('  Adding all models to current view.')
+            view.models = models  # register all models with current view
+            view.figure()  # must be within this subset scope
 
+    print('=======================')
     print('End of client execution.')
 
 if __name__ == '__main__':

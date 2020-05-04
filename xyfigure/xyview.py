@@ -13,9 +13,10 @@ from xyfigure.xybase import XYBase
 
 class XYView(XYBase):
     """Creates a view that sees models."""
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+    def __init__(self, guid, **kwargs):
+        super().__init__(guid, **kwargs)
         self._models = []
+        self._model_keys = kwargs.get('model_keys', None)
         self._figure = None
         # self._folder = kwargs.get('folder', None)
         self._file_base = self._file.split('.')[0]
@@ -58,6 +59,10 @@ class XYView(XYBase):
     def models(self, value):
         self._models = value
 
+    @property
+    def model_keys(self):
+        return self._model_keys
+
     def figure(self):
         """Create a figure (view) of the registered models to the screen."""
         if self._figure is None:
@@ -66,7 +71,7 @@ class XYView(XYBase):
             # https://stackoverflow.com/questions/47633546/relationship-between-dpi-and-figure-size
             # fig, ax = plt.subplots(nrows=1, dpi=self._dpi)
             self._figure, ax = plt.subplots(nrows=1, dpi=self._dpi)
-            print(f'Figure dpi set to {self._dpi}')
+            print(f'  Figure dpi set to {self._dpi}')
 
             # ax.ticklabel_format(axis='y', style='scientific')
             # ax.ticklabel_format(axis='both', style='scientific', scilimits=(0,0))
@@ -74,7 +79,7 @@ class XYView(XYBase):
             # https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure.set_size_inches
             # fig.set_size_inches(self._size)
             self._figure.set_size_inches(self._size)
-            print('Figure size set to ' +  str(self._size) + ' inches.')
+            print('  Figure size set to ' +  str(self._size) + ' inches.')
 
             if self._background_image:
                 folder = self._background_image.get('folder', '.')
@@ -159,7 +164,10 @@ class XYView(XYBase):
             if self._serialize:
                 self.serialize(self._folder, self._file)
 
+            plt.close('all')
+            self._figure = None
+
     def serialize(self, folder, filename):  # extend base class
         super().serialize(folder, filename)
         self._figure.savefig(self._path_file_output, dpi=self._dpi, bbox_inches='tight')  # avoid cutoff of labels
-        print(f'  serialized view to file = {self._path_file_output}')
+        print(f'  Serialized view to: {self._path_file_output}')

@@ -4,12 +4,30 @@ Below are dictionary `"key": value` pairs, followed by a description, for each o
 
 ## Main XYFigure Dictionary
 
-The XYFigure dictionary is the main dictionary.  It is composed of one or more [`model` dictionaries](#model-dictionary), followed by a single [`view` dictionary](#view-dictionary).  Signal processing may be performed on one or more models, using the [`signal_process` dictionary](#signal-processing-keywords-dictionary), to create a new model, which can also be used by the view.  A conceptual flow diagram is shown below the main XYFigure dictionary.
+The XYFigure dictionary is the main dictionary.  It is composed of one or more [`model` dictionaries](#model-dictionary), followed by one or more [`view` dictionaries](#view-dictionary).
 
 |     |     |     |
 | --- | --- | --- |
-| `"model_name":` | dict | A unique `string`.  Contains the [`model` dictionary](#model-dictionary).  Non-singleton; supports `1..n` models.
-| `"view_name":`  | dict | A unique `string`.  Contains the [`view` dictionary](#view-dictionary).  Singleton, supports only `1` view.<br>**Note:** In general, this `"view_name"` key can be any unique string.  However, when the `.json` input file is to be used with the unit tests, this `"view_name"` key string must be exactly set to `"figure"` for the unit tests to work properly.
+| `"model_name":` | dict | A `string` that is a globally unique identifier (`guid`) in the `.json` file.  Contains the [`model` dictionary](#model-dictionary).  Non-singleton; supports `1..m` models.
+| `"view_name":`  | dict | A `string` that is a globally unique identifier (`guid`) in the `.json` file.  Contains the [`view` dictionary](#view-dictionary).  Non-singleton, supports `1..n` views.<br><br>**Note:** In general, this `"view_name"` key can be any unique string.  However, when the `.json` input file is to be used with the unit tests, this `"view_name"` key string must be exactly set to `"figure"` for the unit tests to work properly.
+
+There are three common variations to the XYFigure dictionary:
+
+* **1:1** 
+  * One model
+  * One view
+  * This is the most basic option.
+* **1:n** 
+  * Several models
+  * One view
+  * This is an advanced option, wherein multiple models are plotted to the same figure.
+* **m:n** 
+  * Several models
+  * Several views
+  * This is the most advanced combination of the three, where all the models are created, and views explicity specify which models get plotted to a particular figure.
+
+Signal processing may be performed on one or more models, using the [`signal_process` dictionary](#signal-processing-keywords-dictionary), to create a new model, which can also be used by the view.  A conceptual flow diagram of multiple models, one with signal processing, is used with one view is shown below. 
+
 
     ┌───────────────┐                                                    ┌───────────────┐
     │     Model     │─────────────────────────┐                          │               │
@@ -35,7 +53,7 @@ The model dictionary contains items that describe how each `(x,y)` data set is c
 
 |     |     |     |
 | --- | --- | --- |
-| `"class":`            | `"model"` | Specific string to generate the XYModel Python class.
+| `"class":`            | `"model"` | Specific string to generate the XYModel Python class.  In the model dictionary, the `"class"` key  must have a value of `"model"`.
 | `"folder":`           | string    | Value *relative to the current working directory* of the path and folder that contains the input data.  For the current working directory, use `"."`.
 | `"file":`             | string    | Value of the comma separated value input file in `.csv` (comma separated value) format.  The first column is the `x` values, the second column is the `y` values.  The `.csv` file can use any number of header rows.  Do not attempt to plot header rows; skip header rows with the `skip_rows` key.
 | `"skip_rows":`        | integer   | *optional*<br>The number of header rows to skip at the *beginning* of the `.csv` file.  Default value is `0`.
@@ -76,31 +94,31 @@ Below is a summary of the `"key": value` pairs available within the `signal_proc
 
 ```bash
         "signal_process": {
-            "process1": {
+            "process-guid-1": {
                 "butterworth": {
                     "cutoff": 5,
                     "order": 4,
                     "type": "low"
                 }
             }
-            "process2": {
+            "process-guid-2": {
                 "gradient": {
                     "order": 1
                 }
             }
-            "process3": {
+            "process-guid-3": {
                 "integration": {
                     "order": 3,
                     "initial_conditions": [-10, 100, 1000]
                 }
             }
-            "process4": {
+            "process-guid-4": {
                 "crosscorrelation": {
                     "models": ["model_name_0", "model_name_1"],
                     "mode": "full" (or "valid" or "same")
                 }
             }
-            "process5: {
+            "process-guid-5: {
                 "tpav": { (tpav is three-points angular velocity)
                     "models": ["model_name_0", "model_name_1", "model_name_2"]
                 }
@@ -112,7 +130,7 @@ All processes support serialization, via
 
 ```bash
         "signal_process": {
-            "process_integer": {
+            "process_guid": {
                 "process_key_string": {
                     "serialize": 1,
                     "folder": ".",
@@ -127,7 +145,8 @@ The view dictionary contains items that describe how the main figure is construc
 
 |     |     |     |
 | --- | --- | --- |
-| `"class":`            | `"view"`    | Specific string to generate the XYView Python class.
+| `"class":`            | `"view"`    | Specific string to generate the XYView Python class. In the view dictionary, the `"class"` key must have a value of `"view"`.
+| `"model_keys"`:       | string array | *optional*<br>`["model_guid_1", "model_guid_2", model_guid_3"]` (for example), an array of `1..m` strings that identifies the model `guid` to be plotted in this particular view.  If `"model_keys"` is not specified in a particular view, then all models will be plotted to the view.
 | `"folder":`           | string      | Value *relative to the current working directory* of the path and folder that contains the output figure data (if `"serialize"` is set to `"1"`).  For the current working directory, use `"."`.  If the folder does not exist at run time, the script will attempt to create the directory, pending the user's approval.
 | `"file":`             | string      | Value of the figure output file (e.g., `my_output_file.png`) in `.xxx` format, where `xxx` is an image file format, typically `pdf`, `png`, or `svg`.  
 | `"size":`             | float array | *optional*<br>Array of floats containing the `[width, height]` of the output figure in units of inches.  Default is `[11.0, 8.5]`, U.S. paper, landscape.  [Example](test/README_dpi_size.md)

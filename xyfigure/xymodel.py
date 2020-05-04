@@ -14,8 +14,8 @@ from xyfigure.xybase import XYBase
 
 class XYModel(XYBase):
     """The data to be plotted in XY format."""
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+    def __init__(self, guid, **kwargs):
+        super().__init__(guid, **kwargs)
 
         self._skip_rows = kwargs.get('skip_rows', 0)
         self._skip_rows_footer = kwargs.get('skip_rows_footer', 0)
@@ -197,7 +197,7 @@ class XYModel(XYBase):
     def serialize(self, folder, filename):  # extend base class
         super().serialize(folder, filename)
         np.savetxt(self._path_file_output, np.transpose([self._data[:, 0], self._data[:, 1]]), delimiter=',')
-        print(f'  serialized model to: {self._path_file_output}')
+        print(f'  Serialized model to: {self._path_file_output}')
 
 
     def butterworth(self, value):

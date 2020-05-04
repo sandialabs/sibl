@@ -21,7 +21,7 @@ class XYFactory:
         "Main factory method, returns XY objects."
         instance = FACTORY_ITEMS.get(kwargs['class'], None)
         if instance:
-            return instance(**kwargs)
+            return instance(item, **kwargs)
 
         # If we get here, we did not return an instance, so warn.
         print(f'Warning: {item} requested but not provided by this factory, returning None.')
