@@ -23,7 +23,28 @@ For more information, see our [website](http://www.sandia.gov/biomechanics/).
 $ python3 -m pip install Pillow
 ```
 
-## Workflow
+## Workflow Choice
+
+There are two workflows: (1) Client, or (2) Developer
+
+* Client - *"I just want to use the library, I don't want to develop the library."*
+* Developer - *"I want to use the library and develop the library."*
+
+## Client Workflow - Choice (1) of (2)
+
+Install [pip](https://pip.pypa.io/en/stable/installing/), 
+then read [these directions](https://pip.pypa.io/en/stable/quickstart/) for 
+context.  Next, from a terminal, install
+
+```bash
+$ pip install sibllib
+```
+
+If your computer does not have a network connection, install the WHL file (a Python
+package saved in Wheel format), which must can be obtained from Chad directly, or 
+from [here](https://pypi.org/project/sibllib/#files). 
+
+## Developer Workflow - Choice (2) of (2)
 
 For an overview, [read the guide](https://guides.github.com/activities/hello-world/) from GitHub.
 
