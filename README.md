@@ -25,10 +25,12 @@ $ python3 -m pip install Pillow
 
 ## Workflow Choice
 
-There are two workflows: (1) Client, or (2) Developer
+There are two workflows: (1) Client,  (2) Developer
 
-* Client - *"I just want to use the library, I don't want to develop the library."*
-* Developer - *"I want to use the library and develop the library."*
+| **Client** | **Developer**  |
+|---|---|
+| *"I just want to use the library, I don't want to develop the library."* | *"I want to use the library and develop the library."* | 
+| [Client Directions](https://github.com/sandialabs/sibl/blob/master/README.md#client-workflow---choice-12) | [Developer Directions](https://github.com/sandialabs/sibl/blob/master/README.md#developer-workflow---choice-22) | 
 
 ## Client Workflow - Choice 1/2
 
