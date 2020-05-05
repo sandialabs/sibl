@@ -117,13 +117,13 @@ Below is a summary of the `"key": value` pairs available within the `signal_proc
             }
             "process_guid_4": {
                 "crosscorrelation": {
-                    "models": ["model_name_0", "model_name_1"],
+                    "model_keys": ["model_name_0", "model_name_1"],
                     "mode": "full" (or "valid" or "same")
                 }
             }
             "process_guid_5: {
                 "tpav": { (tpav is three-points angular velocity)
-                    "models": ["model_name_0", "model_name_1", "model_name_2"]
+                    "model_keys": ["model_name_0", "model_name_1", "model_name_2"]
                 }
             }
         }      
