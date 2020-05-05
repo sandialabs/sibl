@@ -117,13 +117,13 @@ Below is a summary of the `"key": value` pairs available within the `signal_proc
             }
             "process_guid_4": {
                 "crosscorrelation": {
-                    "models": ["model_name_0", "model_name_1"],
+                    "model_keys": ["model_guid_0", "model_guid_1"],
                     "mode": "full" (or "valid" or "same")
                 }
             }
             "process_guid_5: {
                 "tpav": { (tpav is three-points angular velocity)
-                    "models": ["model_name_0", "model_name_1", "model_name_2"]
+                    "model_keys": ["model_guid_0", "model_guid_1", "model_guid_2"]
                 }
             }
         }      
@@ -149,7 +149,7 @@ The view dictionary contains items that describe how the main figure is construc
 |     |     |     |
 | --- | --- | --- |
 | `"class":`            | `"view"`    | Specific string to generate the XYView Python class. In the view dictionary, the `"class"` key must have a value of `"view"`.
-| `"model_keys"`:       | string array | *optional*<br>`["model_guid_1", "model_guid_2", model_guid_3"]` (for example), an array of `1..m` strings that identifies the model `guid` to be plotted in this particular view.  If `"model_keys"` is not specified in a particular view, then all models will be plotted to the view, which is the default behavior.
+| `"model_keys"`:       | string array | *optional*<br>`["model_guid_0", "model_guid_1", model_guid_2"]` (for example), an array of `1..m` strings that identifies the model `guid` to be plotted in this particular view.  If `"model_keys"` is not specified in a particular view, then all models will be plotted to the view, which is the default behavior.
 | `"folder":`           | string      | Value *relative to the current working directory* of the path and folder that contains the output figure data (if `"serialize"` is set to `"1"`).  For the current working directory, use `"."`.  If the folder does not exist at run time, the script will attempt to create the directory, pending the user's approval.
 | `"file":`             | string      | Value of the figure output file (e.g., `my_output_file.png`) in `.xxx` format, where `xxx` is an image file format, typically `pdf`, `png`, or `svg`.  
 | `"size":`             | float array | *optional*<br>Array of floats containing the `[width, height]` of the output figure in units of inches.  Default is `[11.0, 8.5]`, U.S. paper, landscape.  [Example](test/README_dpi_size.md)
