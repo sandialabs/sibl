@@ -148,7 +148,7 @@ if write_data_file:
     file_string = title_string + '.csv'
     with open(file_string, 'w', newline='') as f:
         writer = csv.writer(f, delimiter=',')
-        writer.writerow(['time (s)', 'q (rad)', 'qdot (rad/s)', 'tip_x=sin(q) (m)', 'tip_y=-cos(q)'])
+        writer.writerow(['time (s)', 'q (rad)', 'qdot (rad/s)', 'tip_x=sin(q) (m)', 'tip_y=-cos(q) (m)'])
         for i in range(len(tspan)):
             writer.writerow([tspan[i], ys[i, 0], ys[i, 1], np.sin(ys[i, 0]), -1.0*np.cos(ys[i, 0])])
     print('Wrote tabular data to ' + os.path.join(script_path, file_string))
