@@ -20,9 +20,9 @@ import csv  # comma separated value
 
 # User input begin
 kitchin_example = 0  # 0 or 1, toggle online versus actual problem of interest
-save_figure = 0  # 0 or 1
-pdf_format = 1  # 0 for .svg format, 1 for .pdf format
-write_data_file = 0  # 0 or 1
+save_figure = 1  # 0 or 1
+pdf_format = 0  # 0 for .svg format, 1 for .pdf format
+write_data_file = 1  # 0 or 1
 LATEX = 1  # 0 or 1
 # User input end
 
@@ -50,7 +50,7 @@ if kitchin_example:
     fig_size = (8, 8)
 
 else:
-    title_string = 'simo'
+    title_string = 'pendulum_rigid_state'
     G = 9.81  # m/s^2
     L = 1.0  # m
     q_min = -2 # -np.pi
@@ -148,9 +148,9 @@ if write_data_file:
     file_string = title_string + '.csv'
     with open(file_string, 'w', newline='') as f:
         writer = csv.writer(f, delimiter=',')
-        writer.writerow(['time', 'q', 'qdot'])
+        writer.writerow(['time (s)', 'q (rad)', 'qdot (rad/s)', 'tip_x=sin(q) (m)', 'tip_y=-cos(q)'])
         for i in range(len(tspan)):
-            writer.writerow([tspan[i], ys[i, 0], ys[i, 1]])
+            writer.writerow([tspan[i], ys[i, 0], ys[i, 1], np.sin(ys[i, 0]), -1.0*np.cos(ys[i, 0])])
     print('Wrote tabular data to ' + os.path.join(script_path, file_string))
 
 # t = np.linspace(0.0, 2.0*3.14159, 10)

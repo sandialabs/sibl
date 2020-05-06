@@ -12,20 +12,22 @@ import three_points_angular_velocity as tpav
 
 # User input begin
 save_figure = 1  # 0 or 1
-pdf_format = 1  # 0 for .svg format, 1 for .pdf format
+pdf_format = 0  # 0 for .svg format, 1 for .pdf format
 # User input end
 
 # plot the angular velocity jfrom the gold standard
 
 n_header_rows = 1  # number of rows that compose the header, skip when reading
 
-data = np.genfromtxt('simo.csv', dtype='float', delimiter=',', skip_header=n_header_rows)
+data = np.genfromtxt('pendulum_rigid_state.csv', dtype='float', delimiter=',', skip_header=n_header_rows)
 
 time = data[:, 0]  # column 1
 q = data[:, 1]  # column 2
 qdot = data[:, 2]  # column 3
-x_tip = np.sin(q)  # x-position of the tip
-y_tip = -1.0*np.cos(q)  # y-position of the tip
+# x_tip = np.sin(q)  # x-position of the tip
+x_tip = data[:, 3]  # x-position of the tip
+# y_tip = -1.0*np.cos(q)  # y-position of the tip
+y_tip = data[:, 4]  # y-position of the tip
 
 fig = plt.figure(figsize=(16, 8))
 fig.suptitle('Rigid Reference')
@@ -57,7 +59,7 @@ ax22.set_ylabel('tip y-position (m)')
 plt.show()
 
 if save_figure:
-    title_string = 'rigid_reference'
+    title_string = 'pendulum_tpav_rigid'
     script_path = os.getcwd()
     if pdf_format:
         figure_string = title_string + '.pdf'
@@ -121,10 +123,10 @@ wB = p.angular_velocity()  # angular velocity of deformable pendulum
 wB_z = [i[2] for i in wB]  # third column of angular velocity vector
 
 fig = plt.figure(figsize=(16, 8))
-fig.suptitle('Rigid Reference vs. Deformable Three-Point Algorithm (TPA)')
+fig.suptitle('Rigid Reference vs. Deformable Three-Point Angular Velocity (tpav) Algorithm')
 
 label_standard = 'rigid reference'
-label_three_point = 'deformable TPA'
+label_three_point = 'deformable tpav'
 
 ax11 = fig.add_subplot(2, 2, 1)
 ax11.plot(time, q, label=label_standard)
@@ -160,7 +162,7 @@ ax22.set_ylabel('tip y-position (m)')
 plt.show()
 
 if save_figure:
-    title_string = 'rigid_reference_vs_three_point_algorithm'
+    title_string = 'pendulum_tpav_deformable'
     script_path = os.getcwd()
     if pdf_format:
         figure_string = title_string + '.pdf'

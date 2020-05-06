@@ -10,6 +10,19 @@ The theoretical development is forthcoming, to appear in a SAND report (as of 20
 
 ## Verification
 
+## Workflow
+
+* [pendulum_rigid_reference.py](pendulum_rigid_reference.py) integrates the ordinary differential equation governing the rigid pendulum finite rotation motion and outputs the following:
+  * [pendulum_rigid_state.csv](pendulum_rigid_state.csv) state variables
+  * pendulum_rigid_state.svg state variable figure ![pendulum_rigid_state.svg](pendulum_rigid_state.svg)
+* [history.csv](history.csv) is the output for the quasi-rigid body pendulum simulation from SSM
+  * [ssm_to_tpav.py](ssm_to_tpav.py) morphs the history.csv file into the pos_vel_pqr.csv file which 
+    * retains only the **P**, **Q**, and **R** positions and velocities, and 
+    * reorders them per the API of [client.py](client.py), which calls the tpav algorithm contained in [three_points_angular_velocity.py](three_points_angular_velocity.py)
+* [pendulum_tpav.py](pendulum_tpav.py) overlays the quasi-rigid tpav results with the rigid baseline results, and outputs the following two files:
+  * pendulum_tpav_rigid.svg ![pendulum_tpav_rigid.svg](pendulum_tpav_rigid.svg) 
+  * pendulum_tpav_deformable.svg ![pendulum_tpav_deformable.svg](pendulum_tpav_deformable.svg) 
+
 ### Input
 
 The three-point angular velocity algorithm is applied to a mildly deformable (quasi-rigid) body, and compared to a rigid body dynamics simulation reference.  
@@ -18,11 +31,6 @@ The three-point angular velocity algorithm is applied to a mildly deformable (qu
 * The deformable body output data from SSM is contained in [input/history.csv](input/history.csv)
   * was created from the /nscratch/chovey/casco_sim/simo/pend-001.i file,
   * has been morphed to [input/pqr_pos_vel.csv](input/pqr_pos_vel.csv), which contains the position and velocity vectors for points **P**, **Q**, and **R**.
-
-    ┌──────────────┐     ┌────────────────┐     ┌─────────────────┐
-    │ history.csv  │────▶│ ssm_to_tpav.py │────▶│ pos_vel_pqr.csv │
-    └──────────────┘     └────────────────┘     └─────────────────┘
-
 
 
 ### Output
@@ -34,10 +42,3 @@ The three-point angular velocity algorithm is applied to a mildly deformable (qu
 ![img](output/rigid_tip_x_v_time.svg)
 ![img](output/rigid_tip_y_v_time.svg)
 
-
-## Reference
-
-The two historical document outputs, from when the tpav code was in the casco_sim repo, are memorialized below:
-
-![img](output/rigid_reference.png)
-![img](output/rigid_reference_vs_tpav.png)
