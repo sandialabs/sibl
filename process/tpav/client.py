@@ -9,8 +9,8 @@ import numpy as np
 from process.tpav.three_points_angular_velocity import ThreePointsAngularVelocity as tpav
 
 parser = argparse.ArgumentParser()
-parser.add_argument("history", help="history.csv contains the SSM tracer points output file")
-parser.add_argument("history_to_tpav", help="history_to_tpav.json maps history.csv to tpav API format [t, rPx, rPy, rPz, rQx, rQy, rQz, rRx, rRy, rRz, vPx, vPy, vPz, vQx, vQy, vQz, vRx, vRy, vRz]")
+parser.add_argument("history", help="history is a '.csv' that contains the SSM tracer points output file")
+parser.add_argument("history_to_tpav", help="history_to_tpav is a '.json' file that maps 'history.csv' to tpav API format [t, rPx, rPy, rPz, rQx, rQy, rQz, rRx, rRy, rRz, vPx, vPy, vPz, vQx, vQy, vQz, vRx, vRy, vRz], output angular velocity file is 'history_to_tpav.csv'")
 parser.add_argument("--verbose", help="increased feedback in command line", action="store_true")
 # parser.add_argument("skip_header_rows", type=int, help="number of header rows of file_input to skip")
 args = parser.parse_args()
@@ -96,11 +96,14 @@ tpav_object = tpav(rOP, rOQ, rOR, vP, vQ, vR)
 
 omega = np.transpose(tpav_object.angular_velocity()) # [omega_x, omega_y, omega_z]
 
-# if args.verbose:
-#    print(f'Angular velocity = {omega}')
+# jwith open(file_string, 'w', newline='') as f:
+# j    writer = csv.writer(f, delimiter=',')
+# j    writer.writerow(['time (s)', 'q (rad)', 'qdot (rad/s)', 'tip_x=sin(q) (m)', 'tip_y=-cos(q) (m)'])
+# j    for i in range(len(tspan)):
+# j        writer.writerow([tspan[i], ys[i, 0], ys[i, 1], np.sin(ys[i, 0]), -1.0*np.cos(ys[i, 0])])
+# ('Wrote tabular data to ' + os.path.join(script_path, file_string))
 
-np.savetxt(file_output, np.transpose([t, omega[0], omega[1], omega[2]]), delimiter=',')
-
+np.savetxt(file_output, np.transpose([t, omega[0], omega[1], omega[2]]), delimiter=',', header='time (s), omega_x (rad/s), omega_y (rad/s), omega_z (rad/s)')
 
 if args.verbose:
     print("Three points angular velocity (tpav) client end.")
