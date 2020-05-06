@@ -24,7 +24,7 @@ The three-point angular velocity (tpav) algorithm is applied to a mildly deforma
 
 * [history.csv](history.csv) from SSM
 * [history_to_tpav.json](history_to_tpav.json) contains indices of the **P**, **Q**, and **R** points position and velocity, used as inputs to the client that runs the three-point angular velocity algorithm
-* [client.py] use:
+* [client.py](client.py) use:
 
 ```bash
 (base) [apollo ~/sibl/process/tpav]$ python client.py --help
