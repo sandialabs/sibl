@@ -6,3 +6,8 @@ __pycache__/
 # VS Code IDE files
 .vscode/
 
+# Build directory from PyPI deployment
+build/
+dist/
+xyfigure.egg-info
+
