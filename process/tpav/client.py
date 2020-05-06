@@ -1,67 +1,94 @@
 #!/usr/bin/env python
 import os
 import sys
-import argparse
 
+import argparse
+import json
 import numpy as np
 
 from process.tpav.three_points_angular_velocity import ThreePointsAngularVelocity as tpav
 
 parser = argparse.ArgumentParser()
+parser.add_argument("history", help="history.csv contains the SSM tracer points output file")
+parser.add_argument("history_to_tpav", help="history_to_tpav.json maps history.csv to tpav API format [t, rPx, rPy, rPz, rQx, rQy, rQz, rRx, rRy, rRz, vPx, vPy, vPz, vQx, vQy, vQz, vRx, vRy, vRz]")
 parser.add_argument("--verbose", help="increased feedback in command line", action="store_true")
-parser.add_argument("file_input", help="t, rPx, rPy, rPz, vPx, vPy, vPz, rQx, rQy, rQz, vQx, vQy, vQz, rRx, rRy, rRz, vRx, vRy, vRz in .csv format")
-parser.add_argument("skip_header_rows", type=int, help="number of header rows of file_input to skip")
+# parser.add_argument("skip_header_rows", type=int, help="number of header rows of file_input to skip")
 args = parser.parse_args()
+
+b = os.path.splitext(args.history_to_tpav)
+file_output = b[0] + '.csv'
 
 if args.verbose:
     print("--------------------------------------------------")
     print("Three points angular velocity (tpav) client begin.")
-    print(f'  Processing input file: {args.file_input}')
-    print(f'  located in path: {os.getcwd()}')
-
-    b = os.path.splitext(args.file_input)
-    file_output = b[0] + '_omega' + b[1]
+    print(f'  From path: {os.getcwd()}')
+    print(f'  processing SSM tracer points output file: {args.history}')
+    print(f'  with tpav point extraction file : {args.history_to_tpav}')
     print(f'  Output file: {file_output}')
 
-data =  np.genfromtxt(args.file_input, dtype='float', delimiter=',', skip_header=args.skip_header_rows)
+
+with open(args.history_to_tpav) as fin:
+    jmap = json.load(fin)
+
+skip_header_rows = jmap["skip_rows"]
+
+data =  np.genfromtxt(args.history, dtype='float', delimiter=',', skip_header=skip_header_rows)
 
 # time
-t = data[:, 0]
+t = data[:, jmap["t"]]
 
-# point P position
-rOP_x = data[:, 1]
-rOP_y = data[:, 2]
-rOP_z = data[:, 3]
+# position point P
+# rOP_x = data[:, 1]
+# rOP_y = data[:, 2]
+# rOP_z = data[:, 3]
+rOP_x = data[:, jmap["rPx"]]
+rOP_y = data[:, jmap["rPy"]]
+rOP_z = data[:, jmap["rPz"]]
 rOP = np.array([[rOP_x[i], rOP_y[i], rOP_z[i]] for i in range(len(t))])
 
-# point P velocity
-vP_x = data[:, 4]
-vP_y = data[:, 5]
-vP_z = data[:, 6]
-vP = np.array([[vP_x[i], vP_y[i], vP_z[i]] for i in range(len(t))])
-
-# point Q position
-rOQ_x = data[:, 7]
-rOQ_y = data[:, 8]
-rOQ_z = data[:, 9]
+# position point Q
+# rOQ_x = data[:, 7]
+# rOQ_y = data[:, 8]
+# rOQ_z = data[:, 9]
+rOQ_x = data[:, jmap["rQx"]]
+rOQ_y = data[:, jmap["rQy"]]
+rOQ_z = data[:, jmap["rQz"]]
 rOQ = np.array([[rOQ_x[i], rOQ_y[i], rOQ_z[i]] for i in range(len(t))])
 
-# point Q velocity
-vQ_x = data[:, 10]
-vQ_y = data[:, 11]
-vQ_z = data[:, 12]
-vQ = np.array([[vQ_x[i], vQ_y[i], vQ_z[i]] for i in range(len(t))])
-
-# point R position
-rOR_x = data[:, 13]
-rOR_y = data[:, 14]
-rOR_z = data[:, 15]
+# position point R
+# rOR_x = data[:, 13]
+# rOR_y = data[:, 14]
+# rOR_z = data[:, 15]
+rOR_x = data[:, jmap["rRx"]]
+rOR_y = data[:, jmap["rRy"]]
+rOR_z = data[:, jmap["rRz"]]
 rOR = np.array([[rOR_x[i], rOR_y[i], rOR_z[i]] for i in range(len(t))])
 
-# point R velocity
-vR_x = data[:, 16]
-vR_y = data[:, 17]
-vR_z = data[:, 18]
+# velocity point P
+# vP_x = data[:, 4]
+# vP_y = data[:, 5]
+# vP_z = data[:, 6]
+vP_x = data[:, jmap["vPx"]]
+vP_y = data[:, jmap["vPy"]]
+vP_z = data[:, jmap["vPz"]]
+vP = np.array([[vP_x[i], vP_y[i], vP_z[i]] for i in range(len(t))])
+
+# velocity point Q
+# vQ_x = data[:, 10]
+# vQ_y = data[:, 11]
+# vQ_z = data[:, 12]
+vQ_x = data[:, jmap["vQx"]]
+vQ_y = data[:, jmap["vQy"]]
+vQ_z = data[:, jmap["vQz"]]
+vQ = np.array([[vQ_x[i], vQ_y[i], vQ_z[i]] for i in range(len(t))])
+
+# velocity point R
+# jvR_x = data[:, 16]
+# jvR_y = data[:, 17]
+# _z = data[:, 18]
+vR_x = data[:, jmap["vRx"]]
+vR_y = data[:, jmap["vRy"]]
+vR_z = data[:, jmap["vRz"]]
 vR = np.array([[vR_x[i], vR_y[i], vR_z[i]] for i in range(len(t))])
 
 # tpav_object = tpav(rOP, rOQ, rOR, vP, vQ, vR, args.verbose)
