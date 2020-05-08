@@ -44,7 +44,7 @@ $ pip install xyfigure
 
 If your computer does not have a network connection, install the WHL file (a Python
 package saved in Wheel format), which must can be obtained from Chad directly, or 
-from [here](https://pypi.org/project/sibllib/#files).   Then
+from [here](https://pypi.org/project/xyfigure/#files).   Then
 
 ```bash
 $ pip install --user xyfigure-0.0.n-py3-non-any.whl  # where n is the version number
