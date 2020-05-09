@@ -10,28 +10,17 @@ to test just one of the test methods:
 $ python -m unittest xyfigure_test.TestImageDiff.test_same  # e.g., to test the test_same() method
 
 """
+# https://www.python.org/dev/peps/pep-0008/#imports
 # standard library imports
-import json
 import os
 import sys
-# import unittest
+import json
 from unittest import TestCase, main
 
-# third-party imports
+# related third-party imports
 
-# local imports
-# from test.image_diff import same
-# import test.image_diff as idff
-# import image_diff as idff
-# import client as xyfigure_client
-# from image_diff import same
+# local application/library specific imports
 from xyfigure.test.image_diff import same
-
-# from ..client import main
-#from .. client import main
-# sys.path.insert(0, '../')
-# import xyfigure as xyfigure_client  # from parent directory
-# import client as xyfigure_client  # from parent directory
 import xyfigure.client as xyfigure_client 
 
 

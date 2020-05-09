@@ -1,12 +1,14 @@
 #!/usr/bin/env python
-# import os
+# https://www.python.org/dev/peps/pep-0008/#imports
+# standard library imports
 import sys
 import json
-# from factory import XYFactory
+
+# related third-party imports
+
+# local application/library specific imports
 from xyfigure.factory import XYFactory
-# from xymodel import XYModel
 from xyfigure.xymodel import XYModel
-# from xyview import XYView
 from xyfigure.xyview import XYView
 
 

@@ -45,7 +45,7 @@
     "angular_velocity_deformable": {
         "class": "model",
         "folder": ".",
-        "file": "history_to_tpav.csv",
+        "file": "angular_velocity.csv",
         "ycolumn": 3,
         "skip_rows": 1,
         "plot_kwargs": {
@@ -58,7 +58,7 @@
     "angular_velocity_deformable_filtered": {
         "class": "model",
         "folder": ".",
-        "file": "history_to_tpav.csv",
+        "file": "angular_velocity.csv",
         "ycolumn": 3,
         "skip_rows": 1,
         "plot_kwargs": {
@@ -80,7 +80,7 @@
     "angular_velocity_deformable_integrated": {
         "class": "model",
         "folder": ".",
-        "file": "history_to_tpav.csv",
+        "file": "angular_velocity.csv",
         "ycolumn": 3,
         "skip_rows": 1,
         "plot_kwargs": {

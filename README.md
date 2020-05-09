@@ -15,13 +15,13 @@ For more information, see our [website](http://www.sandia.gov/biomechanics/).
 
 ## Prerequisites
 
-* Python 3.6 or higher (the library requires f-strings)
-* Scipy
-* Pillow
-
-```console
-$ python3 -m pip install Pillow
-```
+* [Python 3.6](https://www.python.org/downloads/) or higher (the library uses f-strings)
+* pip is the **preferred installer program**, sometimes also called the *pip installs python* and *pip installs packages* and will be used to install the xyfigure library on your machine.
+  * pip is already installed with Python >= 3.4 when downloaded from [python.org](https://python.org)
+  * if pip is not already installed, then install [pip](https://pip.pypa.io/en/stable/installing/), 
+  * then read [these directions](https://pip.pypa.io/en/stable/quickstart/)
+* Numpy, Scipy, and Matplotlib, all [here](https://scipy.org/)
+* Pillow (only required for xyfigure/test)
 
 ## Workflow Choice
 
@@ -34,9 +34,7 @@ There are two workflows: (1) Client,  (2) Developer
 
 ## Client Workflow - Choice 1/2
 
-Install [pip](https://pip.pypa.io/en/stable/installing/), 
-then read [these directions](https://pip.pypa.io/en/stable/quickstart/) for 
-context.  Next, from a terminal, install
+Install from a terminal:
 
 ```bash
 $ pip install xyfigure

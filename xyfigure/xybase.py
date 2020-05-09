@@ -1,7 +1,12 @@
+# https://www.python.org/dev/peps/pep-0008/#imports
+# standard library imports
 import os
 import sys
 from abc import ABC
-# from datetime import datetime
+
+# related third-party imports
+
+# local application/library specific imports
 
 # Helper functions
 def absolute_path(folder):

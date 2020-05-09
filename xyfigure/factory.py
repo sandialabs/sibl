@@ -3,9 +3,13 @@
 # To run from command line with Python3:
 # [base_directory]: $ python ~/sibl/xyfigure/client.py input_file.json
 
-# from xymodel import XYModel
+# https://www.python.org/dev/peps/pep-0008/#imports
+# standard library imports
+
+# related third-party imports
+
+# local application/library specific imports
 from xyfigure.xymodel import XYModel
-# from xyview import XYView
 from  xyfigure.xyview import XYView
 
 ## Figure Factory

@@ -3,15 +3,13 @@
     Typical useage example:
     $ python image_diff.py image_a image_b
 """
-
-
-#!/usr/bin/env python
-# import os
+# https://www.python.org/dev/peps/pep-0008/#imports
+# standard library imports
 import sys
+
+# related third-party imports
 import numpy as np
-# import imageio
 from PIL import Image
-# from PIL import ImageChops
 
 
 def same(file_a, file_b, verbose=0):

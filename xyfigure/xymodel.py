@@ -1,14 +1,14 @@
+# https://www.python.org/dev/peps/pep-0008/#imports
+# standard library imports
 import os
 import sys
 
-# from importlib import import_module
-# import importlib.util as ilu
-
+# related third-party imports
 import numpy as np
 from scipy import signal
 from scipy.integrate import cumtrapz
 
-# from xybase import XYBase
+# local application/library specific imports
 from xyfigure.xybase import XYBase
 
 

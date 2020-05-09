@@ -1,15 +1,15 @@
+# https://www.python.org/dev/peps/pep-0008/#imports
+# standard library imports
 import os
 from datetime import datetime
 
+# related third-party imports
 import matplotlib.pyplot as plt
 from PIL import Image
 
-# from xybase import XYBase
+# local application/library specific imports
 from xyfigure.xybase import XYBase
 
-#from matplotlib import rc
-#rc('font', **{'family': 'serif', 'serif': ['Computer Modern Roman']})
-#rc('text', usetex=True)
 
 class XYView(XYBase):
     """Creates a view that sees models."""
