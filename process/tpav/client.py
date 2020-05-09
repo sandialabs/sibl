@@ -1,12 +1,17 @@
 #!/usr/bin/env python
+# https://www.python.org/dev/peps/pep-0008/#imports
+# standard library imports
 import os
 import sys
-
 import argparse
 import json
+
+# related third-party imports
 import numpy as np
 
+# local application/library specific imports
 from process.tpav.three_points_angular_velocity import ThreePointsAngularVelocity as tpav
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument("history", help="history is a '.csv' that contains the SSM tracer points output file")
