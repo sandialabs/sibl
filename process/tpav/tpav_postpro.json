@@ -55,6 +55,28 @@
             "label": "tpav deformable"
         }
     },
+    "angular_velocity_deformable_filtered": {
+        "class": "model",
+        "folder": ".",
+        "file": "history_to_tpav.csv",
+        "ycolumn": 3,
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "linestyle": "dashdot",
+            "linewidth": 2,
+            "alpha": 0.5,
+            "label": "tpav deformable filtered 5 Hz"
+        },
+        "signal_process": {
+            "process1": {
+                "butterworth": {
+                    "cutoff": 5,
+                    "order": 4,
+                    "type": "low"
+                }
+            }
+        }
+    },
     "angular_velocity_deformable_integrated": {
         "class": "model",
         "folder": ".",
@@ -122,7 +144,7 @@
         "class": "view",
         "model_keys": ["angle"],
         "folder": "output",
-        "file": "rigid_angle_v_time.pdf",
+        "file": "rigid_angle_v_time.svg",
         "size": [8.0, 6.0],
         "xlabel": "time (s)",
         "ylabel": "angle (rad)",
@@ -130,14 +152,14 @@
         "dpi": 100,
         "details": 0,
         "display": 0,
-        "latex": 1,
+        "latex": 0,
         "serialize": 1
     },
     "figure_2": {
         "class": "view",
         "model_keys": ["angular_velocity"],
         "folder": "output",
-        "file": "rigid_angular_velocity_v_time.pdf",
+        "file": "rigid_angular_velocity_v_time.svg",
         "size": [8.0, 6.0],
         "xlabel": "time (s)",
         "ylabel": "angular velocity (rad/s)",
@@ -145,14 +167,14 @@
         "dpi": 100,
         "details": 0,
         "display": 0,
-        "latex": 1,
+        "latex": 0,
         "serialize": 1
     },
     "figure_3": {
         "class": "view",
         "model_keys": ["tip_x"],
         "folder": "output",
-        "file": "rigid_tip_x_v_time.pdf",
+        "file": "rigid_tip_x_v_time.svg",
         "size": [8.0, 6.0],
         "xlabel": "time (s)",
         "ylabel": "tip position x (m)",
@@ -160,14 +182,14 @@
         "dpi": 100,
         "details": 0,
         "display": 0,
-        "latex": 1,
+        "latex": 0,
         "serialize": 1
     },
     "figure_4": {
         "class": "view",
         "model_keys": ["tip_y"],
         "folder": "output",
-        "file": "rigid_tip_y_v_time.pdf",
+        "file": "rigid_tip_y_v_time.svg",
         "size": [8.0, 6.0],
         "xlabel": "time (s)",
         "ylabel": "tip position y (m)",
@@ -175,14 +197,14 @@
         "dpi": 100,
         "details": 0,
         "display": 0,
-        "latex": 1,
+        "latex": 0,
         "serialize": 1
     },
     "figure_5": {
         "class": "view",
         "model_keys": ["angular_velocity", "angular_velocity_deformable"],
         "folder": "output",
-        "file": "rigid_deformable_angular_velocity_v_time.pdf",
+        "file": "rigid_deformable_angular_velocity_v_time.svg",
         "size": [8.0, 6.0],
         "xlabel": "time (s)",
         "ylabel": "angular velocity (rad/s)",
@@ -190,14 +212,29 @@
         "dpi": 100,
         "details": 0,
         "display": 0,
-        "latex": 1,
+        "latex": 0,
+        "serialize": 1
+    },
+    "figure_5_filtered": {
+        "class": "view",
+        "model_keys": ["angular_velocity", "angular_velocity_deformable", "angular_velocity_deformable_filtered"],
+        "folder": "output",
+        "file": "rigid_deformable_angular_velocity_filtered_v_time.svg",
+        "size": [8.0, 6.0],
+        "xlabel": "time (s)",
+        "ylabel": "angular velocity (rad/s)",
+        "title": "",
+        "dpi": 100,
+        "details": 0,
+        "display": 0,
+        "latex": 0,
         "serialize": 1
     },
     "figure_6": {
         "class": "view",
         "model_keys": ["tip_x", "tip_x_deformable"],
         "folder": "output",
-        "file": "rigid_deformable_tip_x_v_time.pdf",
+        "file": "rigid_deformable_tip_x_v_time.svg",
         "size": [8.0, 6.0],
         "xlabel": "time (s)",
         "ylabel": "tip position x (m)",
@@ -205,14 +242,14 @@
         "dpi": 100,
         "details": 0,
         "display": 0,
-        "latex": 1,
+        "latex": 0,
         "serialize": 1
     },
     "figure_7": {
         "class": "view",
         "model_keys": ["tip_y", "tip_y_deformable"],
         "folder": "output",
-        "file": "rigid_deformable_tip_y_v_time.pdf",
+        "file": "rigid_deformable_tip_y_v_time.svg",
         "size": [8.0, 6.0],
         "xlabel": "time (s)",
         "ylabel": "tip position y (m)",
@@ -220,14 +257,14 @@
         "dpi": 100,
         "details": 0,
         "display": 0,
-        "latex": 1,
+        "latex": 0,
         "serialize": 1
     },
     "figure_8": {
         "class": "view",
         "model_keys": ["angle", "angular_position_deformable"],
         "folder": "output",
-        "file": "rigid_deformable_angle_v_time.pdf",
+        "file": "rigid_deformable_angle_v_time.svg",
         "size": [8.0, 6.0],
         "xlabel": "time (s)",
         "ylabel": "angle (rad)",
@@ -235,7 +272,7 @@
         "dpi": 100,
         "details": 0,
         "display": 0,
-        "latex": 1,
+        "latex": 0,
         "serialize": 1
     }
 }

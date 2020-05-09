@@ -53,6 +53,16 @@ optional arguments:
 ![img](output/rigid_angular_velocity_v_time.svg)
 ![img](output/rigid_tip_x_v_time.svg)
 ![img](output/rigid_tip_y_v_time.svg)
+![img](output/rigid_deformable_angle_v_time.svg)
 ![img](output/rigid_deformable_angular_velocity_v_time.svg)
 ![img](output/rigid_deformable_tip_x_v_time.svg)
 ![img](output/rigid_deformable_tip_y_v_time.svg)
+
+We observe that the angular velocity output from the tpav algorithm has:
+
+* one low frequency, corresponding to the rigid body rotation of 0.5 Hz (1 cycle per 2 seconds), and 
+* one high frequency, corresponding to the deformable body motion of 7.0 Hz (14 cycles per 2 seconds).  
+
+To quiet the high frequency noise and retain only the low frequency signal, we use a Butterworth filter the [tpav_postpro.json](tpav_postpro.json) file, which produces the filtered tpav angular velocity:
+
+![img](output/rigid_deformable_angular_velocity_filtered_v_time.svg)
