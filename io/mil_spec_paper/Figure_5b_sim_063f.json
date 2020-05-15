@@ -103,7 +103,7 @@
     "figure": {
         "class": "view",
         "folder": "output",
-        "file": "Figure_5b_sim_063f.svg",
+        "file": "Figure_5b_sim_063f.pdf",
         "size": [8.0, 6.0],
         "dpi": 100,
         "xlim": [0, 0.020],

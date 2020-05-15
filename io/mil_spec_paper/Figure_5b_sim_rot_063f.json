@@ -1,0 +1,101 @@
+{
+    "angular_velocity_x": {
+        "class": "model",
+        "folder": "../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-063f",
+        "file": "angular_velocity.csv",
+        "ycolumn": 1,
+        "# xoffset": 0.00125,
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "label": "Bob-063f omega_x fc = 500 Hz"
+        },
+        "signal_process": {
+            "process1": {
+                "butterworth": {
+                    "cutoff": 500,
+                    "order": 4,
+                    "type": "low"
+                }
+            }
+        }
+    },
+    "angular_velocity_x_integrated": {
+        "class": "model",
+        "folder": "../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-063f",
+        "file": "angular_velocity.csv",
+        "ycolumn": 1,
+        "# xoffset": 0.00125,
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "label": "Bob-063f int_omega_x dt"
+        },
+        "signal_process": {
+            "process1": {
+                "integration": {
+                    "order": 1,
+                    "initial_conditions": [0],
+                    "serialize": 1,
+                    "folder": ".",
+                    "file": "angular_position_x.csv"
+                }
+            }
+        }
+    },
+    "angular_velocity_x_differentiated": {
+        "class": "model",
+        "folder": "../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-063f",
+        "file": "angular_velocity.csv",
+        "ycolumn": 1,
+        "# xoffset": 0.00125,
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "label": "Bob-063f d/dt(omega_x | fc = 500 Hz)"
+        },
+        "signal_process": {
+            "process1": {
+                "butterworth": {
+                    "cutoff": 500,
+                    "order": 4,
+                    "type": "low"
+                }
+            },
+            "process2": {
+                "gradient": {
+                    "order": 1,
+                    "serialize": 1,
+                    "file": "angular_acceleration_x.csv"
+                }
+            }
+        }
+    },
+    "figure": {
+        "class": "view",
+        "model_keys": ["angular_velocity_x"],
+        "folder": "output",
+        "file": "Figure_5b_sim_angular_velocity.pdf",
+        "size": [8.0, 6.0],
+        "dpi": 100,
+        "xlim": [0, 0.060],
+        "title": "Figure 5b: Head c.g. angular velocity",
+        "xlabel": "time (s)",
+        "ylabel": "angular velocity (rad/s)",
+        "display": 1,
+        "latex": 0,
+        "serialize": 1
+    },
+    "figure_integrated": {
+        "class": "view",
+        "model_keys": ["angular_velocity_x_integrated"],
+        "folder": "output",
+        "file": "Figure_5b_sim_angular_position.pdf",
+        "size": [8.0, 6.0],
+        "dpi": 100,
+        "xlim": [0, 0.060],
+        "title": "Figure 5b: Head c.g. angular position",
+        "xlabel": "time (s)",
+        "ylabel": "angular velocity (rad)",
+        "display": 1,
+        "latex": 0,
+        "serialize": 1
+    }
+}
