@@ -36,7 +36,7 @@ positional arguments:
   history_to_tpav  history_to_tpav is a '.json' file that maps 'history.csv'
                    to tpav API format [t, rPx, rPy, rPz, rQx, rQy, rQz, rRx,
                    rRy, rRz, vPx, vPy, vPz, vQx, vQy, vQz, vRx, vRy, vRz],
-                   output angular velocity file is 'history_to_tpav.csv'
+                   output angular velocity file is 'angular_velocity.csv'
 
 optional arguments:
   -h, --help       show this help message and exit
