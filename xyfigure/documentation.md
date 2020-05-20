@@ -92,6 +92,8 @@ This dictionary is currently under active development.  For additional documenta
 * [Butterworth filter](test/README_butterworth.md)
 * [Differentiation](test/README_differentiation.md)
 * [Integration](test/README_integration.md)
+* Cross correlation (to come, not yet implemented)
+* [tpav (three points angular velocity)](../process/tpav/README.md) algorithm
 
 Below is a summary of the `"key": value` pairs available within the `signal_process` dictionary.
 
@@ -122,7 +124,7 @@ Below is a summary of the `"key": value` pairs available within the `signal_proc
                 }
             }
             "process_guid_5: {
-                "tpav": { (tpav is three-points angular velocity)
+                "tpav": { (tpav is three points angular velocity)
                     "model_keys": ["model_guid_0", "model_guid_1", "model_guid_2"]
                 }
             }
