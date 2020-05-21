@@ -2,21 +2,22 @@
     "sine-data": {
         "class": "model",
         "folder": ".",
-        "file": "t_versus_sin_t.csv",
+        "file": "data.csv",
         "skip_rows": 1,
         "plot_kwargs": {
             "label": "sin(t)",
             "color": "darkorange",
             "linestyle": "-",
-            "linewidth": 8,
+            "linewidth": 4,
             "alpha" : 0.5
         }
     },
     "cosine-data": {
         "class": "model",
         "folder": ".",
-        "file": "t_versus_cos_2t.csv",
+        "file": "data.csv",
         "skip_rows": 1,
+        "ycolumn": 2,
         "plot_kwargs": {
             "label": "cos(2t)",
             "linestyle": "-.",
@@ -26,7 +27,7 @@
     "figure": {
         "class": "view",
         "folder": ".",
-        "file": "figure_example.png",
+        "file": "recipe.svg",
         "size": [8.0, 6.0],
         "title": "Example using xyfigure",
         "xlabel": "time (s)",
@@ -36,8 +37,9 @@
             "label": "right-hand-side label with 10 f(t) scale",
             "yticks": [-10, -5, 0, 5, 10]
         },
-        "display": 1,
+        "details": 0,
+        "display": 0,
         "latex": 0,
-        "serialize": 0
+        "serialize": 1
     }
 }

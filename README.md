@@ -8,10 +8,8 @@ For more information, see our [website](http://www.sandia.gov/biomechanics/).
 
 ## Library [![python](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/downloads/release/python-3610/) [![license](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/sandialabs/sibl#license)
 
-* XYFigure
-  * [Getting started](https://github.com/sandialabs/sibl/blob/master/xyfigure/README.md)
-  * [Documentation](https://github.com/sandialabs/sibl/blob/master/xyfigure/documentation.md)
-  * [Test Cases](https://github.com/sandialabs/sibl/blob/master/xyfigure/test/README.md)
+* [XYFigure](https://github.com/sandialabs/sibl/tree/master/xyfigure/README.md)
+* [tpav](https://github.com/sandialabs/sibl/tree/master/process/tpav/README.md)
 
 ## Prerequisites
 
@@ -30,7 +28,7 @@ There are two workflows: (1) Client,  (2) Developer
 | **Client** | **Developer**  |
 |---|---|
 | *"I just want to use the library, I don't want to develop the library."* | *"I want to use the library and develop the library."* | 
-| [Client Directions](https://github.com/sandialabs/sibl/blob/master/README.md#client-workflow---choice-12) | [Developer Directions](https://github.com/sandialabs/sibl/blob/master/README.md#developer-workflow---choice-22) | 
+| [Client Directions](https://github.com/sandialabs/sibl#client-workflow---choice-12) | [Developer Directions](https://github.com/sandialabs/sibl#developer-workflow---choice-22) | 
 
 ## Client Workflow - Choice 1/2
 

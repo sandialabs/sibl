@@ -2,16 +2,18 @@
     "sine-data": {
         "class": "model",
         "folder": ".",
-        "file": "t_versus_sin_t.csv"
+        "file": "data.csv"
     },
     "cosine-data": {
         "class": "model",
         "folder": ".",
-        "file": "t_versus_cos_2t.csv"
+        "file": "data.csv",
+        "ycolumn": 2
     },
     "figure-output": {
         "class": "view",
         "folder": ".",
-        "file": "min_spec.png"
+        "file": "recipe_minimal.svg",
+        "serialize": 1
     }
 }
