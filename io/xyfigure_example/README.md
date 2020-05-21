@@ -29,12 +29,13 @@ will result, written to the `~/sibl/io/xyfigure_example/` folder.
 
 ### Next Steps
 
-* Scan through the [documentation](../../documentation.md). 
-* Scan through the [test cases](../../test/README.md).
+
+* Scan throught the [documentation](https://github.com/sandialabs/sibl/blob/master/xyfigure/documentation.md).
+* Scan through the [test cases](https://github.com/sandialabs/sibl/blob/master/xyfigure/test/README.md).
 
 ## Getting Minimalistic
 
-Most of the keywords documented in the [documentation](../../documentation.md) are *optional*.  If the optional keywords are not specified, `xyfigure` selects sensible default values.  Users override the default behaviour by specifying the optional keywords.  
+Most of the keywords documented in the documentation are *optional*.  If the optional keywords are not specified, `xyfigure` selects sensible default values.  Users override the default behaviour by specifying the optional keywords.  
 
 Here is the sine and cosine example from above, as a minimal [json](recipe_minimal.json) file, with only two optional keywords:
 
