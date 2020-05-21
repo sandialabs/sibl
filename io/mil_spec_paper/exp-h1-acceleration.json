@@ -1,0 +1,73 @@
+{
+    "exp-ave": {
+        "class": "model",
+        "folder": "../../../casco_sim/dot-exp-helmet-0305-hemi-001",
+        "file": "shells-impacts-ave.csv",
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "label": "average (n=4)",
+            "linestyle": "-",
+            "linewidth": 3
+        }
+    },
+    "exp-1": {
+        "class": "model",
+        "folder": "../../../casco_sim/dot-exp-helmet-0305-hemi-001",
+        "file": "shell-2-impact-1.csv",
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "label": "shell 2 impact 1",
+            "linestyle": "-.",
+            "linewidth": 2
+        }
+    },
+    "exp-2": {
+        "class": "model",
+        "folder": "../../../casco_sim/dot-exp-helmet-0305-hemi-001",
+        "file": "shell-2-impact-2.csv",
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "label": "shell 2 impact 2",
+            "linestyle": ":",
+            "linewidth": 2
+        }
+    },
+    "exp-3": {
+        "class": "model",
+        "folder": "../../../casco_sim/dot-exp-helmet-0305-hemi-001",
+        "file": "shell-3-impact-1.csv",
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "label": "shell 3 impact 1",
+            "linestyle": "--",
+            "linewidth": 2
+        }
+    },
+    "exp-4": {
+        "class": "model",
+        "folder": "../../../casco_sim/dot-exp-helmet-0305-hemi-001",
+        "file": "shell-3-impact-2.csv",
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "label": "shell 3 impact 2",
+            "linestyle": "-",
+            "linewidth": 1
+        }
+    },
+    "figure": {
+        "class": "view",
+        "folder": "output",
+        "# file": "exp-h1-acceleration.svg",
+        "file": "exp-h1-acceleration.pdf",
+        "size": [8.0, 6.0],
+        "title": "",
+        "xlim": [0.0, 0.020],
+        "ylim": [-10, 85],
+        "xlabel": "time (s)",
+        "ylabel": "deceleration (Gs)",
+        "details": 0,
+        "display": 0,
+        "latex": 1,
+        "serialize": 1
+    }
+}
