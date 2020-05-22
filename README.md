@@ -19,7 +19,7 @@ For more information, see our [website](http://www.sandia.gov/biomechanics/).
   * if pip is not already installed, then install [pip](https://pip.pypa.io/en/stable/installing/), 
   * then read [these directions](https://pip.pypa.io/en/stable/quickstart/)
 * Numpy, Scipy, and Matplotlib, all [here](https://scipy.org/)
-* Pillow (only required for xyfigure/test)
+* [Pillow](https://pypi.org/project/Pillow/) (only required for xyfigure/test)
 
 ## Workflow Choice
 
