@@ -11,3 +11,7 @@ build/
 dist/
 xyfigure.egg-info
 
+# Ignore coverage.py html output 
+.coverage
+htmlcov/
+
