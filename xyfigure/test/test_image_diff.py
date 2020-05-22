@@ -2,9 +2,9 @@
 This module is a unit test of the image_diff.py script.
 To run
 
-# python image_diff_test.py                 # or
-$ python -m unittest image_diff_test.py     # for default interaction, and
-$ python -m unittest -v image_diff_test.py  # for higher verbosity
+# python test_image_diff.py                 # or
+$ python -m unittest test_image_diff.py     # for default interaction, and
+$ python -m unittest -v test_image_diff.py  # for higher verbosity
 
 """
 # https://www.python.org/dev/peps/pep-0008/#imports
@@ -20,13 +20,14 @@ class TestImageDiff(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls._path_str = 'sibl/xyfigure/test/image_diff_test.py'
-        print(cls._path_str + ' initialized.')
+        # cls._path_str = 'sibl/xyfigure/test/image_diff_test.py'
+        # print(cls._path_str + ' initialized.')
 
-        cls._orig = 'image_diff_test.png'
-        cls._same = 'image_diff_test_clone.png'
-        cls._diff = 'image_diff_test_diff.png'
-        cls._verbose = True  # verbose
+        cls._path_str = 'xyfigure/test/'
+        cls._orig = cls._path_str + 'image_diff_test.png'
+        cls._same = cls._path_str + 'image_diff_test_clone.png'
+        cls._diff = cls._path_str + 'image_diff_test_diff.png'
+        cls._verbose = False  # verbose
 
     @classmethod
     def tearDownClass(cls):
