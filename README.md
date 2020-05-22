@@ -6,7 +6,7 @@ The Sandia Injury Biomechanics Laboratory analyzes injury due to blast, ballisti
 
 For more information, see our [website](http://www.sandia.gov/biomechanics/).
 
-## Library [![python](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/downloads/release/python-3610/) [![license](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/sandialabs/sibl#license)
+## Library [![python](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/downloads/release/python-3610/) [![license](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/sandialabs/sibl#license) ![CI](https://github.com/sandialabs/sibl/workflows/CI/badge.svg)
 
 * [XYFigure](https://github.com/sandialabs/sibl/tree/master/xyfigure/README.md)
 * [tpav](https://github.com/sandialabs/sibl/tree/master/process/tpav/README.md)
