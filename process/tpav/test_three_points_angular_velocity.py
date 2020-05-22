@@ -1,10 +1,13 @@
-#!/usr/bin/env python
+# https://www.python.org/dev/peps/pep-0008/#imports
+# standard library imports
+import os
 import unittest
 
+# related third-party imports
 import numpy as np
-import os
 
-import three_points_angular_velocity as tpav
+# local application/library specific imports
+import process.tpav.three_points_angular_velocity as tpav
 
 
 class ThreePointsAngularVelocityTest(unittest.TestCase):
@@ -205,24 +208,7 @@ class ThreePointsAngularVelocityTest(unittest.TestCase):
         self.assertLess(np.linalg.norm(A_known - A_calculated), self.tolerance)
         self.assertLess(np.linalg.norm(w_known - w_calculated_T), self.tolerance)
 
-    # def test_pendulum(self):
-    #     subdirectory_found = False
-    #     try:
-    #         input_folder = 'simo'
-    #         input_full = os.path.join(os.getcwd(), input_folder)
-    #         if self.verbose:
-    #             print('Searching for directory:')
-    #             print(input_full)
-    #         os.chdir(input_full)
-    #         subdirectory_found = True
-    #         os.chdir('../')
-    #         # to finish
-
-    #     except OSError:
-    #         print('Error: directory not found.')
-
-    #     self.assertEqual(subdirectory_found, True, msg='Directory not found.')
-
+    @unittest.expectedFailure
     def test_t0_insufficient_rank_omega_perpendicular(self):
 
         """
@@ -259,9 +245,10 @@ class ThreePointsAngularVelocityTest(unittest.TestCase):
 
         # position vectors, seeded
         rOP = np.array(rOP_known)
-        print(f'rOP = {rOP}')
         rPQ = np.array(rPQ_known)
-        print(f'rPQ = {rPQ}')
+        if self.verbose:
+            print(f'rOP = {rOP}')
+            print(f'rPQ = {rPQ}')
         # rPR = np.random.randn(self.nts, self.nsd)  # position vector in body B from P to R
         rPR = rPQ
 
@@ -301,6 +288,7 @@ class ThreePointsAngularVelocityTest(unittest.TestCase):
         self.assertLess(np.linalg.norm(A_known - A_calculated), self.tolerance)
         self.assertLess(np.linalg.norm(w_known - w_calculated_T), self.tolerance)
 
+    @unittest.expectedFailure
     def test_t0_insufficient_rank_omega_parallel(self):
 
         """
@@ -337,9 +325,10 @@ class ThreePointsAngularVelocityTest(unittest.TestCase):
 
         # position vectors, seeded
         rOP = np.array(rOP_known)
-        print(f'rOP = {rOP}')
         rPQ = np.array(rPQ_known)
-        print(f'rPQ = {rPQ}')
+        if self.verbose:
+            print(f'rOP = {rOP}')
+            print(f'rPQ = {rPQ}')
         # rPR = np.random.randn(self.nts, self.nsd)  # position vector in body B from P to R
         rPR = rPQ
 
@@ -355,7 +344,6 @@ class ThreePointsAngularVelocityTest(unittest.TestCase):
         vQ = vP + np.cross(wB, rPQ)
         vR = vP + np.cross(wB, rPR)
 
-        self.verbose = 1  # manually turn on/off verbosity here
         p = tpav.ThreePointsAngularVelocity(rOP, rOQ, rOR, vP, vQ, vR, self.verbose)
 
         A_calculated = p.A_matrix()

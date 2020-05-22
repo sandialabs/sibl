@@ -118,16 +118,6 @@ class ThreePointsAngularVelocity:
             print('Three Points Angular Velocity server stop.')
             print('------------------------------------------')
 
-#    def cross_matrix(self, vec):
-#        """ 
-#        This function computes the cross matrix to execute the cross product.
-#        """
-#        # return np.array([[0, -vec[2], vec[1]], [vec[2], 0, -vec[0]], [-vec[1], vec[0], 0]])
-#        return np.array([[[0.0, -vec[i, 2], vec[i, 1]], 
-#                          [vec[i, 2], 0.0, -vec[i,0]], 
-#                          [-vec[i, 1], vec[i, 0], 0.0]] 
-#                          for i in range(len(vec))])
-
     def angular_velocity(self):
         """
         Computes the estimates angular velocity of rigid body B in frame F.
