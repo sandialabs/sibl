@@ -40,7 +40,7 @@ class ThreePointsAngularVelocity:
 
         self.verbose = verbose
 
-        if self.verbose:
+        if self.verbose:  # pragma: no cover
             print('-------------------------------------------')
             print('Three Points Angular Velocity server start.')
 
@@ -70,7 +70,7 @@ class ThreePointsAngularVelocity:
 
         self.wB = [np.squeeze(np.reshape(self.wB[i], (1, 3))).tolist() for i in range(nts)]
 
-        if self.verbose:
+        if self.verbose:  # pragma: no cover
             print(f'rP = {rP}')
             print(f'rQ = {rQ}')
             print(f'rR = {rR}')
@@ -122,7 +122,7 @@ class ThreePointsAngularVelocity:
         """
         Computes the estimates angular velocity of rigid body B in frame F.
         """
-        if self.verbose:
+        if self.verbose:  # pragma: no cover
             print(f'calculated angular velocity = {self.wB}')
         return self.wB
 

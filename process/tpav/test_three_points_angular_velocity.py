@@ -50,7 +50,7 @@ class ThreePointsAngularVelocityTest(unittest.TestCase):
                               [-0.7612069, -1.74481176, 0.0]]])
         w_known = np.array([[-0.3224172, -0.38405435, 1.13376944]])
 
-        if self.verbose:
+        if self.verbose:  # pragma: no cover
             print(f'A_known = {A_known}')
             print(f'w_known = {w_known}')
 
@@ -74,12 +74,12 @@ class ThreePointsAngularVelocityTest(unittest.TestCase):
         p = tpav.ThreePointsAngularVelocity(rOP, rOQ, rOR, vP, vQ, vR, self.verbose)
 
         A_calculated = p.A_matrix()
-        if self.verbose:
+        if self.verbose:  # praga: no cover
             print(f'A_calculated = {A_calculated}')
 
         # w_calculated_T = np.squeeze(np.reshape(p.angular_velocity(), (nts, nsd)))
         w_calculated_T = p.angular_velocity()
-        if self.verbose:
+        if self.verbose:  # pragma: no cover
             print(f'w_calculated_T = {w_calculated_T}')
 
         self.assertEqual(self.seed, 1, msg='Set to 1 for test repeatibility.')
@@ -141,7 +141,7 @@ class ThreePointsAngularVelocityTest(unittest.TestCase):
         w_known = np.array([[-0.3224172, -0.38405435, 1.13376944],
                             [-0.3224172, -0.38405435, 1.13376944]])
 
-        if self.verbose:
+        if self.verbose:  # pragma: no cover
             print(f'A_known = {A_known}')
             print(f'w_known = {w_known}')
 
@@ -188,12 +188,12 @@ class ThreePointsAngularVelocityTest(unittest.TestCase):
         p = tpav.ThreePointsAngularVelocity(rOP, rOQ, rOR, vP, vQ, vR, self.verbose)
 
         A_calculated = p.A_matrix()
-        if self.verbose:
+        if self.verbose:  # pragma: no cover
             print(f'A_calculated = {A_calculated}')
 
         # w_calculated_T = np.squeeze(np.reshape(p.angular_velocity(), (nts, nsd)))
         w_calculated_T = p.angular_velocity()
-        if self.verbose:
+        if self.verbose:  # pragma: no cover
             print(f'w_calculated_T = {w_calculated_T}')
 
         self.assertEqual(self.seed, 1, msg='Set to 1 for test repeatibility.')
@@ -246,7 +246,7 @@ class ThreePointsAngularVelocityTest(unittest.TestCase):
         # position vectors, seeded
         rOP = np.array(rOP_known)
         rPQ = np.array(rPQ_known)
-        if self.verbose:
+        if self.verbose:  # pragma: no cover
             print(f'rOP = {rOP}')
             print(f'rPQ = {rPQ}')
         # rPR = np.random.randn(self.nts, self.nsd)  # position vector in body B from P to R
@@ -268,12 +268,12 @@ class ThreePointsAngularVelocityTest(unittest.TestCase):
         p = tpav.ThreePointsAngularVelocity(rOP, rOQ, rOR, vP, vQ, vR, self.verbose)
 
         A_calculated = p.A_matrix()
-        if self.verbose:
+        if self.verbose:  # pragma: no cover
             print(f'A_calculated = {A_calculated}')
 
         # w_calculated_T = np.squeeze(np.reshape(p.angular_velocity(), (nts, nsd)))
         w_calculated_T = p.angular_velocity()
-        if self.verbose:
+        if self.verbose:  # pragma: no cover
             print(f'w_calculated_T = {w_calculated_T}')
 
         self.assertEqual(self.seed, 1, msg='Set to 1 for test repeatibility.')
@@ -319,14 +319,14 @@ class ThreePointsAngularVelocityTest(unittest.TestCase):
 
         w_known = np.array([[0, 0, 12]])
 
-        if self.verbose:
+        if self.verbose:  # pragma: no cover
             print(f'A_known = {A_known}')
             print(f'w_known = {w_known}')
 
         # position vectors, seeded
         rOP = np.array(rOP_known)
         rPQ = np.array(rPQ_known)
-        if self.verbose:
+        if self.verbose:  # pragma: no cover
             print(f'rOP = {rOP}')
             print(f'rPQ = {rPQ}')
         # rPR = np.random.randn(self.nts, self.nsd)  # position vector in body B from P to R
@@ -347,12 +347,12 @@ class ThreePointsAngularVelocityTest(unittest.TestCase):
         p = tpav.ThreePointsAngularVelocity(rOP, rOQ, rOR, vP, vQ, vR, self.verbose)
 
         A_calculated = p.A_matrix()
-        if self.verbose:
+        if self.verbose:  # pragma: no cover
             print(f'A_calculated = {A_calculated}')
 
         # w_calculated_T = np.squeeze(np.reshape(p.angular_velocity(), (nts, nsd)))
         w_calculated_T = p.angular_velocity()
-        if self.verbose:
+        if self.verbose:  # pragma: no cover
             print(f'w_calculated_T = {w_calculated_T}')
 
         self.assertEqual(self.seed, 1, msg='Set to 1 for test repeatibility.')

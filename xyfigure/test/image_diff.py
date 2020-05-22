@@ -1,6 +1,6 @@
 """Tests if two images are the same on a pixel-by-pixel basis.
 
-    Typical useage example:
+    Typical example:
     $ python image_diff.py image_a image_b
 """
 # https://www.python.org/dev/peps/pep-0008/#imports
@@ -38,20 +38,19 @@ def same(file_a, file_b, verbose=0):
     same_channels = False
     same_pixels = False
 
-    if verbose:
+    if verbose:  # pragma: no cover
         print(f'Image 1 file name: {file_a}')
         print(f'Image 2 file name: {file_b}')
 
     try:
         with Image.open(file_a) as im_a, Image.open(file_b) as im_b:
-            # im_a = Image.open(file_a)
-            # im_b = Image.open(file_b)
+
             im_a_size = im_a.size
             im_b_size = im_b.size
 
             same_xy_dimension = im_a_size == im_b_size
 
-            if verbose:
+            if verbose:  # pragma: no cover
                 print('Test 1 of 2: Dimensionality comparison')
                 print(f'  (x,y) dimension of image 1 is {im_a_size}')
                 print(f'  (x,y) dimension of image 2 is {im_b_size}')
@@ -71,12 +70,9 @@ def same(file_a, file_b, verbose=0):
                     data_diff_norm = np.linalg.norm(data_diff)
                     image_tol = 10.0  # tolerance for the L2norm to be same or different
 
-                    # if np.abs(data_diff_norm) < image_tol:
-                    #     same_pixels = True
-
                     same_pixels = np.abs(data_diff_norm) < image_tol
 
-                    if verbose:
+                    if verbose:  # pragma: no cover
                         print(f'  Images (x,y) dimensions are the same? [T/F]: {same_xy_dimension}')
                         print(f'  Images have same mode? [T/F]: {same_mode}')
                         print(f'  Images have same number of channels? [T/F]: {same_channels}')
@@ -85,14 +81,14 @@ def same(file_a, file_b, verbose=0):
                         print(f'  Size of data image 2 is {data_b.size}')
                         print(f'  Pixels are the same? [T/F]: {same_pixels}')
 
-            else:
+            else:  # pragma: no cover
                 if verbose:
                     print(f'  Images (x,y) dimensions are the same? [T/F]: {same_xy_dimension}')
                     print(f'  Images have same mode? [T/F]: {same_mode}')
                     print(f'  Images have same number of channels? [T/F]: {same_channels}')
                     print('Images are different.')
 
-            if verbose:
+            if verbose:  # pragma: no cover
                 print(f'Returning {same_pixels}')
 
             return same_pixels
@@ -101,7 +97,6 @@ def same(file_a, file_b, verbose=0):
         print('Error: could not open files:')
         print(f'  {file_a}')
         print(f'  {file_b}')
-
 
 def main(argv):
     """ The main entry point for command line interation.
