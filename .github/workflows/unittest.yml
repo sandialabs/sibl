@@ -27,3 +27,6 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         python -m pip install --user numpy scipy matplotlib
+    - name: Test with unittest
+      run: |
+        python -m unittest
