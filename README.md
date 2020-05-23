@@ -6,10 +6,29 @@ The Sandia Injury Biomechanics Laboratory analyzes injury due to blast, ballisti
 
 For more information, see our [website](http://www.sandia.gov/biomechanics/).
 
-## Library [![python](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/downloads/release/python-3610/) [![license](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/sandialabs/sibl#license) ![CI](https://github.com/sandialabs/sibl/workflows/CI/badge.svg) ![coverage](https://img.shields.io/badge/coverage-85%25-yellowgreen)
+## Library 
 
 * [XYFigure](https://github.com/sandialabs/sibl/tree/master/xyfigure/README.md)
 * [tpav](https://github.com/sandialabs/sibl/tree/master/process/tpav/README.md)
+
+<!-- buttons -->
+<p align="center">
+    <a href="https://www.python.org/">
+        <img src="https://img.shields.io/badge/python-3.6+-blue.svg"
+            alt="python"></a> &nbsp;
+    <a href="https://pypi.org/project/xyfigure/">
+        <img src="https://img.shields.io/badge/pypi-v0.0.5-brightgreen.svg"
+            alt="pypi"></a> &nbsp;
+     <a href="https://github.com/sandialabs/sibl/actions">
+        <img src="https://github.com/sandialabs/sibl/workflows/CI/badge.svg"
+            alt="CI"></a> &nbsp;
+    <a href="https://github.com/sandialabs/sibl/tree/master/htmlcov/index.html">
+        <img src="https://img.shields.io/badge/coverage-85%25-yellowgreen.svg"
+            alt="Coverage"></a> &nbsp;
+    <a href="https://github.com/sandialabs/sibl#license">
+        <img src="https://img.shields.io/badge/license-MIT-brightgreen.svg"
+            alt="MIT license"></a> &nbsp;
+</p>
 
 ## Prerequisites
 
