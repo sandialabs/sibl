@@ -8,9 +8,16 @@ For more information, see our [website](http://www.sandia.gov/biomechanics/).
 
 ## Library 
 
+[![python](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/) 
+[![license](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/sandialabs/sibl#license) 
+[![pypi](https://img.shields.io/badge/pypi-v0.0.5-brightgreen.svg)](https://pypi.org/project/xyfigure/) 
+[![CI](https://github.com/sandialabs/sibl/workflows/CI/badge.svg)](https://github.com/sandialabs/sibl/actions)
+[![coverage](https://img.shields.io/badge/coverage-85%25-yellowgreen.svg)](https://github.com/sandialabs/sibl/tree/master/htmlcov/index.html)
+
 * [XYFigure](https://github.com/sandialabs/sibl/tree/master/xyfigure/README.md)
 * [tpav](https://github.com/sandialabs/sibl/tree/master/process/tpav/README.md)
 
+<<<<<<< HEAD
 <!-- buttons -->
 <p align="center">
     <a href="https://www.python.org/">
@@ -30,6 +37,8 @@ For more information, see our [website](http://www.sandia.gov/biomechanics/).
             alt="MIT license"></a> &nbsp;
 </p>
 
+=======
+>>>>>>> 2c359226aafaf221e393e0c49d3c01c787a7d576
 ## Prerequisites
 
 * [Python 3.6](https://www.python.org/downloads/) or higher (the library uses f-strings)
