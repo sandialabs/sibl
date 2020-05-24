@@ -1,7 +1,7 @@
 {
     "time-jerk": {
         "class": "model",
-        "folder": ".",
+        "folder": "xyfigure/test/differentiation",
         "file": "u-squared.csv",
         "skip_rows": 1,
         "plot_kwargs": {
@@ -10,26 +10,26 @@
             "linestyle": "-"
         },
         "signal_process": {
-            "process1": {
+            "process3": {
                 "gradient": {
                     "order": 3,
                     "serialize": 1,
-                    "folder": ".",
-                    "file": "zeros.csv"
+                    "folder": "xyfigure/test/differentiation",
+                    "file": "u-squared-sig-proc-3.csv"
                 }
             }
         }
     },
     "figure": {
         "class": "view",
-        "folder": ".",
-        "file": "u-squared-ddt3.png",
+        "folder": "xyfigure/test/differentiation",
+        "file": "u-squared-ddt3.svg",
         "title": "u_dddot = d^3/dt^3 (1/2 t^2) = 0",
         "xlabel": "time (s)",
         "ylabel": "jerk (m/s^3)",
         "size": [8.0, 6.0],
         "display": 0,
         "details": 0,
-        "serialize": 1
+        "serialize": 0
     }
 }

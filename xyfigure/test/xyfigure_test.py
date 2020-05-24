@@ -135,25 +135,29 @@ class TestImageDiff(TestCase):
         fa, fb = self.compare_test_to_reference(jfile)
         self.assertTrue(same(fa, fb))
 
-    def test_quadratic(self):
-        jfile = 'u-squared.json'
-        fa, fb = self.compare_test_to_reference(jfile)
-        self.assertTrue(same(fa, fb))
+    # refactor to test_differentiation
+    # def test_quadratic(self):
+    #     jfile = 'u-squared.json'
+    #     fa, fb = self.compare_test_to_reference(jfile)
+    #     self.assertTrue(same(fa, fb))
 
-    def test_quadratic_ddt1(self):
-        jfile = 'u-squared-ddt1.json'
-        fa, fb = self.compare_test_to_reference(jfile)
-        self.assertTrue(same(fa, fb))
+    # refactor to test_differentiation
+    # def test_quadratic_ddt1(self):
+    #     jfile = 'u-squared-ddt1.json'
+    #     fa, fb = self.compare_test_to_reference(jfile)
+    #     self.assertTrue(same(fa, fb))
 
-    def test_quadratic_ddt2(self):
-        jfile = 'u-squared-ddt2.json'
-        fa, fb = self.compare_test_to_reference(jfile)
-        self.assertTrue(same(fa, fb))
+    # refactor to test_differentiation
+    # def test_quadratic_ddt2(self):
+    #     jfile = 'u-squared-ddt2.json'
+    #     fa, fb = self.compare_test_to_reference(jfile)
+    #     self.assertTrue(same(fa, fb))
 
-    def test_quadratic_ddt3(self):
-        jfile = 'u-squared-ddt3.json'
-        fa, fb = self.compare_test_to_reference(jfile)
-        self.assertTrue(same(fa, fb))
+    # refactor to test_differentiation
+    # def test_quadratic_ddt3(self):
+    #     jfile = 'u-squared-ddt3.json'
+    #     fa, fb = self.compare_test_to_reference(jfile)
+    #     self.assertTrue(same(fa, fb))
 
 
 if __name__ == '__main__':

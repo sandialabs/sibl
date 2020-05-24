@@ -23,7 +23,7 @@ For more information, see our [website](http://www.sandia.gov/biomechanics/).
         <img src="https://github.com/sandialabs/sibl/workflows/CI/badge.svg"
             alt="CI"></a> &nbsp;
     <a href="https://github.com/sandialabs/sibl/tree/master/htmlcov/index.html">
-        <img src="https://img.shields.io/badge/coverage-85%25-yellowgreen.svg"
+        <img src="https://img.shields.io/badge/coverage-73%25-yellow.svg"
             alt="Coverage"></a> &nbsp;
     <a href="https://github.com/sandialabs/sibl#license">
         <img src="https://img.shields.io/badge/license-MIT-brightgreen.svg"
