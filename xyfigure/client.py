@@ -69,8 +69,8 @@ def main(argv):
             view.models = models  # register all models with current view
             view.figure()  # must be within this subset scope
 
-    print('=======================')
-    print('End of client execution.')
+    print('====================================')
+    print('End of xyfigure/client.py execution.')
 
 if __name__ == '__main__':
     main(sys.argv[1:])
