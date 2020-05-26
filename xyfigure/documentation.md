@@ -82,7 +82,7 @@ Dictionary that overrides the [`matplotlib.pyplot.plot()` kwargs](https://matplo
 |                |        | *Some frequently used *optional values* follow.<br>If the keys are omitted, then the matplotlib defaults are used.*<br><br>
 | `"marker":`    | string | *optional*<br>The string to designate a marker at the data point.  See [matplotlib marker](https://matplotlib.org/3.1.1/api/markers_api.html#module-matplotlib.markers) documentation.
 | `"label":`     | string | *optional*<br>The string appearing in the legend correponding to the data.
-| `"color:"`     | string | *optional*<br>The [matplotlib color](https://matplotlib.org/3.1.1/tutorials/colors/colors.html) used to plot the data.  Also, [predefined color](https://matplotlib.org/3.1.0/gallery/color/named_colors.html) names.
+| `"color:"`     | string | *optional*<br>The matplotlib [color](https://matplotlib.org/3.1.1/tutorials/colors/colors.html) used to plot the data.  See also Matplotlib color [defaults](https://matplotlib.org/3.2.1/users/dflt_style_changes.html) and predefined color [names](https://matplotlib.org/3.1.0/gallery/color/named_colors.html).
 | `"alpha":`     | float  | *optional*<br>Real number in the range from `0` to `1`. Numbers toward `0` are more transparent and numbers toward `1` are more opaque.  
 
 #### Signal Processing Keywords Dictionary
