@@ -102,59 +102,112 @@
             }
         }
     },
+    "cg-rb": {
+        "class": "model",
+        "folder": "../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-066b/",
+        "file": "rigid_history.csv",
+        "ycolumn": 6,
+        "yscale": -0.001,
+        "skip_rows": 3,
+        "plot_kwargs": {
+            "label": "Rigid Body (Skull) Acceleration (Z)"
+        },
+        "signal_process": {
+            "process1": {
+                "butterworth": {
+                    "cutoff": 500,
+                    "order": 4,
+                    "type": "low"
+                }
+            },
+            "process2": {
+                "gradient": {
+                    "order": 1
+                }
+            }
+        }
+    },
+    "cg-deformable": {
+        "class": "model",
+        "folder": "../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-066b/",
+        "file": "history.csv",
+        "ycolumn": 46,
+        "yscale": -0.001,
+        "skip_rows": 3,
+        "plot_kwargs": {
+            "label": "CG Acceleration (GM) (Z)"
+        },
+        "signal_process": {
+            "process1": {
+                "butterworth": {
+                    "cutoff": 500,
+                    "order": 4,
+                    "type": "low"
+                }
+            },
+            "process2": {
+                "gradient": {
+                    "order": 1
+                }
+            }
+        }
+    },
+    "cg-rb-y": {
+        "class": "model",
+        "folder": "../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-066b/",
+        "file": "rigid_history.csv",
+        "ycolumn": 5,
+        "yscale": 0.001,
+        "skip_rows": 3,
+        "plot_kwargs": {
+            "label": "Rigid Body (Skull) Acceleration (Y)"
+        },
+        "signal_process": {
+            "process1": {
+                "butterworth": {
+                    "cutoff": 500,
+                    "order": 4,
+                    "type": "low"
+                }
+            },
+            "process2": {
+                "gradient": {
+                    "order": 1
+                }
+            }
+        }
+    },
+    "cg-deformable-y": {
+        "class": "model",
+        "folder": "../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-066b/",
+        "file": "history.csv",
+        "ycolumn": 45,
+        "yscale": 0.001,
+        "skip_rows": 3,
+        "plot_kwargs": {
+            "label": "CG Acceleration (GM) (Y)"
+        },
+        "signal_process": {
+            "process1": {
+                "butterworth": {
+                    "cutoff": 500,
+                    "order": 4,
+                    "type": "low"
+                }
+            },
+            "process2": {
+                "gradient": {
+                    "order": 1
+                }
+            }
+        }
+    },
     "figure": {
         "class": "view",
         "folder": "output",
+        "# model_keys": ["exp_ave","dot-cg","bot-cg","bob-cg-low-freq-restart-0","cg-rb","cg-deformable"],
         "# file": "exp-sim-h1-acceleration.svg",
-        "file": "exp-sim-h1-acceleration.pdf",
-        "size": [8.0, 6.0],
-        "title": "",
-        "xlim": [0, 0.020],
-        "ylim": [-25, 85],
-        "xlabel": "time (s)",
-        "ylabel": "deceleration (Gs)",
-        "details": 0,
-        "display": 0,
-        "latex": 1,
-        "serialize": 1
-    },
-    "figure-sim-dot-iso": {
-        "class": "view",
-        "model_keys": ["exp-ave", "dot-cg"],
-        "folder": "output",
-        "file": "exp-sim-h1-acceleration-dot-iso.pdf",
-        "size": [8.0, 6.0],
-        "title": "",
-        "xlim": [0, 0.020],
-        "ylim": [-25, 85],
-        "xlabel": "time (s)",
-        "ylabel": "deceleration (Gs)",
-        "details": 0,
-        "display": 0,
-        "latex": 1,
-        "serialize": 1
-    },
-    "figure-sim-dot-bot": {
-        "class": "view",
-        "model_keys": ["dot-cg","bot-cg"],
-        "folder": "output",
-        "file": "exp-sim-h1-acceleration-dot-bot.pdf",
-        "size": [8.0, 6.0],
-        "title": "",
-        "xlim": [0, 0.020],
-        "ylim": [-25, 85],
-        "xlabel": "time (s)",
-        "ylabel": "deceleration (Gs)",
-        "details": 0,
-        "display": 0,
-        "latex": 1,
-        "serialize": 1
-    },
-    "figure-sim-bot-bob": {
-        "class": "view",
-        "model_keys": ["bot-cg","bob-cg-low-freq-restart-0"],
-        "folder": "output",
-        "file": "exp-sim-h1-acceleration-bot-bob.pdf",
+        "file": "exp-sim-angled-h1-acceleration.pdf",
         "size": [8.0, 6.0],
         "title": "",
         "xlim": [0, 0.020],

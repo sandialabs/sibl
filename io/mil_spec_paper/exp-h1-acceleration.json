@@ -4,10 +4,12 @@
         "folder": "../../../casco_sim/dot-exp-helmet-0305-hemi-001",
         "file": "shells-impacts-ave.csv",
         "skip_rows": 1,
+        "# xoffset": -0.00145,
         "plot_kwargs": {
-            "label": "average (n=4)",
+            "label": "exp DOT average (n=4)",
             "linestyle": "-",
-            "linewidth": 3
+            "linewidth": 3,
+            "color": "C0"
         }
     },
     "exp-1": {
@@ -18,7 +20,8 @@
         "plot_kwargs": {
             "label": "shell 2 impact 1",
             "linestyle": "-.",
-            "linewidth": 2
+            "linewidth": 2,
+            "color": "C1"
         }
     },
     "exp-2": {
@@ -29,7 +32,8 @@
         "plot_kwargs": {
             "label": "shell 2 impact 2",
             "linestyle": ":",
-            "linewidth": 2
+            "linewidth": 2,
+            "color": "C2"
         }
     },
     "exp-3": {
@@ -40,7 +44,8 @@
         "plot_kwargs": {
             "label": "shell 3 impact 1",
             "linestyle": "--",
-            "linewidth": 2
+            "linewidth": 2,
+            "color": "C3"
         }
     },
     "exp-4": {
@@ -51,7 +56,8 @@
         "plot_kwargs": {
             "label": "shell 3 impact 2",
             "linestyle": "-",
-            "linewidth": 1
+            "linewidth": 1,
+            "color": "C4"
         }
     },
     "figure": {
@@ -62,7 +68,23 @@
         "size": [8.0, 6.0],
         "title": "",
         "xlim": [0.0, 0.020],
-        "ylim": [-10, 85],
+        "ylim": [-25, 85],
+        "xlabel": "time (s)",
+        "ylabel": "deceleration (Gs)",
+        "details": 0,
+        "display": 0,
+        "latex": 1,
+        "serialize": 1
+    },
+    "figure2": {
+        "class": "view",
+        "model_keys": ["exp-ave"],
+        "folder": "output",
+        "file": "exp-h1-acceleration-iso.pdf",
+        "size": [8.0, 6.0],
+        "title": "",
+        "xlim": [0.0, 0.020],
+        "ylim": [-25, 85],
         "xlabel": "time (s)",
         "ylabel": "deceleration (Gs)",
         "details": 0,

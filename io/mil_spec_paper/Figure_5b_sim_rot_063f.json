@@ -2,17 +2,17 @@
     "angular_velocity_x": {
         "class": "model",
         "folder": "../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-063f",
-        "file": "angular_velocity.csv",
+        "file": "angular_velocity_joined.csv",
         "ycolumn": 1,
         "# xoffset": 0.00125,
         "skip_rows": 1,
         "plot_kwargs": {
-            "label": "Bob-063f omega_x fc = 500 Hz"
+            "label": "Bob-063f omega_x fc = 1000 Hz"
         },
         "signal_process": {
             "process1": {
                 "butterworth": {
-                    "cutoff": 500,
+                    "cutoff": 1000,
                     "order": 4,
                     "type": "low"
                 }
@@ -22,7 +22,7 @@
     "angular_velocity_x_integrated": {
         "class": "model",
         "folder": "../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-063f",
-        "file": "angular_velocity.csv",
+        "file": "angular_velocity_joined.csv",
         "ycolumn": 1,
         "# xoffset": 0.00125,
         "skip_rows": 1,
@@ -44,17 +44,17 @@
     "angular_velocity_x_differentiated": {
         "class": "model",
         "folder": "../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-063f",
-        "file": "angular_velocity.csv",
+        "file": "angular_velocity_joined.csv",
         "ycolumn": 1,
         "# xoffset": 0.00125,
         "skip_rows": 1,
         "plot_kwargs": {
-            "label": "Bob-063f d/dt(omega_x | fc = 500 Hz)"
+            "label": "Bob-063f d/dt(omega_x | fc = 1000 Hz)"
         },
         "signal_process": {
             "process1": {
                 "butterworth": {
-                    "cutoff": 500,
+                    "cutoff": 1000,
                     "order": 4,
                     "type": "low"
                 }
@@ -76,10 +76,14 @@
         "size": [8.0, 6.0],
         "dpi": 100,
         "xlim": [0, 0.060],
+        "yaxis_rhs": {
+            "scale": 57.2958,
+            "label": "angular velocity (deg/s)"
+        },
         "title": "Figure 5b: Head c.g. angular velocity",
         "xlabel": "time (s)",
         "ylabel": "angular velocity (rad/s)",
-        "display": 1,
+        "display": 0,
         "latex": 0,
         "serialize": 1
     },
@@ -91,10 +95,29 @@
         "size": [8.0, 6.0],
         "dpi": 100,
         "xlim": [0, 0.060],
+        "yaxis_rhs": {
+            "scale": 57.2958,
+            "label": "angular position (deg)"
+        },
         "title": "Figure 5b: Head c.g. angular position",
         "xlabel": "time (s)",
-        "ylabel": "angular velocity (rad)",
-        "display": 1,
+        "ylabel": "angular position (rad)",
+        "display": 0,
+        "latex": 0,
+        "serialize": 1
+    },
+    "figure_differentiated": {
+        "class": "view",
+        "model_keys": ["angular_velocity_x_differentiated"],
+        "folder": "output",
+        "file": "Figure_5b_sim_angular_acceleration.pdf",
+        "size": [8.0, 6.0],
+        "dpi": 100,
+        "xlim": [0, 0.060],
+        "title": "Figure 5b: Head c.g. angular acceleration",
+        "xlabel": "time (s)",
+        "ylabel": "angular acceleration (rad/s^2)",
+        "display": 0,
         "latex": 0,
         "serialize": 1
     }

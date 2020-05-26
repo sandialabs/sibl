@@ -28,7 +28,7 @@
     "figure": {
         "class": "view",
         "folder": "output",
-        "file": "Figure-3.pdf",
+        "file": "h0-bot-bob.pdf",
         "size": [8.0, 6.0],
         "title": "",
         "xlim": [0, 0.010],

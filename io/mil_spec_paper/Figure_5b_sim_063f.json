@@ -4,11 +4,12 @@
         "folder": "../../../casco_sim/dot-exp-helmet-0305-hemi-001",
         "file": "shells-impacts-ave.csv",
         "skip_rows": 1,
+        "xoffset": -0.0025,
         "plot_kwargs": {
-            "label": "Exp DOT, average (n=4)",
-            "color": "darkorange",
+            "label": "Exp DOT average (n=4)",
+            "color": "navy",
             "linestyle": "dashed",
-            "linewidth": 4
+            "linewidth": 3
         }
     },
     "dot-cg": {
@@ -103,6 +104,7 @@
     "figure": {
         "class": "view",
         "folder": "output",
+        "# file": "Figure_5b_sim_063f.svg",
         "file": "Figure_5b_sim_063f.pdf",
         "size": [8.0, 6.0],
         "dpi": 100,
