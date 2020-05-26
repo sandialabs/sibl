@@ -1,0 +1,394 @@
+{
+    "exp-ave": {
+        "class": "model",
+        "folder": "../../../casco_sim/dot-exp-helmet-0305-hemi-001",
+        "file": "shells-impacts-ave.csv",
+        "skip_rows": 1,
+        "xoffset": -0.00145,
+        "plot_kwargs": {
+            "label": "exp DOT average (n=4)",
+            "linestyle": "-",
+            "linewidth": 3,
+            "color": "C0"
+        }
+    },
+    "exp-1": {
+        "class": "model",
+        "folder": "../../../casco_sim/dot-exp-helmet-0305-hemi-001",
+        "file": "shell-2-impact-1.csv",
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "label": "shell 2 impact 1",
+            "linestyle": "-.",
+            "linewidth": 2,
+            "color": "C1"
+        }
+    },
+    "exp-2": {
+        "class": "model",
+        "folder": "../../../casco_sim/dot-exp-helmet-0305-hemi-001",
+        "file": "shell-2-impact-2.csv",
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "label": "shell 2 impact 2",
+            "linestyle": ":",
+            "linewidth": 2,
+            "color": "C2"
+        }
+    },
+    "exp-3": {
+        "class": "model",
+        "folder": "../../../casco_sim/dot-exp-helmet-0305-hemi-001",
+        "file": "shell-3-impact-1.csv",
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "label": "shell 3 impact 1",
+            "linestyle": "--",
+            "linewidth": 2,
+            "color": "C3"
+        }
+    },
+    "exp-4": {
+        "class": "model",
+        "folder": "../../../casco_sim/dot-exp-helmet-0305-hemi-001",
+        "file": "shell-3-impact-2.csv",
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "label": "shell 3 impact 2",
+            "linestyle": "-",
+            "linewidth": 1,
+            "color": "C4"
+        }
+    },
+    "dot-cg": {
+        "class": "model",
+        "folder": "../../../casco_sim/dot-5mm-helmet-0305-hemi-062",
+        "file": "history.csv",
+        "ycolumn": 24,
+        "# xoffset": 0.00125,
+        "yscale": 0.00101971621,
+        "skip_rows": 3,
+        "plot_kwargs": {
+            "label": "sim DOT (Dot-062) Wc=500 Hz",
+            "linewidth": 1,
+            "alpha": 0.9,
+            "linestyle": "solid",
+            "color": "C1"
+        },
+        "signal_process": {
+            "process1": {
+                "butterworth": {
+                    "cutoff": 500,
+                    "order": 4,
+                    "type": "low"
+                }
+            },
+            "process2": {
+                "gradient": {
+                    "order": 1
+                }
+            }
+        }
+    },
+    "bot-cg": {
+        "class": "model",
+        "folder": "../../../casco_sim/bot-1mm-5kg-helmet2-0305-hemi-064b",
+        "file": "history.csv",
+        "ycolumn": 46,
+        "# xoffset": 0.00125,
+        "yscale": -0.00101971621,
+        "skip_rows": 3,
+        "plot_kwargs": {
+            "label": "sim Mg head (Bot-064b) Wc=500 Hz",
+            "linewidth": 3,
+            "alpha": 0.6,
+            "color": "dimgray",
+            "linestyle": "dashdot"
+        },
+        "signal_process": {
+            "process1": {
+                "butterworth": {
+                    "cutoff": 500,
+                    "order": 4,
+                    "type": "low"
+                }
+            },
+            "process2": {
+                "gradient": {
+                    "order": 1
+                }
+            }
+        }
+    },
+    "bob-cg-low-freq-restart-0": {
+        "class": "model",
+        "folder": "../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-063f",
+        "file": "history.csv",
+        "ycolumn": 46,
+        "# xoffset": 0.00125,
+        "yscale": -0.00101971621,
+        "skip_rows": 3,
+        "plot_kwargs": {
+            "label": "sim human head (Bob-063f) Wc=500 Hz",
+            "linewidth": 3,
+            "alpha": 0.7,
+            "linestyle": "solid",
+            "color": "C3"
+        },
+        "signal_process": {
+            "process1": {
+                "butterworth": {
+                    "cutoff": 500,
+                    "order": 4,
+                    "type": "low"
+                }
+            },
+            "process2": {
+                "gradient": {
+                    "order": 1
+                }
+            }
+        }
+    },
+    "cg-deformable": {
+        "class": "model",
+        "folder": "../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-066b/",
+        "file": "history.csv",
+        "ycolumn": 46,
+        "yscale": -0.001,
+        "skip_rows": 3,
+        "plot_kwargs": {
+            "label": "sim human head (Bob-066b) Z, Wc=500 Hz",
+            "linewidth": 3,
+            "alpha": 0.8,
+            "linestyle": "dotted",
+            "color": "C4"
+        },
+        "signal_process": {
+            "process1": {
+                "butterworth": {
+                    "cutoff": 500,
+                    "order": 4,
+                    "type": "low"
+                }
+            },
+            "process2": {
+                "gradient": {
+                    "order": 1
+                }
+            }
+        }
+    },
+    "cg-deformable-y": {
+        "class": "model",
+        "folder": "../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-066b/",
+        "file": "history.csv",
+        "ycolumn": 45,
+        "yscale": 0.001,
+        "skip_rows": 3,
+        "plot_kwargs": {
+            "label": "sim human head (Bob-066b) Y, Wc=500 Hz",
+            "linewidth": 3,
+            "alpha": 0.8,
+            "linestyle": "dashed",
+            "color": "C6"
+        },
+        "signal_process": {
+            "process1": {
+                "butterworth": {
+                    "cutoff": 500,
+                    "order": 4,
+                    "type": "low"
+                }
+            },
+            "process2": {
+                "gradient": {
+                    "order": 1
+                }
+            }
+        }
+    },
+    "cg-rb": {
+        "class": "model",
+        "folder": "../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-066b/",
+        "file": "rigid_history.csv",
+        "ycolumn": 6,
+        "yscale": -0.001,
+        "skip_rows": 3,
+        "plot_kwargs": {
+            "label": "sim rigid skull (Bob-066b) Z, Wc=500 Hz",
+            "linewidth": 1,
+            "linestyle": "dotted",
+            "color": "C4"
+        },
+        "signal_process": {
+            "process1": {
+                "butterworth": {
+                    "cutoff": 500,
+                    "order": 4,
+                    "type": "low"
+                }
+            },
+            "process2": {
+                "gradient": {
+                    "order": 1
+                }
+            }
+        }
+    },
+    "cg-rb-y": {
+        "class": "model",
+        "folder": "../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-066b/",
+        "file": "rigid_history.csv",
+        "ycolumn": 5,
+        "yscale": 0.001,
+        "skip_rows": 3,
+        "plot_kwargs": {
+            "label": "sim rigid skull (Bob-066b) Y, Wc=500 Hz",
+            "linewidth": 1,
+            "linestyle": "dashed",
+            "color": "C6"
+        },
+        "signal_process": {
+            "process1": {
+                "butterworth": {
+                    "cutoff": 500,
+                    "order": 4,
+                    "type": "low"
+                }
+            },
+            "process2": {
+                "gradient": {
+                    "order": 1
+                }
+            }
+        }
+    },
+    "figure-dot-exps": {
+        "class": "view",
+        "folder": "output",
+        "model_keys": ["exp-ave","exp-1","exp-2","exp-3","exp-4"],
+        "file": "h1-acc-exp.pdf",
+        "size": [8.0, 6.0],
+        "title": "",
+        "xlim": [0.0, 0.020],
+        "ylim": [-25, 85],
+        "xlabel": "time (s)",
+        "ylabel": "deceleration (Gs)",
+        "details": 0,
+        "display": 0,
+        "latex": 1,
+        "serialize": 0
+    },
+    "figure-dot-exp-iso": {
+        "class": "view",
+        "folder": "output",
+        "model_keys": ["exp-ave"],
+        "file": "h1-acc-exp-iso.pdf",
+        "size": [8.0, 6.0],
+        "title": "",
+        "xlim": [0.0, 0.020],
+        "ylim": [-25, 85],
+        "xlabel": "time (s)",
+        "ylabel": "deceleration (Gs)",
+        "details": 0,
+        "display": 0,
+        "latex": 1,
+        "serialize": 0
+    },
+    "figure-dot-exp-sim-exp": {
+        "class": "view",
+        "model_keys": ["exp-ave", "dot-cg"],
+        "folder": "output",
+        "file": "h1-acc-exp-dot-sim-dot.pdf",
+        "size": [8.0, 6.0],
+        "title": "",
+        "xlim": [0, 0.020],
+        "ylim": [-25, 85],
+        "xlabel": "time (s)",
+        "ylabel": "deceleration (Gs)",
+        "details": 0,
+        "display": 0,
+        "latex": 1,
+        "serialize": 0
+    },
+    "figure-sim-dot-bot": {
+        "class": "view",
+        "model_keys": ["dot-cg","bot-cg"],
+        "folder": "output",
+        "file": "h1-acc-sim-dot-bot.pdf",
+        "size": [8.0, 6.0],
+        "title": "",
+        "xlim": [0, 0.020],
+        "ylim": [-25, 85],
+        "xlabel": "time (s)",
+        "ylabel": "deceleration (Gs)",
+        "details": 0,
+        "display": 0,
+        "latex": 1,
+        "serialize": 0
+    },
+    "figure-sim-bot-bob": {
+        "class": "view",
+        "model_keys": ["bot-cg","bob-cg-low-freq-restart-0"],
+        "folder": "output",
+        "file": "h1-acc-sim-bot-bob.pdf",
+        "size": [8.0, 6.0],
+        "title": "",
+        "xlim": [0, 0.020],
+        "ylim": [-25, 85],
+        "xlabel": "time (s)",
+        "ylabel": "deceleration (Gs)",
+        "details": 0,
+        "display": 0,
+        "latex": 1,
+        "serialize": 0
+    },
+    "figure-sim-bob-bor": {
+        "class": "view",
+        "model_keys": ["bob-cg-low-freq-restart-0","cg-deformable","cg-deformable-y"],
+        "folder": "output",
+        "file": "h1-acc-sim-bob-bor.pdf",
+        "size": [8.0, 6.0],
+        "title": "",
+        "xlim": [0, 0.020],
+        "ylim": [-25, 85],
+        "xlabel": "time (s)",
+        "ylabel": "deceleration (Gs)",
+        "details": 0,
+        "display": 0,
+        "latex": 1,
+        "serialize": 0
+    },
+    "figure-sim-bob-bor-bcs": {
+        "class": "view",
+        "model_keys": ["bob-cg-low-freq-restart-0","cg-deformable","cg-rb","cg-deformable-y","cg-rb-y"],
+        "folder": "output",
+        "file": "h1-acc-sim-bob-bor-bcs.pdf",
+        "size": [8.0, 6.0],
+        "title": "",
+        "xlim": [0, 0.020],
+        "ylim": [-25, 85],
+        "xlabel": "time (s)",
+        "ylabel": "deceleration (Gs)",
+        "details": 0,
+        "display": 0,
+        "latex": 1,
+        "serialize": 0
+    },
+    "figure-composite": {
+        "class": "view",
+        "folder": "output",
+        "file": "h1-acc-composite.pdf",
+        "size": [8.0, 6.0],
+        "title": "",
+        "xlim": [0, 0.020],
+        "ylim": [-25, 85],
+        "xlabel": "time (s)",
+        "ylabel": "deceleration (Gs)",
+        "details": 0,
+        "display": 0,
+        "latex": 1,
+        "serialize": 1
+    }
+}
