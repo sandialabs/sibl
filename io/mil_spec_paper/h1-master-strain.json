@@ -1,0 +1,93 @@
+{
+    "strain-mps": {
+        "class": "model",
+        "folder": "../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-063f",
+        "file": "max_principal_green_lagrange_strain.csv",
+        "xcolumn": 1,
+        "ycolumn": 2,
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "label": "P95 max(eig(GL strain)) (Bob-063f)",
+            "linewidth": 2,
+            "color": "C3"
+        }
+    },
+    "strain-mps-s0003": {
+        "class": "model",
+        "folder": "../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-063f",
+        "file": "max_principal_green_lagrange_strain-s0003.csv",
+        "xcolumn": 1,
+        "ycolumn": 2,
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "linewidth": 2,
+            "color": "C3"
+        }
+    },
+    "strain-mps-s0005": {
+        "class": "model",
+        "folder": "../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-063f",
+        "file": "max_principal_green_lagrange_strain-s0005.csv",
+        "xcolumn": 1,
+        "ycolumn": 2,
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "linewidth": 2,
+            "color": "C3"
+        }
+    },
+    "strain-dev": {
+        "class": "model",
+        "folder": "../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-063f",
+        "file": "e_vm.csv",
+        "xcolumn": 1,
+        "ycolumn": 2,
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "linestyle": "dashdot",
+            "label": "P95 vm(GL strain) (Bob-063f)",
+            "linewidth": 2,
+            "color": "C2"
+        }
+    },
+    "strain-dev-s0003": {
+        "class": "model",
+        "folder": "../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-063f",
+        "file": "e_vm-s0003.csv",
+        "xcolumn": 1,
+        "ycolumn": 2,
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "linestyle": "dashdot",
+            "linewidth": 2,
+            "color": "C2"
+        }
+    },
+    "strain-dev-s0005": {
+        "class": "model",
+        "folder": "../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-063f",
+        "file": "e_vm-s0005.csv",
+        "xcolumn": 1,
+        "ycolumn": 2,
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "linestyle": "dashdot",
+            "linewidth": 2,
+            "color": "C2"
+        }
+    },
+    "figure": {
+        "class": "view",
+        "folder": "output",
+        "file": "h1-master-strain.pdf",
+        "size": [8.0, 6.0],
+        "xlim": [0, 0.060],
+        "title": "",
+        "xlabel": "time (s)",
+        "ylabel": "Green-Lagrange strain MPS and VM (cm/cm)",
+        "details": 0,
+        "display": 0,
+        "latex": 1,
+        "serialize": 1
+    }
+}
