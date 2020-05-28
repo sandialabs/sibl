@@ -7,7 +7,7 @@
         "xoffset": -0.00145,
         "plot_kwargs": {
             "label": "exp DOT average (n=4)",
-            "linestyle": "-",
+            "linestyle": "solid",
             "linewidth": 3,
             "color": "C0"
         }
@@ -19,7 +19,7 @@
         "skip_rows": 1,
         "plot_kwargs": {
             "label": "shell 2 impact 1",
-            "linestyle": "-.",
+            "linestyle": "dashdot",
             "linewidth": 2,
             "color": "C1"
         }
@@ -31,7 +31,7 @@
         "skip_rows": 1,
         "plot_kwargs": {
             "label": "shell 2 impact 2",
-            "linestyle": ":",
+            "linestyle": "dotted",
             "linewidth": 2,
             "color": "C2"
         }
@@ -43,7 +43,7 @@
         "skip_rows": 1,
         "plot_kwargs": {
             "label": "shell 3 impact 1",
-            "linestyle": "--",
+            "linestyle": "dashed",
             "linewidth": 2,
             "color": "C3"
         }
@@ -55,7 +55,7 @@
         "skip_rows": 1,
         "plot_kwargs": {
             "label": "shell 3 impact 2",
-            "linestyle": "-",
+            "linestyle": "solid",
             "linewidth": 1,
             "color": "C4"
         }
@@ -70,9 +70,9 @@
         "skip_rows": 3,
         "plot_kwargs": {
             "label": "sim DOT (Dot-062) Wc=500 Hz",
-            "linewidth": 1,
+            "linewidth": 3,
             "alpha": 0.9,
-            "linestyle": "solid",
+            "linestyle": "dashed",
             "color": "C1"
         },
         "signal_process": {
@@ -296,7 +296,7 @@
         "latex": 1,
         "serialize": 0
     },
-    "figure-dot-exp-sim-exp": {
+    "figure-exp-dot-sim-dot": {
         "class": "view",
         "model_keys": ["exp-ave", "dot-cg"],
         "folder": "output",
@@ -310,7 +310,7 @@
         "details": 0,
         "display": 0,
         "latex": 1,
-        "serialize": 0
+        "serialize": 1
     },
     "figure-sim-dot-bot": {
         "class": "view",
@@ -326,7 +326,7 @@
         "details": 0,
         "display": 0,
         "latex": 1,
-        "serialize": 0
+        "serialize": 1
     },
     "figure-sim-bot-bob": {
         "class": "view",
@@ -389,6 +389,6 @@
         "details": 0,
         "display": 0,
         "latex": 1,
-        "serialize": 1
+        "serialize": 0
     }
 }
