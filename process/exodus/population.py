@@ -3,18 +3,14 @@ import os
 import sys
 import json
 import numpy as np
-# import getpass
-# import ctypes
-# import exodus
-# import matplotlib.pyplot as plt
-# import numpy as np
+import exodus
 
 def main(argv):
     """ Extracts the population of values of a variable from an Exodus
     output file.
 
     Client use:
-    [bob-063c] $ python ../exodus_population.py gray_white_strain.json
+    [~/sibl/process/exodus] $ python population.py hx-master-ssr-population.json
 
     with prerequisties:
     $ module purge
@@ -52,35 +48,24 @@ def main(argv):
             variables = json_file['variables']
             print(f'  extracting variable(s) {variables}')
 
-            output_files = []
-            print(f'To the folder: {input_folder}')
-            print('  extracted variable(s) to be written to file(s): ')
-            for ts in tsteps:
-                ofile = argv.split('.')[0] + '_ts_' + str(ts) + '.csv'
-                print('    ' + ofile)
-                output_files.append(ofile)
-
         # Execute steps extracted from exodus_extract.py
         os.chdir(input_folder)
-#        database = exodus.exodus(input_file, mode='r')
+        database = exodus.exodus(input_file, mode='r')
 
-        # number_of_blocks = database.num_blks()
-#        number_of_ts = database.num_times()
-#        nts_str = str(number_of_ts)
-#        print(f'Number of time steps available from Exodus file: {nts_str}')
-#
-#        assert(tstep_start < number_of_ts), 'number_of_ts = ' + nts_str
-#        assert(tstep_stop <= number_of_ts), 'number_of_ts = ' + nts_str
-#
-#        print('Variables available from Exodus file:')
-#        print(database.get_element_variable_names())
-#        print('Blocks available from Exodus file:')
-#        print(database.get_elem_blk_names())
+        number_of_ts = database.num_times()
+        print(f'Number of time steps available from Exodus file: {number_of_ts}')
+
+        assert(tsteps[-1] <= number_of_ts), 'number_of_ts = ' + nts_str
+
+        print('Variables available from Exodus file:')
+        print(database.get_element_variable_names())
+        print('Blocks available from Exodus file:')
+        print(database.get_elem_blk_names())
 
         for i, ts in enumerate(tsteps):
             print(f'Processing population for time step {ts}')
 
-            data_at_time_step = []
+            # data_at_time_step = []
 
             # accumulate variable data across all blocks
             for block in blocks:
@@ -88,17 +73,17 @@ def main(argv):
 
                 for variable in variables:
                     print(f'    processing variable={variable}')
-#                    values = database.get_element_variable_values(block, variable, ts)
+                    values = database.get_element_variable_values(block, variable, ts)
                     # print('  appending ' + str(len(values)) + ' values.')
-#                    for value in values:
-#                        # print('value is ' + str(value))
-#                        data_at_time_step.append(value)
+                    # for value in values:
+                    #     # print('value is ' + str(value))
+                    #     data_at_time_step.append(value)
 
-            header_str = '# population ' + str(variables) + ' blocks '
-            header_str += str(blocks) + ' at time step ' + str(ts)
-            print(f'header string is {header_str}')
-            np.savetxt(output_files[i], data_at_time_step, delimiter=',', header=header_str)
-            print('Extracted variable(s) written to file: ' + output_files[i])
+                    header_str = 'ts_' + str(ts) + '_block_' + str(block) + '_' + str(variable)
+                    output_file = header_str + '.txt'
+                    # print(f'header string is {header_str}')
+                    np.savetxt(output_file, values, delimiter=',', header=header_str)
+                    print(f'      extracted variable to file: {output_file}')
 
     except IndexError as error:
         print('Error: ' + str(error))
