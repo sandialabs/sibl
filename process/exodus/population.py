@@ -55,8 +55,6 @@ def main(argv):
         number_of_ts = database.num_times()
         print(f'Number of time steps available from Exodus file: {number_of_ts}')
 
-        assert(tsteps[-1] <= number_of_ts, 'number_of_ts = ' + str(number_of_ts))
-
         print('Variables available from Exodus file:')
         print(database.get_element_variable_names())
         print('Blocks available from Exodus file:')
