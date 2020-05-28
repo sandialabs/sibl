@@ -55,33 +55,25 @@ def main(argv):
         number_of_ts = database.num_times()
         print(f'Number of time steps available from Exodus file: {number_of_ts}')
 
-        assert(tsteps[-1] <= number_of_ts), 'number_of_ts = ' + nts_str
+        assert(tsteps[-1] <= number_of_ts, 'number_of_ts = ' + str(number_of_ts))
 
         print('Variables available from Exodus file:')
         print(database.get_element_variable_names())
         print('Blocks available from Exodus file:')
         print(database.get_elem_blk_names())
 
-        for i, ts in enumerate(tsteps):
+        for ts in tsteps:
             print(f'Processing population for time step {ts}')
 
-            # data_at_time_step = []
-
-            # accumulate variable data across all blocks
             for block in blocks:
                 print(f'  processing block: {block}')
 
                 for variable in variables:
                     print(f'    processing variable={variable}')
                     values = database.get_element_variable_values(block, variable, ts)
-                    # print('  appending ' + str(len(values)) + ' values.')
-                    # for value in values:
-                    #     # print('value is ' + str(value))
-                    #     data_at_time_step.append(value)
 
                     header_str = 'ts_' + str(ts) + '_block_' + str(block) + '_' + str(variable)
                     output_file = header_str + '.txt'
-                    # print(f'header string is {header_str}')
                     np.savetxt(output_file, values, delimiter=',', header=header_str)
                     print(f'      extracted variable to file: {output_file}')
 
