@@ -1,7 +1,7 @@
 {
     "folder": "../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-063f",
     "file_exodus": "output_field.e",
-    "time_steps": [5],
+    "time_steps": [30, 51, 57],
     "blocks": [7, 8],
     "variables": ["max_principal_green_lagrange_strain","max_principal_green_lagrange_strain_rate"]
 }
