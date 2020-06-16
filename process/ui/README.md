@@ -2,7 +2,7 @@
 
 ## Goal
 
-* Refactor Penetrace into a Modern Architecture Using Python.
+* Refactor Penetrace into a modern software architecture using Python.
 
 
 ## History
