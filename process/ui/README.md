@@ -4,6 +4,10 @@
 
 * Refactor Penetrace into a modern software architecture using Python.
 
+## Development
+
+* Front end [development notes](frontend.md)
+* Back end development notes (possibly to come)
 
 ## History
 
