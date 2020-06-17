@@ -6,7 +6,7 @@
 
 ## Development
 
-* Front end [development notes](frontend.md)
+* Front end [development notes](front_end.md)
 * Back end development notes (possibly to come)
 
 ## History
