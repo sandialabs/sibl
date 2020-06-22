@@ -6,9 +6,22 @@
 * [Examples](https://doc.qt.io/qtforpython/examples/index.html)
   * [Application Example](https://doc.qt.io/qtforpython/overviews/qtwidgets-mainwindows-application-example.html)
 
-## 2020-06-17 Move from PySide2 to PyQt5 
+## 2020-06-18 Toyplot Tech Support from Tim Shead
 
-*and then back again to PySide2, with end-of-day discovery*
+> `toyplot.html.render()` does not produce a fully-formed HTML document, it produces a fragment (specifically a `<div>` element) that can be embedded in HTML, see https://toyplot.readthedocs.io/en/stable/toyplot.html.html#toyplot.html.render for details.  
+
+> Some browsers will handle fragments better than others - it wouldn’t surprise me if a full-fledged browser has workarounds that render the `<div>` properly while Qt doesn’t.  For an example of how to create a true HTML document see https://toyplot.readthedocs.io/en/stable/_modules/toyplot/browser.html#show
+
+> `xml.etree.ElementTree.tostring()` (see [ElementTree documentation](https://docs.python.org/3/library/xml.etree.elementtree.html)) will only return a `str` if you specify `encoding=“unicode”`.  Otherwise, it returns a bytes object using whichever encoding you specify, which defaults to `“us-ascii”`.  Which to prefer will depend on what Qt expects as arguments.
+
+> I believe you can also use `toyplot.svg.render()` to create a lighter-weight SVG object that Qt will render, if you prefer.  The process is similar, but without the extra HTML markup. 
+
+The `setHmtl` method of [QWebEngineView](https://doc.qt.io/qtforpython/PySide2/QtWebEngineWidgets/QWebEngineView.html#PySide2.QtWebEngineWidgets.PySide2.QtWebEngineWidgets.QWebEngineView.setHtml) expects a unicode parameter, which is encouraging, since I was previously feeding it a bytes object.
+
+
+## 2020-06-17 Move from PySide2 to PyQt5 back to PySide2
+
+*Return to PySide2 because of end-of-day discovery (see below)*
 
 * PySide2 is newer but with identical API to PyQt, which is still supported, and been widely tested and proven over time.
 
