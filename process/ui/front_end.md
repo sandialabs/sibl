@@ -125,9 +125,10 @@ $ pip show PySide2
 Test the Install:
 
 ```python
-> import PySide2.QtCore
-> print(PySide2.__version__)  # 5.15.0
-> print(PySide2.QtCore.__version__)  # 5.15.0
+$ python
+>>> import PySide2.QtCore
+>>> print(PySide2.__version__)  # 5.15.0
+>>> print(PySide2.QtCore.__version__)  # 5.15.0
 ```
 
 Next, [Create a Simple Application](https://doc.qt.io/qtforpython/quickstart.html#create-a-simple-application).
