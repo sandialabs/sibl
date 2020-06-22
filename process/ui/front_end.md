@@ -4,6 +4,7 @@
 
 * [Tutorials](https://doc.qt.io/qtforpython/tutorials/index.html)
 * [Examples](https://doc.qt.io/qtforpython/examples/index.html)
+  * [Application Example](https://doc.qt.io/qtforpython/overviews/qtwidgets-mainwindows-application-example.html)
 
 ## 2020-06-17 Move from PySide2 to PyQt5 
 
