@@ -1,5 +1,10 @@
 # Front End Development
 
+## 2020-06-22 PySide2 Tutorials and Examples
+
+* [Tutorials](https://doc.qt.io/qtforpython/tutorials/index.html)
+* [Examples](https://doc.qt.io/qtforpython/examples/index.html)
+
 ## 2020-06-17 Move from PySide2 to PyQt5 
 
 *and then back again to PySide2, with end-of-day discovery*
