@@ -15,7 +15,7 @@ import xml
 # from PySide2 import QtCore, QtWidgets, QtGui, QtWebEngine
 from PySide2.QtCore import (Qt, QUrl, Slot)
 
-from PySide2.QtWidgets import (QAction, QApplication, QComboBox, QDialog, QFileDialog, QGridLayout, QHBoxLayout, QLabel, QLineEdit, QMainWindow, QPlainTextEdit, QPushButton, QSizePolicy, QVBoxLayout, QWidget)
+from PySide2.QtWidgets import (QAction, QApplication, QComboBox, QDialog, QFileDialog, QGridLayout, QHBoxLayout, QLabel, QLineEdit, QMainWindow, QMessageBox, QPlainTextEdit, QPushButton, QSizePolicy, QVBoxLayout, QWidget)
 
 from PySide2.QtWebEngineWidgets import QWebEngineView
 
@@ -43,16 +43,42 @@ class Widget(QWidget):
         # super().__init__(self)
         QWidget.__init__(self)
 
+        # buttons and edit boxes
+        self.file_open_button_w = QPushButton("&Open...")
+        self.file_open_button_w.setDefault(True)
+        # file_open_button.clicked.connect(self.getfiles)
+        #
         self.edit = QLineEdit("Type your name here...")
         self.button = QPushButton("Show Greetings")
 
+        # actions
+        # file_open_action_w = QAction('&Open file...', self)
+        # file_open_action_w.triggered.connect(self.getfiles_w)
+
+        # actions to buttons
+        # self.file_open_button_w.addAction(file_open_action_w)
+
+        # signals and slots
+        self.file_open_button_w.clicked.connect(self.getfiles_w)
+        self.button.clicked.connect(self.greetings)
+
+        # layouts
         self.layout = QVBoxLayout()
+        self.layout.addWidget(self.file_open_button_w)
         self.layout.addWidget(self.edit)
         self.layout.addWidget(self.button)
         self.setLayout(self.layout)
 
-        # signals and slots
-        self.button.clicked.connect(self.greetings)
+    @Slot()
+    def getfiles_w(self):
+        # dlg = QFileDialog.getOpenFileName(self, 'Open file', '/', "csv files (*.csv)")
+        dlg = QFileDialog()
+        dlg.setFileMode(QFileDialog.AnyFile)
+        # dlg.setFilter("csv files (*.csv)")
+
+        if dlg.exec_():
+            filenames = dlg.selectedFiles()
+            # self.recentComboBox.addItem(filenames[0])
 
     @Slot()
     def greetings(self):
@@ -69,27 +95,72 @@ class MainWindow(QMainWindow):
         # super().__init__()
         # super().__init__(self)
         QMainWindow.__init__(self)
-        self.setWindowTitle("PyTrace 0.0.2")
+        self.app_name = "PyTrace"
+        self.app_version = "0.0.2"
+        # self.setWindowTitle("PyTrace 0.0.2")
+        # self.setWindowTitle(self.app_name + ' ' + self.app_version)
+        self.setWindowTitle(self.app_name)
 
-        # menu
+        # menu container
         self.menu = self.menuBar()
         self.menu.setNativeMenuBar(False) # avoid macOS menu style, put menu inside the app window
+        # menu items
         self.file_menu = self.menu.addMenu("&File")
+        self.help_menu = self.menu.addMenu("Help")
 
+        # buttons
+
+        # status bar
         self.statusBar()
 
-        # exit QAction
+        # actions
+        file_open_action = QAction('&Open file...', self)
+        file_open_action.triggered.connect(self.getfiles)
         # menu not appearing on macOS
-        # exit_action = QAction("Exit", self)
         # see https://stackoverflow.com/questions/39574105/missing-menubar-in-pyqt5
         quit_action = QAction('&Quit', self)
-        # exit_action.setShortcut("Ctrl+Q")
         quit_action.triggered.connect(self.quit_app)
+        #
+        about_action = QAction('About', self)
+        about_action.triggered.connect(self.about)
 
+        # actions to menus
+        self.file_menu.addAction(file_open_action)
         self.file_menu.addAction(quit_action)
-        self.setCentralWidget(widget)
+        self.help_menu.addAction(about_action)
 
+        # main (central) widget
+        self.setCentralWidget(widget)
         # self.setMinimumSize(800, 800)
+
+    @Slot()
+    def getfiles(self):
+        # dlg = QFileDialog.getOpenFileName(self, 'Open file', '/', "csv files (*.csv)")
+        dlg = QFileDialog()
+        dlg.setFileMode(QFileDialog.AnyFile)
+        # dlg.setFilter("csv files (*.csv)")
+
+        if dlg.exec_():
+            filenames = dlg.selectedFiles()
+            # self.recentComboBox.addItem(filenames[0])
+
+    @Slot()
+    def about(self):
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Information)
+
+        txt_github = "<a href='https://github.com/sandialabs/sibl'>SIBL</a>"
+
+        txt_copyright = "Copyright 2020 National Technology and Engineering Solutions of Sandia, LLC (NTESS). Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software."
+
+        msg.setTextFormat(Qt.RichText)  # makes the links clickable
+
+        msg.setText(self.app_name + " is distributed by " + txt_github)
+
+        msg.setInformativeText("Version " + self.app_version + "\n\n" + txt_copyright)
+        msg.setWindowTitle(self.app_name)
+        msg.setStandardButtons(QMessageBox.Ok)
+        msg.exec_()
 
     @Slot()
     def quit_app(self, checked):
@@ -167,15 +238,6 @@ class MainWindow(QMainWindow):
 #         self.setLayout(mainLayout)
 
 
-    def getfiles(self):
-        # dlg = QFileDialog.getOpenFileName(self, 'Open file', '/', "csv files (*.csv)")
-        dlg = QFileDialog()
-        dlg.setFileMode(QFileDialog.AnyFile)
-        # dlg.setFilter("csv files (*.csv)")
-
-        if dlg.exec_():
-            filenames = dlg.selectedFiles()
-            self.recentComboBox.addItem(filenames[0])
 
 if __name__ == '__main__':
     # app = QApplication([])
