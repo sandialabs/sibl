@@ -1,26 +1,18 @@
 # PyTrace
 import sys
 import xml
+from pathlib import Path  # stop using os.path, use pathlib instead
 
-###   ### from PyQt5 import uic
-###   from PyQt5.QtCore import Qt
-###   # from PyQt5.QtWebKitWidgets import QWebView
-###   from PyQt5.QtWebEngine import QtWebEngine
-###   from PyQt5.QtWidgets import (QApplication, QComboBox, QDialog, QFileDialog, QGridLayout, QHBoxLayout, QLabel, QPushButton)
-###   # from PyQt5.QtWidgets.QWidget import QWebView
-###   # from PtyQt5.QWebEngineView import QWebView
-###   # from PyQt5.QtWidgets import QWebView
-###   # from PyQt5.Qtweb
 
 # from PySide2 import QtCore, QtWidgets, QtGui, QtWebEngine
 from PySide2.QtCore import (Qt, QUrl, Slot)
+
+from PySide2.QtGui import (QFont, QPalette)
 
 from PySide2.QtWidgets import (QAction, QApplication, QComboBox, QDialog, QFileDialog, QGridLayout, QHBoxLayout, QLabel, QLineEdit, QMainWindow, QMessageBox, QPlainTextEdit, QPushButton, QSizePolicy, QVBoxLayout, QWidget)
 
 from PySide2.QtWebEngineWidgets import QWebEngineView
 
-
-# import toyplot as tp
 import toyplot as toy
 import toyplot.html as toyhtml
 import numpy as np
@@ -29,48 +21,75 @@ import numpy as np
 # https://build-system.fman.io/qt-designer-download
 # https://build-system.fman.io/pyqt5-tutorial
 
-###  Form, Window = uic.loadUiType("pytrace.ui")
-###  
-###  app = QApplication([])
-###  window = Window()
-###  form = Form()
-###  form.setupUi(window)
-###  window.show()
-###  app.exec_()
 
 class Widget(QWidget):
     def __init__(self):
         # super().__init__(self)
         QWidget.__init__(self)
 
-        # buttons and edit boxes
-        self.file_open_button_w = QPushButton("&Open...")
-        self.file_open_button_w.setDefault(True)
-        # file_open_button.clicked.connect(self.getfiles)
+        # model
+        cwd = Path.cwd()
+        self.path_file_previous = None  # revert current to previous model if next model fails
+        self.path_file_current = None
+        self.path_file_next = Path.joinpath(cwd, 'welcome.csv')
+        self._index_x = 0
+        self._index_y = 1
+
+        # buttons, edit boxes, etc.
+        self.button_file_open = QPushButton("&Open...")
+        self.button_file_open.setDefault(True)
+        self.button_file_open.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        # button_file_open.clicked.connect(self.getfiles)
         #
-        self.edit = QLineEdit("Type your name here...")
-        self.button = QPushButton("Show Greetings")
+        self.combo_box_recent_files = QComboBox()
+        self.combo_box_recent_files.setDuplicatesEnabled(False)  # make certain singletons only, no duplicate items
+        # self.combo_box_update()  # put as domino cascade after model_update
 
-        # actions
-        # file_open_action_w = QAction('&Open file...', self)
-        # file_open_action_w.triggered.connect(self.getfiles_w)
+        self.window = QWebEngineView()
+        self.window.setZoomFactor(0.95)
+        self.window.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        # x = np.linspace(0, 10, 100)
+        # y = np.sin(x)
+        # self._data = None
+        # self._data = np.transpose(np.array([x, y]))
+        # self.plot_update()  # put as domino cascade after model_update
+        # canvas, axes, mark = toy.plot(x, y)
+        # base_url = QUrl("http://www.sandia.gov/toyplot")
+        # html_content = xml.etree.ElementTree.tostring(toyhtml.render(canvas), encoding="unicode", method="html")
+        # self.window.setHtml(html_content, baseUrl=base_url)
 
-        # actions to buttons
-        # self.file_open_button_w.addAction(file_open_action_w)
+        self.log = QPlainTextEdit()
+        # p = self.log.setPalette(QPalette.Dark)
+        # font = QFont()
+        # font.setStyleHint(font.Monospace)
+        # self.log.setFont(font)
+        self.log.setReadOnly(True)
+        # self.log.setStyleSheet("background-color: transparent;")
+        # self.log.setMaximumBlockCount(2)
+        self.log.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        self.log.appendPlainText('Welcome.')
+        self.log.setMaximumHeight(100)  # maximum height in pixels
 
         # signals and slots
-        self.file_open_button_w.clicked.connect(self.getfiles_w)
-        self.button.clicked.connect(self.greetings)
+        self.button_file_open.clicked.connect(self.dialog_file_open)
 
         # layouts
+        self.row_one = QHBoxLayout()
+        self.row_one.addWidget(self.button_file_open)
+        self.row_one.addWidget(self.combo_box_recent_files)
+
         self.layout = QVBoxLayout()
-        self.layout.addWidget(self.file_open_button_w)
-        self.layout.addWidget(self.edit)
-        self.layout.addWidget(self.button)
+        self.layout.addLayout(self.row_one)
+        self.layout.addWidget(self.window)
+        self.layout.addWidget(self.log)
         self.setLayout(self.layout)
 
+        # update model at end of initialization, trigger updates of views too
+        self.model_update(self.path_file_next)
+        
+
     @Slot()
-    def getfiles_w(self):
+    def dialog_file_open(self):
         # dlg = QFileDialog.getOpenFileName(self, 'Open file', '/', "csv files (*.csv)")
         dlg = QFileDialog()
         dlg.setFileMode(QFileDialog.AnyFile)
@@ -78,27 +97,52 @@ class Widget(QWidget):
 
         if dlg.exec_():
             filenames = dlg.selectedFiles()
-            # self.recentComboBox.addItem(filenames[0])
+            filename = Path(filenames[0])
+            self.model_update(filename)
+            a = 4
 
     @Slot()
-    def greetings(self):
-        print("Hello %s" % self.edit.text())
+    def model_update(self, path_file_new):
+        if self.path_file_current == path_file_new:
+            # print('Warning: selected file alredy is the current file, no update to model or view.')
+            self.log.appendPlainText('Warning: selected file alredy is the current file, no update to model or view.')
+        else:
+            # print(f'Updating the model from the data in file: {path_file_new}')
+            self.log.appendPlainText(f'Model update from file: {path_file_new}')
+            try:
+                with open(path_file_new, 'rt') as fin:
+                    self._data = np.genfromtxt(fin, dtype='float', delimiter=',', skip_header=1, usecols=(0, 1))
+                self.path_file_previous = self.path_file_current
+                self.path_file_current = path_file_new 
+                self.path_file_next = None
+                self.combo_box_update()
+                self.plot_update()
+            except ValueError as error:
+                print(f'Error: {error}') 
+                print(f'Unable to open file: {path_file_new}')
 
 
+    @Slot()
+    def combo_box_update(self):
+        self.combo_box_recent_files.addItem(str(self.path_file_current))
 
-# class TraceDialog(QDialog):
+    @Slot()
+    def plot_update(self):
+        print("Updating toyplot...")
+        x = self._data[:, self._index_x]
+        y = self._data[:, self._index_y]
+        # canvas, axes, mark = toy.plot(self._data[:, self._index_x], self._data[:, self._index_y])
+        canvas, axes, mark = toy.plot(x, y)
+        base_url = QUrl("http://www.sandia.gov/toyplot")
+        html_content = xml.etree.ElementTree.tostring(toyhtml.render(canvas), encoding="unicode", method="html")
+        self.window.setHtml(html_content, baseUrl=base_url)
+
+
 class MainWindow(QMainWindow):
-    # def __init__(self, parent=None):
-    # def __init__(self):
     def __init__(self, widget):
-        # super().__init__(parent)
-        # super().__init__()
-        # super().__init__(self)
         QMainWindow.__init__(self)
         self.app_name = "PyTrace"
         self.app_version = "0.0.2"
-        # self.setWindowTitle("PyTrace 0.0.2")
-        # self.setWindowTitle(self.app_name + ' ' + self.app_version)
         self.setWindowTitle(self.app_name)
 
         # menu container
@@ -111,11 +155,11 @@ class MainWindow(QMainWindow):
         # buttons
 
         # status bar
-        self.statusBar()
+        self.statusBar()  # to come
 
         # actions
-        file_open_action = QAction('&Open file...', self)
-        file_open_action.triggered.connect(self.getfiles)
+        # file_open_action = QAction('&Open file...', self)
+        # file_open_action.triggered.connect(self.getfiles)
         # menu not appearing on macOS
         # see https://stackoverflow.com/questions/39574105/missing-menubar-in-pyqt5
         quit_action = QAction('&Quit', self)
@@ -125,24 +169,13 @@ class MainWindow(QMainWindow):
         about_action.triggered.connect(self.about)
 
         # actions to menus
-        self.file_menu.addAction(file_open_action)
+        # self.file_menu.addAction(file_open_action)
         self.file_menu.addAction(quit_action)
         self.help_menu.addAction(about_action)
 
         # main (central) widget
         self.setCentralWidget(widget)
         # self.setMinimumSize(800, 800)
-
-    @Slot()
-    def getfiles(self):
-        # dlg = QFileDialog.getOpenFileName(self, 'Open file', '/', "csv files (*.csv)")
-        dlg = QFileDialog()
-        dlg.setFileMode(QFileDialog.AnyFile)
-        # dlg.setFilter("csv files (*.csv)")
-
-        if dlg.exec_():
-            filenames = dlg.selectedFiles()
-            # self.recentComboBox.addItem(filenames[0])
 
     @Slot()
     def about(self):
@@ -254,7 +287,7 @@ if __name__ == '__main__':
     # QMainWindow using QWidget as the central widget
     window = MainWindow(widget)
     # window = MainWindow()
-    window.resize(800, 600)
+    window.resize(1200, 800)
     window.show()
 
 
