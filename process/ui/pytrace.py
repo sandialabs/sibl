@@ -31,7 +31,8 @@ class Widget(QWidget):
         cwd = Path.cwd()
         self.path_file_previous = None  # revert current to previous model if next model fails
         self.path_file_current = None
-        self.path_file_next = Path.joinpath(cwd, 'welcome.csv')
+        # self.path_file_default = Path.joinpath(cwd, 'test_1234_quadratic.csv')
+        self.path_file_default = Path.joinpath(cwd, 'welcome.csv')
         self._index_x = 0
         self._index_y = 1
 
@@ -39,30 +40,16 @@ class Widget(QWidget):
         self.button_file_open = QPushButton("&Open...")
         self.button_file_open.setDefault(True)
         self.button_file_open.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
-        # button_file_open.clicked.connect(self.getfiles)
         #
         self.combo_box_recent_files = QComboBox()
         self.combo_box_recent_files.setDuplicatesEnabled(False)  # make certain singletons only, no duplicate items
-        # self.combo_box_update()  # put as domino cascade after model_update
+        self.combo_box_recent_files.currentIndexChanged.connect(self.plot_update)
 
         self.window = QWebEngineView()
         self.window.setZoomFactor(0.95)
         self.window.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        # x = np.linspace(0, 10, 100)
-        # y = np.sin(x)
-        # self._data = None
-        # self._data = np.transpose(np.array([x, y]))
-        # self.plot_update()  # put as domino cascade after model_update
-        # canvas, axes, mark = toy.plot(x, y)
-        # base_url = QUrl("http://www.sandia.gov/toyplot")
-        # html_content = xml.etree.ElementTree.tostring(toyhtml.render(canvas), encoding="unicode", method="html")
-        # self.window.setHtml(html_content, baseUrl=base_url)
 
         self.log = QPlainTextEdit()
-        # p = self.log.setPalette(QPalette.Dark)
-        # font = QFont()
-        # font.setStyleHint(font.Monospace)
-        # self.log.setFont(font)
         self.log.setReadOnly(True)
         # self.log.setStyleSheet("background-color: transparent;")
         # self.log.setMaximumBlockCount(2)
@@ -85,12 +72,13 @@ class Widget(QWidget):
         self.setLayout(self.layout)
 
         # update model at end of initialization, trigger updates of views too
-        self.model_update(self.path_file_next)
+        self.files = []  # empty list
+        self.models = []  # emtpy list
+        self.model_update(self.path_file_default)
         
 
     @Slot()
     def dialog_file_open(self):
-        # dlg = QFileDialog.getOpenFileName(self, 'Open file', '/', "csv files (*.csv)")
         dlg = QFileDialog()
         dlg.setFileMode(QFileDialog.AnyFile)
         # dlg.setFilter("csv files (*.csv)")
@@ -103,35 +91,39 @@ class Widget(QWidget):
 
     @Slot()
     def model_update(self, path_file_new):
-        if self.path_file_current == path_file_new:
-            # print('Warning: selected file alredy is the current file, no update to model or view.')
-            self.log.appendPlainText('Warning: selected file alredy is the current file, no update to model or view.')
+        if path_file_new in self.files:
+            self.log.appendPlainText(f'Warning: selected file, {path_file_new}, is already open; not opened again.')
         else:
-            # print(f'Updating the model from the data in file: {path_file_new}')
             self.log.appendPlainText(f'Model update from file: {path_file_new}')
             try:
                 with open(path_file_new, 'rt') as fin:
-                    self._data = np.genfromtxt(fin, dtype='float', delimiter=',', skip_header=1, usecols=(0, 1))
-                self.path_file_previous = self.path_file_current
-                self.path_file_current = path_file_new 
-                self.path_file_next = None
-                self.combo_box_update()
-                self.plot_update()
+                    new_data = np.genfromtxt(fin, dtype='float', delimiter=',', skip_header=0, usecols=(0, 1)).tolist()
+                    self.models.append(new_data)
+
+                self.files.append(path_file_new)
+                self.combo_box_add(str(path_file_new))
+                # self.plot_update()  # now trigger from combobox currentIndexChanged
             except ValueError as error:
-                print(f'Error: {error}') 
-                print(f'Unable to open file: {path_file_new}')
+                # print(f'Error: {error}') 
+                # print(f'Unable to open file: {path_file_new}')
+                self.log.appendPlainText(f'Error: {error}') 
+                self.log.appendPlainText(f'Unable to open file: {path_file_new}')
 
 
     @Slot()
-    def combo_box_update(self):
-        self.combo_box_recent_files.addItem(str(self.path_file_current))
+    def combo_box_add(self, item):
+        self.combo_box_recent_files.addItem(item)
+        index = self.combo_box_recent_files.findText(item)
+        self.combo_box_recent_files.setCurrentIndex(index)
 
     @Slot()
     def plot_update(self):
         print("Updating toyplot...")
-        x = self._data[:, self._index_x]
-        y = self._data[:, self._index_y]
-        # canvas, axes, mark = toy.plot(self._data[:, self._index_x], self._data[:, self._index_y])
+        index = self.combo_box_recent_files.currentIndex()
+        xymodel = self.models[index]
+        x = [item[self._index_x] for item in xymodel]
+        y = [item[self._index_y] for item in xymodel]
+
         canvas, axes, mark = toy.plot(x, y)
         base_url = QUrl("http://www.sandia.gov/toyplot")
         html_content = xml.etree.ElementTree.tostring(toyhtml.render(canvas), encoding="unicode", method="html")

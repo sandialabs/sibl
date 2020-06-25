@@ -1,5 +1,10 @@
 # Front End Development
 
+## 2020-06-25 Manual Unit Tests
+
+* **No automated unit tests for now**.  Rationale:  The conda environment for existing automated tests in sibl would become unnecessarily bloated with PySide2 and Toyplot imports.  So keep unit tests manual for now.
+* Got model switching implemented.  Implementation is efficient because model is only loaded once; it is never reloaded upon switching of the combobox view---instead just the models are switched and the model update triggers a view update.
+
 ## 2020-06-22 PySide2 Tutorials and Examples
 
 * [Tutorials](https://doc.qt.io/qtforpython/tutorials/index.html)
