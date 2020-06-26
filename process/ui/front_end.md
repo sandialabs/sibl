@@ -138,6 +138,9 @@ $ conda install pip scipy
 $ conda list
 $ pip install xyfigure
 $ pip install PySide2  # this is (154 MB), it requires some install time
+#
+# Install Toyplot
+$ pip install toyplot  # installed version 0.19.0
 
 # show details of the PySide2 install
 $ pip show PySide2
