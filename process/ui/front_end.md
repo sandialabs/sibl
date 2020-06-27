@@ -7,6 +7,7 @@
 * [QTreeView](https://doc.qt.io/qtforpython/PySide2/QtWidgets/QTreeView.html)
 * [DirectoryView Example](https://doc.qt.io/qtforpython/overviews/qtwidgets-itemviews-dirview-example.html)
 * [Editable Tree View](https://doc.qt.io/qtforpython/overviews/qtwidgets-itemviews-editabletreemodel-example.html)
+* [Apple Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/)
 
 ## 2020-06-25 Manual Unit Tests
 
