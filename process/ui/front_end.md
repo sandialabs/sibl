@@ -8,6 +8,7 @@
 * [DirectoryView Example](https://doc.qt.io/qtforpython/overviews/qtwidgets-itemviews-dirview-example.html)
 * [Editable Tree View](https://doc.qt.io/qtforpython/overviews/qtwidgets-itemviews-editabletreemodel-example.html)
 * [Apple Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/)
+* [Qt toggle switch](https://stackoverflow.com/questions/14780517/toggle-switch-in-qt)
 
 ## 2020-06-25 Manual Unit Tests
 
