@@ -1,5 +1,13 @@
 # Front End Development
 
+## 2020-06-27 Tree View
+
+* Discussion with Ryan, review QuickLook, Penetrace, and cal/dat read.
+* [Color Editor Example](https://doc.qt.io/qtforpython/overviews/qtwidgets-itemviews-coloreditorfactory-example.html) with [QItemDelegate](https://doc.qt.io/qtforpython/PySide2/QtWidgets/QItemDelegate.html#PySide2.QtWidgets.QItemDelegate)
+* [QTreeView](https://doc.qt.io/qtforpython/PySide2/QtWidgets/QTreeView.html)
+* [DirectoryView Example](https://doc.qt.io/qtforpython/overviews/qtwidgets-itemviews-dirview-example.html)
+* [Editable Tree View](https://doc.qt.io/qtforpython/overviews/qtwidgets-itemviews-editabletreemodel-example.html)
+
 ## 2020-06-25 Manual Unit Tests
 
 * **No automated unit tests for now**.  Rationale:  The conda environment for existing automated tests in sibl would become unnecessarily bloated with PySide2 and Toyplot imports.  So keep unit tests manual for now.
