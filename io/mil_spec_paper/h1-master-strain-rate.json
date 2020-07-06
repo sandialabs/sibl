@@ -8,6 +8,7 @@
         "skip_rows": 1,
         "plot_kwargs": {
             "label": "P95 max(eig(GL strain rate)) (Bob-063f)",
+            "linestyle": "solid",
             "linewidth": 2,
             "color": "C3"
         }
@@ -20,6 +21,7 @@
         "ycolumn": 2,
         "skip_rows": 1,
         "plot_kwargs": {
+            "linestyle": "solid",
             "linewidth": 2,
             "color": "C3"
         }
@@ -32,6 +34,7 @@
         "ycolumn": 2,
         "skip_rows": 1,
         "plot_kwargs": {
+            "linestyle": "solid",
             "linewidth": 2,
             "color": "C3"
         }
@@ -44,7 +47,7 @@
         "ycolumn": 2,
         "skip_rows": 1,
         "plot_kwargs": {
-            "linestyle": "dashdot",
+            "linestyle": "solid",
             "label": "P95 vm(GL strain rate) (Bob-063f)",
             "linewidth": 2,
             "color": "C2"
@@ -58,7 +61,7 @@
         "ycolumn": 2,
         "skip_rows": 1,
         "plot_kwargs": {
-            "linestyle": "dashdot",
+            "linestyle": "solid",
             "linewidth": 2,
             "color": "C2"
         }
@@ -71,8 +74,36 @@
         "ycolumn": 2,
         "skip_rows": 1,
         "plot_kwargs": {
+            "linestyle": "solid",
+            "linewidth": 2,
+            "color": "C2"
+        }
+    },
+    "strain-rate-gl-066b": {
+        "class": "model",
+        "folder": "../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-066b",
+        "file": "max_principal_green_lagrange_strain_rate.csv",
+        "xcolumn": 1,
+        "ycolumn": 2,
+        "skip_rows": 1,
+        "plot_kwargs": {
             "linestyle": "dashdot",
             "linewidth": 2,
+            "label": "P95 max(eig(GL strain)) (Bob-066b)",
+            "color": "C3"
+        }
+    },
+    "strain-rate-vm-066b": {
+        "class": "model",
+        "folder": "../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-066b",
+        "file": "e_dot_vm.csv",
+        "xcolumn": 1,
+        "ycolumn": 2,
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "linestyle": "dashdot",
+            "linewidth": 2,
+            "label": "P95 vm(GL strain) (Bob-066b)",
             "color": "C2"
         }
     },
