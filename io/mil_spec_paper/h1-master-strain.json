@@ -10,7 +10,7 @@
             "label": "P95 max(eig(GL strain)) (Bob-063f)",
             "linestyle": "solid",
             "linewidth": 2,
-            "color": "C3"
+            "color": "C2"
         }
     },
     "strain-mps-s0003": {
@@ -23,7 +23,7 @@
         "plot_kwargs": {
             "linestyle": "solid",
             "linewidth": 2,
-            "color": "C3"
+            "color": "C2"
         }
     },
     "strain-mps-s0005": {
@@ -36,7 +36,7 @@
         "plot_kwargs": {
             "linestyle": "solid",
             "linewidth": 2,
-            "color": "C3"
+            "color": "C2"
         }
     },
     "strain-dev": {
@@ -50,7 +50,7 @@
             "label": "P95 vm(GL strain) (Bob-063f)",
             "linestyle": "solid",
             "linewidth": 2,
-            "color": "C2"
+            "color": "black"
         }
     },
     "strain-dev-s0003": {
@@ -63,7 +63,7 @@
         "plot_kwargs": {
             "linestyle": "solid",
             "linewidth": 2,
-            "color": "C2"
+            "color": "black"
         }
     },
     "strain-dev-s0005": {
@@ -76,7 +76,7 @@
         "plot_kwargs": {
             "linestyle": "solid",
             "linewidth": 2,
-            "color": "C2"
+            "color": "black"
         }
     },
     "strain-gl-066b": {
@@ -104,18 +104,22 @@
             "linestyle": "dashdot",
             "linewidth": 2,
             "label": "P95 vm(GL strain) (Bob-066b)",
-            "color": "C2"
+            "color": "black"
         }
     },
     "figure": {
         "class": "view",
+	"model_keys": ["strain-mps","strain-mps-s0003","strain-mps-s0005","strain-gl-066b"],
         "folder": "output",
         "file": "h1-master-strain.pdf",
         "size": [8.0, 6.0],
         "xlim": [0, 0.060],
+        "#xlim": [0, 0.025],
+	"ylim": [-0.002, 0.062],
         "title": "",
         "xlabel": "time (s)",
-        "ylabel": "Green-Lagrange strain MPS and VM (cm/cm)",
+        "#ylabel": "Green-Lagrange strain MPS and VM (cm/cm)",
+        "ylabel": "Green-Lagrange strain MPS (cm/cm)",
         "details": 0,
         "display": 0,
         "latex": 1,

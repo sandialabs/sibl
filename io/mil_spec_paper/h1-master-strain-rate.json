@@ -10,7 +10,7 @@
             "label": "P95 max(eig(GL strain rate)) (Bob-063f)",
             "linestyle": "solid",
             "linewidth": 2,
-            "color": "C3"
+            "color": "C2"
         }
     },
     "strain-mps-rate-s0003":{
@@ -23,7 +23,7 @@
         "plot_kwargs": {
             "linestyle": "solid",
             "linewidth": 2,
-            "color": "C3"
+            "color": "C2"
         }
     },
     "strain-mps-rate-s0005":{
@@ -36,7 +36,7 @@
         "plot_kwargs": {
             "linestyle": "solid",
             "linewidth": 2,
-            "color": "C3"
+            "color": "C2"
         }
     },
     "strain-rate-dev": {
@@ -50,7 +50,7 @@
             "linestyle": "solid",
             "label": "P95 vm(GL strain rate) (Bob-063f)",
             "linewidth": 2,
-            "color": "C2"
+            "color": "black"
         }
     },
     "strain-rate-dev-s0003": {
@@ -63,7 +63,7 @@
         "plot_kwargs": {
             "linestyle": "solid",
             "linewidth": 2,
-            "color": "C2"
+            "color": "black"
         }
     },
     "strain-rate-dev-s0005": {
@@ -76,7 +76,7 @@
         "plot_kwargs": {
             "linestyle": "solid",
             "linewidth": 2,
-            "color": "C2"
+            "color": "black"
         }
     },
     "strain-rate-gl-066b": {
@@ -89,7 +89,7 @@
         "plot_kwargs": {
             "linestyle": "dashdot",
             "linewidth": 2,
-            "label": "P95 max(eig(GL strain)) (Bob-066b)",
+            "label": "P95 max(eig(GL strain rate)) (Bob-066b)",
             "color": "C3"
         }
     },
@@ -103,19 +103,21 @@
         "plot_kwargs": {
             "linestyle": "dashdot",
             "linewidth": 2,
-            "label": "P95 vm(GL strain) (Bob-066b)",
-            "color": "C2"
+            "label": "P95 vm(GL strain rate) (Bob-066b)",
+            "color": "black"
         }
     },
     "figure": {
         "class": "view",
+	"model_keys": ["strain-mps-rate","strain-mps-rate-s0003","strain-mps-rate-s0005","strain-rate-gl-066b"],
         "folder": "output",
         "file": "h1-master-strain-rate.pdf",
         "size": [8.0, 6.0],
         "xlim": [0, 0.060],
         "title": "",
         "xlabel": "time (s)",
-        "ylabel": "Green-Lagrange strain rate MPS and VM (1/s)",
+        "#ylabel": "Green-Lagrange strain rate MPS and VM (1/s)",
+        "ylabel": "Green-Lagrange strain rate MPS (1/s)",
         "details": 0,
         "display": 0,
         "latex": 1,
