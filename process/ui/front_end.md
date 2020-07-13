@@ -1,5 +1,13 @@
 # Front End Development
 
+## 2020-07-13 UI Strategy, VS Code
+
+* Get Ryan's VS Code integrated with repo, and running in debug mode.
+* Dev with Ryan
+  * Error handling 
+  * Unit testing
+* Discuss UI strategy, review [Dash gallery](https://dash-gallery.plotly.host/Portal/)
+
 ## 2020-06-27 Tree View
 
 * Discussion with Ryan, review QuickLook, Penetrace, and cal/dat read.
