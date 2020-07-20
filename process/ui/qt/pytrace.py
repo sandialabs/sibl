@@ -29,10 +29,14 @@ class Widget(QWidget):
 
         # model
         cwd = Path.cwd()
+        self.app_path = Path('.').resolve()
+        self.data_path = self.app_path.joinpath('../', 'data').resolve()
+
         self.path_file_previous = None  # revert current to previous model if next model fails
         self.path_file_current = None
         # self.path_file_default = Path.joinpath(cwd, 'test_1234_quadratic.csv')
-        self.path_file_default = Path.joinpath(cwd, 'welcome.csv')
+        # self.path_file_default = Path.joinpath(cwd, 'welcome.csv')
+        self.path_file_default = Path.joinpath(self.data_path, 'welcome.csv')
         self._index_x = 0
         self._index_y = 1
 

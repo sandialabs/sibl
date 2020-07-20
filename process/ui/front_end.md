@@ -1,5 +1,28 @@
 # Front End Development
 
+## 2020-07-20 Short Cycle App
+
+* Architecture 
+  * Service
+    * `xyfigure/` - command line interface (CLI)
+    * `xyfigure/process/ui/` - graphical user interface (GUI)
+      * `qt/` - Desktop App option with [Qt](https://doc.qt.io/qtforpython/index.html)
+      * `dash/` - Web App option with [Dash](https://github.com/plotly/dash)
+  * Client
+    * `PostPro/`
+      * `code/`
+      * `data/`
+      * `doc/`
+
+
+```bash
+# clean up unused virtual environment pyqt5
+(base) $ cd ~/
+(base) $ conda env list  # verify /Users/Apollo/opt/anaconda3/envs/pyqt5 exists
+(base) $ conda env remove --name pyqt5
+(base) $ conda env list  # verify /Users/Apollo/opt/anaconda3/envs/pyqt5 no longer exists
+```
+
 ## 2020-07-13 UI Strategy, VS Code
 
 * Get Ryan's VS Code integrated with repo, and running in debug mode.
@@ -7,6 +30,8 @@
   * Error handling 
   * Unit testing
 * Discuss UI strategy, review [Dash gallery](https://dash-gallery.plotly.host/Portal/)
+
+> Dash is Python framework for building web applications. It built on top of Flask, Plotly.js, React and React Js. It enables you to build dashboards using pure Python. Dash is open source, and its apps run on the web browser. 
 
 ## 2020-06-27 Tree View
 
