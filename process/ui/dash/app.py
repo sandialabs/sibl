@@ -2,6 +2,7 @@
 
 # standard libraries
 import base64
+import csv
 import datetime
 import io
 
@@ -18,28 +19,67 @@ import pandas as pd
 # local libraries
 
 app = dash.Dash(__name__)
+app.title = 'XYFigure'
+app._read_data_headers = True
+
+style_upload = dict(
+    width='98%', 
+    height='60px', 
+    lineHeight='60px',
+    borderWidth='2px',
+    borderStyle='dashed',
+    borderRadius='5px',
+    textAlign='center',
+    margin='10px'
+)
+
+style_error = dict(
+    width='98%', 
+    borderWidth='2px',
+    borderColor='red',
+    textAlign='center',
+    backgroundColor='lightgray',
+    margin='10px'
+)
+
+style_trace = dict(
+    mode='lines+markers',
+    marker=dict(color="blue")
+)
+
+# sliders:
+# https://dash.plotly.com/dash-core-components/slider
+
+# marks={i: 'Label {}'.format(i) for i in range(10)},
 
 app.layout = html.Div([
+    html.Div([
+        html.Div(
+            children="Headers",
+            style={'textAlign': 'center'}
+        ),
+        dcc.Slider(
+            id='header-slider',
+            min=0,
+            max=1,
+            marks={0: 'off', 1: 'on'},
+            value=1
+        )],
+        style={'width': '100px'}
+    ),
+    html.Div(
+        id='slider-feedback'
+    ),
     dcc.Upload(
         id='data-upload',
         children=html.Div([
             'Drag and drop files here, or ',
             html.A('click to select files')
         ]),
-        style={
-            'width': '98%',
-            'height': '60px',
-            'lineHeight': '60px',
-            'borderWidth': '2px',
-            'borderStyle': 'dashed',
-            'borderRadius': '5px',
-            'textAlign': 'center',
-            'margin': '10px'
-        },
-        # allow multiple files, not just singletons
-        multiple=True
+        style=style_upload,
+        multiple=True  # allow mutiples files, not just singletons
     ),
-    html.Div(id='data-upload-output')
+    html.Div(id='data-upload-output'),
 ])
 
 
@@ -47,33 +87,39 @@ def parse_contents(contents, filename, date):
     _, content_string = contents.split(',')
 
     decoded = base64.b64decode(content_string)
+    has_header = True # assume headers exist by default, implement non-headers later
     try:
         if 'csv' in filename:
             # Assume that the user uploaded a CSV file
-            df = pd.read_csv(io.StringIO(decoded.decode('utf-8')), sep=',', header='infer')
-        elif 'xls' in filename:
+            if has_header:
+                df = pd.read_csv(io.StringIO(decoded.decode('utf-8')), sep=',', header='infer')
+            else:
+                df = pd.read_csv(io.StringIO(decoded.decode('utf-8')), sep=',', header=None)
+
+        elif 'xls' in filename:  # full implementation will come later
             # Assume that the user uploaded an excel file
             df = pd.read_excel(io.BytesIO(decoded))
     except Exception as e:
         print(e)
         return html.Div([
-            'There was an error processing this file.'
+            dcc.Textarea(
+                value=f'There was an error opening the file {filename}.  Error {e}.',
+                style=style_error
+            )
         ])
 
     fig = go.Figure()
 
-    marker_dict = dict(color='darkred', opacity=0.5)
-    legend_label = 'Bob-066b'
-    # hover_label = 'rotational'
+    fig.add_trace(
+        go.Scatter(
+            x=df.iloc[:,0],
+            y=df.iloc[:,1],
+            **style_trace
+        )
+    )
 
-    fig.add_trace(go.Scatter(
-        x=df.iloc[:,0],
-        y=df.iloc[:,1],
-        mode='lines+markers',
-        marker=marker_dict,
-        name=legend_label
-    ))
-
+    fig.update_xaxes(title_text=df.columns[0])
+    fig.update_yaxes(title_text=df.columns[1])
 
     return html.Div([
         dcc.Graph(figure=fig),
@@ -86,14 +132,15 @@ def parse_contents(contents, filename, date):
             columns=[{'name': i, 'id': i} for i in df.columns]
         ),
 
-        html.Hr(),  # horizontal line
+        html.Hr()  # horizontal line
 
-        # For debugging, display the raw contents provided by the web browser
-        html.Div('Raw Content'),
-        html.Pre(contents[0:200] + '...', style={
-            'whiteSpace': 'pre-wrap',
-            'wordBreak': 'break-all'
-        })
+        ##  html.Hr(),  # horizontal line
+        ##  # For debugging, display the raw contents provided by the web browser
+        ##  html.Div('Raw Content'),
+        ##  html.Pre(contents[0:200] + '...', style={
+        ##      'whiteSpace': 'pre-wrap',
+        ##      'wordBreak': 'break-all'
+        ##  })
     ])
 
 
@@ -108,5 +155,14 @@ def update_output(list_of_contents, list_of_names, list_of_dates):
             zip(list_of_contents, list_of_names, list_of_dates)]
         return children
 
+@app.callback(Output('slider-feedback', 'children'),
+              [Input('header-slider', 'value')])
+def update_header_slider(value):
+    # return 'You have selected "{}"'.format(value)
+    if value:
+        return 'First row of data file contains the header.'
+    else:
+        return 'First row of data file contains data (no headers).'
+
 if __name__ == "__main__":    
-    app.run_server(debug=True)
+    app.run_server(debug=True, use_reloader=False)
