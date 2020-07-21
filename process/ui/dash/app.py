@@ -11,6 +11,7 @@ from dash.dependencies import (Input, Output, State)
 import dash_core_components as dcc
 import dash_html_components as html
 import dash_table
+import plotly.graph_objects as go
 
 import pandas as pd
 
@@ -59,7 +60,24 @@ def parse_contents(contents, filename, date):
             'There was an error processing this file.'
         ])
 
+    fig = go.Figure()
+
+    marker_dict = dict(color='darkred', opacity=0.5)
+    legend_label = 'Bob-066b'
+    # hover_label = 'rotational'
+
+    fig.add_trace(go.Scatter(
+        x=df.iloc[:,0],
+        y=df.iloc[:,1],
+        mode='lines+markers',
+        marker=marker_dict,
+        name=legend_label
+    ))
+
+
     return html.Div([
+        dcc.Graph(figure=fig),
+
         html.H5(filename),
         html.P(datetime.datetime.fromtimestamp(date)),
 
@@ -90,5 +108,5 @@ def update_output(list_of_contents, list_of_names, list_of_dates):
             zip(list_of_contents, list_of_names, list_of_dates)]
         return children
 
-if __name__ == "__main__":
+if __name__ == "__main__":    
     app.run_server(debug=True)
