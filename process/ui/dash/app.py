@@ -19,7 +19,7 @@ import pandas as pd
 # local libraries
 
 app = dash.Dash(__name__)
-app.title = 'XYFigure'
+app.title = 'xyfigure'
 app._read_data_headers = True
 
 style_upload = dict(
@@ -52,23 +52,35 @@ style_trace = dict(
 
 # marks={i: 'Label {}'.format(i) for i in range(10)},
 
+# sliders, for future reference
+#    html.Div(
+#        id='id-header',
+#        children="Headers:",
+#        style={'textAlign': 'center', 'width': '100px', 'visibility': 'hidden'}
+#    ),
+#    html.Div([
+#        html.Div(
+#            dcc.Slider(
+#                id='header-slider',
+#                min=0,
+#                max=1,
+#                marks={0: 'off', 1: 'on'},
+#                value=1
+#            ),
+#            style={'width': '100px', 'display': 'inline-block', 'visibility': 'hidden'}
+#        ),
+#        html.Div(
+#            id='slider-feedback',
+#            style={'display': 'inline-block', 'font-size': 'xx-small', 'vertical-align': 'top', 'visibility': 'hidden'}
+#        )]
+#    ),
+
+
 app.layout = html.Div([
-    html.Div([
-        html.Div(
-            children="Headers",
-            style={'textAlign': 'center'}
-        ),
-        dcc.Slider(
-            id='header-slider',
-            min=0,
-            max=1,
-            marks={0: 'off', 1: 'on'},
-            value=1
-        )],
-        style={'width': '100px'}
-    ),
     html.Div(
-        id='slider-feedback'
+        id='id-header',
+        children=html.H2('xyfigure'),
+        style={'textAlign': 'center'}
     ),
     dcc.Upload(
         id='data-upload',
@@ -143,7 +155,6 @@ def parse_contents(contents, filename, date):
         ##  })
     ])
 
-
 @app.callback(Output('data-upload-output', 'children'),
               [Input('data-upload', 'contents')],
               [State('data-upload', 'filename'),
@@ -155,14 +166,14 @@ def update_output(list_of_contents, list_of_names, list_of_dates):
             zip(list_of_contents, list_of_names, list_of_dates)]
         return children
 
-@app.callback(Output('slider-feedback', 'children'),
-              [Input('header-slider', 'value')])
-def update_header_slider(value):
-    # return 'You have selected "{}"'.format(value)
-    if value:
-        return 'First row of data file contains the header.'
-    else:
-        return 'First row of data file contains data (no headers).'
+# @app.callback(Output('slider-feedback', 'children'),
+#               [Input('header-slider', 'value')])
+# def update_header_slider(value):
+#     # return 'You have selected "{}"'.format(value)
+#     if value:
+#         return 'First row of data file contains the header.'
+#     else:
+#         return 'First row of data file contains data (no headers).'
 
 if __name__ == "__main__":    
-    app.run_server(debug=True, use_reloader=False)
+    app.run_server(debug=True, use_reloader=True)
