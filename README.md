@@ -8,7 +8,7 @@ For more information, see our [website](http://www.sandia.gov/biomechanics/).
 
 ## Library 
 
-[![python](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/) 
+[![python](https://img.shields.io/badge/python-3.8-blue.svg)](https://www.python.org/) 
 [![license](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/sandialabs/sibl#license) 
 [![pypi](https://img.shields.io/badge/pypi-v0.0.5-brightgreen.svg)](https://pypi.org/project/xyfigure/) 
 [![CI](https://github.com/sandialabs/sibl/workflows/CI/badge.svg)](https://github.com/sandialabs/sibl/actions)
@@ -29,7 +29,7 @@ There are two workflows: Client and Developer
 | **Client** | **Developer**  |
 |---|---|
 | *"I just want to use the library, I don't want to develop the library."* | *"I want to use the library and develop the library."* | 
-| [Client Directions](https://github.com/sandialabs/sibl#client-workflow---choice-12) | [Developer Directions](https://github.com/sandialabs/sibl#developer-workflow---choice-22) | 
+| [Client Directions](https://github.com/sandialabs/sibl#client-workflow) | [Developer Directions](https://github.com/sandialabs/sibl#developer-workflow) | 
 
 ## Client Workflow
 
