@@ -19,24 +19,26 @@ For more information, see our [website](http://www.sandia.gov/biomechanics/).
 
 ## Prerequisites
 
-* [Python 3.6](https://www.python.org/downloads/) or higher
-* pip is the **preferred installer program**, sometimes also called the *pip installs python* and *pip installs packages* and will be used to install the xyfigure library on your machine.
-  * pip is already installed with Python >= 3.4 when downloaded from [python.org](https://python.org)
-  * if pip is not already installed, then install [pip](https://pip.pypa.io/en/stable/installing/), 
-  * then read [these directions](https://pip.pypa.io/en/stable/quickstart/)
-* Scipy (includes Numpy) and Matplotlib, all [here](https://scipy.org/)
-* [Pillow](https://pypi.org/project/Pillow/) (only required for xyfigure/test)
+* Git
+* Conda
 
 ## Workflow Choice
 
-There are two workflows: (1) Client,  (2) Developer
+There are two workflows: Client and Developer
 
 | **Client** | **Developer**  |
 |---|---|
 | *"I just want to use the library, I don't want to develop the library."* | *"I want to use the library and develop the library."* | 
 | [Client Directions](https://github.com/sandialabs/sibl#client-workflow---choice-12) | [Developer Directions](https://github.com/sandialabs/sibl#developer-workflow---choice-22) | 
 
-## Client Workflow - Choice 1/2
+## Client Workflow
+
+### Setup with conda environment
+
+* See the [Client setup](environment.md#client-setup)
+
+
+### Historical setup, with pip, now deprecated
 
 Install from a terminal:
 
@@ -59,7 +61,7 @@ Verify installation: check that **xyfigure** is contained in the list generated 
 $ pip list
 ```
 
-## Developer Workflow - Choice 2/2
+## Developer Workflow
 
 For an overview, [read the guide](https://guides.github.com/activities/hello-world/) from GitHub.
 
@@ -70,7 +72,22 @@ $ cd ~  # Starting from the home directory is optional, but recommended.
 $ git clone git@github.com:sandialabs/sibl.git
 ```
 
-### Push to the repository
+### Development Cycle
+
+* pull code
+* implement
+* unit test (active now, both local manual testing and automated testing on push to repository))
+* coverage (to come)
+* push code
+
+```bash
+$ (base) [~]$ cd ~/sibl
+$ (base) [~/sibl]$ conda activate siblenv
+$ (siblenv) [~/sibl]$ # development in python
+$ (siblenv) [~/sibl]$ python -m unittest # unit tests must pass prior to push to repository
+```
+
+### Push to repository
 
 If you update the codebase, and wish to have the modifications merged into the main repository, you will need to either *push to the repository* if you are a collaborator (information below), or *create a pull request* if you have forked the repo (information to come).
 
