@@ -20,7 +20,6 @@ import pandas as pd
 
 app = dash.Dash(__name__)
 app.title = 'xyfigure'
-app._read_data_headers = True
 
 style_upload = dict(
     width='98%', 
@@ -115,7 +114,7 @@ def parse_contents(contents, filename, date):
         print(e)
         return html.Div([
             dcc.Textarea(
-                value=f'There was an error opening the file {filename}.  Error {e}.',
+                value=f'There was an error opening the file {filename}.  Error {e}',
                 style=style_error
             )
         ])
@@ -176,4 +175,4 @@ def update_output(list_of_contents, list_of_names, list_of_dates):
 #         return 'First row of data file contains data (no headers).'
 
 if __name__ == "__main__":    
-    app.run_server(debug=True, use_reloader=True)
+    app.run_server(debug=True, use_reloader=False)

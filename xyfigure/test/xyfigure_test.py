@@ -1,7 +1,13 @@
 """
 This module is a unit test of the xyfigure service.
+It is run manually from the command line, but is not run as 
+part of the automated unit test on check in because its name 
+does not confirm to the test_xxx.py convention (e.g., leading "test_" 
+naming convention).
+
 To run
 
+$ cd ~/sibl/xyfigure/test
 $ python xyfigure_test.py                      # for terse interaction,
 $ python -m unittest xyfigure_test             # for default interaction,
 $ python -m unittest -v xyfigure_test          # for higher verbosity, and
@@ -36,16 +42,16 @@ class TestImageDiff(TestCase):
         cls._path_str = 'sibl/xyfigure/test/xyfigure_test.py'
         print(cls._path_str + ' initialized.')
 
-        cls._orig = 'image_diff_test.png'
-        cls._clone = 'image_diff_test_clone.png'
-        cls._diff = 'image_diff_test_diff.png'
+        cls._img_same_diff = 'img_same_diff'
+        cls._orig  = os.path.join(cls._img_same_diff, 'image_diff_test.png')
+        cls._clone = os.path.join(cls._img_same_diff, 'image_diff_test_clone.png')
+        cls._diff  = os.path.join(cls._img_same_diff, 'image_diff_test_diff.png')
 
-        cls._rgb_orig = 'H_460_460_px_RGB_634800.png'
-        cls._rgb_clone = 'H_460_460_px_RGB_634800_clone.png'
-
-        cls._rgba_orig = 'H_460_460_px_RGBA_846400.png'
-        cls._rgba_clone = 'H_460_460_px_RGBA_846400_clone.png'
-        cls._rgba_diff = 'H_460_460_px_RGBA_846400_diff.png'
+        cls._rgb_orig   = os.path.join(cls._img_same_diff, 'H_460_460_px_RGB_634800.png')
+        cls._rgb_clone  = os.path.join(cls._img_same_diff, 'H_460_460_px_RGB_634800_clone.png')
+        cls._rgba_orig  = os.path.join(cls._img_same_diff, 'H_460_460_px_RGBA_846400.png')
+        cls._rgba_clone = os.path.join(cls._img_same_diff, 'H_460_460_px_RGBA_846400_clone.png')
+        cls._rgba_diff  = os.path.join(cls._img_same_diff, 'H_460_460_px_RGBA_846400_diff.png')
 
         cls._out = 'temp'  # put test files into sibl/xyfigure/test/temp/
 
@@ -77,7 +83,7 @@ class TestImageDiff(TestCase):
                 json.dump(dict_test, outfile)
 
             xyfigure_client.main([jfile_test])
-        
+
             return (file_a, file_b)
 
     def test_same(self):
