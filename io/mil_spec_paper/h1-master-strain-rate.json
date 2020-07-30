@@ -10,7 +10,7 @@
             "label": "P95 max(eig(GL strain rate)) (Bob-063f)",
             "linestyle": "solid",
             "linewidth": 2,
-            "color": "C2"
+            "color": "darkorange"
         }
     },
     "strain-mps-rate-s0003":{
@@ -23,7 +23,7 @@
         "plot_kwargs": {
             "linestyle": "solid",
             "linewidth": 2,
-            "color": "C2"
+            "color": "darkorange"
         }
     },
     "strain-mps-rate-s0005":{
@@ -36,7 +36,7 @@
         "plot_kwargs": {
             "linestyle": "solid",
             "linewidth": 2,
-            "color": "C2"
+            "color": "darkorange"
         }
     },
     "strain-rate-dev": {
@@ -90,7 +90,7 @@
             "linestyle": "dashdot",
             "linewidth": 2,
             "label": "P95 max(eig(GL strain rate)) (Bob-066b)",
-            "color": "C3"
+            "color": "red"
         }
     },
     "strain-rate-vm-066b": {
@@ -107,9 +107,63 @@
             "color": "black"
         }
     },
+    "rod-063f": {
+        "class": "model",
+        "folder": "../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-063f",
+        "file": "max_principal_rate_of_deformation.csv",
+        "xcolumn": 1,
+        "ycolumn": 2,
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "linestyle": "dashed",
+            "linewidth": 2,
+            "label": "P95 max(eig(rate of deformation)) (Bob-063f)",
+            "color": "blue"
+        }
+    },
+    "rod-063f-s0003": {
+        "class": "model",
+        "folder": "../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-063f",
+        "file": "max_principal_rate_of_deformation-s0003.csv",
+        "xcolumn": 1,
+        "ycolumn": 2,
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "linestyle": "dashed",
+            "linewidth": 2,
+            "color": "blue"
+        }
+    },
+    "rod-063f-s0005": {
+        "class": "model",
+        "folder": "../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-063f",
+        "file": "max_principal_rate_of_deformation-s0005.csv",
+        "xcolumn": 1,
+        "ycolumn": 2,
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "linestyle": "dashed",
+            "linewidth": 2,
+            "color": "blue"
+        }
+    },
+    "rod-066b": {
+        "class": "model",
+        "folder": "../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-066b",
+        "file": "max_principal_rate_of_deformation.csv",
+        "xcolumn": 1,
+        "ycolumn": 2,
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "linestyle": "dotted",
+            "linewidth": 2,
+            "label": "P95 max(eig(rate of deformation)) (Bob-066b)",
+            "color": "green"
+        }
+    },
     "figure": {
         "class": "view",
-	"model_keys": ["strain-mps-rate","strain-mps-rate-s0003","strain-mps-rate-s0005","strain-rate-gl-066b"],
+    "model_keys": ["strain-mps-rate","strain-mps-rate-s0003","strain-mps-rate-s0005","rod-063f","rod-063f-s0003","rod-063f-s0005","strain-rate-gl-066b","rod-066b"],
         "folder": "output",
         "file": "h1-master-strain-rate.pdf",
         "size": [8.0, 6.0],
@@ -117,7 +171,7 @@
         "title": "",
         "xlabel": "time (s)",
         "#ylabel": "Green-Lagrange strain rate MPS and VM (1/s)",
-        "ylabel": "Green-Lagrange strain rate MPS (1/s)",
+        "ylabel": "Green-Lagrange and Rate of Deformation MPSR (1/s)",
         "details": 0,
         "display": 0,
         "latex": 1,
