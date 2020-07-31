@@ -10,13 +10,14 @@
 
 # local application/library specific imports
 from xyfigure.xymodel import XYModel
-from  xyfigure.xyview import XYView
+from xyfigure.xyview import XYView
 
-## Figure Factory
+# Figure Factory
 FACTORY_ITEMS = {
     'model': XYModel,
     'view': XYView
 }
+
 
 class XYFactory:
     """The one and only (singleton) factory for XY items."""
@@ -28,5 +29,6 @@ class XYFactory:
             return instance(item, **kwargs)
 
         # If we get here, we did not return an instance, so warn.
-        print(f'Warning: {item} requested but not provided by this factory, returning None.')
+        print(f'Warning: {item} requested but not provided by this factory,')
+        print('returning None.')
         return None

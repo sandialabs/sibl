@@ -8,7 +8,7 @@
 (base) $ conda create --name sibltest python=3.7 scipy matplotlib pandas pillow
 (base) $ conda env remove --name sibltest
 (base) $ conda env list
-(base) $ conda create --name siblenv python=3.8 scipy matplotlib pandas pillow dash xlrd pylint pytest
+(base) $ conda create --name siblenv python=3.8 scipy matplotlib pandas pillow dash xlrd pylint pytest flake8
 (base) $ conda activate siblenv
 (siblenv) $ pip install xyfigure
 ```
@@ -48,8 +48,10 @@ prefix: /Users/Apollo/opt/anaconda3/envs/siblenv
 Clients should create their conda virtual environment from the above server-generated [environment.yml](environment.yml) file using the following commands
 
 ```bash
-$ conda env create -f environment.yml
-$ conda env list  # verify the environment was installed
+(base) $ conda env create -f environment.yml
+(base) $ conda env list  # verify the environment was installed
+(base) $ conda activate siblenv
+(siblenv) $
 ```
 
 
