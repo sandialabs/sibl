@@ -8,7 +8,7 @@
 (base) $ conda create --name sibltest python=3.7 scipy matplotlib pandas pillow
 (base) $ conda env remove --name sibltest
 (base) $ conda env list
-(base) $ conda create --name siblenv python=3.8 scipy matplotlib pandas pillow dash xlrd pylint pytest flake8
+(base) $ conda create --name siblenv python=3.8 scipy matplotlib pandas pillow dash xlrd pylint pytest flake8 seaborn
 (base) $ conda activate siblenv
 (siblenv) $ pip install xyfigure
 ```
@@ -37,6 +37,8 @@ dependencies:
   - pandas
   - scipy
   - matplotlib
+  - flake8
+  - seaborn
 prefix: /Users/Apollo/opt/anaconda3/envs/siblenv
 ```
 

@@ -8,7 +8,7 @@ from matplotlib import rc
 
 EXEMPLAR = 0  # turn on or off the exemplar problem
 TEST = 0 # turn on or off Bob test with small data set
-TRANSLATION = 1 # turns on or off translational case (Bob-063f), else does rotation (Bob-066b)
+TRANSLATION = 0 # turns on or off translational case (Bob-063f), else does rotation (Bob-066b)
 INJURY_0 = 0  # turn on or off cellular injury curve, original
 INJURY_1 = 1  # updated Summey injury curves
 FIG_NAME = os.path.basename(__file__).split('.')[0]  # remove the .py extension
@@ -44,6 +44,8 @@ if EXEMPLAR:
     _ = g.ax_marg_y.hist(tip_data, color="g", orientation="horizontal", bins=np.arange(0,12,1))
     # _ = g.ax_joint.legend(prop=legend_properties, loc='upper left')
     _ = g.ax_joint.text(20, 10, 'hello', ha='left', va='bottom', bbox=bbox_props)
+
+    axis_txt = f'exemplar'
 
     plt.xlabel("total bill")
     plt.ylabel("tip")
@@ -132,7 +134,7 @@ else:
                 ]
             ]
 
-        else: # not a TRANSLATION, then the rotation case
+        else:  # not a TRANSLATION, then the rotation case
             simulation_path = '../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-066b/'
 
             idx = 0  # index for the probes
@@ -147,21 +149,17 @@ else:
 
             strain_files = [
                 [
-                    'ts_43_block_7_max_principal_green_lagrange_strain.txt',
-                    'ts_43_block_8_max_principal_green_lagrange_strain.txt'
+                    'max_principal_green_lagrange_strain_ts_43.csv'
                 ],[
-                    'ts_69_block_7_max_principal_green_lagrange_strain.txt',
-                    'ts_69_block_8_max_principal_green_lagrange_strain.txt'
+                    'max_principal_green_lagrange_strain_ts_69.csv'
                 ]
             ]
 
             strain_rate_files = [
                 [
-                    'ts_43_block_7_max_principal_green_lagrange_strain_rate.txt',
-                    'ts_43_block_8_max_principal_green_lagrange_strain_rate.txt'
+                    'max_principal_green_lagrange_strain_rate_ts_43.csv'
                 ],[
-                    'ts_69_block_7_max_principal_green_lagrange_strain_rate.txt',
-                    'ts_69_block_8_max_principal_green_lagrange_strain_rate.txt'
+                    'max_principal_green_lagrange_strain_rate_ts_69.csv'
                 ]
             ]
 
@@ -207,7 +205,8 @@ else:
     # g.ax_joint.set_xlim([10**exp_min, 10**exp_max])
     g.ax_joint.set_ylim([-0.02, 0.10])
 
-    g.ax_joint.text(0.02, 0.09, axis_txt, ha='left', va='bottom', bbox=bbox_props)
+    # g.ax_joint.text(0.02, 0.09, axis_txt, ha='left', va='bottom', bbox=bbox_props)
+    g.ax_joint.text(0.02, -0.015, axis_txt, ha='left', va='bottom', bbox=bbox_props)
 
     # draw 95th percentile boundaries
     line_prop = dict(color='orange', linewidth=1)
