@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="xyfigure",
-    version="0.0.5",
+    version="0.0.6",
     author="Chad B. Hovey",
     author_email="chovey@sandia.gov",
     description="A library for xy plotting and processing",
