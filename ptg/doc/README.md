@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Pixel To Mesh (PTG) is the process of using stacked 2D image data, composed of pixels, into a 3D solid.  PTG describes a **decoding** process of a physical system that was original **encoded** into a series of 2D medical images.  
+Pixel To Geometry (PTG) is the process of using stacked 2D image data, composed of pixels, to reconstruct a 3D solid.  PTG describes a **decoding** process of a physical system that was original **encoded** into a series of 2D medical images.  
 
 ## Road map
 
