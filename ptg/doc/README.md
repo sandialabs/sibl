@@ -1,21 +1,12 @@
 # doc
 
-## Deep Learning Part
+## Introduction
 
-Input: 
+Pixel To Mesh (PTG) is the process of using stacked 2D image data, composed of pixels, into a 3D solid.  PTG describes a **decoding** process of a physical system that was original **encoded** into a series of 2D medical images.  
 
-* Black and white 1d slices
+## Road map
 
-Ouput: 
-
-* [class, sx, sy, sz, rx, ry, rz, tx, ty, tz]
-* class, three scaling constants, three rotations, three translations
-
-Training data: 
-
-* x: Black white 1d slices of class 0
-* y: ["class 0", 1, 1, 1, 0, 0, 0, 0, 0, 0]
-
-References:
-
-* [3D MNIST](https://www.kaggle.com/daavoo/3d-mnist)
+* Encode/Decode [unit test](unit-test.md)
+* Encode/Decode femur
+* Encode/Decode femur, patella, tibia, fibula
+* Encode/Decode human skeleton
