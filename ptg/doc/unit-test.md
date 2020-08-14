@@ -66,3 +66,4 @@ Training data:
 References:
 
 * [3D MNIST](https://www.kaggle.com/daavoo/3d-mnist)
+* [Spatial Transformer Network Tutorial](https://pytorch.org/tutorials/intermediate/spatial_transformer_tutorial.html)
