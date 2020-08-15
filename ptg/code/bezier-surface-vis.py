@@ -13,7 +13,7 @@ class BezierSurfaceVis:
     def __init__(self, config, verbose=0):
 
         if not Path(config).is_file():
-            sys.exit(f'Error: cannot fine file {config}')
+            sys.exit(f'Error: cannot find file {config}')
 
         config_location = Path(config).parent
 
@@ -35,6 +35,17 @@ class BezierSurfaceVis:
         data_path = db.get("data-path", None)
         cp_file = db.get("control-points", None)
         co_file = db.get("connections", None)
+
+        xlabel = db.get("xlabel", "x")
+        ylabel = db.get("ylabel", "y")
+        zlabel = db.get("zlabel", "z")
+
+        xlim = db.get("xlim", None)
+        ylim = db.get("ylim", None)
+        zlim = db.get("zlim", None)
+
+        camera_elevation = db.get("camera-elevation", None)
+        camera_azimuth = db.get("camera-azimuth", None)
 
         if not Path(data_path).is_dir():
             sys.exit(f'Error: cannot find {data_path}')
@@ -69,6 +80,14 @@ class BezierSurfaceVis:
                                     delimiter=data_type_delimiter,
                                     skip_header=n_headers)
 
+            if len(patches.shape) == 1:
+                # handle special case of single patch
+                # https://numpy.org/devdocs/user/absolute_beginners.html#how-to-convert-a-1d-array-into-a-2d-array-how-to-add-a-new-axis-to-an-array
+                patches = np.expand_dims(patches, axis=0)
+                # otherwise, we have two or more patches, dims are ok
+
+            n_patches, n_cp = patches.shape  # number (patches, control points)
+
         a = 4
 
         ax = plt.axes(projection='3d')
@@ -90,7 +109,8 @@ class BezierSurfaceVis:
         cp_labels = True  # show/hide control point index
         # patch_number = 6
         # for patch in [patches[patch_number]]:
-        patch_numbers = (5, 6)
+        patch_numbers = (0,)  # used for example
+        # patch_numbers = (5, 6)  # used for utah-teapot
         for patch in [patches[k] for k in patch_numbers]:
             patch_x = [cp_x[i] for i in patch]
             patch_y = [cp_y[i] for i in patch]
@@ -107,9 +127,24 @@ class BezierSurfaceVis:
 
 
         # ax.set_xlabel(r'$t$')
-        ax.set_xlabel(r'$x$')
-        ax.set_ylabel(r'$y$')
-        ax.set_zlabel(r'$z$')
+        # ax.set_xlabel(r'$x$')
+        # ax.set_ylabel(r'$y$')
+        # ax.set_zlabel(r'$z$')
+
+        ax.set_xlabel(xlabel)
+        ax.set_ylabel(ylabel)
+        ax.set_zlabel(zlabel)
+
+        if xlim:
+            ax.set_xlim(xlim)
+
+        if ylim:
+            ax.set_ylim(ylim)
+
+        if zlim:
+            ax.set_zlim(zlim)
+
+        ax.view_init(elev=camera_elevation, azim=camera_azimuth)
 
         plt.show()
 

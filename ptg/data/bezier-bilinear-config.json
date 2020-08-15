@@ -1,0 +1,9 @@
+{
+    "data-path": "/Users/Apollo/sibl/ptg/data/",
+    "control-points": "bezier-bilinear-control-points.csv",
+    "connections": "bezier-bilinear-connections.csv",
+    "xlim": [0, 10],
+    "ylim": [0, 8], 
+    "camera-elevation": 85,
+    "camera-azimuth": -15
+}
