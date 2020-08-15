@@ -1,5 +1,7 @@
 {
     "data-path": "/Users/Apollo/sibl/ptg/data/",
     "control-points": "utah-teapot-control-points.csv",
-    "connections": "utah-teapot-connections.csv"
+    "control-points-label": true,
+    "control-nets": "utah-teapot-control-nets.csv",
+    "control-nets-shown": [5, 6]
 }
