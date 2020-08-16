@@ -76,7 +76,7 @@ $ git clone git@github.com:sandialabs/sibl.git
 
 * pull code
 * implement
-* unit test (active now, both local manual testing and automated testing on push to repository))
+* unit test (active now, both local manual testing and automated testing on push to repository)
 * coverage (to come)
 * push code
 
