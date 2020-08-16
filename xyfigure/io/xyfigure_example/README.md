@@ -30,8 +30,8 @@ will result, written to the `~/sibl/io/xyfigure_example/` folder.
 ### Next Steps
 
 
-* Scan throught the [documentation](https://github.com/sandialabs/sibl/blob/master/xyfigure/documentation.md).
-* Scan through the [test cases](https://github.com/sandialabs/sibl/blob/master/xyfigure/test/README.md).
+* Scan throught the [documentation](../../code/documentation.md).
+* Scan through the [test cases](../../code/test/README.md).
 
 ## Getting Minimalistic
 
