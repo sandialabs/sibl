@@ -1,11 +1,14 @@
-# utah teapot visualization
+# Bezier surface visualization, e.g., the utah teapot
 import argparse
 import json
 from pathlib import Path
 import sys
 
+import matplotlib.tri as mtri
 import matplotlib.pyplot as plt
 import numpy as np
+
+import bernstein_polynomial as bp
 
 
 class BezierSurfaceVis:
@@ -112,7 +115,8 @@ class BezierSurfaceVis:
 
         ax = plt.axes(projection='3d')
         # ax.plot3D(cp_x, cp_y, cp_z)
-        ax.scatter3D(cp_x, cp_y, cp_z)
+        ax.scatter3D(cp_x, cp_y, cp_z, edgecolor="blue",
+                     facecolor=(0, 0, 0, 0), s=10)
 
         if cn_shown:
             # for utah-teapot debugging:
@@ -131,15 +135,65 @@ class BezierSurfaceVis:
                 net_x = [cp_x[i] for i in net]
                 net_y = [cp_y[i] for i in net]
                 net_z = [cp_z[i] for i in net]
-                ax.plot3D(net_x, net_y, net_z, linestyle='dashed')
+                ax.plot3D(net_x, net_y, net_z, linestyle='dashed',
+                          linewidth=0.8)
 
                 if cp_labels:
                     for i, cp_index in enumerate(net):
-                        if verbose:
-                            print(f'net node {i} is control point {cp_index}')
                         ax.text(net_x[i], net_y[i], net_z[i],
                                 str(cp_index), color='black')
-                        a = 4
+                        if verbose:
+                            print(f'net node {i} is control point {cp_index}')
+
+                triangulate = True
+
+                x, y, z = (0.0, 0.0, 0.0)
+                if triangulate:
+                    # assumes number of control points same along each axis
+                    # for either 2D (or 3D, to come); 2D uses square root
+                    # and 3D will use cube root
+                    n_cp_per_axis = int(np.sqrt(len(net)))
+                    p_degree = n_cp_per_axis - 1  # polynomial degree
+                    # nti = 2  # segment [0, 1] into nti intervals
+                    nti = 2**3  # segment [0, 1] into nti intervals
+                    # triangulate the surface
+                    # https://matplotlib.org/3.1.1/gallery/mplot3d/trisurf3d_2.html
+                    t = np.linspace(0, 1, num=nti+1, endpoint=True)
+                    u = np.linspace(0, 1, num=nti+1, endpoint=True)
+
+                    Point = np.reshape(net, (n_cp_per_axis, n_cp_per_axis))
+
+                    for i in np.arange(n_cp_per_axis):
+                        for j in np.arange(n_cp_per_axis):
+                            b_i = bp.bernstein_polynomial(i, p_degree, nti)
+                            b_j = bp.bernstein_polynomial(j, p_degree, nti)
+                            bij = np.outer(b_i, b_j)
+
+                            if verbose:
+                                print(f'bij = {bij}')
+
+                            # x += bij * net_x[Point[i][j]]
+                            # y += bij * net_y[Point[i][j]]
+                            # z += bij * net_z[Point[i][j]]
+                            x += bij * cp_x[Point[i][j]]
+                            y += bij * cp_y[Point[i][j]]
+                            z += bij * cp_z[Point[i][j]]
+
+                    # my convention is reverse of the (x, y) convention of
+                    # mesh grid, see
+                    # https://numpy.org/doc/stable/reference/generated/numpy.meshgrid.html
+                    u, t = np.meshgrid(u, t)
+                    u, t = u.flatten(), t.flatten()
+
+                    # triangulate paramter space to determine the triangles, cf
+                    # https://matplotlib.org/3.1.1/gallery/mplot3d/trisurf3d_2.html
+                    tri = mtri.Triangulation(u, t)
+                    ax.plot_trisurf(x.flatten(), y.flatten(), z.flatten(),
+                                    triangles=tri.triangles,
+                                    alpha=0.8)
+
+                    if verbose:
+                        print('Triangulation is complete.')
 
         ax.set_xlabel(xlabel)
         ax.set_ylabel(ylabel)
