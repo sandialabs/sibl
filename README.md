@@ -14,8 +14,8 @@ For more information, see our [website](http://www.sandia.gov/biomechanics/).
 [![CI](https://github.com/sandialabs/sibl/workflows/CI/badge.svg)](https://github.com/sandialabs/sibl/actions)
 [![coverage](https://img.shields.io/badge/coverage-73%25-yellow.svg)](https://github.com/sandialabs/sibl/tree/master/htmlcov/index.html)
 
-* [xyfigure](https://github.com/sandialabs/sibl/tree/master/xyfigure/README.md)
-* [tpav](https://github.com/sandialabs/sibl/tree/master/process/tpav/README.md)
+* [xyfigure](https://github.com/sandialabs/sibl/tree/master/xyfigure/code/README.md)
+* [tpav](https://github.com/sandialabs/sibl/tree/master/xyfigure/process/tpav/README.md)
 
 ## Prerequisites
 
@@ -35,7 +35,7 @@ There are two workflows: Client and Developer
 
 ### Setup with conda environment
 
-* See the [Client setup](environment.md#client-setup)
+* See the [Client setup](https://github.com/sandialabs/sibl/blob/master/resources/environment.md#client-setup)
 
 
 ### Historical setup, with pip, now deprecated
