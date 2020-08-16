@@ -1,8 +1,8 @@
 {
     "data-path": "/Users/Apollo/sibl/ptg/data/",
-    "control-points": "bezier-bilinear-control-points.csv",
+    "control-points": "bezier-biquadratic-control-points.csv",
     "control-points-label": true,
-    "control-nets": "bezier-bilinear-control-nets.csv",
+    "control-nets": "bezier-biquadratic-control-nets.csv",
     "control-nets-shown": [0],
     "xlim": [0, 10],
     "ylim": [0, 8], 
