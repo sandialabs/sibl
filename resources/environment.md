@@ -2,6 +2,13 @@
 
 ## Server
 
+* IDE: [VS Code](https://code.visualstudio.com/)
+* Linting: [flake8](https://pypi.org/project/flake8/)
+* Auto-formatter: [Black](https://pypi.org/project/black/)
+* Testing: 
+  * CI: GitHub [Actions](https://docs.github.com/en/actions)
+  * [unittest](https://docs.python.org/3/library/unittest.html)
+
 ### Create the environment
 
 ```bash
