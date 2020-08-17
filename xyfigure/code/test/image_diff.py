@@ -27,7 +27,7 @@ def same(file_a, file_b, verbose=0):
     Args:
         file_a (string) The first of two image file names.
         file_b (string): The second of two image file names.
-        verbose: (Boolean): True provides more command line feedback that False.
+        verbose: (Boolean): True is more command line feedback than False.
 
     Returns:
         Boolean:  True for images are the same; False for images are different.
@@ -39,8 +39,8 @@ def same(file_a, file_b, verbose=0):
     same_pixels = False
 
     if verbose:  # pragma: no cover
-        print(f'Image 1 file name: {file_a}')
-        print(f'Image 2 file name: {file_b}')
+        print(f"Image 1 file name: {file_a}")
+        print(f"Image 2 file name: {file_b}")
 
     try:
         with Image.open(file_a) as im_a, Image.open(file_b) as im_b:
@@ -51,9 +51,9 @@ def same(file_a, file_b, verbose=0):
             same_xy_dimension = im_a_size == im_b_size
 
             if verbose:  # pragma: no cover
-                print('Test 1 of 2: Dimensionality comparison')
-                print(f'  (x,y) dimension of image 1 is {im_a_size}')
-                print(f'  (x,y) dimension of image 2 is {im_b_size}')
+                print("Test 1 of 2: Dimensionality comparison")
+                print(f"  (x,y) dimension of image 1 is {im_a_size}")
+                print(f"  (x,y) dimension of image 2 is {im_b_size}")
 
             same_mode = im_a.mode == im_b.mode
 
@@ -68,35 +68,47 @@ def same(file_a, file_b, verbose=0):
                     data_diff = data_a - data_b
 
                     data_diff_norm = np.linalg.norm(data_diff)
-                    image_tol = 10.0  # tolerance for the L2norm to be same or different
+
+                    # tolerance for the L2norm to be same or different
+                    image_tol = 10.0
 
                     same_pixels = np.abs(data_diff_norm) < image_tol
 
                     if verbose:  # pragma: no cover
-                        print(f'  Images (x,y) dimensions are the same? [T/F]: {same_xy_dimension}')
-                        print(f'  Images have same mode? [T/F]: {same_mode}')
-                        print(f'  Images have same number of channels? [T/F]: {same_channels}')
-                        print('Test 2 of 2: Pixel-by-pixel comparison')
-                        print(f'  Size of data image 1 is {data_a.size}')
-                        print(f'  Size of data image 2 is {data_b.size}')
-                        print(f'  Pixels are the same? [T/F]: {same_pixels}')
+                        print("  Images (x,y) have same dimensions? [T/F]:")
+                        print(f"{same_xy_dimension}")
+
+                        print(f"  Images have same mode? [T/F]: {same_mode}")
+                        print("  Images have same number of channels? [T/F]:")
+                        print(f"{same_channels}")
+
+                        print("Test 2 of 2: Pixel-by-pixel comparison")
+                        print(f"  Size of data image 1 is {data_a.size}")
+                        print(f"  Size of data image 2 is {data_b.size}")
+                        print(f"  Pixels are the same? [T/F]: {same_pixels}")
 
             else:  # pragma: no cover
                 if verbose:
-                    print(f'  Images (x,y) dimensions are the same? [T/F]: {same_xy_dimension}')
-                    print(f'  Images have same mode? [T/F]: {same_mode}')
-                    print(f'  Images have same number of channels? [T/F]: {same_channels}')
-                    print('Images are different.')
+                    print("  Images (x,) have same dimensions? [T/F]:")
+                    print(f"{same_xy_dimension}")
+
+                    print(f"  Images have same mode? [T/F]: {same_mode}")
+
+                    print("  Images have same number of channels? [T/F]:")
+                    print(f"{same_channels}")
+
+                    print("Images are different.")
 
             if verbose:  # pragma: no cover
-                print(f'Returning {same_pixels}')
+                print(f"Returning {same_pixels}")
 
             return same_pixels
 
     except IOError:
-        print('Error: could not open files:')
-        print(f'  {file_a}')
-        print(f'  {file_b}')
+        print("Error: could not open files:")
+        print(f"  {file_a}")
+        print(f"  {file_b}")
+
 
 def main(argv):
     """ The main entry point for command line interation.
@@ -116,12 +128,12 @@ def main(argv):
         file_a = argv[0]
         file_b = argv[1]
     except IndexError as error:
-        print(f'Error: {error}.')
-        print('Abnormal script termination.')
-        sys.exit('Two image files must be specified as arguments.')
+        print(f"Error: {error}.")
+        print("Abnormal script termination.")
+        sys.exit("Two image files must be specified as arguments.")
 
     same(file_a, file_b, verbose=True)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main(sys.argv[1:])

@@ -1,13 +1,14 @@
 # https://www.python.org/dev/peps/pep-0008/#imports
 # standard library imports
-import os
+# import os
 import unittest
 
 # related third-party imports
 import numpy as np
 
 # local application/library specific imports
-import process.tpav.three_points_angular_velocity as tpav
+# import process.tpav.three_points_angular_velocity as tpav
+import xyfigure.process.tpav.three_points_angular_velocity as tpav
 
 
 class ThreePointsAngularVelocityTest(unittest.TestCase):
@@ -19,6 +20,7 @@ class ThreePointsAngularVelocityTest(unittest.TestCase):
     To run a single test:
     $ python three_points_angular_velocity_test.py ThreePointsAngularVelocityTest.test_t0
     """
+
     def __init__(self, *args, **kwargs):
         super(ThreePointsAngularVelocityTest, self).__init__(*args, **kwargs)
         self.tolerance = 1.0e-6  # small tolerance
@@ -38,34 +40,50 @@ class ThreePointsAngularVelocityTest(unittest.TestCase):
         rOQ_known = [[0.55137674, 0.25365122, -2.82971045]]
         rOR_known = [[3.36915713, -1.37296331, -0.20913266]]
         rPQ_known = [[-1.07296862, 0.86540763, -2.3015387]]
-        rPR_known = [[ 1.74481176, -0.7612069, 0.3190391]]
+        rPR_known = [[1.74481176, -0.7612069, 0.3190391]]
         vP_known = [[-0.24937038, 1.46210794, -2.06014071]]
         vQ_known = [[-0.34662714, -0.49644677, -2.75124129]]
         vR_known = [[0.49113439, 3.54318589, -1.14461195]]
-        A_known =  np.array([[[0.0, -2.3015387, -0.86540763],
-                              [2.3015387, 0.0, -1.07296862],
-                              [0.86540763, 1.07296862, 0.0],
-                              [0.0, 0.3190391, 0.7612069],
-                              [-0.3190391, 0.0, 1.74481176],
-                              [-0.7612069, -1.74481176, 0.0]]])
+        A_known = np.array(
+            [
+                [
+                    [0.0, -2.3015387, -0.86540763],
+                    [2.3015387, 0.0, -1.07296862],
+                    [0.86540763, 1.07296862, 0.0],
+                    [0.0, 0.3190391, 0.7612069],
+                    [-0.3190391, 0.0, 1.74481176],
+                    [-0.7612069, -1.74481176, 0.0],
+                ]
+            ]
+        )
         w_known = np.array([[-0.3224172, -0.38405435, 1.13376944]])
 
         if self.verbose:  # pragma: no cover
-            print(f'A_known = {A_known}')
-            print(f'w_known = {w_known}')
+            print(f"A_known = {A_known}")
+            print(f"w_known = {w_known}")
 
         # position vectors, seeded
-        rOP = np.random.randn(self.nts, self.nsd)  # arbitrary position vector from origin to P
-        rPQ = np.random.randn(self.nts, self.nsd)  # position vector in body B from P to Q
-        rPR = np.random.randn(self.nts, self.nsd)  # position vector in body B from P to R
+        rOP = np.random.randn(
+            self.nts, self.nsd
+        )  # arbitrary position vector from origin to P
+        rPQ = np.random.randn(
+            self.nts, self.nsd
+        )  # position vector in body B from P to Q
+        rPR = np.random.randn(
+            self.nts, self.nsd
+        )  # position vector in body B from P to R
 
         # position vectors, derived
         rOQ = rOP + rPQ  # position vector from origin to Q in frame F
         rOR = rOP + rPR  # position vector from origin to R in frame F
 
         # velocity vectors, seeded
-        vP = np.random.randn(self.nts, self.nsd)  # arbitrary velocity vector of point P in frame F
-        wB = np.random.randn(self.nts, self.nsd)  # angular velocity vector of body B in frame F
+        vP = np.random.randn(
+            self.nts, self.nsd
+        )  # arbitrary velocity vector of point P in frame F
+        wB = np.random.randn(
+            self.nts, self.nsd
+        )  # angular velocity vector of body B in frame F
 
         # velocity vectors, derived
         vQ = vP + np.cross(wB, rPQ)
@@ -75,14 +93,14 @@ class ThreePointsAngularVelocityTest(unittest.TestCase):
 
         A_calculated = p.A_matrix()
         if self.verbose:  # praga: no cover
-            print(f'A_calculated = {A_calculated}')
+            print(f"A_calculated = {A_calculated}")
 
         # w_calculated_T = np.squeeze(np.reshape(p.angular_velocity(), (nts, nsd)))
         w_calculated_T = p.angular_velocity()
         if self.verbose:  # pragma: no cover
-            print(f'w_calculated_T = {w_calculated_T}')
+            print(f"w_calculated_T = {w_calculated_T}")
 
-        self.assertEqual(self.seed, 1, msg='Set to 1 for test repeatibility.')
+        self.assertEqual(self.seed, 1, msg="Set to 1 for test repeatibility.")
         self.assertLess(np.linalg.norm(rOP - rOP_known), self.tolerance)
         self.assertLess(np.linalg.norm(rOQ - rOQ_known), self.tolerance)
         self.assertLess(np.linalg.norm(rOR - rOR_known), self.tolerance)
@@ -101,63 +119,101 @@ class ThreePointsAngularVelocityTest(unittest.TestCase):
         np.random.seed(self.seed)  # repeatability from specific random seed
 
         # known test case values
-        rOP_known = [[1.62434536, -0.61175641, -0.52817175],
-                     [1.62434536, -0.61175641, -0.52817175]]
+        rOP_known = [
+            [1.62434536, -0.61175641, -0.52817175],
+            [1.62434536, -0.61175641, -0.52817175],
+        ]
 
-        rOQ_known = [[0.55137674, 0.25365122, -2.82971045],
-                     [0.55137674, 0.25365122, -2.82971045]]
+        rOQ_known = [
+            [0.55137674, 0.25365122, -2.82971045],
+            [0.55137674, 0.25365122, -2.82971045],
+        ]
 
-        rOR_known = [[3.36915713, -1.37296331, -0.20913266],
-                     [3.36915713, -1.37296331, -0.20913266]]
+        rOR_known = [
+            [3.36915713, -1.37296331, -0.20913266],
+            [3.36915713, -1.37296331, -0.20913266],
+        ]
 
-        rPQ_known = [[-1.07296862, 0.86540763, -2.3015387],
-                     [-1.07296862, 0.86540763, -2.3015387]]
+        rPQ_known = [
+            [-1.07296862, 0.86540763, -2.3015387],
+            [-1.07296862, 0.86540763, -2.3015387],
+        ]
 
-        rPR_known = [[ 1.74481176, -0.7612069, 0.3190391],
-                     [ 1.74481176, -0.7612069, 0.3190391]]
+        rPR_known = [
+            [1.74481176, -0.7612069, 0.3190391],
+            [1.74481176, -0.7612069, 0.3190391],
+        ]
 
-        vP_known = [[-0.24937038, 1.46210794, -2.06014071],
-                    [-0.24937038, 1.46210794, -2.06014071]]
+        vP_known = [
+            [-0.24937038, 1.46210794, -2.06014071],
+            [-0.24937038, 1.46210794, -2.06014071],
+        ]
 
-        vQ_known = [[-0.34662714, -0.49644677, -2.75124129],
-                    [-0.34662714, -0.49644677, -2.75124129]]
+        vQ_known = [
+            [-0.34662714, -0.49644677, -2.75124129],
+            [-0.34662714, -0.49644677, -2.75124129],
+        ]
 
-        vR_known = [[0.49113439, 3.54318589, -1.14461195],
-                    [0.49113439, 3.54318589, -1.14461195]]
+        vR_known = [
+            [0.49113439, 3.54318589, -1.14461195],
+            [0.49113439, 3.54318589, -1.14461195],
+        ]
 
-        A_known =  np.array([[[0.0, -2.3015387, -0.86540763],
-                              [2.3015387, 0.0, -1.07296862],
-                              [0.86540763, 1.07296862, 0.0],
-                              [0.0, 0.3190391, 0.7612069],
-                              [-0.3190391, 0.0, 1.74481176],
-                              [-0.7612069, -1.74481176, 0.0]],
-                             [[0.0, -2.3015387, -0.86540763],
-                              [2.3015387, 0.0, -1.07296862],
-                              [0.86540763, 1.07296862, 0.0],
-                              [0.0, 0.3190391, 0.7612069],
-                              [-0.3190391, 0.0, 1.74481176],
-                              [-0.7612069, -1.74481176, 0.0]]])
+        A_known = np.array(
+            [
+                [
+                    [0.0, -2.3015387, -0.86540763],
+                    [2.3015387, 0.0, -1.07296862],
+                    [0.86540763, 1.07296862, 0.0],
+                    [0.0, 0.3190391, 0.7612069],
+                    [-0.3190391, 0.0, 1.74481176],
+                    [-0.7612069, -1.74481176, 0.0],
+                ],
+                [
+                    [0.0, -2.3015387, -0.86540763],
+                    [2.3015387, 0.0, -1.07296862],
+                    [0.86540763, 1.07296862, 0.0],
+                    [0.0, 0.3190391, 0.7612069],
+                    [-0.3190391, 0.0, 1.74481176],
+                    [-0.7612069, -1.74481176, 0.0],
+                ],
+            ]
+        )
 
-        w_known = np.array([[-0.3224172, -0.38405435, 1.13376944],
-                            [-0.3224172, -0.38405435, 1.13376944]])
+        w_known = np.array(
+            [
+                [-0.3224172, -0.38405435, 1.13376944],
+                [-0.3224172, -0.38405435, 1.13376944],
+            ]
+        )
 
         if self.verbose:  # pragma: no cover
-            print(f'A_known = {A_known}')
-            print(f'w_known = {w_known}')
+            print(f"A_known = {A_known}")
+            print(f"w_known = {w_known}")
 
         # position vectors, seeded
-        rOP = np.random.randn(self.nts, self.nsd) # arbitrary position vector from origin to P
+        rOP = np.random.randn(
+            self.nts, self.nsd
+        )  # arbitrary position vector from origin to P
 
-        rPQ = np.random.randn(self.nts, self.nsd)  # position vector in body B from P to Q
-        rPR = np.random.randn(self.nts, self.nsd)  # position vector in body B from P to R
+        rPQ = np.random.randn(
+            self.nts, self.nsd
+        )  # position vector in body B from P to Q
+        rPR = np.random.randn(
+            self.nts, self.nsd
+        )  # position vector in body B from P to R
 
         # position vectors, derived
         rOQ = rOP + rPQ  # position vector from origin to Q in frame F
         rOR = rOP + rPR  # position vector from origin to R in frame F
 
         # velocity vectors, seeded
-        vP = np.random.randn(self.nts, self.nsd)  # arbitrary velocity vector of point P in frame F
-        wB = np.random.randn(self.nts, self.nsd)  # angular velocity vector of body B in frame F
+        vP = np.random.randn(
+            self.nts, self.nsd
+        )  # arbitrary velocity vector of point P in frame F
+        wB = np.random.randn(
+            self.nts, self.nsd
+        )  # angular velocity vector of body B in frame F
 
         # velocity vectors, derived
         vQ = vP + np.cross(wB, rPQ)
@@ -175,28 +231,28 @@ class ThreePointsAngularVelocityTest(unittest.TestCase):
         vR = np.array([vR.tolist()[0], vR.tolist()[0]])
 
         if self.verbose:
-            print(f'rOP = {rOP}')
-            print(f'rPQ = {rPQ}')
-            print(f'rPR = {rPR}')
-            print(f'rOQ = {rOQ}')
-            print(f'rOR = {rOR}')
-            print(f'vP = {vP}')
-            print(f'wB = {wB}')
-            print(f'vQ = {vQ}')
-            print(f'vR = {vR}')
+            print(f"rOP = {rOP}")
+            print(f"rPQ = {rPQ}")
+            print(f"rPR = {rPR}")
+            print(f"rOQ = {rOQ}")
+            print(f"rOR = {rOR}")
+            print(f"vP = {vP}")
+            print(f"wB = {wB}")
+            print(f"vQ = {vQ}")
+            print(f"vR = {vR}")
 
         p = tpav.ThreePointsAngularVelocity(rOP, rOQ, rOR, vP, vQ, vR, self.verbose)
 
         A_calculated = p.A_matrix()
         if self.verbose:  # pragma: no cover
-            print(f'A_calculated = {A_calculated}')
+            print(f"A_calculated = {A_calculated}")
 
         # w_calculated_T = np.squeeze(np.reshape(p.angular_velocity(), (nts, nsd)))
         w_calculated_T = p.angular_velocity()
         if self.verbose:  # pragma: no cover
-            print(f'w_calculated_T = {w_calculated_T}')
+            print(f"w_calculated_T = {w_calculated_T}")
 
-        self.assertEqual(self.seed, 1, msg='Set to 1 for test repeatibility.')
+        self.assertEqual(self.seed, 1, msg="Set to 1 for test repeatibility.")
         self.assertLess(np.linalg.norm(rOP - rOP_known), self.tolerance)
         self.assertLess(np.linalg.norm(rOQ - rOQ_known), self.tolerance)
         self.assertLess(np.linalg.norm(rOR - rOR_known), self.tolerance)
@@ -218,37 +274,43 @@ class ThreePointsAngularVelocityTest(unittest.TestCase):
         np.random.seed(self.seed)  # repeatability from specific random seed
 
         # known test case values
-        R = 10 # m
+        R = 10  # m
         rOP_known = [[R, 0, 0]]
-        rOQ_known = [[R/np.sqrt(2), R/np.sqrt(2), 0]]
+        rOQ_known = [[R / np.sqrt(2), R / np.sqrt(2), 0]]
         rOR_known = rOQ_known
-        rPQ_known = [[R/np.sqrt(2) - R, R/np.sqrt(2), 0]]
-        rPR_known =  rPQ_known
+        rPQ_known = [[R / np.sqrt(2) - R, R / np.sqrt(2), 0]]
+        rPR_known = rPQ_known
 
-        v_mag = 120 # m/s
+        v_mag = 120  # m/s
         vP_known = [[0, v_mag, 0]]
-        vQ_known = [[0, -v_mag/np.sqrt(2), v_mag/np.sqrt(2)]] 
-        vR_known =  vQ_known
+        vQ_known = [[0, -v_mag / np.sqrt(2), v_mag / np.sqrt(2)]]
+        vR_known = vQ_known
 
-        A_known = np.array([[[0.0, -2.3015387, -0.86540763],
-                              [2.3015387, 0.0, -1.07296862],
-                              [0.86540763, 1.07296862, 0.0],
-                              [0.0, 0.3190391, 0.7612069],
-                              [-0.3190391, 0.0, 1.74481176],
-                              [-0.7612069, -1.74481176, 0.0]]])
+        A_known = np.array(
+            [
+                [
+                    [0.0, -2.3015387, -0.86540763],
+                    [2.3015387, 0.0, -1.07296862],
+                    [0.86540763, 1.07296862, 0.0],
+                    [0.0, 0.3190391, 0.7612069],
+                    [-0.3190391, 0.0, 1.74481176],
+                    [-0.7612069, -1.74481176, 0.0],
+                ]
+            ]
+        )
 
         w_known = np.array([[0, 0, 12]])
 
         if self.verbose:
-            print(f'A_known = {A_known}')
-            print(f'w_known = {w_known}')
+            print(f"A_known = {A_known}")
+            print(f"w_known = {w_known}")
 
         # position vectors, seeded
         rOP = np.array(rOP_known)
         rPQ = np.array(rPQ_known)
         if self.verbose:  # pragma: no cover
-            print(f'rOP = {rOP}')
-            print(f'rPQ = {rPQ}')
+            print(f"rOP = {rOP}")
+            print(f"rPQ = {rPQ}")
         # rPR = np.random.randn(self.nts, self.nsd)  # position vector in body B from P to R
         rPR = rPQ
 
@@ -269,14 +331,14 @@ class ThreePointsAngularVelocityTest(unittest.TestCase):
 
         A_calculated = p.A_matrix()
         if self.verbose:  # pragma: no cover
-            print(f'A_calculated = {A_calculated}')
+            print(f"A_calculated = {A_calculated}")
 
         # w_calculated_T = np.squeeze(np.reshape(p.angular_velocity(), (nts, nsd)))
         w_calculated_T = p.angular_velocity()
         if self.verbose:  # pragma: no cover
-            print(f'w_calculated_T = {w_calculated_T}')
+            print(f"w_calculated_T = {w_calculated_T}")
 
-        self.assertEqual(self.seed, 1, msg='Set to 1 for test repeatibility.')
+        self.assertEqual(self.seed, 1, msg="Set to 1 for test repeatibility.")
         self.assertLess(np.linalg.norm(rOP - rOP_known), self.tolerance)
         self.assertLess(np.linalg.norm(rOQ - rOQ_known), self.tolerance)
         self.assertLess(np.linalg.norm(rOR - rOR_known), self.tolerance)
@@ -298,37 +360,43 @@ class ThreePointsAngularVelocityTest(unittest.TestCase):
         np.random.seed(self.seed)  # repeatability from specific random seed
 
         # known test case values
-        R = 10 # m
+        R = 10  # m
         rOP_known = [[R, 0, 0]]
         rOQ_known = [[R, 0, R]]
         rOR_known = rOQ_known
         rPQ_known = [[0, 0, R]]
-        rPR_known =  rPQ_known
+        rPR_known = rPQ_known
 
-        v_mag = 120 # m/s
+        v_mag = 120  # m/s
         vP_known = [[0, v_mag, 0]]
-        vQ_known = [[0, v_mag, 0]] 
-        vR_known =  vQ_known
+        vQ_known = [[0, v_mag, 0]]
+        vR_known = vQ_known
 
-        A_known = np.array([[[0.0, -2.3015387, -0.86540763],
-                              [2.3015387, 0.0, -1.07296862],
-                              [0.86540763, 1.07296862, 0.0],
-                              [0.0, 0.3190391, 0.7612069],
-                              [-0.3190391, 0.0, 1.74481176],
-                              [-0.7612069, -1.74481176, 0.0]]])
+        A_known = np.array(
+            [
+                [
+                    [0.0, -2.3015387, -0.86540763],
+                    [2.3015387, 0.0, -1.07296862],
+                    [0.86540763, 1.07296862, 0.0],
+                    [0.0, 0.3190391, 0.7612069],
+                    [-0.3190391, 0.0, 1.74481176],
+                    [-0.7612069, -1.74481176, 0.0],
+                ]
+            ]
+        )
 
         w_known = np.array([[0, 0, 12]])
 
         if self.verbose:  # pragma: no cover
-            print(f'A_known = {A_known}')
-            print(f'w_known = {w_known}')
+            print(f"A_known = {A_known}")
+            print(f"w_known = {w_known}")
 
         # position vectors, seeded
         rOP = np.array(rOP_known)
         rPQ = np.array(rPQ_known)
         if self.verbose:  # pragma: no cover
-            print(f'rOP = {rOP}')
-            print(f'rPQ = {rPQ}')
+            print(f"rOP = {rOP}")
+            print(f"rPQ = {rPQ}")
         # rPR = np.random.randn(self.nts, self.nsd)  # position vector in body B from P to R
         rPR = rPQ
 
@@ -348,14 +416,14 @@ class ThreePointsAngularVelocityTest(unittest.TestCase):
 
         A_calculated = p.A_matrix()
         if self.verbose:  # pragma: no cover
-            print(f'A_calculated = {A_calculated}')
+            print(f"A_calculated = {A_calculated}")
 
         # w_calculated_T = np.squeeze(np.reshape(p.angular_velocity(), (nts, nsd)))
         w_calculated_T = p.angular_velocity()
         if self.verbose:  # pragma: no cover
-            print(f'w_calculated_T = {w_calculated_T}')
+            print(f"w_calculated_T = {w_calculated_T}")
 
-        self.assertEqual(self.seed, 1, msg='Set to 1 for test repeatibility.')
+        self.assertEqual(self.seed, 1, msg="Set to 1 for test repeatibility.")
         self.assertLess(np.linalg.norm(rOP - rOP_known), self.tolerance)
         self.assertLess(np.linalg.norm(rOQ - rOQ_known), self.tolerance)
         self.assertLess(np.linalg.norm(rOR - rOR_known), self.tolerance)
@@ -368,6 +436,5 @@ class ThreePointsAngularVelocityTest(unittest.TestCase):
         self.assertLess(np.linalg.norm(w_known - w_calculated_T), self.tolerance)
 
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

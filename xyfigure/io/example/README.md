@@ -17,15 +17,15 @@ Here we create an example data file from an Excel spreadsheet and walk through t
 * **Step 3: Run the recipe on the data**
   * From the folder that contains the json file, run the Python script:
     ```console
-    $ cd ~/sibl/io/xyfigure_example/
-    $ python ../../xyfigure/client.py recipe.json
+    $ cd ~/sibl/xyfigure/io/example/
+    $ python ../../code/client.py recipe.json
     ```
 
 The output file `recipe.svg` contains this figure:
 
 ![recipe](recipe.svg)
 
-will result, written to the `~/sibl/io/xyfigure_example/` folder.
+will result, written to the `~/sibl/xyfigure/io/example/` folder.
 
 ### Next Steps
 

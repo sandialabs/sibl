@@ -9,26 +9,27 @@
 # related third-party imports
 
 # local application/library specific imports
-from xyfigure.xymodel import XYModel
-from xyfigure.xyview import XYView
+# from xyfigure.xymodel import XYModel
+from xyfigure.code.xymodel import XYModel
+
+# from xyfigure.xyview import XYView
+from xyfigure.code.xyview import XYView
 
 # Figure Factory
-FACTORY_ITEMS = {
-    'model': XYModel,
-    'view': XYView
-}
+FACTORY_ITEMS = {"model": XYModel, "view": XYView}
 
 
 class XYFactory:
     """The one and only (singleton) factory for XY items."""
+
     @staticmethod
     def create(item, **kwargs):
         "Main factory method, returns XY objects."
-        instance = FACTORY_ITEMS.get(kwargs['class'], None)
+        instance = FACTORY_ITEMS.get(kwargs["class"], None)
         if instance:
             return instance(item, **kwargs)
 
         # If we get here, we did not return an instance, so warn.
-        print(f'Warning: {item} requested but not provided by this factory,')
-        print('returning None.')
+        print(f"Warning: {item} requested but not provided by this factory,")
+        print("returning None.")
         return None

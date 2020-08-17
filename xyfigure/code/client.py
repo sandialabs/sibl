@@ -7,9 +7,14 @@ import json
 # related third-party imports
 
 # local application/library specific imports
-from xyfigure.factory import XYFactory
-from xyfigure.xymodel import XYModel
-from xyfigure.xyview import XYView
+# from xyfigure.factory import XYFactory
+from xyfigure.code.factory import XYFactory
+
+# from xyfigure.xymodel import XYModel
+from xyfigure.code.xymodel import XYModel
+
+# from xyfigure.xyview import XYView
+from xyfigure.code.xyview import XYView
 
 
 def main(argv):
@@ -32,14 +37,14 @@ def main(argv):
 
     """
 
-    help_string = '$ python ~/sibl/xyfigure/client.py input_file.json'
+    help_string = "$ python ~/sibl/xyfigure/code/client.py input_file.json"
     try:
         input_file = argv[0]
     except IndexError as error:
-        print(f'Error: {error}.')
-        print('check script pattern: ' + help_string)
-        print('Abnormal script termination.')
-        sys.exit('No input file specified.')
+        print(f"Error: {error}.")
+        print("check script pattern: " + help_string)
+        print("Abnormal script termination.")
+        sys.exit("No input file specified.")
 
     with open(input_file) as f:
         database = json.load(f)
@@ -53,7 +58,7 @@ def main(argv):
         if i:
             items.append(i)
         else:
-            print('Item is None from factory, nothing added to Client items.')
+            print("Item is None from factory, nothing added to Client items.")
 
     models = [i for i in items if isinstance(i, XYModel)]
     views = [i for i in items if isinstance(i, XYView)]
@@ -61,17 +66,17 @@ def main(argv):
     for view in views:
         print(f'Creating view with guid = "{view.guid}"')
         if view.model_keys:  # register only selected models with current view
-            print(f'  Adding {view.model_keys} model(s) to current view.')
+            print(f"  Adding {view.model_keys} model(s) to current view.")
             view.models = [m for m in models if m.guid in view.model_keys]
             view.figure()  # must be within this subset scope
         else:
-            print('  Adding all models to current view.')
+            print("  Adding all models to current view.")
             view.models = models  # register all models with current view
             view.figure()  # must be within this subset scope
 
-    print('====================================')
-    print('End of xyfigure/client.py execution.')
+    print("====================================")
+    print("End of xyfigure/client.py execution.")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main(sys.argv[1:])
