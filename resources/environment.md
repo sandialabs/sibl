@@ -37,16 +37,16 @@ channels:
   - defaults
 dependencies:
   - python=3.8
-  - pylint
   - dash
-  - pillow
-  - xlrd
-  - pytest
-  - pandas
-  - scipy
-  - matplotlib
   - flake8
+  - matplotlib
+  - black
+  - scipy
+  - xlrd
+  - pillow
+  - pytest
   - seaborn
+  - pandas
 prefix: /Users/Apollo/opt/anaconda3/envs/siblenv
 ```
 
