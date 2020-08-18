@@ -41,17 +41,13 @@ class XYBase(ABC):
 
         self._guid = guid
 
+        self._verbose = kwargs.get("verbose", True)
+
         # moved up from XYView
         self._serialize = kwargs.get("serialize", False)
 
         default_folder = "."
         self._folder = kwargs.get("folder", default_folder)
-
-        # self._file = kwargs['file']
-        # now = datetime.now()
-        # now_str = now.strftime("%Y-%m-%d+%H:%M:%S")
-        # default_file = now_str + '.csv'
-        # self._file = kwargs.get('file', default_file)
 
         self._file = kwargs.get("file", None)
 

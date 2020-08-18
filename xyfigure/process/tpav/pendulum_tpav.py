@@ -19,7 +19,9 @@ pdf_format = 0  # 0 for .svg format, 1 for .pdf format
 
 n_header_rows = 1  # number of rows that compose the header, skip when reading
 
-data = np.genfromtxt('pendulum_rigid_state.csv', dtype='float', delimiter=',', skip_header=n_header_rows)
+data = np.genfromtxt(
+    "pendulum_rigid_state.csv", dtype="float", delimiter=",", skip_header=n_header_rows
+)
 
 time = data[:, 0]  # column 1
 q = data[:, 1]  # column 2
@@ -30,50 +32,52 @@ x_tip = data[:, 3]  # x-position of the tip
 y_tip = data[:, 4]  # y-position of the tip
 
 fig = plt.figure(figsize=(16, 8))
-fig.suptitle('Rigid Reference')
+fig.suptitle("Rigid Reference")
 
 ax11 = fig.add_subplot(2, 2, 1)
 ax11.plot(time, q)
 ax11.grid()
-ax11.set_xlabel('time (s)')
-ax11.set_ylabel('angle (radians)')
+ax11.set_xlabel("time (s)")
+ax11.set_ylabel("angle (radians)")
 
 ax12 = fig.add_subplot(2, 2, 2)
 ax12.plot(time, x_tip)
 ax12.grid()
-ax12.set_xlabel('time (s)')
-ax12.set_ylabel('tip x-position (m)')
+ax12.set_xlabel("time (s)")
+ax12.set_ylabel("tip x-position (m)")
 
 ax21 = fig.add_subplot(2, 2, 3)
 ax21.plot(time, qdot)
 ax21.grid()
-ax21.set_xlabel('time (s)')
-ax21.set_ylabel('angular velocity (rad/s)')
+ax21.set_xlabel("time (s)")
+ax21.set_ylabel("angular velocity (rad/s)")
 
 ax22 = fig.add_subplot(2, 2, 4)
 ax22.plot(time, y_tip)
 ax22.grid()
-ax22.set_xlabel('time (s)')
-ax22.set_ylabel('tip y-position (m)')
+ax22.set_xlabel("time (s)")
+ax22.set_ylabel("tip y-position (m)")
 
 plt.show()
 
 if save_figure:
-    title_string = 'pendulum_tpav_rigid'
+    title_string = "pendulum_tpav_rigid"
     script_path = os.getcwd()
     if pdf_format:
-        figure_string = title_string + '.pdf'
+        figure_string = title_string + ".pdf"
     else:
-        figure_string = title_string + '.svg'
+        figure_string = title_string + ".svg"
     fig.savefig(figure_string, dpi=300)
-    print('Saved figure to ' + os.path.join(script_path, figure_string))
+    print("Saved figure to " + os.path.join(script_path, figure_string))
 
 
 # plot the angular velocity from the three points algorithm
 
 n_header_rows = 3  # number of rows that compose the header, skip when reading
 
-data = np.genfromtxt('history.csv', dtype='float', delimiter=',', skip_header=n_header_rows)
+data = np.genfromtxt(
+    "history.csv", dtype="float", delimiter=",", skip_header=n_header_rows
+)
 
 t_ssm = data[:, 0]  # column 1, from Sierra Solid Mechanics (SSM)
 
@@ -123,50 +127,52 @@ wB = p.angular_velocity()  # angular velocity of deformable pendulum
 wB_z = [i[2] for i in wB]  # third column of angular velocity vector
 
 fig = plt.figure(figsize=(16, 8))
-fig.suptitle('Rigid Reference vs. Deformable Three-Point Angular Velocity (tpav) Algorithm')
+fig.suptitle(
+    "Rigid Reference vs. Deformable Three-Point Angular Velocity (tpav) Algorithm"
+)
 
-label_standard = 'rigid reference'
-label_three_point = 'deformable tpav'
+label_standard = "rigid reference"
+label_three_point = "deformable tpav"
 
 ax11 = fig.add_subplot(2, 2, 1)
 ax11.plot(time, q, label=label_standard)
 ax11.grid()
 ax11.legend()
-ax11.set_xlabel('time (s)')
-ax11.set_ylabel('angle (radians)')
+ax11.set_xlabel("time (s)")
+ax11.set_ylabel("angle (radians)")
 
 ax12 = fig.add_subplot(2, 2, 2)
 ax12.plot(time, x_tip, label=label_standard)
-ax12.plot(t_ssm, rtip_x, '-.', label=label_three_point)
+ax12.plot(t_ssm, rtip_x, "-.", label=label_three_point)
 ax12.grid()
 ax12.legend()
-ax12.set_xlabel('time (s)')
-ax12.set_ylabel('tip x-position (m)')
+ax12.set_xlabel("time (s)")
+ax12.set_ylabel("tip x-position (m)")
 
 ax21 = fig.add_subplot(2, 2, 3)
 ax21.plot(time, qdot, label=label_standard)
 ax21.plot(t_ssm, wB_z, label=label_three_point)
 ax21.grid()
 ax21.legend()
-ax21.set_xlabel('time (s)')
-ax21.set_ylabel('angular velocity (rad/s)')
+ax21.set_xlabel("time (s)")
+ax21.set_ylabel("angular velocity (rad/s)")
 
 ax22 = fig.add_subplot(2, 2, 4)
 ax22.plot(time, y_tip, label=label_standard)
-ax22.plot(t_ssm, rtip_y, '-.', label=label_three_point)
+ax22.plot(t_ssm, rtip_y, "-.", label=label_three_point)
 ax22.grid()
 ax22.legend()
-ax22.set_xlabel('time (s)')
-ax22.set_ylabel('tip y-position (m)')
+ax22.set_xlabel("time (s)")
+ax22.set_ylabel("tip y-position (m)")
 
 plt.show()
 
 if save_figure:
-    title_string = 'pendulum_tpav_deformable'
+    title_string = "pendulum_tpav_deformable"
     script_path = os.getcwd()
     if pdf_format:
-        figure_string = title_string + '.pdf'
+        figure_string = title_string + ".pdf"
     else:
-        figure_string = title_string + '.svg'
+        figure_string = title_string + ".svg"
     fig.savefig(figure_string, dpi=300)
-    print('Saved figure to ' + os.path.join(script_path, figure_string))
+    print("Saved figure to " + os.path.join(script_path, figure_string))

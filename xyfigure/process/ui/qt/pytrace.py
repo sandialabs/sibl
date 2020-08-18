@@ -5,11 +5,28 @@ from pathlib import Path  # stop using os.path, use pathlib instead
 
 
 # from PySide2 import QtCore, QtWidgets, QtGui, QtWebEngine
-from PySide2.QtCore import (Qt, QUrl, Slot)
+from PySide2.QtCore import Qt, QUrl, Slot
 
-from PySide2.QtGui import (QFont, QPalette)
+from PySide2.QtGui import QFont, QPalette
 
-from PySide2.QtWidgets import (QAction, QApplication, QComboBox, QDialog, QFileDialog, QGridLayout, QHBoxLayout, QLabel, QLineEdit, QMainWindow, QMessageBox, QPlainTextEdit, QPushButton, QSizePolicy, QVBoxLayout, QWidget)
+from PySide2.QtWidgets import (
+    QAction,
+    QApplication,
+    QComboBox,
+    QDialog,
+    QFileDialog,
+    QGridLayout,
+    QHBoxLayout,
+    QLabel,
+    QLineEdit,
+    QMainWindow,
+    QMessageBox,
+    QPlainTextEdit,
+    QPushButton,
+    QSizePolicy,
+    QVBoxLayout,
+    QWidget,
+)
 
 from PySide2.QtWebEngineWidgets import QWebEngineView
 
@@ -29,14 +46,16 @@ class Widget(QWidget):
 
         # model
         cwd = Path.cwd()
-        self.app_path = Path('.').resolve()
-        self.data_path = self.app_path.joinpath('../', 'data').resolve()
+        self.app_path = Path(".").resolve()
+        self.data_path = self.app_path.joinpath("../", "data").resolve()
 
-        self.path_file_previous = None  # revert current to previous model if next model fails
+        self.path_file_previous = (
+            None  # revert current to previous model if next model fails
+        )
         self.path_file_current = None
         # self.path_file_default = Path.joinpath(cwd, 'test_1234_quadratic.csv')
         # self.path_file_default = Path.joinpath(cwd, 'welcome.csv')
-        self.path_file_default = Path.joinpath(self.data_path, 'welcome.csv')
+        self.path_file_default = Path.joinpath(self.data_path, "welcome.csv")
         self._index_x = 0
         self._index_y = 1
 
@@ -46,7 +65,9 @@ class Widget(QWidget):
         self.button_file_open.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         #
         self.combo_box_recent_files = QComboBox()
-        self.combo_box_recent_files.setDuplicatesEnabled(False)  # make certain singletons only, no duplicate items
+        self.combo_box_recent_files.setDuplicatesEnabled(
+            False
+        )  # make certain singletons only, no duplicate items
         self.combo_box_recent_files.currentIndexChanged.connect(self.plot_update)
 
         self.window = QWebEngineView()
@@ -58,7 +79,7 @@ class Widget(QWidget):
         # self.log.setStyleSheet("background-color: transparent;")
         # self.log.setMaximumBlockCount(2)
         self.log.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-        self.log.appendPlainText('Welcome.')
+        self.log.appendPlainText("Welcome.")
         self.log.setMaximumHeight(100)  # maximum height in pixels
 
         # signals and slots
@@ -79,7 +100,6 @@ class Widget(QWidget):
         self.files = []  # empty list
         self.models = []  # emtpy list
         self.model_update(self.path_file_default)
-        
 
     @Slot()
     def dialog_file_open(self):
@@ -96,23 +116,26 @@ class Widget(QWidget):
     @Slot()
     def model_update(self, path_file_new):
         if path_file_new in self.files:
-            self.log.appendPlainText(f'Warning: selected file, {path_file_new}, is already open; not opened again.')
+            self.log.appendPlainText(
+                f"Warning: selected file, {path_file_new}, is already open; not opened again."
+            )
         else:
-            self.log.appendPlainText(f'Model update from file: {path_file_new}')
+            self.log.appendPlainText(f"Model update from file: {path_file_new}")
             try:
-                with open(path_file_new, 'rt') as fin:
-                    new_data = np.genfromtxt(fin, dtype='float', delimiter=',', skip_header=0, usecols=(0, 1)).tolist()
+                with open(path_file_new, "rt") as fin:
+                    new_data = np.genfromtxt(
+                        fin, dtype="float", delimiter=",", skip_header=0, usecols=(0, 1)
+                    ).tolist()
                     self.models.append(new_data)
 
                 self.files.append(path_file_new)
                 self.combo_box_add(str(path_file_new))
                 # self.plot_update()  # now trigger from combobox currentIndexChanged
             except ValueError as error:
-                # print(f'Error: {error}') 
+                # print(f'Error: {error}')
                 # print(f'Unable to open file: {path_file_new}')
-                self.log.appendPlainText(f'Error: {error}') 
-                self.log.appendPlainText(f'Unable to open file: {path_file_new}')
-
+                self.log.appendPlainText(f"Error: {error}")
+                self.log.appendPlainText(f"Unable to open file: {path_file_new}")
 
     @Slot()
     def combo_box_add(self, item):
@@ -130,7 +153,9 @@ class Widget(QWidget):
 
         canvas, axes, mark = toy.plot(x, y)
         base_url = QUrl("http://www.sandia.gov/toyplot")
-        html_content = xml.etree.ElementTree.tostring(toyhtml.render(canvas), encoding="unicode", method="html")
+        html_content = xml.etree.ElementTree.tostring(
+            toyhtml.render(canvas), encoding="unicode", method="html"
+        )
         self.window.setHtml(html_content, baseUrl=base_url)
 
 
@@ -143,7 +168,9 @@ class MainWindow(QMainWindow):
 
         # menu container
         self.menu = self.menuBar()
-        self.menu.setNativeMenuBar(False) # avoid macOS menu style, put menu inside the app window
+        self.menu.setNativeMenuBar(
+            False
+        )  # avoid macOS menu style, put menu inside the app window
         # menu items
         self.file_menu = self.menu.addMenu("&File")
         self.help_menu = self.menu.addMenu("Help")
@@ -158,10 +185,10 @@ class MainWindow(QMainWindow):
         # file_open_action.triggered.connect(self.getfiles)
         # menu not appearing on macOS
         # see https://stackoverflow.com/questions/39574105/missing-menubar-in-pyqt5
-        quit_action = QAction('&Quit', self)
+        quit_action = QAction("&Quit", self)
         quit_action.triggered.connect(self.quit_app)
         #
-        about_action = QAction('About', self)
+        about_action = QAction("About", self)
         about_action.triggered.connect(self.about)
 
         # actions to menus
@@ -195,38 +222,39 @@ class MainWindow(QMainWindow):
     def quit_app(self, checked):
         QApplication.quit()
 
+
 #         self.textEdit = QPlainTextEdit()
 #         self.setCentralWidget(self.textEdit)
-# 
+#
 #         self
-# 
+#
 #         self.edit = QLineEdit("Type your name here...")
 #         self.button = QPushButton("Show Greetings")
-# 
+#
 #         layout = QVBoxLayout()
 #         layout.addWidget(self.edit)
 #         layout.addWidget(self.button)
-# 
+#
 #         # self.setLayout(layout)
 #         self.setLayout(layout)
 
-# 
+#
 #         fileOpenButton = QPushButton("&Open...")
 #         fileOpenButton.setDefault(True)
 #         fileOpenButton.clicked.connect(self.getfiles)
-# 
+#
 #         self.recentComboBox = QComboBox()
 #         self.recentComboBox.addItem("<none>")
 #         self.recentComboBox.setDuplicatesEnabled(False)
-# 
+#
 #         recentLabel = QLabel("&Input File:")
 #         recentLabel.setBuddy(self.recentComboBox)
-# 
+#
 #         topLayout = QHBoxLayout()
 #         topLayout.addWidget(fileOpenButton)
 #         topLayout.addWidget(recentLabel)
 #         topLayout.addWidget(self.recentComboBox)
-# 
+#
 #         # window = QWebView()
 #         window = QWebEngineView()
 #         # window.setZoomFactor(0.95)
@@ -250,7 +278,7 @@ class MainWindow(QMainWindow):
 #         # window.setHtml(html_content, method="html")
 #         # window.setContent(html_content, mimeType="html")
 #         midLayout.addWidget(window)
-# 
+#
 #         # Layout of widgets on dialog box
 #         mainLayout = QGridLayout()
 #         # mainLayout.addWidget(fileOpenButton, 0, 0)
@@ -259,7 +287,7 @@ class MainWindow(QMainWindow):
 #         mainLayout.addLayout(topLayout, 0, 0, 1, 1, Qt.AlignTop)
 #         # mainLayout.addWidget(window, 1, 0)
 #         mainLayout.addLayout(midLayout, 1, 0, 1, 1, Qt.AlignCenter)
-# 
+#
 #         # mainLayout.addLayout(topLayout, 0, 0, 1, 2, Qt.AlignLeft)
 #         # mainLayout.addLayout(midLayout, 1, 0, 1, 2, Qt.AlignCenter)
 #         # mainLayout.addLayout(topLayout, 0, 0, 1, 1, Qt.AlignRight)
@@ -267,8 +295,7 @@ class MainWindow(QMainWindow):
 #         self.setLayout(mainLayout)
 
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     # app = QApplication([])
     app = QApplication(sys.argv)  # this appears as newer syntax
 
@@ -285,6 +312,5 @@ if __name__ == '__main__':
     # window = MainWindow()
     window.resize(1200, 800)
     window.show()
-
 
     sys.exit(app.exec_())

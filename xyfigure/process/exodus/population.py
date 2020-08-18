@@ -5,6 +5,7 @@ import json
 import numpy as np
 import exodus
 
+
 def main(argv):
     """ Extracts the population of values of a variable from an Exodus
     output file.
@@ -25,72 +26,73 @@ def main(argv):
 
     try:
 
-        print('This is Python script: ' + script_name)
-        print('with argument: ' + argv)
+        print("This is Python script: " + script_name)
+        print("with argument: " + argv)
 
         # Look for the .json input file
         with open(argv) as jfile:
             json_file = json.load(jfile)
 
             # Process .json input file
-            input_folder = json_file['folder']
-            print(f'From folder: {input_folder}')
+            input_folder = json_file["folder"]
+            print(f"From folder: {input_folder}")
 
-            input_file = json_file['file_exodus']
-            print(f'  with Exodus file: {input_file}')
+            input_file = json_file["file_exodus"]
+            print(f"  with Exodus file: {input_file}")
 
-            tsteps = json_file['time_steps']
-            print(f'  at time step(s): {tsteps}')
+            tsteps = json_file["time_steps"]
+            print(f"  at time step(s): {tsteps}")
 
-            blocks = json_file['blocks']
-            print(f'  from block(s): {blocks}')
+            blocks = json_file["blocks"]
+            print(f"  from block(s): {blocks}")
 
-            variables = json_file['variables']
-            print(f'  extracting variable(s) {variables}')
+            variables = json_file["variables"]
+            print(f"  extracting variable(s) {variables}")
 
         # Execute steps extracted from exodus_extract.py
         os.chdir(input_folder)
-        database = exodus.exodus(input_file, mode='r')
+        database = exodus.exodus(input_file, mode="r")
 
         number_of_ts = database.num_times()
-        print(f'Number of time steps available from Exodus file: {number_of_ts}')
+        print(f"Number of time steps available from Exodus file: {number_of_ts}")
 
-        print('Variables available from Exodus file:')
+        print("Variables available from Exodus file:")
         print(database.get_element_variable_names())
-        print('Blocks available from Exodus file:')
+        print("Blocks available from Exodus file:")
         print(database.get_elem_blk_names())
 
         for ts in tsteps:
-            print(f'Processing population for time step {ts}')
+            print(f"Processing population for time step {ts}")
 
             for block in blocks:
-                print(f'  processing block: {block}')
+                print(f"  processing block: {block}")
 
                 for variable in variables:
-                    print(f'    processing variable={variable}')
+                    print(f"    processing variable={variable}")
                     values = database.get_element_variable_values(block, variable, ts)
 
-                    header_str = 'ts_' + str(ts) + '_block_' + str(block) + '_' + str(variable)
-                    output_file = header_str + '.txt'
-                    np.savetxt(output_file, values, delimiter=',', header=header_str)
-                    print(f'      extracted variable to file: {output_file}')
+                    header_str = (
+                        "ts_" + str(ts) + "_block_" + str(block) + "_" + str(variable)
+                    )
+                    output_file = header_str + ".txt"
+                    np.savetxt(output_file, values, delimiter=",", header=header_str)
+                    print(f"      extracted variable to file: {output_file}")
 
     except IndexError as error:
-        print('Error: ' + str(error))
-        print('Error: no input folder target specified.')
+        print("Error: " + str(error))
+        print("Error: no input folder target specified.")
 
     except FileNotFoundError:
-        print('Error: FileNotFound.')
-        print('Could not find json file for processing: ' + argv)
+        print("Error: FileNotFound.")
+        print("Could not find json file for processing: " + argv)
 
     except IOError as error:
-        print('Error:' + str(error))
+        print("Error:" + str(error))
 
     finally:
         os.chdir(home)
-        print('\nCurrent directory: ' + home)
-        print('Python script finished.')
-
+        print("\nCurrent directory: " + home)
+        print("Python script finished.")
 
 
 if __name__ == "__main__":

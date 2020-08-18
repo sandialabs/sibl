@@ -37,6 +37,9 @@ def main(argv):
 
     """
 
+    # to do, add argparse with verbose flag, for now, hard code
+    verbose = False
+
     help_string = "$ python ~/sibl/xyfigure/code/client.py input_file.json"
     try:
         input_file = argv[0]
@@ -64,18 +67,23 @@ def main(argv):
     views = [i for i in items if isinstance(i, XYView)]
 
     for view in views:
-        print(f'Creating view with guid = "{view.guid}"')
+        if verbose:
+            print(f'Creating view with guid = "{view.guid}"')
+
         if view.model_keys:  # register only selected models with current view
-            print(f"  Adding {view.model_keys} model(s) to current view.")
+            if verbose:
+                print(f"  Adding {view.model_keys} model(s) to current view.")
             view.models = [m for m in models if m.guid in view.model_keys]
             view.figure()  # must be within this subset scope
         else:
-            print("  Adding all models to current view.")
+            if verbose:
+                print("  Adding all models to current view.")
             view.models = models  # register all models with current view
             view.figure()  # must be within this subset scope
 
-    print("====================================")
-    print("End of xyfigure/client.py execution.")
+    if verbose:
+        print("====================================")
+        print("End of xyfigure/client.py execution.")
 
 
 if __name__ == "__main__":

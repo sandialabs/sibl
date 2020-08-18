@@ -13,6 +13,7 @@ For more information, see our [website](http://www.sandia.gov/biomechanics/).
 [![pypi](https://img.shields.io/badge/pypi-v0.0.5-brightgreen.svg)](https://pypi.org/project/xyfigure/) 
 [![CI](https://github.com/sandialabs/sibl/workflows/CI/badge.svg)](https://github.com/sandialabs/sibl/actions)
 [![coverage](https://img.shields.io/badge/coverage-73%25-yellow.svg)](https://github.com/sandialabs/sibl/tree/master/htmlcov/index.html)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 * [xyfigure](https://github.com/sandialabs/sibl/tree/master/xyfigure/code/README.md)
 * [tpav](https://github.com/sandialabs/sibl/tree/master/xyfigure/process/tpav/README.md)
@@ -77,6 +78,7 @@ $ git clone git@github.com:sandialabs/sibl.git
 * pull code
 * implement
 * unit test (active now, both local manual testing and automated testing on push to repository)
+* Black code style
 * coverage (to come)
 * push code
 
@@ -85,6 +87,9 @@ $ (base) [~]$ cd ~/sibl
 $ (base) [~/sibl]$ conda activate siblenv
 $ (siblenv) [~/sibl]$ # development in python
 $ (siblenv) [~/sibl]$ python -m unittest # unit tests must pass prior to push to repository
+$ (siblenv) [~/sibl] black some_specific_file.py
+$ (siblenv) [~/sibl] black some_folder/
+$ (siblenv) [~/sibl]
 ```
 
 ### Push to repository

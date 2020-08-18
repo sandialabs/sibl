@@ -10,13 +10,23 @@ import json
 import numpy as np
 
 # local application/library specific imports
-from process.tpav.three_points_angular_velocity import ThreePointsAngularVelocity as tpav
+from process.tpav.three_points_angular_velocity import (
+    ThreePointsAngularVelocity as tpav,
+)
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument("history", help="history is a '.csv' that contains the SSM tracer points output file")
-parser.add_argument("history_to_tpav", help="history_to_tpav is a '.json' file that maps 'history.csv' to tpav API format [t, rPx, rPy, rPz, rQx, rQy, rQz, rRx, rRy, rRz, vPx, vPy, vPz, vQx, vQy, vQz, vRx, vRy, vRz]; use 'identity_to_tpav.json' instead of 'history_to_tpav.json' if the 'history.csv' file already has the correct API order; in both .json cases, check the skip_rows number is correct (default is 3); output angular velocity file is 'angular_velocity.csv'")
-parser.add_argument("--verbose", help="increased feedback in command line", action="store_true")
+parser.add_argument(
+    "history",
+    help="history is a '.csv' that contains the SSM tracer points output file",
+)
+parser.add_argument(
+    "history_to_tpav",
+    help="history_to_tpav is a '.json' file that maps 'history.csv' to tpav API format [t, rPx, rPy, rPz, rQx, rQy, rQz, rRx, rRy, rRz, vPx, vPy, vPz, vQx, vQy, vQz, vRx, vRy, vRz]; use 'identity_to_tpav.json' instead of 'history_to_tpav.json' if the 'history.csv' file already has the correct API order; in both .json cases, check the skip_rows number is correct (default is 3); output angular velocity file is 'angular_velocity.csv'",
+)
+parser.add_argument(
+    "--verbose", help="increased feedback in command line", action="store_true"
+)
 args = parser.parse_args()
 
 # b = os.path.splitext(args.history_to_tpav)
@@ -31,14 +41,16 @@ skip_header_rows = jmap["skip_rows"]
 if args.verbose:
     print("--------------------------------------------------")
     print("Three points angular velocity (tpav) client begin.")
-    print(f'  From path: {os.getcwd()}')
-    print(f'  processing SSM tracer points output file: {args.history}')
-    print(f'    with number of initial rows skipped = {skip_header_rows}')
-    print(f'    with tpav point extraction file: {args.history_to_tpav}')
-    print(f'  Output file: {file_output}')
+    print(f"  From path: {os.getcwd()}")
+    print(f"  processing SSM tracer points output file: {args.history}")
+    print(f"    with number of initial rows skipped = {skip_header_rows}")
+    print(f"    with tpav point extraction file: {args.history_to_tpav}")
+    print(f"  Output file: {file_output}")
 
 
-data =  np.genfromtxt(args.history, dtype='float', delimiter=',', skip_header=skip_header_rows)
+data = np.genfromtxt(
+    args.history, dtype="float", delimiter=",", skip_header=skip_header_rows
+)
 
 # time
 t = data[:, jmap["t"]]
@@ -82,9 +94,14 @@ vR = np.array([[vR_x[i], vR_y[i], vR_z[i]] for i in range(len(t))])
 # tpav_object = tpav(rOP, rOQ, rOR, vP, vQ, vR, args.verbose)
 tpav_object = tpav(rOP, rOQ, rOR, vP, vQ, vR)
 
-omega = np.transpose(tpav_object.angular_velocity()) # [omega_x, omega_y, omega_z]
+omega = np.transpose(tpav_object.angular_velocity())  # [omega_x, omega_y, omega_z]
 
-np.savetxt(file_output, np.transpose([t, omega[0], omega[1], omega[2]]), delimiter=',', header='time (s), omega_x (rad/s), omega_y (rad/s), omega_z (rad/s)')
+np.savetxt(
+    file_output,
+    np.transpose([t, omega[0], omega[1], omega[2]]),
+    delimiter=",",
+    header="time (s), omega_x (rad/s), omega_y (rad/s), omega_z (rad/s)",
+)
 
 if args.verbose:
     print("Three points angular velocity (tpav) client end.")

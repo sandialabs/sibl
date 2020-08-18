@@ -60,7 +60,8 @@ class XYModel(XYBase):
                     print(f"Error: invalid signal process key: {key}")
                     print(error.__class__.__name__)
 
-                print('  Signal process "' + key + '" completed.')
+                if self._verbose:
+                    print('  Signal process "' + key + '" completed.')
 
     @property
     def x(self):
@@ -84,7 +85,8 @@ class XYModel(XYBase):
             np.transpose([self._data[:, 0], self._data[:, 1]]),
             delimiter=",",
         )
-        print(f"  Serialized model to: {self._path_file_output}")
+        if self._verbose:
+            print(f"  Serialized model to: {self._path_file_output}")
 
     def butterworth(self, value):
 
@@ -103,19 +105,24 @@ class XYModel(XYBase):
             print('Error: keyword "type" not found.')
             sys.exit("Abnormal termination.")
 
-        print('Signal process "butterworth" with:')
-        print(f"  cutoff frequency = {fc} Hz")
-        print(f"  filter order = {filter_order}")
-        print("  filter type = " + filter_type)
+        if self._verbose:
+            print('Signal process "butterworth" with:')
+            print(f"  cutoff frequency = {fc} Hz")
+            print(f"  filter order = {filter_order}")
+            print("  filter type = " + filter_type)
 
         dt = self._data[1, 0] - self._data[0, 0]  # sample delta t
-        print(f"  sample delta t = {dt} seconds")
+
+        if self._verbose:
+            print(f"  sample delta t = {dt} seconds")
 
         fs = 1.0 / dt  # Hz
-        print(f"  sample frequency = {fs} Hz")
+        if self._verbose:
+            print(f"  sample frequency = {fs} Hz")
 
         Wn = fc / (fs / 2)  # normalized critical frequency
-        print(f"  normalized critical frequency = {Wn} Hz/Hz")
+        if self._verbose:
+            print(f"  normalized critical frequency = {Wn} Hz/Hz")
 
         b, a = signal.butter(filter_order, Wn, filter_type)
         yfiltered = signal.filtfilt(b, a, self._data[:, 1])
@@ -139,14 +146,18 @@ class XYModel(XYBase):
             print('Error: keyword "order" not found.')
             sys.exit("Abnormal termination.")
 
-        print('Signal process: "gradient" applied ' + str(gradient_order) + " time(s)")
+        if self._verbose:
+            print(
+                'Signal process: "gradient" applied ' + str(gradient_order) + " time(s)"
+            )
         # numerical gradient
         # https://docs.scipy.org/doc/numpy/reference/generated/numpy.gradient.html
         # for k in range(value):
         for k in range(gradient_order):
             ydot = np.gradient(self._data[:, 1], self._data[:, 0], edge_order=2)
             self._data[:, 1] = ydot  # overwrite
-            print(f"  Derivative {k+1} completed.")
+            if self._verbose:
+                print(f"  Derivative {k+1} completed.")
 
         serialize = value.get("serialize", 0)  # default is not to serialize
         if serialize:

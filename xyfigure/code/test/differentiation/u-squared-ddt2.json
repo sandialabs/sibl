@@ -1,6 +1,7 @@
 {
     "time-acceleration": {
         "class": "model",
+        "verbose": false,
         "folder": "xyfigure/code/test/differentiation",
         "file": "u-squared.csv",
         "skip_rows": 1,
@@ -22,6 +23,7 @@
     },
     "figure": {
         "class": "view",
+        "verbose": false,
         "folder": "xyfigure/code/test/differentiation",
         "file": "u-squared-ddt2.svg",
         "title": "u_ddot = d^2/dt^2 (1/2 t^2) = 1",

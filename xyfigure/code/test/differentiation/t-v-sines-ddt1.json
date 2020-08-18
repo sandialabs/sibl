@@ -1,6 +1,7 @@
 {
     "time-velocity": {
         "class": "model",
+        "verbose": false,
         "folder": "xyfigure/code/test/differentiation",
         "file": "t-v-sines.csv",
         "skip_rows": 1,
@@ -22,6 +23,7 @@
     },
     "figure": {
         "class": "view",
+        "verbose": false,
         "folder": "xyfigure/code/test/differentiation",
         "file": "t-v-sines-ddt1.svg",
         "title": "u_dot = d/dt (sin(2 pi t)) = 2 pi cos(2 pi t)",

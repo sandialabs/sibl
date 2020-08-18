@@ -74,7 +74,8 @@ class XYView(XYBase):
             # https://stackoverflow.com/questions/47633546/relationship-between-dpi-and-figure-size
             # fig, ax = plt.subplots(nrows=1, dpi=self._dpi)
             self._figure, ax = plt.subplots(nrows=1, dpi=self._dpi)
-            print(f"  Figure dpi set to {self._dpi}")
+            if self._verbose:
+                print(f"  Figure dpi set to {self._dpi}")
 
             # ax.ticklabel_format(axis='y', style='scientific')
             # ax.ticklabel_format(axis='both', style='scientific', scilimits=(0,0))
@@ -82,7 +83,8 @@ class XYView(XYBase):
             # https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure.set_size_inches
             # fig.set_size_inches(self._size)
             self._figure.set_size_inches(self._size)
-            print("  Figure size set to " + str(self._size) + " inches.")
+            if self._verbose:
+                print("  Figure size set to " + str(self._size) + " inches.")
 
             if self._background_image:
                 folder = self._background_image.get("folder", ".")
