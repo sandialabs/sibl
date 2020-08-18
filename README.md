@@ -10,7 +10,7 @@ For more information, see our [website](http://www.sandia.gov/biomechanics/).
 
 [![python](https://img.shields.io/badge/python-3.8-blue.svg)](https://www.python.org/) 
 [![license](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/sandialabs/sibl#license) 
-[![pypi](https://img.shields.io/badge/pypi-v0.0.5-brightgreen.svg)](https://pypi.org/project/xyfigure/) 
+[![pypi](https://img.shields.io/badge/pypi-v0.0.6-brightgreen.svg)](https://pypi.org/project/xyfigure/) 
 [![CI](https://github.com/sandialabs/sibl/workflows/CI/badge.svg)](https://github.com/sandialabs/sibl/actions)
 [![coverage](https://img.shields.io/badge/coverage-73%25-yellow.svg)](https://github.com/sandialabs/sibl/tree/master/htmlcov/index.html)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
