@@ -87,6 +87,7 @@ $ (base) [~]$ cd ~/sibl
 $ (base) [~/sibl]$ conda activate siblenv
 $ (siblenv) [~/sibl]$ # development in python
 $ (siblenv) [~/sibl]$ python -m unittest # unit tests must pass prior to push to repository
+$ (siblenv) [~/sibl]$ python -m unittest -v # for more verbose unittest output
 $ (siblenv) [~/sibl] black some_specific_file.py
 $ (siblenv) [~/sibl] black some_folder/
 $ (siblenv) [~/sibl]
