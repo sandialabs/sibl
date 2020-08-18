@@ -14,7 +14,7 @@ Pixel To Geometry (PTG) is the process of using stacked 2D image data, composed 
 ## Design
 
 * Object-oriented programming (OOP) as a default, functional programming (FP) where appropriate.
-* [PEP 8](https://www.python.org/dev/peps/pep-0008/).
+* [PEP 8](https://www.python.org/dev/peps/pep-0008/) via [Black](https://github.com/psf/black)
 
 ## References
 
