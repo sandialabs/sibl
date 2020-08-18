@@ -5,6 +5,7 @@
 * IDE: [VS Code](https://code.visualstudio.com/)
 * Linting: [flake8](https://pypi.org/project/flake8/)
 * Auto-formatter: [Black](https://pypi.org/project/black/)
+  * [Settings](https://dev.to/adamlombard/how-to-use-the-black-python-code-formatter-in-vscode-3lo0) for VS Code
 * Testing: 
   * CI: GitHub [Actions](https://docs.github.com/en/actions)
   * [unittest](https://docs.python.org/3/library/unittest.html)
