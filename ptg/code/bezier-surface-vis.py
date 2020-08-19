@@ -12,7 +12,7 @@ import bernstein_polynomial as bp
 
 
 class BezierSurfaceVis:
-    def __init__(self, config, verbose=0):
+    def __init__(self, config, verbose=False):
 
         # abbreviations:
         # cp: control point; collection of control points forms the control net

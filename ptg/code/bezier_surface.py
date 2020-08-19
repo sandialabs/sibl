@@ -9,24 +9,32 @@ from matplotlib.ticker import MultipleLocator
 
 import bernstein_polynomial as bp
 
-DISPLAY = 0
+DISPLAY = 1
 DPI = 100  # dots per inch
 LATEX = 1
-SERIALIZE = 1
+SERIALIZE = 0
 VERBOSE = 1
 
 if LATEX:
     rc("font", **{"family": "serif", "serif": ["Computer Modern Roman"]})
     rc("text", usetex=True)
 
-p_degree = 1  # e.g., p = 1, linear element
+p_degree = 3  # e.g., p=1 linear, p=2 quadratic, p=3 cubic
 cp_t = np.arange(p_degree + 1)  # control points in the t direction
 cp_u = np.arange(p_degree + 1)  # control points in the u direction
 
+# control points in (t, u) space
+cp_tu = tuple((i, j) for i in cp_t for j in cp_u)
+cp_ts = [z[0] / p_degree for z in cp_tu]
+cp_us = [z[1] / p_degree for z in cp_tu]
+cp_bs = [0 for z in cp_tu]  # plot control points at zero for the B axis
+
 # number of time intervals
 # e.g., 4 time intervals implies 5 evaluation points along an axis, t or u
-nti = 2 ** 1
-azimuth, elevation = (-15, 15)  # degrees
+# nti = 2 ** 1  # for minimal interpolation
+nti = 2 ** 5  # for LaTeX figures
+# azimuth, elevation = (-15, 15)  # degrees
+azimuth, elevation = (15, 15)  # degrees
 
 bases = np.array([np.array([])])
 
@@ -51,6 +59,8 @@ for i in cp_t:
         plt.subplots_adjust(left=0, bottom=0, right=1, top=1, wspace=0, hspace=0)
 
         t = np.linspace(0, 1, nti + 1)
+        # for projecting onto [t, B] and [u, B] planes
+        zeros = [0 for i in range(len(t))]
 
         # on the (t, u) grid:
         tij = np.outer(t, np.ones(nti + 1))  # all of the t values from [0, 1]
@@ -58,6 +68,47 @@ for i in cp_t:
         if VERBOSE:
             print(f"tij = {tij}")
             print(f"uij = {uij}")
+
+        # plot the control net in the [t, u] plane
+        ax.scatter3D(cp_ts, cp_us, cp_bs, edgecolor="black", facecolor="black", s=20)
+
+        # plot the Bezier basis functions in the [u, B] plane
+        for II in cp_t:
+            ax.plot3D(
+                t,
+                zeros,
+                bp.bernstein_polynomial(II, p_degree, nti),
+                color="gray",
+                linewidth=0.5,
+            )
+
+        # and highlight the current basis function
+        ax.plot3D(
+            t,
+            zeros,
+            bp.bernstein_polynomial(i, p_degree, nti),
+            color="red",
+            linewidth=1.5,
+        )
+
+        # plot the Bezier basis functions in the [t, B] plane
+        for JJ in cp_u:
+            ax.plot3D(
+                zeros,
+                t,
+                bp.bernstein_polynomial(JJ, p_degree, nti),
+                color="gray",
+                linewidth=0.5,
+            )
+
+        # and highlight the current basis function
+        ax.plot3D(
+            zeros,
+            t,
+            bp.bernstein_polynomial(j, p_degree, nti),
+            color="green",
+            linewidth=1.5,
+        )
 
         surf = ax.plot_surface(tij, uij, bij, alpha=0.8)
 

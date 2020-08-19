@@ -1,6 +1,13 @@
+# Type hints:
+# https://docs.python.org/3/library/typing.html
+from typing import Tuple
+
 # number of time intervals in along a Bezier axis
 interpolations = ("constant", "linear", "quadratic", "cubic")
-VERBOSE = False  # show/hide command line interaction
+VERBOSE = True  # show/hide command line interaction
+
+# manual development of the tuple indices, used to later define the
+# method knot_indices(...)
 
 for p, kw in enumerate(interpolations):
     if VERBOSE:
@@ -12,28 +19,28 @@ for p, kw in enumerate(interpolations):
             print("  no indices for constant")
 
     else:
-        indices = tuple(i for i in range(p + 1))
+        knots = range(p + 1)
+        print(f"  knots = {knots}")
+        indices = tuple(i for i in knots)
         if VERBOSE:
             print("  1D case:")
             print(f"    indices = {indices}")
             print(f"    number of knots = {len(indices)}")
 
-        indices = tuple((i, j) for i in range(p + 1) for j in range(p + 1))
+        indices = tuple((i, j) for i in knots for j in knots)
         if VERBOSE:
             print("  2D case:")
             print(f"    indices = {indices}")
             print(f"    number of knots = {len(indices)}")
 
-        indices = tuple(
-            (i, j, k) for i in range(p + 1) for j in range(p + 1) for k in range(p + 1)
-        )
+        indices = tuple((i, j, k) for i in knots for j in knots for k in knots)
         if VERBOSE:
             print("  3D case:")
             print(f"    indices = {indices}")
             print(f"    number of knots = {len(indices)}")
 
 
-def knot_indices(degree: int = 1, dimension: int = 1):
+def knot_indices(degree: int = 1, dimension: int = 1) -> Tuple:
     p = degree
     if p >= 1 and p <= 3 and dimension >= 1 and dimension <= 3:
         if dimension == 1:
