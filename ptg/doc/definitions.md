@@ -18,6 +18,12 @@
 
   * An object is an instance of a class.
 
+## slice
+
+  * A slice is a two-dimensional subset taken from a three-dimensional structure.  
+  * A slice is composed *m* rows and *n* colunms, the major and minor axes, respectively.  
+  * At each (row, column) index (i, j), with i = [0, 1, 2, ... m) and j = [0, 1, 2, ... n), there is a class integer k = [0, ... number_of_classes).
+
 ## template
 
   * A template is the fundamental instance of a class.

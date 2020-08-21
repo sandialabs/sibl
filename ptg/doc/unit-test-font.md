@@ -4,37 +4,72 @@ Demonstration of the Pixel To Geometry (PTG) workflow through an example of bina
 
 ## Introduction
 
-* Digital creation of modern fonts are often created from cubic Bezier curves.
-* Here we use the creation of two letters ("e" and "a") to test our PTG workflow.
-* This honors the "simple-to-complex" philosophy of software development, wherein components are proven viable through simple-to-understand and quick-to-run unit tests, prior to their integration into the software system.
+* Font designers often use cubic Bezier curves to create digital fonts. 
+* Here, we use the creation of two [templates](definitions.md#template) (the letters "e" and "a") to test the Bezier creation our PTG workflow.
+* Next, we demonstrate the **encoding** of templates to data [slices](definitions.md#slice).
+* Next, we demonstrate **class segmentation** for singletons.
+* Next, we demonstrate **instance segmentations** for populations.
+* Finally, we demonstrate **reconstruction**
 
 
 ## Objective
 
+* Demonstrate viability of the PTG workflow with a relative simple and quick to run model.
+* Discover lurking (*a priori* unanticipated) workflow variables, data, or algorithms needed to complete the workflow.
+
 ## Methods
 
-* We restrict our study to two letters, "e" and "a".
+### Data
+
+* We restrict our study to two letters, "e" and "a".  
+  * We encode the "e" prior to the "a" because the former is easier, requiring fewer Bezier curves.
   * Restriction to two known states and a test for the states composes the framework of binary classification.
-  * 
-  Here we use the creation of two letters ("e" and "a") to test our PTG workflow by demonstration of the following steps:
+  * The letter "e" from [Design With FontForge](https://drive.google.com/file/d/1lT1O3lM3liIpdv74NJHczz7yXLsEY8vA/view?usp=sharing) [@FontForge2017]
+  * <img src="fig/e.png" alt="letter-e" width="280"/>
+  * > Figure.  The letter "e", composed of Bezier curves. @FontForge2017 from page 45.
+  * The letter "a"
+  * <img src="fig/a.png" alt="letter-a" width="304"/>
+  * > Figure.  The letter "a", composed of Bezier curves. @FontForge2017 from page 46.
+
+<!--- ![letter-e](fig/e.png) -->
+<!--- ![letter-a](fig/a.png) -->
+
+### Workflow
+
+We define the PTG workflow as
+
+* Create templates from analytic geometry, in this case, cubic Bezier curves.
   * Create human-recognizable objects from our Bezier geometry factory,
-  * Create a library composed of two [templates](definitions.md#template), which is then suitable to be used in a binary classification problem, with metrics, e.g., sensitivity and specificity, to adjudicate the quality of the decode algorithm.
-  * Create an **encode** algorithm:
-    * 
+  * Create a library composed of two templates, which is then suitable to be used in a binary classification problem, with metrics, e.g., sensitivity and specificity, to adjudicate the quality of the decode algorithm.
+* Encode the geometry into slices.
+  * There is a pixel
+    * H_mm_per_pix (double): Horizontal pixel length of 1-mm
+    * V_mm_per_pix (double): Vertical pixel length of 1-mm
+  * There is a bounding box
+    * n_H (int): number of horizontal pixels
+    * n_V (int): number of vertical pixels
+    * bb_H_mm (double, derived mm):  horizontal length =  H_mm_per_pix * n_H
+    * bb_V_mm (double, derived mm): vertical length = V_mm_per_pix * n_V
+    * The *t*-axis 
+      * originates in the top-left corner of the bounding box and 
+      * is directed vertically down, toward the bottom of the page, and 
+      * is the major axis
+    * The *u*-axis 
+      * originates in the top-left corner of the bounding box and 
+      * is directed horizontally across, toward the right of the page, and
+      * in the minor axis
+  * A slice is a sequence, at a given value of *t* along the *t*-axis, along the *u*-axis with index [0, 1, ... n_H).
+    * Slices have a category of '1' if the pixel is a member of the set of the encoded template (e.g., font shape composing the letter "e" or "a")
+    * Slices have category '0' otherwise.
+    * There are [0, 1, ... n_V) slices, which, when stacked vertically, compose the bounding box. 
 
-
-from [Design With FontForge](https://drive.google.com/file/d/1lT1O3lM3liIpdv74NJHczz7yXLsEY8vA/view?usp=sharing) [@FontForge2017]
-
-![letter-e](fig/e.png)
-
-> Figure.  The letter "e", composed of Bezier curves. @FontForge2017 from page 45.
-
-![letter-a](fig/a.png)
-> Figure.  The letter "a", composed of Bezier curves. @FontForge2017 from page 46.
-
-![letter-g](fig/g.png)
-> Figure.  The letter "g", composed of Bezier curves. @FontForge20177 from page 47.
-
+* Decode the slices:
+  * Categorize the encoding.
+  * Reconstruct the analytic geometry.
+    * Translation left-right the page (horizontal).
+    * Translation top-bottom on the page (vertical).
+    * Rotation within the page.
+    * Scale, increase or decrease in font size.
 
 ## Results
 
@@ -42,11 +77,18 @@ To come.
 
 ## Discussion
 
-To come.
+* This approach honors the "simple-to-complex" build philosophy of software development, wherein components are proven viable through simple-to-understand and quick-to-run unit tests, prior to their integration into the software system.
 
 ## Conclusion
 
 To come.
+
+## Appendix
+
+<!--- ![letter-g](fig/g.png) -->
+<img src="fig/g.png" alt="letter-g" width="360"/>
+
+> Figure.  The letter "g", composed of Bezier curves. @FontForge2017 from page 47.
 
 ## References
 
