@@ -3,9 +3,22 @@
     "control-points": "bezier-biquadratic-control-points.csv",
     "control-points-label": true,
     "control-nets": "bezier-biquadratic-control-nets.csv",
-    "control-nets-shown": [0],
-    "xlim": [0, 10],
-    "ylim": [0, 8], 
+    "control-nets-shown": [
+        0
+    ],
+    "nti_divisions": 4,
+    "bezier-points-shown": true,
+    "bezier-points-size": 3,
+    "surface-triangulation": true,
+    "triangulation-alpha": 0.8,
+    "xlim": [
+        0,
+        10
+    ],
+    "ylim": [
+        0,
+        8
+    ],
     "#camera-elevation": 85,
     "camera-elevation": 90,
     "#camera-azimuth": -15,

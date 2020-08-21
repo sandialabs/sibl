@@ -43,10 +43,12 @@ We define the PTG workflow as
   * Create a library composed of two templates, which is then suitable to be used in a binary classification problem, with metrics, e.g., sensitivity and specificity, to adjudicate the quality of the decode algorithm.
 * Encode the geometry into slices.
   * There is a pixel
-    * pix_len_H (double): Horizontal pixel length of (1/resolution), typically 1-mm
-    * pix_len_V (double): Vertical pixel length of (1/resolution), tyically 1-mm
-    * pix_len_H = pix_len_V = pix_len: square shaped pixels with side length of 1-mm
-    * This gives rise to the concept of **resolution**, historically with units of dpi (dots per inch or pixels per inch).  Here we state resolution in units of pixels-per-millimeter (ppmm).
+    * pix_len_H (double): Horizontal pixel length of (1/resolution_H), typically 1-mm
+    * pix_len_V (double): Vertical pixel length of (1/resolution_V), tyically 1-mm
+    * Pixel shape isotropy is a special case when 
+      * pix_len_H = pix_len_V = pix_len: square shaped pixels with side length of 1-mm
+      * This gives rise to the concept of (isotropic) **resolution**, historically with units of dpi (dots per inch or pixels per inch).  Here we state resolution in units of pixels-per-millimeter (ppmm).
+      * Example: Early laser printers specified a resolution of 150 dpi (dots per inch, or equivalently, pixels per inch) = 5.91 dots per mm, thus pix_len = 0.169-mm.  Later laser printers doubled the resolution to 300 dpi.  
   * There is a bounding box
     * n_pix_H (int): number of horizontal pixels
     * n_pix_V (int): number of vertical pixels

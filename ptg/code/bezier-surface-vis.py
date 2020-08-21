@@ -57,18 +57,35 @@ class BezierSurfaceVis:
         # 4 -> 2**4 = 64
         # etc.
         nti_divisions = db.get("nti_divisions", 1)
+        if nti_divisions < 1:
+            print("Error: number of time interval divisions (nti_divisions)")
+            print("must be a positive integer, [1, 2, 3 ...].")
+            sys.exit(f"Currint nti_divisions = {nti_divisions}")
 
-        # show/hide control point index labels
-        cp_labels = db.get("control-points-label", False)
-        cp_edge_color = db.get("control-points-edge-color", "blue")
-        cp_marker_size = db.get("control-points-marker-size", 10)
+        # show/hide control point data
+        control_points_label = db.get("control-points-label", False)
+        control_points_color = db.get("control-points-color", "red")
+        control_points_size = db.get("control-points-size", 50)
+
+        # do not set alpha, let scatter3D control this, which
+        # automatically provides an implied depth of field
+        # control_points_alpha = db.get("control-alpha", 0.9)
 
         # draw a specific control net (or nets)
-        cn_shown = db.get("control-nets-shown", False)
+        control_nets_shown = db.get("control-nets-shown", False)
 
         # the alpha channel (transparency) for the Bezier curve,
         # surface, or volume when rendered
-        bezier_alpha = db.get("bezier-alpha", 0.4)
+        bezier_points_shown = db.get("bezier-points-shown", True)
+        bezier_points_color = db.get("bezier-points-color", "blue")
+        bezier_points_size = db.get("bezier-points-size", 10)
+
+        # do not set alpha, let scatter3D control this, which
+        # automatically provides an implied depth of field
+        # bezier_points_alpha = db.get("bezier-alpha", 0.9)
+
+        surface_triangulation = db.get("surface-triangulation", True)
+        triangulation_alpha = db.get("triangulation-alpha", 1.0)
 
         xlabel = db.get("xlabel", "x")
         ylabel = db.get("ylabel", "y")
@@ -138,26 +155,34 @@ class BezierSurfaceVis:
         # ax.scatter3D(cp_x, cp_y, cp_z, edgecolor="blue",
         #              facecolor=(0, 0, 0, 0), s=10)
 
-        if cn_shown:
-            # example for cn_shown
+        if control_nets_shown:
+            # example for control_nets_shown
             # False: show no control nets
             # [0]: show the first control net
             # [0, 2]: show the first and third control nets
-            for net in [nets[k] for k in cn_shown]:
+            for net in [nets[k] for k in control_nets_shown]:
                 net_x = [cp_x[i] for i in net]
                 net_y = [cp_y[i] for i in net]
                 net_z = [cp_z[i] for i in net]
-                ax.plot3D(net_x, net_y, net_z, linestyle="dashed", linewidth=0.8)
+                ax.plot3D(
+                    net_x,
+                    net_y,
+                    net_z,
+                    color=control_points_color,
+                    linestyle="dashed",
+                    linewidth=0.8,
+                )
 
-                if cp_labels:
+                if control_points_label:
                     for i, cp_index in enumerate(net):
                         ax.scatter3D(
                             net_x[i],
                             net_y[i],
                             net_z[i],
-                            edgecolor=cp_edge_color,
+                            edgecolor=control_points_color,
                             facecolor=(0, 0, 0, 0),
-                            s=cp_marker_size,
+                            marker="^",
+                            s=control_points_size,
                         )
                         ax.text(
                             net_x[i], net_y[i], net_z[i], str(cp_index), color="black"
@@ -165,10 +190,14 @@ class BezierSurfaceVis:
                         if verbose:
                             print(f"net node {i} is control point {cp_index}")
 
-                triangulate = True
+                # eliminate the temporary hard code, now an IO parameter
+                # surface_triangulation = True
 
-                x, y, z = (0.0, 0.0, 0.0)
-                if triangulate:
+                # x, y, z = (0.0, 0.0, 0.0)
+                # if triangulate:
+                if bezier_points_shown or surface_triangulation:
+                    x, y, z = (0.0, 0.0, 0.0)
+
                     # assumes number of control points same along each axis
                     # for either 2D (or 3D, to come); 2D uses square root
                     # and 3D will use cube root
@@ -206,19 +235,30 @@ class BezierSurfaceVis:
                     u, t = np.meshgrid(u, t)
                     u, t = u.flatten(), t.flatten()
 
-                    # triangulate paramter space to determine the triangles, cf
-                    # https://matplotlib.org/3.1.1/gallery/mplot3d/trisurf3d_2.html
-                    tri = mtri.Triangulation(u, t)
-                    ax.plot_trisurf(
-                        x.flatten(),
-                        y.flatten(),
-                        z.flatten(),
-                        triangles=tri.triangles,
-                        alpha=bezier_alpha,
-                    )
+                    # ax.scatter3D(x.flatten(), y.flatten(), z.flatten(), color="red")
+                    if bezier_points_shown:
+                        ax.scatter3D(
+                            x.flatten(),
+                            y.flatten(),
+                            z.flatten(),
+                            color=bezier_points_color,
+                            s=bezier_points_size,
+                        )
+                        # ax.scatter3D(, net_y, net_z, linestyle="dashed", linewidth=0.8)
 
-                    if verbose:
-                        print("Triangulation is complete.")
+                    if surface_triangulation:
+                        # triangulate parameter space to determine the triangles, cf
+                        # https://matplotlib.org/3.1.1/gallery/mplot3d/trisurf3d_2.html
+                        tri = mtri.Triangulation(u, t)
+                        ax.plot_trisurf(
+                            x.flatten(),
+                            y.flatten(),
+                            z.flatten(),
+                            triangles=tri.triangles,
+                            alpha=triangulation_alpha,
+                        )
+                        if verbose:
+                            print("Triangulation is complete.")
         else:
             # no specific control nets specified,
             # default is just to show all control points
@@ -226,9 +266,10 @@ class BezierSurfaceVis:
                 cp_x,
                 cp_y,
                 cp_z,
-                edgecolor=cp_edge_color,
+                edgecolor=control_points_color,
                 facecolor=(0, 0, 0, 0),
-                s=cp_marker_size,
+                marker="^",
+                s=control_points_size,
             )
 
         ax.set_xlabel(xlabel)
