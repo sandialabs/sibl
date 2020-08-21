@@ -43,13 +43,15 @@ We define the PTG workflow as
   * Create a library composed of two templates, which is then suitable to be used in a binary classification problem, with metrics, e.g., sensitivity and specificity, to adjudicate the quality of the decode algorithm.
 * Encode the geometry into slices.
   * There is a pixel
-    * H_mm_per_pix (double): Horizontal pixel length of 1-mm
-    * V_mm_per_pix (double): Vertical pixel length of 1-mm
+    * pix_len_H (double): Horizontal pixel length of 1-mm
+    * pix_len_V (double): Vertical pixel length of 1-mm
+    * pix_len_H = pix_len_V = pix_len: square shaped pixels with side length of 1-mm
+    * This gives rise to the concept of **resolution**, historically with units of dpi (dots per inch or pixels per inch).  Here we state resolution in units of pixels-per-centimeter (ppcm).
   * There is a bounding box
-    * n_H (int): number of horizontal pixels
-    * n_V (int): number of vertical pixels
-    * bb_H_mm (double, derived mm):  horizontal length =  H_mm_per_pix * n_H
-    * bb_V_mm (double, derived mm): vertical length = V_mm_per_pix * n_V
+    * n_pix_H (int): number of horizontal pixels
+    * n_pix_V (int): number of vertical pixels
+    * bb_len_H (double, derived mm):  horizontal length =  pix_len * n_pix_H
+    * bb_len_V (double, derived mm): vertical length = pix_len * n_pix_V
     * The *t*-axis 
       * originates in the top-left corner of the bounding box and 
       * is directed vertically down, toward the bottom of the page, and 
@@ -58,10 +60,10 @@ We define the PTG workflow as
       * originates in the top-left corner of the bounding box and 
       * is directed horizontally across, toward the right of the page, and
       * in the minor axis
-  * A slice is a sequence, at a given value of *t* along the *t*-axis, along the *u*-axis with index [0, 1, ... n_H).
+  * A slice is a sequence, at a given value of *t* along the *t*-axis, along the *u*-axis with *u*-index [0, 1, ... n_pix_H).
     * Slices have a category of '1' if the pixel is a member of the set of the encoded template (e.g., font shape composing the letter "e" or "a")
     * Slices have category '0' otherwise.
-    * There are [0, 1, ... n_V) slices, which, when stacked vertically, compose the bounding box. 
+    * There are [0, 1, ... n_pix_V) slices, which, when stacked vertically, compose the bounding box. 
 
 * Decode the slices:
   * Categorize the encoding.
