@@ -6,6 +6,7 @@ Pixel To Geometry (PTG) is the process of using stacked 2D image data, composed 
 
 ## Road map
 
+* Encode/Decode [unit test font](unit-test-font.md)
 * Encode/Decode [unit test](unit-test.md)
 * Encode/Decode femur
 * Encode/Decode femur, patella, tibia, fibula
@@ -20,3 +21,4 @@ Pixel To Geometry (PTG) is the process of using stacked 2D image data, composed 
 
 * [Brain oriented programming](https://tobeva.com/articles/brain-oriented-programming/) limit classes to seven attributes.
 * [Black](https://youtu.be/esZLCuWs_2Y) by Łukasz Langa - Life Is Better Painted Black, or: How to Stop Worrying and Embrace Auto-Formatting
+* [Definitions](definitions.md)
