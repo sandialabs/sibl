@@ -99,7 +99,32 @@ To come.
 * [Apple TrueType](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM01/Chap1.html) Digitizing Letterform Designs
 * [The Bezier Game](https://bezier.method.ac/)
 * [Design with FontForge](http://designwithfontforge.com/en-US/index.html)
+* [Healy, Kieran](https://github.com/kjhealy) data science, typography, LaTeX to HTML and pdf.
 * [Microsoft Typography](https://docs.microsoft.com/en-us/typography/)
-
+  * [Outlines](https://docs.microsoft.com/en-us/typography/opentype/spec/ttch01?ranMID=24542&ranEAID=je6NUbpObpQ&ranSiteID=je6NUbpObpQ-D86ya3ymD0tFbE._fTu.4A&epi=je6NUbpObpQ-D86ya3ymD0tFbE._fTu.4A&irgwc=1&OCID=AID2000142_aff_7593_1243925&tduid=%28ir__ue3z6b1hvwkftgwikk0sohzg2n2xipoz11wfkxjk00%29%287593%29%281243925%29%28je6NUbpObpQ-D86ya3ymD0tFbE._fTu.4A%29%28%29&irclickid=_ue3z6b1hvwkftgwikk0sohzg2n2xipoz11wfkxjk00#outlines)
+    * "In a TrueType font, glyph shapes are described by their outlines. A glyph outline consists of a series of contours. A simple glyph may have only one contour. More complex glyphs can have two or more contours. Composite glyphs can be constructed by combining two or more simpler glyphs. Certain control characters that have no visible manifestation will map to the glyph with no contours."
+    * "Contours are composed of straight lines and curves. Curves are defined by a series of points that describe second ~~order~~ [*sic*, degree, *p=2*, quadratic] Bezier-splines. The TrueType `Bezier­spline` format uses two types of points to define curves, those that are on the curve and those that are off the curve. Any combination of off and on curve points is acceptable when defining a curve. Straight lines are defined by two consecutive on curve points."
+  * Font Units (FUnits) and the [em square](https://docs.microsoft.com/en-us/typography/opentype/spec/ttch01?ranMID=24542&ranEAID=je6NUbpObpQ&ranSiteID=je6NUbpObpQ-D86ya3ymD0tFbE._fTu.4A&epi=je6NUbpObpQ-D86ya3ymD0tFbE._fTu.4A&irgwc=1&OCID=AID2000142_aff_7593_1243925&tduid=%28ir__ue3z6b1hvwkftgwikk0sohzg2n2xipoz11wfkxjk00%29%287593%29%281243925%29%28je6NUbpObpQ-D86ya3ymD0tFbE._fTu.4A%29%28%29&irclickid=_ue3z6b1hvwkftgwikk0sohzg2n2xipoz11wfkxjk00#funits-and-the-em-square)
+    * "A key decision in digitizing a font is determining the resolution at which the points that make up glyph outlines will be described. The points represent locations in a grid whose smallest addressable unit is known as an FUnit or font Unit. The grid is a two-dimensional coordinate system whose x-axis describes movement in a horizontal direction and whose y-axis describes movement in a vertical direction. The grid origin has the coordinates (0,0). The grid is not an infinite plane. Each point must be within the range -16384 and +16383 FUnits. Depending upon the resolution chosen, the range of addressable grid locations will be smaller."
+    * "The choice of the granularity of the coordinate grid-that is, number of units per em (**upem**)-is made by the font manufacturer. Outline scaling will be fastest if units per em is chosen to be a power of 2, such as 2048 [2^11]."
+    * 2^14 = 16384.  The positive goes only to 16383 because it also contains the zero coordinate, for a total of 16834 units.
+    * ![FUnit-em-square](fig/FUnit-em-square.gif)
+    * "Figure 1-4: The [FUnit] coordinate system."
+    * ![glyph-location](fig/glyph-location.gif)
+    * "Figure 1-5: Two possible choices for the glyph origin in a Roman font. In the first case (left) the left side bearing is x-zero. In the second (right), the aesthetic center of the character is x-zero."
+    * "FUnits are relative units because they vary in size as the size of the em square changes. The number of units per em remains constant for a given font regardless of the point size."
+    * ![microsoft-M](fig/microsoft-M.gif)
+    * "Figure 1-7: [A] 72 point M and 127 point M and their em squares. Upem equals 8 in both cases."
+    * ![em-square-8](fig/em-square-8.gif) ![em-square-16](fig/em-square-16.gif)
+    * "Figure 1-6: Two em squares, 8 units per em (left), 16 units per em (right)"
+    * "Because FUnits are relative to the em square, a given location on a glyph will have the same coordinate location in FUnits regardless of the point size at which the font is rendered. This is convenient because it makes it possible to instruct outline points once considering only the original outline and have the changes apply to the glyph at whatever size and resolution it is ultimately rendered."
+  * [Convert FUnit to Pixels](https://docs.microsoft.com/en-us/typography/opentype/spec/ttch01?ranMID=24542&ranEAID=je6NUbpObpQ&ranSiteID=je6NUbpObpQ-D86ya3ymD0tFbE._fTu.4A&epi=je6NUbpObpQ-D86ya3ymD0tFbE._fTu.4A&irgwc=1&OCID=AID2000142_aff_7593_1243925&tduid=%28ir__ue3z6b1hvwkftgwikk0sohzg2n2xipoz11wfkxjk00%29%287593%29%281243925%29%28je6NUbpObpQ-D86ya3ymD0tFbE._fTu.4A%29%28%29&irclickid=_ue3z6b1hvwkftgwikk0sohzg2n2xipoz11wfkxjk00#converting-funits-to-pixels)
+  * [Display Device Characteristics](https://docs.microsoft.com/en-us/typography/opentype/spec/ttch01?ranMID=24542&ranEAID=je6NUbpObpQ&ranSiteID=je6NUbpObpQ-D86ya3ymD0tFbE._fTu.4A&epi=je6NUbpObpQ-D86ya3ymD0tFbE._fTu.4A&irgwc=1&OCID=AID2000142_aff_7593_1243925&tduid=%28ir__ue3z6b1hvwkftgwikk0sohzg2n2xipoz11wfkxjk00%29%287593%29%281243925%29%28je6NUbpObpQ-D86ya3ymD0tFbE._fTu.4A%29%28%29&irclickid=_ue3z6b1hvwkftgwikk0sohzg2n2xipoz11wfkxjk00#display-device-characteristics)
+    * "The resolution of any particular display device is specified by the number of dots or pixels per inch (dpi) that are displayed. For example, a VGA under Windows is treated as a 96 dpi device, and most laser printers have a resolution of 300 dpi."
+    * "Some devices, such as an EGA, have different resolution in the horizontal and vertical directions (i.e. non-square pixels); in the case of the EGA this resolution is 96 x 72. In such cases, horizontal dots per inch must be distinguished from vertical dots per inch."
+    * "If you know the **ppem**, the formula to convert between FUnits and pixel space coordinates is:
+      * pixel_coordinate = em_coordinate * ppem / upem
+      * An em_coordinate position of (1024, 0) would yield a device_pixels coordinate of (6, 0), given 2048 units per em and 12 pixels per em."
+  * [The Science of Word Recognition](https://docs.microsoft.com/en-us/typography/develop/word-recognition)
 
 
