@@ -96,4 +96,7 @@ To come.
 
 ## References
 
-To come.
+* [Design with FontForge](http://designwithfontforge.com/en-US/index.html)
+* [The Bezier Game](https://bezier.method.ac/)
+
+
