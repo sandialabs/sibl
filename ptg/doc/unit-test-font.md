@@ -1,12 +1,14 @@
 # unit test - font
 
+## Title
+
 Demonstration of the Pixel To Geometry (PTG) workflow through an example of binary classification.
 
 ## Introduction
 
 * Font designers often use cubic Bezier curves to create digital fonts. 
 * Here, we use the creation of two [templates](definitions.md#template) (the letters "e" and "a") to test the Bezier creation our PTG workflow.
-* Next, we demonstrate the **encoding** of templates to data [slices](definitions.md#slice).
+* Next, we demonstrate the **encoding** of templates to data [slices](definitions.md#slice-and-solid).
 * Next, we demonstrate **class segmentation** for singletons.
 * Next, we demonstrate **instance segmentations** for populations.
 * Finally, we demonstrate **reconstruction**
@@ -14,8 +16,13 @@ Demonstration of the Pixel To Geometry (PTG) workflow through an example of bina
 
 ## Objective
 
-* Demonstrate viability of the PTG workflow with a relative simple and quick to run model.
-* Discover lurking (*a priori* unanticipated) workflow variables, data, or algorithms needed to complete the workflow.
+* Articulate the major components of the PTG workflow.
+* Demonstrate **viability** of the PTG workflow with a model that is good, cheap, and fast (choose any **three** paradigm):
+  * good - the model is **reproducable** and yields **accurate** results ("consistent" and "correct"),
+  * cheap: the model is relatively simple,
+  * fast: the workflow is quick-to-run; and is
+  * an abstraction of more complex models (e.g., the human skeleton) and workflows (e.g., PTG of a human CT scan).
+* Discover lurking (*a priori* unanticipated) variables, data, or algorithms needed to complete the workflow.
 
 ## Methods
 
