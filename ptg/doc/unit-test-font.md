@@ -82,6 +82,7 @@ We define the PTG workflow as
     * Slices have a category of '1' if the pixel is a member of the set of the encoded template (e.g., font shape composing the letter "e" or "a")
     * Slices have category '0' otherwise.
     * There are [0, 1, ... n_pix_V) slices, which, when stacked vertically, compose the bounding box. 
+  * <img src="fig/e-resolution.png" alt="e-resolution" width="1000"/>
 
 * Decode the slices:
   * Categorize the encoding.
