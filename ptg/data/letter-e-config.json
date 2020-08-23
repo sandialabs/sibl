@@ -1,8 +1,8 @@
 {
     "data-path": "/Users/Apollo/sibl/ptg/data/",
-    "control-points": "bezier-cubic-letter-e-control-points.csv",
+    "control-points": "letter-e-control-points.csv",
     "control-points-label": true,
-    "control-nets": "bezier-cubic-letter-e-control-nets.csv",
+    "control-nets": "letter-e-control-nets.csv",
     "control-nets-shown": [
         0,
         1,
@@ -15,23 +15,31 @@
         8,
         9,
         10,
-        11
+        11,
+        12
     ],
     "bezier-points-shown": true,
     "bezier-points-size": 3,
     "surface-triangulation": true,
     "triangulation-alpha": 0.8,
-    "nti_divisions": 2,
+    "nti_divisions": 3,
     "xlim": [
         -2,
-        22
+        128
     ],
     "ylim": [
         -2,
-        22
+        128
     ],
+    "zlim": [
+        -2,
+        128
+    ],
+    "xlabel": "x (font units)",
+    "ylabel": "y (font units)",
+    "zlabel": "z (font units)",
     "#camera-elevation": 85,
-    "camera-elevation": 90,
+    "camera-elevation": 0,
     "#camera-azimuth": -15,
     "camera-azimuth": 0
 }

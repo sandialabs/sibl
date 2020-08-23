@@ -47,6 +47,15 @@ We define the PTG workflow as
 
 * Create templates from analytic geometry, in this case, cubic Bezier curves.
   * Create human-recognizable objects from our Bezier geometry factory,
+    * letter-e
+      * [config](../data/letter-e-config.json)
+      * [control points](../data/letter-e-control-points.csv)
+      * [control nets](../data/letter-e-control-nets.csv)
+      * results
+      * ![letter-e-slice](fig/letter-e-slice.png)
+      * > Figure: letter e, slice view.
+      * ![letter-e-iso](fig/letter-e-iso.png)
+      * > Figure: letter e, isometric view.
   * Create a library composed of two templates, which is then suitable to be used in a binary classification problem, with metrics, e.g., sensitivity and specificity, to adjudicate the quality of the decode algorithm.
 * Encode the geometry into slices.
   * There is a pixel
