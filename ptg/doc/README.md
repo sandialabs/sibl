@@ -4,6 +4,10 @@
 
 Pixel To Geometry (PTG) is the process of using stacked 2D image data, composed of pixels, to reconstruct a 3D solid.  PTG describes a **decoding** process of a physical system that was original **encoded** into a series of 2D medical images.  
 
+## Questions
+
+* H0: Segmentation based on threshold pixel intensity (quantisation) is sufficient to classify bone versus non-bone in the IRCAD data set based on ground truth F1-score.
+
 ## Road map
 
 * Encode/Decode [unit test font](unit-test-font.md)

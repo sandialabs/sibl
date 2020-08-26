@@ -87,12 +87,13 @@ We define the PTG workflow as
     * There are [0, 1, ... n_pix_V) slices, which, when stacked vertically, compose the bounding box. 
   * <img src="fig/e-resolution.png" alt="e-resolution" width="1000"/>
   * Encodings:
+    * Use per-pixel-encoding for now, postpone stipe encoding because pixel-based (classification) is actually easier than stripe-based (regression).  Also, historical encoding of Bob is per-pixel-encoding, so matches wtih legacy work well.
     * 5x5: 
-      * [per-pixel-encoded](../data/pixel/letter_e_5x5_per-pixel-encoded.json)
-      * [stripe-encoded](../data/pixel/letter_e_5x5_stripe-encoded.json)
+      * [per-pixel-encoded](../data/pixel/letter_e_5x5_per-pixel-encoded.json) (25 integers)  
+      * [stripe-encoded](../data/pixel/letter_e_5x5_stripe-encoded.json) (3 dimension integers + 6 strips @ 4 integers / stripe = 27 integers)
     * 10x10: 
-      * [per-pixel-encoded](../data/pixel/letter_e_10x10_per-pixel-encoded.json)
-      * [stripe-encoded](../data/pixel/letter_e_10x10_stripe-encoded.json)
+      * [per-pixel-encoded](../data/pixel/letter_e_10x10_per-pixel-encoded.json) (100 integers)
+      * [stripe-encoded](../data/pixel/letter_e_10x10_stripe-encoded.json) ( 3 dimension integers + 18 stripes @ 4 integers / stripe = 75 integers)
 
 * Decode the slices:
   * Categorize the encoding.
