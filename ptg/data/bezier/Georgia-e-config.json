@@ -1,8 +1,8 @@
 {
-    "data-path": "/Users/Apollo/sibl/ptg/data/",
-    "control-points": "letter-e-control-points.csv",
+    "data-path": "~/sibl/ptg/data/bezier",
+    "control-points": "Georgia-e-control-points.csv",
     "control-points-label": true,
-    "control-nets": "letter-e-control-nets.csv",
+    "control-nets": "Georgia-e-control-nets.csv",
     "control-nets-shown": [
         0,
         1,
@@ -14,9 +14,7 @@
         7,
         8,
         9,
-        10,
-        11,
-        12
+        10
     ],
     "bezier-points-shown": true,
     "bezier-points-size": 3,
@@ -25,15 +23,15 @@
     "nti_divisions": 3,
     "xlim": [
         -2,
-        128
+        600
     ],
     "ylim": [
         -2,
-        128
+        600
     ],
     "zlim": [
         -2,
-        128
+        600
     ],
     "xlabel": "x (font units)",
     "ylabel": "y (font units)",

@@ -51,6 +51,9 @@ We define the PTG workflow as
       * [config](../data/letter-e-config.json)
       * [control points](../data/letter-e-control-points.csv)
       * [control nets](../data/letter-e-control-nets.csv)
+      * *Remarks:* 
+        * Taken together, the control points and control nets compose a so-called Bezier encoding of the letter "e".  
+        * In the MVC paradigm, the encoding is the model, and the config is the view.
       * Results:
         * <img src="fig/letter-e-slice.png" alt="letter-e-slice" width="320"/>
         * > [Figure](fig/letter-e-slice.png): letter e, slice view.

@@ -42,6 +42,7 @@ class BezierCurveVis:
                 sys.exit(f'Error: keyword "{kw}" not found in config file.')
 
         data_path = db.get("data-path")
+        data_path_expanded = Path(data_path).expanduser()
         cp_file = db.get("control-points")
         cn_file = db.get("control-nets")
 
@@ -95,15 +96,20 @@ class BezierCurveVis:
         camera_azimuth = db.get("camera-azimuth", None)
 
         # check existence of path and files
-        if not Path(data_path).is_dir():
+        # if not Path(data_path_expanded).is_dir():
+        if not data_path_expanded.is_dir():
             sys.exit(f"Error: cannot find {data_path}")
 
-        cp_path_file = data_path + cp_file
-        if not Path(cp_path_file).is_file():
+        # cp_path_file = data_path_expanded + cp_file
+        cp_path_file = data_path_expanded.joinpath(cp_file)
+        # if not Path(cp_path_file).is_file():
+        if not cp_path_file.is_file():
             sys.exit(f"Error: cannot find {cp_path_file}")
 
-        cn_path_file = data_path + cn_file
-        if not Path(cn_path_file).is_file():
+        # cn_path_file = data_path_expanded + cn_file
+        cn_path_file = data_path_expanded.joinpath(cn_file)
+        # if not Path(cn_path_file).is_file():
+        if not cn_path_file.is_file():
             sys.exit(f"Error: cannot find {cn_path_file}")
 
         # file io data type specification

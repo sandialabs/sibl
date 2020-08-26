@@ -1,16 +1,16 @@
 {
-    "data-path": "/Users/Apollo/sibl/ptg/data/",
-    "control-points": "bezier-biquadratic-control-points.csv",
+    "data-path": "~/sibl/ptg/data/bezier",
+    "control-points": "bezier-bilinear-control-points.csv",
     "control-points-label": true,
-    "control-nets": "bezier-biquadratic-control-nets.csv",
+    "control-nets": "bezier-bilinear-control-nets.csv",
     "control-nets-shown": [
         0
     ],
-    "nti_divisions": 4,
     "bezier-points-shown": true,
     "bezier-points-size": 3,
     "surface-triangulation": true,
     "triangulation-alpha": 0.8,
+    "nti_divisions": 3,
     "xlim": [
         0,
         10

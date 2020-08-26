@@ -1,5 +1,5 @@
 {
-    "data-path": "/Users/Apollo/sibl/ptg/data/",
+    "data-path": "~/sibl/ptg/data/bezier",
     "control-points": "utah-teapot-control-points.csv",
     "control-points-label": false,
     "control-nets": "utah-teapot-control-nets.csv",
