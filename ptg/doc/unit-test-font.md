@@ -48,9 +48,9 @@ We define the PTG workflow as
 * Create templates from analytic geometry, in this case, cubic Bezier curves.
   * Create human-recognizable objects from our Bezier geometry factory,
     * letter-e
-      * [config](../data/letter-e-config.json)
-      * [control points](../data/letter-e-control-points.csv)
-      * [control nets](../data/letter-e-control-nets.csv)
+      * [config](../data/bezier/letter-e-config.json)
+      * [control points](../data/bezier/letter-e-control-points.csv)
+      * [control nets](../data/bezier/letter-e-control-nets.csv)
       * *Remarks:* 
         * Taken together, the control points and control nets compose a so-called Bezier encoding of the letter "e".  
         * In the MVC paradigm, the encoding is the model, and the config is the view.
@@ -86,6 +86,13 @@ We define the PTG workflow as
     * Slices have category '0' otherwise.
     * There are [0, 1, ... n_pix_V) slices, which, when stacked vertically, compose the bounding box. 
   * <img src="fig/e-resolution.png" alt="e-resolution" width="1000"/>
+  * Encodings:
+    * 5x5: 
+      * [per-pixel-encoded](../data/pixel/letter_e_5x5_per-pixel-encoded.json)
+      * [stripe-encoded](../data/pixel/letter_e_5x5_stripe-encoded.json)
+    * 10x10: 
+      * [per-pixel-encoded](../data/pixel/letter_e_10x10_per-pixel-encoded.json)
+      * [stripe-encoded](../data/pixel/letter_e_10x10_stripe-encoded.json)
 
 * Decode the slices:
   * Categorize the encoding.
