@@ -8,7 +8,7 @@ Pixel To Geometry (PTG) is the process of using stacked 2D image data, composed 
 
 * Encode/Decode [unit test font](unit-test-font.md)
 * Encode/Decode [unit test](unit-test.md)
-* Encode/Decode femur
+* Encode/Decode [unit test femur](unit-test-femur.md)
 * Encode/Decode femur, patella, tibia, fibula
 * Encode/Decode human skeleton
 
