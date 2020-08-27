@@ -15,3 +15,6 @@ xyfigure.egg-info
 .coverage
 # htmlcov/
 
+# Ignore ircad data folder
+ptg/data/ircad_numpy/*
+ptg/notebooks/.ipynb*
