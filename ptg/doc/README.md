@@ -16,6 +16,12 @@ Pixel To Geometry (PTG) is the process of using stacked 2D image data, composed 
 * Encode/Decode femur, patella, tibia, fibula
 * Encode/Decode human skeleton
 
+## Decode Workflow
+
+1. Segmenting the CT (bone vs not bone) - is threshold-based segmentation good enough?
+2. Stack the slices
+3. Classify the bones in the masks - Chad will generate binary (0 and 1 only) slices that we will use for training. Initially will be for numbers and letters.
+
 ## Design
 
 * Object-oriented programming (OOP) as a default, functional programming (FP) where appropriate.
