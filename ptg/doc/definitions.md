@@ -15,14 +15,11 @@
 
 * From [cs231n, Lecture 11 slides, 2017](http://cs231n.stanford.edu/slides/2017/cs231n_2017_lecture11.pdf)
 
- Type | Example | Objects
----|---|---
- <b>Classification</b></br></br>class scores</br></br>0.90 cat</br>0.05 dog</br>0.01 car</br>... *etc*. | ![cat-image](fig/cat-image.png) | single
-<b>Semantic</br>Segmentation</b></br></br>pixel classification</br></br>cat</br>grass</br>tree</br>sky | ![cat-segmentation-semantic](fig/cat-segmentation-semantic.png) | none
-<b>Localization</b></br></br>classification + bounding box | ![cat-localization](fig/cat-localization.png) | single
-<b>Object</br>Detection</b></br></br>classification + bounding boxes | ![cat-dog-dog-detection](fig/cat-dog-dog-detection.png) | multiple
-<b>Instance</br>Segmentation</b> | ![cat-dog-dog-segmentation-instance](fig/cat-dog-dog-segmentation-instance.png) | multiple
-
+ Classification | Semantic Segmentation | Localization | Object Detection | Instance Segmentation
+---|---|---|---|---
+![cat-image](fig/cat-image.png) | ![cat-segmentation-semantic](fig/cat-segmentation-semantic.png) | ![cat-localization](fig/cat-localization.png) | ![cat-dog-dog-detection](fig/cat-dog-dog-detection.png) | ![cat-dog-dog-segmentation-instance](fig/cat-dog-dog-segmentation-instance.png) 
+class scores:</br>0.90 cat</br>0.05 dog</br>0.01 car ... *etc*. | pixel classification: [cat, grass, tree, sky] | classification + bounding box | classification + bounding boxes | ---
+single object | no objects | single object | multiple objects | multiple objects
 
 ## isomorphism
 
