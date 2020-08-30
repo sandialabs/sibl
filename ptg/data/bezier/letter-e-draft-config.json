@@ -19,8 +19,7 @@
     ],
     "bezier-points-shown": true,
     "bezier-points-size": 3,
-    "surface-triangulation": true,
-    "triangulation-alpha": 0.8,
+    "bezier-lines-shown": true,
     "nti_divisions": 2,
     "xlim": [
         -2,
