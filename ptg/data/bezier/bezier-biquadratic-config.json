@@ -2,11 +2,13 @@
     "bezier-type": "surface",
     "data-path": "~/sibl/ptg/data/bezier",
     "control-points": "bezier-biquadratic-control-points.csv",
-    "control-points-label": true,
+    "control-points-label": false,
+    "control-points-marker": "None",
     "control-nets": "bezier-biquadratic-control-nets.csv",
     "control-nets-shown": [
         0
     ],
+    "control-nets-linewidth": 0,
     "nti_divisions": 4,
     "bezier-points-shown": true,
     "bezier-points-size": 3,

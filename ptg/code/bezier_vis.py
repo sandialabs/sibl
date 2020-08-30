@@ -80,10 +80,14 @@ class BezierVis(ABC):
         # control_points_alpha = db.get("control-alpha", 0.9)
         control_points_color = db.get("control-points-color", "red")
         control_points_label = db.get("control-points-label", False)
+        control_points_label_color = db.get("control-points-label-color", "black")
+        control_points_marker = db.get("control-points-marker", "^")
         control_points_size = db.get("control-points-size", 50)
 
         # draw a specific control net (or nets)
         control_nets_shown = db.get("control-nets-shown", False)
+        control_nets_linestyle = db.get("control-nets-linestyle", "dashed")
+        control_nets_linewidth = db.get("control-nets-linewidth", 0.8)
 
         # Bezier interpolation data
         # the alpha channel (transparency) for the Bezier curve,
@@ -97,6 +101,8 @@ class BezierVis(ABC):
         bezier_points_size = db.get("bezier-points-size", 10)
         #
         bezier_lines_shown = db.get("bezier-lines-shown", False)
+        bezier_lines_color = db.get("bezier-lines-color", "black")
+        bezier_linewidth = db.get("bezier-linewidth", 1.0)
 
         if bezier_type == "surface":
             surface_triangulation = db.get("surface-triangulation", True)
@@ -189,8 +195,8 @@ class BezierVis(ABC):
                     net_y,
                     net_z,
                     color=control_points_color,
-                    linestyle="dashed",
-                    linewidth=0.8,
+                    linestyle=control_nets_linestyle,
+                    linewidth=control_nets_linewidth,
                 )
 
                 if control_points_label:
@@ -201,11 +207,15 @@ class BezierVis(ABC):
                             net_z[i],
                             edgecolor=control_points_color,
                             facecolor=(0, 0, 0, 0),
-                            marker="^",
+                            marker=control_points_marker,
                             s=control_points_size,
                         )
                         ax.text(
-                            net_x[i], net_y[i], net_z[i], str(cp_index), color="black"
+                            net_x[i],
+                            net_y[i],
+                            net_z[i],
+                            str(cp_index),
+                            color=control_points_label_color,
                         )
                         if verbose:
                             print(f"net node {i} is control point {cp_index}")
@@ -230,12 +240,18 @@ class BezierVis(ABC):
                     p_degree = n_cp_per_axis - 1  # polynomial degree
                     # nti = 2  # segment [0, 1] into nti intervals
                     # nti = 2**4  # segment [0, 1] into nti intervals
-                    nti = 2 ** nti_divisions  # segment [0, 1] into nti intervals
-                    # triangulate the surface
-                    # https://matplotlib.org/3.1.1/gallery/mplot3d/trisurf3d_2.html
-                    t = np.linspace(0, 1, num=nti + 1, endpoint=True)  # curve
-                    u = np.linspace(0, 1, num=nti + 1, endpoint=True)  # surface
-                    # v = np.linspace(0, 1, num=nti + 1, endpoint=True)  # solid
+
+                    # segment [0, 1] into nti intervals
+                    nti = 2 ** nti_divisions
+
+                    # curve, surface, or solid
+                    t = np.linspace(0, 1, num=nti + 1, endpoint=True)
+
+                    # surface or solid
+                    u = np.linspace(0, 1, num=nti + 1, endpoint=True)
+
+                    # solid
+                    # v = np.linspace(0, 1, num=nti + 1, endpoint=True)
 
                     if bezier_type == "curve":
 
@@ -267,15 +283,17 @@ class BezierVis(ABC):
                                 x += bij * cp_x[Point[i][j]]
                                 y += bij * cp_y[Point[i][j]]
                                 z += bij * cp_z[Point[i][j]]
+
                         # my convention is reverse of the (x, y) convention of
                         # mesh grid, see
                         # https://numpy.org/doc/stable/reference/generated/numpy.meshgrid.html
                         u, t = np.meshgrid(u, t)
                         u, t = u.flatten(), t.flatten()
 
+                        # triangulate parameter space,
+                        # determine the triangles, cf
+                        # https://matplotlib.org/3.1.1/gallery/mplot3d/trisurf3d_2.html
                         if surface_triangulation:
-                            # triangulate parameter space to determine the triangles, cf
-                            # https://matplotlib.org/3.1.1/gallery/mplot3d/trisurf3d_2.html
                             tri = mtri.Triangulation(u, t)
                             ax.plot_trisurf(
                                 x.flatten(),
@@ -290,7 +308,6 @@ class BezierVis(ABC):
                     if bezier_type == "solid":
                         sys.exit(f"bezier_type {bezier_type} not implemented.")
 
-                    # ax.scatter3D(x.flatten(), y.flatten(), z.flatten(), color="red")
                     if bezier_points_shown:
                         ax.scatter3D(
                             x.flatten(),
@@ -299,15 +316,14 @@ class BezierVis(ABC):
                             color=bezier_points_color,
                             s=bezier_points_size,
                         )
-                        # ax.scatter3D(, net_y, net_z, linestyle="dashed", linewidth=0.8)
 
                     if bezier_lines_shown:
                         ax.plot(
                             x.flatten(),
                             y.flatten(),
                             z.flatten(),
-                            color="black",
-                            linewidth=1.0,
+                            color=bezier_lines_color,
+                            linewidth=bezier_linewidth,
                         )
 
         else:

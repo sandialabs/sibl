@@ -6,7 +6,7 @@
     "control-nets": "utah-teapot-control-nets.csv",
     "nti_divisions": 3,
     "bezier-points-shown": true,
-    "bezier-points-size": 3,
+    "bezier-points-size": 0.01,
     "surface-triangulation": true,
     "triangulation-alpha": 0.8,
     "xlim": [
@@ -36,6 +36,7 @@
         8,
         9
     ],
+    "control-nets-linewidth": 0,
     "#control-nets-indices": [
         0,
         "rim",
