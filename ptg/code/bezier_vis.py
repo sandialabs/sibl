@@ -96,7 +96,7 @@ class BezierVis(ABC):
         bezier_points_shown = db.get("bezier-points-shown", True)
         bezier_points_size = db.get("bezier-points-size", 10)
         #
-        bezier_lines_shown = db.get("bezier-lines-shown", True)
+        bezier_lines_shown = db.get("bezier-lines-shown", False)
 
         if bezier_type == "surface":
             surface_triangulation = db.get("surface-triangulation", True)
@@ -210,13 +210,6 @@ class BezierVis(ABC):
                         if verbose:
                             print(f"net node {i} is control point {cp_index}")
 
-                # eliminate the temporary hard code, now an IO parameter
-                # surface_triangulation = True
-                # bezier_lines_shown = True
-
-                # x, y, z = (0.0, 0.0, 0.0)
-                # if triangulate:
-                # if bezier_points_shown or surface_triangulation:
                 if bezier_points_shown or bezier_lines_shown:
                     x, y, z = (0.0, 0.0, 0.0)
 
@@ -317,19 +310,6 @@ class BezierVis(ABC):
                             linewidth=1.0,
                         )
 
-                    # if surface_triangulation:
-                    #     # triangulate parameter space to determine the triangles, cf
-                    #     # https://matplotlib.org/3.1.1/gallery/mplot3d/trisurf3d_2.html
-                    #     tri = mtri.Triangulation(u, t)
-                    #     ax.plot_trisurf(
-                    #         x.flatten(),
-                    #         y.flatten(),
-                    #         z.flatten(),
-                    #         triangles=tri.triangles,
-                    #         alpha=triangulation_alpha,
-                    #     )
-                    #     if verbose:
-                    #         print("Triangulation is complete.")
         else:
             # no specific control nets specified,
             # default is just to show all control points
