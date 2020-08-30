@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 import sys
 
+import matplotlib.tri as mtri
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -35,13 +36,23 @@ class BezierVis(ABC):
             db = json.load(fin)
 
         # config parameters without defaults, user specification required
-        config_schema = ["data-path", "control-points", "control-nets"]
+        config_schema = [
+            "bezier-type",
+            "data-path",
+            "control-points",
+            "control-nets",
+        ]
 
         # check .json input schema
         for kw in config_schema:
             key = db.get(kw, None)
             if not key:
                 sys.exit(f'Error: keyword "{kw}" not found in config file.')
+
+        bezier_type = db.get("bezier-type")
+        bezier_types = ("curve", "surface", "solid")
+        if bezier_type not in bezier_types:
+            sys.exit(f'Error: bezier-type "{bezier_type}" not supported.')
 
         data_path = db.get("data-path")
         data_path_expanded = Path(data_path).expanduser()
@@ -86,6 +97,10 @@ class BezierVis(ABC):
         bezier_points_size = db.get("bezier-points-size", 10)
         #
         bezier_lines_shown = db.get("bezier-lines-shown", True)
+
+        if bezier_type == "surface":
+            surface_triangulation = db.get("surface-triangulation", True)
+            triangulation_alpha = db.get("triangulation-alpha", 1.0)
 
         xlabel = db.get("xlabel", "x")
         ylabel = db.get("ylabel", "y")
@@ -210,7 +225,14 @@ class BezierVis(ABC):
                     # and 3D will use cube root
                     # n_cp_per_axis = int(np.sqrt(len(net)))
                     # 1D case:
-                    n_cp_per_axis = len(net)
+                    if bezier_type == "curve":
+                        n_cp_per_axis = len(net)
+
+                    elif bezier_type == "surface":
+                        n_cp_per_axis = int(np.sqrt(len(net)))
+
+                    elif bezier_type == "solid":
+                        n_cp_per_axis = int(np.cbrt(len(net)))
 
                     p_degree = n_cp_per_axis - 1  # polynomial degree
                     # nti = 2  # segment [0, 1] into nti intervals
@@ -218,43 +240,62 @@ class BezierVis(ABC):
                     nti = 2 ** nti_divisions  # segment [0, 1] into nti intervals
                     # triangulate the surface
                     # https://matplotlib.org/3.1.1/gallery/mplot3d/trisurf3d_2.html
-                    t = np.linspace(0, 1, num=nti + 1, endpoint=True)
-                    ###  u = np.linspace(0, 1, num=nti + 1, endpoint=True)
+                    t = np.linspace(0, 1, num=nti + 1, endpoint=True)  # curve
+                    u = np.linspace(0, 1, num=nti + 1, endpoint=True)  # surface
+                    # v = np.linspace(0, 1, num=nti + 1, endpoint=True)  # solid
 
-                    # Point = np.reshape(net, (n_cp_per_axis, n_cp_per_axis))
-                    Point = net
+                    if bezier_type == "curve":
 
-                    # for i in np.arange(n_cp_per_axis):
-                    #     for j in np.arange(n_cp_per_axis):
-                    #         b_i = bp.bernstein_polynomial(i, p_degree, nti)
-                    #         b_j = bp.bernstein_polynomial(j, p_degree, nti)
-                    #         bij = np.outer(b_i, b_j)
+                        Point = net
 
-                    #         if verbose:
-                    #             print(f"bij = {bij}")
+                        for i in np.arange(n_cp_per_axis):
+                            b_i = bp.bernstein_polynomial(i, p_degree, nti)
 
-                    #         # x += bij * net_x[Point[i][j]]
-                    #         # y += bij * net_y[Point[i][j]]
-                    #         # z += bij * net_z[Point[i][j]]
-                    #         x += bij * cp_x[Point[i][j]]
-                    #         y += bij * cp_y[Point[i][j]]
-                    #         z += bij * cp_z[Point[i][j]]
+                            if verbose:
+                                print(f"b{i} = {b_i}")
 
-                    for i in np.arange(n_cp_per_axis):
-                        b_i = bp.bernstein_polynomial(i, p_degree, nti)
+                            x += b_i * cp_x[Point[i]]
+                            y += b_i * cp_y[Point[i]]
+                            z += b_i * cp_z[Point[i]]
 
-                        if verbose:
-                            print(f"b{i} = {b_i}")
+                    if bezier_type == "surface":
 
-                        x += b_i * cp_x[Point[i]]
-                        y += b_i * cp_y[Point[i]]
-                        z += b_i * cp_z[Point[i]]
+                        Point = np.reshape(net, (n_cp_per_axis, n_cp_per_axis))
 
-                    #  # my convention is reverse of the (x, y) convention of
-                    #  # mesh grid, see
-                    #  # https://numpy.org/doc/stable/reference/generated/numpy.meshgrid.html
-                    #  u, t = np.meshgrid(u, t)
-                    #  u, t = u.flatten(), t.flatten()
+                        for i in np.arange(n_cp_per_axis):
+                            for j in np.arange(n_cp_per_axis):
+                                b_i = bp.bernstein_polynomial(i, p_degree, nti)
+                                b_j = bp.bernstein_polynomial(j, p_degree, nti)
+                                bij = np.outer(b_i, b_j)
+
+                                if verbose:
+                                    print(f"bij = {bij}")
+
+                                x += bij * cp_x[Point[i][j]]
+                                y += bij * cp_y[Point[i][j]]
+                                z += bij * cp_z[Point[i][j]]
+                        # my convention is reverse of the (x, y) convention of
+                        # mesh grid, see
+                        # https://numpy.org/doc/stable/reference/generated/numpy.meshgrid.html
+                        u, t = np.meshgrid(u, t)
+                        u, t = u.flatten(), t.flatten()
+
+                        if surface_triangulation:
+                            # triangulate parameter space to determine the triangles, cf
+                            # https://matplotlib.org/3.1.1/gallery/mplot3d/trisurf3d_2.html
+                            tri = mtri.Triangulation(u, t)
+                            ax.plot_trisurf(
+                                x.flatten(),
+                                y.flatten(),
+                                z.flatten(),
+                                triangles=tri.triangles,
+                                alpha=triangulation_alpha,
+                            )
+                            if verbose:
+                                print("Triangulation is complete.")
+
+                    if bezier_type == "solid":
+                        sys.exit(f"bezier_type {bezier_type} not implemented.")
 
                     # ax.scatter3D(x.flatten(), y.flatten(), z.flatten(), color="red")
                     if bezier_points_shown:

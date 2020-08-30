@@ -1,4 +1,5 @@
 {
+    "bezier-type": "surface",
     "data-path": "~/sibl/ptg/data/bezier",
     "control-points": "bezier-biquadratic-control-points.csv",
     "control-points-label": true,

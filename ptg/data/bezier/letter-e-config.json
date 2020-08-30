@@ -1,4 +1,5 @@
 {
+    "bezier-type": "curve",
     "data-path": "~/sibl/ptg/data/bezier",
     "control-points": "letter-e-control-points.csv",
     "control-points-label": true,
