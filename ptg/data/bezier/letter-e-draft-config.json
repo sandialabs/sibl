@@ -1,8 +1,12 @@
 {
+    "bezier-lines-shown": true,
+    "bezier-points-shown": true,
+    "bezier-points-size": 3,
     "bezier-type": "curve",
-    "data-path": "~/sibl/ptg/data/bezier",
-    "control-points": "letter-e-draft-control-points.csv",
-    "control-points-label": true,
+    "#camera-elevation": 85,
+    "camera-elevation": 8,
+    "#camera-azimuth": -15,
+    "camera-azimuth": 10,
     "control-nets": "letter-e-draft-control-nets.csv",
     "control-nets-shown": [
         0,
@@ -18,23 +22,19 @@
         10,
         11
     ],
-    "bezier-points-shown": true,
-    "bezier-points-size": 3,
-    "bezier-lines-shown": true,
+    "control-points": "letter-e-draft-control-points.csv",
+    "control-points-label": true,
+    "data-path": "~/sibl/ptg/data/bezier",
     "nti_divisions": 2,
+    "xlabel": "x (font units)",
     "xlim": [
         -2,
         22
     ],
+    "ylabel": "y (font units)",
     "ylim": [
         -2,
         22
     ],
-    "xlabel": "x (font units)",
-    "ylabel": "y (font units)",
-    "zlabel": "z (font units)",
-    "#camera-elevation": 85,
-    "camera-elevation": 8,
-    "#camera-azimuth": -15,
-    "camera-azimuth": 10
+    "zlabel": "z (font units)"
 }

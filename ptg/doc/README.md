@@ -32,3 +32,6 @@ Pixel To Geometry (PTG) is the process of using stacked 2D image data, composed 
 * [Brain oriented programming](https://tobeva.com/articles/brain-oriented-programming/) limit classes to seven attributes.
 * [Black](https://youtu.be/esZLCuWs_2Y) by Łukasz Langa - Life Is Better Painted Black, or: How to Stop Worrying and Embrace Auto-Formatting
 * [Definitions](definitions.md)
+* Shene, C-K 2011.  [CS3621 Introduction to Computing with Geometry Notes
+Dr. C.-K. Shene](https://pages.mtu.edu/~shene/COURSES/cs3621/NOTES/notes.html)
+* Schultz, Dave yyyy. [Introducing Rhino 6](https://www.linkedin.com/learning/introducing-rhino-6) and [designstudio](https://www.schultzeworks.com) for gallery examples.

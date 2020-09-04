@@ -124,6 +124,7 @@ To come.
 
 ## References
 
+* [Aggarwal, Shashwat](https://medium.com/shashwats-blog/3d-mnist-b922a3d07334) 3D-MNIST Image Classification
 * [Apple TrueType](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM01/Chap1.html) Digitizing Letterform Designs
 * [The Bezier Game](https://bezier.method.ac/)
 * [Design with FontForge](http://designwithfontforge.com/en-US/index.html)

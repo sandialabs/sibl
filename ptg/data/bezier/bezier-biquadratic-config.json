@@ -1,17 +1,21 @@
 {
+    "bezier-points-shown": true,
+    "bezier-points-size": 1,
     "bezier-type": "surface",
-    "data-path": "~/sibl/ptg/data/bezier",
-    "control-points": "bezier-biquadratic-control-points.csv",
-    "control-points-label": false,
-    "control-points-marker": "None",
+    "#camera-elevation": 85,
+    "camera-elevation": 90,
+    "#camera-azimuth": -15,
+    "camera-azimuth": 0,
     "control-nets": "bezier-biquadratic-control-nets.csv",
     "control-nets-shown": [
         0
     ],
-    "control-nets-linewidth": 0,
+    "control-points": "bezier-biquadratic-control-points.csv",
+    "control-points-label": false,
+    "control-points-path": true,
+    "control-points-shown": true,
+    "data-path": "~/sibl/ptg/data/bezier",
     "nti_divisions": 4,
-    "bezier-points-shown": true,
-    "bezier-points-size": 3,
     "surface-triangulation": true,
     "triangulation-alpha": 0.8,
     "xlim": [
@@ -21,9 +25,5 @@
     "ylim": [
         0,
         8
-    ],
-    "#camera-elevation": 85,
-    "camera-elevation": 90,
-    "#camera-azimuth": -15,
-    "camera-azimuth": 0
+    ]
 }

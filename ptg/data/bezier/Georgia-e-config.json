@@ -1,8 +1,12 @@
 {
+    "bezier-lines-shown": true,
+    "bezier-points-shown": true,
+    "bezier-points-size": 3,
     "bezier-type": "curve",
-    "data-path": "~/sibl/ptg/data/bezier",
-    "control-points": "Georgia-e-control-points.csv",
-    "control-points-label": true,
+    "#camera-elevation": 85,
+    "camera-elevation": 0,
+    "#camera-azimuth": -15,
+    "camera-azimuth": 0,
     "control-nets": "Georgia-e-control-nets.csv",
     "control-nets-shown": [
         0,
@@ -17,28 +21,26 @@
         9,
         10
     ],
-    "bezier-points-shown": true,
-    "bezier-points-size": 3,
-    "bezier-lines-shown": true,
-    "triangulation-alpha": 0.8,
+    "control-points": "Georgia-e-control-points.csv",
+    "control-points-label": false, 
+    "control-points-path": true,
+    "control-points-shown": false,
+    "data-path": "~/sibl/ptg/data/bezier",
     "nti_divisions": 3,
+    "triangulation-alpha": 0.8,
+    "xlabel": "x (font units)",
     "xlim": [
         -2,
         600
     ],
+    "ylabel": "y (font units)",
     "ylim": [
         -2,
         600
     ],
+    "zlabel": "z (font units)",
     "zlim": [
         -2,
         600
-    ],
-    "xlabel": "x (font units)",
-    "ylabel": "y (font units)",
-    "zlabel": "z (font units)",
-    "#camera-elevation": 85,
-    "camera-elevation": 0,
-    "#camera-azimuth": -15,
-    "camera-azimuth": 0
+    ]
 }

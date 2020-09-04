@@ -82,10 +82,12 @@ class BezierVis(ABC):
         control_points_label = db.get("control-points-label", False)
         control_points_label_color = db.get("control-points-label-color", "black")
         control_points_marker = db.get("control-points-marker", "^")
+        control_points_path = db.get("control-points-path", False)
+        control_points_shown = db.get("control-points-shown", True)
         control_points_size = db.get("control-points-size", 50)
 
         # draw a specific control net (or nets)
-        control_nets_shown = db.get("control-nets-shown", False)
+        control_nets_shown = db.get("control-nets-shown", [0])
         control_nets_linestyle = db.get("control-nets-linestyle", "dashed")
         control_nets_linewidth = db.get("control-nets-linewidth", 0.8)
 
@@ -181,15 +183,16 @@ class BezierVis(ABC):
         # ax.scatter3D(cp_x, cp_y, cp_z, edgecolor="blue",
         #              facecolor=(0, 0, 0, 0), s=10)
 
-        if control_nets_shown:
-            # example for control_nets_shown
-            # False: show no control nets
-            # [0]: show the first control net
-            # [0, 2]: show the first and third control nets
-            for net in [nets[k] for k in control_nets_shown]:
-                net_x = [cp_x[i] for i in net]
-                net_y = [cp_y[i] for i in net]
-                net_z = [cp_z[i] for i in net]
+        # example for control_nets_shown
+        # [0]: show the first control net
+        # [0, 2]: show the first and third control nets
+        for net in [nets[k] for k in control_nets_shown]:
+
+            net_x = [cp_x[i] for i in net]
+            net_y = [cp_y[i] for i in net]
+            net_z = [cp_z[i] for i in net]
+
+            if control_points_path:
                 ax.plot3D(
                     net_x,
                     net_y,
@@ -199,8 +202,9 @@ class BezierVis(ABC):
                     linewidth=control_nets_linewidth,
                 )
 
-                if control_points_label:
-                    for i, cp_index in enumerate(net):
+            if control_points_label or control_points_shown:
+                for i, cp_index in enumerate(net):
+                    if control_points_shown:
                         ax.scatter3D(
                             net_x[i],
                             net_y[i],
@@ -210,6 +214,7 @@ class BezierVis(ABC):
                             marker=control_points_marker,
                             s=control_points_size,
                         )
+                    if control_points_label:
                         ax.text(
                             net_x[i],
                             net_y[i],
@@ -217,127 +222,115 @@ class BezierVis(ABC):
                             str(cp_index),
                             color=control_points_label_color,
                         )
+                    if verbose:
+                        print(f"control net node {i} is control point {cp_index}")
+
+            if bezier_points_shown or bezier_lines_shown:
+                x, y, z = (0.0, 0.0, 0.0)
+
+                # assumes number of control points same along each axis
+                # for either 2D (or 3D, to come); 2D uses square root
+                # and 3D will use cube root
+                # n_cp_per_axis = int(np.sqrt(len(net)))
+                # 1D case:
+                if bezier_type == "curve":
+                    n_cp_per_axis = len(net)
+
+                elif bezier_type == "surface":
+                    n_cp_per_axis = int(np.sqrt(len(net)))
+
+                elif bezier_type == "solid":
+                    n_cp_per_axis = int(np.cbrt(len(net)))
+
+                p_degree = n_cp_per_axis - 1  # polynomial degree
+                # nti = 2  # segment [0, 1] into nti intervals
+                # nti = 2**4  # segment [0, 1] into nti intervals
+
+                # segment [0, 1] into nti intervals
+                nti = 2 ** nti_divisions
+
+                # curve, surface, or solid
+                t = np.linspace(0, 1, num=nti + 1, endpoint=True)
+
+                # surface or solid
+                u = np.linspace(0, 1, num=nti + 1, endpoint=True)
+
+                # solid
+                # v = np.linspace(0, 1, num=nti + 1, endpoint=True)
+
+                if bezier_type == "curve":
+
+                    Point = net
+
+                    for i in np.arange(n_cp_per_axis):
+                        b_i = bp.bernstein_polynomial(i, p_degree, nti)
+
                         if verbose:
-                            print(f"net node {i} is control point {cp_index}")
+                            print(f"b{i} = {b_i}")
 
-                if bezier_points_shown or bezier_lines_shown:
-                    x, y, z = (0.0, 0.0, 0.0)
+                        x += b_i * cp_x[Point[i]]
+                        y += b_i * cp_y[Point[i]]
+                        z += b_i * cp_z[Point[i]]
 
-                    # assumes number of control points same along each axis
-                    # for either 2D (or 3D, to come); 2D uses square root
-                    # and 3D will use cube root
-                    # n_cp_per_axis = int(np.sqrt(len(net)))
-                    # 1D case:
-                    if bezier_type == "curve":
-                        n_cp_per_axis = len(net)
+                if bezier_type == "surface":
 
-                    elif bezier_type == "surface":
-                        n_cp_per_axis = int(np.sqrt(len(net)))
+                    Point = np.reshape(net, (n_cp_per_axis, n_cp_per_axis))
 
-                    elif bezier_type == "solid":
-                        n_cp_per_axis = int(np.cbrt(len(net)))
-
-                    p_degree = n_cp_per_axis - 1  # polynomial degree
-                    # nti = 2  # segment [0, 1] into nti intervals
-                    # nti = 2**4  # segment [0, 1] into nti intervals
-
-                    # segment [0, 1] into nti intervals
-                    nti = 2 ** nti_divisions
-
-                    # curve, surface, or solid
-                    t = np.linspace(0, 1, num=nti + 1, endpoint=True)
-
-                    # surface or solid
-                    u = np.linspace(0, 1, num=nti + 1, endpoint=True)
-
-                    # solid
-                    # v = np.linspace(0, 1, num=nti + 1, endpoint=True)
-
-                    if bezier_type == "curve":
-
-                        Point = net
-
-                        for i in np.arange(n_cp_per_axis):
+                    for i in np.arange(n_cp_per_axis):
+                        for j in np.arange(n_cp_per_axis):
                             b_i = bp.bernstein_polynomial(i, p_degree, nti)
+                            b_j = bp.bernstein_polynomial(j, p_degree, nti)
+                            bij = np.outer(b_i, b_j)
 
                             if verbose:
-                                print(f"b{i} = {b_i}")
+                                print(f"bij = {bij}")
 
-                            x += b_i * cp_x[Point[i]]
-                            y += b_i * cp_y[Point[i]]
-                            z += b_i * cp_z[Point[i]]
+                            x += bij * cp_x[Point[i][j]]
+                            y += bij * cp_y[Point[i][j]]
+                            z += bij * cp_z[Point[i][j]]
 
-                    if bezier_type == "surface":
+                    # my convention is reverse of the (x, y) convention of
+                    # mesh grid, see
+                    # https://numpy.org/doc/stable/reference/generated/numpy.meshgrid.html
+                    u, t = np.meshgrid(u, t)
+                    u, t = u.flatten(), t.flatten()
 
-                        Point = np.reshape(net, (n_cp_per_axis, n_cp_per_axis))
-
-                        for i in np.arange(n_cp_per_axis):
-                            for j in np.arange(n_cp_per_axis):
-                                b_i = bp.bernstein_polynomial(i, p_degree, nti)
-                                b_j = bp.bernstein_polynomial(j, p_degree, nti)
-                                bij = np.outer(b_i, b_j)
-
-                                if verbose:
-                                    print(f"bij = {bij}")
-
-                                x += bij * cp_x[Point[i][j]]
-                                y += bij * cp_y[Point[i][j]]
-                                z += bij * cp_z[Point[i][j]]
-
-                        # my convention is reverse of the (x, y) convention of
-                        # mesh grid, see
-                        # https://numpy.org/doc/stable/reference/generated/numpy.meshgrid.html
-                        u, t = np.meshgrid(u, t)
-                        u, t = u.flatten(), t.flatten()
-
-                        # triangulate parameter space,
-                        # determine the triangles, cf
-                        # https://matplotlib.org/3.1.1/gallery/mplot3d/trisurf3d_2.html
-                        if surface_triangulation:
-                            tri = mtri.Triangulation(u, t)
-                            ax.plot_trisurf(
-                                x.flatten(),
-                                y.flatten(),
-                                z.flatten(),
-                                triangles=tri.triangles,
-                                alpha=triangulation_alpha,
-                            )
-                            if verbose:
-                                print("Triangulation is complete.")
-
-                    if bezier_type == "solid":
-                        sys.exit(f"bezier_type {bezier_type} not implemented.")
-
-                    if bezier_points_shown:
-                        ax.scatter3D(
+                    # triangulate parameter space,
+                    # determine the triangles, cf
+                    # https://matplotlib.org/3.1.1/gallery/mplot3d/trisurf3d_2.html
+                    if surface_triangulation:
+                        tri = mtri.Triangulation(u, t)
+                        ax.plot_trisurf(
                             x.flatten(),
                             y.flatten(),
                             z.flatten(),
-                            color=bezier_points_color,
-                            s=bezier_points_size,
+                            triangles=tri.triangles,
+                            alpha=triangulation_alpha,
                         )
+                        if verbose:
+                            print("Triangulation is complete.")
 
-                    if bezier_lines_shown:
-                        ax.plot(
-                            x.flatten(),
-                            y.flatten(),
-                            z.flatten(),
-                            color=bezier_lines_color,
-                            linewidth=bezier_linewidth,
-                        )
+                if bezier_type == "solid":
+                    sys.exit(f"bezier_type {bezier_type} not implemented.")
 
-        else:
-            # no specific control nets specified,
-            # default is just to show all control points
-            ax.scatter3D(
-                cp_x,
-                cp_y,
-                cp_z,
-                edgecolor=control_points_color,
-                facecolor=(0, 0, 0, 0),
-                marker="^",
-                s=control_points_size,
-            )
+                if bezier_points_shown:
+                    ax.scatter3D(
+                        x.flatten(),
+                        y.flatten(),
+                        z.flatten(),
+                        color=bezier_points_color,
+                        s=bezier_points_size,
+                    )
+
+                if bezier_lines_shown:
+                    ax.plot(
+                        x.flatten(),
+                        y.flatten(),
+                        z.flatten(),
+                        color=bezier_lines_color,
+                        linewidth=bezier_linewidth,
+                    )
+
 
         ax.set_xlabel(xlabel)
         ax.set_ylabel(ylabel)
