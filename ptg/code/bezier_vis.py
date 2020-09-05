@@ -256,7 +256,7 @@ class BezierVis(ABC):
                 u = np.linspace(0, 1, num=nti + 1, endpoint=True)
 
                 # solid
-                # v = np.linspace(0, 1, num=nti + 1, endpoint=True)
+                v = np.linspace(0, 1, num=nti + 1, endpoint=True)
 
                 if bezier_type == "curve":
 
@@ -311,7 +311,25 @@ class BezierVis(ABC):
                             print("Triangulation is complete.")
 
                 if bezier_type == "solid":
-                    sys.exit(f"bezier_type {bezier_type} not implemented.")
+                    # sys.exit(f"bezier_type {bezier_type} not implemented.")
+
+                    Point = np.reshape(net, (n_cp_per_axis, n_cp_per_axis, n_cp_per_axis))
+
+                    for i in np.arange(n_cp_per_axis):
+                        for j in np.arange(n_cp_per_axis):
+                            for k in np.arange(n_cp_per_axis):
+                                b_i = bp.bernstein_polynomial(i, p_degree, nti)
+                                b_j = bp.bernstein_polynomial(j, p_degree, nti)
+                                b_k = bp.bernstein_polynomial(k, p_degree, nti)
+                                bjk = np.outer(b_j, b_k)
+                                bijk = np.reshape(np.outer(b_i, bjk), (len(b_i), len(b_j), len(b_k)))
+    
+                                if verbose:
+                                    print(f"bijk = {bijk}")
+    
+                                x += bijk * cp_x[Point[i][j][k]]
+                                y += bijk * cp_y[Point[i][j][k]]
+                                z += bijk * cp_z[Point[i][j][k]]
 
                 if bezier_points_shown:
                     ax.scatter3D(

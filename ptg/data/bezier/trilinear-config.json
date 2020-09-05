@@ -1,22 +1,22 @@
 {
     "bezier-points-shown": true,
     "bezier-points-size": 3,
-    "bezier-type": "surface",
+    "bezier-type": "solid",
     "#camera-elevation": 85,
     "camera-elevation": 90,
     "#camera-azimuth": -15,
     "camera-azimuth": 0,
-    "control-nets": "bilinear-control-nets.csv",
+    "control-nets": "trilinear-control-nets.csv",
     "control-nets-shown": [
         0
     ],
-    "control-points": "bilinear-control-points.csv",
+    "control-points": "trilinear-control-points.csv",
     "control-points-label": true,
     "control-points-path": true,
     "control-points-shown": true,
     "data-path": "~/sibl/ptg/data/bezier",
-    "nti_divisions": 1,
-    "surface-triangulation": true,
+    "nti_divisions": 4,
+    "surface-triangulation": false,
     "triangulation-alpha": 0.8,
     "xlim": [
         0,
