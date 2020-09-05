@@ -106,9 +106,14 @@ class BezierVis(ABC):
         bezier_lines_color = db.get("bezier-lines-color", "black")
         bezier_linewidth = db.get("bezier-linewidth", 1.0)
 
-        if bezier_type == "surface":
-            surface_triangulation = db.get("surface-triangulation", True)
-            triangulation_alpha = db.get("triangulation-alpha", 1.0)
+        surface_triangulation = db.get("surface-triangulation", False) # surface
+        surface_t0_uv_triangulation = db.get("surface-t0-uv-triangulation", False) # solid
+        surface_t1_uv_triangulation = db.get("surface-t1-uv-triangulation", False) # solid
+        surface_u0_vt_triangulation = db.get("surface-u0-vt-triangulation", False) # solid
+        surface_u1_vt_triangulation = db.get("surface-u1-vt-triangulation", False) # solid
+        surface_v0_tu_triangulation = db.get("surface-v0-tu-triangulation", False) # solid
+        surface_v1_tu_triangulation = db.get("surface-v1-tu-triangulation", False) # solid
+        triangulation_alpha = db.get("triangulation-alpha", 1.0) # surface or solid
 
         xlabel = db.get("xlabel", "x")
         ylabel = db.get("ylabel", "y")
@@ -289,16 +294,17 @@ class BezierVis(ABC):
                             y += bij * cp_y[Point[i][j]]
                             z += bij * cp_z[Point[i][j]]
 
-                    # my convention is reverse of the (x, y) convention of
-                    # mesh grid, see
-                    # https://numpy.org/doc/stable/reference/generated/numpy.meshgrid.html
-                    u, t = np.meshgrid(u, t)
-                    u, t = u.flatten(), t.flatten()
-
                     # triangulate parameter space,
                     # determine the triangles, cf
                     # https://matplotlib.org/3.1.1/gallery/mplot3d/trisurf3d_2.html
                     if surface_triangulation:
+
+                        # convention here is reverse of the (x, y) convention of
+                        # mesh grid, see
+                        # https://numpy.org/doc/stable/reference/generated/numpy.meshgrid.html
+                        u, t = np.meshgrid(u, t)
+                        u, t = u.flatten(), t.flatten()
+
                         tri = mtri.Triangulation(u, t)
                         ax.plot_trisurf(
                             x.flatten(),
@@ -311,7 +317,6 @@ class BezierVis(ABC):
                             print("Triangulation is complete.")
 
                 if bezier_type == "solid":
-                    # sys.exit(f"bezier_type {bezier_type} not implemented.")
 
                     Point = np.reshape(net, (n_cp_per_axis, n_cp_per_axis, n_cp_per_axis))
 
@@ -330,6 +335,55 @@ class BezierVis(ABC):
                                 x += bijk * cp_x[Point[i][j][k]]
                                 y += bijk * cp_y[Point[i][j][k]]
                                 z += bijk * cp_z[Point[i][j][k]]
+
+                    if surface_t0_uv_triangulation or surface_t1_uv_triangulation or surface_u0_vt_triangulation or surface_u1_vt_triangulation:
+
+                        # convention here is reverse of the (x, y) convention of
+                        # mesh grid, see
+                        # https://numpy.org/doc/stable/reference/generated/numpy.meshgrid.html
+                        u, t = np.meshgrid(u, t)
+                        u, t = u.flatten(), t.flatten()
+
+                        tri = mtri.Triangulation(u, t)
+
+                        if surface_t0_uv_triangulation:
+                            ax.plot_trisurf(
+                                x[0].flatten(),
+                                y[0].flatten(),
+                                z[0].flatten(),
+                                triangles=tri.triangles,
+                                alpha=triangulation_alpha,
+                            )
+
+                        if surface_t1_uv_triangulation:
+                            ax.plot_trisurf(
+                                x[-1].flatten(),
+                                y[-1].flatten(),
+                                z[-1].flatten(),
+                                triangles=tri.triangles,
+                                alpha=triangulation_alpha,
+                            )
+
+                        if surface_u0_vt_triangulation:
+                            ax.plot_trisurf(
+                                x[:,0].flatten(),
+                                y[:,0].flatten(),
+                                z[:,0].flatten(),
+                                triangles=tri.triangles,
+                                alpha=triangulation_alpha,
+                            )
+
+                        if surface_u1_vt_triangulation:
+                            ax.plot_trisurf(
+                                x[:,-1].flatten(),
+                                y[:,-1].flatten(),
+                                z[:,-1].flatten(),
+                                triangles=tri.triangles,
+                                alpha=triangulation_alpha,
+                            )
+
+                        if verbose:
+                            print("Triangulation is complete.")
 
                 if bezier_points_shown:
                     ax.scatter3D(
