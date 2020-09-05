@@ -336,7 +336,7 @@ class BezierVis(ABC):
                                 y += bijk * cp_y[Point[i][j][k]]
                                 z += bijk * cp_z[Point[i][j][k]]
 
-                    if surface_t0_uv_triangulation or surface_t1_uv_triangulation or surface_u0_vt_triangulation or surface_u1_vt_triangulation:
+                    if surface_t0_uv_triangulation or surface_t1_uv_triangulation or surface_u0_vt_triangulation or surface_u1_vt_triangulation or surface_v0_tu_triangulation or surface_v1_tu_triangulation:
 
                         # convention here is reverse of the (x, y) convention of
                         # mesh grid, see
@@ -378,6 +378,24 @@ class BezierVis(ABC):
                                 x[:,-1].flatten(),
                                 y[:,-1].flatten(),
                                 z[:,-1].flatten(),
+                                triangles=tri.triangles,
+                                alpha=triangulation_alpha,
+                            )
+
+                        if surface_v0_tu_triangulation:
+                            ax.plot_trisurf(
+                                x[:,:,0].flatten(),
+                                y[:,:,0].flatten(),
+                                z[:,:,0].flatten(),
+                                triangles=tri.triangles,
+                                alpha=triangulation_alpha,
+                            )
+
+                        if surface_v1_tu_triangulation:
+                            ax.plot_trisurf(
+                                x[:,:,-1].flatten(),
+                                y[:,:,-1].flatten(),
+                                z[:,:,-1].flatten(),
                                 triangles=tri.triangles,
                                 alpha=triangulation_alpha,
                             )

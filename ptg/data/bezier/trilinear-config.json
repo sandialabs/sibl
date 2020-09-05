@@ -21,8 +21,8 @@
     "surface-t1-uv-triangulation": false,
     "surface-u0-vt-triangulation": true,
     "surface-u1-vt-triangulation": false,
-    "surface-v0-tu-triangulation": true,
-    "surface-v1-tu-triangulation": false,
+    "surface-v0-tu-triangulation": false,
+    "surface-v1-tu-triangulation": true,
     "triangulation-alpha": 0.5,
     "xlim": [
         -1,
