@@ -260,8 +260,8 @@ class BezierVis(ABC):
                 # surface or solid
                 u = np.linspace(0, 1, num=nti + 1, endpoint=True)
 
-                # solid
-                v = np.linspace(0, 1, num=nti + 1, endpoint=True)
+                # solid, won't use b/c solid triangulation will be 8 surface triangulations
+                # v = np.linspace(0, 1, num=nti + 1, endpoint=True)
 
                 if bezier_type == "curve":
 
