@@ -144,8 +144,8 @@ class BezierVis(ABC):
         data_type_delimiter = ","
         n_headers = 0  # no headers in the csv files
 
-        # avoid "magic" numbers appears later in code
-        idx, idy, idz = (0, 1, 2)  # column numbers from .csv file
+        # avoid "magic" numbers, assign (0, 1, 2) to variables
+        idx, idy, idz = (0, 1, 2)  # column indices from .csv file
 
         with open(cp_path_file) as fin:
             data = np.genfromtxt(
@@ -353,7 +353,7 @@ class BezierVis(ABC):
 def main(argv):
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("config_file", help=".json 3D solid specification")
+    parser.add_argument("config_file", help=".json 3D curve, surface, solid specification")
 
     parser.add_argument(
         "--verbose", help="increased command line feedback", action="store_true"

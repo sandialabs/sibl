@@ -6,11 +6,11 @@
     "camera-elevation": 90,
     "#camera-azimuth": -15,
     "camera-azimuth": 0,
-    "control-nets": "bezier-bilinear-control-nets.csv",
+    "control-nets": "bilinear-control-nets.csv",
     "control-nets-shown": [
         0
     ],
-    "control-points": "bezier-bilinear-control-points.csv",
+    "control-points": "bilinear-control-points.csv",
     "control-points-label": false,
     "control-points-path": true,
     "control-points-shown": false,
