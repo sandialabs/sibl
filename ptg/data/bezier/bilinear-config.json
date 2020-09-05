@@ -1,4 +1,5 @@
 {
+    "bezier-lines-shown": true,
     "bezier-points-shown": true,
     "bezier-points-size": 3,
     "bezier-type": "surface",
@@ -17,13 +18,17 @@
     "data-path": "~/sibl/ptg/data/bezier",
     "nti_divisions": 1,
     "surface-triangulation": true,
-    "triangulation-alpha": 0.8,
+    "triangulation-alpha": 0.5,
     "xlim": [
         0,
         10
     ],
     "ylim": [
         0,
-        8
+        10
+    ],
+    "zlim": [
+        0,
+        10
     ]
 }

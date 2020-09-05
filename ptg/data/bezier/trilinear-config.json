@@ -1,4 +1,5 @@
 {
+    "bezier-lines-shown": true,
     "bezier-points-shown": true,
     "bezier-points-size": 3,
     "bezier-type": "solid",
@@ -15,15 +16,24 @@
     "control-points-path": true,
     "control-points-shown": true,
     "data-path": "~/sibl/ptg/data/bezier",
-    "nti_divisions": 4,
-    "surface-triangulation": false,
-    "triangulation-alpha": 0.8,
+    "nti_divisions": 1,
+    "surface-t0-uv-triangulation": true,
+    "surface-t1-uv-triangulation": false,
+    "surface-u0-vt-triangulation": true,
+    "surface-u1-vt-triangulation": false,
+    "surface-v0-tu-triangulation": true,
+    "surface-v1-tu-triangulation": false,
+    "triangulation-alpha": 0.5,
     "xlim": [
-        0,
-        10
+        -1,
+        11
     ],
     "ylim": [
-        0,
-        8
+        -1,
+        11
+    ],
+    "zlim": [
+        -1,
+        11
     ]
 }
