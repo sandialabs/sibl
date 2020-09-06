@@ -6,10 +6,12 @@
 
 ## Methods
 
-![triquad-001](../doc/fig/triquad-001.png)
+<img src="fig/triquad-001.png" alt="triquad-001" width="300"/>
+
 Figure: Surface ordering of contronl points for bilinear face.
 
-![triquad-002](../doc/fig/triquad-002.png)
+<img src="fig/triquad-002.png" alt="triquad-002" width="300"/>
+
 Figure: Slice build up in x-direction, each slice is parameterized in (y, z) for a given x.  
 
 Order | Index 
@@ -18,10 +20,12 @@ Major | x
 Middle | y
 Minor | z
 
-![triquad-003](../doc/fig/triquad-003.png)
+<img src="fig/triquad-003.png" alt="triquad-003" width="300"/>
+
 Figure: Control point amplification in second and third slice (first slice remains unchanged from prior figure);  x0 face shown in blue, x1 face shown in orange.  
 
-![triquad-004](../doc/fig/triquad-004.png)
+<img src="fig/triquad-004.png" alt="triquad-004" width="500"/>
+
 Figure: Excerpt of B-spline control points used by Hughes (see [References](#references) below). Used as inspiration for present Bezier control points. 
 
 ### Triquadratic Bezier
@@ -35,22 +39,28 @@ Figure: Excerpt of B-spline control points used by Hughes (see [References](#ref
 
 ## Results
 
-![triquad-005](../doc/fig/triquad-005.png)
+<img src="fig/triquad-005.png" alt="triquad-005" width="300"/>
+
 Figure: Control points.
 
-![triquad-006](../doc/fig/triquad-006.png)
+<img src="fig/triquad-006.png" alt="triquad-006" width="300"/>
+
 Figure: Control nets (only one net is required and thus shown).
 
-![triquad-007](../doc/fig/triquad-007.png)
+<img src="fig/triquad-007.png" alt="triquad-007" width="300"/>
+
 Figure: Bezier points (blue) with control points (red).
 
-![triquad-008](../doc/fig/triquad-008.png)
+<img src="fig/triquad-008.png" alt="triquad-008" width="300"/>
+
 Figure: Triangulated surface of six faces on Bezier solid, with Bezier solid points (blue).
 
-![triquad-009](../doc/fig/triquad-009.png)
+<img src="fig/triquad-009.png" alt="triquad-009" width="300"/>
+
 Figure: Bezier solid with control points (red).
 
-![triquad-010](../doc/fig/triquad-010.png)
+<img src="fig/triquad-010.png" alt="triquad-010" width="300"/>
+
 Figure: Bezier solid (top view) with control points (red triangles).
 
 ## References
