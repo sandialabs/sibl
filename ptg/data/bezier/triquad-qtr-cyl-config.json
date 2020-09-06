@@ -1,10 +1,10 @@
 {
     "bezier-lines-shown": false,
     "bezier-points-shown": true,
-    "bezier-points-size": 0,
+    "bezier-points-size": 0.0,
     "bezier-type": "solid",
-    "camera-elevation": 90,
-    "camera-azimuth": -90,
+    "camera-elevation": 20,
+    "camera-azimuth": -120,
     "control-nets": "triquad-qtr-cyl-control-nets.csv",
     "control-nets-shown": [
         0
@@ -21,7 +21,7 @@
     "surface-u1-vt-triangulation": true,
     "surface-v0-tu-triangulation": true,
     "surface-v1-tu-triangulation": true,
-    "triangulation-alpha": 0.9,
+    "triangulation-alpha": 1.0,
     "xlim": [
         0,
         5

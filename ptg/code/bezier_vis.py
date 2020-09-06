@@ -426,6 +426,15 @@ class BezierVis(ABC):
         ax.set_ylabel(ylabel)
         ax.set_zlabel(zlabel)
 
+        # fix coming in matplotlib 3.3.1 (current stable version is 3.2.2)
+        # https://github.com/matplotlib/matplotlib/pull/17515
+        # ax.set_box_aspect([1, 1, 1])
+        # ax.set_proj_type('ortho') # optional - default is perspective (shown in image above)
+        # set_axes_equal(ax) # IMPORTANT - this is also required
+        fig = plt.gcf()
+        fig.set_size_inches(5, 5)
+        # ax.set_box_aspect(1)
+
         if xlim:
             ax.set_xlim(xlim)
 
