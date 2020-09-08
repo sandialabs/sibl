@@ -17,7 +17,7 @@
 (base) $ conda env remove --name sibltest
 (base) $ conda env list
 (base) $ conda update -n base -c defaults conda
-(base) $ conda create --name siblenv python=3.8 scipy matplotlib pandas pillow dash xlrd pytest flake8 seaborn black
+(base) $ conda create --name siblenv python=3.8 scipy matplotlib pandas pillow dash xlrd pytest flake8 seaborn black ipykernel
 (base) $ conda activate siblenv
 (siblenv) $ pip install xyfigure
 ```
@@ -51,10 +51,9 @@ dependencies:
 prefix: /Users/Apollo/opt/anaconda3/envs/siblenv
 ```
 
-
 ## Client setup
 
-### 
+### First Install
 
 Clients should create their conda virtual environment from the above server-generated [environment.yml](environment.yml) file using the following commands
 
@@ -65,6 +64,19 @@ Clients should create their conda virtual environment from the above server-gene
 (siblenv) $
 ```
 
+## Subsequent Installs (Updates)
+
+Update current install to the latest version:
+
+```bash
+(siblenv) $ pip install xyfigure --upgrade
+```
+
+To install a specific version, e.g., version `0.0.5`:
+
+```bash
+(siblenv) $ pip install --user xyfigure==0.0.5
+```
 
 
 ## References

@@ -30,15 +30,13 @@ There are two workflows: Client and Developer
 | **Client** | **Developer**  |
 |---|---|
 | *"I just want to use the library, I don't want to develop the library."* | *"I want to use the library and develop the library."* | 
-| Follow the [Client Workflow](https://github.com/sandialabs/sibl#client-workflow) | Follow the [Developer Workflow](https://github.com/sandialabs/sibl#developer-workflow) | 
 | Follow the [Client Workflow](#client-workflow) | Follow the [Developer Workflow](#developer-workflow) | 
 
 ## Client Workflow
 
 ### Setup with conda environment
 
-* See the [Client setup](https://github.com/sandialabs/sibl/blob/master/resources/environment.md#client-setup)
-
+* See the [Client setup](resources/environment.md#client-setup)
 
 ### Historical setup, with pip, now deprecated
 

@@ -1,5 +1,5 @@
-# `xyfigure` Examples
+# `xyfigure`
 
-* [Getting Started](../io/xyfigure_example/README.md)
-* [Documentation](documentation.md)
-* [Tests](test/README.md)
+* [Getting Started](../io/example/README.md)
+* [Documentation](../code/documentation.md)
+* [Tests](../code/test/README.md)

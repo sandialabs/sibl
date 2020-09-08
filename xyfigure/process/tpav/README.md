@@ -27,7 +27,7 @@ The three-point angular velocity (tpav) algorithm is applied to a mildly deforma
 * [client.py](client.py) use:
 
 ```bash
-(base) [apollo ~/sibl/process/tpav]$ python client.py --help
+(siblenv) [~/sibl/xyfigure/process/tpav]$ python client.py --help
 usage: client.py [-h] [--verbose] history history_to_tpav
 
 positional arguments:
@@ -46,7 +46,7 @@ optional arguments:
 * [tpav_postpro.json](tpav_postpro.json) is used by XYFigure to post-process the rigid body reference and tpav deformable body output:
 
 ```bash
-(base) [apollo ~/sibl/process/tpav]$ python ../../xyfigure/client.py tpav_postpro.json 
+(siblenv) [~/sibl/xyfigure/process/tpav]$ python ../../code/client.py tpav_postpro.json 
 ```
 
 ![img](output/rigid_angle_v_time.svg)
