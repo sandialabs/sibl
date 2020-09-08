@@ -15,7 +15,8 @@ For more information, see our [website](http://www.sandia.gov/biomechanics/).
 [![coverage](https://img.shields.io/badge/coverage-73%25-yellow.svg)](https://github.com/sandialabs/sibl/tree/master/htmlcov/index.html)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-* [xyfigure](https://github.com/sandialabs/sibl/tree/master/xyfigure/code/README.md)
+* [xyfigure](https://github.com/sandialabs/sibl/tree/master/xyfigure/doc/README.md)
+* [xyfigure](xyfigure/doc/README.md)
 * [tpav](https://github.com/sandialabs/sibl/tree/master/xyfigure/process/tpav/README.md)
 
 ## Prerequisites
