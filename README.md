@@ -4,7 +4,7 @@
 
 The Sandia Injury Biomechanics Laboratory analyzes injury due to blast, ballistics, and blunt trauma to help the nation protect the U.S. warfighter. Our contributions to the science of injury causation and prevention aim to significantly reduce the U.S. warfighter's exposure to serious, severe, and fatal injuries.
 
-For more information, see our [website](http://www.sandia.gov/biomechanics/).
+For more information, see our [website](https://www.sandia.gov/biomechanics/).
 
 ## Library 
 
@@ -15,9 +15,8 @@ For more information, see our [website](http://www.sandia.gov/biomechanics/).
 [![coverage](https://img.shields.io/badge/coverage-73%25-yellow.svg)](https://github.com/sandialabs/sibl/tree/master/htmlcov/index.html)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-* [xyfigure](https://github.com/sandialabs/sibl/tree/master/xyfigure/doc/README.md)
 * [xyfigure](xyfigure/doc/README.md)
-* [tpav](https://github.com/sandialabs/sibl/tree/master/xyfigure/process/tpav/README.md)
+* [tpav](xyfigure/process/tpav/README.md)
 
 ## Prerequisites
 
@@ -32,6 +31,7 @@ There are two workflows: Client and Developer
 |---|---|
 | *"I just want to use the library, I don't want to develop the library."* | *"I want to use the library and develop the library."* | 
 | Follow the [Client Workflow](https://github.com/sandialabs/sibl#client-workflow) | Follow the [Developer Workflow](https://github.com/sandialabs/sibl#developer-workflow) | 
+| Follow the [Client Workflow](#client-workflow) | Follow the [Developer Workflow](#developer-workflow) | 
 
 ## Client Workflow
 
