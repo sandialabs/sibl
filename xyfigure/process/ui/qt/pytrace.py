@@ -1,4 +1,5 @@
 # PyTrace
+import json
 import sys
 import xml
 from pathlib import Path  # stop using os.path, use pathlib instead
@@ -122,10 +123,69 @@ class Widget(QWidget):
         else:
             self.log.appendPlainText(f"Model update from file: {path_file_new}")
             try:
-                with open(path_file_new, "rt") as fin:
-                    new_data = np.genfromtxt(
-                        fin, dtype="float", delimiter=",", skip_header=1, usecols=(0, 1)
-                    ).tolist()
+                with open(path_file_new) as fin:
+                    if path_file_new.suffix == ".json":
+                        db = json.load(fin)
+                        config_schema = [
+                            "class",
+                            "cal-path",
+                            "cal-file",
+                            "dat-path",
+                            "dat-file",
+                        ]
+                        keys_present = 0
+                        # check .json input schema
+                        for kw in config_schema:
+                            key = db.get(kw, None)
+                            if not key:
+                                self.log.appendPlainText(
+                                    f"Error: keyword '{kw}' not found in the .json config file."
+                                )
+                            else:
+                                keys_present += 1
+
+                        files_and_folders_exist = False
+
+                        cal_path = db.get("cal-path")
+                        cal_path_expanded = Path(cal_path).expanduser()
+                        cal_file = db.get("cal-file")
+
+                        dat_path = db.get("dat-path")
+                        dat_path_expanded = Path(dat_path).expanduser()
+                        dat_file = db.get("dat-file")
+
+                        if (
+                            Path(cal_path_expanded).is_dir()
+                            and Path(cal_path_expanded).joinpath(cal_file).is_file()
+                            and Path(dat_path_expanded).is_dir()
+                            and Path(dat_path_expanded).joinpath(dat_file).is_file()
+                        ):
+                            files_and_folders_exist = True
+                        else:
+                            raise ValueError("Invalid cal or dat paths or files.")
+
+                        if (
+                            keys_present == len(config_schema)
+                            and files_and_folders_exist
+                        ):
+                            # all keys are present
+                            new_data = [
+                                [0.0, 1.0],
+                                [1.0, 2.0],
+                                [2.0, 4.0],
+                                [3.0, 0.5],
+                            ]
+                        else:
+                            raise ValueError(".json I/O error.")
+
+                    else:  # then assume ".csv"
+                        new_data = np.genfromtxt(
+                            fin,
+                            dtype="float",
+                            delimiter=",",
+                            skip_header=1,
+                            usecols=(0, 1),
+                        ).tolist()
                     self.models.append(new_data)
 
                 self.files.append(path_file_new)
