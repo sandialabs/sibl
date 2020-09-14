@@ -66,14 +66,21 @@
 
 The `setHmtl` method of [QWebEngineView](https://doc.qt.io/qtforpython/PySide2/QtWebEngineWidgets/QWebEngineView.html#PySide2.QtWebEngineWidgets.PySide2.QtWebEngineWidgets.QWebEngineView.setHtml) expects a unicode parameter, which is encouraging, since I was previously feeding it a bytes object.
 
-
 ## 2020-06-17 Move from PySide2 to PyQt5 back to PySide2
 
 *Return to PySide2 because of end-of-day discovery (see below)*
-
 * PySide2 is newer but with identical API to PyQt, which is still supported, and been widely tested and proven over time.
 
-### References
+## 2020-06-16 Integration
+
+Integration of the following components:
+
+* Application layer: [Qt for Python](https://doc.qt.io/qtforpython/)
+* Plotting interface: [Toyplot](https://toyplot.readthedocs.io/en/stable/index.html)
+* Data post-processing: [xyfigure](https://github.com/sandialabs/sibl)
+* Hex to csv: historical Penetrace development refactor
+
+## References
 
 * [PyQt5 versus PySide2](https://www.learnpyqt.com/blog/pyqt5-vs-pyside2/)
 * [PyPi install of PyQt5 5.15.0 by Phil Thompson](https://pypi.org/project/PyQt5/), version 5.15.0 was released 2020-05-31.
@@ -82,7 +89,7 @@ The `setHmtl` method of [QWebEngineView](https://doc.qt.io/qtforpython/PySide2/Q
 * [PyQt5 examples 2020](https://github.com/pyqt/examples)
 * [Qt for Python documentation 5.15.0](https://doc.qt.io/qtforpython/)
 
-### Notes
+## Notes
 
 Set up a virtual environment and install:
 
@@ -149,7 +156,7 @@ $ conda activate ui
 (ui) $ pip install toyplot  # installed version 0.19.0 
 ```
 
-## 2020-06-16
+## 2020-06-16 (continued from [above](#2020-06-16-integration))
 
 Set up a virtual environment and install:
 
