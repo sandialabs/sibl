@@ -7,7 +7,7 @@
 ## Development
 
 * Front end [development notes](front_end.md)
-* Back end development notes (possibly to come)
+* Back end development notes (see GitLab)
 
 ## History
 
