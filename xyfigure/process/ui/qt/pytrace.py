@@ -55,7 +55,7 @@ class Widget(QWidget):
         self.path_file_current = None
         # self.path_file_default = Path.joinpath(cwd, 'test_1234_quadratic.csv')
         # self.path_file_default = Path.joinpath(cwd, 'welcome.csv')
-        self.path_file_default = Path.joinpath(self.data_path, "welcome.csv")
+        self.path_file_default = Path.joinpath(self.data_path, "test-000-welcome.csv")
         self._index_x = 0
         self._index_y = 1
 
@@ -124,13 +124,13 @@ class Widget(QWidget):
             try:
                 with open(path_file_new, "rt") as fin:
                     new_data = np.genfromtxt(
-                        fin, dtype="float", delimiter=",", skip_header=0, usecols=(0, 1)
+                        fin, dtype="float", delimiter=",", skip_header=1, usecols=(0, 1)
                     ).tolist()
                     self.models.append(new_data)
 
                 self.files.append(path_file_new)
                 self.combo_box_add(str(path_file_new))
-                # self.plot_update()  # now trigger from combobox currentIndexChanged
+                # self.plot_update()  # trigger from combobox currentIndexChanged
             except ValueError as error:
                 # print(f'Error: {error}')
                 # print(f'Unable to open file: {path_file_new}')
@@ -221,78 +221,6 @@ class MainWindow(QMainWindow):
     @Slot()
     def quit_app(self, checked):
         QApplication.quit()
-
-
-#         self.textEdit = QPlainTextEdit()
-#         self.setCentralWidget(self.textEdit)
-#
-#         self
-#
-#         self.edit = QLineEdit("Type your name here...")
-#         self.button = QPushButton("Show Greetings")
-#
-#         layout = QVBoxLayout()
-#         layout.addWidget(self.edit)
-#         layout.addWidget(self.button)
-#
-#         # self.setLayout(layout)
-#         self.setLayout(layout)
-
-#
-#         fileOpenButton = QPushButton("&Open...")
-#         fileOpenButton.setDefault(True)
-#         fileOpenButton.clicked.connect(self.getfiles)
-#
-#         self.recentComboBox = QComboBox()
-#         self.recentComboBox.addItem("<none>")
-#         self.recentComboBox.setDuplicatesEnabled(False)
-#
-#         recentLabel = QLabel("&Input File:")
-#         recentLabel.setBuddy(self.recentComboBox)
-#
-#         topLayout = QHBoxLayout()
-#         topLayout.addWidget(fileOpenButton)
-#         topLayout.addWidget(recentLabel)
-#         topLayout.addWidget(self.recentComboBox)
-#
-#         # window = QWebView()
-#         window = QWebEngineView()
-#         # window.setZoomFactor(0.95)
-#         window.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-#         x = np.linspace(0, 10, 100)
-#         y = np.sin(x)
-#         # canvas, axes, mark = tp.plot(x, y)
-#         canvas, axes, mark = toy.plot(x, y)
-#         # the_html = xml.etree.ElementTree.tostring(tp.html.render(canvas), method="html")
-#         # the_html = xml.etree.ElementTree.tostring(toyplot.html.render(canvas), method="html")
-#         # html_content = xml.etree.ElementTree.tostring(toyhtml.render(canvas), method="html")
-#         base_url = QUrl("http://www.sandia.gov/toyplot")
-#         html_content = xml.etree.ElementTree.tostring(toyhtml.render(canvas), encoding="unicode", method="html")
-#         # html_content = binary_html_content.decode('utf-8')
-#         # window.setHtml(xml.etree.ElementTree.tostring(tp.html.render(canvas), method="html"))
-#         midLayout = QHBoxLayout()
-#         # window.setHtml(the_html)
-#         # window.setHtml(html_content)
-#         # window.setContent(html_content, baseUrl=base_url)
-#         window.setHtml(html_content, baseUrl=base_url)
-#         # window.setHtml(html_content, method="html")
-#         # window.setContent(html_content, mimeType="html")
-#         midLayout.addWidget(window)
-#
-#         # Layout of widgets on dialog box
-#         mainLayout = QGridLayout()
-#         # mainLayout.addWidget(fileOpenButton, 0, 0)
-#         # mainLayout.addWidget(recentLabel, 1, 0)
-#         # mainLayout.addWidget(self.recentComboBox, 2, 0)
-#         mainLayout.addLayout(topLayout, 0, 0, 1, 1, Qt.AlignTop)
-#         # mainLayout.addWidget(window, 1, 0)
-#         mainLayout.addLayout(midLayout, 1, 0, 1, 1, Qt.AlignCenter)
-#
-#         # mainLayout.addLayout(topLayout, 0, 0, 1, 2, Qt.AlignLeft)
-#         # mainLayout.addLayout(midLayout, 1, 0, 1, 2, Qt.AlignCenter)
-#         # mainLayout.addLayout(topLayout, 0, 0, 1, 1, Qt.AlignRight)
-#         # mainLayout.setRowStretch(1, 1)
-#         self.setLayout(mainLayout)
 
 
 if __name__ == "__main__":

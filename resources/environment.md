@@ -78,6 +78,14 @@ To install a specific version, e.g., version `0.0.5`:
 (siblenv) $ pip install --user xyfigure==0.0.5
 ```
 
+## Optional Installs (In Development)
+
+Optional installs required for Qt application development:
+
+```bash
+(siblenv) $ pip install pyside2 # installed version 5.15.1 on 2020-04-14
+(siblenv) $ pip install toyplot # installed version 0.019.0 on 2020-04-14
+```
 
 ## References
 
