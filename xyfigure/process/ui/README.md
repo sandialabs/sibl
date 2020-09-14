@@ -2,7 +2,7 @@
 
 ## Goal
 
-* Refactor Penetrace into a modern software architecture using Python.
+* Refactor FilterPro into a modern software architecture using Python.
 
 ## Development
 
