@@ -24,6 +24,7 @@ import ptg.code.bernstein_polynomial as bp
 
 
 class TestBernstein(TestCase):
+
     @classmethod
     def setUpClass(cls):
         cls._TOL = 1e-6  # tolerance
