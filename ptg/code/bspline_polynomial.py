@@ -37,11 +37,12 @@ def bspline_polynomial(knot_vector : list, knot_k : int, p=0, nti=2, verbose=Tru
             print(f"Knot spans: {knot_spans}")
             print(f"Number of time intervals per knot span: {nti}")
             print(f"Knot span deltas: {dt}")
-            print(f"t = {t}")
-            print(f"y = {y}")
 
         if p == 0:
             y[knot_k * nti : knot_k * nti + nti] = 1.0
+            if verbose:
+                print(f"t = {t}")
+                print(f"y = {y}")
             return t, y
         else:
             print("Not implemented for p>0.")
