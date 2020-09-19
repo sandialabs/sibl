@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # bernstein_polynomial.py
 import math
 import numpy as np

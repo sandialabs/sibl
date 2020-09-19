@@ -19,6 +19,7 @@ def bspline_polynomial(i, knot_vector, p, nti, verbose=True):
         knot_spans = np.array(knots_rhs) - np.array(knots_lhs)
         dt = knot_spans / nti
         t = [knots_lhs[i] + k * dt[i] for i in np.arange(num_knots-1) for k in np.arange(nti)]
+        t.append(knot_vector[-1])
 
         if verbose:
             print(f"Knot vector: {knot_vector}")

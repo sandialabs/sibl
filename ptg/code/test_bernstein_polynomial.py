@@ -1,20 +1,24 @@
-#!/usr/bin/env python3
-# bernstein_polynomial_test.py
+# test_bernstein_polynomial.py
 """
 This module is a unit test of the bernstein_polynomial implementation.
 
 To run
-$ python bernstein_polynomial_test.py              # terse interaction
-$ python -m unittest bernstein_polynomial_test     # default interaction
-$ python -m unittest -v bernstein_polynomial_test  # verbose interaction
+$ conda load siblenv
+$ cd ~/sibl
+
+# default interaction
+$ python -m unittest ptg/code/test_bernstein_polynomial  
+
+# verbose interaction
+$ python -m unittest -v ptg/code/bernstein_polynomial_test
 """
 # standard library imports
 # import sys
 #
-import numpy as np
 from unittest import TestCase, main
 
-#
+import numpy as np
+
 # import bernstein_polynomial as bp
 import ptg.code.bernstein_polynomial as bp
 
@@ -26,14 +30,14 @@ class TestBernstein(TestCase):
         cls._nti = 4  # number of time intervals
         # t, e.g., four intervals, five evaluation points
         cls._t = np.linspace(0, 1, cls._nti + 1)
-        cls._verbosity = 0
+        cls._verbosity = False
 
     @classmethod
     def same(cls, a, b):
         same_to_tolerance = False
         l2norm_diff = np.linalg.norm(a - b)
 
-        if cls._verbosity > 0:
+        if cls._verbosity:
             print(f"array a = {a}")
             print(f"array b = {b}")
             print(f"l2norm_diff = {l2norm_diff}")

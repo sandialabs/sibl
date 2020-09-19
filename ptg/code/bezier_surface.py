@@ -11,15 +11,16 @@ import bernstein_polynomial as bp
 
 DISPLAY = 1
 DPI = 100  # dots per inch
-LATEX = 1
+LATEX = 0
 SERIALIZE = 0
 VERBOSE = 1
+Z_AXIS_LABEL_INVERTED = 1
 
 if LATEX:
     rc("font", **{"family": "serif", "serif": ["Computer Modern Roman"]})
     rc("text", usetex=True)
 
-p_degree = 3  # e.g., p=1 linear, p=2 quadratic, p=3 cubic
+p_degree = 1  # e.g., p=1 linear, p=2 quadratic, p=3 cubic
 cp_t = np.arange(p_degree + 1)  # control points in the t direction
 cp_u = np.arange(p_degree + 1)  # control points in the u direction
 
@@ -35,6 +36,7 @@ cp_bs = [0 for z in cp_tu]  # plot control points at zero for the B axis
 nti = 2 ** 5  # for LaTeX figures
 # azimuth, elevation = (-15, 15)  # degrees
 azimuth, elevation = (15, 15)  # degrees
+# azimuth, elevation = (-75, 15)  # degrees
 
 bases = np.array([np.array([])])
 
@@ -52,7 +54,7 @@ for i in cp_t:
             print(f"bij = {bij}")
 
         # fig = plt.figure()
-        fig = plt.figure(figsize=plt.figaspect(0.5), dpi=DPI)
+        fig = plt.figure(figsize=plt.figaspect(1.0), dpi=DPI)
         # fig = plt.figure(figsize=(6.5, 3.25), dpi=DPI)
         ax = fig.gca(projection="3d")
         ax.view_init(elevation, azimuth)
@@ -117,6 +119,9 @@ for i in cp_t:
         ax.set_zlabel(
             r"$B^{" + str(p_degree) + "}_{" + str(i) + ", " + str(j) + "}(t, u)$"
         )
+        if Z_AXIS_LABEL_INVERTED:
+            ax.zaxis.set_rotate_label(False)
+            ax.zaxis.label.set_rotation(90)
 
         ax.set_xlim([0, 1])
         ax.set_ylim([0, 1])
