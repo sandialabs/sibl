@@ -6,5 +6,5 @@
 
 ## Development
 
-* Front end [development notes](front_end.md)
+* Front end [development](front_end_dev.md) and [use](front_end_use.md)
 * Back end development notes (see GitLab)
