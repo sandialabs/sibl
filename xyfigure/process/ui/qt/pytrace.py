@@ -47,7 +47,8 @@ class Widget(QWidget):
 
         # model
         cwd = Path.cwd()
-        self.app_path = Path(".").resolve()
+        # self.app_path = Path(".").resolve()
+        self.app_path = Path(__file__).resolve().parent
         self.data_path = self.app_path.joinpath("../", "data").resolve()
 
         self.path_file_previous = (
