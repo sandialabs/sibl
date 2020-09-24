@@ -1,6 +1,22 @@
 # Front End Development
 
+## 2020-09-24 PM Update
+
+* Continue with Dash web app
+  * Full deployment
+  * Public/private use case
+  * Plug in interface to
+    * cal/dat
+    * Butterworth
+    * data out
+    * figure out
+    * integrate
+    * differentiate
+    * cross-correlation
+
 ## 2020-09-14 Integrate Back End with Front End
+
+* Completed with local pip install, see PyTrace [use](front_end_use.md) notes.
 
 ## 2020-07-20 Short Cycle App
 

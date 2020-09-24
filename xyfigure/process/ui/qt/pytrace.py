@@ -4,22 +4,20 @@ import sys
 import xml
 from pathlib import Path  # stop using os.path, use pathlib instead
 
+# from zcaldat import PyCalDat as pcd
+# from zcaldat import PyCalDat as pcd
 
 # from PySide2 import QtCore, QtWidgets, QtGui, QtWebEngine
 from PySide2.QtCore import Qt, QUrl, Slot
 
-from PySide2.QtGui import QFont, QPalette
+# from PySide2.QtGui import QFont, QPalette
 
 from PySide2.QtWidgets import (
     QAction,
     QApplication,
     QComboBox,
-    QDialog,
     QFileDialog,
-    QGridLayout,
     QHBoxLayout,
-    QLabel,
-    QLineEdit,
     QMainWindow,
     QMessageBox,
     QPlainTextEdit,
@@ -46,7 +44,7 @@ class Widget(QWidget):
         QWidget.__init__(self)
 
         # model
-        cwd = Path.cwd()
+        # cwd = Path.cwd()
         # self.app_path = Path(".").resolve()
         self.app_path = Path(__file__).resolve().parent
         self.data_path = self.app_path.joinpath("../", "data").resolve()
@@ -113,7 +111,6 @@ class Widget(QWidget):
             filenames = dlg.selectedFiles()
             filename = Path(filenames[0])
             self.model_update(filename)
-            a = 4
 
     @Slot()
     def model_update(self, path_file_new):
@@ -150,16 +147,18 @@ class Widget(QWidget):
                         cal_path = db.get("cal-path")
                         cal_path_expanded = Path(cal_path).expanduser()
                         cal_file = db.get("cal-file")
+                        cal_path_file = Path(cal_path_expanded).joinpath(cal_file)
 
                         dat_path = db.get("dat-path")
                         dat_path_expanded = Path(dat_path).expanduser()
                         dat_file = db.get("dat-file")
+                        dat_path_file = Path(dat_path_expanded).joinpath(dat_file)
 
                         if (
                             Path(cal_path_expanded).is_dir()
-                            and Path(cal_path_expanded).joinpath(cal_file).is_file()
+                            and cal_path_file.is_file()
                             and Path(dat_path_expanded).is_dir()
-                            and Path(dat_path_expanded).joinpath(dat_file).is_file()
+                            and dat_path_file.is_file()
                         ):
                             files_and_folders_exist = True
                         else:
@@ -170,13 +169,19 @@ class Widget(QWidget):
                             and files_and_folders_exist
                         ):
                             # all keys are present
+                            from zcaldat import PyCalDat as pcd
+
+                            channels = pcd.channel_data(cal_path_file, dat_path_file)
+                            y_data = channels[:, 0]
+                            x_data = np.arange(len(y_data))
+                            new_data = np.transpose([x_data, y_data]).tolist()
+                        else:
                             new_data = [
                                 [0.0, 1.0],
                                 [1.0, 2.0],
                                 [2.0, 4.0],
                                 [3.0, 0.5],
                             ]
-                        else:
                             raise ValueError(".json I/O error.")
 
                     else:  # then assume ".csv"
@@ -187,6 +192,7 @@ class Widget(QWidget):
                             skip_header=1,
                             usecols=(0, 1),
                         ).tolist()
+
                     self.models.append(new_data)
 
                 self.files.append(path_file_new)
