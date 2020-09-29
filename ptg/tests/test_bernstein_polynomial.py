@@ -7,10 +7,18 @@ $ conda load siblenv
 $ cd ~/sibl
 
 # default interaction
-$ python -m unittest ptg/code/test_bernstein_polynomial  
+$ python -m unittest ptg/tests/test_bernstein_polynomial.py
+$ pytest ptg/code/test_bernstein_polynomial.py
 
 # verbose interaction
-$ python -m unittest -v ptg/code/bernstein_polynomial_test
+$ python -m unittest ptg/code/bernstein_polynomial_test -v
+$ pytest ptg/code/test_bernstein_polynomial.py -v
+
+# test Black
+$ python -check ptg/code/test_bernstein_polynomial.py
+
+# test coverage
+
 """
 # standard library imports
 # import sys
@@ -20,11 +28,11 @@ from unittest import TestCase, main
 import numpy as np
 
 # import bernstein_polynomial as bp
+# import ptg.code.bernstein_polynomial as bp
 import ptg.code.bernstein_polynomial as bp
 
 
 class TestBernstein(TestCase):
-
     @classmethod
     def setUpClass(cls):
         cls._TOL = 1e-6  # tolerance
