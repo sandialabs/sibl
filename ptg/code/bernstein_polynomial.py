@@ -6,7 +6,7 @@ import numpy as np
 def bernstein_polynomial(i, p, nti):
     """Computes the Bernstein polynomial coefficient for
     control point i with
-    polynomial degreee p
+    polynomial degree p
     for a 1D parameter array t in interval [0, 1] broken into
     nti number of equidistance time intervals."""
 
