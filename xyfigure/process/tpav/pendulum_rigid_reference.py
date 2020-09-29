@@ -96,7 +96,7 @@ def f(Y, t):
     (
         y1,
         y2,
-     ) = Y  # unpack vector tuple
+    ) = Y  # unpack vector tuple
     return [y2, -K * K * np.sin(y1)]
 
 
