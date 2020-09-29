@@ -7,7 +7,7 @@ import exodus
 
 
 def main(argv):
-    """ Extracts the population of values of a variable from an Exodus
+    """Extracts the population of values of a variable from an Exodus
     output file.
 
     Client use:

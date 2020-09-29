@@ -13,7 +13,7 @@ from PIL import Image
 
 
 def same(file_a, file_b, verbose=0):
-    """ Determines if two images are the same or different.
+    """Determines if two images are the same or different.
 
     Creates to image files from the image string arguments, then gets the
     pixel data from each image.  Subtracts pixel information of file_b from
@@ -111,7 +111,7 @@ def same(file_a, file_b, verbose=0):
 
 
 def main(argv):
-    """ The main entry point for command line interation.
+    """The main entry point for command line interation.
 
     Reads two image file string from the command line arguments and forward
     the file name strings to the worker method called 'same()'.

@@ -93,7 +93,10 @@ def f(Y, t):
     # ugly but I think necessary to use scipy odeint:
     # t is unused variable in the implementation, and
     # K is a global variable (yuck!)
-    y1, y2, = Y  # unpack vector tuple
+    (
+        y1,
+        y2,
+     ) = Y  # unpack vector tuple
     return [y2, -K * K * np.sin(y1)]
 
 
