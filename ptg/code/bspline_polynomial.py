@@ -4,7 +4,7 @@ import numpy as np
 
 
 def bspline_polynomial(knot_vector: list, knot_k: int, p=0, nti=2, verbose=True):
-    """ Given the knot_vector = [t0, t1, t2, ... tK] of length (K+1)
+    """Given the knot_vector = [t0, t1, t2, ... tK] of length (K+1)
     and the index knot_k in the knot_index = [0, 1, 2, ... K],
     computes the B-spline polynomial basis of degree p,
     (p=0: constant, p=1: linear, p=2: quadratic, p=3: cubic, etc.)
