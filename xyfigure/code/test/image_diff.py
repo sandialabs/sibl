@@ -1,6 +1,6 @@
 """Tests if two images are the same on a pixel-by-pixel basis.
 
-    Typical example:
+    Typical use case:
     $ python image_diff.py image_a image_b
 """
 # https://www.python.org/dev/peps/pep-0008/#imports
