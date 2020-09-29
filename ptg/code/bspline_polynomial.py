@@ -3,7 +3,7 @@
 import numpy as np
 
 
-def bspline_polynomial(knot_vector : list, knot_k : int, p=0, nti=2, verbose=True):
+def bspline_polynomial(knot_vector: list, knot_k: int, p=0, nti=2, verbose=True):
     """ Given the knot_vector = [t0, t1, t2, ... tK] of length (K+1)
     and the index knot_k in the knot_index = [0, 1, 2, ... K],
     computes the B-spline polynomial basis of degree p,
@@ -22,7 +22,11 @@ def bspline_polynomial(knot_vector : list, knot_k : int, p=0, nti=2, verbose=Tru
 
         # improve index notation
         # t = [knots_lhs[i] + k * dt[i] for i in np.arange(num_knots-1) for k in np.arange(nti)]
-        t = [knots_lhs[k] + j * dt[k] for k in np.arange(num_knots-1) for j in np.arange(nti)]
+        t = [
+            knots_lhs[k] + j * dt[k]
+            for k in np.arange(num_knots - 1)
+            for j in np.arange(nti)
+        ]
         t.append(knot_vector[-1])
         t = np.array(t)
 

@@ -106,14 +106,26 @@ class BezierVis(ABC):
         bezier_lines_color = db.get("bezier-lines-color", "black")
         bezier_linewidth = db.get("bezier-linewidth", 1.0)
 
-        surface_triangulation = db.get("surface-triangulation", False) # surface
-        surface_t0_uv_triangulation = db.get("surface-t0-uv-triangulation", False) # solid
-        surface_t1_uv_triangulation = db.get("surface-t1-uv-triangulation", False) # solid
-        surface_u0_vt_triangulation = db.get("surface-u0-vt-triangulation", False) # solid
-        surface_u1_vt_triangulation = db.get("surface-u1-vt-triangulation", False) # solid
-        surface_v0_tu_triangulation = db.get("surface-v0-tu-triangulation", False) # solid
-        surface_v1_tu_triangulation = db.get("surface-v1-tu-triangulation", False) # solid
-        triangulation_alpha = db.get("triangulation-alpha", 1.0) # surface or solid
+        surface_triangulation = db.get("surface-triangulation", False)  # surface
+        surface_t0_uv_triangulation = db.get(
+            "surface-t0-uv-triangulation", False
+        )  # solid
+        surface_t1_uv_triangulation = db.get(
+            "surface-t1-uv-triangulation", False
+        )  # solid
+        surface_u0_vt_triangulation = db.get(
+            "surface-u0-vt-triangulation", False
+        )  # solid
+        surface_u1_vt_triangulation = db.get(
+            "surface-u1-vt-triangulation", False
+        )  # solid
+        surface_v0_tu_triangulation = db.get(
+            "surface-v0-tu-triangulation", False
+        )  # solid
+        surface_v1_tu_triangulation = db.get(
+            "surface-v1-tu-triangulation", False
+        )  # solid
+        triangulation_alpha = db.get("triangulation-alpha", 1.0)  # surface or solid
 
         xlabel = db.get("xlabel", "x")
         ylabel = db.get("ylabel", "y")
@@ -318,7 +330,9 @@ class BezierVis(ABC):
 
                 if bezier_type == "solid":
 
-                    Point = np.reshape(net, (n_cp_per_axis, n_cp_per_axis, n_cp_per_axis))
+                    Point = np.reshape(
+                        net, (n_cp_per_axis, n_cp_per_axis, n_cp_per_axis)
+                    )
 
                     for i in np.arange(n_cp_per_axis):
                         for j in np.arange(n_cp_per_axis):
@@ -327,16 +341,25 @@ class BezierVis(ABC):
                                 b_j = bp.bernstein_polynomial(j, p_degree, nti)
                                 b_k = bp.bernstein_polynomial(k, p_degree, nti)
                                 bjk = np.outer(b_j, b_k)
-                                bijk = np.reshape(np.outer(b_i, bjk), (len(b_i), len(b_j), len(b_k)))
-    
+                                bijk = np.reshape(
+                                    np.outer(b_i, bjk), (len(b_i), len(b_j), len(b_k))
+                                )
+
                                 if verbose:
                                     print(f"bijk = {bijk}")
-    
+
                                 x += bijk * cp_x[Point[i][j][k]]
                                 y += bijk * cp_y[Point[i][j][k]]
                                 z += bijk * cp_z[Point[i][j][k]]
 
-                    if surface_t0_uv_triangulation or surface_t1_uv_triangulation or surface_u0_vt_triangulation or surface_u1_vt_triangulation or surface_v0_tu_triangulation or surface_v1_tu_triangulation:
+                    if (
+                        surface_t0_uv_triangulation
+                        or surface_t1_uv_triangulation
+                        or surface_u0_vt_triangulation
+                        or surface_u1_vt_triangulation
+                        or surface_v0_tu_triangulation
+                        or surface_v1_tu_triangulation
+                    ):
 
                         # convention here is reverse of the (x, y) convention of
                         # mesh grid, see
@@ -366,36 +389,36 @@ class BezierVis(ABC):
 
                         if surface_u0_vt_triangulation:
                             ax.plot_trisurf(
-                                x[:,0].flatten(),
-                                y[:,0].flatten(),
-                                z[:,0].flatten(),
+                                x[:, 0].flatten(),
+                                y[:, 0].flatten(),
+                                z[:, 0].flatten(),
                                 triangles=tri.triangles,
                                 alpha=triangulation_alpha,
                             )
 
                         if surface_u1_vt_triangulation:
                             ax.plot_trisurf(
-                                x[:,-1].flatten(),
-                                y[:,-1].flatten(),
-                                z[:,-1].flatten(),
+                                x[:, -1].flatten(),
+                                y[:, -1].flatten(),
+                                z[:, -1].flatten(),
                                 triangles=tri.triangles,
                                 alpha=triangulation_alpha,
                             )
 
                         if surface_v0_tu_triangulation:
                             ax.plot_trisurf(
-                                x[:,:,0].flatten(),
-                                y[:,:,0].flatten(),
-                                z[:,:,0].flatten(),
+                                x[:, :, 0].flatten(),
+                                y[:, :, 0].flatten(),
+                                z[:, :, 0].flatten(),
                                 triangles=tri.triangles,
                                 alpha=triangulation_alpha,
                             )
 
                         if surface_v1_tu_triangulation:
                             ax.plot_trisurf(
-                                x[:,:,-1].flatten(),
-                                y[:,:,-1].flatten(),
-                                z[:,:,-1].flatten(),
+                                x[:, :, -1].flatten(),
+                                y[:, :, -1].flatten(),
+                                z[:, :, -1].flatten(),
                                 triangles=tri.triangles,
                                 alpha=triangulation_alpha,
                             )
@@ -420,7 +443,6 @@ class BezierVis(ABC):
                         color=bezier_lines_color,
                         linewidth=bezier_linewidth,
                     )
-
 
         ax.set_xlabel(xlabel)
         ax.set_ylabel(ylabel)
@@ -452,7 +474,10 @@ class BezierVis(ABC):
 def main(argv):
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("config_file", help=".json 3D curve, surface, solid specification")
+
+    parser.add_argument(
+        "config_file", help=".json 3D curve, surface, solid specification"
+    )
 
     parser.add_argument(
         "--verbose", help="increased command line feedback", action="store_true"

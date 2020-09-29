@@ -5,30 +5,15 @@ This module is a unit test of the bernstein_polynomial implementation.
 To run
 $ conda load siblenv
 $ cd ~/sibl
-
-# default interaction
-$ python -m unittest ptg/tests/test_bernstein_polynomial.py
-$ pytest ptg/code/test_bernstein_polynomial.py
-
-# verbose interaction
-$ python -m unittest ptg/code/bernstein_polynomial_test -v
-$ pytest ptg/code/test_bernstein_polynomial.py -v
-
-# test Black
-$ python -check ptg/code/test_bernstein_polynomial.py
-
-# test coverage
-
+$ black --check ptg/tests/test_bernstein_polynomial.py
+$ pytest ptg/tests/test_bernstein_polynomial.py -v
+$ pytest ptg/tests/test_bernstein_polynomial.py -v --cov=ptg/code --cov-report term-missing
 """
-# standard library imports
-# import sys
-#
-from unittest import TestCase, main
+# from unittest import TestCase, main
+from unittest import TestCase
 
 import numpy as np
 
-# import bernstein_polynomial as bp
-# import ptg.code.bernstein_polynomial as bp
 import ptg.code.bernstein_polynomial as bp
 
 
@@ -141,5 +126,5 @@ class TestBernstein(TestCase):
         self.assertTrue(self.same(known, calc))
 
 
-if __name__ == "__main__":
-    main()  # calls unittest.main()
+# if __name__ == "__main__":
+#     main()  # calls unittest.main()

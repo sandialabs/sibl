@@ -5,14 +5,12 @@ This module is a unit test of the bspline_polynomial implementation.
 To run
 $ conda load siblenv
 $ cd ~/sibl
-
-# default interaction
-$ python -m unittest ptg/code/test_bspline_polynomial  
-
-# verbose interaction
-$ python -m unittest -v ptg/code/bspline_polynomial_test
+$ black --check ptg/tests/test_bspline_polynomial.py
+$ pytest ptg/tests/test_bspline_polynomial.py -v
+$ pytest ptg/tests/test_bspline_polynomial.py -v --cov=ptg/code --cov-report term-missing
 """
-from unittest import TestCase, main
+# from unittest import TestCase, main
+from unittest import TestCase
 
 import numpy as np
 
@@ -20,7 +18,6 @@ import ptg.code.bspline_polynomial as bp
 
 
 class TestBspline(TestCase):
-
     @classmethod
     def setUpClass(cls):
         cls._TOL = 1e-6  # tolerance
@@ -44,38 +41,48 @@ class TestBspline(TestCase):
         return same_to_tolerance
 
     def test_000_p0(self):
-        knot_vector = [0, 2, 3] # list
-        degree = 0 # integer >= 0
+        knot_vector = [0, 2, 3]  # list
+        degree = 0  # integer >= 0
 
-        knot_index = 0 # integer >= 0
-        calc = bp.bspline_polynomial(knot_vector, knot_index, degree, self._nti, self._verbosity)
+        knot_index = 0  # integer >= 0
+        calc = bp.bspline_polynomial(
+            knot_vector, knot_index, degree, self._nti, self._verbosity
+        )
         if self._verbosity:
             print(f"output = {calc}")
-        
+
         known_t = [0, 0.5, 1, 1.5, 2, 2.25, 2.5, 2.75, 3]
         known_y = [1, 1, 1, 1, 0, 0, 0, 0, 0]
 
         self.assertTrue(self.same(known_t, calc[0]))
         self.assertTrue(self.same(known_y, calc[1]))
 
-        knot_index = 1 # integer >= 0
-        calc = bp.bspline_polynomial(knot_vector, knot_index, degree, self._nti, self._verbosity)
+        knot_index = 1  # integer >= 0
+        calc = bp.bspline_polynomial(
+            knot_vector, knot_index, degree, self._nti, self._verbosity
+        )
         if self._verbosity:
             print(f"output = {calc}")
-        
+
         known_t = [0, 0.5, 1, 1.5, 2, 2.25, 2.5, 2.75, 3]
         known_y = [0, 0, 0, 0, 1, 1, 1, 1, 0]
 
         self.assertTrue(self.same(known_t, calc[0]))
         self.assertTrue(self.same(known_y, calc[1]))
 
-        knot_index = 2 # integer >= 0
-        calc = bp.bspline_polynomial(knot_vector, knot_index, degree, self._nti, self._verbosity)
+        knot_index = 2  # integer >= 0
+        calc = bp.bspline_polynomial(
+            knot_vector, knot_index, degree, self._nti, self._verbosity
+        )
         if self._verbosity:
             print(f"output = {calc}")
-        
+
         known_t = [0, 0.5, 1, 1.5, 2, 2.25, 2.5, 2.75, 3]
         known_y = [0, 0, 0, 0, 0, 0, 0, 0, 1]
 
         self.assertTrue(self.same(known_t, calc[0]))
         self.assertTrue(self.same(known_y, calc[1]))
+
+
+# if __name__ == "__main__":
+#     main()  # calls unittest.main()

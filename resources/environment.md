@@ -17,7 +17,7 @@
 (base) $ conda env remove --name sibltest
 (base) $ conda env list
 (base) $ conda update -n base -c defaults conda
-(base) $ conda create --name siblenv python=3.8 scipy matplotlib pandas pillow dash xlrd pytest pylint flake8 seaborn black ipykernel
+(base) $ conda create --name siblenv python=3.8 scipy matplotlib pandas pillow dash xlrd pytest pytest-cov pylint flake8 seaborn black ipykernel
 (base) $ conda activate siblenv
 (siblenv) $ pip install xyfigure
 ```
@@ -46,6 +46,7 @@ dependencies:
   - xlrd
   - pillow
   - pytest
+  - pytest-cov
   - pylint
   - seaborn
   - pandas

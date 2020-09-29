@@ -42,14 +42,14 @@ for k in np.arange(len(knot_vector) - 1):
 
     # fig = plt.figure(figsize=plt.figaspect(1.0), dpi=DPI)
     # fig = plt.figure(dpi=DPI)
-    fig = plt.figure(figsize=plt.figaspect(1.0/(len(knot_vector)-1)), dpi=DPI)
+    fig = plt.figure(figsize=plt.figaspect(1.0 / (len(knot_vector) - 1)), dpi=DPI)
     ax = fig.gca()
     ax.grid()
     # ax.scatter(t, y)
     ax.plot(t, y, linestyle="None", marker=".")
 
     # if k == len(knot_vector) - 2:
-    if k in [2, 5]: # plot three per page, over two pages
+    if k in [2, 5]:  # plot three per page, over two pages
         # stack all figures in documentation, x-axis only on
         # last figure, which will be on the bottom of the stack
         ax.set_xlabel(r"$t$")
@@ -57,14 +57,12 @@ for k in np.arange(len(knot_vector) - 1):
         # suppress x-ticks except for on the bottom plot
         plt.setp(ax.get_xticklabels(), visible=False)
 
-    ax.set_ylabel(
-        r"$N^{" + str(p_degree) + "}_{" + str(k) + "}(t)$"
-    )
+    ax.set_ylabel(r"$N^{" + str(p_degree) + "}_{" + str(k) + "}(t)$")
 
     eps = 0.1
     ax.set_xlim([knot_vector[0] - 2 * eps, knot_vector[-1] + 2 * eps])
     ax.set_ylim([0 - 2 * eps, 1 + 2 * eps])
-    ax.set_aspect('equal')
+    ax.set_aspect("equal")
     ax.xaxis.set_major_locator(MultipleLocator(0.5))
     ax.yaxis.set_major_locator(MultipleLocator(0.5))
 

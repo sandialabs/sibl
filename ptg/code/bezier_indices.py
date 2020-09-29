@@ -20,9 +20,10 @@ for p, kw in enumerate(interpolations):
 
     else:
         knots = range(p + 1)
-        print(f"  knots = {knots}")
+        # print(f"  knots = {knots}")
         indices = tuple(i for i in knots)
         if VERBOSE:
+            print(f"  knots = {knots}")
             print("  1D case:")
             print(f"    indices = {indices}")
             print(f"    number of knots = {len(indices)}")
