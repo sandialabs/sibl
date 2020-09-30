@@ -3,7 +3,7 @@ import math
 import numpy as np
 
 
-def bernstein_polynomial(i, p, nti):
+def bernstein_polynomial(i, p, nti, verbose=False):
     """Computes the Bernstein polynomial coefficient for
     control point i with
     polynomial degree p
@@ -20,8 +20,10 @@ def bernstein_polynomial(i, p, nti):
         )
         return bp
     else:
-        print(f"Input (i, p, nti) = ({i}, {p}, {nti}) is out of range.")
-        print("i is non-negative integer 0, 1, 2, ... p")
-        print("p is integer >= 1")
-        print("nti is integer >= 2")
+        if verbose:
+            print(f"Input (i, p, nti) = ({i}, {p}, {nti}) is out of range.")
+            print("i is non-negative integer 0, 1, 2, ... p")
+            print("p is integer >= 1")
+            print("nti is integer >= 2")
+
         return None

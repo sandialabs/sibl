@@ -7,7 +7,8 @@
 ## Cosines test
 
 * cosines with [cosines-prefilter.json](cosines-prefilter.json):
-![cosines-prefilter](cosines-prefilter.png) and with [cosines-postfilter.json](cosines-postfilter.json)
+![cosines-prefilter](cosines-prefilter.png) and 
+with [cosines-postfilter.json](cosines-postfilter.json)
 ![cosines-postfilter](cosines-postfilter.png)
 
 ## Sines test

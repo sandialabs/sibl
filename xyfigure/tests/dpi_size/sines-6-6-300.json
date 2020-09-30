@@ -13,14 +13,17 @@
     "figure": {
         "class": "view",
         "folder": ".",
-        "file": "sines-3-3-200.png",
+        "file": "sines-6-6-300.png",
         "title": "u = sin(2 pi t)",
         "xlabel": "time (s)",
         "ylabel": "position (m)",
-        "size": [3.0, 3.0],
-        "dpi": 200,
+        "size": [
+            6.0,
+            6.0
+        ],
+        "dpi": 300,
         "display": 0,
         "details": 0,
-        "serialize": 1
+        "serialize": 0
     }
 }

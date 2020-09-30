@@ -52,9 +52,12 @@ def bspline_polynomial(knot_vector: list, knot_k: int, p=0, nti=2, verbose=True)
             print("Not implemented for p>0.")
 
     else:
-        print("Input is out of range.")
-        print("Knot index i must be:")
-        print("  non-negative, and be")
-        print("  less than index of last knot vector.")
-        print("Polynomial degree p must be a non-negative integer.")
-        print("Number of time intervals nti >= 2.")
+        if verbose:
+            print("Input is out of range.")
+            print("Knot index i must be:")
+            print("  non-negative, and be")
+            print("  less than index of last knot vector.")
+            print("Polynomial degree p must be a non-negative integer.")
+            print("Number of time intervals nti >= 2.")
+
+        return None

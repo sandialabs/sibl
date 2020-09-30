@@ -31,7 +31,8 @@ from unittest import TestCase, main
 # local application/library specific imports
 # from xyfigure.test.image_diff import same
 # from image_diff import same
-from xyfigure.code.test.image_diff import same
+# from xyfigure.code.test.image_diff import same
+from xyfigure.tests.img_same_diff.image_diff import same
 
 # import xyfigure.client as xyfigure_client
 # import xyfigure.code.client as xyfigure_client
@@ -47,7 +48,7 @@ class TestImageDiff(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls._path = os.path.join("xyfigure", "code", "test")
+        cls._path = os.path.join("xyfigure", "tests")
 
         # cls._path_str = "sibl/xyfigure/code/test/xyfigure_test.py"
         cls._path_str = os.path.join(cls._path, "xyfigure_test.py")

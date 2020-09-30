@@ -64,13 +64,16 @@
         "class": "view",
         "folder": ".",
         "file": "signal_process_serialize.png",
-        "title": "u3_unfiltered and u3_filtered from t_v_sines.csv", 
+        "title": "u3_unfiltered and u3_filtered from t_v_sines.csv",
         "xlabel": "time (s)",
         "ylabel": "position (m)",
-        "size": [8.0, 6.0],
+        "size": [
+            8.0,
+            6.0
+        ],
         "dpi": 100,
         "display": 0,
         "details": 0,
-        "serialize": 1
+        "serialize": 0
     }
 }

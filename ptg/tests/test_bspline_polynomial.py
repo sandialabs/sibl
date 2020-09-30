@@ -23,7 +23,7 @@ class TestBspline(TestCase):
         cls._TOL = 1e-6  # tolerance
         cls._nti = 4  # number of time intervals
         # t, e.g., two intervals, three evaluation points
-        cls._verbosity = True
+        cls._verbosity = False
 
     @classmethod
     def same(cls, a, b):

@@ -1,6 +1,6 @@
 import unittest
 
-from xyfigure.code.test import calculator
+from xyfigure.tests.calculator import calculator
 
 
 class MyTestCase(unittest.TestCase):

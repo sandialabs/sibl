@@ -90,9 +90,12 @@
         "title": "u1, u2, u3, u4, and u4_filtered from t_v_cosines.csv",
         "xlabel": "time (s)",
         "ylabel": "position (m)",
-        "size": [8.0, 6.0],
+        "size": [
+            8.0,
+            6.0
+        ],
         "display": 0,
         "details": 0,
-        "serialize": 1
+        "serialize": 0
     }
 }

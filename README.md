@@ -55,18 +55,33 @@ $ (siblenv) [~/sibl]$ # development
 #
 # test
 # ----
-# check unit tests
+# check unit tests (soon-to-be-standard with pytest)
+$ (siblenv) [~/sibl]$ pytest # unit tests must pass prior to push to repository
+$ (siblenv) [~/sibl]$ pytest -v # for more verbose unittest output
+#
+# check unit tests (soon-to-be-deprecated with unittest)
 $ (siblenv) [~/sibl]$ python -m unittest # unit tests must pass prior to push to repository
 $ (siblenv) [~/sibl]$ python -m unittest -v # for more verbose unittest output
 #
 # check Black
-# without automatic code modification
+$ (siblenv) [~/sibl] black --check xyfigure/
+$ (siblenv) [~/sibl] black --check ptg/
+#
+# if above check failse, the diff or fix 
+# diff: (without automatic code modification)
 $ (siblenv) [~/sibl] black --check some_specific_file.py --diff 
 $ (siblenv) [~/sibl] black --check some_folder/ --diff
-# with automatic code modification
+# fix: (with automatic code modification)
 $ (siblenv) [~/sibl] black some_specific_file.py
 $ (siblenv) [~/sibl] black some_folder/
 $ (siblenv) [~/sibl]
+#
+# coverage
+# --------
+$ (siblenv) [~/sibl]$ pytest --cov=ptg/code --cov=xyfigure/code
+#
+# for line coverage
+$ (siblenv) [~/sibl]$ pytest --cov=ptg/code --cov=xyfigure/code --cov-report term-missing
 ```
 
 ## Contact

@@ -27,12 +27,6 @@ The output file `recipe.svg` contains this figure:
 
 will result, written to the `~/sibl/xyfigure/io/example/` folder.
 
-### Next Steps
-
-
-* Scan throught the [documentation](../../code/documentation.md).
-* Scan through the [test cases](../../code/test/README.md).
-
 ## Getting Minimalistic
 
 Most of the keywords documented in the documentation are *optional*.  If the optional keywords are not specified, `xyfigure` selects sensible default values.  Users override the default behaviour by specifying the optional keywords.  
@@ -51,3 +45,8 @@ Here we plot the chess board [image](chess_800_800_px.png) <img align="left" wid
 The [json](recipe_with_background.json) file results in this figure:
 
 ![recipe_with_background](recipe_with_background.svg)
+
+# Next Steps
+
+* Scan through the [documentation](../../code/documentation.md).
+* Scan through the [test cases](../../tests/README.md).

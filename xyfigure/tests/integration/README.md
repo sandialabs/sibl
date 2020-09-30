@@ -1,6 +1,9 @@
 # Integration
 
-**Important Note:**  The initial conditions are in units of the native signal.  Therefore, if the native signal will be scaled (e.g., going from m/s^2 to G or *vice versa*), care must be taken on the units of the initial conditions.  The initial conditions are applied **before** any scaling.  
+**Important Note:**  The initial conditions are in units of the native signal.
+Therefore, if the native signal will be scaled (e.g., going from m/s^2 to 
+G or *vice versa*), care must be taken on the units of the initial conditions.
+The initial conditions are applied **before** any scaling.  
 
 ## Constant Function
 
@@ -12,8 +15,10 @@
   * `u'(0) = 100` m/s
   * `u(0) = 1000` m
   
-Implemented with [zeros-int3.json](zeros-int3.json), resulting in zeros-int3.png ![zeros-int3](zeros-int3.png)
-and the signal process output file (triple integration of jerk to get displacement) as [zeros-int3.csv](zeros-int3.csv).
+Implemented with [zeros-int3.json](zeros-int3.json), 
+resulting in zeros-int3.png ![zeros-int3](zeros-int3.png)
+and the signal process output file (triple integration of 
+jerk to get displacement) as [zeros-int3.csv](zeros-int3.csv).
 
 The closed form solution for the acceleration is
 * `u''(t) = int(u''') dt + u''(0) = -10 * [1 1 1 1 1 1 1 1 1 1 1]` m/s^2

@@ -15,14 +15,17 @@ from unittest import TestCase, main
 
 # local application/library specific imports
 # from xyfigure.test.image_diff import same
-from xyfigure.code.test.image_diff import same
+# from xyfigure.code.test.image_diff import same
+# from image_diff import same
+from xyfigure.tests.img_same_diff.image_diff import same
 
 
 class TestImageDiff(TestCase):
     @classmethod
     def setUpClass(cls):
 
-        cls._path_str = "xyfigure/code/test/img_same_diff/"
+        # cls._path_str = "xyfigure/code/test/img_same_diff/"
+        cls._path_str = "xyfigure/tests/img_same_diff/"
         # cls._orig = cls._path_str + 'image_diff_test.png'
         # cls._same = cls._path_str + 'image_diff_test_clone.png'
         # cls._diff = cls._path_str + 'image_diff_test_diff.png'
