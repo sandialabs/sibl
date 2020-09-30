@@ -4,7 +4,7 @@ from typing import Tuple
 
 # number of time intervals in along a Bezier axis
 interpolations = ("constant", "linear", "quadratic", "cubic")
-VERBOSE = True  # show/hide command line interaction
+VERBOSE = False  # show/hide command line interaction
 
 # manual development of the tuple indices, used to later define the
 # method knot_indices(...)
