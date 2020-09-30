@@ -61,7 +61,8 @@ def knot_indices(degree: int = 1, dimension: int = 1) -> Tuple:
         return indices
 
     else:
-        print(f"Input (degree, dimension) = ({degree}, {dimension}) is out of range.")
-        print("degree (int) can be 1 (linear), 2 (quadratic), or 3 (cubic)")
-        print("dimension (int) can be 1 (1D), 2 (2D) or 3 (3D)")
+        print("Input is out of range:")
+        print(f"  (degree, dimension) = ({degree}, {dimension})")
+        print("  degree (int) can be 1 (linear), 2 (quadratic), or 3 (cubic)")
+        print("  dimension (int) can be 1 (1D), 2 (2D) or 3 (3D)")
         return None
