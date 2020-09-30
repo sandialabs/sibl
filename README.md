@@ -38,7 +38,7 @@ There are two workflows: Client and Developer
   * local test, manual test prior to push
   * repository test, automatic on push via Continuous Integration (CI) 
   * coverage (to come)
-* then repeat this cycle
+* repeat this cycle
 
 ```bash
 # sync
@@ -62,7 +62,7 @@ $ (siblenv) [~/sibl]$ python -m unittest -v # for more verbose unittest output
 # check Black
 # without automatic code modification
 $ (siblenv) [~/sibl] black --check some_specific_file.py --diff 
-$ (siblenv) [~/sibl] black --check some_folder/ -diff
+$ (siblenv) [~/sibl] black --check some_folder/ --diff
 # with automatic code modification
 $ (siblenv) [~/sibl] black some_specific_file.py
 $ (siblenv) [~/sibl] black some_folder/
