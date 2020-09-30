@@ -10,6 +10,7 @@ from PIL import Image
 # local application/library specific imports
 # from xyfigure.xybase import XYBase
 from xyfigure.code.xybase import XYBase
+# from xybase import XYBase
 
 
 class XYView(XYBase):

@@ -2,7 +2,7 @@
     "time-jerk": {
         "class": "model",
         "verbose": false,
-        "folder": "xyfigure/code/test/differentiation",
+        "folder": "xyfigure/tests/differentiation",
         "file": "u-squared.csv",
         "skip_rows": 1,
         "plot_kwargs": {
@@ -15,7 +15,7 @@
                 "gradient": {
                     "order": 3,
                     "serialize": 1,
-                    "folder": "xyfigure/code/test/differentiation",
+                    "folder": "xyfigure/tests/differentiation",
                     "file": "u-squared-sig-proc-3.csv"
                 }
             }
@@ -24,7 +24,7 @@
     "figure": {
         "class": "view",
         "verbose": false,
-        "folder": "xyfigure/code/test/differentiation",
+        "folder": "xyfigure/tests/differentiation",
         "file": "u-squared-ddt3.svg",
         "title": "u_dddot = d^3/dt^3 (1/2 t^2) = 0",
         "xlabel": "time (s)",

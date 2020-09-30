@@ -2,7 +2,7 @@
     "time-position": {
         "class": "model",
         "verbose": false,
-        "folder": "xyfigure/code/test/differentiation",
+        "folder": "xyfigure/tests/differentiation",
         "file": "t-v-sines.csv",
         "skip_rows": 1,
         "plot_kwargs": {
@@ -14,7 +14,7 @@
     "figure": {
         "class": "view",
         "verbose": false,
-        "folder": "xyfigure/code/test/differentiation",
+        "folder": "xyfigure/tests/differentiation",
         "file": "t-v-sines.svg",
         "title": "u = sin(2 pi t)",
         "xlabel": "time (s)",

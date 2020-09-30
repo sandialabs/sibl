@@ -1,7 +1,7 @@
 {
     "time-displacement": {
         "class": "model",
-        "folder": "xyfigure/code/test/differentiation",
+        "folder": "xyfigure/tests/differentiation",
         "file": "u-squared.csv",
         "skip_rows": 1,
         "plot_kwargs": {
@@ -12,7 +12,7 @@
     },
     "figure": {
         "class": "view",
-        "folder": "xyfigure/code/test/differentiation",
+        "folder": "xyfigure/tests/differentiation",
         "file": "u-squared.svg",
         "title": "u = 1/2 t^2",
         "xlabel": "time (s)",

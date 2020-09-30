@@ -4,6 +4,7 @@ from unittest import TestCase
 import numpy as np
 
 # import xyfigure.client as client
+# import xyfigure.code.client as client
 import xyfigure.code.client as client
 
 
@@ -12,14 +13,17 @@ class MyTestCase(TestCase):
     This is the unit test for differentiation of
     a quadratic function to produce a linear function.
 
-    To run from command line:
+    To run
+    $ conda load siblenv
     $ cd ~/sibl
-    $ python -m unittest xyfigure/code/test/differentiation/test.py -v
+    $ pytest xyfigure/tests/differentiation/test_differentiation.py -v
+    formerly
+    $ python -m unittest xyfigure/tests/differentiation/test_differentiation.py -v
     """
 
     @classmethod
     def setUpClass(cls):
-        cls._path = os.path.join("xyfigure", "code", "test", "differentiation")
+        cls._path = os.path.join("xyfigure", "tests", "differentiation")
         cls._tol = 1e-6
         return super().setUpClass()
 

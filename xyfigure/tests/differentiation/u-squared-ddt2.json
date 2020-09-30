@@ -1,22 +1,22 @@
 {
-    "time-velocity": {
+    "time-acceleration": {
         "class": "model",
         "verbose": false,
-        "folder": "xyfigure/code/test/differentiation",
-        "file": "t-v-sines.csv",
+        "folder": "xyfigure/tests/differentiation",
+        "file": "u-squared.csv",
         "skip_rows": 1,
         "plot_kwargs": {
-            "label": "d/dt (t-v-sines.csv)",
+            "label": "d^2/dt^2 (u-squared.csv)",
             "marker": "o",
             "linestyle": "-"
         },
         "signal_process": {
-            "process1": {
+            "process2": {
                 "gradient": {
-                    "order": 1,
+                    "order": 2,
                     "serialize": 1,
-                    "folder": "xyfigure/code/test/differentiation",
-                    "file": "t-v-sines-sig-proc-1.csv"
+                    "folder": "xyfigure/tests/differentiation",
+                    "file": "u-squared-sig-proc-2.csv"
                 }
             }
         }
@@ -24,11 +24,11 @@
     "figure": {
         "class": "view",
         "verbose": false,
-        "folder": "xyfigure/code/test/differentiation",
-        "file": "t-v-sines-ddt1.svg",
-        "title": "u_dot = d/dt (sin(2 pi t)) = 2 pi cos(2 pi t)",
+        "folder": "xyfigure/tests/differentiation",
+        "file": "u-squared-ddt2.svg",
+        "title": "u_ddot = d^2/dt^2 (1/2 t^2) = 1",
         "xlabel": "time (s)",
-        "ylabel": "velocity (m/s)",
+        "ylabel": "acceleration (m/s^2)",
         "size": [
             8.0,
             6.0
