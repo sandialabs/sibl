@@ -15,6 +15,7 @@ For more information, see our [website](https://www.sandia.gov/biomechanics/).
 
 [![unittest](https://github.com/sandialabs/sibl/workflows/unittest/badge.svg)](https://github.com/sandialabs/sibl/actions)
 [![blacktest](https://github.com/sandialabs/sibl/workflows/blacktest/badge.svg)](https://github.com/sandialabs/sibl/actions)
+[![covertest](https://github.com/sandialabs/sibl/workflows/covertest/badge.svg)](https://github.com/sandialabs/sibl/actions)
 
 * [xyfigure](xyfigure/doc/README.md)
 * [tpav](xyfigure/process/tpav/README.md)
