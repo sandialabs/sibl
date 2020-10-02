@@ -148,7 +148,8 @@ class XYModel(XYBase):
 
         if self._verbose:
             print(
-                'Signal process: "gradient" applied ' + str(gradient_order) + " time(s)"
+                "Signal process:"
+                "  gradient applied " + str(gradient_order) + " time(s)"
             )
         # numerical gradient
         # https://docs.scipy.org/doc/numpy/reference/generated/numpy.gradient.html
