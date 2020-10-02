@@ -50,6 +50,7 @@ def bspline_polynomial(knot_vector: list, knot_k: int, p=0, nti=2, verbose=True)
             return t, y
         else:
             print("Not implemented for p>0.")
+            return None
 
     else:
         if verbose:

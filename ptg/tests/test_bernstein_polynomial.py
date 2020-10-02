@@ -41,85 +41,91 @@ class TestBernstein(TestCase):
 
         return same_to_tolerance
 
-    def test_000_b01(self):
+    def test_b00_input_out_of_range_and_verbose(self):
+        i, p = 0, 0
+        verbose = True
+        calc = bp.bernstein_polynomial(i, p, self._nti, verbose=verbose)
+        self.assertIsNone(calc)
+
+    def test_b01(self):
         known = 1 - self._t
         i, p = 0, 1
         calc = bp.bernstein_polynomial(i, p, self._nti)
         self.assertTrue(self.same(known, calc))
 
-    def test_001_b11(self):
+    def test_b11(self):
         known = self._t
         i, p = 1, 1
         calc = bp.bernstein_polynomial(i, p, self._nti)
         self.assertTrue(self.same(known, calc))
 
-    def test_003_b02(self):
+    def test_b02(self):
         known = (1 - self._t) ** 2
         i, p = 0, 2
         calc = bp.bernstein_polynomial(i, p, self._nti)
         self.assertTrue(self.same(known, calc))
 
-    def test_004_b12(self):
+    def test_b12(self):
         known = 2 * self._t * (1 - self._t)
         i, p = 1, 2
         calc = bp.bernstein_polynomial(i, p, self._nti)
         self.assertTrue(self.same(known, calc))
 
-    def test_005_b22(self):
+    def test_b22(self):
         known = (self._t) ** 2
         i, p = 2, 2
         calc = bp.bernstein_polynomial(i, p, self._nti)
         self.assertTrue(self.same(known, calc))
 
-    def test_006_b03(self):
+    def test_b03(self):
         known = (1 - self._t) ** 3
         i, p = 0, 3
         calc = bp.bernstein_polynomial(i, p, self._nti)
         self.assertTrue(self.same(known, calc))
 
-    def test_007_b13(self):
+    def test_b13(self):
         known = 3 * self._t * (1 - self._t) ** 2
         i, p = 1, 3
         calc = bp.bernstein_polynomial(i, p, self._nti)
         self.assertTrue(self.same(known, calc))
 
-    def test_008_b23(self):
+    def test_b23(self):
         known = 3 * (self._t) ** 2 * (1 - self._t)
         i, p = 2, 3
         calc = bp.bernstein_polynomial(i, p, self._nti)
         self.assertTrue(self.same(known, calc))
 
-    def test_009_b33(self):
+    def test_b33(self):
         known = (self._t) ** 3
         i, p = 3, 3
         calc = bp.bernstein_polynomial(i, p, self._nti)
         self.assertTrue(self.same(known, calc))
 
-    def test_010_b04(self):
+    def test_b04(self):
         known = (1 - self._t) ** 4
         i, p = 0, 4
         calc = bp.bernstein_polynomial(i, p, self._nti)
         self.assertTrue(self.same(known, calc))
 
-    def test_011_b14(self):
+    def test_b14(self):
         known = 4 * self._t * (1 - self._t) ** 3
         i, p = 1, 4
         calc = bp.bernstein_polynomial(i, p, self._nti)
         self.assertTrue(self.same(known, calc))
 
-    def test_012_b24(self):
+    def test_b24(self):
         known = 6 * (self._t) ** 2 * (1 - self._t) ** 2
         i, p = 2, 4
         calc = bp.bernstein_polynomial(i, p, self._nti)
         self.assertTrue(self.same(known, calc))
 
-    def test_013_b34(self):
+    def test_b34(self):
         known = 4 * (self._t) ** 3 * (1 - self._t)
         i, p = 3, 4
         calc = bp.bernstein_polynomial(i, p, self._nti)
         self.assertTrue(self.same(known, calc))
 
-    def test_014_b44(self):
+    def test_b44(self):
         known = (self._t) ** 4
         i, p = 4, 4
         calc = bp.bernstein_polynomial(i, p, self._nti)

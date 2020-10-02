@@ -23,7 +23,7 @@ class TestBspline(TestCase):
         cls._TOL = 1e-6  # tolerance
         cls._nti = 4  # number of time intervals
         # t, e.g., two intervals, three evaluation points
-        cls._verbosity = False
+        cls._verbosity = True
 
     @classmethod
     def same(cls, a, b):
@@ -39,6 +39,19 @@ class TestBspline(TestCase):
             same_to_tolerance = True
 
         return same_to_tolerance
+
+    def test_000_input_out_of_range_and_verbose(self):
+        knot_vector = [0, 2, 3]  # list
+        degree = -1  # integer >= 0, so -1 is out of range for test
+
+        knot_index = 0  # integer >= 0
+
+        verbose = True
+
+        calc = bp.bspline_polynomial(
+            knot_vector, knot_index, degree, self._nti, verbose=verbose
+        )
+        self.assertIsNone(calc)
 
     def test_000_p0(self):
         knot_vector = [0, 2, 3]  # list
@@ -82,6 +95,16 @@ class TestBspline(TestCase):
 
         self.assertTrue(self.same(known_t, calc[0]))
         self.assertTrue(self.same(known_y, calc[1]))
+
+    def test_001_p1_not_yet_implemented(self):
+        knot_vector = [0, 2, 3]  # list
+        degree = 1  # integer >= 0
+
+        knot_index = 0  # integer >= 0
+        calc = bp.bspline_polynomial(
+            knot_vector, knot_index, degree, self._nti, self._verbosity
+        )
+        self.assertIsNone(calc)
 
 
 # if __name__ == "__main__":
