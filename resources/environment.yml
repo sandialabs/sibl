@@ -5,6 +5,7 @@ dependencies:
   - python=3.8
   - dash
   - flake8
+  - ipykernel
   - matplotlib
   - black
   - scipy

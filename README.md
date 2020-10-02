@@ -8,54 +8,45 @@ For more information, see our [website](https://www.sandia.gov/biomechanics/).
 
 ## Library 
 
-[![python](https://img.shields.io/badge/python-3.8-blue.svg)](https://www.python.org/) 
-[![license](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/sandialabs/sibl#license) 
-[![pypi](https://img.shields.io/badge/pypi-v0.0.6-brightgreen.svg)](https://pypi.org/project/xyfigure/) 
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-
-[![unittest](https://github.com/sandialabs/sibl/workflows/unittest/badge.svg)](https://github.com/sandialabs/sibl/actions)
-[![blacktest](https://github.com/sandialabs/sibl/workflows/blacktest/badge.svg)](https://github.com/sandialabs/sibl/actions)
-[![covertest](https://github.com/sandialabs/sibl/workflows/covertest/badge.svg)](https://github.com/sandialabs/sibl/actions)
-
+| | |
+|-|-|
+| Information | [![python](https://img.shields.io/badge/python-3.8-blue.svg)](https://www.python.org/) [![license](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/sandialabs/sibl#license) [![pypi](https://img.shields.io/badge/pypi-v0.0.6-brightgreen.svg)](https://pypi.org/project/xyfigure/) [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black) | 
+| Testing | [![unittest](https://github.com/sandialabs/sibl/workflows/unittest/badge.svg)](https://github.com/sandialabs/sibl/actions) [![blacktest](https://github.com/sandialabs/sibl/workflows/blacktest/badge.svg)](https://github.com/sandialabs/sibl/actions) [![covertest](https://github.com/sandialabs/sibl/workflows/covertest/badge.svg)](https://github.com/sandialabs/sibl/actions) [![codecov](https://codecov.io/gh/sandialabs/sibl/branch/master/graph/badge.svg)](https://codecov.io/gh/sandialabs/sibl) | 
+| Documentation | | 
 * [xyfigure](xyfigure/doc/README.md)
 * [tpav](xyfigure/process/tpav/README.md)
 
+
 ## Workflow Choice
 
-There are two workflows: Client and Developer
+There are two workflows: User and Developer
 
-| **Client** | **Developer**  |
-|---|---|
-| *"I just want to use the library, I don't want to develop the library."* | *"I want to use the library and develop the library."* | 
-| Follow the [Client setup](resources/environment.md#client-setup) | Complete the [environment](resources/environment.md) configuration, then follow the [Developer Workflow](#developer-workflow) | 
+ []() | **User** | **Developer**
+---|---|---
+Use Case | *"I just want to use the library, I don't want to develop the library."* | *"I want to use the library and develop the library."*
+Configuration | First, complete the [user configuration](resources/environment.md#user-configuration). | First, complete the [developer configuration](resources/environment.md#developer-configuration).
+Use | Then, proceed to the [documentation](xyfigure/doc/README.md).  | Then, follow the [Developer Workflow](#developer-workflow).
 
 ## Developer Workflow
 
-### Development Cycle
-
-* sync: pull updated code from respository, or push local code to the repository
-* implement
-* test: Continuous Integration (CI) Testing with GitHub [Actions](https://docs.github.com/en/actions) of (a) unit test and (b) Black test
-  * local test, manual test prior to push
-  * repository test, automatic on push via Continuous Integration (CI) 
-  * coverage (to come)
-* repeat this cycle
-
 ```bash
+# ----
 # sync
 # ----
 $ (base) [~]$ cd ~/sibl
-$ (base) git status
-$ (base) git pull
-$ (base) git add, git commit -m "message", git push
+$ (base) [~/sibl] git status
+$ (base) [~/sibl] git pull
+$ (base) [~/sibl] git add, git commit -m "message", git push
 #
+# ---------
 # implement
 # ---------
 $ (base) [~/sibl]$ conda activate siblenv
 $ (siblenv) [~/sibl]$ # development
 #
-# test
-# ----
+# --------
+# unittest
+# --------
 # check unit tests (soon-to-be-standard with pytest)
 $ (siblenv) [~/sibl]$ pytest # unit tests must pass prior to push to repository
 $ (siblenv) [~/sibl]$ pytest -v # for more verbose unittest output
@@ -64,7 +55,12 @@ $ (siblenv) [~/sibl]$ pytest -v # for more verbose unittest output
 $ (siblenv) [~/sibl]$ python -m unittest # unit tests must pass prior to push to repository
 $ (siblenv) [~/sibl]$ python -m unittest -v # for more verbose unittest output
 #
-# check Black
+# ---------
+# blacktest
+# ---------
+$ (siblenv) [~/sibl] black --check .
+#
+# or to check specific folders one at a time
 $ (siblenv) [~/sibl] black --check xyfigure/
 $ (siblenv) [~/sibl] black --check ptg/
 #
@@ -77,11 +73,15 @@ $ (siblenv) [~/sibl] black some_specific_file.py
 $ (siblenv) [~/sibl] black some_folder/
 $ (siblenv) [~/sibl]
 #
-# coverage
-# --------
+# ---------
+# covertest
+# ---------
+$ (siblenv) [~/sibl]$ pytest --cov=.
+#
+# or to test specific folders
 $ (siblenv) [~/sibl]$ pytest --cov=ptg/code --cov=xyfigure/code
 #
-# for line coverage
+# and to add missing coverage line number reporting
 $ (siblenv) [~/sibl]$ pytest --cov=ptg/code --cov=xyfigure/code --cov-report term-missing
 ```
 

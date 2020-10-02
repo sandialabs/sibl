@@ -1,11 +1,10 @@
 # Environment
 
-## Server
+## Developer configuration
 
 * Version control: [Git](https://git-scm.com/)
-* IDE: [VS Code](https://code.visualstudio.com/)
-  * [Settings](https://dev.to/adamlombard/how-to-use-the-black-python-code-formatter-in-vscode-3lo0) for VS Code
-* Miniconda or Anaconda
+* IDE: [VS Code](https://code.visualstudio.com/), with [settings](https://dev.to/adamlombard/how-to-use-the-black-python-code-formatter-in-vscode-3lo0) for using Black to automatically format Python
+* [Miniconda](https://docs.conda.io/en/latest/miniconda.html) (or [Anaconda](https://docs.anaconda.com/), as an alternative, as both support [conda](https://docs.conda.io/en/latest/) package manager)
 
 ### Create the environment
 
@@ -21,7 +20,7 @@
 (base) $ conda env list # verify sibltest is absent
 
 # create the actual environment siblenv
-(base) $ conda create --name siblenv python=3.8 scipy matplotlib pandas pillow dash xlrd pytest pytest-cov pylint flake8 seaborn black ipykernel
+(base) $ conda create --name siblenv python=3.8 black dash flake8 ipykernel matplotlib pandas pillow pytest pytest-cov seaborn scipy xlrd
 (base) $ conda activate siblenv
 (siblenv) $ pip install xyfigure
 ```
@@ -51,15 +50,16 @@ dependencies:
   - pillow
   - pytest
   - pytest-cov
-  - pylint
   - seaborn
   - pandas
 prefix: /Users/Apollo/opt/anaconda3/envs/siblenv
 ```
 
-## Client setup
+## User configuration
 
-### Using Conda (Preferred to Using Pip)
+### Conda 
+
+Conda is preferred to Pip for installation of most packages.  
 
 Clients should create their conda virtual environment from the above server-generated [environment.yml](environment.yml) file using the following commands
 
@@ -70,7 +70,9 @@ Clients should create their conda virtual environment from the above server-gene
 (siblenv) $
 ```
 
-### Using Pip (Conda is preferred to Pip)
+### Pip 
+
+Use Pip installation for xyfigure since it is not on the conda index.
 
 Install from a terminal:
 

@@ -13,6 +13,7 @@ xyfigure.egg-info
 
 # Ignore coverage.py html output 
 .coverage
+coverage.xml
 # htmlcov/
 
 # Ignore ircad data folder

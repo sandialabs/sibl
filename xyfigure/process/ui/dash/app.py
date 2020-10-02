@@ -172,5 +172,13 @@ def update_output(list_of_contents, list_of_names, list_of_dates):
 #     else:
 #         return 'First row of data file contains data (no headers).'
 
+# if __name__ == "__main__":
+#     app.run_server(debug=True, use_reloader=False)
+
 if __name__ == "__main__":
-    app.run_server(debug=True, use_reloader=False)
+    # app.run_server(debug=False, port=8080, host="0.0.0.0")  # not secure note
+    app.run_server(debug=False, port=8050, host="127.0.0.1")  # preferred
+
+
+# References
+# https://community.plotly.com/t/how-to-deploy-dash-app-on-local-network/7169
