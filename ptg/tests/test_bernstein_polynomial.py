@@ -47,10 +47,11 @@ class TestBernstein(TestCase):
         calc = bp.bernstein_polynomial(i, p, self._nti, verbose=verbose)
         self.assertIsNone(calc)
 
-    def test_b01(self):
+    def test_b01_and_verbose(self):
         known = 1 - self._t
         i, p = 0, 1
-        calc = bp.bernstein_polynomial(i, p, self._nti)
+        verbose = True
+        calc = bp.bernstein_polynomial(i, p, self._nti, verbose=verbose)
         self.assertTrue(self.same(known, calc))
 
     def test_b11(self):

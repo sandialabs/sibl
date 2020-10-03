@@ -3,13 +3,20 @@
 import numpy as np
 
 
-def bspline_polynomial(knot_vector: list, knot_k: int, p=0, nti=2, verbose=True):
-    """Given the knot_vector = [t0, t1, t2, ... tK] of length (K+1)
-    and the index knot_k in the knot_index = [0, 1, 2, ... K],
-    computes the B-spline polynomial basis of degree p,
-    (p=0: constant, p=1: linear, p=2: quadratic, p=3: cubic, etc.)
-    as a function of parameter t (quasi-time) for t in [t0, tK], with
-    at nti (number of time intervals) per knot span.
+def bspline_polynomial(
+    knot_vector: list, knot_k: int, p: int = 0, nti: int = 2, verbose: bool = False
+):
+    """Computes the B-spline polynomial basis
+
+    Args:
+        knot_vector (float array): [t0, t1, t2, ... tK] of length (K+1), and K knot spans
+        knot_k (int): index in the list of possible knot_index values = [0, 1, 2, ... K]
+        p (int): polynomial degree (p=0: constant, p=1: linear, p=2: quadratic, p=3: cubic, etc.)
+        nti (int): number of time intervals for t in per knot span [t_k, t_{k+1}], nti = 2 is default
+        verbose (bool): prints polynomial or error checking
+
+    Returns:
+        tuple: arrays of (t, f(t)) as time t and polynomial evaluated at t.
     """
 
     num_knots = len(knot_vector)
