@@ -5,7 +5,7 @@ import numpy as np
 
 def bernstein_polynomial(i: int, p: int, nti: int = 2, verbose: bool = False):
     """Computes the Bernstein polynomial
-    
+
     Args:
         i (int): control point, i >= 0 and i <=p
         p (int): polynomial degree, p >= 1
