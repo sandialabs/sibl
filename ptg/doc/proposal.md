@@ -12,7 +12,7 @@ Subtitle: Deep learning workflow to create a 3D solid model of human bones from 
 * A. A. Patel, Technical Contributor
 * R. J. Terpsma, Technical Contributor
 * Sandia Injury Biomechanics Laboratory (SIBL)
-* Sandia National Laboratoriesj
+* Sandia National Laboratories
 
 
 > Sandia National Laboratories is a multimission laboratory managed and 
