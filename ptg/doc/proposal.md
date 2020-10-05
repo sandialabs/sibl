@@ -139,7 +139,7 @@ Department 5421, Sandia National Laboratories, PO Box 5800,  Albuquerque NM 8718
 
 ### Heinrich 2019
 
-* Heinrich, G. (2016). Image Segmentation Using DIGITS 5. https://devblogs. nvidia.com/image-segmentation-using-digits-5 accessed April 22, 2020.
+* Heinrich, G. (2016). Image Segmentation Using DIGITS 5. https://devblogs.nvidia.com/image-segmentation-using-digits-5 accessed April 22, 2020.
 
 ### IRCAD-France 2012
 
