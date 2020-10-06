@@ -3,6 +3,7 @@
 ## Developer configuration
 
 * Version control: [Git](https://git-scm.com/)
+  * macOS: May require installation of [Xcode command line tools](https://developer.apple.com/xcode/features/) prior to installation of Git.
 * IDE: [VS Code](https://code.visualstudio.com/), with [settings](https://dev.to/adamlombard/how-to-use-the-black-python-code-formatter-in-vscode-3lo0) for using Black to automatically format Python
 * [Miniconda](https://docs.conda.io/en/latest/miniconda.html) (or [Anaconda](https://docs.anaconda.com/), as an alternative, as both support [conda](https://docs.conda.io/en/latest/) package manager)
 
