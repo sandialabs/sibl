@@ -1,0 +1,38 @@
+# test_bezier_surface.py
+"""
+This module is a unit test of the bezier_surface implementation.
+
+To run
+$ conda load siblenv
+$ cd ~/sibl
+$ black --check ptg/tests/test_bezier_surface.py
+$ pytest ptg/tests/test_bezier_surface.py -v
+$ pytest ptg/tests/test_bezier_surface.py -v --cov=ptg/code --cov-report term-missing
+"""
+# from unittest import TestCase, main
+from unittest import TestCase
+
+# from ptg.code.bezier_indices import bezindex
+# import ptg.code.bezier_indices as bezindex
+import ptg.code.bezier_surface as bsurf
+
+
+class TestBezierSurface(TestCase):
+    """Tests the creation of Bezier surface basis functions figures."""
+
+    def test_000_bilinear(self):
+        config = {
+            "degree": 1,
+            "number-time-interval-bisections": 1,
+            "display": False,
+            "camera-azimuth": 15,
+            "camera-elevation": 15,
+            "dots-per-inch": 100,
+            "latex": True,
+            "serialize": False,
+            "verbose": True,
+            "z-axis-label-inverted": True,
+        }
+        bs = bsurf.BezierSurface(config=config)
+        result = bs.INITIALIZED
+        self.assertTrue(result)
