@@ -5,12 +5,13 @@
 echo This shell script recreates the conda environment 
 echo for use with the xyfigure and zplot modules.
 
-echo "Select an environment name (e.g., zsiblenv):"
-# y='zmathenv' # the conda environment of interest
-read y
-echo Creating conda environment: $y
+# echo "Select an environment name (e.g., zsiblenv):"
+# read y
+y='siblenv' # the conda environment of interest
+echo Creating conda environment $y
 
 echo Verifying that conda is up-to-date:
+conda activate base
 conda update -n base -c defaults conda
 
 echo Current conda environments:
