@@ -2,7 +2,8 @@
 
 # standard libraries
 import base64
-import csv
+
+# import csv
 import datetime
 import io
 
@@ -19,7 +20,7 @@ import pandas as pd
 # local libraries
 
 app = dash.Dash(__name__)
-app.title = "xyfigure"
+app.title = "zplot"
 
 style_upload = dict(
     width="98%",
@@ -138,13 +139,13 @@ def parse_contents(contents, filename, date):
                 columns=[{"name": i, "id": i} for i in df.columns],
             ),
             html.Hr()  # horizontal line
-            ##  html.Hr(),  # horizontal line
-            ##  # For debugging, display the raw contents provided by the web browser
-            ##  html.Div('Raw Content'),
-            ##  html.Pre(contents[0:200] + '...', style={
-            ##      'whiteSpace': 'pre-wrap',
-            ##      'wordBreak': 'break-all'
-            ##  })
+            #  html.Hr(),  # horizontal line
+            #  # For debugging, display the raw contents provided by the web browser
+            #  html.Div('Raw Content'),
+            #  html.Pre(contents[0:200] + '...', style={
+            #      'whiteSpace': 'pre-wrap',
+            #      'wordBreak': 'break-all'
+            #  })
         ]
     )
 
