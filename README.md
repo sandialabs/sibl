@@ -23,7 +23,7 @@ There are two workflows: User and Developer
  []() | **User** | **Developer**
 ---|---|---
 Use Case | *"I just want to use the library, I don't want to develop the library."* | *"I want to use the library and develop the library."*
-Configuration | First, complete the [user configuration](resources/environment.md#user-configuration). | First, complete the [developer configuration](resources/environment.md#developer-configuration).
+Configuration | First, complete the [user configuration](config/environment.md#user-configuration). | First, complete the [developer configuration](config/environment.md#developer-configuration).
 Use | Then, proceed to the [documentation](xyfigure/doc/README.md).  | Then, follow the [Developer Workflow](#developer-workflow).
 
 ## Developer Workflow
@@ -61,7 +61,7 @@ $ (siblenv) [~/sibl] black --check .
 #
 # or to check specific folders one at a time
 $ (siblenv) [~/sibl] black --check xyfigure/
-$ (siblenv) [~/sibl] black --check ptg/
+$ (siblenv) [~/sibl] black --check geo/
 #
 # if above check failse, the diff or fix 
 # diff: (without automatic code modification)
@@ -78,10 +78,10 @@ $ (siblenv) [~/sibl]
 $ (siblenv) [~/sibl]$ pytest --cov=.
 #
 # or to test specific folders
-$ (siblenv) [~/sibl]$ pytest --cov=ptg/code --cov=xyfigure/code
+$ (siblenv) [~/sibl]$ pytest --cov=geo/src/ptg --cov=xyfigure/code
 #
 # and to add missing coverage line number reporting
-$ (siblenv) [~/sibl]$ pytest --cov=ptg/code --cov=xyfigure/code --cov-report term-missing
+$ (siblenv) [~/sibl]$ pytest --cov=geo/src/ptg --cov=xyfigure/code --cov-report term-missing
 ```
 
 ## Contact

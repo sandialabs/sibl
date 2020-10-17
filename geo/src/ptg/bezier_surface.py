@@ -8,7 +8,8 @@ from matplotlib import rc
 # from matplotlib.ticker import AutoMinorLocator
 from matplotlib.ticker import MultipleLocator
 
-import ptg.code.bernstein_polynomial as bp
+# import ptg.code.bernstein_polynomial as bp
+import ptg.bernstein_polynomial as bp
 
 #  import bernstein_polynomial as bp
 

@@ -14,7 +14,7 @@
             "process1": {
                 "#gradient-defect-key-not-found": {
                     "order": 1,
-                    "serialize": 1,
+                    "serialize": 0,
                     "folder": "xyfigure/tests/model",
                     "file": "u-squared-sig-proc-1.csv"
                 }

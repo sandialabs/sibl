@@ -1,21 +1,49 @@
+*.swp
+
 # byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
 
 # VS Code IDE files
+launch.json
 .vscode/
 
 # Build directory from PyPI deployment
+.Python
 build/
+develop-eggs/
 dist/
-xyfigure.egg-info
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
 
-# Ignore coverage.py html output 
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
 .coverage
+.coverage.*
+.cache
+nosetests.xml
 coverage.xml
-# htmlcov/
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
 
 # Ignore ircad data folder
-ptg/data/ircad_numpy/*
-ptg/notebooks/.ipynb*
+geo/data/ircad_numpy/*
+geo/notebooks/.ipynb*

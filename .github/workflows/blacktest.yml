@@ -24,4 +24,4 @@ jobs:
     - name: Test with Black
       run: |
         black --check xyfigure --diff
-        black --check ptg --diff
+        black --check geo --diff

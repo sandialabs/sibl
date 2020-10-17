@@ -5,16 +5,17 @@ This module is a unit test of the bezier_surface implementation.
 To run
 $ conda load siblenv
 $ cd ~/sibl
-$ black --check ptg/tests/test_bezier_surface.py
-$ pytest ptg/tests/test_bezier_surface.py -v
-$ pytest ptg/tests/test_bezier_surface.py -v --cov=ptg/code --cov-report term-missing
+$ black --check geo/tests/test_bezier_surface.py
+$ pytest geo/tests/test_bezier_surface.py -v
+$ pytest geo/tests/test_bezier_surface.py -v --cov=geo/src/ptg --cov-report term-missing
 """
 # from unittest import TestCase, main
 from unittest import TestCase
 
 # from ptg.code.bezier_indices import bezindex
 # import ptg.code.bezier_indices as bezindex
-import ptg.code.bezier_surface as bsurf
+# import ptg.code.bezier_surface as bsurf
+import ptg.bezier_surface as bsurf
 
 
 class TestBezierSurface(TestCase):

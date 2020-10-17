@@ -15,4 +15,3 @@ dependencies:
   - pytest-cov
   - seaborn
   - pandas
-prefix: /Users/Apollo/opt/anaconda3/envs/siblenv

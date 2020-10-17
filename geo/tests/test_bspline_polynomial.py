@@ -5,16 +5,17 @@ This module is a unit test of the bspline_polynomial implementation.
 To run
 $ conda load siblenv
 $ cd ~/sibl
-$ black --check ptg/tests/test_bspline_polynomial.py
-$ pytest ptg/tests/test_bspline_polynomial.py -v
-$ pytest ptg/tests/test_bspline_polynomial.py -v --cov=ptg/code --cov-report term-missing
+$ black --check geo/tests/test_bspline_polynomial.py
+$ pytest geo/tests/test_bspline_polynomial.py -v
+$ pytest geo/tests/test_bspline_polynomial.py -v --cov=geo/src/ptg --cov-report term-missing
 """
 # from unittest import TestCase, main
 from unittest import TestCase
 
 import numpy as np
 
-import ptg.code.bspline_polynomial as bp
+# import ptg.code.bspline_polynomial as bp
+import ptg.bspline_polynomial as bp
 
 
 class TestBspline(TestCase):
