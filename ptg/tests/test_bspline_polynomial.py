@@ -65,7 +65,7 @@ class TestBspline(TestCase):
             print(f"output = {calc}")
 
         known_t = [0, 0.5, 1, 1.5, 2, 2.25, 2.5, 2.75, 3]
-        known_y = [1, 1, 1, 1, 0, 0, 0, 0, 0]
+        known_y = [1, 1.0, 1, 1.0, 0, 0.00, 0.0, 0.00, 0]
 
         self.assertTrue(self.same(known_t, calc[0]))
         self.assertTrue(self.same(known_y, calc[1]))
