@@ -47,7 +47,7 @@ These two efforts are described in summary form to provide context to the curren
 
 ### Head-Neck-Torso Digital Twin
 
-We have created a high-fidelity head-neck-torso model.  The model, internally referred to as "Bob," has two resolutions at characteristic length scales of 2-mm (“course mesh”) and 1-mm (“fine mesh”).  The meshes exist in both a finite element and finite volume description, suited to analysis involving blast and ballistics (e.g., Eulerian) as well as blunt impact (e.g., Lagrangian).  Ten (10) materials compose the model: bone, disc, vasculature, airway/sinus, membrane, cerebral spinal fluid (CSF), white matter, gray matter, muscle, and skin.
+We have created a high-fidelity head-neck-torso model.  The model, internally referred to as "Bob," has two resolutions at characteristic length scales of 2-mm (“coarse mesh”) and 1-mm (“fine mesh”).  The meshes exist in both a finite element and finite volume description, suited to analysis involving blast and ballistics (e.g., Eulerian) as well as blunt impact (e.g., Lagrangian).  Ten (10) materials compose the model: bone, disc, vasculature, airway/sinus, membrane, cerebral spinal fluid (CSF), white matter, gray matter, muscle, and skin.
 
 ![bob-frontal-sagittal](fig/bob-frontal-sagittal.png)
 
