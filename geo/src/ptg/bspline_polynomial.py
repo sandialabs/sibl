@@ -18,7 +18,7 @@ def bspline_polynomial(
         verbose (bool): prints polynomial or error checking
 
     Returns:
-        tuple: arrays of (t, f(t)) as time t and polynomial evaluated at t; or, 
+        tuple: arrays of (t, f(t)) as time t and polynomial evaluated at t; or,
         AssertionError: if input is out of range
     """
 
