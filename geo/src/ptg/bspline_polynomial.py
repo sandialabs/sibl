@@ -35,7 +35,12 @@ def bspline_polynomial(
         assert nti >= 1, "Error: number of time intervals nti must be 1 or greater."
         assert knot_k <= (
             num_knots - 1
-        ), "Error: knot index knot_k exceeds knot vector length plus 1."
+        ), "Error: knot index knot_k exceeds knot vector length minus 1."
+
+        num_knots_k_to_end = len(knot_vector[knot_k:])
+        assert (
+            num_knots_k_to_end >= p + 1
+        ), "Error, insufficient remaining knots for local support."
 
         knots_lhs = knot_vector[0:-1]  # left-hand-side knot values
         knots_rhs = knot_vector[1:]  # right-hand-side knot values

@@ -105,7 +105,7 @@ class TestBspline(TestCase):
         self.assertIsInstance(calc, AssertionError)
         self.assertTrue(
             calc.args[0]
-            == "Error: knot index knot_k exceeds knot vector length plus 1."
+            == "Error: knot index knot_k exceeds knot vector length minus 1."
         )
 
     def test_008_decreasing_knots(self):
@@ -140,6 +140,14 @@ class TestBspline(TestCase):
         known_y = [0, 0, 0, 0, 0, 0, 0, 0, 1]
         self.assertTrue(self.same(known_t, calc[0]))
         self.assertTrue(self.same(known_y, calc[1]))
+
+    # def test_N30_insufficient_knots(self):
+    #     knot_index = 3  # integer >= 0
+    #     calc = bp.bspline_polynomial(self.kv, knot_index, self.degree, self.nti)
+    #     self.assertIsInstance(calc, AssertionError)
+    #     self.assertTrue(
+    #         calc.args[0] == "Error, insufficient remaining knots for local support."
+    #     )
 
     def test_N01_not_yet_implemented(self):
         degree = 1  # integer >= 0
