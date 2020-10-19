@@ -1,0 +1,40 @@
+{
+    "time-acceleration": {
+        "class": "model",
+        "verbose": false,
+        "folder": "cli/tests/differentiation",
+        "file": "u-squared.csv",
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "label": "d^2/dt^2 (u-squared.csv)",
+            "marker": "o",
+            "linestyle": "-"
+        },
+        "signal_process": {
+            "process2": {
+                "gradient": {
+                    "order": 2,
+                    "serialize": 1,
+                    "folder": "cli/tests/differentiation",
+                    "file": "u-squared-sig-proc-2.csv"
+                }
+            }
+        }
+    },
+    "figure": {
+        "class": "view",
+        "verbose": false,
+        "folder": "cli/tests/differentiation",
+        "file": "u-squared-ddt2.svg",
+        "title": "u_ddot = d^2/dt^2 (1/2 t^2) = 1",
+        "xlabel": "time (s)",
+        "ylabel": "acceleration (m/s^2)",
+        "size": [
+            8.0,
+            6.0
+        ],
+        "display": 0,
+        "details": 0,
+        "serialize": 0
+    }
+}

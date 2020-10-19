@@ -46,7 +46,6 @@ class TestBspline(TestCase):
 
     def test_001_knot_vector_minimum_length(self):
         kv_too_short = [0]
-        knot_index = 0
         calc = bp.bspline_polynomial(kv_too_short)
         self.assertIsInstance(calc, AssertionError)
         self.assertTrue(

@@ -5,7 +5,7 @@
 echo This shell script recreates the conda environment 
 echo for use with the xyfigure and zplot modules.
 
-# echo "Select an environment name (e.g., zsiblenv):"
+# echo "Select an environment name (e.g., siblenv):"
 # read y
 y='siblenv' # the conda environment of interest
 echo Creating conda environment $y

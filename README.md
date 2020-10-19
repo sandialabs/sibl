@@ -13,8 +13,8 @@ For more information, see our [website](https://www.sandia.gov/biomechanics/).
 * Testing 
   * [![unittest](https://github.com/sandialabs/sibl/workflows/unittest/badge.svg)](https://github.com/sandialabs/sibl/actions) [![blacktest](https://github.com/sandialabs/sibl/workflows/blacktest/badge.svg)](https://github.com/sandialabs/sibl/actions) [![covertest](https://github.com/sandialabs/sibl/workflows/covertest/badge.svg)](https://github.com/sandialabs/sibl/actions) [![codecov](https://codecov.io/gh/sandialabs/sibl/branch/master/graph/badge.svg)](https://codecov.io/gh/sandialabs/sibl)
 * Documentation
-  * [xyfigure](xyfigure/doc/README.md)
-  * [tpav](xyfigure/process/tpav/README.md)
+  * [xyfigure](cli/doc/README.md)
+  * [tpav](cli/tests/tpav/README.md)
 
 ## Workflow Choice
 
@@ -60,7 +60,7 @@ $ (siblenv) [~/sibl]$ python -m unittest -v # for more verbose unittest output
 $ (siblenv) [~/sibl] black --check .
 #
 # or to check specific folders one at a time
-$ (siblenv) [~/sibl] black --check xyfigure/
+$ (siblenv) [~/sibl] black --check cli/
 $ (siblenv) [~/sibl] black --check geo/
 #
 # if above check failse, the diff or fix 
@@ -78,10 +78,10 @@ $ (siblenv) [~/sibl]
 $ (siblenv) [~/sibl]$ pytest --cov=.
 #
 # or to test specific folders
-$ (siblenv) [~/sibl]$ pytest --cov=geo/src/ptg --cov=xyfigure/code
+$ (siblenv) [~/sibl]$ pytest --cov=cli/src/xyfigure --cov=geo/src/ptg
 #
 # and to add missing coverage line number reporting
-$ (siblenv) [~/sibl]$ pytest --cov=geo/src/ptg --cov=xyfigure/code --cov-report term-missing
+$ (siblenv) [~/sibl]$ pytest --cov=cli/src/xyfigure --cov=geo/src/ptg  --cov-report term-missing
 ```
 
 ## Contact

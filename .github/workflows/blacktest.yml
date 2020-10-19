@@ -23,5 +23,5 @@ jobs:
         pip install black
     - name: Test with Black
       run: |
-        black --check xyfigure --diff
+        black --check cli --diff
         black --check geo --diff

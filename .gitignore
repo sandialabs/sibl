@@ -28,6 +28,7 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+meta.yaml
 
 # Unit test / coverage reports
 htmlcov/
