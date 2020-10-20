@@ -24,8 +24,9 @@
 # create the actual environment siblenv
 (base) $ conda create --name siblenv python=3.8 black dash flake8 ipykernel matplotlib pandas pillow pytest pytest-cov seaborn scipy xlrd
 (base) $ conda activate siblenv
-(siblenv) $ pip install -e ~/sibl/cli/
-(siblenv) $ pip install -e ~/sibl/geo/
+(siblenv) $ pip install -e ~/sibl/cli/ # for xyfigure
+(siblenv) $ pip install -e ~/sibl/geo/ # for xyfigure PTG extension
+(siblenv) $ pip install -e ~/sibl/gui/ # for xyfigure zplot extension
 ```
 
 ### Create the environment configuration file
