@@ -18,7 +18,7 @@ import numpy as np
 import ptg.bspline_polynomial as bp
 
 
-class TestBspline(TestCase):
+class TestBSplinePoly(TestCase):
     @classmethod
     def setUpClass(cls):
         cls.TOL = 1e-6  # tolerance

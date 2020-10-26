@@ -7,12 +7,15 @@ from matplotlib import rc
 # from matplotlib.ticker import AutoMinorLocator
 from matplotlib.ticker import MultipleLocator
 
-import bspline_polynomial as bp
+# import bspline_polynomial as bp
+import ptg.bspline_polynomial as bp
+
+# (siblenv) [~/sibl/geo/doc] python plot_bspline_contant.py
 
 DISPLAY = 1
 DPI = 100  # dots per inch
 LATEX = 1
-SERIALIZE = 1
+SERIALIZE = 0
 VERBOSE = 0
 
 if LATEX:

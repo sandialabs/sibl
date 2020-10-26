@@ -22,11 +22,11 @@
 (base) $ conda env list # verify sibltest is absent
 
 # create the actual environment siblenv
-(base) $ conda create --name siblenv python=3.8 black dash flake8 ipykernel matplotlib pandas pillow pytest pytest-cov seaborn scipy xlrd
+(base) $ conda create --name siblenv python=3.8 black dash flake8 matplotlib notebook pandas pillow pytest pytest-cov seaborn scipy xlrd
 (base) $ conda activate siblenv
-(siblenv) $ pip install -e ~/sibl/cli/ # for xyfigure
-(siblenv) $ pip install -e ~/sibl/geo/ # for xyfigure PTG extension
-(siblenv) $ pip install -e ~/sibl/gui/ # for xyfigure zplot extension
+(siblenv) $ cd ~/sibl/cli/; pip install -e . # for xyfigure
+(siblenv) $ cd ~/sibl/geo/; pip install -e . # for xyfigure PTG extension
+(siblenv) $ cd ~/sibl/gui/; pip install -e . # for xyfigure zplot extension
 ```
 
 ### Create the environment configuration file
@@ -45,17 +45,18 @@ channels:
   - defaults
 dependencies:
   - python=3.8
+  - black
   - dash
   - flake8
   - matplotlib
-  - black
-  - scipy
-  - xlrd
+  - notebook
+  - pandas
   - pillow
   - pytest
   - pytest-cov
   - seaborn
-  - pandas
+  - scipy
+  - xlrd
 ```
 
 ## User configuration
