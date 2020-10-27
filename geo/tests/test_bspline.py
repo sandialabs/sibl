@@ -2,7 +2,7 @@
 """This module is a unit test of the bspline implementation.
 
 To run
-$ conda activate sible env
+$ conda activate sibl env
 $ cd ~/sibl
 $ pytest geo/tests/test_bspline.py -v
 """
