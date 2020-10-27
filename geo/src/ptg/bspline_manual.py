@@ -4,15 +4,16 @@ import numpy as np
 
 
 def bspline_polynomial(
-    knot_vector: list, knot_k: int = 0, p: int = 0, nti: int = 1, verbose: bool = False
+    kv: list, knot_i: int = 0, p: int = 0, nti: int = 1, verbose: bool = False
 ):
     """Computes the B-spline polynomial basis
 
     Args:
-        knot_vector (float array): [t0, t1, t2, ... tK] of length (K+1), and K knot spans
+        kv (float array): knot vector [t0, t1, t2, ... tK]
+            of length (K+1), and K knot spans
             must have length of 2 or more
             must be a non-decreasing sequence
-        knot_k (int): index in the list of possible knot_index values = [0, 1, 2, ... K]
+        knot_i (int): index in the list of possible knot_index values = [0, 1, 2, ... K]
         p (int): polynomial degree (p=0: constant, p=1: linear, p=2: quadratic, p=3: cubic, etc.)
         nti (int): number of time intervals for t in per knot span [t_k, t_{k+1}], nti = 1 is default
         verbose (bool): prints polynomial or error checking
@@ -22,28 +23,28 @@ def bspline_polynomial(
         AssertionError: if input is out of range
     """
 
-    num_knots = len(knot_vector)
-    MAX_DEGREE = 0
+    num_knots = len(kv)
+    MAX_DEGREE = 1
 
     try:
-        assert len(knot_vector) >= 2, "Error: knot vector length must be two or larger."
-        assert knot_k >= 0, "Error: knot index knot_k must be non-negative."
+        assert len(kv) >= 2, "Error: knot vector length must be two or larger."
+        assert knot_i >= 0, "Error: knot index knot_i must be non-negative."
         assert p >= 0, "Error: polynomial degree p must be non-negative."
         assert (
             p <= MAX_DEGREE
         ), f"Error: polynomial degree p exceeds maximum of {MAX_DEGREE}"
         assert nti >= 1, "Error: number of time intervals nti must be 1 or greater."
-        assert knot_k <= (
+        assert knot_i <= (
             num_knots - 1
-        ), "Error: knot index knot_k exceeds knot vector length minus 1."
+        ), "Error: knot index knot_i exceeds knot vector length minus 1."
 
-        num_knots_k_to_end = len(knot_vector[knot_k:])
+        num_knots_k_to_end = len(kv[knot_i:])
         assert (
             num_knots_k_to_end >= p + 1
         ), "Error, insufficient remaining knots for local support."
 
-        knots_lhs = knot_vector[0:-1]  # left-hand-side knot values
-        knots_rhs = knot_vector[1:]  # right-hand-side knot values
+        knots_lhs = kv[0:-1]  # left-hand-side knot values
+        knots_rhs = kv[1:]  # right-hand-side knot values
         knot_spans = np.array(knots_rhs) - np.array(knots_lhs)
         dt = knot_spans / nti
         assert all([dti >= 0 for dti in dt]), "Error: knot vector is decreasing."
@@ -55,15 +56,16 @@ def bspline_polynomial(
             for k in np.arange(num_knots - 1)
             for j in np.arange(nti)
         ]
-        t.append(knot_vector[-1])
+        t.append(kv[-1])
         t = np.array(t)
 
-        y = np.zeros((num_knots - 1) * nti + 1)
+        # y = np.zeros((num_knots - 1) * nti + 1)
+        y = np.zeros(len(t))
 
         if verbose:
-            print(f"Knot vector: {knot_vector}")
+            print(f"Knot vector: {kv}")
             print(f"Number of knots = {num_knots}")
-            print(f"Knot index: {knot_k}")
+            print(f"Knot index: {knot_i}")
             print(f"Left-hand-side knot vector values: {knots_lhs}")
             print(f"Right-hand-side knot vector values: {knots_rhs}")
             print(f"Knot spans: {knot_spans}")
@@ -71,10 +73,17 @@ def bspline_polynomial(
             print(f"Knot span deltas: {dt}")
 
         if p == 0:
-            y[knot_k * nti : knot_k * nti + nti] = 1.0
+            y[knot_i * nti : knot_i * nti + nti] = 1.0
             if verbose:
                 print(f"t = {t}")
                 print(f"y = {y}")
+
+        if p == 1:
+            for (eix, te) in enumerate(t):  # e for evaluations, ix for index
+                if te >= kv[knot_i] and te < kv[knot_i + 1]:
+                    y[eix] = (te - kv[knot_i]) / (kv[knot_i + 1] - kv[knot_i])
+                elif te >= kv[knot_i + 1] and te < kv[knot_i + 2]:
+                    y[eix] = (kv[knot_i + 2] - te) / (kv[knot_i + 2] - kv[knot_i + 1])
 
         return t, y
         # else:
@@ -87,9 +96,9 @@ def bspline_polynomial(
 
         return error
 
-    # if knot_k >= 0 and knot_k <= (num_knots - 1) and p >= 0 and nti >= 1:
-    #     knots_lhs = knot_vector[0:-1]  # left-hand-side knot values
-    #     knots_rhs = knot_vector[1:]  # right-hand-side knot values
+    # if knot_i >= 0 and knot_i <= (num_knots - 1) and p >= 0 and nti >= 1:
+    #     knots_lhs = kv[0:-1]  # left-hand-side knot values
+    #     knots_rhs = kv[1:]  # right-hand-side knot values
     #     knot_spans = np.array(knots_rhs) - np.array(knots_lhs)
     #     dt = knot_spans / nti
 
@@ -100,15 +109,15 @@ def bspline_polynomial(
     #         for k in np.arange(num_knots - 1)
     #         for j in np.arange(nti)
     #     ]
-    #     t.append(knot_vector[-1])
+    #     t.append(kv[-1])
     #     t = np.array(t)
 
     #     y = np.zeros((num_knots - 1) * nti + 1)
 
     #     if verbose:
-    #         print(f"Knot vector: {knot_vector}")
+    #         print(f"Knot vector: {kv}")
     #         print(f"Number of knots = {num_knots}")
-    #         print(f"Knot index: {knot_k}")
+    #         print(f"Knot index: {knot_i}")
     #         print(f"Left-hand-side knot vector values: {knots_lhs}")
     #         print(f"Right-hand-side knot vector values: {knots_rhs}")
     #         print(f"Knot spans: {knot_spans}")
@@ -116,7 +125,7 @@ def bspline_polynomial(
     #         print(f"Knot span deltas: {dt}")
 
     #     if p == 0:
-    #         y[knot_k * nti : knot_k * nti + nti] = 1.0
+    #         y[knot_i * nti : knot_i * nti + nti] = 1.0
     #         if verbose:
     #             print(f"t = {t}")
     #             print(f"y = {y}")

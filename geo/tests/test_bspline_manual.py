@@ -15,7 +15,8 @@ from unittest import TestCase, main
 import numpy as np
 
 # import ptg.code.bspline_polynomial as bp
-import ptg.bspline_polynomial as bp
+# import ptg.bspline_polynomial as bp
+import ptg.bspline_manual as bp
 
 
 class TestBSplinePoly(TestCase):
@@ -57,7 +58,7 @@ class TestBSplinePoly(TestCase):
         calc = bp.bspline_polynomial(self.kv, bad_knot_index)
         self.assertIsInstance(calc, AssertionError)
         self.assertTrue(
-            calc.args[0] == "Error: knot index knot_k must be non-negative."
+            calc.args[0] == "Error: knot index knot_i must be non-negative."
         )
 
     def test_003_degree_too_small(self):
@@ -69,11 +70,11 @@ class TestBSplinePoly(TestCase):
         )
 
     def test_004_degree_too_large(self):
-        degree = 1  # integer >= 0, but linear degree not yet implemented
+        degree = 2  # integer >= 0, but quadratic and higher not yet implemented
         calc = bp.bspline_polynomial(self.kv, self.ki, degree)
         self.assertIsInstance(calc, AssertionError)
         self.assertTrue(
-            calc.args[0] == "Error: polynomial degree p exceeds maximum of 0"
+            calc.args[0] == "Error: polynomial degree p exceeds maximum of 1"
         )
 
     def test_005_number_of_time_intervals(self):
@@ -104,7 +105,7 @@ class TestBSplinePoly(TestCase):
         self.assertIsInstance(calc, AssertionError)
         self.assertTrue(
             calc.args[0]
-            == "Error: knot index knot_k exceeds knot vector length minus 1."
+            == "Error: knot index knot_i exceeds knot vector length minus 1."
         )
 
     def test_008_decreasing_knots(self):
@@ -148,13 +149,13 @@ class TestBSplinePoly(TestCase):
     #         calc.args[0] == "Error, insufficient remaining knots for local support."
     #     )
 
-    def test_N01_not_yet_implemented(self):
-        degree = 1  # integer >= 0
-        calc = bp.bspline_polynomial(self.kv, self.ki, degree)
-        self.assertIsInstance(calc, AssertionError)
-        self.assertTrue(
-            calc.args[0] == "Error: polynomial degree p exceeds maximum of 0"
-        )
+    # def test_N01_not_yet_implemented(self):
+    #     degree = 1  # integer >= 0
+    #     calc = bp.bspline_polynomial(self.kv, self.ki, degree)
+    #     self.assertIsInstance(calc, AssertionError)
+    #     self.assertTrue(
+    #         calc.args[0] == "Error: polynomial degree p exceeds maximum of 0"
+    #     )
 
 
 # retain main for debugging this file in VS code

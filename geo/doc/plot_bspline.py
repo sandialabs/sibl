@@ -57,10 +57,10 @@ config_Cottrell_Fig2p6 = {
 config = config_Cottrell_Fig2p6
 
 DEGREE = config.get("degree", 0)  # 0 constant, 1 linear, 2 quadratic, 3 cubic
-DISPLAY = config.get("display", True)
+DISPLAY = config.get("display", True)  # show to screen
 DPI = config.get("dpi", 100)  # dots per inch
 KNOT_OFFSET = config.get("knot_offset", 0)  # translate knot vector to left or right
-LATEX = config.get("latex", False)
+LATEX = config.get("latex", False)  # use LaTeX instead of default fonts
 NBI = config.get("nbi", 2)  # number of bisections per knot interval
 NCP = config.get("ncp", 2)  # number of control points
 SERIALIZE = config.get("serialize", False)  # save figure to disc
@@ -78,7 +78,9 @@ knot_vector = (
     np.concatenate((np.repeat(a, DEGREE), np.arange(a, b), np.repeat(b, DEGREE + 1)))
     + KNOT_OFFSET
 )
-KV = config.get("knot_vector", knot_vector)
+KV = config.get(
+    "knot_vector", knot_vector
+)  # default is open vector, no internal knot multiplicity
 
 # number of elements is the number of non-zero knot spans
 num_elements = len(np.unique(KV)) - 1
@@ -104,19 +106,15 @@ t.append(KV[-1])
 t = np.array(t)
 N = []
 
-# for k in np.arange(len(KV) - 1 - DEGREE):
 for i in np.arange(NCP):
 
-    # coef = np.zeros(len(KV) - (DEGREE + 1))
     coef = np.zeros(NCP)
-    # coef[k] = 1.0
     coef[i] = 1.0
 
     B = bsp.BSpline(KV, coef, DEGREE)
 
     if B.is_valid():
         y = B.evaluate(t)
-
         N.append(y)
 
 
@@ -128,7 +126,6 @@ ax = fig.gca()
 ax.grid(True, which="major", linestyle="-")
 ax.grid(True, which="minor", linestyle=":")
 
-# ax.plot(t, y, linestyle="None", marker=".")
 for i in np.arange(NCP):
     CPTXT = f"{i}"
     DEGTXT = f"{DEGREE}"
@@ -142,7 +139,6 @@ for i in np.arange(NCP):
     )
 
 ax.set_xlabel(r"$t$")
-# ax.set_ylabel(r"$N^{p}_{i}(t)$")
 ax.set_ylabel(f"$N^{DEGREE}_i(t)$")
 
 eps = 0.1
