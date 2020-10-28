@@ -1,0 +1,72 @@
+{
+    "signal-1": {
+        "class": "model",
+        "folder": "cli/tests/correlation",
+        "file": "signal_1.csv",
+        "skip_rows": 1,
+        "ycolumn": 1,
+        "plot_kwargs": {
+            "label": "first signal",
+            "color": "blue",
+            "linewidth": 2,
+            "linestyle": "--",
+            "marker": "D",
+            "alpha": 0.9
+        }
+    },
+    "signal-2": {
+        "class": "model",
+        "folder": "cli/tests/correlation",
+        "file": "signal_2.csv",
+        "skip_rows": 1,
+        "ycolumn": 1,
+        "plot_kwargs": {
+            "label": "second signal",
+            "color": "green",
+            "linewidth": 3,
+            "linestyle": "-",
+            "marker": "o",
+            "alpha": 0.5
+        }
+    },
+    "figure-1": {
+        "class": "view",
+        "model_keys": [
+            "signal-1",
+            "signal-2"
+        ],
+        "folder": ".",
+        "file": "correlation_recipe_fig_1.pdf",
+        "title": "two signals (same x and y scales, non-same frequency and offset)",
+        "xlabel": "time (s)",
+        "ylabel": "position (m)",
+        "size": [
+            8.0,
+            6.0
+        ],
+        "dpi": 100,
+        "display": 1,
+        "details": 0,
+        "serialize": 0
+    },
+    "figure-2": {
+        "class": "view",
+        "model_keys": [
+            "signal-1",
+            "signal-2"
+        ],
+        "folder": ".",
+        "file": "correlation_recipe_fig_2.pdf",
+        "title": "correlation of two signals (synchronized frequency and offset)",
+        "xlabel": "time (s)",
+        "ylabel": "position (m)",
+        "size": [
+            8.0,
+            6.0
+        ],
+        "dpi": 100,
+        "display": 1,
+        "details": 0,
+        "serialize": 0
+    }
+}

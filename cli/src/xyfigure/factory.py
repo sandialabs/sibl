@@ -32,6 +32,5 @@ class XYFactory:
             return instance(item, **kwargs)
 
         # If we get here, we did not return an instance, so warn.
-        print(f"Warning: {item} requested but not provided by this factory,")
-        print("returning None.")
+        print(f"Warning: {item} class keyword specified with unknown key value.")
         return None
