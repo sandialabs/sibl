@@ -13,12 +13,13 @@ Here we create an example data file from an Excel spreadsheet and walk through t
 
 * **Step 2: json Recipe**
   * Create the [recipe.json](recipe.json) file, which controls the appearance of the figure.
+  * The .json file is composed of nested (key, value) pairs.
 
 * **Step 3: Run the recipe on the data**
   * From the folder that contains the json file, run the Python script:
     ```console
     $ cd ~/sibl/cli/io/example/
-    $ python ../../src/xyfigure/client.py recipe.json
+    $ python ~/sibl/cli/src/xyfigure/client.py recipe.json 
     ```
 
 The output file `recipe.svg` contains this figure:
@@ -35,6 +36,12 @@ Here is the sine and cosine example from above, as a minimal [json](recipe_minim
 
 * `ycolumn`, to specify the location of the cosine data in the `data.csv` file, and
 * `serialize`, to write the generated figure to disc.
+
+From the folder that contains the json file, run the Python script:
+```console
+$ cd ~/sibl/cli/io/example/
+$ python ~/sibl/cli/src/xyfigure/client.py recipe_minimal.json 
+```
 
 Here is the output: ![recipe_minimal](recipe_minimal.svg)
 

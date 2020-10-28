@@ -9,7 +9,7 @@
             "color": "darkorange",
             "linestyle": "-",
             "linewidth": 4,
-            "alpha" : 0.5
+            "alpha": 0.5
         }
     },
     "cosine-data": {
@@ -28,18 +28,28 @@
         "class": "view",
         "folder": ".",
         "file": "recipe.svg",
-        "size": [8.0, 6.0],
+        "size": [
+            8.0,
+            6.0
+        ],
         "title": "Example using xyfigure",
         "xlabel": "time (s)",
         "ylabel": "functions of time f(t)",
         "yaxis_rhs": {
             "scale": 10,
             "label": "right-hand-side label with 10 f(t) scale",
-            "yticks": [-10, -5, 0, 5, 10]
+            "yticks": [
+                -10,
+                -5,
+                0,
+                5,
+                10
+            ]
         },
         "details": 0,
-        "display": 0,
+        "display": 1,
+        "dpi": 100,
         "latex": 0,
-        "serialize": 1
+        "serialize": 0
     }
 }
