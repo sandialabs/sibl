@@ -25,7 +25,7 @@ class MyTestCase(TestCase):
         return super().setUpClass()
 
     def test_unknown_factory_item_request(self):
-        jfile = os.path.join(self.path, "correlation_recipe.json")
+        jfile = os.path.join(self.path, "u-squared-ddt1-model-type-defect.json")
         result = client.main([jfile])
         self.assertIsNone(result)
 
