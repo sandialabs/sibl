@@ -11,7 +11,7 @@ from scipy.integrate import cumtrapz
 # local application/library specific imports
 # from xyfigure.xybase import XYBase
 # from xyfigure.code.xybase import XYBase
-from xyfigure.xybase import XYBase
+from xyfigure.xybase import XYBase, absolute_path
 
 
 class XYModel(XYBase):
@@ -79,12 +79,13 @@ class XYModel(XYBase):
         """Returns kwargs passed to matplotlib.pyplot.plot()."""
         return self._plot_kwargs
 
-    def serialize(self, folder, filename):  # extend base class
+    def serialize(self, folder, filename, header=""):  # extend base class
         super().serialize(folder, filename)
         np.savetxt(
             self._path_file_output,
             np.transpose([self._data[:, 0], self._data[:, 1]]),
             delimiter=",",
+            header=header,
         )
         if self._verbose:
             print(f"  Serialized model to: {self._path_file_output}")
@@ -139,6 +140,94 @@ class XYModel(XYBase):
                 sys.exit("Abnormal termination.")
             else:
                 self.serialize(folder, file_output)
+
+    def correlation(self, value):
+
+        reference = value.get("reference", None)
+        if reference is None:
+            print('Error: keyword "reference" not found.')
+            sys.exit("Abnormal termination.")
+
+        # ref is the reference signal to compare with
+        ref_default_folder = "."
+        ref_folder = reference.get("folder", ref_default_folder)
+
+        ref_file = reference.get("file", None)
+
+        if ref_file is None:
+            print('Error: keyword "file" not found.')
+            sys.exit("Abnormal termination.")
+
+        abs_path = absolute_path(ref_folder)
+        ref_path_file_input = os.path.join(abs_path, ref_file)
+
+        ref_skip_rows = reference.get("skip_rows", 0)
+        ref_skip_rows_footer = reference.get("skip_rows_footer", 0)
+        ref_xcolumn = reference.get("xcolumn", 0)  # default to the 1st column
+        ref_ycolumn = reference.get("ycolumn", 1)  # default to the 2nd column
+
+        ref_data = np.genfromtxt(
+            ref_path_file_input,
+            dtype="float",
+            delimiter=",",
+            skip_header=ref_skip_rows,
+            skip_footer=ref_skip_rows_footer,
+            usecols=(ref_xcolumn, ref_ycolumn),
+        )
+
+        ref_delta_t = ref_data[1, 0] - ref_data[0, 0]
+        ref_t_min = ref_data[0, 0]
+        ref_t_max = ref_data[-1, 0]
+
+        dt = self._data[1, 0] - self._data[0, 0]  # sample delta t
+        t_min = self._data[0, 0]
+        t_max = self._data[-1, 0]
+
+        # globalized interval and frequency
+        T_MIN = np.minimum(ref_t_min, t_min)
+        T_MAX = np.maximum(ref_t_max, t_max)
+        DT = np.minimum(ref_delta_t, dt)
+
+        n_samples = int((T_MAX - T_MIN) / DT) + 1
+        t_span = np.linspace(T_MIN, T_MAX, n_samples, endpoint=True)
+
+        ref_y_span = np.interp(
+            t_span, ref_data[:, 0], ref_data[:, 1], left=0.0, right=0.0
+        )
+
+        y_span = np.interp(
+            t_span, self._data[:, 0], self._data[:, 1], left=0.0, right=0.0
+        )
+
+        cross_corr = np.correlate(ref_y_span, y_span, mode="full")
+        cross_corr_max = np.max(cross_corr)
+
+        ref_self_corr = np.correlate(ref_y_span, ref_y_span)[0]
+        rel_corr_error = 0.0
+
+        if ref_self_corr > 0:
+            rel_corr_error = abs(cross_corr_max - ref_self_corr) / ref_self_corr
+
+        offset_index = np.argmax(cross_corr)
+
+        t_shift = t_span - t_span[-1] + t_span[offset_index]
+
+        self._data = np.transpose([t_shift, y_span])  # overwrite
+
+        corr_str = f"time_shift={t_span[offset_index]}"
+        corr_str += f" index_shift={offset_index}"
+        corr_str += f" cross_correlation_relative_error={rel_corr_error}"
+
+        serialize = value.get("serialize", 0)  # default is not to serialize
+        if serialize:
+            folder = value.get("folder", ".")  # default to current folder
+            file_output = value.get("file", None)
+
+            if file_output is None:
+                print('Error: keyword "file" not found.')
+                sys.exit("Abnormal termination.")
+            else:
+                self.serialize(folder, file_output, header=corr_str)
 
     def gradient(self, value):
 

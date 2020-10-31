@@ -1,9 +1,10 @@
 """
-This module tests the XYFactor class.
+This module tests signal cross-correlation.
 To run
 
 $ conda activate siblenv
 (siblenv) $ cd ~/sibl
+(siblenv) $ python cli/src/xyfigure/client.py cli/tests/correlation/correlation_recipe.json
 (siblenv) [~/sibl]$ pytest cli/tests/correlation/test_correlation.py -v
 """
 
