@@ -2,11 +2,11 @@
     "signal-1": {
         "class": "model",
         "folder": "cli/tests/correlation",
-        "file": "signal_1.csv",
+        "file": "signal-1.csv",
         "skip_rows": 1,
         "ycolumn": 1,
         "plot_kwargs": {
-            "label": "first signal",
+            "label": "signal 1",
             "color": "blue",
             "linewidth": 2,
             "linestyle": "--",
@@ -17,16 +17,73 @@
     "signal-2": {
         "class": "model",
         "folder": "cli/tests/correlation",
-        "file": "signal_2.csv",
+        "file": "signal-2.csv",
         "skip_rows": 1,
         "ycolumn": 1,
         "plot_kwargs": {
-            "label": "second signal",
+            "label": "signal 2",
             "color": "green",
             "linewidth": 3,
             "linestyle": "-",
             "marker": "o",
             "alpha": 0.5
+        }
+    },
+    "signal-2-int-1": {
+        "class": "model",
+        "folder": "cli/tests/correlation",
+        "file": "signal-2.csv",
+        "skip_rows": 1,
+        "ycolumn": 1,
+        "plot_kwargs": {
+            "label": "int(signal 2)",
+            "color": "magenta",
+            "linewidth": 3,
+            "linestyle": "-.",
+            "marker": "o",
+            "alpha": 0.5
+        },
+        "signal_process": {
+            "process1": {
+                "integration": {
+                    "order": 1,
+                    "initial_conditions": [
+                        4
+                    ],
+                    "serialize": 1,
+                    "folder": "cli/tests/correlation",
+                    "file": "signal-2-int-1.csv"
+                }
+            }
+        }
+    },
+    "signal-2-int-2": {
+        "class": "model",
+        "folder": "cli/tests/correlation",
+        "file": "signal-2.csv",
+        "skip_rows": 1,
+        "ycolumn": 1,
+        "plot_kwargs": {
+            "label": "int(int(signal 2))",
+            "color": "red",
+            "linewidth": 2,
+            "linestyle": "-",
+            "marker": "o",
+            "alpha": 0.9
+        },
+        "signal_process": {
+            "process1": {
+                "integration": {
+                    "order": 2,
+                    "initial_conditions": [
+                        4,
+                        0
+                    ],
+                    "serialize": 1,
+                    "folder": "cli/tests/correlation",
+                    "file": "signal-2-int-2.csv"
+                }
+            }
         }
     },
     "figure-1": {
@@ -36,36 +93,90 @@
             "signal-2"
         ],
         "folder": ".",
-        "file": "correlation_recipe_fig_1.pdf",
+        "file": "correlation-recipe-fig-1.pdf",
         "title": "two signals (same x and y scales, non-same frequency and offset)",
         "xlabel": "time (s)",
-        "ylabel": "position (m)",
+        "ylabel": "acceleration (m/s^2)",
+        "xlim": [
+            -0.125,
+            2.125
+        ],
+        "ylim": [
+            -35,
+            10
+        ],
         "size": [
             8.0,
             6.0
         ],
         "dpi": 100,
-        "display": 0,
+        "display": 1,
         "details": 0,
         "serialize": 0
     },
     "figure-2": {
         "class": "view",
         "model_keys": [
-            "signal-1",
-            "signal-2"
+            "signal-2",
+            "signal-2-int-1"
         ],
         "folder": ".",
-        "file": "correlation_recipe_fig_2.pdf",
-        "title": "correlation of two signals (synchronized frequency and offset)",
+        "file": "correlation-recipe-fig-2.pdf",
+        "#title": "correlation of two signals (synchronized frequency and offset)",
+        "title": "signal 2 and int(signal 2) with non-zero i.c.",
         "xlabel": "time (s)",
-        "ylabel": "position (m)",
+        "ylabel": "acceleration (m/s^2)",
+        "yaxis_rhs": {
+            "scale": 1,
+            "label": "velocity (m/s)"
+        },
+        "xlim": [
+            -0.125,
+            2.125
+        ],
+        "ylim": [
+            -35,
+            10
+        ],
         "size": [
             8.0,
             6.0
         ],
         "dpi": 100,
-        "display": 0,
+        "display": 1,
+        "details": 0,
+        "serialize": 0
+    },
+    "figure-3": {
+        "class": "view",
+        "model_keys": [
+            "signal-2-int-1",
+            "signal-2-int-2"
+        ],
+        "folder": ".",
+        "file": "correlation-recipe-fig-3.pdf",
+        "#title": "correlation of two signals (synchronized frequency and offset)",
+        "title": "int(signal 2) and int(int(signal 2)) with non-zero i.c.",
+        "xlabel": "time (s)",
+        "ylabel": "velocity (m/s)",
+        "yaxis_rhs": {
+            "scale": 1,
+            "label": "position (m)"
+        },
+        "xlim": [
+            -0.125,
+            2.125
+        ],
+        "ylim": [
+            -5,
+            10
+        ],
+        "size": [
+            8.0,
+            6.0
+        ],
+        "dpi": 100,
+        "display": 1,
         "details": 0,
         "serialize": 0
     }

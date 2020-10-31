@@ -24,26 +24,18 @@ def main(argv):
     """Client to generate a XYFigure from an 'input_file.json' file.
 
     Preconditions:
-    $ module load anaconda3
-    ~/sibl/io/input_file.json  # database of XYFigure objects to create
+    $ conda activate siblenv
+    $ ~/sibl/cli/io/example/input_file.json  # recipie to create XYFigure object(s)
 
     Use:
-    $ cd ~/sibl/io/<path_containing_input_file.json>/
-    $ python ~/sibl/xyfigure/client.py input_file.json
-
-    Example Input:
-    $ cd ~/sibl/io/mil_spec_paper/
-    $ python ~/sibl/xyfigure/client.py MHSRS_exp_only.json
-
-    Example Output:
-    ~/sibl/io/mil_spec_paper/fig/MHSRS_exp_only.pdf  # output figure
-
+    $ cd ~/sibl/cli/io/example/
+    $ python ~/sibl/cli/src/xyfigure/client.py input_file.json
     """
 
     # to do, add argparse with verbose flag, for now, hard code
     verbose = False
 
-    help_string = "$ python ~/sibl/xyfigure/code/client.py input_file.json"
+    help_string = "$ python ~/sibl/cli/src/xyfigure/client.py input_file.json"
     try:
         input_file = argv[0]
     except IndexError as error:

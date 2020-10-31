@@ -39,7 +39,7 @@ class XYView(XYBase):
 
         # inches, U.S. paper, landscape
         self._size = kwargs.get("size", [11.0, 8.5])
-        self._dpi = kwargs.get("dpi", 300)
+        self._dpi = kwargs.get("dpi", 100)
         self._xlim = kwargs.get("xlim", None)
         self._ylim = kwargs.get("ylim", None)
 
