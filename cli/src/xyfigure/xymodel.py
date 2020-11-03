@@ -14,6 +14,118 @@ from scipy.integrate import cumtrapz
 from xyfigure.xybase import XYBase, absolute_path
 
 
+# Helper functions
+def cross_correlation(reference, subject, verbose=False):
+    if verbose:
+        print("\nThis is xymodel.cross_correlation...")
+        print(f"reference: {reference}")
+        print(f"subject: {subject}")
+
+        print("\nSynchronization...")
+
+    ref_delta_t = reference[1, 0] - reference[0, 0]
+    ref_t_min = reference[0, 0]
+    ref_t_max = reference[-1, 0]
+
+    if verbose:
+        print(f"  Reference time step (s): {ref_delta_t}")
+        print(f"  Reference t_min (s): {ref_t_min}")
+        print(f"  Reference t_max (s): {ref_t_max}")
+
+    dt = subject[1, 0] - subject[0, 0]  # sample delta t
+    t_min = subject[0, 0]
+    t_max = subject[-1, 0]
+
+    if verbose:
+        print(f"  Subject time step (s): {dt}")
+        print(f"  Subject t_min (s): {t_min}")
+        print(f"  Subject t_max (s): {t_max}")
+
+    # globalized interval and frequency
+    DT = np.minimum(ref_delta_t, dt)
+    T_MIN = np.minimum(ref_t_min, t_min)
+    T_MAX = np.maximum(ref_t_max, t_max)
+
+    n_samples = int((T_MAX - T_MIN) / DT) + 1
+    t_span = np.linspace(T_MIN, T_MAX, n_samples, endpoint=True)
+
+    if verbose:
+        print(f"  Globalized time step (s): {DT}")
+        print(f"  Globalized t_min (s): {T_MIN}")
+        print(f"  Globalized t_max (s): {T_MAX}")
+        print(f"  Globalized times: {t_span}")
+
+    ref_y_span = np.interp(
+        t_span, reference[:, 0], reference[:, 1], left=0.0, right=0.0
+    )
+
+    y_span = np.interp(t_span, subject[:, 0], subject[:, 1], left=0.0, right=0.0)
+
+    cross_corr = np.correlate(ref_y_span, y_span, mode="full")
+    cross_corr_max = np.max(cross_corr)
+
+    ref_self_corr = np.correlate(ref_y_span, ref_y_span)[0]  # self correlated reference
+    rel_corr_error = 0.0
+
+    if ref_self_corr > 0:
+        rel_corr_error = abs(cross_corr_max - ref_self_corr) / ref_self_corr
+
+    offset_index = np.argmax(cross_corr)
+
+    # shift time full-left, then incrementally to the right
+    t_shift = t_span - t_span[-1] + t_span[offset_index]
+
+    # needed ???   self._data = np.transpose([t_shift, y_span])  # overwrite
+
+    T_MIN_CORR = np.minimum(ref_t_min, t_shift[0])
+    T_MAX_CORR = np.maximum(ref_t_max, t_shift[-1])
+
+    n_samples_corr = int((T_MAX_CORR - T_MIN_CORR) / DT) + 1  # DT unchanged pre-shift
+    t_span_corr = np.linspace(T_MIN_CORR, T_MAX_CORR, n_samples_corr, endpoint=True)
+
+    ref_y_span_corr = np.interp(
+        t_span_corr, reference[:, 0], reference[:, 1], left=0.0, right=0.0
+    )
+
+    # y_span_corr = np.interp(
+    #     t_span_corr, self._data[:, 0], self._data[:, 1], left=0.0, right=0.0
+    # )
+    y_span_corr = np.interp(t_span_corr, t_shift, y_span, left=0.0, right=0.0)
+
+    error = y_span_corr - ref_y_span_corr
+
+    L2_norm_error_rate = np.linalg.norm(error) / n_samples_corr
+
+    print("\nCorrelation...")
+    print(f"  Sliding dot product (cross-correlation): {cross_corr}")
+    print(f"  Max sliding dot product (cross-correlation): {cross_corr_max}")
+
+    index_str = f"  Correlated time_shift (from full left)={t_span[offset_index]}"
+    print(index_str)
+
+    shift_str = f"  Correlated index_shift (from full left)={offset_index}"
+    print(shift_str)
+
+    print(f"  Correlated time step (s): {DT}")
+    print(f"  Correlated t_min (s): {T_MIN_CORR}")
+    print(f"  Correlated t_max (s): {T_MAX_CORR}")
+    print(f"  Correlated times: {t_span_corr}")
+    print(f"  Correlated reference f(t): {ref_y_span_corr}")
+    print(f"  Correlated subject f(t): {y_span_corr}")
+    print(f"  Correlated error f(t): {error}")
+
+    error_str = (
+        f"  cross_correlation_relative_error (sliding left-to-right)={rel_corr_error}"
+    )
+    print(error_str)
+
+    print(f"  L2-norm error rate: {L2_norm_error_rate}")
+    # corr_str = index_str + shift_str + error_str
+    # print(corr_str)
+    # print("\n")
+    return t_span_corr, y_span_corr
+
+
 class XYModel(XYBase):
     """The data to be plotted in XY format."""
 
@@ -154,6 +266,8 @@ class XYModel(XYBase):
 
         ref_file = reference.get("file", None)
 
+        verbosity = value.get("verbose", False)
+
         if ref_file is None:
             print('Error: keyword "file" not found.')
             sys.exit("Abnormal termination.")
@@ -175,48 +289,111 @@ class XYModel(XYBase):
             usecols=(ref_xcolumn, ref_ycolumn),
         )
 
-        ref_delta_t = ref_data[1, 0] - ref_data[0, 0]
-        ref_t_min = ref_data[0, 0]
-        ref_t_max = ref_data[-1, 0]
-
-        dt = self._data[1, 0] - self._data[0, 0]  # sample delta t
-        t_min = self._data[0, 0]
-        t_max = self._data[-1, 0]
-
-        # globalized interval and frequency
-        T_MIN = np.minimum(ref_t_min, t_min)
-        T_MAX = np.maximum(ref_t_max, t_max)
-        DT = np.minimum(ref_delta_t, dt)
-
-        n_samples = int((T_MAX - T_MIN) / DT) + 1
-        t_span = np.linspace(T_MIN, T_MAX, n_samples, endpoint=True)
-
-        ref_y_span = np.interp(
-            t_span, ref_data[:, 0], ref_data[:, 1], left=0.0, right=0.0
+        tcorrelated, ycorrelated = cross_correlation(
+            ref_data, self._data, verbose=verbosity
         )
 
-        y_span = np.interp(
-            t_span, self._data[:, 0], self._data[:, 1], left=0.0, right=0.0
-        )
+        self._data = np.transpose([tcorrelated, ycorrelated])  # overwrite
 
-        cross_corr = np.correlate(ref_y_span, y_span, mode="full")
-        cross_corr_max = np.max(cross_corr)
+        # print("\nSynchronization...")
 
-        ref_self_corr = np.correlate(ref_y_span, ref_y_span)[0]
-        rel_corr_error = 0.0
+        # ref_delta_t = ref_data[1, 0] - ref_data[0, 0]
+        # ref_t_min = ref_data[0, 0]
+        # ref_t_max = ref_data[-1, 0]
+        # print(f"  Reference time step (s): {ref_delta_t}")
+        # print(f"  Reference t_min (s): {ref_t_min}")
+        # print(f"  Reference t_max (s): {ref_t_max}")
 
-        if ref_self_corr > 0:
-            rel_corr_error = abs(cross_corr_max - ref_self_corr) / ref_self_corr
+        # dt = self._data[1, 0] - self._data[0, 0]  # sample delta t
+        # t_min = self._data[0, 0]
+        # t_max = self._data[-1, 0]
+        # print(f"  Subject time step (s): {dt}")
+        # print(f"  Subject t_min (s): {t_min}")
+        # print(f"  Subject t_max (s): {t_max}")
 
-        offset_index = np.argmax(cross_corr)
+        # # globalized interval and frequency
+        # DT = np.minimum(ref_delta_t, dt)
+        # T_MIN = np.minimum(ref_t_min, t_min)
+        # T_MAX = np.maximum(ref_t_max, t_max)
+        # print(f"  Globalized time step (s): {DT}")
+        # print(f"  Globalized t_min (s): {T_MIN}")
+        # print(f"  Globalized t_max (s): {T_MAX}")
 
-        t_shift = t_span - t_span[-1] + t_span[offset_index]
+        # n_samples = int((T_MAX - T_MIN) / DT) + 1
+        # t_span = np.linspace(T_MIN, T_MAX, n_samples, endpoint=True)
+        # print(f"  Globalized times: {t_span}")
 
-        self._data = np.transpose([t_shift, y_span])  # overwrite
+        # ref_y_span = np.interp(
+        #     t_span, ref_data[:, 0], ref_data[:, 1], left=0.0, right=0.0
+        # )
 
-        corr_str = f"time_shift={t_span[offset_index]}"
-        corr_str += f" index_shift={offset_index}"
-        corr_str += f" cross_correlation_relative_error={rel_corr_error}"
+        # y_span = np.interp(
+        #     t_span, self._data[:, 0], self._data[:, 1], left=0.0, right=0.0
+        # )
+
+        # cross_corr = np.correlate(ref_y_span, y_span, mode="full")
+        # cross_corr_max = np.max(cross_corr)
+
+        # ref_self_corr = np.correlate(ref_y_span, ref_y_span)[
+        #     0
+        # ]  # self correlated reference
+        # rel_corr_error = 0.0
+
+        # if ref_self_corr > 0:
+        #     rel_corr_error = abs(cross_corr_max - ref_self_corr) / ref_self_corr
+
+        # offset_index = np.argmax(cross_corr)
+
+        # # shift time full-left, then incrementally to the right
+        # t_shift = t_span - t_span[-1] + t_span[offset_index]
+
+        # self._data = np.transpose([t_shift, y_span])  # overwrite
+
+        # T_MIN_CORR = np.minimum(ref_t_min, t_shift[0])
+        # T_MAX_CORR = np.maximum(ref_t_max, t_shift[-1])
+
+        # n_samples_corr = (
+        #     int((T_MAX_CORR - T_MIN_CORR) / DT) + 1
+        # )  # DT unchanged pre-shift
+        # t_span_corr = np.linspace(T_MIN_CORR, T_MAX_CORR, n_samples_corr, endpoint=True)
+
+        # ref_y_span_corr = np.interp(
+        #     t_span_corr, ref_data[:, 0], ref_data[:, 1], left=0.0, right=0.0
+        # )
+
+        # y_span_corr = np.interp(
+        #     t_span_corr, self._data[:, 0], self._data[:, 1], left=0.0, right=0.0
+        # )
+
+        # error = y_span_corr - ref_y_span_corr
+
+        # L2_norm_error_rate = np.linalg.norm(error) / n_samples_corr
+
+        # print("\nCorrelation...")
+        # print(f"  Sliding dot product (cross-correlation): {cross_corr}")
+        # print(f"  Max sliding dot product (cross-correlation): {cross_corr_max}")
+
+        # index_str = f"  Correlated time_shift (from full left)={t_span[offset_index]}"
+        # print(index_str)
+
+        # shift_str = f"  Correlated index_shift (from full left)={offset_index}"
+        # print(shift_str)
+
+        # print(f"  Correlated time step (s): {DT}")
+        # print(f"  Correlated t_min (s): {T_MIN_CORR}")
+        # print(f"  Correlated t_max (s): {T_MAX_CORR}")
+        # print(f"  Correlated times: {t_span_corr}")
+        # print(f"  Correlated reference f(t): {ref_y_span_corr}")
+        # print(f"  Correlated subject f(t): {y_span_corr}")
+        # print(f"  Correlated error f(t): {error}")
+
+        # error_str = f"  cross_correlation_relative_error (sliding left-to-right)={rel_corr_error}"
+        # print(error_str)
+
+        # print(f"  L2-norm error rate: {L2_norm_error_rate}")
+        # corr_str = index_str + shift_str + error_str
+        # # print(corr_str)
+        # # print("\n")
 
         serialize = value.get("serialize", 0)  # default is not to serialize
         if serialize:
@@ -227,7 +404,8 @@ class XYModel(XYBase):
                 print('Error: keyword "file" not found.')
                 sys.exit("Abnormal termination.")
             else:
-                self.serialize(folder, file_output, header=corr_str)
+                # self.serialize(folder, file_output, header=corr_str)
+                self.serialize(folder, file_output)
 
     def gradient(self, value):
 

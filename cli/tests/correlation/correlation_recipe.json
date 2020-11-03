@@ -50,9 +50,9 @@
                     "initial_conditions": [
                         4
                     ],
-                    "serialize": 1,
+                    "serialize": 0,
                     "folder": "cli/tests/correlation",
-                    "file": "signal_2_int_1.csv"
+                    "file": "out_signal_2_int_1.csv"
                 }
             }
         }
@@ -79,9 +79,9 @@
                         4,
                         0
                     ],
-                    "serialize": 1,
+                    "serialize": 0,
                     "folder": "cli/tests/correlation",
-                    "file": "signal_2_int_2.csv"
+                    "file": "out_signal_2_int_2.csv"
                 }
             }
         }
@@ -109,9 +109,10 @@
                         "skip_rows": 1,
                         "ycolumn": 1
                     },
-                    "serialize": 1,
+                    "verbose": 1,
+                    "serialize": 0,
                     "folder": "cli/tests/correlation",
-                    "file": "signal_correlated.csv"
+                    "file": "out_signal_correlated.csv"
                 }
             }
         }
@@ -123,7 +124,7 @@
             "signal"
         ],
         "folder": "cli/tests/correlation",
-        "file": "correlation_recipe_fig_1.svg",
+        "file": "out_correlation_recipe_fig_1.svg",
         "title": "two signals (same x and y scales, non-same frequency and offset)",
         "xlabel": "time (s)",
         "ylabel": "acceleration (m/s^2)",
@@ -153,9 +154,9 @@
             6.0
         ],
         "dpi": 100,
-        "display": 1,
+        "display": 0,
         "details": 0,
-        "serialize": 1
+        "serialize": 0
     },
     "figure_2": {
         "class": "view",
@@ -164,7 +165,7 @@
             "signal_int_1"
         ],
         "folder": "cli/tests/correlation",
-        "file": "correlation_recipe_fig_2.svg",
+        "file": "out_correlation_recipe_fig_2.svg",
         "title": "signal 2 and int(signal 2) with non-zero i.c.",
         "xlabel": "time (s)",
         "ylabel": "acceleration (m/s^2)",
@@ -198,9 +199,9 @@
             6.0
         ],
         "dpi": 100,
-        "display": 1,
+        "display": 0,
         "details": 0,
-        "serialize": 1
+        "serialize": 0
     },
     "figure_3": {
         "class": "view",
@@ -209,7 +210,7 @@
             "signal_int_2"
         ],
         "folder": "cli/tests/correlation",
-        "file": "correlation_recipe_fig_3.svg",
+        "file": "out_correlation_recipe_fig_3.svg",
         "#title": "correlation of two signals (synchronized frequency and offset)",
         "title": "int(signal 2) and int(int(signal 2)) with non-zero i.c.",
         "xlabel": "time (s)",
@@ -244,9 +245,9 @@
             6.0
         ],
         "dpi": 100,
-        "display": 1,
+        "display": 0,
         "details": 0,
-        "serialize": 1
+        "serialize": 0
     },
     "figure_4": {
         "class": "view",
@@ -255,7 +256,7 @@
             "signal_correlated"
         ],
         "folder": "cli/tests/correlation",
-        "file": "correlation_recipe_fig_4.svg",
+        "file": "out_correlation_recipe_fig_4.svg",
         "title": "reference signal and correlated signal (synchronized frequency and offset)",
         "xlabel": "time (s)",
         "ylabel": "acceleration (m/s^2)",
@@ -285,8 +286,8 @@
             6.0
         ],
         "dpi": 100,
-        "display": 1,
+        "display": 0,
         "details": 0,
-        "serialize": 1
+        "serialize": 0
     }
 }
