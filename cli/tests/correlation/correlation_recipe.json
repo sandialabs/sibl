@@ -6,7 +6,7 @@
         "skip_rows": 1,
         "ycolumn": 1,
         "plot_kwargs": {
-            "label": "signal reference",
+            "label": "reference signal",
             "color": "blue",
             "linewidth": 2,
             "linestyle": "--",
@@ -21,7 +21,7 @@
         "skip_rows": 1,
         "ycolumn": 1,
         "plot_kwargs": {
-            "label": "signal",
+            "label": "subject signal",
             "color": "green",
             "linewidth": 3,
             "linestyle": "-",
@@ -36,7 +36,7 @@
         "skip_rows": 1,
         "ycolumn": 1,
         "plot_kwargs": {
-            "label": "int(signal)",
+            "label": "int(subject signal)",
             "color": "magenta",
             "linewidth": 3,
             "linestyle": "-.",
@@ -64,7 +64,7 @@
         "skip_rows": 1,
         "ycolumn": 1,
         "plot_kwargs": {
-            "label": "int(int(signal 2))",
+            "label": "int(int(subject signal))",
             "color": "red",
             "linewidth": 2,
             "linestyle": "-",
@@ -93,7 +93,7 @@
         "skip_rows": 1,
         "ycolumn": 1,
         "plot_kwargs": {
-            "label": "signal correlated",
+            "label": "subject signal correlated",
             "color": "green",
             "linewidth": 3,
             "linestyle": "-",

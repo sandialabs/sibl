@@ -1,11 +1,16 @@
 # Cross-Correlation
 
-## Example: hats
+## Example: 
 
-Input file: [hats_recipe.json](hats_recipe.json)
+* two triangular acceleration pulses, with 
+  * time integration and 
+  * cross-correlation
+
+Input file: [correlation_recipe.json](correlation_recipe.json)
 
 Outputs:
 
-![hats_001.svg](hats_001.svg)
-![hats_002.svg](hats_002.svg)
-
+![out_correlation_recipe_fig_1.svg](out_correlation_recipe_fig_1.svg)
+![out_correlation_recipe_fig_2.svg](out_correlation_recipe_fig_2.svg)
+![out_correlation_recipe_fig_3.svg](out_correlation_recipe_fig_3.svg)
+![out_correlation_recipe_fig_4.svg](out_correlation_recipe_fig_4.svg)
