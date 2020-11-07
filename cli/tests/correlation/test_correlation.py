@@ -178,15 +178,125 @@ class XYModelCrossCorrelation(TestCase):
         self.assertLess(cc_rel_error, self.TOL)
         self.assertLess(L2_error, self.TOL)
 
-    # def test_001_hats_recipe(self):
-    #     jfile = os.path.join(self.path, "hats_recipe.json")
-    #     result = client.main([jfile])
-    #     self.assertIsNone(result)
+    def test_010_ramp(self):
+        verbosity = True
+
+        ref_t = [0.0, 1.0, 2.0]
+        ref_y = [0.0, 1.0, 2.0]
+        reference = np.transpose([ref_t, ref_y])
+
+        sub_t = [1.0, 2.0, 3.0]
+        sub_y = [0.0, 1.0, 2.0]
+        subject = np.transpose([sub_t, sub_y])
+
+        calculated_t, calculated_y, cc_rel_error, L2_error = xycc(
+            reference, subject, verbosity
+        )
+
+        known_t = [-1.0, 0.0, 1.0, 2.0]
+        known_y = [0.0, 0.0, 1.0, 2.0]
+
+        self.assertTrue(self.same(known_t, calculated_t, verbosity))
+        self.assertTrue(self.same(known_y, calculated_y, verbosity))
+        self.assertLess(cc_rel_error, self.TOL)
+        self.assertLess(L2_error, self.TOL)
+
+    def test_011_ramp_shift_right(self):
+        verbosity = True
+
+        ref_t = [1.0, 2.0, 3.0]
+        ref_y = [0.0, 1.0, 2.0]
+        reference = np.transpose([ref_t, ref_y])
+
+        sub_t = [2.0, 3.0, 4.0]
+        sub_y = [0.0, 1.0, 2.0]
+        subject = np.transpose([sub_t, sub_y])
+
+        calculated_t, calculated_y, cc_rel_error, L2_error = xycc(
+            reference, subject, verbosity
+        )
+
+        known_t = [0.0, 1.0, 2.0, 3.0]
+        known_y = [0.0, 0.0, 1.0, 2.0]
+
+        self.assertTrue(self.same(known_t, calculated_t, verbosity))
+        self.assertTrue(self.same(known_y, calculated_y, verbosity))
+        self.assertLess(cc_rel_error, self.TOL)
+        self.assertLess(L2_error, self.TOL)
 
     def test_100_correlation_recipe(self):
         jfile = os.path.join(self.path, "correlation_recipe.json")
         result = client.main([jfile])
         self.assertIsNone(result)
+
+    def test_101_anomaly_recipe(self):
+        jfile = os.path.join(self.path, "anomaly_recipe.json")
+        result = client.main([jfile])
+        self.assertIsNone(result)
+
+    def test_102_anomaly_xcorr(self):
+        verbosity = True
+
+        afile = os.path.join(self.path, "signal_a.csv")
+        bfile = os.path.join(self.path, "signal_b.csv")
+
+        reference = np.genfromtxt(
+            afile,
+            dtype="float",
+            delimiter=",",
+            skip_header=1,
+            skip_footer=0,
+            usecols=(0, 1),
+        )
+
+        subject = np.genfromtxt(
+            bfile,
+            dtype="float",
+            delimiter=",",
+            skip_header=1,
+            skip_footer=0,
+            usecols=(0, 1),
+        )
+
+        calculated_t, calculated_y, cc_rel_error, L2_error = xycc(
+            reference, subject, verbosity
+        )
+
+        known_t = np.linspace(1, 21, 21)
+        known_y = [0, 1, 2, 3, 3, 0, 1, 2, 3, 4, 0, 1, 1, 4, 4, 0, 1, 2, 3, 4, 0]
+        known_cc_rel_error = 0.025
+        known_L2_error = 0.08247860988423225
+
+        self.assertTrue(self.same(known_t, calculated_t, verbosity))
+        self.assertTrue(self.same(known_y, calculated_y, verbosity))
+        self.assertLess(abs(known_cc_rel_error - cc_rel_error), self.TOL)
+        self.assertLess(abs(known_L2_error - L2_error), self.TOL)
+
+    def test_103_L2_with_constant_signals(self):
+        verbosity = True
+
+        ref_t = [10, 11, 12, 13]
+        ref_y = [20, 20, 20, 20]
+        reference = np.transpose([ref_t, ref_y])
+
+        sub_t = ref_t
+        sub_y = [18, 18, 18, 18]
+        subject = np.transpose([sub_t, sub_y])
+
+        calculated_t, calculated_y, cc_rel_error, L2_error = xycc(
+            reference, subject, verbosity
+        )
+
+        known_t = sub_t
+        known_y = sub_y
+
+        known_cc_rel_error = 0.1
+        known_L2_error = 1.0
+
+        self.assertTrue(self.same(known_t, calculated_t, verbosity))
+        self.assertTrue(self.same(known_y, calculated_y, verbosity))
+        self.assertLess(abs(known_cc_rel_error - cc_rel_error), self.TOL)
+        self.assertLess(abs(known_L2_error - L2_error), self.TOL)
 
 
 # retain main for debugging this file in VS code
