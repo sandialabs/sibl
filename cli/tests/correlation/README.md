@@ -18,7 +18,7 @@ Outputs:
 Error metrics:
 
 * cross-correlation relative error: 33 percent
-* L2-norm error rate = 102 percent
+* L2-norm error rate: 102 percent
 
 
 ## Example: 
@@ -35,4 +35,4 @@ Outputs:
 Error metrics:
 
 * cross-correlation relative error: 2.5 percent
-* L2-norm error rate = 8.3 percent
+* L2-norm error rate: 8.3 percent
