@@ -48,15 +48,11 @@ def cross_correlation(reference, subject, verbose=False):
         print(f"  Globalized times: {t_span}")
         print(f"  Length of globalized times: {len(t_span)}")
 
-    # ref_y_span = np.interp(
-    #     t_span, reference[:, 0], reference[:, 1], left=0.0, right=0.0
-    # )
-    # since we slide subject past reference, don't pad the reference to the left
-    ref_y_span = np.interp(t_span, reference[:, 0], reference[:, 1], right=0.0)
+    ref_y_span = np.interp(
+        t_span, reference[:, 0], reference[:, 1], left=0.0, right=0.0
+    )
 
-    # y_span = np.interp(t_span, subject[:, 0], subject[:, 1], left=0.0, right=0.0)
-    # since we slide subject past reference, don't pad the subject to the right
-    y_span = np.interp(t_span, subject[:, 0], subject[:, 1], left=0.0)
+    y_span = np.interp(t_span, subject[:, 0], subject[:, 1], left=0.0, right=0.0)
 
     cross_corr = np.correlate(ref_y_span, y_span, mode="full")
     cross_corr_max = np.max(cross_corr)

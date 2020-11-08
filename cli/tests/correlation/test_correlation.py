@@ -178,7 +178,157 @@ class XYModelCrossCorrelation(TestCase):
         self.assertLess(cc_rel_error, self.TOL)
         self.assertLess(L2_error, self.TOL)
 
-    def test_010_ramp(self):
+    def test_006_squares(self):
+        verbosity = True
+
+        ref_t = [1.0, 2.0, 3.0]
+        ref_y = [2.0, 2.0, 2.0]
+        reference = np.transpose([ref_t, ref_y])
+
+        sub_t = [4.0, 5.0, 6.0, 7.0]
+        sub_y = [3.0, 3.0, 3.0, 3.0]
+        subject = np.transpose([sub_t, sub_y])
+
+        calculated_t, calculated_y, cc_rel_error, L2_error = xycc(
+            reference, subject, verbosity
+        )
+
+        known_t = [-3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0]
+        known_y = [0.0, 0.0, 0.0, 3.0, 3.0, 3.0, 3.0]
+        known_cc_rel_error = 0.5
+        known_L2_error = 0.4948716593053935
+
+        self.assertTrue(self.same(known_t, calculated_t, verbosity))
+        self.assertTrue(self.same(known_y, calculated_y, verbosity))
+        self.assertLess(abs(known_cc_rel_error - cc_rel_error), self.TOL)
+        self.assertLess(abs(known_L2_error - L2_error), self.TOL)
+
+    def test_007_squares_extended(self):
+        verbosity = True
+
+        ref_t = [0.0, 1.0, 2.0, 3.0, 4.0]
+        ref_y = [0.0, 2.0, 2.0, 2.0, 0.0]
+        reference = np.transpose([ref_t, ref_y])
+
+        sub_t = [3.0, 4.0, 5.0, 6.0, 7.0, 8.0]
+        sub_y = [0.0, 3.0, 3.0, 3.0, 3.0, 0.0]
+        subject = np.transpose([sub_t, sub_y])
+
+        calculated_t, calculated_y, cc_rel_error, L2_error = xycc(
+            reference, subject, verbosity
+        )
+
+        known_t = [-4.0, -3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0]
+        known_y = [0.0, 0.0, 0.0, 0.0, 3.0, 3.0, 3.0, 3.0, 0.0]
+        known_cc_rel_error = 0.5
+        known_L2_error = 0.38490017945975047
+
+        self.assertTrue(self.same(known_t, calculated_t, verbosity))
+        self.assertTrue(self.same(known_y, calculated_y, verbosity))
+        self.assertLess(abs(known_cc_rel_error - cc_rel_error), self.TOL)
+        self.assertLess(abs(known_L2_error - L2_error), self.TOL)
+
+    def test_008_squares_reflected(self):
+        verbosity = True
+
+        ref_t = [-3.0, -2.0, -1.0]
+        ref_y = [2.0, 2.0, 2.0]
+        reference = np.transpose([ref_t, ref_y])
+
+        sub_t = [-7.0, -6.0, -5.0, -4.0]
+        sub_y = [3.0, 3.0, 3.0, 3.0]
+        subject = np.transpose([sub_t, sub_y])
+
+        calculated_t, calculated_y, cc_rel_error, L2_error = xycc(
+            reference, subject, verbosity
+        )
+
+        known_t = [-4.0, -3.0, -2.0, -1.0, 0.0, 1.0, 2.0]
+        known_y = [3.0, 3.0, 3.0, 3.0, 0.0, 0.0, 0.0]
+        known_cc_rel_error = 0.5
+        known_L2_error = 0.4948716593053935
+
+        self.assertTrue(self.same(known_t, calculated_t, verbosity))
+        self.assertTrue(self.same(known_y, calculated_y, verbosity))
+        self.assertLess(abs(known_cc_rel_error - cc_rel_error), self.TOL)
+        self.assertLess(abs(known_L2_error - L2_error), self.TOL)
+
+    def test_009_squares_extended_reflected(self):
+        verbosity = True
+
+        ref_t = [-4.0, -3.0, -2.0, -1.0, 0.0]
+        ref_y = [0.0, 2.0, 2.0, 2.0, 0.0]
+        reference = np.transpose([ref_t, ref_y])
+
+        sub_t = [-8.0, -7.0, -6.0, -5.0, -4.0, -3.0]
+        sub_y = [0.0, 3.0, 3.0, 3.0, 3.0, 0.0]
+        subject = np.transpose([sub_t, sub_y])
+
+        calculated_t, calculated_y, cc_rel_error, L2_error = xycc(
+            reference, subject, verbosity
+        )
+
+        known_t = [-5.0, -4.0, -3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0]
+        known_y = [0.0, 3.0, 3.0, 3.0, 3.0, 0.0, 0.0, 0.0, 0.0]
+        known_cc_rel_error = 0.5
+        known_L2_error = 0.38490017945975047
+
+        self.assertTrue(self.same(known_t, calculated_t, verbosity))
+        self.assertTrue(self.same(known_y, calculated_y, verbosity))
+        self.assertLess(abs(known_cc_rel_error - cc_rel_error), self.TOL)
+        self.assertLess(abs(known_L2_error - L2_error), self.TOL)
+
+    def test_010_squares_subject_negative(self):
+        verbosity = True
+
+        ref_t = [1.0, 2.0, 3.0]
+        ref_y = [2.0, 2.0, 2.0]
+        reference = np.transpose([ref_t, ref_y])
+
+        sub_t = [-7.0, -6.0, -5.0, -4.0]
+        sub_y = [3.0, 3.0, 3.0, 3.0]
+        subject = np.transpose([sub_t, sub_y])
+
+        calculated_t, calculated_y, cc_rel_error, L2_error = xycc(
+            reference, subject, verbosity
+        )
+
+        known_t = [0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0]
+        known_y = [3.0, 3.0, 3.0, 3.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+        known_cc_rel_error = 0.5
+        known_L2_error = 0.31491832864888675
+
+        self.assertTrue(self.same(known_t, calculated_t, verbosity))
+        self.assertTrue(self.same(known_y, calculated_y, verbosity))
+        self.assertLess(abs(known_cc_rel_error - cc_rel_error), self.TOL)
+        self.assertLess(abs(known_L2_error - L2_error), self.TOL)
+
+    def test_011_reference_negative(self):
+        verbosity = True
+
+        ref_t = [-3.0, -2.0, -1.0]
+        ref_y = [2.0, 2.0, 2.0]
+        reference = np.transpose([ref_t, ref_y])
+
+        sub_t = [4.0, 5.0, 6.0, 7.0]
+        sub_y = [3.0, 3.0, 3.0, 3.0]
+        subject = np.transpose([sub_t, sub_y])
+
+        calculated_t, calculated_y, cc_rel_error, L2_error = xycc(
+            reference, subject, verbosity
+        )
+
+        known_t = [-11.0, -10.0, -9.0, -8.0, -7.0, -6.0, -5.0, -4.0, -3.0, -2.0, -1.0]
+        known_y = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 3.0, 3.0, 3.0, 3.0]
+        known_cc_rel_error = 0.5
+        known_L2_error = 0.31491832864888675
+
+        self.assertTrue(self.same(known_t, calculated_t, verbosity))
+        self.assertTrue(self.same(known_y, calculated_y, verbosity))
+        self.assertLess(abs(known_cc_rel_error - cc_rel_error), self.TOL)
+        self.assertLess(abs(known_L2_error - L2_error), self.TOL)
+
+    def test_020_ramp(self):
         verbosity = True
 
         ref_t = [0.0, 1.0, 2.0]
@@ -201,7 +351,7 @@ class XYModelCrossCorrelation(TestCase):
         self.assertLess(cc_rel_error, self.TOL)
         self.assertLess(L2_error, self.TOL)
 
-    def test_011_ramp_shift_right(self):
+    def test_021_ramp_shift_right(self):
         verbosity = True
 
         ref_t = [1.0, 2.0, 3.0]
@@ -289,7 +439,6 @@ class XYModelCrossCorrelation(TestCase):
 
         known_t = sub_t
         known_y = sub_y
-
         known_cc_rel_error = 0.1
         known_L2_error = 1.0
 
