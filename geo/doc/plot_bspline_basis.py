@@ -10,7 +10,7 @@ from matplotlib.ticker import MultipleLocator
 # import ptg.bspline_polynomial as bp
 import ptg.bspline as bsp
 
-# (siblenv) [~/sibl/geo/doc] python plot_bspline.py
+# (siblenv) [~/sibl/geo/doc] python plot_bspline_basis.py
 
 config_recover_Bezier_linear = {
     "degree": 1,
@@ -53,8 +53,8 @@ config_Cottrell_Fig2p6 = {
 # config = config_recover_Bezier_quadratic
 # config = config_recover_Bezier_cubic
 # config = config_recover_Bezier_quartic
-# config = config_Cottrell_Fig2p5
-config = config_Cottrell_Fig2p6
+config = config_Cottrell_Fig2p5
+# config = config_Cottrell_Fig2p6
 
 DEGREE = config.get("degree", 0)  # 0 constant, 1 linear, 2 quadratic, 3 cubic
 DISPLAY = config.get("display", True)  # show to screen
@@ -85,8 +85,9 @@ KV = config.get(
 # number of elements is the number of non-zero knot spans
 num_elements = len(np.unique(KV)) - 1
 
-print(f"Computing B-spline with bases of degree={DEGREE}")
+print(f"Computing B-spline basis with degree={DEGREE}")
 print(f"with knot vector {KV}")
+print(f"of {len(KV)} knots")
 print(f"with number of bisections per knot interval={NBI}")
 print(f"with number of elements (non-zero knot spans)={num_elements}")
 
