@@ -142,6 +142,9 @@ class TestBSpline(TestCase):
         N_known = np.zeros((NCP, t.size), dtype=t.dtype)
         u = t
 
+        # credit reference
+        # https://github.com/RoberAgro/nurbspy/blob/master/tests/test_nurbs_basis_functions.py
+
         for j, t in enumerate(t):
             N02 = (1 - t) ** 2 * (0 <= t < 1)
             N12 = (2 * t - 3 / 2 * t ** 2) * (0 <= t < 1) + (1 / 2 * (2 - t) ** 2) * (
