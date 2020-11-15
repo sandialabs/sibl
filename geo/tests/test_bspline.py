@@ -140,9 +140,10 @@ class TestBSpline(TestCase):
                 N_calc.append(y)
 
         N_known = np.zeros((NCP, t.size), dtype=t.dtype)
-        u = t
 
-        # credit reference
+        # Citation to give credit for Pythonic test implementation on knot intervals:
+        # Roberto Agromayor (RoberAgro) Ph.D. candidate in turbomachinery design and
+        # optimization at the Norwegian University of Science and Technology (NTNU)
         # https://github.com/RoberAgro/nurbspy/blob/master/tests/test_nurbs_basis_functions.py
 
         for j, t in enumerate(t):
