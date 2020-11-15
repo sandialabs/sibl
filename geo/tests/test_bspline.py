@@ -104,6 +104,70 @@ class TestBSpline(TestCase):
         self.assertTrue(self.same(y_known, y))
         a = 4
 
+    def test_100_bspline_basis_quadratic_eight_knots(self):
+        """Know example from NURBS Book, Piegl and Tiller, Ex2.2, Fig 2.6"""
+        KV = [0, 0, 0, 1, 2, 3, 4, 4, 5, 5, 5]  # knot vector
+        DEGREE = 2  # quadratic
+        NBI = 3  # number of bisection intervals per knot span
+        NCP = 8  # number of control points
+
+        knots_lhs = KV[0:-1]  # left-hand-side knot values
+        knots_rhs = KV[1:]  # right-hand-side knot values
+        knot_spans = np.array(knots_rhs) - np.array(knots_lhs)
+        dt = knot_spans / (2 ** NBI)
+        assert all([dti >= 0 for dti in dt]), "Error: knot vector is decreasing."
+
+        num_knots = len(KV)
+        t = [
+            knots_lhs[k] + j * dt[k]
+            for k in np.arange(num_knots - 1)
+            for j in np.arange(2 ** NBI)
+        ]
+        t.append(KV[-1])
+        t = np.array(t)
+
+        N_calc = []  # basis functions calculated by bsp.Bspline
+
+        for i in np.arange(NCP):
+
+            coef = np.zeros(NCP)
+            coef[i] = 1.0
+
+            B = bsp.BSpline(KV, coef, DEGREE)
+
+            if B.is_valid():
+                y = B.evaluate(t)
+                N_calc.append(y)
+
+        N_known = np.zeros((NCP, t.size), dtype=t.dtype)
+        u = t
+
+        for j, t in enumerate(t):
+            N02 = (1 - t) ** 2 * (0 <= t < 1)
+            N12 = (2 * t - 3 / 2 * t ** 2) * (0 <= t < 1) + (1 / 2 * (2 - t) ** 2) * (
+                1 <= t < 2
+            )
+            N22 = (
+                (1 / 2 * t ** 2) * (0 <= t < 1)
+                + (-3 / 2 + 3 * t - t ** 2) * (1 <= t < 2)
+                + (1 / 2 * (3 - t) ** 2) * (2 <= t < 3)
+            )
+            N32 = (
+                (1 / 2 * (t - 1) ** 2) * (1 <= t < 2)
+                + (-11 / 2 + 5 * t - t ** 2) * (2 <= t < 3)
+                + (1 / 2 * (4 - t) ** 2) * (3 <= t < 4)
+            )
+            N42 = (1 / 2 * (t - 2) ** 2) * (2 <= t < 3) + (
+                -16 + 10 * t - 3 / 2 * t ** 2
+            ) * (3 <= t < 4)
+            N52 = (t - 3) ** 2 * (3 <= t < 4) + (5 - t) ** 2 * (4 <= t < 5)
+            N62 = (2 * (t - 4) * (5 - t)) * (4 <= t < 5)
+            N72 = (t - 4) ** 2 * (4 <= t <= 5)
+            N_known[:, j] = np.asarray([N02, N12, N22, N32, N42, N52, N62, N72])
+
+        for i in np.arange(NCP):
+            self.assertTrue(self.same(N_known[i], N_calc[i]))
+
 
 # retain main for debugging this file in VS code
 if __name__ == "__main__":
