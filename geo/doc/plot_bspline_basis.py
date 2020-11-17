@@ -69,10 +69,10 @@ DEGREE = config.get("degree", 0)  # 0 constant, 1 linear, 2 quadratic, 3 cubic
 DISPLAY = config.get("display", True)  # show to screen
 DPI = config.get("dpi", 100)  # dots per inch
 KNOT_OFFSET = config.get("knot_offset", 0)  # translate knot vector to left or right
-LATEX = config.get("latex", True)  # use LaTeX instead of default fonts
+LATEX = config.get("latex", False)  # use LaTeX instead of default fonts
 NBI = config.get("nbi", 2)  # number of bisections per knot interval
 NCP = config.get("ncp", 2)  # number of control points
-SERIALIZE = config.get("serialize", True)  # save figure to disc
+SERIALIZE = config.get("serialize", False)  # save figure to disc
 VERBOSE = config.get("verbose", False)
 
 linestyles = ["solid", "dashed", "dashdot"]

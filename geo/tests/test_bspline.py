@@ -1,4 +1,3 @@
-# test_bspline.py
 """This module is a unit test of the bspline implementation.
 
 To run
@@ -57,11 +56,12 @@ class TestBSpline(TestCase):
         self.assertIsInstance(result, AssertionError)
         self.assertTrue(result.args[0] == "Error: knot vector mininum length is two.")
 
-    def test_002_degree_too_small(self):
+    def test_002_degree_too_small_and_verbose(self):
         knot_vector = [0, 1]
         coef = [1]
         degree = -1  # integer >= 0, so -1 is out of range for test
-        B = bsp.BSpline(knot_vector, coef, degree)
+        verbosity = True  # to test the verbose code lines
+        B = bsp.BSpline(knot_vector, coef, degree, verbosity)
         result = B.is_valid()
         self.assertIsInstance(result, AssertionError)
         self.assertTrue(result.args[0] == "Error: degree must be non-negative.")

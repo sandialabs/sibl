@@ -2,7 +2,7 @@
 import numpy as np
 
 
-def bspline_manual(
+def bspline_basis_manual(
     kv: list, knot_i: int = 0, p: int = 0, nti: int = 1, verbose: bool = False
 ):
     """Computes the B-spline polynomial basis
@@ -14,6 +14,7 @@ def bspline_manual(
             must be a non-decreasing sequence
         knot_i (int): index in the list of possible knot_index values = [0, 1, 2, ... K]
         p (int): polynomial degree (p=0: constant, p=1: linear, p=2: quadratic, p=3: cubic, etc.)
+            currently limited to p = [0, 1, 2].
         nti (int): number of time intervals for t in per knot span [t_k, t_{k+1}], nti = 1 is default
         verbose (bool): prints polynomial or error checking
 

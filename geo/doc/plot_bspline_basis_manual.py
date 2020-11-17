@@ -9,15 +9,15 @@ from matplotlib.ticker import MultipleLocator
 
 # import bspline_polynomial as bp
 # import ptg.bspline_polynomial as bp
-import ptg.bspline_manual as bp
+import ptg.bspline_basis_manual as bp
 
-# (siblenv) [~/sibl/geo/doc] python plot_bspline_manual.py
+# (siblenv) [~/sibl/geo/doc] python plot_bspline_basis_manual.py
 
 DEGREE = 2  # e.g., p=0 constant, p=1 linear, p=2 quadratic, p=3 cubic
-DISPLAY = 0
+DISPLAY = 1
 DPI = 100  # dots per inch
-LATEX = 1
-SERIALIZE = 1
+LATEX = 0
+SERIALIZE = 0
 VERBOSE = 0
 
 if LATEX:
@@ -39,7 +39,7 @@ print(f"with number of time intervals (per knot span) nti={nti}")
 num_knots = len(knot_vector)
 for k in np.arange(num_knots - 1 - DEGREE):
 
-    t, y = bp.bspline_manual(knot_vector, k, DEGREE, nti, VERBOSE)
+    t, y = bp.bspline_basis_manual(knot_vector, k, DEGREE, nti, VERBOSE)
 
     if VERBOSE:
         print(f"t={t}")

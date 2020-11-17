@@ -1,6 +1,3 @@
-# bspline.py
-
-# import numpy as np
 from scipy.interpolate import BSpline as scipy_bspline
 
 

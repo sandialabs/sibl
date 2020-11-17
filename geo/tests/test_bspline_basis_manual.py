@@ -1,13 +1,13 @@
-# test_bspline_manual.py
+# test_bspline_basis_manual.py
 """
-This module is a unit test of the bspline_manual implementation.
+This module is a unit test of the bspline_basis_manual implementation.
 
 To run
 $ conda load siblenv
 $ cd ~/sibl
-$ black --check geo/tests/test_bspline_manual.py
-$ pytest geo/tests/test_bspline_manual.py -v
-$ pytest geo/tests/test_bspline_manual.py -v --cov=geo/src/ptg --cov-report term-missing
+$ black --check geo/tests/test_bspline_basis_manual.py
+$ pytest geo/tests/test_bspline_basis_manual.py -v
+$ pytest geo/tests/test_bspline_basis_manual.py -v --cov=geo/src/ptg --cov-report term-missing
 """
 # from unittest import TestCase
 from unittest import TestCase, main
@@ -16,10 +16,11 @@ import numpy as np
 
 # import ptg.code.bspline_manual as bp
 # import ptg.bspline_manual as bp
-import ptg.bspline_manual as bp
+import ptg.bspline_basis_manual as bp
 
 
-class TestBSplinePoly(TestCase):
+# class TestBSplineBasisManual(TestCase):
+class Test(TestCase):
     @classmethod
     def setUpClass(cls):
         cls.TOL = 1e-6  # tolerance
@@ -47,7 +48,7 @@ class TestBSplinePoly(TestCase):
 
     def test_001_knot_vector_minimum_length(self):
         kv_too_short = [0]
-        calc = bp.bspline_manual(kv_too_short)
+        calc = bp.bspline_basis_manual(kv_too_short)
         self.assertIsInstance(calc, AssertionError)
         self.assertTrue(
             calc.args[0] == "Error: knot vector length must be two or larger."
@@ -55,7 +56,7 @@ class TestBSplinePoly(TestCase):
 
     def test_002_knot_index_too_low(self):
         bad_knot_index = -1
-        calc = bp.bspline_manual(self.kv, bad_knot_index)
+        calc = bp.bspline_basis_manual(self.kv, bad_knot_index)
         self.assertIsInstance(calc, AssertionError)
         self.assertTrue(
             calc.args[0] == "Error: knot index knot_i must be non-negative."
@@ -63,7 +64,7 @@ class TestBSplinePoly(TestCase):
 
     def test_003_degree_too_small(self):
         degree = -1  # integer >= 0, so -1 is out of range for test
-        calc = bp.bspline_manual(self.kv, self.ki, degree)
+        calc = bp.bspline_basis_manual(self.kv, self.ki, degree)
         self.assertIsInstance(calc, AssertionError)
         self.assertTrue(
             calc.args[0] == "Error: polynomial degree p must be non-negative."
@@ -71,7 +72,7 @@ class TestBSplinePoly(TestCase):
 
     def test_004_degree_too_large(self):
         degree = 3  # integer >= 0, but cubic and higher not yet implemented
-        calc = bp.bspline_manual(self.kv, self.ki, degree)
+        calc = bp.bspline_basis_manual(self.kv, self.ki, degree)
         self.assertIsInstance(calc, AssertionError)
         self.assertTrue(
             calc.args[0] == "Error: polynomial degree p exceeds maximum of 2"
@@ -79,7 +80,9 @@ class TestBSplinePoly(TestCase):
 
     def test_005_number_of_time_intervals(self):
         bad_number_of_intervals = 0
-        calc = bp.bspline_manual(self.kv, self.ki, self.degree, bad_number_of_intervals)
+        calc = bp.bspline_basis_manual(
+            self.kv, self.ki, self.degree, bad_number_of_intervals
+        )
         self.assertIsInstance(calc, AssertionError)
         self.assertTrue(
             calc.args[0] == "Error: number of time intervals nti must be 1 or greater."
@@ -87,7 +90,7 @@ class TestBSplinePoly(TestCase):
 
     def test_006_nti_out_of_range_and_verbose(self):
         bad_number_of_intervals = 0
-        calc = bp.bspline_manual(
+        calc = bp.bspline_basis_manual(
             self.kv, self.ki, self.degree, bad_number_of_intervals, verbose=True
         )
         self.assertIsInstance(calc, AssertionError)
@@ -99,7 +102,7 @@ class TestBSplinePoly(TestCase):
         # Python's zero-based index makes the integer length of the knot_vector
         # be the first index to be out of range, thus test this
         bad_knot_index = len(self.kv)
-        calc = bp.bspline_manual(self.kv, bad_knot_index)
+        calc = bp.bspline_basis_manual(self.kv, bad_knot_index)
         self.assertIsInstance(calc, AssertionError)
         self.assertTrue(
             calc.args[0]
@@ -110,12 +113,14 @@ class TestBSplinePoly(TestCase):
         # knot vector must be non-decreasing sequence, so test error
         # checking for a decreasing knot vector sequence
         bad_knot_vector = [0, 2, 1]
-        calc = bp.bspline_manual(bad_knot_vector)
+        calc = bp.bspline_basis_manual(bad_knot_vector)
         self.assertIsInstance(calc, AssertionError)
         self.assertTrue(calc.args[0] == "Error: knot vector is decreasing.")
 
     def test_N00_and_verbose(self):
-        calc = bp.bspline_manual(self.kv, self.ki, self.degree, self.nti, verbose=True)
+        calc = bp.bspline_basis_manual(
+            self.kv, self.ki, self.degree, self.nti, verbose=True
+        )
         known_t = [0, 0.5, 1, 1.5, 2, 2.25, 2.5, 2.75, 3]  # nti = 2
         known_y = [1, 1, 1, 1, 0, 0, 0, 0, 0]
         self.assertTrue(self.same(known_t, calc[0]))
@@ -123,7 +128,7 @@ class TestBSplinePoly(TestCase):
 
     def test_N10(self):
         knot_index = 1  # integer >= 0
-        calc = bp.bspline_manual(self.kv, knot_index, self.degree, self.nti)
+        calc = bp.bspline_basis_manual(self.kv, knot_index, self.degree, self.nti)
         known_t = [0, 0.5, 1, 1.5, 2, 2.25, 2.5, 2.75, 3]  # nti = 2
         known_y = [0, 0, 0, 0, 1, 1, 1, 1, 0]
         self.assertTrue(self.same(known_t, calc[0]))
@@ -131,7 +136,7 @@ class TestBSplinePoly(TestCase):
 
     def test_N20(self):
         knot_index = 2  # integer >= 0
-        calc = bp.bspline_manual(self.kv, knot_index, self.degree, self.nti)
+        calc = bp.bspline_basis_manual(self.kv, knot_index, self.degree, self.nti)
         known_t = [0, 0.5, 1, 1.5, 2, 2.25, 2.5, 2.75, 3]  # nti = 2
         known_y = [0, 0, 0, 0, 0, 0, 0, 0, 1]
         self.assertTrue(self.same(known_t, calc[0]))
@@ -139,7 +144,7 @@ class TestBSplinePoly(TestCase):
 
     # def test_N30_insufficient_knots(self):
     #     knot_index = 3  # integer >= 0
-    #     calc = bp.bspline_manual(self.kv, knot_index, self.degree, self.nti)
+    #     calc = bp.bspline_basis_manual(self.kv, knot_index, self.degree, self.nti)
     #     self.assertIsInstance(calc, AssertionError)
     #     self.assertTrue(
     #         calc.args[0] == "Error, insufficient remaining knots for local support."
@@ -148,7 +153,9 @@ class TestBSplinePoly(TestCase):
     def test_N01(self):
         knot_vector = [0, 1, 2]
         degree = 1  # integer >= 0
-        calc = bp.bspline_manual(knot_vector, self.ki, degree, self.nti, verbose=True)
+        calc = bp.bspline_basis_manual(
+            knot_vector, self.ki, degree, self.nti, verbose=True
+        )
         known_t = [0, 0.25, 0.50, 0.75, 1, 1.25, 1.50, 1.75, 2]  # nti = 2
         known_y = [0, 0.25, 0.50, 0.75, 1, 0.75, 0.50, 0.25, 0]
         self.assertTrue(self.same(known_t, calc[0]))
@@ -158,7 +165,7 @@ class TestBSplinePoly(TestCase):
         knot_vector = [0, 1, 2, 3]
         knot_index = 1  # integer >= 0
         degree = 1  # integer >= 0
-        calc = bp.bspline_manual(
+        calc = bp.bspline_basis_manual(
             knot_vector, knot_index, degree, self.nti, verbose=True
         )
         known_t = [0, 0.25, 0.50, 0.75, 1, 1.25, 1.50, 1.75, 2, 2.25, 2.50, 2.75, 3]
@@ -170,7 +177,7 @@ class TestBSplinePoly(TestCase):
 
     def test_N03_not_yet_implemented(self):
         degree = 3  # integer >= 0
-        calc = bp.bspline_manual(self.kv, self.ki, degree)
+        calc = bp.bspline_basis_manual(self.kv, self.ki, degree)
         self.assertIsInstance(calc, AssertionError)
         self.assertTrue(
             calc.args[0] == "Error: polynomial degree p exceeds maximum of 2"
