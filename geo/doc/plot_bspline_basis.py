@@ -12,6 +12,8 @@ import ptg.bspline as bsp
 
 # (siblenv) [~/sibl/geo/doc] python plot_bspline_basis.py
 
+# B-spline basis functions
+
 config_recover_Bezier_linear = {
     "degree": 1,
     "ncp": 2,
@@ -54,6 +56,61 @@ config_Cottrell_Fig2p6 = {
     "knot_vector": [0, 0, 0, 0, 0, 1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5],
 }
 
+config_Piegl_Fig2p12 = {
+    "degree": 3,
+    "nbi": 2,
+    "ncp": 7,
+    "knot_vector": [0, 0, 0, 0, 1, 5, 6, 8, 8, 8, 8],
+    "verbose": True,
+    "xticks": [0, 1, 5, 6, 8],
+}
+
+# B-spline curves
+
+config_Piegl_Fig3p1 = {
+    "name": "Piegl_Fig3p1",
+    "degree": 3,
+    "nbi": 7,
+    "ncp": 4,
+    "knot_vector": [0, 0, 0, 0, 1, 1, 1, 1],
+    "verbose": True,
+    "coefficients": [[0, 0], [3, 8], [10.5, 9.5], [15, 0]],
+    "latex": 1,
+    "serialize": 1,
+}
+
+config_RoberArgo_curve_example = {
+    "name": "RoberArgo_curve_example",
+    "degree": 4,
+    "nbi": 7,
+    "ncp": 5,
+    "knot_vector": [0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
+    "verbose": True,
+    "coefficients": [[0.2, 0.5], [0.4, 0.7], [0.8, 0.6], [0.8, 0.4], [0.4, 0.2]],
+    "latex": 0,
+    "serialize": 0,
+}
+
+config_Piegl_Fig3p2 = {
+    "name": "Piegl_Fig3p2",
+    "degree": 3,
+    "nbi": 7,
+    "ncp": 7,
+    "knot_vector": [0, 0, 0, 0, 0.25, 0.5, 0.75, 1, 1, 1, 1],
+    "verbose": True,
+    "coefficients": [
+        [-14, 0],
+        [0, 0],
+        [0, 13],
+        [15, 13],
+        [20, -1.5],
+        [9, -10],
+        [0, -5],
+    ],
+    "latex": 1,
+    "serialize": 1,
+}
+
 # config = config_recover_Bezier_linear
 # config = config_recover_Bezier_quadratic
 # config = config_recover_Bezier_cubic
@@ -61,10 +118,15 @@ config_Cottrell_Fig2p6 = {
 # config = config_linear_expanded
 # config = config_quadratic_expanded
 # config = config_cubic_expanded
-config = config_quartic_expanded
+# config = config_quartic_expanded
 # config = config_Cottrell_Fig2p5
 # config = config_Cottrell_Fig2p6
+# config = config_Piegl_Fig2p12
+# config = config_Piegl_Fig3p1
+# config = config_RoberArgo_curve_example
+config = config_Piegl_Fig3p2
 
+NAME = config.get("name", None)  # name is used for output file name
 DEGREE = config.get("degree", 0)  # 0 constant, 1 linear, 2 quadratic, 3 cubic
 DISPLAY = config.get("display", True)  # show to screen
 DPI = config.get("dpi", 100)  # dots per inch
@@ -74,6 +136,8 @@ NBI = config.get("nbi", 2)  # number of bisections per knot interval
 NCP = config.get("ncp", 2)  # number of control points
 SERIALIZE = config.get("serialize", False)  # save figure to disc
 VERBOSE = config.get("verbose", False)
+XTICKS = config.get("xticks", None)
+COEF = config.get("coefficients", None)  # None is basis, not None is curve
 
 linestyles = ["solid", "dashed", "dashdot"]
 num_linestyles = len(linestyles)
@@ -114,18 +178,33 @@ t = [
 ]
 t.append(KV[-1])
 t = np.array(t)
-N = []
+N = []  # B-spline basis vector
+C = []  # B-spline curve
 
-for i in np.arange(NCP):
+if not COEF:
+    # plot B-spline basis
+    for i in np.arange(NCP):
 
-    coef = np.zeros(NCP)
-    coef[i] = 1.0
+        coef = np.zeros(NCP)
+        coef[i] = 1.0
 
-    B = bsp.BSpline(KV, coef, DEGREE)
+        B = bsp.BSpline(KV, coef, DEGREE)
 
-    if B.is_valid():
-        y = B.evaluate(t)
-        N.append(y)
+        if B.is_valid():
+            y = B.evaluate(t)
+            N.append(y)
+else:
+    # plot B-spline curve
+    nsd = len(COEF[0])  # number of space dimensions
+    for i in np.arange(nsd):
+        coef = np.array(COEF)[:, i]
+        # coef = COEF[:, i]
+
+        B = bsp.BSpline(KV, coef, DEGREE)
+
+        if B.is_valid():
+            y = B.evaluate(t)
+            C.append(y)
 
 
 # fig = plt.figure(figsize=plt.figaspect(1.0 / (num_knots - 1)), dpi=DPI)
@@ -136,31 +215,57 @@ ax = fig.gca()
 ax.grid(True, which="major", linestyle="-")
 ax.grid(True, which="minor", linestyle=":")
 
-for i in np.arange(NCP):
-    CPTXT = f"{i}"
-    DEGTXT = f"{DEGREE}"
+if not COEF:
+    # plot B-spline basis
+    for i in np.arange(NCP):
+        CPTXT = f"{i}"
+        DEGTXT = f"{DEGREE}"
+        ax.plot(
+            t,
+            N[i],
+            "-",
+            lw=2,
+            label="$N_{" + CPTXT + "}^{" + DEGTXT + "}$",
+            linestyle=linestyles[np.remainder(i, num_linestyles)],
+        )
+        ax.set_xlabel(r"$t$")
+        ax.set_ylabel(f"$N^{DEGREE}_i(t)$")
+        eps = 0.1
+        ax.set_xlim([KV[0] - 2 * eps, KV[-1] + 2 * eps])
+        ax.set_ylim([0.0 - 2 * eps, 1.0 + 2 * eps])
+        ax.legend(bbox_to_anchor=(1.05, 1), loc="upper left", borderaxespad=0.0)
+        ax.xaxis.set_major_locator(MultipleLocator(1.0))
+        ax.xaxis.set_minor_locator(MultipleLocator(0.25))
+        ax.yaxis.set_major_locator(MultipleLocator(1.0))
+        ax.yaxis.set_minor_locator(MultipleLocator(0.25))
+else:
+    # plot B-spline curve, assume 2D for now
+    ax.plot(C[0], C[1], color="navy", linestyle="solid", linewidth=2)
+    cp_x = np.array(COEF)[:, 0]
+    cp_y = np.array(COEF)[:, 1]
     ax.plot(
-        t,
-        N[i],
-        "-",
-        lw=2,
-        label="$N_{" + CPTXT + "}^{" + DEGTXT + "}$",
-        linestyle=linestyles[np.remainder(i, num_linestyles)],
+        cp_x,
+        cp_y,
+        color="gray",
+        linewidth=1,
+        alpha=1.0,
+        marker="o",
+        markeredgecolor="black",
+        markerfacecolor="white",
+        linestyle="dashed",
     )
+    ax.set_xlabel(r"$x$")
+    ax.set_ylabel(r"$y$")
+    # ax.xaxis.set_major_locator(MultipleLocator(0.1))
+    # ax.xaxis.set_minor_locator(MultipleLocator(0.25))
+    # ax.yaxis.set_major_locator(MultipleLocator(0.1))
+    # ax.yaxis.set_minor_locator(MultipleLocator(0.25))
 
-ax.set_xlabel(r"$t$")
-ax.set_ylabel(f"$N^{DEGREE}_i(t)$")
-
-eps = 0.1
-ax.set_xlim([KV[0] - 2 * eps, KV[-1] + 2 * eps])
-ax.set_ylim([0.0 - 2 * eps, 1.0 + 2 * eps])
 ax.set_aspect("equal")
-ax.legend(bbox_to_anchor=(1.05, 1), loc="upper left", borderaxespad=0.0)
-ax.xaxis.set_major_locator(MultipleLocator(1.0))
-ax.xaxis.set_minor_locator(MultipleLocator(0.25))
-ax.yaxis.set_major_locator(MultipleLocator(1.0))
-ax.yaxis.set_minor_locator(MultipleLocator(0.25))
+# ax.legend(bbox_to_anchor=(1.05, 1), loc="upper left", borderaxespad=0.0)
 
+if XTICKS:
+    ax.set_xticks(XTICKS)
 
 if DISPLAY:
     plt.show()
@@ -168,6 +273,9 @@ if DISPLAY:
 if SERIALIZE:
     extension = ".pdf"  # or '.svg'
     # bstring = "N(p=" + str(DEGREE) + ")_" + str(k) + extension
-    bstring = "N(p=" + str(DEGREE) + ")_NCP=" + str(NCP) + extension
+    if NAME is None:
+        bstring = "N(p=" + str(DEGREE) + ")_NCP=" + str(NCP) + extension
+    else:
+        bstring = NAME + extension
     # fig.savefig(bstring, bbox_inches="tight")
     fig.savefig(bstring, bbox_inches="tight", pad_inches=0)
