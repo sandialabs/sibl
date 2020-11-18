@@ -15,9 +15,9 @@ import ptg.bernstein_polynomial as bp
 
 
 class ViewBernsteinSurface:
-    """Creates a Matplotlib figures of a Bernstein basis surface 
+    """Creates a Matplotlib figures of a Bernstein basis surface
     from outer product of two basis functions.
-    
+
     $ conda active siblenv
     $ python view_bernstein_surface.py
     """

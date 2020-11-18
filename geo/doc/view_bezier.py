@@ -15,7 +15,7 @@ import ptg.bernstein_polynomial as bp
 
 class ViewBezier(ABC):
     """Creates a Matplotlib figure of a Bezier curve, surface, or volume.
-    
+
     $ conda active siblenv
     $ python view_bezier.py model_config.json
     e.g.
@@ -93,7 +93,7 @@ class ViewBezier(ABC):
         control_points_color = db.get("control-points-color", "red")
         control_points_label = db.get("control-points-label", False)
         control_points_label_color = db.get("control-points-label-color", "black")
-        control_points_alpha = db.get("control-points-alpha", 0.5)
+        # control_points_alpha = db.get("control-points-alpha", 0.5)
         control_points_marker = db.get("control-points-marker", "o")
         control_points_path = db.get("control-points-path", False)
         control_points_shown = db.get("control-points-shown", True)
