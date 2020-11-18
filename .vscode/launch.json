@@ -15,7 +15,7 @@
             "name": "bilinear",
             "type": "python",
             "request": "launch",
-            "program": "~/sibl/geo/doc/view_bezier.py",
+            "program": "~/sibl/geo/src/ptg/view_bezier.py",
             "args": [
                 "~/sibl/geo/data/bezier/bilinear-config.json",
                 "--verbose"
@@ -26,7 +26,7 @@
             "name": "trilinear",
             "type": "python",
             "request": "launch",
-            "program": "~/sibl/geo/doc/view_bezier.py",
+            "program": "~/sibl/geo/src/ptg/view_bezier.py",
             "args": [
                 "~/sibl/geo/data/bezier/trilinear-config.json",
                 "--verbose"
@@ -37,7 +37,7 @@
             "name": "triquadratic",
             "type": "python",
             "request": "launch",
-            "program": "~/sibl/geo/doc/view_bezier.py",
+            "program": "~/sibl/geo/src/ptg/view_bezier.py",
             "args": [
                 "~/sibl/geo/data/bezier/triquadratic-config.json",
                 "--verbose"
@@ -48,7 +48,7 @@
             "name": "gehry-bilbao",
             "type": "python",
             "request": "launch",
-            "program": "~/sibl/geo/doc/view_bezier.py",
+            "program": "~/sibl/geo/src/ptg/view_bezier.py",
             "args": [
                 "~/sibl/geo/data/bezier/gehry-bilbao-config.json",
                 "--verbose"
@@ -59,7 +59,7 @@
             "name": "triquad-qtr-cyl",
             "type": "python",
             "request": "launch",
-            "program": "~/sibl/geo/doc/view_bezier.py",
+            "program": "~/sibl/geo/src/ptg/view_bezier.py",
             "args": [
                 "~/sibl/geo/data/bezier/triquad-qtr-cyl-config.json",
                 "--verbose"
@@ -70,7 +70,7 @@
             "name": "biquadratic",
             "type": "python",
             "request": "launch",
-            "program": "~/sibl/geo/doc/view_bezier.py",
+            "program": "~/sibl/geo/src/ptg/view_bezier.py",
             "args": [
                 "~/sibl/geo/data/bezier/biquadratic-config.json",
                 "--verbose"
@@ -81,7 +81,7 @@
             "name": "Georgia-e",
             "type": "python",
             "request": "launch",
-            "program": "~/sibl/geo/doc/view_bezier.py",
+            "program": "~/sibl/geo/src/ptg/view_bezier.py",
             "args": [
                 "~/sibl/geo/data/bezier/Georgia-e-config.json",
                 "--verbose"
@@ -92,7 +92,7 @@
             "name": "letter-e",
             "type": "python",
             "request": "launch",
-            "program": "~/sibl/geo/doc/view_bezier.py",
+            "program": "~/sibl/geo/src/ptg/view_bezier.py",
             "args": [
                 "~/sibl/geo/data/bezier/letter-e-config.json",
                 "--verbose"
@@ -103,7 +103,7 @@
             "name": "letter-e-draft",
             "type": "python",
             "request": "launch",
-            "program": "~/sibl/geo/doc/view_bezier.py",
+            "program": "~/sibl/geo/src/ptg/view_bezier.py",
             "args": [
                 "~/sibl/geo/data/bezier/letter-e-draft-config.json",
                 "--verbose"

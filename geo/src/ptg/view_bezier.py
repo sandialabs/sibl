@@ -19,8 +19,8 @@ class ViewBezier(ABC):
     $ conda active siblenv
     $ python view_bezier.py model_config.json
     e.g.
-    $ python view_bezier.py ../data/bezier/bilinear-config.json
-    $ python view_bezier.py ../data/bezier/bilinear-config.json --verbose
+    $ python view_bezier.py ../../data/bezier/bilinear-config.json
+    $ python view_bezier.py ../../data/bezier/bilinear-config.json --verbose
     """
 
     def __init__(self, config, verbose=False):

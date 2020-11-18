@@ -169,6 +169,7 @@ class ViewBernsteinSurface:
                     bstring += str(j) + extension
                     # fig.savefig(bstring, bbox_inches="tight")
                     fig.savefig(bstring, bbox_inches="tight", pad_inches=0)
+                    print(f"Serialized file as {bstring}")
 
         self.INITIALIZED = True
 
