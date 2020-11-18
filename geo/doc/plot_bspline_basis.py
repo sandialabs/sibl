@@ -111,6 +111,43 @@ config_Piegl_Fig3p2 = {
     "serialize": 1,
 }
 
+config_Cottrell_Fig2p20a = {
+    "name": "Cottrell_Fig2p20a",
+    "degree": 2,
+    "nbi": 7,
+    "ncp": 8,
+    "knot_vector": [0, 0, 0, 1, 2, 3, 4, 4, 5, 5, 5],
+    "verbose": True,
+    "coefficients": [[0, 1], [1, 0], [2, 0], [2, 2], [4, 2], [5, 4], [2, 5], [1, 3]],
+    "xticks": [0, 1, 2, 3, 4, 5],
+    "yticks": [0, 1, 2, 3, 4, 5],
+    "latex": 1,
+    "serialize": 1,
+}
+
+
+# config_Hughes_2005_Fig12 = {
+#     "name": "Hughes_2005_Fig12",
+#     "degree": 2,
+#     "nbi": 7,
+#     "ncp": 9,
+#     "knot_vector": [0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 4],
+#     "verbose": True,
+#     "coefficients": [
+#         [1, 0],
+#         [1, 1],
+#         [0, 1],
+#         [-1, 1],
+#         [-1, 0],
+#         [-1, -1],
+#         [0, -1],
+#         [1, -1],
+#         [1, 0],
+#     ],
+#     "latex": 0,
+#     "serialize": 0,
+# }
+
 # config = config_recover_Bezier_linear
 # config = config_recover_Bezier_quadratic
 # config = config_recover_Bezier_cubic
@@ -125,6 +162,8 @@ config_Piegl_Fig3p2 = {
 # config = config_Piegl_Fig3p1
 # config = config_RoberArgo_curve_example
 config = config_Piegl_Fig3p2
+# config = config_Cottrell_Fig2p20a
+# config = config_Hughes_2005_Fig12
 
 NAME = config.get("name", None)  # name is used for output file name
 DEGREE = config.get("degree", 0)  # 0 constant, 1 linear, 2 quadratic, 3 cubic
@@ -137,6 +176,7 @@ NCP = config.get("ncp", 2)  # number of control points
 SERIALIZE = config.get("serialize", False)  # save figure to disc
 VERBOSE = config.get("verbose", False)
 XTICKS = config.get("xticks", None)
+YTICKS = config.get("yticks", None)
 COEF = config.get("coefficients", None)  # None is basis, not None is curve
 
 linestyles = ["solid", "dashed", "dashdot"]
@@ -246,11 +286,10 @@ else:
     ax.plot(
         cp_x,
         cp_y,
-        color="gray",
+        color="red",
         linewidth=1,
-        alpha=1.0,
+        alpha=0.5,
         marker="o",
-        markeredgecolor="black",
         markerfacecolor="white",
         linestyle="dashed",
     )
@@ -266,6 +305,9 @@ ax.set_aspect("equal")
 
 if XTICKS:
     ax.set_xticks(XTICKS)
+
+if YTICKS:
+    ax.set_yticks(YTICKS)
 
 if DISPLAY:
     plt.show()
