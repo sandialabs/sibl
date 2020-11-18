@@ -1,0 +1,114 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "bilinear",
+            "type": "python",
+            "request": "launch",
+            "program": "~/sibl/geo/doc/view_bezier.py",
+            "args": [
+                "~/sibl/geo/data/bezier/bilinear-config.json",
+                "--verbose"
+            ],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "trilinear",
+            "type": "python",
+            "request": "launch",
+            "program": "~/sibl/geo/doc/view_bezier.py",
+            "args": [
+                "~/sibl/geo/data/bezier/trilinear-config.json",
+                "--verbose"
+            ],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "triquadratic",
+            "type": "python",
+            "request": "launch",
+            "program": "~/sibl/geo/doc/view_bezier.py",
+            "args": [
+                "~/sibl/geo/data/bezier/triquadratic-config.json",
+                "--verbose"
+            ],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "gehry-bilbao",
+            "type": "python",
+            "request": "launch",
+            "program": "~/sibl/geo/doc/view_bezier.py",
+            "args": [
+                "~/sibl/geo/data/bezier/gehry-bilbao-config.json",
+                "--verbose"
+            ],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "triquad-qtr-cyl",
+            "type": "python",
+            "request": "launch",
+            "program": "~/sibl/geo/doc/view_bezier.py",
+            "args": [
+                "~/sibl/geo/data/bezier/triquad-qtr-cyl-config.json",
+                "--verbose"
+            ],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "biquadratic",
+            "type": "python",
+            "request": "launch",
+            "program": "~/sibl/geo/doc/view_bezier.py",
+            "args": [
+                "~/sibl/geo/data/bezier/biquadratic-config.json",
+                "--verbose"
+            ],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Georgia-e",
+            "type": "python",
+            "request": "launch",
+            "program": "~/sibl/geo/doc/view_bezier.py",
+            "args": [
+                "~/sibl/geo/data/bezier/Georgia-e-config.json",
+                "--verbose"
+            ],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "letter-e",
+            "type": "python",
+            "request": "launch",
+            "program": "~/sibl/geo/doc/view_bezier.py",
+            "args": [
+                "~/sibl/geo/data/bezier/letter-e-config.json",
+                "--verbose"
+            ],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "letter-e-draft",
+            "type": "python",
+            "request": "launch",
+            "program": "~/sibl/geo/doc/view_bezier.py",
+            "args": [
+                "~/sibl/geo/data/bezier/letter-e-draft-config.json",
+                "--verbose"
+            ],
+            "console": "integratedTerminal"
+        },
+    ]
+}
