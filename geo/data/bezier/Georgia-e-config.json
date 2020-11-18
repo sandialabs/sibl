@@ -22,10 +22,10 @@
         10
     ],
     "control-points": "Georgia-e-control-points.csv",
-    "control-points-label": false, 
+    "control-points-label": false,
     "control-points-path": true,
     "control-points-shown": false,
-    "data-path": "~/sibl/ptg/data/bezier",
+    "data-path": ".",
     "nti_divisions": 3,
     "triangulation-alpha": 0.8,
     "xlabel": "x (font units)",

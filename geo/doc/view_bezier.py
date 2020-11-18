@@ -9,12 +9,21 @@ import matplotlib.tri as mtri
 import matplotlib.pyplot as plt
 import numpy as np
 
-import bernstein_polynomial as bp
+# import bernstein_polynomial as bp
+import ptg.bernstein_polynomial as bp
 
 
-class BezierVis(ABC):
+class ViewBezier(ABC):
+    """Creates a Matplotlib figure of a Bezier curve, surface, or volume.
+    
+    $ conda active siblenv
+    $ python view_bezier.py model_config.json
+    e.g.
+    $ python view_bezier.py ../data/bezier/bilinear-config.json
+    $ python view_bezier.py ../data/bezier/bilinear-config.json --verbose
+    """
+
     def __init__(self, config, verbose=False):
-        """Visualize Bezier [curve, surface, solid]."""
 
         # abbreviations:
         # cp: control point; collection of control points forms the control net
@@ -25,12 +34,13 @@ class BezierVis(ABC):
         if not Path(config).is_file():
             sys.exit(f"Error: cannot find file {config}")
 
-        config_location = Path(config).parent
+        config_path = Path(config).parent
 
         if verbose:
             class_name = type(self).__name__
-            print(f"This is {class_name} processing config file: {config}")
-            print(f"located at: {config_location}")
+            print(f"This is {class_name}:")
+            print(f"  processing config file: {config}")
+            print(f"  located at: {config_path}")
 
         with open(config) as fin:
             db = json.load(fin)
@@ -55,6 +65,8 @@ class BezierVis(ABC):
             sys.exit(f'Error: bezier-type "{bezier_type}" not supported.')
 
         data_path = db.get("data-path")
+        if data_path == ".":
+            data_path = config_path  # .csv files are in same folder as .json file
         data_path_expanded = Path(data_path).expanduser()
         cp_file = db.get("control-points")
         cn_file = db.get("control-nets")
@@ -81,7 +93,8 @@ class BezierVis(ABC):
         control_points_color = db.get("control-points-color", "red")
         control_points_label = db.get("control-points-label", False)
         control_points_label_color = db.get("control-points-label-color", "black")
-        control_points_marker = db.get("control-points-marker", "^")
+        control_points_alpha = db.get("control-points-alpha", 0.5)
+        control_points_marker = db.get("control-points-marker", "o")
         control_points_path = db.get("control-points-path", False)
         control_points_shown = db.get("control-points-shown", True)
         control_points_size = db.get("control-points-size", 50)
@@ -141,19 +154,19 @@ class BezierVis(ABC):
         # check existence of path and files
         # if not Path(data_path_expanded).is_dir():
         if not data_path_expanded.is_dir():
-            sys.exit(f"Error: cannot find {data_path}")
+            sys.exit(f"Error: cannot find path: {data_path}")
 
         # cp_path_file = data_path_expanded + cp_file
         cp_path_file = data_path_expanded.joinpath(cp_file)
         # if not Path(cp_path_file).is_file():
         if not cp_path_file.is_file():
-            sys.exit(f"Error: cannot find {cp_path_file}")
+            sys.exit(f"Error: cannot find control points file: {cp_path_file}")
 
         # cn_path_file = data_path_expanded + cn_file
         cn_path_file = data_path_expanded.joinpath(cn_file)
         # if not Path(cn_path_file).is_file():
         if not cn_path_file.is_file():
-            sys.exit(f"Error: cannot find {cn_path_file}")
+            sys.exit(f"Error: cannot find control net file: {cn_path_file}")
 
         # file io data type specification
         data_type_string = "float"
@@ -227,7 +240,8 @@ class BezierVis(ABC):
                             net_y[i],
                             net_z[i],
                             edgecolor=control_points_color,
-                            facecolor=(0, 0, 0, 0),
+                            facecolor="white",
+                            alpha=control_points_label,
                             marker=control_points_marker,
                             s=control_points_size,
                         )
@@ -489,7 +503,8 @@ def main(argv):
     verbose = args.verbose
 
     # BezierCurveVis(config, verbose)
-    BezierVis(config, verbose)
+    # BezierVis(config, verbose)
+    ViewBezier(config, verbose)
 
 
 if __name__ == "__main__":

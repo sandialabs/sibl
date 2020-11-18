@@ -14,7 +14,7 @@
     "control-points-label": false,
     "control-points-path": true,
     "control-points-shown": true,
-    "data-path": "~/sibl/ptg/data/bezier",
+    "data-path": ".",
     "nti_divisions": 4,
     "surface-triangulation": true,
     "triangulation-alpha": 0.8,

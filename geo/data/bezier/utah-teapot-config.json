@@ -1,6 +1,6 @@
 {
     "bezier-type": "surface",
-    "data-path": "~/sibl/ptg/data/bezier",
+    "data-path": ".",
     "control-points": "utah-teapot-control-points.csv",
     "control-points-label": false,
     "control-nets": "utah-teapot-control-nets.csv",

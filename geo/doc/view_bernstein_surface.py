@@ -14,8 +14,13 @@ import ptg.bernstein_polynomial as bp
 #  import bernstein_polynomial as bp
 
 
-class BezierSurface:
-    """Creates a Bezier basis surface from outer product of two basis functions."""
+class ViewBernsteinSurface:
+    """Creates a Matplotlib figures of a Bernstein basis surface 
+    from outer product of two basis functions.
+    
+    $ conda active siblenv
+    $ python view_bernstein_surface.py
+    """
 
     def __init__(self, config):
 
@@ -183,7 +188,7 @@ def main(argv):
         "z-axis-label-inverted": True,
     }
 
-    bs = BezierSurface(config)
+    bs = ViewBernsteinSurface(config)
     result = bs.INITIALIZED
     if result:
         print("Successful initialization and execution.")

@@ -27,7 +27,7 @@
     "control-points-label": true,
     "control-points-path": true,
     "control-points-shown": false,
-    "data-path": "~/sibl/ptg/data/bezier",
+    "data-path": ".",
     "nti_divisions": 3,
     "xlabel": "x (font units)",
     "xlim": [

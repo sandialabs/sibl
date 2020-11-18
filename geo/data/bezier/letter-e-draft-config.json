@@ -24,7 +24,7 @@
     ],
     "control-points": "letter-e-draft-control-points.csv",
     "control-points-label": true,
-    "data-path": "~/sibl/ptg/data/bezier",
+    "data-path": ".",
     "nti_divisions": 2,
     "xlabel": "x (font units)",
     "xlim": [
