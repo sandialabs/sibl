@@ -1,26 +1,17 @@
 {
     "bezier-type": "surface",
+    "camera-elevation": 15,
+    "camera-azimuth": -75,
     "data-path": ".",
     "control-points": "utah-teapot-control-points.csv",
     "control-points-label": false,
+    "control-points-shown": false,
     "control-nets": "utah-teapot-control-nets.csv",
     "nti_divisions": 3,
     "bezier-points-shown": true,
     "bezier-points-size": 0.01,
     "surface-triangulation": true,
     "triangulation-alpha": 0.8,
-    "xlim": [
-        -1,
-        4
-    ],
-    "ylim": [
-        -4,
-        1
-    ],
-    "zlim": [
-        -1,
-        4
-    ],
     "#control-nets-shown": [
         0
     ],
@@ -58,5 +49,43 @@
         "spout continued",
         9,
         "bottom"
-    ]
+    ],
+    "xlabel": "$x$ (length units)",
+    "ylabel": "$y$ (length units)",
+    "zlabel": "$z$ (length units)",
+    "xlim": [
+        0,
+        4
+    ],
+    "ylim": [
+        -4,
+        0
+    ],
+    "zlim": [
+        0,
+        4
+    ],
+    "xticks": [
+        0.0,
+        1.0,
+        2.0,
+        3.0,
+        4.0
+    ],
+    "yticks": [
+        -4.0,
+        -3.0,
+        -2.0,
+        -1.0,
+        0.0
+    ],
+    "zticks": [
+        0.0,
+        1.0,
+        2.0,
+        3.0,
+        4.0
+    ],
+    "latex": true,
+    "serialize": true
 }

@@ -1,12 +1,14 @@
 {
     "bezier-lines-shown": true,
-    "bezier-points-shown": true,
+    "bezier-lines-color": "navy",
+    "bezier-linewidth": 2.0,
+    "bezier-points-shown": false,
     "bezier-points-size": 3,
     "bezier-type": "curve",
-    "#camera-elevation": 85,
-    "camera-elevation": 0,
-    "#camera-azimuth": -15,
-    "camera-azimuth": 0,
+    "camera-elevation": 15,
+    "#camera-elevation": 0,
+    "camera-azimuth": 15,
+    "#camera-azimuth": 0,
     "control-nets": "Georgia-e-control-nets.csv",
     "control-nets-shown": [
         0,
@@ -22,25 +24,31 @@
         10
     ],
     "control-points": "Georgia-e-control-points.csv",
-    "control-points-label": false,
+    "control-points-label": true,
     "control-points-path": true,
-    "control-points-shown": false,
+    "control-points-shown": true,
     "data-path": ".",
-    "nti_divisions": 3,
+    "nti_divisions": 7,
     "triangulation-alpha": 0.8,
-    "xlabel": "x (font units)",
+    "xlabel": "$x$ (font units)",
     "xlim": [
         -2,
-        600
+        2
     ],
-    "ylabel": "y (font units)",
+    "ylabel": "$y$ (font units)",
     "ylim": [
         -2,
         600
     ],
-    "zlabel": "z (font units)",
+    "zlabel": "$z$ (font units)",
     "zlim": [
         -2,
         600
-    ]
+    ],
+    "xticks": [
+        0.0
+    ],
+    "z-axis-label-inverted": true,
+    "latex": true,
+    "serialize": true
 }

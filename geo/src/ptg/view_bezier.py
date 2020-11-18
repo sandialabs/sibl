@@ -7,6 +7,7 @@ import sys
 
 import matplotlib.tri as mtri
 import matplotlib.pyplot as plt
+from matplotlib import rc
 import numpy as np
 
 # import bernstein_polynomial as bp
@@ -33,6 +34,8 @@ class ViewBezier(ABC):
 
         if not Path(config).is_file():
             sys.exit(f"Error: cannot find file {config}")
+
+        STEM = Path(config).stem
 
         config_path = Path(config).parent
 
@@ -89,7 +92,7 @@ class ViewBezier(ABC):
         # do not set alpha, let scatter3D control this, which
         # automatically provides an implied depth of field
         #
-        # control_points_alpha = db.get("control-alpha", 0.9)
+        control_points_alpha = db.get("control-alpha", 0.5)
         control_points_color = db.get("control-points-color", "red")
         control_points_label = db.get("control-points-label", False)
         control_points_label_color = db.get("control-points-label-color", "black")
@@ -102,7 +105,7 @@ class ViewBezier(ABC):
         # draw a specific control net (or nets)
         control_nets_shown = db.get("control-nets-shown", [0])
         control_nets_linestyle = db.get("control-nets-linestyle", "dashed")
-        control_nets_linewidth = db.get("control-nets-linewidth", 0.8)
+        control_nets_linewidth = db.get("control-nets-linewidth", 1.0)
 
         # Bezier interpolation data
         # the alpha channel (transparency) for the Bezier curve,
@@ -150,6 +153,18 @@ class ViewBezier(ABC):
 
         camera_elevation = db.get("camera-elevation", None)
         camera_azimuth = db.get("camera-azimuth", None)
+
+        XTICKS = db.get("xticks", None)
+        YTICKS = db.get("yticks", None)
+        ZTICKS = db.get("zticks", None)
+
+        Z_AXIS_LABEL_INVERTED = db.get("z-axis-label-inverted", True)
+        SERIALZE = db.get("serialize", False)
+        LATEX = db.get("latex", False)
+
+        if LATEX:
+            rc("font", **{"family": "serif", "serif": ["Computer Modern Roman"]})
+            rc("text", usetex=True)
 
         # check existence of path and files
         # if not Path(data_path_expanded).is_dir():
@@ -230,6 +245,7 @@ class ViewBezier(ABC):
                     color=control_points_color,
                     linestyle=control_nets_linestyle,
                     linewidth=control_nets_linewidth,
+                    alpha=control_points_alpha,
                 )
 
             if control_points_label or control_points_shown:
@@ -241,7 +257,7 @@ class ViewBezier(ABC):
                             net_z[i],
                             edgecolor=control_points_color,
                             facecolor="white",
-                            alpha=control_points_label,
+                            alpha=control_points_alpha,
                             marker=control_points_marker,
                             s=control_points_size,
                         )
@@ -462,6 +478,19 @@ class ViewBezier(ABC):
         ax.set_ylabel(ylabel)
         ax.set_zlabel(zlabel)
 
+        if Z_AXIS_LABEL_INVERTED:
+            ax.zaxis.set_rotate_label(False)
+            ax.zaxis.label.set_rotation(90)
+
+        if XTICKS:
+            ax.set_xticks(XTICKS)
+
+        if YTICKS:
+            ax.set_yticks(YTICKS)
+
+        if ZTICKS:
+            ax.set_zticks(ZTICKS)
+
         # fix coming in matplotlib 3.3.1 (current stable version is 3.2.2)
         # https://github.com/matplotlib/matplotlib/pull/17515
         # ax.set_box_aspect([1, 1, 1])
@@ -483,6 +512,12 @@ class ViewBezier(ABC):
         ax.view_init(elev=camera_elevation, azim=camera_azimuth)
 
         plt.show()
+
+        if SERIALZE:
+            extension = ".pdf"  # or ".svg"
+            filename = STEM + extension
+            fig.savefig(filename, bbox_inches="tight", pad_inches=0)
+            print(f"Serialized file to {filename}")
 
 
 def main(argv):
