@@ -1,4 +1,3 @@
-# abstract base class for Bezier [curve, surface, solid] vis
 from abc import ABC
 import argparse
 import json

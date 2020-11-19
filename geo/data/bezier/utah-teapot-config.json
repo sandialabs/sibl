@@ -1,17 +1,10 @@
 {
+    "bezier-points-shown": true,
+    "bezier-points-size": 0.01,
     "bezier-type": "surface",
     "camera-elevation": 15,
     "camera-azimuth": -75,
-    "data-path": ".",
-    "control-points": "utah-teapot-control-points.csv",
-    "control-points-label": false,
-    "control-points-shown": false,
-    "control-nets": "utah-teapot-control-nets.csv",
-    "nti_divisions": 3,
-    "bezier-points-shown": true,
-    "bezier-points-size": 0.01,
-    "surface-triangulation": true,
-    "triangulation-alpha": 0.8,
+    "control-nets": "Utah-teapot-control-nets.csv",
     "#control-nets-shown": [
         0
     ],
@@ -50,6 +43,15 @@
         9,
         "bottom"
     ],
+    "control-points": "Utah-teapot-control-points.csv",
+    "control-points-label": false,
+    "control-points-shown": false,
+    "data-path": ".",
+    "latex": false,
+    "nti_divisions": 3,
+    "serialize": true,
+    "surface-triangulation": true,
+    "triangulation-alpha": 0.8,
     "xlabel": "$x$ (length units)",
     "ylabel": "$y$ (length units)",
     "zlabel": "$z$ (length units)",
@@ -85,7 +87,5 @@
         2.0,
         3.0,
         4.0
-    ],
-    "latex": true,
-    "serialize": true
+    ]
 }
