@@ -4,7 +4,7 @@
     "bezier-type": "surface",
     "camera-elevation": 15,
     "camera-azimuth": -75,
-    "control-nets": "Utah-teapot-control-nets.csv",
+    "control-nets": "utah-teapot-control-nets.csv",
     "#control-nets-shown": [
         0
     ],
@@ -43,7 +43,7 @@
         9,
         "bottom"
     ],
-    "control-points": "Utah-teapot-control-points.csv",
+    "control-points": "utah-teapot-control-points.csv",
     "control-points-label": false,
     "control-points-shown": false,
     "data-path": ".",
