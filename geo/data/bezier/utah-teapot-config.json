@@ -47,7 +47,7 @@
     "control-points-label": false,
     "control-points-shown": false,
     "data-path": ".",
-    "latex": false,
+    "latex": true,
     "nti_divisions": 3,
     "serialize": true,
     "surface-triangulation": true,
