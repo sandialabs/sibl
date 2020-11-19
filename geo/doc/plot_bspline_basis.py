@@ -46,23 +46,23 @@ config_Cottrell_Fig2p5 = {
     "degree": 2,
     "nbi": 7,
     "ncp": 8,
-    "knot_vector": [0, 0, 0, 1, 2, 3, 4, 4, 5, 5, 5],
+    "knot_vector": (0, 0, 0, 1, 2, 3, 4, 4, 5, 5, 5),
 }
 
 config_Cottrell_Fig2p6 = {
     "degree": 4,
     "nbi": 7,
     "ncp": 15,
-    "knot_vector": [0, 0, 0, 0, 0, 1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5],
+    "knot_vector": (0, 0, 0, 0, 0, 1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5),
 }
 
 config_Piegl_Fig2p12 = {
     "degree": 3,
-    "nbi": 2,
+    "nbi": 8,
     "ncp": 7,
-    "knot_vector": [0, 0, 0, 0, 1, 5, 6, 8, 8, 8, 8],
+    "knot_vector": (0, 0, 0, 0, 1, 5, 6, 8, 8, 8, 8),
     "verbose": True,
-    "xticks": [0, 1, 5, 6, 8],
+    "xticks": (0, 1, 5, 6, 8),
 }
 
 # B-spline curves
@@ -72,9 +72,11 @@ config_Piegl_Fig3p1 = {
     "degree": 3,
     "nbi": 7,
     "ncp": 4,
-    "knot_vector": [0, 0, 0, 0, 1, 1, 1, 1],
+    "knot_vector": (0, 0, 0, 0, 1, 1, 1, 1),
     "verbose": True,
-    "coefficients": [[0, 0], [3, 8], [10.5, 9.5], [15, 0]],
+    "coefficients": ((0, 0), (0.6, 1.6), (2.1, 1.9), (3, 0)),
+    "xticks": (0, 0.5, 1, 1.5, 2, 2.5, 3),
+    "yticks": (0, 0.5, 1, 1.5, 2),
     "latex": 1,
     "serialize": 1,
 }
@@ -82,11 +84,11 @@ config_Piegl_Fig3p1 = {
 config_RoberArgo_curve_example = {
     "name": "RoberArgo_curve_example",
     "degree": 4,
-    "nbi": 7,
+    "nbi": 8,
     "ncp": 5,
-    "knot_vector": [0, 0, 0, 0, 0, 1, 1, 1, 1, 1],
+    "knot_vector": (0, 0, 0, 0, 0, 1, 1, 1, 1, 1),
     "verbose": True,
-    "coefficients": [[0.2, 0.5], [0.4, 0.7], [0.8, 0.6], [0.8, 0.4], [0.4, 0.2]],
+    "coefficients": ((0.2, 0.5), (0.4, 0.7), (0.8, 0.6), (0.8, 0.4), (0.4, 0.2)),
     "latex": 0,
     "serialize": 0,
 }
@@ -96,17 +98,17 @@ config_Piegl_Fig3p2 = {
     "degree": 3,
     "nbi": 7,
     "ncp": 7,
-    "knot_vector": [0, 0, 0, 0, 0.25, 0.5, 0.75, 1, 1, 1, 1],
+    "knot_vector": (0, 0, 0, 0, 0.25, 0.5, 0.75, 1, 1, 1, 1),
     "verbose": True,
-    "coefficients": [
-        [-14, 0],
-        [0, 0],
-        [0, 13],
-        [15, 13],
-        [20, -1.5],
-        [9, -10],
-        [0, -5],
-    ],
+    "coefficients": (
+        (-14, 0),
+        (0, 0),
+        (0, 13),
+        (15, 13),
+        (20, -1.5),
+        (9, -10),
+        (0, -5),
+    ),
     "latex": 1,
     "serialize": 1,
 }
@@ -116,34 +118,34 @@ config_Cottrell_Fig2p20a = {
     "degree": 2,
     "nbi": 7,
     "ncp": 8,
-    "knot_vector": [0, 0, 0, 1, 2, 3, 4, 4, 5, 5, 5],
+    "knot_vector": (0, 0, 0, 1, 2, 3, 4, 4, 5, 5, 5),
     "verbose": True,
-    "coefficients": [[0, 1], [1, 0], [2, 0], [2, 2], [4, 2], [5, 4], [2, 5], [1, 3]],
-    "xticks": [0, 1, 2, 3, 4, 5],
-    "yticks": [0, 1, 2, 3, 4, 5],
+    "coefficients": ((0, 1), (1, 0), (2, 0), (2, 2), (4, 2), (5, 4), (2, 5), (1, 3)),
+    "xticks": (0, 1, 2, 3, 4, 5),
+    "yticks": (0, 1, 2, 3, 4, 5),
     "latex": 1,
     "serialize": 1,
 }
 
-
+# Hughes 2005 Figure 12 is a NURB, so delay this example until NURBs are implemented
 # config_Hughes_2005_Fig12 = {
 #     "name": "Hughes_2005_Fig12",
 #     "degree": 2,
 #     "nbi": 7,
 #     "ncp": 9,
-#     "knot_vector": [0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 4],
+#     "knot_vector": (0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 4),
 #     "verbose": True,
-#     "coefficients": [
-#         [1, 0],
-#         [1, 1],
-#         [0, 1],
-#         [-1, 1],
-#         [-1, 0],
-#         [-1, -1],
-#         [0, -1],
-#         [1, -1],
-#         [1, 0],
-#     ],
+#     "coefficients": (
+#         (1, 0),
+#         (1, 1),
+#         (0, 1),
+#         (-1, 1),
+#         (-1, 0),
+#         (-1, -1),
+#         (0, -1),
+#         (1, -1),
+#         (1, 0),
+#     ),
 #     "latex": 0,
 #     "serialize": 0,
 # }
@@ -161,9 +163,9 @@ config_Cottrell_Fig2p20a = {
 # config = config_Piegl_Fig2p12
 # config = config_Piegl_Fig3p1
 # config = config_RoberArgo_curve_example
-config = config_Piegl_Fig3p2
-# config = config_Cottrell_Fig2p20a
-# config = config_Hughes_2005_Fig12
+# config = config_Piegl_Fig3p2
+config = config_Cottrell_Fig2p20a
+# # config = config_Hughes_2005_Fig12
 
 NAME = config.get("name", None)  # name is used for output file name
 DEGREE = config.get("degree", 0)  # 0 constant, 1 linear, 2 quadratic, 3 cubic
@@ -321,3 +323,4 @@ if SERIALIZE:
         bstring = NAME + extension
     # fig.savefig(bstring, bbox_inches="tight")
     fig.savefig(bstring, bbox_inches="tight", pad_inches=0)
+    print(f"Serialized file to {bstring}")
