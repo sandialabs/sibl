@@ -185,7 +185,7 @@ def main(argv):
         "camera-elevation": 15,
         "dots-per-inch": 100,
         "latex": True,
-        "serialize": True,
+        "serialize": False,
         "verbose": True,
         "z-axis-label-inverted": True,
     }
