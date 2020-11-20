@@ -24,16 +24,8 @@ $ python view_bspline.py ../../data/bspline/recover_bezier_linear.json --verbose
 class ViewBSplineFactory:
     """The one and only (singleton) factory for ViewBSpline objects."""
 
-    # def __init__(self, config, verbose=True):
     @staticmethod
     def create(config_file, verbose: bool = True):
-        # def __init__(self, config, verbose=True):
-
-        # abbreviations:
-        # cp: control point; collection of control points forms the control net
-        # cn: control net, composed of control points
-        # n_cp: number of control points (int) per net
-        # n_nets: number of control nets (int)
 
         if not Path(config_file).is_file():
             sys.exit(f"Error: cannot find file {config_file}")
@@ -75,8 +67,6 @@ class ViewBSplineFactory:
             # create the class instance
             instance = FACTORY_ITEMS.get(CLASS, None)
             if instance:
-                # a = instance(**kwargs)
-                # return a
                 return instance(**kwargs)
 
         else:
@@ -85,38 +75,6 @@ class ViewBSplineFactory:
             for item in FACTORY_ITEMS:
                 print(f"   'class': '{item}'")
             sys.exit()
-
-        # model_module = import_module(f'{k}.model')
-        # model_class = getattr(model_module, 'Model')
-        # models.append(model_class(**v))
-
-        # DEGREE = db.get("degree")  # 0 constant, 1 linear, 2 quadratic, 3 cubic
-        # NAME = db.get("name")  # name is used for output file name
-        # NCP = db.get("ncp")  # number of control points, later divine this
-
-        # config parameters with defaults, overwrite if they exist from the input file
-        # DISPLAY = db.get("display", True)  # show to screen
-        # DPI = db.get("dpi", 100)  # dots per inch
-        # KNOT_OFFSET = db.get("knot_offset", 0)  # translate knot vector to left or right
-        # LATEX = db.get("latex", False)  # use LaTeX instead of default fonts
-        # NBI = db.get("nbi", 2)  # number of bisections per knot interval
-        # NCP = db.get("ncp", 2)  # number of control points
-        # SERIALIZE = db.get("serialize", False)  # save figure to disc
-        # VERBOSE = db.get("verbose", False)
-        # XTICKS = db.get("xticks", None)
-        # YTICKS = db.get("yticks", None)
-        # COEF = db.get(
-        #     "coefficients", None
-        # )  # None is basis, not None is curve, surface, or volume
-
-        # LS = ("solid", "dashed", "dashdot")  # linestyles
-        # NLS = len(LS)  # number of linestyles
-
-        # if LATEX:
-        #     rc("font", **{"family": "serif", "serif": ["Computer Modern Roman"]})
-        #     rc("text", usetex=True)
-
-        # a = 4
 
 
 class ViewBSplineBase(ABC):
@@ -131,7 +89,7 @@ class ViewBSplineBase(ABC):
 
         # get config specification, specify defaults otherwise
         self.DISPLAY = kwargs.get("display", True)  # show figure to screen
-        _DPI = kwargs.get("dpi", 100)  # dots per inch
+        self.DPI = kwargs.get("dpi", 100)  # dots per inch
 
         _KNOT_OFFSET = kwargs.get(
             "knot_offset", 0
@@ -166,13 +124,13 @@ class ViewBSplineBase(ABC):
         self.YTICKS = kwargs.get("yticks", None)
 
         # number of elements is the number of non-zero knot spans
-        _NEL = len(np.unique(self.KV)) - 1
+        self.NEL = len(np.unique(self.KV)) - 1
 
         print(f"Computing B-spline basis with degree={self.DEGREE}")
         print(f"with knot vector {self.KV}")
         print(f"of {len(self.KV)} knots")
         print(f"with number of bisections per knot interval={self.NBI}")
-        print(f"with number of elements (non-zero knot spans)={_NEL}")
+        print(f"with number of elements (non-zero knot spans)={self.NEL}")
 
         _knots_lhs = self.KV[0:-1]  # left-hand-side knot values
         _knots_rhs = self.KV[1:]  # right-hand-side knot values
@@ -190,14 +148,6 @@ class ViewBSplineBase(ABC):
         self.T = np.array(_t)  # recast as numpy array
         self.N = []  # B-spline basis vector at evaluation times
         self.C = []  # B-spline curve at evaluation times
-
-        # fig = plt.figure(figsize=plt.figaspect(1.0 / (num_knots - 1)), dpi=DPI)
-        self.fig = plt.figure(figsize=plt.figaspect(1.0 / (_NEL + 1)), dpi=_DPI)
-        ax = self.fig.gca()
-        # ax.grid()
-        # ax.grid(True, which="both")  # both major and minor grid to on
-        ax.grid(True, which="major", linestyle="-")
-        ax.grid(True, which="minor", linestyle=":")
 
 
 class ViewBSplineBasis(ViewBSplineBase):
@@ -223,7 +173,10 @@ class ViewBSplineBasis(ViewBSplineBase):
                 self.N.append(_y)
 
         # plot B-spline basis functions
+        self.fig = plt.figure(figsize=plt.figaspect(1.0 / (self.NEL + 1)), dpi=self.DPI)
         ax = self.fig.gca()
+
+        # loop over each basis function and plot it
         for i in np.arange(self.NCP):
             _CPTXT = f"{i}"
             _DEGTXT = f"{self.DEGREE}"
@@ -235,16 +188,20 @@ class ViewBSplineBasis(ViewBSplineBase):
                 label="$N_{" + _CPTXT + "}^{" + _DEGTXT + "}$",
                 linestyle=self.LS[np.remainder(i, len(self.LS))],
             )
-            ax.set_xlabel(r"$t$")
-            ax.set_ylabel(f"$N^{self.DEGREE}_i(t)$")
-            _eps = 0.1
-            ax.set_xlim([self.KV[0] - 2 * _eps, self.KV[-1] + 2 * _eps])
-            ax.set_ylim([0.0 - 2 * _eps, 1.0 + 2 * _eps])
-            ax.legend(bbox_to_anchor=(1.05, 1), loc="upper left", borderaxespad=0.0)
-            ax.xaxis.set_major_locator(MultipleLocator(1.0))
-            ax.xaxis.set_minor_locator(MultipleLocator(0.25))
-            ax.yaxis.set_major_locator(MultipleLocator(1.0))
-            ax.yaxis.set_minor_locator(MultipleLocator(0.25))
+
+        ax.set_xlabel(r"$t$")
+        ax.set_ylabel(f"$N^{self.DEGREE}_i(t)$")
+
+        _eps = 0.1
+        ax.set_xlim([self.KV[0] - 2 * _eps, self.KV[-1] + 2 * _eps])
+        ax.set_ylim([0.0 - 2 * _eps, 1.0 + 2 * _eps])
+
+        ax.legend(bbox_to_anchor=(1.05, 1), loc="upper left", borderaxespad=0.0)
+
+        ax.xaxis.set_major_locator(MultipleLocator(1.0))
+        ax.xaxis.set_minor_locator(MultipleLocator(0.25))
+        ax.yaxis.set_major_locator(MultipleLocator(1.0))
+        ax.yaxis.set_minor_locator(MultipleLocator(0.25))
 
         # finish figure by calling method with common figure functions
         ViewBSplineFigure(self)
@@ -275,10 +232,14 @@ class ViewBSplineCurve(ViewBSplineBase):
                 self.C.append(_y)
 
         # plot B-spline curve, assume 2D for now
+        self.fig = plt.figure(dpi=self.DPI)
         ax = self.fig.gca()
+
         ax.plot(self.C[0], self.C[1], color="navy", linestyle="solid", linewidth=2)
+
         _cp_x = np.array(COEF)[:, 0]  # control points x-coordinates
         _cp_y = np.array(COEF)[:, 1]  # control points y-coordinates
+
         ax.plot(
             _cp_x,
             _cp_y,
@@ -292,15 +253,8 @@ class ViewBSplineCurve(ViewBSplineBase):
         ax.set_xlabel(r"$x$")
         ax.set_ylabel(r"$y$")
 
-        # ax.xaxis.set_major_locator(MultipleLocator(0.1))
-        # ax.xaxis.set_minor_locator(MultipleLocator(0.25))
-        # ax.yaxis.set_major_locator(MultipleLocator(0.1))
-        # ax.yaxis.set_minor_locator(MultipleLocator(0.25))
-
         # finish figure by calling method with common figure functions
         ViewBSplineFigure(self)
-
-        a = 4
 
 
 class ViewBSplineFigure:
@@ -308,6 +262,8 @@ class ViewBSplineFigure:
         base = ViewBSplineBase
         ax = base.fig.gca()
         ax.set_aspect("equal")
+        ax.grid(True, which="major", linestyle="-")
+        ax.grid(True, which="minor", linestyle=":")
         # ax.legend(bbox_to_anchor=(1.05, 1), loc="upper left", borderaxespad=0.0)
 
         if base.XTICKS:

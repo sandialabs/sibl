@@ -33,7 +33,7 @@
         1
     ],
     "latex": 1,
-    "serialize": 1,
+    "serialize": 0,
     "xticks": [
         0,
         0.5,

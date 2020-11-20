@@ -12,12 +12,34 @@
             "console": "integratedTerminal"
         },
         {
-            "name": "view_BSpline",
+            "name": "view_BSpline_recover_bezier_linear",
             "type": "python",
             "request": "launch",
-            "program": "~/sibl/geo/src/ptg/view_bspline_refactored.py",
+            "program": "~/sibl/geo/src/ptg/view_bspline.py",
             "args": [
                 "~/sibl/geo/data/bspline/recover_bezier_linear.json",
+                "--verbose"
+            ],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "view_BSpline_quadratic_expanded",
+            "type": "python",
+            "request": "launch",
+            "program": "~/sibl/geo/src/ptg/view_bspline.py",
+            "args": [
+                "~/sibl/geo/data/bspline/quadratic_expanded.json",
+                "--verbose"
+            ],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "view_BSpline_Piegl_Fig3p1",
+            "type": "python",
+            "request": "launch",
+            "program": "~/sibl/geo/src/ptg/view_bspline.py",
+            "args": [
+                "~/sibl/geo/data/bspline/Piegl_Fig3p1.json",
                 "--verbose"
             ],
             "console": "integratedTerminal"
