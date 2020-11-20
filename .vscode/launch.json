@@ -12,6 +12,17 @@
             "console": "integratedTerminal"
         },
         {
+            "name": "view_BSpline",
+            "type": "python",
+            "request": "launch",
+            "program": "~/sibl/geo/src/ptg/view_bspline_refactored.py",
+            "args": [
+                "~/sibl/geo/data/bspline/recover_bezier_linear.json",
+                "--verbose"
+            ],
+            "console": "integratedTerminal"
+        },
+        {
             "name": "bilinear",
             "type": "python",
             "request": "launch",

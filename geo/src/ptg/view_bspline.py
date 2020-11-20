@@ -181,7 +181,7 @@ XTICKS = config.get("xticks", None)
 YTICKS = config.get("yticks", None)
 COEF = config.get("coefficients", None)  # None is basis, not None is curve
 
-linestyles = ["solid", "dashed", "dashdot"]
+linestyles = ("solid", "dashed", "dashdot")
 num_linestyles = len(linestyles)
 
 if LATEX:

@@ -48,18 +48,18 @@ class ViewBezier(ABC):
             db = json.load(fin)
 
         # config parameters without defaults, user specification required
-        config_schema = [
+        config_schema = (
             "bezier-type",
             "data-path",
             "control-points",
             "control-nets",
-        ]
+        )
 
         # check .json input schema
         for kw in config_schema:
             key = db.get(kw, None)
             if not key:
-                sys.exit(f'Error: keyword "{kw}" not found in config file.')
+                sys.exit(f'Error: keyword "{kw}" not found in config input file.')
 
         bezier_type = db.get("bezier-type")
         bezier_types = ("curve", "surface", "solid")
@@ -524,7 +524,7 @@ def main(argv):
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
-        "config_file", help=".json 3D curve, surface, solid specification"
+        "config_file", help=".json Bezier 3D curve, surface, volume specification"
     )
 
     parser.add_argument(
