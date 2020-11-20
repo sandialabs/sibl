@@ -24,7 +24,7 @@ class Test(TestCase):
             "camera-azimuth": 15,
             "camera-elevation": 15,
             "dots-per-inch": 100,
-            "latex": True,
+            "latex": False,
             "serialize": False,
             "verbose": True,
             "z-axis-label-inverted": True,
