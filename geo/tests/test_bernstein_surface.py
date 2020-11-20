@@ -8,18 +8,12 @@ $ black --check geo/tests/test_bernstein_surface.py
 $ pytest geo/tests/test_bernstein_surface.py -v
 $ pytest geo/tests/test_bernstein_surface.py -v --cov=geo/src/ptg --cov-report term-missing
 """
-# from unittest import TestCase, main
-from unittest import TestCase
+from unittest import TestCase, main
 
-# from ptg.code.bezier_indices import bezindex
-# import ptg.code.bezier_indices as bezindex
-# import ptg.code.bezier_surface as bsurf
-# import ptg.bezier_surface as bsurf
 import ptg.view_bernstein_surface as bsurf
 
 
-# class TestBezierSurface(TestCase):
-class TestBernsteinSurface(TestCase):
+class Test(TestCase):
     """Tests the creation of Bezier surface basis functions figures."""
 
     def test_000_bilinear(self):
@@ -39,3 +33,12 @@ class TestBernsteinSurface(TestCase):
         bs = bsurf.ViewBernsteinSurface(config=config)
         result = bs.INITIALIZED
         self.assertTrue(result)
+
+    def test_001_selftest_main(self):
+        result = bs_main = bsurf.main(None)
+        self.assertTrue(result)
+
+
+# retain main for debugging this file in VS code
+if __name__ == "__main__":
+    main()  # calls unittest.main()

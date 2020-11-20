@@ -9,17 +9,13 @@ $ black --check geo/tests/test_bspline_basis_manual.py
 $ pytest geo/tests/test_bspline_basis_manual.py -v
 $ pytest geo/tests/test_bspline_basis_manual.py -v --cov=geo/src/ptg --cov-report term-missing
 """
-# from unittest import TestCase
 from unittest import TestCase, main
 
 import numpy as np
 
-# import ptg.code.bspline_manual as bp
-# import ptg.bspline_manual as bp
 import ptg.bspline_basis_manual as bp
 
 
-# class TestBSplineBasisManual(TestCase):
 class Test(TestCase):
     @classmethod
     def setUpClass(cls):
@@ -173,7 +169,102 @@ class Test(TestCase):
         self.assertTrue(self.same(known_t, calc[0]))
         self.assertTrue(self.same(known_y, calc[1]))
 
-    # to do: N02 and N12 tests
+    def test_N02(self):
+        knot_vector = [0, 1, 2, 3, 4]
+        degree = 2  # integer >= 0
+        calc = bp.bspline_basis_manual(
+            knot_vector, self.ki, degree, self.nti, verbose=True
+        )
+        # nti = 2
+        known_t = [
+            0.0,
+            0.25,
+            0.50,
+            0.75,
+            1.0,
+            1.25,
+            1.50,
+            1.75,
+            2.0,
+            2.25,
+            2.50,
+            2.75,
+            3.0,
+            3.25,
+            3.5,
+            3.75,
+            4.0,
+        ]
+        known_y = [
+            0.0,
+            0.03125,
+            0.125,
+            0.28125,
+            0.5,
+            0.6875,
+            0.75,
+            0.6875,
+            0.5,
+            0.28125,
+            0.125,
+            0.03125,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+        ]
+        self.assertTrue(self.same(known_t, calc[0]))
+        self.assertTrue(self.same(known_y, calc[1]))
+
+    def test_N12(self):
+        knot_vector = [0, 1, 2, 3, 4]
+        knot_index = 1  # integer >= 0
+        degree = 2  # integer >= 0
+        calc = bp.bspline_basis_manual(
+            knot_vector, knot_index, degree, self.nti, verbose=True
+        )
+        # nti = 2
+        known_t = [
+            0.0,
+            0.25,
+            0.50,
+            0.75,
+            1.0,
+            1.25,
+            1.50,
+            1.75,
+            2.0,
+            2.25,
+            2.50,
+            2.75,
+            3.0,
+            3.25,
+            3.5,
+            3.75,
+            4.0,
+        ]
+        known_y = [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.03125,
+            0.125,
+            0.28125,
+            0.5,
+            0.6875,
+            0.75,
+            0.6875,
+            0.5,
+            0.28125,
+            0.125,
+            0.03125,
+            0.0,
+        ]
+        self.assertTrue(self.same(known_t, calc[0]))
+        self.assertTrue(self.same(known_y, calc[1]))
 
     def test_N03_not_yet_implemented(self):
         degree = 3  # integer >= 0

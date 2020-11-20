@@ -117,14 +117,13 @@ class ViewBSplineBase(ABC):
             rc("font", **{"family": "serif", "serif": ["Computer Modern Roman"]})
             rc("text", usetex=True)
 
+        # number of elements is the number of non-zero knot spans
+        self.NEL = len(np.unique(self.KV)) - 1
         self.NBI = kwargs.get("nbi", 2)  # number of bisections per knot interval
 
         self.SERIALIZE = kwargs.get("serialize", False)  # save figure to disc
         self.XTICKS = kwargs.get("xticks", None)
         self.YTICKS = kwargs.get("yticks", None)
-
-        # number of elements is the number of non-zero knot spans
-        self.NEL = len(np.unique(self.KV)) - 1
 
         print(f"Computing B-spline basis with degree={self.DEGREE}")
         print(f"with knot vector {self.KV}")
@@ -292,144 +291,6 @@ class ViewBSplineFigure:
 
 # class ViewBSplineVolume(ViewBSplineBase):
 # TODO
-
-
-# a, b = 0, NCP - DEGREE
-# knot_vector = (
-#     np.concatenate((np.repeat(a, DEGREE), np.arange(a, b), np.repeat(b, DEGREE + 1)))
-#     + KNOT_OFFSET
-# )
-# KV = config.get(
-#     "knot_vector", knot_vector
-# )  # default is open vector, no internal knot multiplicity
-#
-# # number of elements is the number of non-zero knot spans
-# num_elements = len(np.unique(KV)) - 1
-#
-# print(f"Computing B-spline basis with degree={DEGREE}")
-# print(f"with knot vector {KV}")
-# print(f"of {len(KV)} knots")
-# print(f"with number of bisections per knot interval={NBI}")
-# print(f"with number of elements (non-zero knot spans)={num_elements}")
-#
-# knots_lhs = KV[0:-1]  # left-hand-side knot values
-# knots_rhs = KV[1:]  # right-hand-side knot values
-# knot_spans = np.array(knots_rhs) - np.array(knots_lhs)
-# dt = knot_spans / (2 ** NBI)
-# assert all([dti >= 0 for dti in dt]), "Error: knot vector is decreasing."
-#
-# num_knots = len(KV)
-# t = [
-#     knots_lhs[k] + j * dt[k]
-#     for k in np.arange(num_knots - 1)
-#     for j in np.arange(2 ** NBI)
-# ]
-# t.append(KV[-1])
-# t = np.array(t)
-# N = []  # B-spline basis vector
-# C = []  # B-spline curve
-#
-# if not COEF:
-#     # plot B-spline basis
-#     for i in np.arange(NCP):
-#
-#         coef = np.zeros(NCP)
-#         coef[i] = 1.0
-#
-#         B = bsp.BSpline(KV, coef, DEGREE)
-#
-#         if B.is_valid():
-#             y = B.evaluate(t)
-#             N.append(y)
-# else:
-#     # plot B-spline curve
-#     nsd = len(COEF[0])  # number of space dimensions
-#     for i in np.arange(nsd):
-#         coef = np.array(COEF)[:, i]
-#         # coef = COEF[:, i]
-#
-#         B = bsp.BSpline(KV, coef, DEGREE)
-#
-#         if B.is_valid():
-#             y = B.evaluate(t)
-#             C.append(y)
-#
-#
-# # fig = plt.figure(figsize=plt.figaspect(1.0 / (num_knots - 1)), dpi=DPI)
-# fig = plt.figure(figsize=plt.figaspect(1.0 / (num_elements + 1)), dpi=DPI)
-# ax = fig.gca()
-# # ax.grid()
-# # ax.grid(True, which="both")  # both major and minor grid to on
-# ax.grid(True, which="major", linestyle="-")
-# ax.grid(True, which="minor", linestyle=":")
-#
-# if not COEF:
-#     # plot B-spline basis
-#     for i in np.arange(NCP):
-#         CPTXT = f"{i}"
-#         DEGTXT = f"{DEGREE}"
-#         ax.plot(
-#             t,
-#             N[i],
-#             "-",
-#             lw=2,
-#             label="$N_{" + CPTXT + "}^{" + DEGTXT + "}$",
-#             linestyle=linestyles[np.remainder(i, num_linestyles)],
-#         )
-#         ax.set_xlabel(r"$t$")
-#         ax.set_ylabel(f"$N^{DEGREE}_i(t)$")
-#         eps = 0.1
-#         ax.set_xlim([KV[0] - 2 * eps, KV[-1] + 2 * eps])
-#         ax.set_ylim([0.0 - 2 * eps, 1.0 + 2 * eps])
-#         ax.legend(bbox_to_anchor=(1.05, 1), loc="upper left", borderaxespad=0.0)
-#         ax.xaxis.set_major_locator(MultipleLocator(1.0))
-#         ax.xaxis.set_minor_locator(MultipleLocator(0.25))
-#         ax.yaxis.set_major_locator(MultipleLocator(1.0))
-#         ax.yaxis.set_minor_locator(MultipleLocator(0.25))
-# else:
-#     # plot B-spline curve, assume 2D for now
-#     ax.plot(C[0], C[1], color="navy", linestyle="solid", linewidth=2)
-#     cp_x = np.array(COEF)[:, 0]
-#     cp_y = np.array(COEF)[:, 1]
-#     ax.plot(
-#         cp_x,
-#         cp_y,
-#         color="red",
-#         linewidth=1,
-#         alpha=0.5,
-#         marker="o",
-#         markerfacecolor="white",
-#         linestyle="dashed",
-#     )
-#     ax.set_xlabel(r"$x$")
-#     ax.set_ylabel(r"$y$")
-#     # ax.xaxis.set_major_locator(MultipleLocator(0.1))
-#     # ax.xaxis.set_minor_locator(MultipleLocator(0.25))
-#     # ax.yaxis.set_major_locator(MultipleLocator(0.1))
-#     # ax.yaxis.set_minor_locator(MultipleLocator(0.25))
-#
-# ax.set_aspect("equal")
-# # ax.legend(bbox_to_anchor=(1.05, 1), loc="upper left", borderaxespad=0.0)
-#
-# if XTICKS:
-#     ax.set_xticks(XTICKS)
-#
-# if YTICKS:
-#     ax.set_yticks(YTICKS)
-#
-# if DISPLAY:
-#     plt.show()
-#
-# if SERIALIZE:
-#     extension = ".pdf"  # or '.svg'
-#     # bstring = "N(p=" + str(DEGREE) + ")_" + str(k) + extension
-#     if NAME is None:
-#         bstring = "N(p=" + str(DEGREE) + ")_NCP=" + str(NCP) + extension
-#     else:
-#         bstring = NAME + extension
-#     # fig.savefig(bstring, bbox_inches="tight")
-#     fig.savefig(bstring, bbox_inches="tight", pad_inches=0)
-#     print(f"Serialized file to {bstring}")
 
 
 def main(argv):

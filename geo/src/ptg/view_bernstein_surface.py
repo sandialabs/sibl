@@ -161,7 +161,8 @@ class ViewBernsteinSurface:
                 ax.zaxis.set_major_locator(MultipleLocator(0.25))
 
                 if DISPLAY:
-                    plt.show()
+                    # plt.show()
+                    plt.show(block=False)
 
                 if SERIALIZE:
                     extension = ".pdf"  # or '.svg'
@@ -179,7 +180,7 @@ def main(argv):
     config = {
         "degree": 1,
         "number-time-interval-bisections": 1,
-        "display": False,
+        "display": True,
         "camera-azimuth": 15,
         "camera-elevation": 15,
         "dots-per-inch": 100,
@@ -193,6 +194,7 @@ def main(argv):
     result = bs.INITIALIZED
     if result:
         print("Successful initialization and execution.")
+    return result
 
 
 if __name__ == "__main__":
