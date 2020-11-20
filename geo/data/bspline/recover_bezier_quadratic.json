@@ -1,0 +1,7 @@
+{
+    "class": "basis",
+    "degree": 2,
+    "name": "recover_bezier_quadratic",
+    "nbi": 8,
+    "ncp": 3
+}

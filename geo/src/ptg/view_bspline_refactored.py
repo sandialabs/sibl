@@ -26,7 +26,7 @@ class ViewBSplineFactory:
 
     # def __init__(self, config, verbose=True):
     @staticmethod
-    def create(config_file, verbose=True):
+    def create(config_file, verbose: bool = True):
         # def __init__(self, config, verbose=True):
 
         # abbreviations:
@@ -61,10 +61,10 @@ class ViewBSplineFactory:
         )
 
         # check .json input schema
-        for key in config_schema:
-            value = kwargs.get(key, None)
+        for item in config_schema:
+            value = kwargs.get(item, None)
             if not value:
-                sys.exit(f'Error: keyword "{key}" not found in config input file.')
+                sys.exit(f'Error: keyword "{item}" not found in config input file.')
 
         FACTORY_ITEMS = {"basis": ViewBSplineBasis, "curve": ViewBSplineCurve}
 
@@ -72,20 +72,18 @@ class ViewBSplineFactory:
         CLASS = kwargs.get("class")
 
         if CLASS in FACTORY_ITEMS:
-            a = 4
             # create the class instance
-
-            # "Main factory method, returns XY objects."
             instance = FACTORY_ITEMS.get(CLASS, None)
             if instance:
-                # return instance(db)
-                # a = instance(db)
-                a = instance(**kwargs)
+                # a = instance(**kwargs)
+                # return a
+                return instance(**kwargs)
 
         else:
-            print(
-                f"Error: class '{CLASS}' is not in the FACTORY_ITEMS dictionary '{FACTORY_ITEMS}'."
-            )
+            print(f"Error: 'class': '{CLASS}' is not in the FACTORY_ITEMS dictionary.")
+            print("Available 'key': 'value' FACTORY_ITEMS are:")
+            for item in FACTORY_ITEMS:
+                print(f"   'class': '{item}'")
             sys.exit()
 
         # model_module = import_module(f'{k}.model')
@@ -97,28 +95,28 @@ class ViewBSplineFactory:
         # NCP = db.get("ncp")  # number of control points, later divine this
 
         # config parameters with defaults, overwrite if they exist from the input file
-        DISPLAY = db.get("display", True)  # show to screen
-        DPI = db.get("dpi", 100)  # dots per inch
+        # DISPLAY = db.get("display", True)  # show to screen
+        # DPI = db.get("dpi", 100)  # dots per inch
         # KNOT_OFFSET = db.get("knot_offset", 0)  # translate knot vector to left or right
-        LATEX = db.get("latex", False)  # use LaTeX instead of default fonts
+        # LATEX = db.get("latex", False)  # use LaTeX instead of default fonts
         # NBI = db.get("nbi", 2)  # number of bisections per knot interval
         # NCP = db.get("ncp", 2)  # number of control points
-        SERIALIZE = db.get("serialize", False)  # save figure to disc
+        # SERIALIZE = db.get("serialize", False)  # save figure to disc
         # VERBOSE = db.get("verbose", False)
-        XTICKS = db.get("xticks", None)
-        YTICKS = db.get("yticks", None)
-        COEF = db.get(
-            "coefficients", None
-        )  # None is basis, not None is curve, surface, or volume
+        # XTICKS = db.get("xticks", None)
+        # YTICKS = db.get("yticks", None)
+        # COEF = db.get(
+        #     "coefficients", None
+        # )  # None is basis, not None is curve, surface, or volume
 
-        LS = ("solid", "dashed", "dashdot")  # linestyles
-        NLS = len(LS)  # number of linestyles
+        # LS = ("solid", "dashed", "dashdot")  # linestyles
+        # NLS = len(LS)  # number of linestyles
 
-        if LATEX:
-            rc("font", **{"family": "serif", "serif": ["Computer Modern Roman"]})
-            rc("text", usetex=True)
+        # if LATEX:
+        #     rc("font", **{"family": "serif", "serif": ["Computer Modern Roman"]})
+        #     rc("text", usetex=True)
 
-        a = 4
+        # a = 4
 
 
 class ViewBSplineBase(ABC):
@@ -126,27 +124,80 @@ class ViewBSplineBase(ABC):
 
     def __init__(self, **kwargs):
         z = 4
-        DEGREE = kwargs.get("degree")
+        # factory has already checked items are specified, no default values necessary
+        self.DEGREE = kwargs.get("degree")  # 0 constant, 1 linear, 2 quadratic, etc.
+        self.NAME = kwargs.get("name")  # name is used for output file name
+        self.NCP = kwargs.get("ncp")
 
-        KNOT_OFFSET = kwargs.get(
+        # get config specification, specify defaults otherwise
+        self.DISPLAY = kwargs.get("display", True)  # show figure to screen
+        _DPI = kwargs.get("dpi", 100)  # dots per inch
+
+        _KNOT_OFFSET = kwargs.get(
             "knot_offset", 0
         )  # translate knot vector to left or right
 
-        NAME = kwargs.get("name")  # name is used for output file name
-
-        NBI = kwargs.get("nbi", 2)  # number of bisections per knot interval
-        NCP = kwargs.get("ncp")
-
-        a, b = 0, NCP - DEGREE
-        knot_vector = (
+        _a, _b = 0, self.NCP - self.DEGREE
+        _knot_vector_default = (
             np.concatenate(
-                (np.repeat(a, DEGREE), np.arange(a, b), np.repeat(b, DEGREE + 1))
+                (
+                    np.repeat(_a, self.DEGREE),
+                    np.arange(_a, _b),
+                    np.repeat(_b, self.DEGREE + 1),
+                )
             )
-            + KNOT_OFFSET
+            + _KNOT_OFFSET
         )
-        KV = kwargs.get(
-            "knot_vector", knot_vector
-        )  # default is open vector, no internal knot multiplicity
+        self.KV = kwargs.get(
+            "knot_vector", _knot_vector_default
+        )  # default is open knot vector, no internal knot multiplicity
+
+        self.LATEX = kwargs.get("latex", False)  # use LaTeX instead of default fonts
+        self.LS = kwargs.get("linestyles", ("solid", "dashed", "dashdot"))  # linestyles
+
+        if self.LATEX:
+            rc("font", **{"family": "serif", "serif": ["Computer Modern Roman"]})
+            rc("text", usetex=True)
+
+        self.NBI = kwargs.get("nbi", 2)  # number of bisections per knot interval
+
+        self.SERIALIZE = kwargs.get("serialize", False)  # save figure to disc
+        self.XTICKS = kwargs.get("xticks", None)
+        self.YTICKS = kwargs.get("yticks", None)
+
+        # number of elements is the number of non-zero knot spans
+        _NEL = len(np.unique(self.KV)) - 1
+
+        print(f"Computing B-spline basis with degree={self.DEGREE}")
+        print(f"with knot vector {self.KV}")
+        print(f"of {len(self.KV)} knots")
+        print(f"with number of bisections per knot interval={self.NBI}")
+        print(f"with number of elements (non-zero knot spans)={_NEL}")
+
+        _knots_lhs = self.KV[0:-1]  # left-hand-side knot values
+        _knots_rhs = self.KV[1:]  # right-hand-side knot values
+        _knot_spans = np.array(_knots_rhs) - np.array(_knots_lhs)
+        _dt = _knot_spans / (2 ** self.NBI)
+        assert all([dti >= 0 for dti in _dt]), "Error: knot vector is decreasing."
+
+        _num_knots = len(self.KV)
+        _t = [
+            _knots_lhs[k] + j * _dt[k]
+            for k in np.arange(_num_knots - 1)
+            for j in np.arange(2 ** self.NBI)
+        ]
+        _t.append(self.KV[-1])  # evauation times
+        self.T = np.array(_t)  # recast as numpy array
+        self.N = []  # B-spline basis vector at evaluation times
+        self.C = []  # B-spline curve at evaluation times
+
+        # fig = plt.figure(figsize=plt.figaspect(1.0 / (num_knots - 1)), dpi=DPI)
+        self.fig = plt.figure(figsize=plt.figaspect(1.0 / (_NEL + 1)), dpi=_DPI)
+        ax = self.fig.gca()
+        # ax.grid()
+        # ax.grid(True, which="both")  # both major and minor grid to on
+        ax.grid(True, which="major", linestyle="-")
+        ax.grid(True, which="minor", linestyle=":")
 
 
 class ViewBSplineBasis(ViewBSplineBase):
@@ -154,7 +205,49 @@ class ViewBSplineBasis(ViewBSplineBase):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        a = 4
+        COEF = kwargs.get(
+            "coefficients", None
+        )  # None is basis, not None is curve, surface, or volume
+        assert COEF is None
+
+        # build up B-spline basis functions
+        for i in np.arange(self.NCP):
+
+            coef = np.zeros(self.NCP)
+            coef[i] = 1.0
+
+            _B = bsp.BSpline(self.KV, coef, self.DEGREE)
+
+            if _B.is_valid():
+                _y = _B.evaluate(self.T)
+                self.N.append(_y)
+
+        # plot B-spline basis functions
+        ax = self.fig.gca()
+        for i in np.arange(self.NCP):
+            _CPTXT = f"{i}"
+            _DEGTXT = f"{self.DEGREE}"
+            ax.plot(
+                self.T,
+                self.N[i],
+                "-",
+                lw=2,
+                label="$N_{" + _CPTXT + "}^{" + _DEGTXT + "}$",
+                linestyle=self.LS[np.remainder(i, len(self.LS))],
+            )
+            ax.set_xlabel(r"$t$")
+            ax.set_ylabel(f"$N^{self.DEGREE}_i(t)$")
+            _eps = 0.1
+            ax.set_xlim([self.KV[0] - 2 * _eps, self.KV[-1] + 2 * _eps])
+            ax.set_ylim([0.0 - 2 * _eps, 1.0 + 2 * _eps])
+            ax.legend(bbox_to_anchor=(1.05, 1), loc="upper left", borderaxespad=0.0)
+            ax.xaxis.set_major_locator(MultipleLocator(1.0))
+            ax.xaxis.set_minor_locator(MultipleLocator(0.25))
+            ax.yaxis.set_major_locator(MultipleLocator(1.0))
+            ax.yaxis.set_minor_locator(MultipleLocator(0.25))
+
+        # finish figure by calling method with common figure functions
+        ViewBSplineFigure(self)
 
 
 class ViewBSplineCurve(ViewBSplineBase):
@@ -162,34 +255,89 @@ class ViewBSplineCurve(ViewBSplineBase):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        COEF = kwargs.get(
+            "coefficients", None
+        )  # None is basis, not None is curve, surface, or volume
+        assert COEF is not None
+
+        # build up B-spline basis functions, multiplied by coefficients
+        _NSD = len(COEF[0])  # number of space dimensions
+        assert _NSD == 2  # only 2D curves implemented for now, do 3D later
+
+        for i in np.arange(_NSD):
+
+            coef = np.array(COEF)[:, i]
+
+            _B = bsp.BSpline(self.KV, coef, self.DEGREE)
+
+            if _B.is_valid():
+                _y = _B.evaluate(self.T)
+                self.C.append(_y)
+
+        # plot B-spline curve, assume 2D for now
+        ax = self.fig.gca()
+        ax.plot(self.C[0], self.C[1], color="navy", linestyle="solid", linewidth=2)
+        _cp_x = np.array(COEF)[:, 0]  # control points x-coordinates
+        _cp_y = np.array(COEF)[:, 1]  # control points y-coordinates
+        ax.plot(
+            _cp_x,
+            _cp_y,
+            color="red",
+            linewidth=1,
+            alpha=0.5,
+            marker="o",
+            markerfacecolor="white",
+            linestyle="dashed",
+        )
+        ax.set_xlabel(r"$x$")
+        ax.set_ylabel(r"$y$")
+
+        # ax.xaxis.set_major_locator(MultipleLocator(0.1))
+        # ax.xaxis.set_minor_locator(MultipleLocator(0.25))
+        # ax.yaxis.set_major_locator(MultipleLocator(0.1))
+        # ax.yaxis.set_minor_locator(MultipleLocator(0.25))
+
+        # finish figure by calling method with common figure functions
+        ViewBSplineFigure(self)
+
         a = 4
 
 
+class ViewBSplineFigure:
+    def __init__(self, ViewBSplineBase):
+        base = ViewBSplineBase
+        ax = base.fig.gca()
+        ax.set_aspect("equal")
+        # ax.legend(bbox_to_anchor=(1.05, 1), loc="upper left", borderaxespad=0.0)
+
+        if base.XTICKS:
+            ax.set_xticks(base.XTICKS)
+
+        if base.YTICKS:
+            ax.set_yticks(base.YTICKS)
+
+        if base.DISPLAY:
+            plt.show()
+
+        if base.SERIALIZE:
+            extension = ".pdf"  # or '.svg'
+            if base.NAME is None:
+                filename = (
+                    "N(p=" + str(base.DEGREE) + ")_NCP=" + str(base.NCP) + extension
+                )
+            else:
+                filename = base.NAME + extension
+            base.fig.savefig(filename, bbox_inches="tight", pad_inches=0)
+            print(f"Serialized file to {filename}")
+
+
 # class ViewBSplineSurface(ViewBSplineBase):
+# TODO
+
 # class ViewBSplineVolume(ViewBSplineBase):
+# TODO
 
 
-# NAME = config.get("name", None)  # name is used for output file name
-# DEGREE = config.get("degree", 0)  # 0 constant, 1 linear, 2 quadratic, 3 cubic
-# DISPLAY = config.get("display", True)  # show to screen
-# DPI = config.get("dpi", 100)  # dots per inch
-# KNOT_OFFSET = config.get("knot_offset", 0)  # translate knot vector to left or right
-# LATEX = config.get("latex", False)  # use LaTeX instead of default fonts
-# NBI = config.get("nbi", 2)  # number of bisections per knot interval
-# NCP = config.get("ncp", 2)  # number of control points
-# SERIALIZE = config.get("serialize", False)  # save figure to disc
-# VERBOSE = config.get("verbose", False)
-# XTICKS = config.get("xticks", None)
-# YTICKS = config.get("yticks", None)
-# COEF = config.get("coefficients", None)  # None is basis, not None is curve
-#
-# linestyles = ["solid", "dashed", "dashdot"]
-# num_linestyles = len(linestyles)
-#
-# if LATEX:
-#     rc("font", **{"family": "serif", "serif": ["Computer Modern Roman"]})
-#     rc("text", usetex=True)
-#
 # a, b = 0, NCP - DEGREE
 # knot_vector = (
 #     np.concatenate((np.repeat(a, DEGREE), np.arange(a, b), np.repeat(b, DEGREE + 1)))

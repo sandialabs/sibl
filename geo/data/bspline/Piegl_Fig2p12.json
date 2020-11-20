@@ -1,0 +1,27 @@
+{
+    "class": "basis",
+    "degree": 3,
+    "name": "Piegl_Fig2p12",
+    "nbi": 8,
+    "ncp": 7,
+    "knot_vector": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        5,
+        6,
+        8,
+        8,
+        8,
+        8
+    ],
+    "xticks": [
+        0,
+        1,
+        5,
+        6,
+        8
+    ]
+}
