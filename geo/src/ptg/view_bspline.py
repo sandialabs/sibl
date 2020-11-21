@@ -127,11 +127,11 @@ class ViewBSplineBase(ABC):
         self.XTICKS = kwargs.get("xticks", None)
         self.YTICKS = kwargs.get("yticks", None)
 
-        print(f"Computing B-spline basis with degree={self.DEGREE}")
-        print(f"with knot vector {self.KV}")
-        print(f"of {len(self.KV)} knots")
-        print(f"with number of bisections per knot interval={self.NBI}")
-        print(f"with number of elements (non-zero knot spans)={self.NEL}")
+        print(f"Computing B-spline basis with degree = {self.DEGREE}")
+        print(f"  with knot vector {self.KV}")
+        print(f"  of {len(self.KV)} knots")
+        print(f"  with number of bisections per knot interval = {self.NBI}")
+        print(f"  with number of elements (non-zero knot spans) = {self.NEL}")
 
         _knots_lhs = self.KV[0:-1]  # left-hand-side knot values
         _knots_rhs = self.KV[1:]  # right-hand-side knot values

@@ -14,7 +14,7 @@ import ptg.view_bernstein_surface as bsurf
 
 
 class Test(TestCase):
-    """Tests the creation of Bezier surface basis functions figures."""
+    """Tests the creation of Bezier surface basis (Bernstein) functions figures."""
 
     def test_000_bilinear(self):
         config = {

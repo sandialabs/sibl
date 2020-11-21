@@ -1,6 +1,7 @@
 {
     "class": "basis",
     "degree": 2,
+    "latex": true,
     "name": "quadratic_expanded",
     "nbi": 8,
     "ncp": 9
