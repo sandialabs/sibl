@@ -45,6 +45,8 @@ class ViewBSplineFactory:
             kwargs = json.load(fin)
 
         # config parameters without defaults, user specification required
+        # ncp is number of control points, to be replaced by
+        # len(control_points) in a future revision
         config_schema = (
             "class",
             "degree",
@@ -272,7 +274,8 @@ class ViewBSplineFigure:
             ax.set_yticks(base.YTICKS)
 
         if base.DISPLAY:
-            plt.show()
+            # plt.show()
+            plt.show(block=False)
 
         if base.SERIALIZE:
             extension = ".pdf"  # or '.svg'
@@ -313,7 +316,7 @@ def main(argv):
     # ViewBSplineFactory.create(config, verbose)
     item = ViewBSplineFactory.create(config_file, verbose)
     # ViewBSplineBasis(config)
-    a = 4
+    return item
 
 
 if __name__ == "__main__":
