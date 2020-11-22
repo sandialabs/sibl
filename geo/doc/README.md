@@ -30,6 +30,11 @@ PTG describes a **decoding** process of a physical system that was original **en
 * Object-oriented programming (OOP) as a default, functional programming (FP) where appropriate.
 * [PEP 8](https://www.python.org/dev/peps/pep-0008/) via [Black](https://github.com/psf/black)
 
+## Theory
+
+* Bezier Geometry, updated [2020-11-22](bezier/Bezier-Geometry-2020-11-22.pdf)
+* B-Spline Geometry, updated [2020-11-22](bspline/B-Spline-Geometry-2020-11-22.pdf)
+
 ## References
 
 * [Brain oriented programming](https://tobeva.com/articles/brain-oriented-programming/) limit classes to seven attributes.
