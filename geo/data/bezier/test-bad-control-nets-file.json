@@ -1,0 +1,6 @@
+{
+    "bezier-type": "curve",
+    "data-path": ".",
+    "control-nets": "no-such-file.csv",
+    "control-points": "Georgia-e-control-points.csv"
+}

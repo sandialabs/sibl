@@ -52,8 +52,8 @@ class ViewBezier:
         config_schema = (
             "bezier-type",
             "data-path",
-            "control-points",
             "control-nets",
+            "control-points",
         )
 
         # check .json input schema
@@ -511,6 +511,7 @@ class ViewBezier:
 
         ax.view_init(elev=camera_elevation, azim=camera_azimuth)
 
+        # plt.ioff()  # interactivity off
         # plt.show()
         plt.show(block=False)
 

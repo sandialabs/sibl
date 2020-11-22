@@ -28,7 +28,7 @@
     "control-points-path": true,
     "control-points-shown": true,
     "data-path": ".",
-    "latex": false,
+    "latex": true,
     "nti_divisions": 7,
     "serialize": false,
     "triangulation-alpha": 0.8,
@@ -49,6 +49,24 @@
     ],
     "xticks": [
         0.0
+    ],
+    "yticks": [
+        0,
+        100,
+        200,
+        300,
+        400,
+        500,
+        600
+    ],
+    "zticks": [
+        0,
+        100,
+        200,
+        300,
+        400,
+        500,
+        600
     ],
     "z-axis-label-inverted": true
 }

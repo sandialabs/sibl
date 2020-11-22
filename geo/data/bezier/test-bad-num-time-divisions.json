@@ -1,0 +1,7 @@
+{
+    "bezier-type": "curve",
+    "data-path": ".",
+    "control-nets": "Georgia-e-control-nets.csv",
+    "control-points": "Georgia-e-control-points.csv",
+    "nti_divisions": 0
+}

@@ -1,0 +1,6 @@
+{
+    "bezier-type": "curve",
+    "data-path": "this/path/does/not/exist",
+    "control-nets": "Georgia-e-control-nets.csv",
+    "control-points": "Georgia-e-control-points.csv"
+}
