@@ -31,40 +31,37 @@ class Test(unittest.TestCase):
     def test_000_json_file_does_not_exist(self):
         config_file = "no_such_file.json"  # file does not exist
         config_path = Path.joinpath(self.data_dir, config_file)
-        verbose = True
-        item = vbsp.ViewBSplineFactory.create(config_file=config_path, verbose=verbose)
+        item = vbsp.ViewBSplineFactory.create(config=config_path, verbose=True)
         self.assertIsInstance(item, vbsp.ViewBSplineBasis)
 
     def test_001_selftest_main_recover_bezier_linear(self):
         config_file = "recover_bezier_linear.json"
         config_path = Path.joinpath(self.data_dir, config_file)
-        verbose = True
-        item = vbsp.ViewBSplineFactory.create(config_file=config_path, verbose=verbose)
+        item = vbsp.ViewBSplineFactory.create(config=config_path, verbose=True)
         self.assertIsInstance(item, vbsp.ViewBSplineBasis)
 
     def test_002_selftest_main_bspline_quadratic_expanded(self):
         config_file = "quadratic_expanded.json"
         config_path = Path.joinpath(self.data_dir, config_file)
-        verbose = True
-        item = vbsp.ViewBSplineFactory.create(config_file=config_path, verbose=verbose)
+        item = vbsp.ViewBSplineFactory.create(config=config_path, verbose=True)
         self.assertIsInstance(item, vbsp.ViewBSplineBasis)
 
     @unittest.expectedFailure
     def test_003_selftest_config_schema_incomplete(self):
         config_file = "schema_incomplete.json"
         config_path = Path.joinpath(self.data_dir, config_file)
-        item = vbsp.ViewBSplineFactory.create(config_file=config_path)
+        item = vbsp.ViewBSplineFactory.create(config=config_path)
 
     @unittest.expectedFailure
     def test_004_selftest_config_class_type_not_exist(self):
         config_file = "class_request_not_exist.json"
         config_path = Path.joinpath(self.data_dir, config_file)
-        item = vbsp.ViewBSplineFactory.create(config_file=config_path)
+        item = vbsp.ViewBSplineFactory.create(config=config_path)
 
     def test_005_selftest_main_bspline_Piegl_Fig3p1(self):
         config_file = "Piegl_Fig3p1.json"
         config_path = Path.joinpath(self.data_dir, config_file)
-        item = vbsp.ViewBSplineFactory.create(config_file=config_path)
+        item = vbsp.ViewBSplineFactory.create(config=config_path)
         self.assertIsInstance(item, vbsp.ViewBSplineCurve)
 
     # Ask Anirudh

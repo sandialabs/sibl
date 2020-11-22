@@ -9,21 +9,22 @@ import matplotlib.pyplot as plt
 from matplotlib import rc
 import numpy as np
 
-# import bernstein_polynomial as bp
 import ptg.bernstein_polynomial as bp
 
+"""
+$ conda active siblenv
+$ python view_bezier.py model_config.json
+e.g.
+$ python view_bezier.py ../../data/bezier/bilinear-config.json
+$ python view_bezier.py ../../data/bezier/bilinear-config.json --verbose
+"""
 
-class ViewBezier(ABC):
-    """Creates a Matplotlib figure of a Bezier curve, surface, or volume.
 
-    $ conda active siblenv
-    $ python view_bezier.py model_config.json
-    e.g.
-    $ python view_bezier.py ../../data/bezier/bilinear-config.json
-    $ python view_bezier.py ../../data/bezier/bilinear-config.json --verbose
-    """
+# class ViewBezier(ABC):
+class ViewBezier:
+    """Creates a Matplotlib figure of a Bezier curve, surface, or volume."""
 
-    def __init__(self, config, verbose=False):
+    def __init__(self, config: str, verbose: bool = True):
 
         # abbreviations:
         # cp: control point; collection of control points forms the control net
@@ -36,16 +37,16 @@ class ViewBezier(ABC):
 
         STEM = Path(config).stem
 
-        config_path = Path(config).parent
+        config_dir = Path(config).parent
 
         if verbose:
             class_name = type(self).__name__
             print(f"This is {class_name}:")
             print(f"  processing config file: {config}")
-            print(f"  located at: {config_path}")
+            print(f"  located at: {config_dir}")
 
         with open(config) as fin:
-            db = json.load(fin)
+            kwargs = json.load(fin)
 
         # config parameters without defaults, user specification required
         config_schema = (
@@ -57,21 +58,21 @@ class ViewBezier(ABC):
 
         # check .json input schema
         for kw in config_schema:
-            key = db.get(kw, None)
+            key = kwargs.get(kw, None)
             if not key:
                 sys.exit(f'Error: keyword "{kw}" not found in config input file.')
 
-        bezier_type = db.get("bezier-type")
+        bezier_type = kwargs.get("bezier-type")
         bezier_types = ("curve", "surface", "solid")
         if bezier_type not in bezier_types:
             sys.exit(f'Error: bezier-type "{bezier_type}" not supported.')
 
-        data_path = db.get("data-path")
+        data_path = kwargs.get("data-path")
         if data_path == ".":
-            data_path = config_path  # .csv files are in same folder as .json file
+            data_path = config_dir  # .csv files are in same folder as .json file
         data_path_expanded = Path(data_path).expanduser()
-        cp_file = db.get("control-points")
-        cn_file = db.get("control-nets")
+        cp_file = kwargs.get("control-points")
+        cn_file = kwargs.get("control-nets")
 
         # number of time interval divisions nti_divisions
         # gives rise to the number of time intervals nti as
@@ -81,7 +82,7 @@ class ViewBezier(ABC):
         # 3 -> 2**3 = 8
         # 4 -> 2**4 = 64
         # etc.
-        nti_divisions = db.get("nti_divisions", 1)
+        nti_divisions = kwargs.get("nti_divisions", 1)
         if nti_divisions < 1:
             print("Error: number of time interval divisions (nti_divisions)")
             print("must be a positive integer, [1, 2, 3 ...].")
@@ -91,20 +92,20 @@ class ViewBezier(ABC):
         # do not set alpha, let scatter3D control this, which
         # automatically provides an implied depth of field
         #
-        control_points_alpha = db.get("control-alpha", 0.5)
-        control_points_color = db.get("control-points-color", "red")
-        control_points_label = db.get("control-points-label", False)
-        control_points_label_color = db.get("control-points-label-color", "black")
-        # control_points_alpha = db.get("control-points-alpha", 0.5)
-        control_points_marker = db.get("control-points-marker", "o")
-        control_points_path = db.get("control-points-path", False)
-        control_points_shown = db.get("control-points-shown", True)
-        control_points_size = db.get("control-points-size", 50)
+        control_points_alpha = kwargs.get("control-alpha", 0.5)
+        control_points_color = kwargs.get("control-points-color", "red")
+        control_points_label = kwargs.get("control-points-label", False)
+        control_points_label_color = kwargs.get("control-points-label-color", "black")
+        # control_points_alpha = kwargs.get("control-points-alpha", 0.5)
+        control_points_marker = kwargs.get("control-points-marker", "o")
+        control_points_path = kwargs.get("control-points-path", False)
+        control_points_shown = kwargs.get("control-points-shown", True)
+        control_points_size = kwargs.get("control-points-size", 50)
 
         # draw a specific control net (or nets)
-        control_nets_shown = db.get("control-nets-shown", [0])
-        control_nets_linestyle = db.get("control-nets-linestyle", "dashed")
-        control_nets_linewidth = db.get("control-nets-linewidth", 1.0)
+        control_nets_shown = kwargs.get("control-nets-shown", [0])
+        control_nets_linestyle = kwargs.get("control-nets-linestyle", "dashed")
+        control_nets_linewidth = kwargs.get("control-nets-linewidth", 1.0)
 
         # Bezier interpolation data
         # the alpha channel (transparency) for the Bezier curve,
@@ -112,54 +113,54 @@ class ViewBezier(ABC):
         # do not set alpha, let scatter3D control this, which
         # automatically provides an implied depth of field
         #
-        # bezier_points_alpha = db.get("bezier-alpha", 0.9)
-        bezier_points_color = db.get("bezier-points-color", "blue")
-        bezier_points_shown = db.get("bezier-points-shown", True)
-        bezier_points_size = db.get("bezier-points-size", 10)
+        # bezier_points_alpha = kwargs.get("bezier-alpha", 0.9)
+        bezier_points_color = kwargs.get("bezier-points-color", "blue")
+        bezier_points_shown = kwargs.get("bezier-points-shown", True)
+        bezier_points_size = kwargs.get("bezier-points-size", 10)
         #
-        bezier_lines_shown = db.get("bezier-lines-shown", False)
-        bezier_lines_color = db.get("bezier-lines-color", "black")
-        bezier_linewidth = db.get("bezier-linewidth", 1.0)
+        bezier_lines_shown = kwargs.get("bezier-lines-shown", False)
+        bezier_lines_color = kwargs.get("bezier-lines-color", "black")
+        bezier_linewidth = kwargs.get("bezier-linewidth", 1.0)
 
-        surface_triangulation = db.get("surface-triangulation", False)  # surface
-        surface_t0_uv_triangulation = db.get(
+        surface_triangulation = kwargs.get("surface-triangulation", False)  # surface
+        surface_t0_uv_triangulation = kwargs.get(
             "surface-t0-uv-triangulation", False
         )  # solid
-        surface_t1_uv_triangulation = db.get(
+        surface_t1_uv_triangulation = kwargs.get(
             "surface-t1-uv-triangulation", False
         )  # solid
-        surface_u0_vt_triangulation = db.get(
+        surface_u0_vt_triangulation = kwargs.get(
             "surface-u0-vt-triangulation", False
         )  # solid
-        surface_u1_vt_triangulation = db.get(
+        surface_u1_vt_triangulation = kwargs.get(
             "surface-u1-vt-triangulation", False
         )  # solid
-        surface_v0_tu_triangulation = db.get(
+        surface_v0_tu_triangulation = kwargs.get(
             "surface-v0-tu-triangulation", False
         )  # solid
-        surface_v1_tu_triangulation = db.get(
+        surface_v1_tu_triangulation = kwargs.get(
             "surface-v1-tu-triangulation", False
         )  # solid
-        triangulation_alpha = db.get("triangulation-alpha", 1.0)  # surface or solid
+        triangulation_alpha = kwargs.get("triangulation-alpha", 1.0)  # surface or solid
 
-        xlabel = db.get("xlabel", "x")
-        ylabel = db.get("ylabel", "y")
-        zlabel = db.get("zlabel", "z")
+        xlabel = kwargs.get("xlabel", "x")
+        ylabel = kwargs.get("ylabel", "y")
+        zlabel = kwargs.get("zlabel", "z")
 
-        xlim = db.get("xlim", None)
-        ylim = db.get("ylim", None)
-        zlim = db.get("zlim", None)
+        xlim = kwargs.get("xlim", None)
+        ylim = kwargs.get("ylim", None)
+        zlim = kwargs.get("zlim", None)
 
-        camera_elevation = db.get("camera-elevation", None)
-        camera_azimuth = db.get("camera-azimuth", None)
+        camera_elevation = kwargs.get("camera-elevation", None)
+        camera_azimuth = kwargs.get("camera-azimuth", None)
 
-        XTICKS = db.get("xticks", None)
-        YTICKS = db.get("yticks", None)
-        ZTICKS = db.get("zticks", None)
+        XTICKS = kwargs.get("xticks", None)
+        YTICKS = kwargs.get("yticks", None)
+        ZTICKS = kwargs.get("zticks", None)
 
-        Z_AXIS_LABEL_INVERTED = db.get("z-axis-label-inverted", True)
-        SERIALZE = db.get("serialize", False)
-        LATEX = db.get("latex", False)
+        Z_AXIS_LABEL_INVERTED = kwargs.get("z-axis-label-inverted", True)
+        SERIALZE = kwargs.get("serialize", False)
+        LATEX = kwargs.get("latex", False)
 
         if LATEX:
             rc("font", **{"family": "serif", "serif": ["Computer Modern Roman"]})
@@ -510,7 +511,8 @@ class ViewBezier(ABC):
 
         ax.view_init(elev=camera_elevation, azim=camera_azimuth)
 
-        plt.show()
+        # plt.show()
+        plt.show(block=False)
 
         if SERIALZE:
             extension = ".pdf"  # or ".svg"

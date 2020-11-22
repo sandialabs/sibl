@@ -12,6 +12,17 @@
             "console": "integratedTerminal"
         },
         {
+            "name": "view_Bezier_Georgia_e",
+            "type": "python",
+            "request": "launch",
+            "program": "~/sibl/geo/src/ptg/view_bezier.py",
+            "args": [
+                "~/sibl/geo/data/bezier/Georgia-e-config.json",
+                "--verbose"
+            ],
+            "console": "integratedTerminal"
+        },
+        {
             "name": "view_BSpline_recover_bezier_linear",
             "type": "python",
             "request": "launch",

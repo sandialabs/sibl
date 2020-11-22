@@ -28,7 +28,9 @@
     "control-points-path": true,
     "control-points-shown": true,
     "data-path": ".",
+    "latex": false,
     "nti_divisions": 7,
+    "serialize": false,
     "triangulation-alpha": 0.8,
     "xlabel": "$x$ (font units)",
     "xlim": [
@@ -48,7 +50,5 @@
     "xticks": [
         0.0
     ],
-    "z-axis-label-inverted": true,
-    "latex": true,
-    "serialize": true
+    "z-axis-label-inverted": true
 }

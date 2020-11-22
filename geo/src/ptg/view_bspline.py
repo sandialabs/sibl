@@ -25,23 +25,23 @@ class ViewBSplineFactory:
     """The one and only (singleton) factory for ViewBSpline objects."""
 
     @staticmethod
-    def create(config_file, verbose: bool = True):
+    def create(config: str, verbose: bool = True):
 
-        if not Path(config_file).is_file():
-            sys.exit(f"Error: cannot find file {config_file}")
+        if not Path(config).is_file():
+            sys.exit(f"Error: cannot find file {config}")
 
-        STEM = Path(config_file).stem
+        STEM = Path(config).stem
 
-        config_path = Path(config_file).parent
+        config_dir = Path(config).parent
 
         if verbose:
             # class_name = type(self).__name__
             class_name = ViewBSplineFactory.__name__
             print(f"This is {class_name}:")
-            print(f"  processing config file: {config_file}")
-            print(f"  located at: {config_path}")
+            print(f"  processing config file: {config}")
+            print(f"  located at: {config_dir}")
 
-        with open(config_file) as fin:
+        with open(config) as fin:
             kwargs = json.load(fin)
 
         # config parameters without defaults, user specification required
@@ -259,8 +259,9 @@ class ViewBSplineCurve(ViewBSplineBase):
 
 
 class ViewBSplineFigure:
-    def __init__(self, ViewBSplineBase):
-        base = ViewBSplineBase
+    # def __init__(self, ViewBSplineBase):
+    def __init__(self, base: ViewBSplineBase):
+        # base = ViewBSplineBase
         ax = base.fig.gca()
         ax.set_aspect("equal")
         ax.grid(True, which="major", linestyle="-")
