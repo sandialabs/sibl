@@ -169,8 +169,70 @@ class TestBSpline(TestCase):
             N72 = (t - 4) ** 2 * (4 <= t <= 5)
             N_known[:, j] = np.asarray([N02, N12, N22, N32, N42, N52, N62, N72])
 
-        for i in np.arange(NCP):
-            self.assertTrue(self.same(N_known[i], N_calc[i]))
+    def test_101_Bingol_2D_curve(self):
+        """See 
+        https://nurbs-python.readthedocs.io/en/latest/visualization.html#curves"""
+
+        # knot vector
+        KV = [0.0, 0.0, 0.0, 0.0, 0.0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.0, 1.0, 1.0, 1.0]
+        DEGREE = 4  # quadratic
+        NBI = 1  # number of bisection intervals per knot span
+        NCP = 9  # number of control points
+
+        knots_lhs = KV[0:-1]  # left-hand-side knot values
+        knots_rhs = KV[1:]  # right-hand-side knot values
+        knot_spans = np.array(knots_rhs) - np.array(knots_lhs)
+        dt = knot_spans / (2 ** NBI)
+        assert all([dti >= 0 for dti in dt]), "Error: knot vector is decreasing."
+
+        num_knots = len(KV)
+        t = [
+            knots_lhs[k] + j * dt[k]
+            for k in np.arange(num_knots - 1)
+            for j in np.arange(2 ** NBI)
+        ]
+        t.append(KV[-1])
+        t = np.array(t)
+
+        COEF = [
+            [5.0, 10.0],
+            [15.0, 25.0],
+            [30.0, 30.0],
+            [45.0, 5.0],
+            [55.0, 5.0],
+            [70.0, 40.0],
+            [60.0, 60.0],
+            [35.0, 60.0],
+            [20.0, 40.0],
+        ]
+        NSD = len(COEF[0])  # number of space dimensions
+
+        B_4 = bsp.BSpline(KV, COEF, DEGREE)
+        result = B_4.is_valid()
+        self.assertTrue(result)
+        y = B_4.evaluate(t)
+        # drop redundant points and beginning and end
+        y = y[2 ** NBI * DEGREE : -(2 ** NBI * DEGREE)]
+
+        P_known = [
+            [5.0, 10.0],
+            [21.809895833333336, 24.60503472222222],
+            [33.95833333333333, 20.347222222222218],
+            [42.94270833333333, 11.692708333333336],
+            [49.79166666666665, 7.84722222222222],
+            [55.9157986111111, 12.174479166666664],
+            [61.527777777777786, 23.61111111111111],
+            [64.11458333333333, 38.29427083333332],
+            [59.8611111111111, 51.31944444444444],
+            [45.4079861111111, 57.37413194444444],
+            [20.0, 40.0],
+        ]  # from geomdl at curve.delta = 1./11., thus 11 evaluation points
+        # The 11 evaluation points bisects the five elements plus the endpoint
+        # will correspond to NBI=1 (number of bisection intervals) used here.
+
+        for i in np.arange(NSD):
+            P_known_e = [e[i] for e in P_known]  # e is evaluation point
+            self.assertTrue(self.same(P_known_e, y[:, i]))
 
 
 # retain main for debugging this file in VS code
