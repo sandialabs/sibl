@@ -19,7 +19,7 @@ class BSpline:
                 must be a non-decreasing sequence
             coefficients (float array):
                 spline coefficients [c0, c1, c2, ... cn]
-            degree (int >= 0) : B-spline polynomial degree
+            degree (int >= 0): B-spline polynomial degree
             verbose (bool): prints extended error checking, default False
         """
         self.kv = knot_vector

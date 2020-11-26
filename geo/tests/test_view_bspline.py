@@ -1,5 +1,5 @@
 """
-This module is a unit test of the bezier_surface implementation.
+This module is a unit test of the view_bspline implementation.
 
 To run
 $ conda load siblenv
@@ -17,7 +17,7 @@ import unittest
 import ptg.view_bspline as vbsp
 
 
-class Test(unittest.TestCase):
+class Test(TestCase):
     """Tests the creation of B-Spline view entities."""
 
     @classmethod
