@@ -1,12 +1,10 @@
 """This module is a unit test of the bspline implementation.
 
 To run
-$ conda activate sibl env
+$ conda activate siblenv
 $ cd ~/sibl
 $ pytest geo/tests/test_bspline.py -v
 """
-
-
 from unittest import TestCase, main
 
 import numpy as np
@@ -102,7 +100,6 @@ class TestBSpline(TestCase):
         y = B10.evaluate(t)
         y_known = [0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.assertTrue(self.same(y_known, y))
-        a = 4
 
     def test_100_bspline_basis_quadratic_eight_knots(self):
         """Know example from NURBS Book, Piegl and Tiller, Ex2.2, Fig 2.6"""
