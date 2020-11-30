@@ -167,7 +167,7 @@ class TestBSpline(TestCase):
             N_known[:, j] = np.asarray([N02, N12, N22, N32, N42, N52, N62, N72])
 
     def test_101_Bingol_2D_curve(self):
-        """See 
+        """See
         https://nurbs-python.readthedocs.io/en/latest/visualization.html#curves
         """
 
