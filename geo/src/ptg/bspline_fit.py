@@ -1,6 +1,9 @@
 # from numpy.typing import ArrayLike
 from typing import Union, List, Tuple
+import numpy as np
 from numpy import ndarray
+
+# from numpy import linalg
 
 
 class BSplineFit:
@@ -12,6 +15,7 @@ class BSplineFit:
         **kwargs
     ):
         """Creates a B-Spline curve based on fits to sample_points on curve.
+        Sample points are either interpolated (default) or approximated (to come).
 
         Args:
             sample_points (ArrayLike[float]): [[a0, a1, a2, ... am], [b0, b1, b2, ... bm],
@@ -26,7 +30,9 @@ class BSplineFit:
         """
         if not isinstance(sample_points, (list, tuple, ndarray)):
             raise TypeError("Error: sample points must be a list, tuple, or ndarray.")
-        self.samples = sample_points
+        # self.samples = sample_points
+        self.samples = np.asarray(sample_points)
+        self.n_samples = len(self.samples)
 
         # assert degree >= 0, "Error: degree must be non-negative."
         if degree < 0:
@@ -37,14 +43,45 @@ class BSplineFit:
         self.valid = False
         self._bspline = None
         self._sample_time_method = kwargs.get("sample_time_method", "chord")
-        assert self._sample_time_method in ("chord", "centripetal")
+
+        # assert self._sample_time_method in ("chord", "centripetal")
+        if self._sample_time_method not in ("chord", "centripetal"):
+            raise ValueError(
+                "Error: sample_time_method must be 'chord' or 'centripetal'"
+            )
+
+        # Piegl 1997 page 364-365
+        # chord_lengths = [0.0 for _ in range(self.n_samples + 1)]
+        # chord_lengths[-1] = 1.0
+        # chord_lengths = [0.0 for _ in range(self.n_samples)]
+        chord_lengths = np.zeros(self.n_samples)
+
+        for k in range(1, self.n_samples):
+            chord_length = np.linalg.norm(self.samples[k] - self.samples[k - 1])
+            if self._sample_time_method == "chord":
+                chord_lengths[k] = chord_length
+            else:  # "centripetal"
+                chord_lengths[k] = np.sqrt(chord_length)
+
+        # total_chord_length = sum(chord_lengths[1:-1])
+        total_chord_length = sum(chord_lengths)
+
+        # self._sample_times = [0.0 for _ in range(self.n_samples)]
+        self._sample_times = np.zeros(self.n_samples)
+        for k in range(1, self.n_samples):
+            self._sample_times[k] = (
+                self._sample_times[k - 1] + chord_lengths[k] / total_chord_length
+            )
+
+        a = 4
 
     @property
     def knot_vector(self):
         """Gets the knot vector used to create the BSpline fit to sample points."""
         pass
 
+    @property
     def sample_times(self):
-        """Creates the sample times for each sample point based on the 'chord' or
+        """Returns the sample times for each sample point based on the 'chord' or
         'centripetal' method."""
-        pass
+        return self._sample_times

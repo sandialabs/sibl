@@ -33,6 +33,7 @@ class Test(TestCase):
             (-4.0, 3.0),
         )  # Piegl Example 9.1, page 367
         cls.degree = 3  # Piegl ibid.
+        cls.kwargs = {"sample_time_method": "chord"}
 
         return super().setUpClass()
 
@@ -66,6 +67,32 @@ class Test(TestCase):
 
         with self.assertRaises(ValueError):
             bsf.BSplineFit(self.sample_points, bad_degree)
+
+    def test_003_bad_sample_time_method(self):
+        bad_kwargs = {"sample_time_method": "bad_method"}
+
+        with self.assertRaises(ValueError):
+            bsf.BSplineFit(
+                self.sample_points, self.degree, self.verbosity, **bad_kwargs
+            )
+
+    def test_004_Piegl_example_9p1(self):
+        b = bsf.BSplineFit(
+            self.sample_points, self.degree, self.verbosity, **(self.kwargs)
+        )
+        calc_sample_times = b.sample_times
+
+        known_sample_times = [
+            0.0,
+            0.29411764705882354,
+            0.5294117647058824,
+            0.8235294117647058,
+            1.0,
+        ]  # Piegl, page 367
+
+        self.assertTrue(self.same(calc_sample_times, known_sample_times))
+
+        a = 4
 
 
 # def test_003_degree_too_small(self):
