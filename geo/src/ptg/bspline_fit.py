@@ -12,7 +12,7 @@ class BSplineFit:
         sample_points: Union[List[float], Tuple[float], ndarray],
         degree: int = 0,
         verbose: bool = False,
-        **kwargs
+        sample_time_method: str = "chord",
     ):
         """Creates a B-Spline curve based on fits to sample_points on curve.
         Sample points are either interpolated (default) or approximated (to come).
@@ -32,7 +32,8 @@ class BSplineFit:
             raise TypeError("Error: sample points must be a list, tuple, or ndarray.")
         # self.samples = sample_points
         self.samples = np.asarray(sample_points)
-        self.n_samples = len(self.samples)
+        self.n_samples = len(self.samples)  # (m + 1)
+        self._m = self.n_samples - 1
 
         # assert degree >= 0, "Error: degree must be non-negative."
         if degree < 0:
@@ -42,7 +43,8 @@ class BSplineFit:
         self.verbose = verbose
         self.valid = False
         self._bspline = None
-        self._sample_time_method = kwargs.get("sample_time_method", "chord")
+        # self._sample_time_method = kwargs.get("sample_time_method", "chord")
+        self._sample_time_method = sample_time_method
 
         # assert self._sample_time_method in ("chord", "centripetal")
         if self._sample_time_method not in ("chord", "centripetal"):
@@ -73,15 +75,28 @@ class BSplineFit:
                 self._sample_times[k - 1] + chord_lengths[k] / total_chord_length
             )
 
-        a = 4
-
-    @property
-    def knot_vector(self):
-        """Gets the knot vector used to create the BSpline fit to sample points."""
-        pass
+        # averaging knots from sample times
+        self._n_knots = degree + 1 + self.n_samples  # (kappa + 1)
+        self._kappa = self._n_knots - 1
+        # self._knot_vector = np.zeros(degree + 1 + self.n_samples)
+        self._knot_vector = np.zeros(self._n_knots)
+        # for j in range(1, self.n_samples - degree + 1):
+        for j in range(1, self._m - degree + 1):  # +1 for Python 0-index
+            # _phi_high = degree - 1 + j
+            _phi_high = degree + j  # add +1 back in to account for Python 0-index
+            _knot_subspan_average = (1 / degree) * sum(self._sample_times[j:_phi_high])
+            self._knot_vector[degree + j] = _knot_subspan_average
+        _kappa_minus_p = self._kappa - degree
+        self._knot_vector[_kappa_minus_p : self._kappa + 1] = 1.0  # Python 0-index
 
     @property
     def sample_times(self):
         """Returns the sample times for each sample point based on the 'chord' or
         'centripetal' method."""
         return self._sample_times
+
+    @property
+    def knot_vector(self):
+        """"Returns the knot vector generated from the averaging method of the sample
+        point times."""
+        return self._knot_vector

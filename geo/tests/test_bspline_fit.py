@@ -33,7 +33,8 @@ class Test(TestCase):
             (-4.0, 3.0),
         )  # Piegl Example 9.1, page 367
         cls.degree = 3  # Piegl ibid.
-        cls.kwargs = {"sample_time_method": "chord"}
+        # cls.kwargs = {"sample_time_method": "chord"}
+        cls.sample_time_method = "chord"
 
         return super().setUpClass()
 
@@ -69,28 +70,37 @@ class Test(TestCase):
             bsf.BSplineFit(self.sample_points, bad_degree)
 
     def test_003_bad_sample_time_method(self):
-        bad_kwargs = {"sample_time_method": "bad_method"}
+        # bad_kwargs = {"sample_time_method": "bad_method"}
+        bad_sample_time_method = "bad_method"
 
         with self.assertRaises(ValueError):
             bsf.BSplineFit(
-                self.sample_points, self.degree, self.verbosity, **bad_kwargs
+                self.sample_points, self.degree, self.verbosity, bad_sample_time_method
             )
 
     def test_004_Piegl_example_9p1(self):
         b = bsf.BSplineFit(
-            self.sample_points, self.degree, self.verbosity, **(self.kwargs)
+            self.sample_points, self.degree, self.verbosity, self.sample_time_method
         )
         calc_sample_times = b.sample_times
 
+        # Piegl, page 367, known sample times are 0, 5/17, 9/17, 14/17, 1.
         known_sample_times = [
             0.0,
             0.29411764705882354,
             0.5294117647058824,
             0.8235294117647058,
             1.0,
-        ]  # Piegl, page 367
+        ]
 
         self.assertTrue(self.same(calc_sample_times, known_sample_times))
+
+        calc_knot_vector = b.knot_vector
+
+        # Piegl, page 368, known knot vector is [0, 0, 0, 0, 28/51, 1, 1, 1, 1]
+        known_knot_vector = [0.0, 0.0, 0.0, 0.0, 0.549019607843137, 1.0, 1.0, 1.0, 1.0]
+
+        self.assertTrue(self.same(calc_knot_vector, known_knot_vector))
 
         a = 4
 

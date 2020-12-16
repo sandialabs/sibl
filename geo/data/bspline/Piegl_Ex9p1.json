@@ -1,0 +1,30 @@
+{
+    "class": "curvefit",
+    "degree": 3,
+    "latex": 0,
+    "name": "Piegl_Ex9p1",
+    "samples": [
+        [
+            0,
+            0
+        ],
+        [
+            3,
+            4
+        ],
+        [
+            -1,
+            4
+        ],
+        [
+            -4,
+            0
+        ],
+        [
+            -4,
+            -3
+        ]
+    ],
+    "serialize": 0,
+    "verbosity": 1
+}

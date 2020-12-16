@@ -11,6 +11,7 @@ from matplotlib.ticker import MultipleLocator
 import numpy as np
 
 import ptg.bspline as bsp
+import ptg.bspline_fit as bspfit
 
 """
 $ conda active siblenv
@@ -47,12 +48,13 @@ class ViewBSplineFactory:
         # config parameters without defaults, user specification required
         # ncp is number of control points, to be replaced by
         # len(control_points) in a future revision
-        config_schema = (
-            "class",
-            "degree",
-            "name",
-            "ncp",
-        )
+        # config_schema = (
+        #     "class",
+        #     "degree",
+        #     "name",
+        #     "ncp",
+        # )
+        config_schema = ("class", "degree", "name")
 
         # check .json input schema
         for item in config_schema:
@@ -60,7 +62,11 @@ class ViewBSplineFactory:
             if not value:
                 sys.exit(f'Error: keyword "{item}" not found in config input file.')
 
-        FACTORY_ITEMS = {"basis": ViewBSplineBasis, "curve": ViewBSplineCurve}
+        FACTORY_ITEMS = {
+            "basis": ViewBSplineBasis,
+            "curve": ViewBSplineCurve,
+            "curvefit": ViewBSplineCurveFit,
+        }
 
         # config parameters without defaults, user specification required
         CLASS = kwargs.get("class")
@@ -79,19 +85,93 @@ class ViewBSplineFactory:
             sys.exit()
 
 
-class ViewBSplineBase(ABC):
+class ViewBase(ABC):
     """Abstract base class for ViewBSpline classes"""
 
     def __init__(self, **kwargs):
-        z = 4
+        # z = 4
         # factory has already checked items are specified, no default values necessary
         self.DEGREE = kwargs.get("degree")  # 0 constant, 1 linear, 2 quadratic, etc.
         self.NAME = kwargs.get("name")  # name is used for output file name
-        self.NCP = kwargs.get("ncp")
+
+        # self.NCP = kwargs.get("ncp")  # put down inheritance tree
 
         # get config specification, specify defaults otherwise
         self.DISPLAY = kwargs.get("display", True)  # show figure to screen
         self.DPI = kwargs.get("dpi", 100)  # dots per inch
+
+        # push down inheritance tree begin
+        # _KNOT_OFFSET = kwargs.get(
+        #     "knot_offset", 0
+        # )  # translate knot vector to left or right
+
+        # _a, _b = 0, self.NCP - self.DEGREE
+        # _knot_vector_default = (
+        #     np.concatenate(
+        #         (
+        #             np.repeat(_a, self.DEGREE),
+        #             np.arange(_a, _b),
+        #             np.repeat(_b, self.DEGREE + 1),
+        #         )
+        #     )
+        #     + _KNOT_OFFSET
+        # )
+        # self.KV = kwargs.get(
+        #     "knot_vector", _knot_vector_default
+        # )  # default is open knot vector, no internal knot multiplicity
+        # push down inheritance tree end
+
+        self.LATEX = kwargs.get("latex", False)  # use LaTeX instead of default fonts
+        self.LS = kwargs.get("linestyles", ("solid", "dashed", "dashdot"))  # linestyles
+
+        if self.LATEX:
+            rc("font", **{"family": "serif", "serif": ["Computer Modern Roman"]})
+            rc("text", usetex=True)
+
+        # push down inheritance tree begin
+        # number of elements is the number of non-zero knot spans
+        # self.NEL = len(np.unique(self.KV)) - 1
+        # push down inheritance tree end
+
+        self.NBI = kwargs.get("nbi", 2)  # number of bisections per knot interval
+
+        self.SERIALIZE = kwargs.get("serialize", False)  # save figure to disc
+        self.XTICKS = kwargs.get("xticks", None)
+        self.YTICKS = kwargs.get("yticks", None)
+
+        # push down inheritance tree begin
+        # print(f"Computing B-spline basis with degree = {self.DEGREE}")
+        # print(f"  with knot vector {self.KV}")
+        # print(f"  of {len(self.KV)} knots")
+        # print(f"  with number of bisections per knot interval = {self.NBI}")
+        # print(f"  with number of elements (non-zero knot spans) = {self.NEL}")
+
+        # _knots_lhs = self.KV[0:-1]  # left-hand-side knot values
+        # _knots_rhs = self.KV[1:]  # right-hand-side knot values
+        # _knot_spans = np.array(_knots_rhs) - np.array(_knots_lhs)
+        # _dt = _knot_spans / (2 ** self.NBI)
+        # assert all([dti >= 0 for dti in _dt]), "Error: knot vector is decreasing."
+
+        # _num_knots = len(self.KV)
+        # _t = [
+        #     _knots_lhs[k] + j * _dt[k]
+        #     for k in np.arange(_num_knots - 1)
+        #     for j in np.arange(2 ** self.NBI)
+        # ]
+        # _t.append(self.KV[-1])  # evauation times
+        # self.T = np.array(_t)  # recast as numpy array
+        # self.N = []  # B-spline basis vector at evaluation times
+        # self.C = []  # B-spline curve at evaluation times
+        # push down inheritance tree end
+        self.VERBOSITY = kwargs.get("verbosity", False)
+
+
+class ViewBSplineBase(ViewBase):
+    """Base class for ViewBSplineCurveFit class."""
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.NCP = kwargs.get("ncp")
 
         _KNOT_OFFSET = kwargs.get(
             "knot_offset", 0
@@ -112,20 +192,8 @@ class ViewBSplineBase(ABC):
             "knot_vector", _knot_vector_default
         )  # default is open knot vector, no internal knot multiplicity
 
-        self.LATEX = kwargs.get("latex", False)  # use LaTeX instead of default fonts
-        self.LS = kwargs.get("linestyles", ("solid", "dashed", "dashdot"))  # linestyles
-
-        if self.LATEX:
-            rc("font", **{"family": "serif", "serif": ["Computer Modern Roman"]})
-            rc("text", usetex=True)
-
         # number of elements is the number of non-zero knot spans
         self.NEL = len(np.unique(self.KV)) - 1
-        self.NBI = kwargs.get("nbi", 2)  # number of bisections per knot interval
-
-        self.SERIALIZE = kwargs.get("serialize", False)  # save figure to disc
-        self.XTICKS = kwargs.get("xticks", None)
-        self.YTICKS = kwargs.get("yticks", None)
 
         print(f"Computing B-spline basis with degree = {self.DEGREE}")
         print(f"  with knot vector {self.KV}")
@@ -149,6 +217,14 @@ class ViewBSplineBase(ABC):
         self.T = np.array(_t)  # recast as numpy array
         self.N = []  # B-spline basis vector at evaluation times
         self.C = []  # B-spline curve at evaluation times
+
+
+class ViewBSplineFitBase(ViewBase):
+    """Base class for ViewBSpline Curve, Surface, and Volume classes."""
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        a = 4
 
 
 class ViewBSplineBasis(ViewBSplineBase):
@@ -258,6 +334,30 @@ class ViewBSplineCurve(ViewBSplineBase):
         ViewBSplineFigure(self)
 
 
+# class ViewBSplineSurface(ViewBSplineBase):
+# TODO
+
+# class ViewBSplineVolume(ViewBSplineBase):
+# TODO
+
+
+class ViewBSplineCurveFit(ViewBSplineFitBase):
+    """Creates a Matplotlib figure of BSpline curve fitted to sample points."""
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.SAMPLES = kwargs.get("samples", None)
+        assert self.SAMPLES is not None
+
+        _sample_time_method = kwargs.get("sample_time_method", "chord")
+
+        # _B = bspfit.BSplineFit(self.SAMPLES, self.DEGREE, self.VERBOSITY, **kwargs)
+        _B = bspfit.BSplineFit(
+            self.SAMPLES, self.DEGREE, self.VERBOSITY, _sample_time_method
+        )
+        a = 4
+
+
 class ViewBSplineFigure:
     # def __init__(self, ViewBSplineBase):
     def __init__(self, base: ViewBSplineBase):
@@ -290,19 +390,13 @@ class ViewBSplineFigure:
             print(f"Serialized file to {filename}")
 
 
-# class ViewBSplineSurface(ViewBSplineBase):
-# TODO
-
-# class ViewBSplineVolume(ViewBSplineBase):
-# TODO
-
-
 def main(argv):
 
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
-        "config_file", help=".json BSpline basis, curve, surface, volume specification"
+        "config_file",
+        help=".json BSpline basis, curve, curvefit, surface, volume specification",
     )
 
     parser.add_argument(
