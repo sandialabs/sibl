@@ -97,6 +97,6 @@ class BSplineFit:
 
     @property
     def knot_vector(self):
-        """"Returns the knot vector generated from the averaging method of the sample
+        """Returns the knot vector generated from the averaging method of the sample
         point times."""
         return self._knot_vector
