@@ -157,6 +157,30 @@ class Test(TestCase):
         known_knot_vector = (0.0, 0.0, 0.0, 1 / 3, 2 / 3, 1.0, 1.0, 1.0)
         self.assertTrue(self.same(calc_knot_vector, known_knot_vector))
 
+        calc_basis_matrix = b.basis_matrix
+        known_basis_matrix = np.array(
+            [
+                [1.0, 0.0, 0.0, 0.0, 0.0],
+                [0.007, 0.571, 0.422, 0.0, 0.0],
+                [0.0, 0.125, 0.75, 0.125, 0.0],
+                [0.0, 0.0, 0.422, 0.571, 0.007],
+                [0.0, 0.0, 0.0, 0.0, 1.0],
+            ]
+        )  # Rogers, page 93, second equation
+        difference_matrix = calc_basis_matrix - known_basis_matrix
+        Frobenius_norm = np.linalg.norm(difference_matrix, ord="fro")
+        TOL_MATRIX = 0.0008  # some small number larger than self.TOL, book 3 sig fig
+        self.assertTrue(Frobenius_norm < TOL_MATRIX)
+
+        calc_control_points = b.control_points
+        known_control_points = np.array(
+            [[0.0, 0.0], [0.409, 1.378], [3.0, 2.874], [5.591, 1.377], [6.0, 0.0]]
+        )  # Rogers, page 93, fifth equation
+        difference_matrix = calc_control_points - known_control_points
+        Frobenius_norm = np.linalg.norm(difference_matrix, ord="fro")
+        TOL_MATRIX = 0.0012  # some small number larger than self.TOL, book 3 sig fig
+        self.assertTrue(Frobenius_norm < TOL_MATRIX)
+
 
 # def test_003_degree_too_small(self):
 #     degree = -1  # integer >=0, so -1 is is out of range for test

@@ -5,6 +5,8 @@ from numpy import ndarray
 
 # from numpy import linalg
 
+import ptg.bspline as bsp
+
 
 class BSplineFit:
     def __init__(
@@ -30,7 +32,7 @@ class BSplineFit:
                 "centripetal": (optional), better suited for data with sharp turns
             knot_method:
                 "average": default, recommended method for placing knots
-                "equal": (optional), not recommended, can lead to a singular matrix, 
+                "equal": (optional), not recommended, can lead to a singular matrix,
                 implemented for unit tests and testing purposes only.
         """
         if not isinstance(sample_points, (list, tuple, ndarray)):
@@ -39,11 +41,12 @@ class BSplineFit:
         self.samples = np.asarray(sample_points)
         self.n_samples = len(self.samples)  # (m + 1)
         self._m = self.n_samples - 1
+        self.NCP = self.n_samples  # special case n = m, number of control points
 
         # assert degree >= 0, "Error: degree must be non-negative."
         if degree < 0:
             raise ValueError("Error: degree must be non-negative.")
-        self.p = degree
+        self.DEGREE = degree
 
         self.verbose = verbose
         self.valid = False
@@ -62,20 +65,16 @@ class BSplineFit:
         if self._knot_method not in ("average", "equal"):
             raise ValueError("Error: knot_method must be 'average' or 'equal'")
 
-        # Piegl 1997 page 364-365
-        # chord_lengths = [0.0 for _ in range(self.n_samples + 1)]
-        # chord_lengths[-1] = 1.0
-        # chord_lengths = [0.0 for _ in range(self.n_samples)]
+        # Piegl 1997 page 364-365, chord length method or centripetal method
         chord_lengths = np.zeros(self.n_samples)
 
         for k in range(1, self.n_samples):
             chord_length = np.linalg.norm(self.samples[k] - self.samples[k - 1])
             if self._sample_time_method == "chord":
-                chord_lengths[k] = chord_length
+                chord_lengths[k] = chord_length  # norm from Eq. (9.5) Piegl 1997
             else:  # "centripetal"
-                chord_lengths[k] = np.sqrt(chord_length)
+                chord_lengths[k] = np.sqrt(chord_length)  # sqrt norm Eq. (9.6)
 
-        # total_chord_length = sum(chord_lengths[1:-1])
         total_chord_length = sum(chord_lengths)
 
         # self._sample_times = [0.0 for _ in range(self.n_samples)]
@@ -83,11 +82,11 @@ class BSplineFit:
         for k in range(1, self.n_samples):
             self._sample_times[k] = (
                 self._sample_times[k - 1] + chord_lengths[k] / total_chord_length
-            )
+            )  # Eq. (9.5) or (9.6) Piegl 1997
 
+        # averaging knots from sample times, Piegl 1997, page 365, Eq. (9.8)
         self._n_knots = degree + 1 + self.n_samples  # (kappa + 1)
         self._kappa = self._n_knots - 1
-        # self._knot_vector = np.zeros(degree + 1 + self.n_samples)
         self._knot_vector = np.zeros(self._n_knots)
         if self._knot_method == "average":
             # averaging knots from sample times
@@ -103,9 +102,31 @@ class BSplineFit:
             # knot_method is "equal"
             for j in range(1, self._m - degree + 1):  # +1 for Python 0-index
                 self._knot_vector[degree + j] = j / (self._m - degree + 1)
-
+        # append end of knot vector with 1.0 repeated (degree + 1) times
         _kappa_minus_p = self._kappa - degree
         self._knot_vector[_kappa_minus_p : self._kappa + 1] = 1.0  # Python 0-index
+
+        # matrix A u = f -> (notation) N u = f
+        self._N = []  # (m x 1) by (n x 1) coefficient matrix
+        for column in range(self.NCP):
+            print(f"column = {column}")
+            coef = np.zeros(self.NCP)
+            coef[column] = 1.0
+
+            # build the B-spline basis functions column-by-column
+            _B = bsp.BSpline(self.knot_vector, coef, self.DEGREE)
+
+            if _B.is_valid():
+                _y = _B.evaluate(self.sample_times)
+                self._N.append(_y)
+
+        # now transpose the N matrix, since we filled column-wise
+        self._N = np.transpose(self._N)
+
+        # self.control_points = np.linalg.solve(self._N, sample_points)
+        self._control_points = np.linalg.solve(self._N, self.samples)
+
+        self.valid = True  # if we come to the end of __init__, all is valid
 
     @property
     def sample_times(self):
@@ -118,3 +139,14 @@ class BSplineFit:
         """Returns the knot vector generated from the averaging method of the sample
         point times."""
         return self._knot_vector
+
+    @property
+    def basis_matrix(self):
+        """Returns the matrix of B-spline basis functions equaluated at sample point
+        times."""
+        return self._N
+
+    @property
+    def control_points(self):
+        """Returns the B-spline control points that fit the sample point data."""
+        return self._control_points
