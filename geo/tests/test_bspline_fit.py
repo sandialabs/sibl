@@ -70,7 +70,6 @@ class Test(TestCase):
             bsf.BSplineFit(self.sample_points, bad_degree)
 
     def test_003_bad_sample_time_method(self):
-        # bad_kwargs = {"sample_time_method": "bad_method"}
         bad_sample_time_method = "bad_method"
 
         with self.assertRaises(ValueError):
@@ -103,6 +102,60 @@ class Test(TestCase):
         self.assertTrue(self.same(calc_knot_vector, known_knot_vector))
 
         a = 4
+
+    def test_005_bad_knot_method(self):
+        # Rogers, Example 3.9, page 92.
+        points = ((0.0, 0.0), (1.5, 2.0), (3.0, 2.5), (4.5, 2.0), (6.0, 0.0))
+        p = 2  # cubic degree, (which is third order)
+        speak_to_me = True
+        method_samples = "chord"
+        bad_knot_method = "bad_method"
+
+        with self.assertRaises(ValueError):
+            bsf.BSplineFit(
+                self.sample_points,
+                self.degree,
+                self.verbosity,
+                self.sample_time_method,
+                bad_knot_method,
+            )
+
+    def test_006_Rogers_example_3p9(self):
+        # Rogers, Example 3.9, page 92.
+        points = ((0.0, 0.0), (1.5, 2.0), (3.0, 2.5), (4.5, 2.0), (6.0, 0.0))
+        p = 2  # cubic degree, (which is third order)
+        speak_to_me = True
+        method_samples = "chord"
+        method_knots = "equal"
+
+        b = bsf.BSplineFit(
+            sample_points=points,
+            degree=p,
+            verbose=speak_to_me,
+            sample_time_method=method_samples,
+            knot_method=method_knots,
+        )
+
+        calc_sample_times = b.sample_times
+        D21 = 5 / 2
+        D32 = np.sqrt((3 / 2) ** 2 + (1 / 2) ** 2)
+        D43 = np.sqrt((3 / 2) ** 2 + (-1 / 2) ** 2)
+        D54 = 5 / 2
+        DEN = D21 + D32 + D43 + D54
+        known_sample_times = (
+            0.0,
+            D21 / DEN,
+            (D21 + D32) / DEN,
+            (D21 + D32 + D43) / DEN,
+            1.0,
+        )
+        self.assertTrue(self.same(calc_sample_times, known_sample_times))
+
+        calc_knot_vector = b.knot_vector
+        # known_knot_vector = (0.0, 0.0, 0.0, 1.0, 2.0, 3.0, 3.0, 3.0)
+        # normalize, becaus the BSplineFit algorithm normalizes the knot vector:
+        known_knot_vector = (0.0, 0.0, 0.0, 1 / 3, 2 / 3, 1.0, 1.0, 1.0)
+        self.assertTrue(self.same(calc_knot_vector, known_knot_vector))
 
 
 # def test_003_degree_too_small(self):
