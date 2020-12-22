@@ -89,80 +89,27 @@ class ViewBase(ABC):
     """Abstract base class for ViewBSpline classes"""
 
     def __init__(self, **kwargs):
-        # z = 4
         # factory has already checked items are specified, no default values necessary
         self.DEGREE = kwargs.get("degree")  # 0 constant, 1 linear, 2 quadratic, etc.
-        self.NAME = kwargs.get("name")  # name is used for output file name
-
-        # self.NCP = kwargs.get("ncp")  # put down inheritance tree
 
         # get config specification, specify defaults otherwise
         self.DISPLAY = kwargs.get("display", True)  # show figure to screen
         self.DPI = kwargs.get("dpi", 100)  # dots per inch
 
-        # push down inheritance tree begin
-        # _KNOT_OFFSET = kwargs.get(
-        #     "knot_offset", 0
-        # )  # translate knot vector to left or right
-
-        # _a, _b = 0, self.NCP - self.DEGREE
-        # _knot_vector_default = (
-        #     np.concatenate(
-        #         (
-        #             np.repeat(_a, self.DEGREE),
-        #             np.arange(_a, _b),
-        #             np.repeat(_b, self.DEGREE + 1),
-        #         )
-        #     )
-        #     + _KNOT_OFFSET
-        # )
-        # self.KV = kwargs.get(
-        #     "knot_vector", _knot_vector_default
-        # )  # default is open knot vector, no internal knot multiplicity
-        # push down inheritance tree end
-
         self.LATEX = kwargs.get("latex", False)  # use LaTeX instead of default fonts
-        self.LS = kwargs.get("linestyles", ("solid", "dashed", "dashdot"))  # linestyles
-
         if self.LATEX:
             rc("font", **{"family": "serif", "serif": ["Computer Modern Roman"]})
             rc("text", usetex=True)
+        self.LS = kwargs.get("linestyles", ("solid", "dashed", "dashdot"))  # linestyles
 
-        # push down inheritance tree begin
-        # number of elements is the number of non-zero knot spans
-        # self.NEL = len(np.unique(self.KV)) - 1
-        # push down inheritance tree end
-
+        self.NAME = kwargs.get("name")  # name is used for output file name
         self.NBI = kwargs.get("nbi", 2)  # number of bisections per knot interval
 
         self.SERIALIZE = kwargs.get("serialize", False)  # save figure to disc
+
         self.XTICKS = kwargs.get("xticks", None)
         self.YTICKS = kwargs.get("yticks", None)
 
-        # push down inheritance tree begin
-        # print(f"Computing B-spline basis with degree = {self.DEGREE}")
-        # print(f"  with knot vector {self.KV}")
-        # print(f"  of {len(self.KV)} knots")
-        # print(f"  with number of bisections per knot interval = {self.NBI}")
-        # print(f"  with number of elements (non-zero knot spans) = {self.NEL}")
-
-        # _knots_lhs = self.KV[0:-1]  # left-hand-side knot values
-        # _knots_rhs = self.KV[1:]  # right-hand-side knot values
-        # _knot_spans = np.array(_knots_rhs) - np.array(_knots_lhs)
-        # _dt = _knot_spans / (2 ** self.NBI)
-        # assert all([dti >= 0 for dti in _dt]), "Error: knot vector is decreasing."
-
-        # _num_knots = len(self.KV)
-        # _t = [
-        #     _knots_lhs[k] + j * _dt[k]
-        #     for k in np.arange(_num_knots - 1)
-        #     for j in np.arange(2 ** self.NBI)
-        # ]
-        # _t.append(self.KV[-1])  # evauation times
-        # self.T = np.array(_t)  # recast as numpy array
-        # self.N = []  # B-spline basis vector at evaluation times
-        # self.C = []  # B-spline curve at evaluation times
-        # push down inheritance tree end
         self.VERBOSITY = kwargs.get("verbosity", False)
 
 
@@ -351,11 +298,27 @@ class ViewBSplineCurveFit(ViewBSplineFitBase):
 
         _sample_time_method = kwargs.get("sample_time_method", "chord")
 
-        # _B = bspfit.BSplineFit(self.SAMPLES, self.DEGREE, self.VERBOSITY, **kwargs)
-        _B = bspfit.BSplineFit(
+        # _BFit = bspfit.BSplineFit(self.SAMPLES, self.DEGREE, self.VERBOSITY, **kwargs)
+        _fit = bspfit.BSplineFit(
             self.SAMPLES, self.DEGREE, self.VERBOSITY, _sample_time_method
         )
-        a = 4
+
+        # only "class", "degree", and "name" required by ViewBSplineFactory, so
+        # manually propigate all other keys and values, with "class" overwrite.
+        kwargs["class"] = "curve"  # replace "curvefit" with "curve" now to make curve
+        kwargs["coefficients"] = _fit.control_points
+        kwargs["display"] = self.DISPLAY
+        kwargs["dpi"] = self.DPI
+        kwargs["knot_vector"] = _fit.knot_vector
+        kwargs["latex"] = self.LS
+        kwargs["nbi"] = self.NBI
+        kwargs["ncp"] = _fit.NCP
+        kwargs["serialize"] = self.SERIALIZE
+        kwargs["verbosity"] = self.VERBOSITY
+        kwargs["xticks"] = self.XTICKS
+        kwargs["yticks"] = self.YTICKS
+
+        _vbsplinecurve = ViewBSplineCurve(**kwargs)
 
 
 class ViewBSplineFigure:

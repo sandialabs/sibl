@@ -18,8 +18,8 @@
             0
         ]
     ],
-    "name": "Piegl_Fig3p1",
     "degree": 3,
+    "name": "Piegl_Fig3p1",
     "nbi": 8,
     "ncp": 4,
     "knot_vector": [

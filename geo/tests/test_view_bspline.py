@@ -64,6 +64,12 @@ class Test(TestCase):
         item = vbsp.ViewBSplineFactory.create(config=config_path)
         self.assertIsInstance(item, vbsp.ViewBSplineCurve)
 
+    def test_006_selftest_main_bspline_Piegl_Fig9p1(self):
+        config_file = "Piegl_Ex9p1.json"
+        config_path = Path.joinpath(self.data_dir, config_file)
+        item = vbsp.ViewBSplineFactory.create(config=config_path)
+        self.assertIsInstance(item, vbsp.ViewBSplineCurveFit)
+
     # Ask Anirudh
     # def test_006_selftest_main(self):
     #     config_file = "Piegl_Fig3p1.json"
