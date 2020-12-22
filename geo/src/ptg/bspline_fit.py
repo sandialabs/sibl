@@ -109,7 +109,6 @@ class BSplineFit:
         # matrix A u = f -> (notation) N u = f
         self._N = []  # (m x 1) by (n x 1) coefficient matrix
         for column in range(self.NCP):
-            print(f"column = {column}")
             coef = np.zeros(self.NCP)
             coef[column] = 1.0
 
