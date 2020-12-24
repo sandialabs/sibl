@@ -2,32 +2,47 @@
     "class": "curve",
     "coefficients": [
         [
+            -14,
+            0
+        ],
+        [
             0,
             0
         ],
         [
-            0.6,
-            1.6
+            0,
+            13
         ],
         [
-            2.1,
-            1.9
+            15,
+            13
         ],
         [
-            3,
-            0
+            20,
+            -1.5
+        ],
+        [
+            9,
+            -10
+        ],
+        [
+            0,
+            -5
         ]
     ],
     "control_points_shown": 1,
     "degree": 3,
-    "name": "Piegl_Fig3p1",
+    "name": "Piegl_Fig3p2",
     "nbi": 8,
-    "ncp": 4,
+    "ncp": 7,
     "knot_vector": [
         0,
         0,
         0,
         0,
+        0.25,
+        0.5,
+        0.75,
         1,
         1,
         1,
@@ -35,21 +50,5 @@
     ],
     "knots_shown": 1,
     "latex": 1,
-    "serialize": 0,
-    "xticks": [
-        0,
-        0.5,
-        1,
-        1.5,
-        2,
-        2.5,
-        3
-    ],
-    "yticks": [
-        0,
-        0.5,
-        1,
-        1.5,
-        2
-    ]
+    "serialize": 0
 }

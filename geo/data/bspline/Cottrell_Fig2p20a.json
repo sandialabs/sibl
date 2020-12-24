@@ -34,6 +34,7 @@
             3
         ]
     ],
+    "control_points_shown": 1,
     "name": "Cottrell_Fig2p20a",
     "degree": 2,
     "latex": 1,
@@ -52,6 +53,7 @@
         5,
         5
     ],
+    "knots_shown": 1,
     "serialize": 0,
     "xticks": [
         0,

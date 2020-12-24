@@ -27,20 +27,32 @@ class ViewBSplineFactory:
 
     @staticmethod
     def create(config: str, verbose: bool = True):
+        """Creates a ViewBSpline object that is listed in ViewBSplineFactory.
+
+        Args:
+            config (str): .json file name, with path, that specifies dictionary of
+                keys and values used to construct ViewBSpline objects.
+            verbose (Optional[bool]): True provides feedback during run, False does not.
+                Defaults to True.
+
+        Returns:
+            A ViewBSplineInstance identified in the factory by the config file.
+
+        """
 
         if not Path(config).is_file():
             sys.exit(f"Error: cannot find file {config}")
 
-        STEM = Path(config).stem
+        # _stem = Path(config).stem
 
-        config_dir = Path(config).parent
+        _config_dir = Path(config).parent
 
         if verbose:
-            # class_name = type(self).__name__
-            class_name = ViewBSplineFactory.__name__
-            print(f"This is {class_name}:")
+            # _class_name = type(self).__name__
+            _class_name = ViewBSplineFactory.__name__
+            print(f"This is {_class_name}:")
             print(f"  processing config file: {config}")
-            print(f"  located at: {config_dir}")
+            print(f"  located at: {_config_dir}")
 
         with open(config) as fin:
             kwargs = json.load(fin)
@@ -48,39 +60,39 @@ class ViewBSplineFactory:
         # config parameters without defaults, user specification required
         # ncp is number of control points, to be replaced by
         # len(control_points) in a future revision
-        # config_schema = (
+        # _config_schema = (
         #     "class",
         #     "degree",
         #     "name",
         #     "ncp",
         # )
-        config_schema = ("class", "degree", "name")
+        _config_schema = ("class", "degree", "name")
 
         # check .json input schema
-        for item in config_schema:
+        for item in _config_schema:
             value = kwargs.get(item, None)
             if not value:
                 sys.exit(f'Error: keyword "{item}" not found in config input file.')
 
-        FACTORY_ITEMS = {
+        _factory_items = {
             "basis": ViewBSplineBasis,
             "curve": ViewBSplineCurve,
             "curvefit": ViewBSplineCurveFit,
         }
 
         # config parameters without defaults, user specification required
-        CLASS = kwargs.get("class")
+        _class = kwargs.get("class")
 
-        if CLASS in FACTORY_ITEMS:
+        if _class in _factory_items:
             # create the class instance
-            instance = FACTORY_ITEMS.get(CLASS, None)
+            instance = _factory_items.get(_class, None)
             if instance:
                 return instance(**kwargs)
 
         else:
-            print(f"Error: 'class': '{CLASS}' is not in the FACTORY_ITEMS dictionary.")
-            print("Available 'key': 'value' FACTORY_ITEMS are:")
-            for item in FACTORY_ITEMS:
+            print(f"Error: No 'class': '{_class}' in the _factory_items dictionary.")
+            print("Available 'key': 'value' _factory_items are:")
+            for item in _factory_items:
                 print(f"   'class': '{item}'")
             sys.exit()
 
@@ -161,9 +173,10 @@ class ViewBSplineBase(ViewBase):
             for j in np.arange(2 ** self.NBI)
         ]
         _t.append(self.KV[-1])  # evauation times
-        self.T = np.array(_t)  # recast as numpy array
-        self.N = []  # B-spline basis vector at evaluation times
-        self.C = []  # B-spline curve at evaluation times
+        # self.evaluation_times = np.array(_t)  # recast as numpy array
+        self.evaluation_times = np.unique(np.array(_t))  # recast as numpy array
+        self.evaluated_bases = []  # B-spline basis vector at evaluation times
+        self.evaluated_curve = []  # B-spline curve at evaluation times
 
 
 class ViewBSplineFitBase(ViewBase):
@@ -171,7 +184,6 @@ class ViewBSplineFitBase(ViewBase):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        a = 4
 
 
 class ViewBSplineBasis(ViewBSplineBase):
@@ -193,8 +205,8 @@ class ViewBSplineBasis(ViewBSplineBase):
             _B = bsp.BSpline(self.KV, coef, self.DEGREE)
 
             if _B.is_valid():
-                _y = _B.evaluate(self.T)
-                self.N.append(_y)
+                _y = _B.evaluate(self.evaluation_times)
+                self.evaluated_bases.append(_y)
 
         # plot B-spline basis functions
         self.fig = plt.figure(figsize=plt.figaspect(1.0 / (self.NEL + 1)), dpi=self.DPI)
@@ -205,8 +217,8 @@ class ViewBSplineBasis(ViewBSplineBase):
             _CPTXT = f"{i}"
             _DEGTXT = f"{self.DEGREE}"
             ax.plot(
-                self.T,
-                self.N[i],
+                self.evaluation_times,
+                self.evaluated_bases[i],
                 "-",
                 lw=2,
                 label="$N_{" + _CPTXT + "}^{" + _DEGTXT + "}$",
@@ -241,6 +253,15 @@ class ViewBSplineCurve(ViewBSplineBase):
         )  # None is basis, not None is curve, surface, or volume
         assert COEF is not None
 
+        # show/hid control point locations
+        _control_points_shown = kwargs.get("control_points_shown", False)
+
+        # show/hide knot locations
+        _knots_shown = kwargs.get("knots_shown", False)
+        _evaluated_knots = []
+        if _knots_shown:
+            _knots_t = np.unique(self.KV)
+
         # build up B-spline basis functions, multiplied by coefficients
         _NSD = len(COEF[0])  # number of space dimensions
         assert _NSD == 2  # only 2D curves implemented for now, do 3D later
@@ -252,28 +273,54 @@ class ViewBSplineCurve(ViewBSplineBase):
             _B = bsp.BSpline(self.KV, coef, self.DEGREE)
 
             if _B.is_valid():
-                _y = _B.evaluate(self.T)
-                self.C.append(_y)
+                _y = _B.evaluate(self.evaluation_times)
+                self.evaluated_curve.append(_y)
+
+                if _knots_shown:
+                    _y = _B.evaluate(_knots_t)
+                    _evaluated_knots.append(_y)
 
         # plot B-spline curve, assume 2D for now
         self.fig = plt.figure(dpi=self.DPI)
         ax = self.fig.gca()
 
-        ax.plot(self.C[0], self.C[1], color="navy", linestyle="solid", linewidth=2)
+        if _control_points_shown:
+            # plot control points
+            _cp_x = np.array(COEF)[:, 0]  # control points x-coordinates
+            _cp_y = np.array(COEF)[:, 1]  # control points y-coordinates
 
-        _cp_x = np.array(COEF)[:, 0]  # control points x-coordinates
-        _cp_y = np.array(COEF)[:, 1]  # control points y-coordinates
+            ax.plot(
+                _cp_x,
+                _cp_y,
+                color="red",
+                linewidth=1,
+                alpha=0.5,
+                marker="o",
+                markerfacecolor="white",
+                markersize=9,
+                linestyle="dashed",
+            )
+
+        if _knots_shown:
+            ax.plot(
+                _evaluated_knots[0],
+                _evaluated_knots[1],
+                color="darkcyan",
+                alpha=0.8,
+                marker="o",
+                markeredgecolor="none",
+                markersize=7,
+                linestyle="none",
+            )
 
         ax.plot(
-            _cp_x,
-            _cp_y,
-            color="red",
-            linewidth=1,
-            alpha=0.5,
-            marker="o",
-            markerfacecolor="white",
-            linestyle="dashed",
+            self.evaluated_curve[0],
+            self.evaluated_curve[1],
+            color="navy",
+            linestyle="solid",
+            linewidth=2,
         )
+
         ax.set_xlabel(r"$x$")
         ax.set_ylabel(r"$y$")
 

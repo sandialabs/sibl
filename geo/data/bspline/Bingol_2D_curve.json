@@ -38,6 +38,7 @@
             40.0
         ]
     ],
+    "control_points_shown": 1,
     "name": "Bingol_2D_curve",
     "degree": 4,
     "nbi": 8,
@@ -58,6 +59,7 @@
         1.0,
         1.0
     ],
+    "knots_shown": 1,
     "latex": 1,
-    "serialize": 1
+    "serialize": 0
 }
