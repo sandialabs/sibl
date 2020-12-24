@@ -312,7 +312,7 @@ class ViewBSplineCurveFit(ViewBSplineFitBase):
         kwargs["knot_vector"] = _fit.knot_vector
         kwargs["latex"] = self.LS
         kwargs["nbi"] = self.NBI
-        kwargs["ncp"] = _fit.NCP
+        kwargs["ncp"] = _fit.n_control_points
         kwargs["serialize"] = self.SERIALIZE
         kwargs["verbosity"] = self.VERBOSITY
         kwargs["xticks"] = self.XTICKS

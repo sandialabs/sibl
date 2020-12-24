@@ -209,7 +209,7 @@ class Test(TestCase):
         known_knot_vector = (0.0, 0.0, 0.0, 1 / 3, 2 / 3, 1.0, 1.0, 1.0)
         self.assertTrue(self.same(calc_knot_vector, known_knot_vector))
 
-        calc_basis_matrix = b.basis_matrix
+        calc_basis_matrix = b.sample_basis_matrix
         known_basis_matrix = np.array(
             [
                 [1.0, 0.0, 0.0, 0.0, 0.0],
