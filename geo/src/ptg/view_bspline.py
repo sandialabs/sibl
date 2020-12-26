@@ -330,23 +330,26 @@ class ViewBSplineCurve(ViewBSplineBase):
                 # plot only the first knot of any repeated knot
                 if i == 0:
                     # print(f"first index {i}")
+                    k = i  # first evaluated knot index
                     if self.LATEX:
                         _str = r"$\mathsf T_{0}$"
                     else:
-                        _str = r"$T_{0}$"
-                    k = i  # first evaluated knot index
+                        # _str = r"$T_{0}$"
+                        continue  # GitHub unit test doesn't like LaTex
                 else:
                     if self.KV[i] == self.KV[i - 1]:
                         continue  # don't plot subsequently repeated knots
 
                     # print(f"subsequent index {i}")
+                    k += 1  # next non-repeated knot index in evaluated knots
+
                     # _Ti = str(int(i + self.DEGREE))
                     _Ti = str(int(i))
                     if self.LATEX:
                         _str = r"$\mathsf T_{" + _Ti + "}$"
                     else:
-                        _str = r"$T_{" + _Ti + "}$"
-                    k += 1  # next non-repeated knot index in evaluated knots
+                        # _str = r"$T_{" + _Ti + "}$"
+                        continue  # GitHub unit test doesn't like LaTex
 
                 # print(_str)
                 ax.plot(
