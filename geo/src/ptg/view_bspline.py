@@ -333,7 +333,7 @@ class ViewBSplineCurve(ViewBSplineBase):
                     if self.LATEX:
                         _str = r"$\mathsf T_{0}$"
                     else:
-                        _str = "$T_{0}$"
+                        _str = r"$T_{0}$"
                     k = i  # first evaluated knot index
                 else:
                     if self.KV[i] == self.KV[i - 1]:
@@ -345,7 +345,7 @@ class ViewBSplineCurve(ViewBSplineBase):
                     if self.LATEX:
                         _str = r"$\mathsf T_{" + _Ti + "}$"
                     else:
-                        _str = "$T_{" + _Ti + "}$"
+                        _str = r"$T_{" + _Ti + "}$"
                     k += 1  # next non-repeated knot index in evaluated knots
 
                 # print(_str)
