@@ -1,8 +1,12 @@
 {
     "class": "curvefit",
+    "control_points_shown": 1,
     "degree": 3,
-    "latex": 0,
+    "#degree": 2,
+    "knots_shown": 1,
+    "latex": 1,
     "name": "Piegl_Ex9p1",
+    "nbi": 8,
     "samples": [
         [
             0,
@@ -25,6 +29,7 @@
             -3
         ]
     ],
+    "samples_shown": 1,
     "serialize": 0,
     "verbosity": 1
 }

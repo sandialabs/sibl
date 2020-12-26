@@ -253,7 +253,7 @@ class ViewBSplineCurve(ViewBSplineBase):
         )  # None is basis, not None is curve, surface, or volume
         assert COEF is not None
 
-        # show/hid control point locations
+        # show/hide control point locations
         _control_points_shown = kwargs.get("control_points_shown", False)
 
         # show/hide knot locations
@@ -261,6 +261,9 @@ class ViewBSplineCurve(ViewBSplineBase):
         _evaluated_knots = []
         if _knots_shown:
             _knots_t = np.unique(self.KV)
+
+        # show/hide sample points in case of a B-spline fit
+        _samples_shown = kwargs.get("samples_shown", False)
 
         # build up B-spline basis functions, multiplied by coefficients
         _NSD = len(COEF[0])  # number of space dimensions
@@ -301,16 +304,17 @@ class ViewBSplineCurve(ViewBSplineBase):
                 linestyle="dashed",
             )
 
-        if _knots_shown:
+        if _samples_shown:
+            _samples_x = np.array(kwargs.get("samples"))[:, 0]
+            _samples_y = np.array(kwargs.get("samples"))[:, 1]
             ax.plot(
-                _evaluated_knots[0],
-                _evaluated_knots[1],
-                color="darkcyan",
-                alpha=0.8,
-                marker="o",
-                markeredgecolor="none",
-                markersize=7,
+                _samples_x,
+                _samples_y,
+                marker="x",
+                markeredgecolor="magenta",
+                markersize=10,
                 linestyle="none",
+                linewidth=10,
             )
 
         ax.plot(
@@ -318,8 +322,45 @@ class ViewBSplineCurve(ViewBSplineBase):
             self.evaluated_curve[1],
             color="navy",
             linestyle="solid",
-            linewidth=2,
+            linewidth=3,
         )
+
+        if _knots_shown:
+            for i, knot_num in enumerate(self.KV):
+                # plot only the first knot of any repeated knot
+                if i == 0:
+                    # print(f"first index {i}")
+                    _str = "$\\mathsf T_{0}$"
+                    k = i  # first evaluated knot index
+                else:
+                    if self.KV[i] == self.KV[i - 1]:
+                        continue
+                    # print(f"subsequent index {i}")
+                    # _Ti = str(int(i + self.DEGREE))
+                    _Ti = str(int(i))
+                    _str = "$\\mathsf T_{" + _Ti + "}$"
+                    k += 1  # next non-repeated knot index in evaluated knots
+                # print(_str)
+                ax.plot(
+                    _evaluated_knots[0][k],
+                    _evaluated_knots[1][k],
+                    color="white",
+                    alpha=0.6,
+                    marker="o",
+                    markersize=14,
+                    markeredgecolor="darkcyan",
+                )  # background circle
+                ax.plot(
+                    _evaluated_knots[0][k],
+                    _evaluated_knots[1][k],
+                    color="black",
+                    marker=_str,
+                    markersize=9,
+                    markeredgecolor="none",
+                )  # knot number text
+
+        # self.fig.patch.set_facecolor("whitesmoke")
+        # ax.set_facecolor("lightgray")
 
         ax.set_xlabel(r"$x$")
         ax.set_ylabel(r"$y$")
@@ -354,16 +395,16 @@ class ViewBSplineCurveFit(ViewBSplineFitBase):
         # manually propigate all other keys and values, with "class" overwrite.
         kwargs["class"] = "curve"  # replace "curvefit" with "curve" now to make curve
         kwargs["coefficients"] = _fit.control_points
-        kwargs["display"] = self.DISPLAY
-        kwargs["dpi"] = self.DPI
+        # kwargs["display"] = self.DISPLAY
+        # kwargs["dpi"] = self.DPI
         kwargs["knot_vector"] = _fit.knot_vector
-        kwargs["latex"] = self.LS
-        kwargs["nbi"] = self.NBI
+        # kwargs["latex"] = self.LS
+        # kwargs["nbi"] = self.NBI
         kwargs["ncp"] = _fit.n_control_points
-        kwargs["serialize"] = self.SERIALIZE
-        kwargs["verbosity"] = self.VERBOSITY
-        kwargs["xticks"] = self.XTICKS
-        kwargs["yticks"] = self.YTICKS
+        # kwargs["serialize"] = self.SERIALIZE
+        # kwargs["verbosity"] = self.VERBOSITY
+        # kwargs["xticks"] = self.XTICKS
+        # kwargs["yticks"] = self.YTICKS
 
         _vbsplinecurve = ViewBSplineCurve(**kwargs)
 
@@ -374,6 +415,7 @@ class ViewBSplineFigure:
         # base = ViewBSplineBase
         ax = base.fig.gca()
         ax.set_aspect("equal")
+        # ax.grid(True, which="major", linestyle="-", color="whitesmoke")
         ax.grid(True, which="major", linestyle="-")
         ax.grid(True, which="minor", linestyle=":")
         # ax.legend(bbox_to_anchor=(1.05, 1), loc="upper left", borderaxespad=0.0)

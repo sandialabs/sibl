@@ -67,6 +67,17 @@
             "console": "integratedTerminal"
         },
         {
+            "name": "view_BSpline_Cottrell_Fig2p20",
+            "type": "python",
+            "request": "launch",
+            "program": "~/sibl/geo/src/ptg/view_bspline.py",
+            "args": [
+                "~/sibl/geo/data/bspline/Cottrell_Fig2p20.json",
+                "--verbose"
+            ],
+            "console": "integratedTerminal"
+        },
+        {
             "name": "view_BSplineFit_Piegl_Ex9p1",
             "type": "python",
             "request": "launch",

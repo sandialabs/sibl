@@ -1,21 +1,5 @@
 {
     "class": "curve",
-    "name": "RoberArgo_curve_example",
-    "degree": 4,
-    "nbi": 8,
-    "ncp": 5,
-    "knot_vector": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1,
-        1
-    ],
     "coefficients": [
         [
             0.2,
@@ -38,6 +22,24 @@
             0.2
         ]
     ],
-    "latex": 0,
+    "control_points_shown": 1,
+    "degree": 4,
+    "knot_vector": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1,
+        1
+    ],
+    "knots_shown": 1,
+    "name": "RoberArgo_curve_example",
+    "nbi": 8,
+    "ncp": 5,
+    "latex": 1,
     "serialize": 0
 }
