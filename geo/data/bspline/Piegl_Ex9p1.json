@@ -4,7 +4,7 @@
     "degree": 3,
     "#degree": 2,
     "knots_shown": 1,
-    "latex": 1,
+    "latex": 0,
     "name": "Piegl_Ex9p1",
     "nbi": 8,
     "samples": [
