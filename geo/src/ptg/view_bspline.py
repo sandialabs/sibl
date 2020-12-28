@@ -310,12 +310,22 @@ class ViewBSplineCurve(ViewBSplineBase):
             ax.plot(
                 _samples_x,
                 _samples_y,
-                marker="x",
-                markeredgecolor="magenta",
-                markersize=10,
+                color="darkorange",
+                alpha=1.0,
                 linestyle="none",
-                linewidth=10,
-            )
+                linewidth="6",
+                marker="+",
+                markersize=20,
+            )  # plus mark
+            ax.plot(
+                _samples_x,
+                _samples_y,
+                color="orange",
+                linestyle="none",
+                marker="D",
+                markerfacecolor="none",
+                markersize=14,
+            )  # diamond border around plus mark
 
         ax.plot(
             self.evaluated_curve[0],
@@ -324,6 +334,18 @@ class ViewBSplineCurve(ViewBSplineBase):
             linestyle="solid",
             linewidth=3,
         )
+
+        if _samples_shown:  # yet another layer for samples, small little dot atop curve
+            _samples_x = np.array(kwargs.get("samples"))[:, 0]
+            _samples_y = np.array(kwargs.get("samples"))[:, 1]
+            ax.plot(
+                _samples_x,
+                _samples_y,
+                color="darkorange",
+                linestyle="none",
+                marker=".",
+                markersize=2,
+            )  # dot
 
         if _knots_shown:
             for i, knot_num in enumerate(self.KV):

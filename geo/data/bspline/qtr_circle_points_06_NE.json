@@ -1,0 +1,38 @@
+{
+    "class": "curvefit",
+    "control_points_shown": 1,
+    "degree": 5,
+    "knots_shown": 1,
+    "latex": 1,
+    "name": "circle_points_06",
+    "nbi": 6,
+    "samples": [
+        [
+            1,
+            0
+        ],
+        [
+            0.951056516,
+            0.309016994
+        ],
+        [
+            0.809016994,
+            0.587785252
+        ],
+        [
+            0.587785252,
+            0.809016994
+        ],
+        [
+            0.309016994,
+            0.951056516
+        ],
+        [
+            0,
+            1
+        ]
+    ],
+    "samples_shown": 1,
+    "serialize": 0,
+    "verbosity": 1
+}
