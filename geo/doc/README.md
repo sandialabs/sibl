@@ -29,6 +29,7 @@ PTG describes a **decoding** process of a physical system that was original **en
 
 * Object-oriented programming (OOP) as a default, functional programming (FP) where appropriate.
 * [PEP 8](https://www.python.org/dev/peps/pep-0008/) via [Black](https://github.com/psf/black)
+* Everitt, Paul.  Test driven design (TDD) and Visual Testing with pytest [tutorials](https://www.jetbrains.com/pycharm/guide/tutorials/visual_pytest/) 10 June 2020
 
 ## Theory
 
