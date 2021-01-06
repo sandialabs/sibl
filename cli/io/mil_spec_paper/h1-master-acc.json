@@ -7,11 +7,11 @@
         "xoffset": -0.00145,
         "old_label": "exp DOT average (n=4)",
         "plot_kwargs": {
-            "label": "current mil-spec experiment average (n=4)",
+            "label": "current mil-spec exp., average (n=4)",
             "linestyle": "solid",
             "linewidth": 4,
             "color": "C0",
-	    "alpha": 0.9
+            "alpha": 0.9
         }
     },
     "exp-1": {
@@ -25,7 +25,7 @@
             "linestyle": "dashdot",
             "linewidth": 1,
             "color": "C0",
-	    "alpha": 0.5
+            "alpha": 0.5
         }
     },
     "exp-2": {
@@ -39,7 +39,7 @@
             "linestyle": "dotted",
             "linewidth": 1,
             "color": "C0",
-	    "alpha": 0.5
+            "alpha": 0.5
         }
     },
     "exp-3": {
@@ -53,7 +53,7 @@
             "linestyle": "dashed",
             "linewidth": 1,
             "color": "C0",
-	    "alpha": 0.5
+            "alpha": 0.5
         }
     },
     "exp-4": {
@@ -67,7 +67,7 @@
             "linestyle": "solid",
             "linewidth": 1,
             "color": "C0",
-	    "alpha": 0.5
+            "alpha": 0.5
         }
     },
     "dot-cg": {
@@ -141,11 +141,40 @@
         "skip_rows": 3,
         "oldlabel": "sim human head (Bob-063f) Wc=500 Hz",
         "plot_kwargs": {
-	    "label": "current mil-spec simulation, human head, SI axis",
+            "label": "current mil-spec sim., human head, SI axis",
             "linewidth": 4,
             "alpha": 0.9,
             "linestyle": "dashed",
             "color": "C1"
+        },
+        "signal_process": {
+            "process1": {
+                "butterworth": {
+                    "cutoff": 300,
+                    "order": 4,
+                    "type": "low"
+                }
+            },
+            "process2": {
+                "gradient": {
+                    "order": 1
+                }
+            }
+        }
+    },
+    "cg-rb": {
+        "class": "model",
+        "folder": "../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-066b/",
+        "file": "rigid_history.csv",
+        "ycolumn": 6,
+        "yscale": -0.001,
+        "skip_rows": 3,
+        "old_label": "sim rigid skull (Bob-066b) Z, Wc=500 Hz",
+        "plot_kwargs": {
+            "label": "modified mil-spec exp., H3 headform, SI axis",
+            "linewidth": 2,
+            "linestyle": "dotted",
+            "color": "darkgreen"
         },
         "signal_process": {
             "process1": {
@@ -192,6 +221,35 @@
             }
         }
     },
+    "cg-rb-y": {
+        "class": "model",
+        "folder": "../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-066b/",
+        "file": "rigid_history.csv",
+        "ycolumn": 5,
+        "yscale": 0.001,
+        "skip_rows": 3,
+        "old_label": "sim rigid skull (Bob-066b) Y, Wc=500 Hz",
+        "plot_kwargs": {
+            "label": "modified mil-spec exp., H3 headform, AP axis",
+            "linewidth": 1,
+            "linestyle": "dashed",
+            "color": "darkred"
+        },
+        "signal_process": {
+            "process1": {
+                "butterworth": {
+                    "cutoff": 300,
+                    "order": 4,
+                    "type": "low"
+                }
+            },
+            "process2": {
+                "gradient": {
+                    "order": 1
+                }
+            }
+        }
+    },
     "cg-deformable-y": {
         "class": "model",
         "folder": "../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-066b/",
@@ -222,23 +280,32 @@
             }
         }
     },
-    "cg-rb": {
+    "exp-aaccel": {
         "class": "model",
-        "folder": "../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-066b/",
+        "folder": "../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-066b",
+        "old_file": "TW_RotVel_10fps.txt",
         "file": "rigid_history.csv",
-        "ycolumn": 6,
-        "yscale": -0.001,
+        "old_ycolumn": 1,
+        "ycolumn": 13,
+        "yscale": -0.01,
+        "old_two_yscale": 0.01,
+        "old_xoffset": 0.004426,
+        "xoffset": -0.004,
+        "old_skip_rows": 0,
         "skip_rows": 3,
+        "old_label": "exp H3 sagittal (X)",
         "plot_kwargs": {
-            "label": "sim rigid skull (Bob-066b) Z, Wc=500 Hz",
-            "linewidth": 1,
-            "linestyle": "dotted",
-            "color": "C4"
+            "label": "modified mil-spec exp., H3 sagittal rotation",
+            "linestyle": "solid",
+            "linewidth": 4,
+            "color": "dimgray",
+            "alpha": 0.5
         },
         "signal_process": {
             "process1": {
-                "butterworth": {
-                    "cutoff": 500,
+                "# butterworth": {
+                    "old_cutoff": 500,
+                    "cutoff": 300,
                     "order": 4,
                     "type": "low"
                 }
@@ -250,23 +317,28 @@
             }
         }
     },
-    "cg-rb-y": {
+    "sim-rb-aaccel": {
         "class": "model",
-        "folder": "../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-066b/",
+        "folder": "../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-066b",
         "file": "rigid_history.csv",
-        "ycolumn": 5,
-        "yscale": 0.001,
+        "ycolumn": 13,
+        "yscale": -0.01,
+        "old_yscale": -1,
+        "xoffset": -0.004,
         "skip_rows": 3,
+        "old_label": "sim rigid skull (bob-066b) sagittal (x)",
         "plot_kwargs": {
-            "label": "sim rigid skull (Bob-066b) Y, Wc=500 Hz",
-            "linewidth": 1,
-            "linestyle": "dashed",
-            "color": "C6"
+            "label": "modified mil-spec exp., skull sagittal rotation",
+            "linestyle": "dashdot",
+            "alpha": 0.8,
+            "linewidth": 2,
+            "color": "navy"
         },
         "signal_process": {
             "process1": {
-                "butterworth": {
-                    "cutoff": 500,
+                "# butterworth": {
+                    "old_cutoff": 500,
+                    "cutoff": 300,
                     "order": 4,
                     "type": "low"
                 }
@@ -281,12 +353,27 @@
     "figure-dot-exps": {
         "class": "view",
         "folder": "output",
-        "model_keys": ["exp-ave","exp-1","exp-2","exp-3","exp-4"],
+        "model_keys": [
+            "exp-ave",
+            "exp-1",
+            "exp-2",
+            "exp-3",
+            "exp-4"
+        ],
         "file": "h1-acc-exp.pdf",
-        "size": [8.0, 6.0],
+        "size": [
+            8.0,
+            6.0
+        ],
         "title": "",
-        "xlim": [0.0, 0.020],
-        "ylim": [-25, 85],
+        "xlim": [
+            0.0,
+            0.020
+        ],
+        "ylim": [
+            -25,
+            85
+        ],
         "xlabel": "time (s)",
         "ylabel": "deceleration (Gs)",
         "details": 0,
@@ -297,12 +384,23 @@
     "figure-dot-exp-iso": {
         "class": "view",
         "folder": "output",
-        "model_keys": ["exp-ave"],
+        "model_keys": [
+            "exp-ave"
+        ],
         "file": "h1-acc-exp-iso.pdf",
-        "size": [8.0, 6.0],
+        "size": [
+            8.0,
+            6.0
+        ],
         "title": "",
-        "xlim": [0.0, 0.020],
-        "ylim": [-25, 85],
+        "xlim": [
+            0.0,
+            0.020
+        ],
+        "ylim": [
+            -25,
+            85
+        ],
         "xlabel": "time (s)",
         "ylabel": "deceleration (Gs)",
         "details": 0,
@@ -312,13 +410,25 @@
     },
     "figure-exp-dot-sim-dot": {
         "class": "view",
-        "model_keys": ["exp-ave", "dot-cg"],
+        "model_keys": [
+            "exp-ave",
+            "dot-cg"
+        ],
         "folder": "output",
         "file": "h1-acc-exp-dot-sim-dot.pdf",
-        "size": [8.0, 6.0],
+        "size": [
+            8.0,
+            6.0
+        ],
         "title": "",
-        "xlim": [0, 0.020],
-        "ylim": [-25, 85],
+        "xlim": [
+            0,
+            0.020
+        ],
+        "ylim": [
+            -25,
+            85
+        ],
         "xlabel": "time (s)",
         "ylabel": "deceleration (Gs)",
         "details": 0,
@@ -328,13 +438,25 @@
     },
     "figure-sim-dot-bot": {
         "class": "view",
-        "model_keys": ["dot-cg","bot-cg"],
+        "model_keys": [
+            "dot-cg",
+            "bot-cg"
+        ],
         "folder": "output",
         "file": "h1-acc-sim-dot-bot.pdf",
-        "size": [8.0, 6.0],
+        "size": [
+            8.0,
+            6.0
+        ],
         "title": "",
-        "xlim": [0, 0.020],
-        "ylim": [-25, 85],
+        "xlim": [
+            0,
+            0.020
+        ],
+        "ylim": [
+            -25,
+            85
+        ],
         "xlabel": "time (s)",
         "ylabel": "deceleration (Gs)",
         "details": 0,
@@ -344,13 +466,25 @@
     },
     "figure-sim-bot-bob": {
         "class": "view",
-        "model_keys": ["bot-cg","bob-cg-low-freq-restart-0"],
+        "model_keys": [
+            "bot-cg",
+            "bob-cg-low-freq-restart-0"
+        ],
         "folder": "output",
         "file": "h1-acc-sim-bot-bob.pdf",
-        "size": [8.0, 6.0],
+        "size": [
+            8.0,
+            6.0
+        ],
         "title": "",
-        "xlim": [0, 0.020],
-        "ylim": [-25, 85],
+        "xlim": [
+            0,
+            0.020
+        ],
+        "ylim": [
+            -25,
+            85
+        ],
         "xlabel": "time (s)",
         "ylabel": "deceleration (Gs)",
         "details": 0,
@@ -360,13 +494,26 @@
     },
     "figure-sim-bob-bor": {
         "class": "view",
-        "model_keys": ["bob-cg-low-freq-restart-0","cg-deformable","cg-deformable-y"],
+        "model_keys": [
+            "bob-cg-low-freq-restart-0",
+            "cg-deformable",
+            "cg-deformable-y"
+        ],
         "folder": "output",
         "file": "h1-acc-sim-bob-bor.pdf",
-        "size": [8.0, 6.0],
+        "size": [
+            8.0,
+            6.0
+        ],
         "title": "",
-        "xlim": [0, 0.020],
-        "ylim": [-25, 85],
+        "xlim": [
+            0,
+            0.020
+        ],
+        "ylim": [
+            -25,
+            85
+        ],
         "xlabel": "time (s)",
         "ylabel": "deceleration (Gs)",
         "details": 0,
@@ -376,13 +523,28 @@
     },
     "figure-sim-bob-bor-bcs": {
         "class": "view",
-        "model_keys": ["bob-cg-low-freq-restart-0","cg-deformable","cg-rb","cg-deformable-y","cg-rb-y"],
+        "model_keys": [
+            "bob-cg-low-freq-restart-0",
+            "cg-deformable",
+            "cg-rb",
+            "cg-deformable-y",
+            "cg-rb-y"
+        ],
         "folder": "output",
         "file": "h1-acc-sim-bob-bor-bcs.pdf",
-        "size": [8.0, 6.0],
+        "size": [
+            8.0,
+            6.0
+        ],
         "title": "",
-        "xlim": [0, 0.020],
-        "ylim": [-25, 85],
+        "xlim": [
+            0,
+            0.020
+        ],
+        "ylim": [
+            -25,
+            85
+        ],
         "xlabel": "time (s)",
         "ylabel": "deceleration (Gs)",
         "details": 0,
@@ -392,28 +554,59 @@
     },
     "figure-jtrauma-paper": {
         "class": "view",
-        "model_keys": ["exp-ave","exp-1","exp-2","exp-3","exp-4","bob-cg-low-freq-restart-0","cg-deformable","cg-deformable-y"],
+        "model_keys": [
+            "exp-ave",
+            "exp-1",
+            "exp-2",
+            "exp-3",
+            "exp-4",
+            "cg-rb",
+            "cg-rb-y",
+            "bob-cg-low-freq-restart-0",
+            "cg-deformable",
+            "cg-deformable-y",
+            "exp-aaccel",
+            "sim-rb-aaccel"
+        ],
         "folder": "output",
         "file": "h1-acc-jtrama-composite.pdf",
-        "size": [8.0, 6.0],
+        "size": [
+            8.0,
+            6.0
+        ],
         "title": "",
-        "xlim": [0, 0.020],
-        "ylim": [-25, 85],
+        "xlim": [
+            0,
+            0.020
+        ],
+        "ylim": [
+            -25,
+            85
+        ],
         "xlabel": "time (s)",
-        "ylabel": "deceleration (Gs)",
+        "ylabel": "translational deceleration (Gs) and angular acceleration (krad/s$^2$)",
         "details": 0,
         "display": 1,
         "latex": 1,
-        "serialize": 1
+        "serialize": 0
     },
     "figure-composite": {
         "class": "view",
         "folder": "output",
         "file": "h1-acc-composite.pdf",
-        "size": [8.0, 6.0],
+        "size": [
+            8.0,
+            6.0
+        ],
         "title": "",
-        "xlim": [0, 0.020],
-        "ylim": [-25, 85],
+        "xlim": [
+            0,
+            0.020
+        ],
+        "ylim": [
+            -25,
+            85
+        ],
         "xlabel": "time (s)",
         "ylabel": "deceleration (Gs)",
         "details": 0,

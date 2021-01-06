@@ -1,0 +1,316 @@
+{
+    "exp-adisp": {
+        "class": "model",
+        "folder": "../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-066b",
+        "file": "TW_RotVel_10fps.txt",
+        "ycolumn": 1,
+        "xoffset": 0.004426,
+        "skip_rows": 0,
+        "plot_kwargs": {
+            "label": "exp H3 sagittal (X)",
+            "linestyle": "solid",
+            "linewidth": 4,
+            "color": "C0"
+        },
+        "signal_process": {
+            "process1": {
+                "# butterworth": {
+                    "cutoff": 500,
+                    "order": 4,
+                    "type": "low"
+                }
+            },
+            "process2": {
+                "integration": {
+                    "order": 1,
+                    "initial_conditions": [
+                        0
+                    ],
+                    "serialize": 0,
+                    "folder": ".",
+                    "file": "angular_position_x.csv"
+                }
+            }
+        }
+    },
+    "exp-avel": {
+        "class": "model",
+        "folder": "../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-066b",
+        "file": "TW_RotVel_10fps.txt",
+        "ycolumn": 1,
+        "xoffset": 0.004426,
+        "skip_rows": 0,
+        "plot_kwargs": {
+            "label": "exp H3 sagittal (X)",
+            "linestyle": "solid",
+            "linewidth": 4,
+            "color": "C0"
+        }
+    },
+    "exp-aaccel": {
+        "class": "model",
+        "folder": "../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-066b",
+        "file": "TW_RotVel_10fps.txt",
+        "ycolumn": 1,
+        "xoffset": 0.004426,
+        "skip_rows": 0,
+        "plot_kwargs": {
+            "label": "exp H3 sagittal (X)",
+            "linestyle": "solid",
+            "linewidth": 4,
+            "color": "C0"
+        },
+        "signal_process": {
+            "process1": {
+                "# butterworth": {
+                    "cutoff": 500,
+                    "order": 4,
+                    "type": "low"
+                }
+            },
+            "process2": {
+                "gradient": {
+                    "order": 1
+                }
+            }
+        }
+    },
+    "sim-rb-avel": {
+        "class": "model",
+        "folder": "../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-066b",
+        "file": "rigid_history.csv",
+        "ycolumn": 13,
+        "yscale": -1,
+        "skip_rows": 3,
+        "plot_kwargs": {
+            "label": "sim rigid skull (Bob-066b) sagittal (X)",
+            "linestyle": "dashdot",
+            "alpha": 0.8,
+            "linewidth": 3,
+            "color": "C1"
+        }
+    },
+    "sim-rb-adisp": {
+        "class": "model",
+        "folder": "../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-066b",
+        "file": "rigid_history.csv",
+        "ycolumn": 13,
+        "yscale": -1,
+        "skip_rows": 3,
+        "plot_kwargs": {
+            "label": "sim rigid skull (Bob-066b) sagittal (X)",
+            "linestyle": "dashdot",
+            "alpha": 0.8,
+            "linewidth": 3,
+            "color": "C1"
+        },
+        "signal_process": {
+            "process1": {
+                "# butterworth": {
+                    "cutoff": 500,
+                    "order": 4,
+                    "type": "low"
+                }
+            },
+            "process2": {
+                "integration": {
+                    "order": 1,
+                    "initial_conditions": [
+                        0
+                    ],
+                    "serialize": 0,
+                    "folder": ".",
+                    "file": "angular_position_x.csv"
+                }
+            }
+        }
+    },
+    "sim-rb-aaccel": {
+        "class": "model",
+        "folder": "../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-066b",
+        "file": "rigid_history.csv",
+        "ycolumn": 13,
+        "yscale": -1,
+        "skip_rows": 3,
+        "plot_kwargs": {
+            "label": "sim rigid skull (Bob-066b) sagittal (X)",
+            "linestyle": "dashdot",
+            "alpha": 0.8,
+            "linewidth": 3,
+            "color": "C1"
+        },
+        "signal_process": {
+            "process1": {
+                "# butterworth": {
+                    "cutoff": 500,
+                    "order": 4,
+                    "type": "low"
+                }
+            },
+            "process2": {
+                "gradient": {
+                    "order": 1
+                }
+            }
+        }
+    },
+    "sim-deform-adisp": {
+        "class": "model",
+        "folder": "../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-066b",
+        "file": "history_tpav.csv",
+        "ycolumn": 1,
+        "yscale": -1,
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "linestyle": "solid",
+            "linewidth": 1,
+            "alpha": 0.5,
+            "color": "black",
+            "label": "tpav deformable (Bob-066b)"
+        },
+        "signal_process": {
+            "process1": {
+                "integration": {
+                    "order": 1,
+                    "initial_conditions": [
+                        0
+                    ],
+                    "serialize": 0,
+                    "folder": ".",
+                    "file": "angular_position_x.csv"
+                }
+            }
+        }
+    },
+    "sim-deform-avel": {
+        "class": "model",
+        "folder": "../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-066b",
+        "file": "history_tpav.csv",
+        "ycolumn": 1,
+        "yscale": -1,
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "linestyle": "solid",
+            "linewidth": 1,
+            "alpha": 0.5,
+            "color": "black",
+            "label": "tpav deformable (Bob-066b)"
+        }
+    },
+    "sim-deform-aaccel": {
+        "class": "model",
+        "folder": "../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-066b",
+        "file": "history_tpav.csv",
+        "ycolumn": 1,
+        "yscale": -1,
+        "skip_rows": 1,
+        "plot_kwargs": {
+            "linestyle": "solid",
+            "linewidth": 1,
+            "alpha": 0.5,
+            "color": "black",
+            "label": "tpav deformable (Bob-066b)"
+        },
+        "signal_process": {
+            "process1": {
+                "# butterworth": {
+                    "cutoff": 500,
+                    "order": 4,
+                    "type": "low"
+                }
+            },
+            "process2": {
+                "gradient": {
+                    "order": 1
+                }
+            }
+        }
+    },
+    "figure-rot-vel": {
+        "class": "view",
+        "model_keys": [
+            "sim-rb-avel",
+            "exp-avel",
+            "sim-deform-avel"
+        ],
+        "folder": ".",
+        "file": "h1-vel-bor.pdf",
+        "size": [
+            8.0,
+            6.0
+        ],
+        "xlabel": "time (s)",
+        "ylabel": "angular velocity (rad/s)",
+        "yaxis_rhs": {
+            "scale": 57.2958,
+            "label": "angular velocity (deg/s)"
+        },
+        "title": "",
+        "xlim": [
+            0,
+            0.020
+        ],
+        "details": 0,
+        "display": 1,
+        "latex": 1,
+        "serialize": 0
+    },
+    "figure-rot-acc": {
+        "class": "view",
+        "model_keys": [
+            "sim-rb-aaccel",
+            "exp-aaccel",
+            "sim-deform-aaccel"
+        ],
+        "folder": ".",
+        "file": "h1-acc-bor.pdf",
+        "size": [
+            8.0,
+            6.0
+        ],
+        "xlabel": "time (s)",
+        "ylabel": "angular acceleration (rad/s$^2$)",
+        "yaxis_rhs": {
+            "scale": 57.2958,
+            "label": "angular acceleration (deg/s$^2$)"
+        },
+        "title": "",
+        "xlim": [
+            0,
+            0.020
+        ],
+        "details": 0,
+        "display": 1,
+        "latex": 1,
+        "serialize": 0
+    },
+    "figure-rot-dis": {
+        "class": "view",
+        "model_keys": [
+            "sim-rb-adisp",
+            "exp-adisp",
+            "sim-deform-adisp"
+        ],
+        "folder": ".",
+        "file": "h1-dis-bor.pdf",
+        "size": [
+            8.0,
+            6.0
+        ],
+        "xlabel": "time (s)",
+        "ylabel": "angular displacement (rad)",
+        "yaxis_rhs": {
+            "scale": 57.2958,
+            "label": "angular displacement (deg)"
+        },
+        "title": "",
+        "xlim": [
+            0,
+            0.020
+        ],
+        "details": 0,
+        "display": 0,
+        "latex": 1,
+        "serialize": 0
+    }
+}
