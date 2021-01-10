@@ -12,6 +12,16 @@
             "console": "integratedTerminal"
         },
         {
+            "name": "xyfigure client",
+            "type": "python",
+            "request": "launch",
+            "program": "~/sibl/cli/src/xyfigure/client.py",
+            "args": [
+                "~/sibl/cli/io/mil_spec_paper/h1-master-acc.json"
+            ],
+            "console": "integratedTerminal"
+        },
+        {
             "name": "view_Bezier_Georgia_e",
             "type": "python",
             "request": "launch",

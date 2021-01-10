@@ -22,7 +22,7 @@
 (base) $ conda env list # verify sibltest is absent
 
 # create the actual environment siblenv
-(base) $ conda create --name siblenv python=3.8 black dash flake8 matplotlib notebook pandas pillow pytest pytest-cov seaborn scipy xlrd
+(base) $ conda create --name siblenv python=3.8 black dash flake8 matplotlib notebook pandas pillow pytest pytest-cov seaborn scikit-image scipy xlrd
 (base) $ conda activate siblenv
 (siblenv) $ cd ~/sibl/cli/; pip install -e . # for xyfigure
 (siblenv) $ cd ~/sibl/geo/; pip install -e . # for xyfigure PTG extension
@@ -55,6 +55,7 @@ dependencies:
   - pytest
   - pytest-cov
   - seaborn
+  - scikit-image
   - scipy
   - xlrd
 ```

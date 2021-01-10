@@ -3,15 +3,16 @@ channels:
   - defaults
 dependencies:
   - python=3.8
+  - black
   - dash
   - flake8
   - ipykernel
   - matplotlib
-  - black
-  - scipy
-  - xlrd
+  - pandas
   - pillow
   - pytest
   - pytest-cov
   - seaborn
-  - pandas
+  - scikit-image
+  - scipy
+  - xlrd

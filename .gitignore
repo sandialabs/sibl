@@ -48,3 +48,6 @@ cover/
 # Ignore ircad data folder
 geo/data/ircad_numpy/*
 geo/notebooks/.ipynb*
+
+# ignore output directory
+output/

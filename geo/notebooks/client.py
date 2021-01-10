@@ -1,4 +1,61 @@
 import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+from mpl_toolkits.mplot3d.art3d import Poly3DCollection
+
+from skimage.morphology import disk, ball
+from skimage.draw import ellipsoid
+from skimage import measure
+
+# https://scikit-image.org/docs/stable/auto_examples/numpy_operations/plot_structuring_elements.html#sphx-glr-download-auto-examples-numpy-operations-plot-structuring-elements-py
+
+# fig = plt.figure(figsize=(12, 4))
+fig = plt.figure(figsize=(8, 8))
+# create a disk 2D
+# ax = fig.add_subplot(1, 3, 1)
+ax = fig.add_subplot(111)
+d = disk(4)
+ax.imshow(d, cmap="Paired", vmin=0, vmax=12)
+for i in range(d.shape[0]):
+    for j in range(d.shape[1]):
+        ax.text(j, i, d[i, j], ha="center", va="center", color="white")
+fig.tight_layout()
+plt.show()
+
+# create a ball 3D
+fig = plt.figure(figsize=(8, 8))
+# ax = fig.add_subplot(1, 3, 2, projection="3d")
+ax = fig.add_subplot(111, projection="3d")
+b = ball(4)
+ax.voxels(b)
+dmax = 10
+ax.set_xlim(0, dmax)
+ax.set_ylim(0, dmax)
+ax.set_zlim(0, dmax)
+fig.tight_layout()
+plt.show()
+
+# create ellipsoid ball
+fig = plt.figure(figsize=(8, 8))
+# ax = fig.add_subplot(1, 3, 3, projection="3d")
+ax = fig.add_subplot(111, projection="3d")
+ell = ellipsoid(4, 4, 4, levelset=True)
+
+# Marching cubes to create data for surface mesh
+verts, faces, normals, values = measure.marching_cubes(ell, 0)
+
+# fancy indexing: `verts[faces]` to create set of triangles
+mesh = Poly3DCollection(verts[faces])
+mesh.set_edgecolor("black")
+ax.add_collection3d(mesh)
+
+ax.set_xlim(0, dmax)
+ax.set_ylim(0, dmax)
+ax.set_zlim(0, dmax)
+
+fig.tight_layout()
+plt.show()
+
 
 # References:
 # Smooth Voxel Terrain (Part 2)

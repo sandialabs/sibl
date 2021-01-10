@@ -10,6 +10,8 @@ from ptg.pixel_shape import PixelCylinder as pixel_cylinder
 
 # > pytest --collect-only
 
+# Sphere and cylinder (stacked disc) verified against scikit-image 2021-01-03.
+
 
 def test_sphere_construction_and_defaults():
     sphere = pixel_sphere()
