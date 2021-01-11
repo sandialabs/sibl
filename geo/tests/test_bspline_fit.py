@@ -78,6 +78,33 @@ class Test(TestCase):
             )
 
     def test_004_Piegl_example_9p1(self):
+        """Tests Piegl Example 9.1 with numerical results from
+        GitHub repository orbingol / geomdl-examples, viz.,
+        https://github.com/orbingol/geomdl-examples/blob/master/fitting/interpolation/global_curve2d.py
+        and
+        https://nurbs-python.readthedocs.io/en/5.x/fitting.html
+
+        Example usage:
+
+        $ conda activate nurbspyenv
+        $ cd nurbspy/
+        $ python
+        > from geomdl import fitting
+        > from geomdl.visualization import VisMPL as vis
+        > points = ((0, 0), (3, 4), (-1, 4), (-4, 0), (-4, -3))
+        > degree = 3  # cubic curve
+        > curve = fitting.interpolate_curve(points, degree)
+        > dir(curve)
+        >
+        > curve.ctrlpts
+        [[0.0, 0.0], [7.3169635171119936, 3.6867775257587367], [-2.958130565851424, 6.678276528176592], [-4.494953466891109, -0.6736915062424752], [-4.0, -3.0]]
+        >
+        > curve.knotvector
+        [0.0, 0.0, 0.0, 0.0, 0.5490196078431372, 1.0, 1.0, 1.0, 1.0]
+        >
+        > fitting.compute_params_curve(points)
+        [0.0, 0.29411764705882354, 0.5294117647058824, 0.8235294117647058, 1.0]
+        """
         b = bsf.BSplineFit(
             self.sample_points, self.degree, self.verbosity, self.sample_time_method
         )
@@ -116,6 +143,34 @@ class Test(TestCase):
         self.assertTrue(Frobenius_norm < self.TOL)
 
     def test_005_Piegl_example_9p1_Bingol_centripetal(self):
+        """Tests Piegl Example 9.1, but modified from "chord" method
+        to "centripetal" method, with numerical results from
+        GitHub repository orbingol / geomdl-examples, viz.,
+        https://github.com/orbingol/geomdl-examples/blob/master/fitting/interpolation/global_curve2d.py
+        and
+        https://nurbs-python.readthedocs.io/en/5.x/fitting.html
+
+        Example usage:
+
+        $ conda activate nurbspyenv
+        $ cd nurbspy/
+        $ python
+        > from geomdl import fitting
+        > from geomdl.visualization import VisMPL as vis
+        > points = ((0, 0), (3, 4), (-1, 4), (-4, 0), (-4, -3))
+        > degree = 3  # cubic curve
+        > c2 = fitting.interpolate_curve(points, degree, centripetal=True)
+        > dir(c2)
+        >
+        > c2.ctrlpts
+        [[0.0, 0.0], [6.844809006430229, 3.6830706809273708], [-2.780244455052183, 7.09266371886821], [-4.75497856997568, -1.614237702476598], [-4.0, -3.0]]
+        >
+        > c2.knotvector
+        [0.0, 0.0, 0.0, 0.0, 0.5259213896761958, 1.0, 1.0, 1.0, 1.0]
+        >
+        > fitting.compute_params_curve(points, centripetal=True)
+        [0.0, 0.27255205692072176, 0.516330027593572, 0.7888820845142939, 1.0]
+        """
         centripetal_sample_method = "centripetal"
 
         b = bsf.BSplineFit(
@@ -137,8 +192,6 @@ class Test(TestCase):
         self.assertTrue(self.same(calc_sample_times, known_sample_times))
 
         calc_knot_vector = b.knot_vector
-        #   # Piegl, page 368, known knot vector is [0, 0, 0, 0, 28/51, 1, 1, 1, 1]
-        #   # known_knot_vector = (0.0, 0.0, 0.0, 0.0, 0.549019607843137, 1.0, 1.0, 1.0, 1.0)
         # evaluated 2020-12-21 reference:
         #  https://github.com/orbingol/geomdl-examples/blob/master/fitting/interpolation/global_curve2d.py
         known_knot_vector = (0.0, 0.0, 0.0, 0.0, 0.525921389676195, 1.0, 1.0, 1.0, 1.0)
@@ -232,6 +285,9 @@ class Test(TestCase):
         Frobenius_norm = np.linalg.norm(difference_matrix, ord="fro")
         TOL_MATRIX = 0.0012  # some small number larger than self.TOL, book 3 sig fig
         self.assertTrue(Frobenius_norm < TOL_MATRIX)
+
+        # Forthcoming unit test:  B-spline surface reconstruction from fitting.
+        # https://github.com/orbingol/geomdl-examples/blob/master/fitting/interpolation/global_surface.py
 
 
 # def test_000_simple_least_squares(self):
