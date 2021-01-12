@@ -6,6 +6,7 @@ $ cd ~/sibl
 $ pytest geo/tests/test_bspline.py -v
 """
 from unittest import TestCase, main
+import pytest
 
 import numpy as np
 
@@ -232,7 +233,8 @@ class TestBSpline(TestCase):
             P_known_e = [e[i] for e in P_known]  # e is evaluation point
             self.assertTrue(self.same(P_known_e, y[:, i]))
 
-        # test_102_Bingol_3D_surface(self):
+    @pytest.mark.skip(reason="work in progress")
+    def test_102_Bingol_3D_surface(self):
         """Tests creation and plotting of BSpline surface, compared to
         GitHub repository orbingol
         https://github.com/orbingol/NURBS-Python/blob/5.x/geomdl/BSpline.py
@@ -259,12 +261,129 @@ class TestBSpline(TestCase):
         > surf.knotvector_v = [0, 0, 0, 1, 1, 1]
         > surf.delta = 0.20  # for testing, originally was 0.05 for smoothness
         > surf.vis = vis.VisSurface()
+        > surf.vis = vis.VisSurface(vis.VisConfig(alpha=0.8))
         >
         > surface_points = surf.evalpts
         > surf.render()
         # 0.20, with 1.0 / 0.20 = 5.0,
         # gives a matrix of [5x5] evalution points found by
         > surf.evalpts
+        """
+        known_surface_evaluation_points = [
+            [
+                [0.0, 0.0, 0.0],
+                [0.0, 2.0, -0.1875],
+                [0.0, 4.0, -0.75],
+                [0.0, 6.0, -1.6875],
+                [0.0, 8.0, -3.0],
+            ],
+            [
+                [1.5, 0.0, 2.53125],
+                [1.5, 2.0, 1.353515625],
+                [1.5, 4.0, 0.3984375],
+                [1.5, 6.0, -0.333984375],
+                [1.5, 8.0, -0.84375],
+            ],
+            [
+                [3.0, 0.0, 2.25],
+                [3.0, 2.0, 1.171875],
+                [3.0, 4.0, 0.5625],
+                [3.0, 6.0, 0.421875],
+                [3.0, 8.0, 0.75],
+            ],
+            [
+                [4.5, 0.0, 0.84375],
+                [4.5, 2.0, 0.076171875],
+                [4.5, 4.0, -0.1171875],
+                [4.5, 6.0, 0.263671875],
+                [4.5, 8.0, 1.21875],
+            ],
+            [
+                [6.0, 0.0, 0.0],
+                [6.0, 2.0, -1.125],
+                [6.0, 4.0, -1.5],
+                [6.0, 6.0, -1.125],
+                [6.0, 8.0, 0.0],
+            ],
+        ]
+
+    @pytest.mark.skip(reason="work in progress")
+    def test_103_Bingol_3D_surface(self):
+        """Tests creation and plotting of BSpline surface, compared to
+        GitHub repository orbingol
+        https://nurbs-python.readthedocs.io/en/5.x//visualization-3.py
+
+        Example usage:
+
+        $ conda activate nurbspyenv
+        $ cd nurbspy/
+        $ python
+        > from geomdl import BSpline
+        > from geomdl.visualization import VisMPL as vis
+        >
+        > surf = BSpline.Surface()
+        > surf.degree_u = 3
+        > surf.degree_v = 3
+        > control_points = [
+            [
+                [-25.0, -25.0, -10.0],
+                [-25.0, -15.0, -5.0],
+                [-25.0, -5.0, 0.0],
+                [-25.0, 5.0, 0.0],
+                [-25.0, 15.0, -5.0],
+                [-25.0, 25.0, -10.0]
+            ],
+            [
+                [-15.0, -25.0, -8.0],
+                [-15.0, -15.0, -4.0],
+                [-15.0, -5.0, -4.0],
+                [-15.0, 5.0, -4.0],
+                [-15.0, 15.0, -4.0],
+                [-15.0, 25.0, -8.0]
+            ],
+            [
+                [-5.0, -25.0, -5.0],
+                [-5.0, -15.0, -3.0],
+                [-5.0, -5.0, -8.0],
+                [-5.0, 5.0, -8.0],
+                [-5.0, 15.0, -3.0],
+                [-5.0, 25.0, -5.0]
+            ],
+            [
+                [5.0, -25.0, -3.0],
+                [5.0, -15.0, -2.0],
+                [5.0, -5.0, -8.0],
+                [5.0, 5.0, -8.0],
+                [5.0, 15.0, -2.0],
+                [5.0, 25.0, -3.0]
+            ],
+            [
+                [15.0, -25.0, -8.0],
+                [15.0, -15.0, -4.0],
+                [15.0, -5.0, -4.0],
+                [15.0, 5.0, -4.0],
+                [15.0, 15.0, -4.0],
+                [15.0, 25.0, -8.0]
+            ],
+            [
+                [25.0, -25.0, -10.0],
+                [25.0, -15.0, -5.0],
+                [25.0, -5.0, 2.0],
+                [25.0, 5.0, 2.0],
+                [25.0, 15.0, -5.0],
+                [25.0, 25.0, -10.0]
+            ]
+        ]
+        > surf.ctrlpts2d = control_points
+        > surf.knotvector_u = [0.0, 0.0, 0.0, 0.0, 1.0, 2.0, 3.0, 3.0, 3.0, 3.0]
+        > surf.knotvector_v = [0.0, 0.0, 0.0, 0.0, 1.0, 2.0, 3.0, 3.0, 3.0, 3.0]
+        > surf.delta = 0.20  # surf.delta = 0.025
+        > surf.evaluate()
+
+        > surf.vis = vis.VisSurface(vis.VisConfig(alpha=0.8))
+        >
+        > surface_points = surf.evalpts
+        > surf.render()
         """
 
 
