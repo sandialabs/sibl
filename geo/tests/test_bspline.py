@@ -232,6 +232,41 @@ class TestBSpline(TestCase):
             P_known_e = [e[i] for e in P_known]  # e is evaluation point
             self.assertTrue(self.same(P_known_e, y[:, i]))
 
+        # test_102_Bingol_3D_surface(self):
+        """Tests creation and plotting of BSpline surface, compared to
+        GitHub repository orbingol
+        https://github.com/orbingol/NURBS-Python/blob/5.x/geomdl/BSpline.py
+
+        Example usage:
+
+        $ conda activate nurbspyenv
+        $ cd nurbspy/
+        $ python
+        > from geomdl import BSpline
+        > from geomdl.visualization import VisMPL as vis
+        >
+        > surf = BSpline.Surface()
+        > surf.degree_u = 3
+        > surf.degree_v = 2
+        > control_points = [
+            [0, 0, 0], [0, 4, 0], [0, 8, -3],
+            [2, 0, 6], [2, 4, 0], [2, 8, 0],
+            [4, 0, 0], [4, 4, 0], [4, 8, 3],
+            [6, 0, 0], [6, 4, -3], [6, 8, 0]
+        ]
+        > surf.set_ctrlpts(control_points, 4, 3)
+        > surf.knotvector_u = [0, 0, 0, 0, 1, 1, 1, 1]
+        > surf.knotvector_v = [0, 0, 0, 1, 1, 1]
+        > surf.delta = 0.20  # for testing, originally was 0.05 for smoothness
+        > surf.vis = vis.VisSurface()
+        >
+        > surface_points = surf.evalpts
+        > surf.render()
+        # 0.20, with 1.0 / 0.20 = 5.0,
+        # gives a matrix of [5x5] evalution points found by
+        > surf.evalpts
+        """
+
 
 # retain main for debugging this file in VS code
 if __name__ == "__main__":
