@@ -7,7 +7,7 @@
         "xoffset": -0.00145,
         "old_label": "exp DOT average (n=4)",
         "plot_kwargs": {
-            "label": "current mil-spec exp., average (n=4)",
+            "label": "linear exp., DOT headform, SI axis",
             "linestyle": "solid",
             "linewidth": 4,
             "color": "C0",
@@ -141,7 +141,7 @@
         "skip_rows": 3,
         "oldlabel": "sim human head (Bob-063f) Wc=500 Hz",
         "plot_kwargs": {
-            "label": "current mil-spec sim., human head, SI axis",
+            "label": "linear sim., human head, SI axis",
             "linewidth": 4,
             "alpha": 0.9,
             "linestyle": "dashed",
@@ -171,7 +171,7 @@
         "skip_rows": 3,
         "old_label": "sim rigid skull (Bob-066b) Z, Wc=500 Hz",
         "plot_kwargs": {
-            "label": "modified mil-spec exp., H3 headform, SI axis",
+            "label": "modified exp., H3 headform, SI axis",
             "linewidth": 2,
             "linestyle": "dotted",
             "color": "darkgreen"
@@ -200,7 +200,7 @@
         "skip_rows": 3,
         "old_label": "sim human head (Bob-066b) Z, Wc=500 Hz",
         "plot_kwargs": {
-            "label": "modified mil-spec sim., human head, SI axis",
+            "label": "modified sim., human head, SI axis",
             "linewidth": 3,
             "alpha": 0.9,
             "linestyle": "dashdot",
@@ -230,7 +230,7 @@
         "skip_rows": 3,
         "old_label": "sim rigid skull (Bob-066b) Y, Wc=500 Hz",
         "plot_kwargs": {
-            "label": "modified mil-spec exp., H3 headform, AP axis",
+            "label": "modified exp., H3 headform, AP axis",
             "linewidth": 1,
             "linestyle": "dashed",
             "color": "darkred"
@@ -259,7 +259,7 @@
         "skip_rows": 3,
         "old_label": "sim human head (Bob-066b) Y, Wc=500 Hz",
         "plot_kwargs": {
-            "label": "modified mil-spec sim., human head, AP axis",
+            "label": "modified sim., human head, AP axis",
             "linewidth": 3,
             "alpha": 0.9,
             "linestyle": "dotted",
@@ -295,7 +295,7 @@
         "skip_rows": 3,
         "old_label": "exp H3 sagittal (X)",
         "plot_kwargs": {
-            "label": "modified mil-spec exp., H3 sagittal rotation",
+            "label": "modified exp., H3 sagittal rotation",
             "linestyle": "solid",
             "linewidth": 4,
             "color": "dimgray",
@@ -328,7 +328,7 @@
         "skip_rows": 3,
         "old_label": "sim rigid skull (bob-066b) sagittal (x)",
         "plot_kwargs": {
-            "label": "modified mil-spec exp., skull sagittal rotation",
+            "label": "modified exp., skull sagittal rotation",
             "linestyle": "dashdot",
             "alpha": 0.8,
             "linewidth": 2,
@@ -588,7 +588,7 @@
         "details": 0,
         "display": 1,
         "latex": 1,
-        "serialize": 0
+        "serialize": 1
     },
     "figure-composite": {
         "class": "view",
