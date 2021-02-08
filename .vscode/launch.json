@@ -33,6 +33,28 @@
             "console": "integratedTerminal"
         },
         {
+            "name": "view_Bezier_Utah_teapot",
+            "type": "python",
+            "request": "launch",
+            "program": "~/sibl/geo/src/ptg/view_bezier.py",
+            "args": [
+                "~/sibl/geo/data/bezier/utah-teapot-config.json",
+                "--verbose"
+            ],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "view_Bezier_Utah_teapot_lid_handle",
+            "type": "python",
+            "request": "launch",
+            "program": "~/sibl/geo/src/ptg/view_bezier.py",
+            "args": [
+                "~/sibl/geo/data/bezier/utah-teapot-lid-handle-config.json",
+                "--verbose"
+            ],
+            "console": "integratedTerminal"
+        },
+        {
             "name": "view_BSpline_recover_bezier_linear",
             "type": "python",
             "request": "launch",

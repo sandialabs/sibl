@@ -5,10 +5,10 @@
     "camera-elevation": 15,
     "camera-azimuth": -75,
     "control-nets": "utah-teapot-control-nets.csv",
-    "#control-nets-shown": [
-        0
-    ],
     "control-nets-shown": [
+        3
+    ],
+    "#control-nets-shown": [
         0,
         1,
         2,
@@ -20,7 +20,7 @@
         8,
         9
     ],
-    "control-nets-linewidth": 0,
+    "control-nets-linewidth": 1,
     "#control-nets-indices": [
         0,
         "rim",
@@ -44,49 +44,43 @@
         "bottom"
     ],
     "control-points": "utah-teapot-control-points.csv",
-    "control-points-label": false,
-    "control-points-shown": false,
+    "control-points-label": true,
+    "control-points-shown": true,
     "data-path": ".",
     "interactive": true,
     "latex": false,
     "nti_divisions": 3,
     "serialize": false,
     "surface-triangulation": true,
-    "triangulation-alpha": 0.8,
+    "triangulation-alpha": 0.9,
     "xlabel": "$x$ (length units)",
     "ylabel": "$y$ (length units)",
     "zlabel": "$z$ (length units)",
     "xlim": [
         0,
-        4
+        0.75
     ],
     "ylim": [
-        -4,
+        -0.75,
         0
     ],
     "zlim": [
-        0,
-        4
+        2.50,
+        3.25
     ],
     "xticks": [
         0.0,
-        1.0,
-        2.0,
-        3.0,
-        4.0
+        0.25,
+        0.5
     ],
     "yticks": [
-        -4.0,
-        -3.0,
-        -2.0,
-        -1.0,
+        -0.5,
+        -0.25,
         0.0
     ],
     "zticks": [
-        0.0,
-        1.0,
-        2.0,
+        2.75,
         3.0,
-        4.0
+        3.25
     ]
 }

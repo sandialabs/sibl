@@ -159,6 +159,9 @@ class ViewBezier:
         ZTICKS = kwargs.get("zticks", None)
 
         Z_AXIS_LABEL_INVERTED = kwargs.get("z-axis-label-inverted", True)
+        INTERACTIVE = kwargs.get(
+            "interactive", False
+        )  # True shows plot, False does not
         SERIALZE = kwargs.get("serialize", False)
         LATEX = kwargs.get("latex", False)
 
@@ -512,8 +515,10 @@ class ViewBezier:
         ax.view_init(elev=camera_elevation, azim=camera_azimuth)
 
         # plt.ioff()  # interactivity off
-        # plt.show()
-        plt.show(block=False)
+        if INTERACTIVE:
+            plt.show()
+        else:
+            plt.show(block=False)
 
         if SERIALZE:
             extension = ".pdf"  # or ".svg"
