@@ -34,16 +34,12 @@ $ (base) [~/sibl] git add, git commit -m "message", git push
 $ (base) [~/sibl]$ conda activate siblenv
 $ (siblenv) [~/sibl]$ # development
 #
-# --------
-# unittest
-# --------
-# check unit tests (soon-to-be-standard with pytest)
+# ------
+# pytest
+# ------
+# check unit tests
 $ (siblenv) [~/sibl]$ pytest # unit tests must pass prior to push to repository
 $ (siblenv) [~/sibl]$ pytest -v # for more verbose unittest output
-#
-# check unit tests (soon-to-be-deprecated with unittest)
-$ (siblenv) [~/sibl]$ python -m unittest # unit tests must pass prior to push to repository
-$ (siblenv) [~/sibl]$ python -m unittest -v # for more verbose unittest output
 #
 # ---------
 # blacktest
