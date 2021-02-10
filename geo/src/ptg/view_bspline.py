@@ -105,7 +105,7 @@ class ViewBase(ABC):
         self.DEGREE = kwargs.get("degree")  # 0 constant, 1 linear, 2 quadratic, etc.
 
         # get config specification, specify defaults otherwise
-        self.DISPLAY = kwargs.get("display", True)  # show figure to screen
+        self.DISPLAY = kwargs.get("display", False)  # show figure to screen
         self.DPI = kwargs.get("dpi", 100)  # dots per inch
 
         self.LATEX = kwargs.get("latex", False)  # use LaTeX instead of default fonts
@@ -202,7 +202,7 @@ class ViewBSplineBasis(ViewBSplineBase):
             coef = np.zeros(self.NCP)
             coef[i] = 1.0
 
-            _B = bsp.BSpline(self.KV, coef, self.DEGREE)
+            _B = bsp.Curve(self.KV, coef, self.DEGREE)
 
             if _B.is_valid():
                 _y = _B.evaluate(self.evaluation_times)
@@ -273,7 +273,7 @@ class ViewBSplineCurve(ViewBSplineBase):
 
             coef = np.array(COEF)[:, i]
 
-            _B = bsp.BSpline(self.KV, coef, self.DEGREE)
+            _B = bsp.Curve(self.KV, coef, self.DEGREE)
 
             if _B.is_valid():
                 _y = _B.evaluate(self.evaluation_times)
@@ -459,8 +459,9 @@ class ViewBSplineFigure:
         if base.YTICKS:
             ax.set_yticks(base.YTICKS)
 
-        if base.DISPLAY:
-            # plt.show()
+        if base.DISPLAY:  # same as INTERACTIVE in view_bezier.py
+            plt.show()
+        else:
             plt.show(block=False)
 
         if base.SERIALIZE:

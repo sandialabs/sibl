@@ -106,7 +106,7 @@ class BSplineFit:
             coef[column] = 1.0
 
             # build the B-spline basis functions column-by-column
-            _bspline_basis_function = bsp.BSpline(self.knot_vector, coef, degree)
+            _bspline_basis_function = bsp.Curve(self.knot_vector, coef, degree)
 
             if _bspline_basis_function.is_valid():
                 _y = _bspline_basis_function.evaluate(self.sample_times)
