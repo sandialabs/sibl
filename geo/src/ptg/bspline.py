@@ -88,7 +88,7 @@ class Surface:
         coefficients: list,
         degree_t: int = 0,
         degree_u: int = 0,
-        n_bisection_intervals: int = 1,
+        n_bisections: int = 1,
         verbose: bool = False,
     ):
         """Creates a B-Spline surface.
@@ -106,7 +106,7 @@ class Surface:
                 Defaults to 0.
             degree_u: (int >=0): B-spline polynomial degree for spline in `u`.
                 Defaults to 0.
-            n_bisection_intervals (int): Number of bisection intervals per knot span.
+            n_bisections (int): Number of bisections per knot span.
                 Defaults to 1.
             verbose (bool): prints extended error checking, default False
 
@@ -117,40 +117,41 @@ class Surface:
         # ncp_u: number of control points for the u parameter
         # nsd: number of space dimensions, typically 2 or 3
         self.valid = False
+        self.verbose = verbose
         self.ncp_t, self.ncp_u, self.nsd = np.array(coefficients).shape
 
         knots_t_lhs = knot_vector_t[0:-1]  # left-hand-side knot values for t
         knots_t_rhs = knot_vector_t[1:]  # right-hand-side knot values for t
         knot_t_spans = np.array(knots_t_rhs) - np.array(knots_t_lhs)
-        dt = knot_t_spans / (2.0 ** n_bisection_intervals)
+        dt = knot_t_spans / (2.0 ** n_bisections)
         assert all([dti >= 0 for dti in dt]), "Error: knot vector T is decreasing."
         num_knots_t = len(knot_vector_t)
         t = [
             knots_t_lhs[k] + j * dt[k]
             for k in np.arange(num_knots_t - 1)
-            for j in np.arange(2 ** n_bisection_intervals)
+            for j in np.arange(2 ** n_bisections)
         ]
         t.append(knot_vector_t[-1])
         t = np.array(t)
         # retain only non-repeated evaluation points at beginning and end
-        t_repeated_index = 2 ** n_bisection_intervals * degree_t
+        t_repeated_index = 2 ** n_bisections * degree_t
         t = t[t_repeated_index:-t_repeated_index]
 
         knots_u_lhs = knot_vector_u[0:-1]  # left-hand-side knot values for u
         knots_u_rhs = knot_vector_u[1:]  # right-hand-side knot values for u
         knot_u_spans = np.array(knots_u_rhs) - np.array(knots_u_lhs)
-        du = knot_u_spans / (2.0 ** n_bisection_intervals)
+        du = knot_u_spans / (2.0 ** n_bisections)
         assert all([duj >= 0 for duj in du]), "Error: knot vector U is decreasing."
         num_knots_u = len(knot_vector_u)
         u = [
             knots_u_lhs[k] + j * du[k]
             for k in np.arange(num_knots_u - 1)
-            for j in np.arange(2 ** n_bisection_intervals)
+            for j in np.arange(2 ** n_bisections)
         ]
         u.append(knot_vector_u[-1])
         u = np.array(u)
         # retain only non-repeated evaluation points at beginning and end
-        u_repeated_index = 2 ** n_bisection_intervals * degree_u
+        u_repeated_index = 2 ** n_bisections * degree_u
         u = u[u_repeated_index:-u_repeated_index]
 
         self.x_of_t_u = np.zeros((len(t), len(u)), dtype=float)
@@ -188,3 +189,24 @@ class Surface:
                     self.z_of_t_u += Nij * coef_z
 
         self.valid = True
+
+    def evaluations(self):
+        """The BSpline surface evaluated at all parameter points `t` and `u`."""
+
+        """
+            Returns:
+                A tuple of (x, y, z) values, evaluated over all parameterization
+                points `t` and `u`.
+
+            Raises:
+                AssertionError if the BSpline surface has not been properly defined.
+        """
+        try:
+            assert self.valid
+            return (self.x_of_t_u, self.y_of_t_u, self.z_of_t_u)
+
+        except AssertionError as error:
+            if self.verbose:
+                print(error)
+            # return error
+            return (None, None, None)

@@ -249,8 +249,47 @@ class TestBSpline(TestCase):
         ]
         degree_t = 1  # linear
         degree_u = 1  # linear
+        nbi = 1  # number of bisections per knot interval
 
-        S = bsp.Surface(kv_t, kv_u, control_points, degree_t, degree_u, verbose=True)
+        S = bsp.Surface(
+            kv_t,
+            kv_u,
+            control_points,
+            degree_t,
+            degree_u,
+            n_bisections=nbi,
+            verbose=True,
+        )
+
+        (
+            calc_surface_evaluations_x,
+            calc_surface_evaluations_y,
+            calc_surface_evaluations_z,
+        ) = S.evaluations()
+
+        known_surface_evaluations_x = np.array(
+            [[0.0, 0.0, 0.0], [0.5, 0.5, 0.5], [1.0, 1.0, 1.0]]
+        )
+
+        known_surface_evaluations_y = np.array(
+            [[0.0, 0.5, 1.0], [0.0, 0.5, 1.0], [0.0, 0.5, 1.0]]
+        )
+
+        known_surface_evaluations_z = np.array(
+            [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]]
+        )
+
+        difference_matrix_x = calc_surface_evaluations_x - known_surface_evaluations_x
+        difference_matrix_y = calc_surface_evaluations_y - known_surface_evaluations_y
+        difference_matrix_z = calc_surface_evaluations_z - known_surface_evaluations_z
+
+        Frobenius_norm_x = np.linalg.norm(difference_matrix_x, ord="fro")
+        Frobenius_norm_y = np.linalg.norm(difference_matrix_y, ord="fro")
+        Frobenius_norm_z = np.linalg.norm(difference_matrix_z, ord="fro")
+
+        self.assertTrue(Frobenius_norm_x < self.TOL)
+        self.assertTrue(Frobenius_norm_y < self.TOL)
+        self.assertTrue(Frobenius_norm_z < self.TOL)
 
     @pytest.mark.skip(reason="work in progress")
     def test_202_Bingol_3D_surface(self):

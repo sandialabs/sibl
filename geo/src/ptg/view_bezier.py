@@ -125,23 +125,25 @@ class ViewBezier:
         surface_triangulation = kwargs.get("surface-triangulation", False)  # surface
         surface_t0_uv_triangulation = kwargs.get(
             "surface-t0-uv-triangulation", False
-        )  # solid
+        )  # volume
         surface_t1_uv_triangulation = kwargs.get(
             "surface-t1-uv-triangulation", False
-        )  # solid
+        )  # volume
         surface_u0_vt_triangulation = kwargs.get(
             "surface-u0-vt-triangulation", False
-        )  # solid
+        )  # volume
         surface_u1_vt_triangulation = kwargs.get(
             "surface-u1-vt-triangulation", False
-        )  # solid
+        )  # volume
         surface_v0_tu_triangulation = kwargs.get(
             "surface-v0-tu-triangulation", False
-        )  # solid
+        )  # volume
         surface_v1_tu_triangulation = kwargs.get(
             "surface-v1-tu-triangulation", False
-        )  # solid
-        triangulation_alpha = kwargs.get("triangulation-alpha", 1.0)  # surface or solid
+        )  # volume
+        triangulation_alpha = kwargs.get(
+            "triangulation-alpha", 1.0
+        )  # surface or volume
 
         xlabel = kwargs.get("xlabel", "x")
         ylabel = kwargs.get("ylabel", "y")

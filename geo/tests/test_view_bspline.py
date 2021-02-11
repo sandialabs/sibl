@@ -70,6 +70,13 @@ class Test(TestCase):
         item = vbsp.ViewBSplineFactory.create(config=config_path)
         self.assertIsInstance(item, vbsp.ViewBSplineCurveFit)
 
+    def test_201_recover_bezier_bilinear(self):
+        config_file = "recover_bezier_bilinear.json"
+        config_path = Path.joinpath(self.data_dir, config_file)
+        item = vbsp.ViewBSplineFactory.create(config=config_path)
+        self.assertIsInstance(item, vbsp.ViewBSplineSurface)
+        a = 4
+
     # Ask Anirudh
     # def test_006_selftest_main(self):
     #     config_file = "Piegl_Fig3p1.json"

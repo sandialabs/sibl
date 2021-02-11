@@ -1,0 +1,69 @@
+{
+    "class": "surface",
+    "coefficients": [
+        [
+            [
+                0.0,
+                0.0,
+                0.0
+            ],
+            [
+                0.0,
+                1.0,
+                0.0
+            ]
+        ],
+        [
+            [
+                1.0,
+                0.0,
+                0.0
+            ],
+            [
+                1.0,
+                1.0,
+                0.0
+            ]
+        ]
+    ],
+    "control_points_shown": true,
+    "degree": 1,
+    "degree_u": 1,
+    "display": false,
+    "evaluation_points_color": "blue",
+    "evaluation_points_shown": true,
+    "evaluation_points_size": 12,
+    "name": "recover_bezier_bilinear",
+    "nbi": 1,
+    "ncp": 4,
+    "knot_vector": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+    ],
+    "knot_vector_u": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+    ],
+    "knots_shown": 1,
+    "latex": 0,
+    "serialize": 0,
+    "xticks": [
+        0,
+        0.5,
+        1
+    ],
+    "yticks": [
+        0,
+        0.5,
+        1
+    ],
+    "zticks": [
+        0,
+        0.5,
+        1
+    ]
+}

@@ -78,6 +78,7 @@ class ViewBSplineFactory:
             "basis": ViewBSplineBasis,
             "curve": ViewBSplineCurve,
             "curvefit": ViewBSplineCurveFit,
+            "surface": ViewBSplineSurface,
         }
 
         # config parameters without defaults, user specification required
@@ -101,12 +102,23 @@ class ViewBase(ABC):
     """Abstract base class for ViewBSpline classes"""
 
     def __init__(self, **kwargs):
+        # keep attributes in alphabetical order here:
+        self.camera_elevation = kwargs.get("camera-elevation", None)
+        self.camera_azimuth = kwargs.get("camera-azimuth", None)
+        self.control_points_shown = kwargs.get("control_points_shown", False)
+
         # factory has already checked items are specified, no default values necessary
         self.DEGREE = kwargs.get("degree")  # 0 constant, 1 linear, 2 quadratic, etc.
+        self.degree_u = kwargs.get("degree_u", None)
 
         # get config specification, specify defaults otherwise
         self.DISPLAY = kwargs.get("display", False)  # show figure to screen
         self.DPI = kwargs.get("dpi", 100)  # dots per inch
+
+        # show evaulation points for parameters t, u, and v
+        self.evaluation_points_color = kwargs.get("evaluation_points_color", "blue")
+        self.evaluation_points_shown = kwargs.get("evaluation_points_shown", False)
+        self.evaluation_points_size = kwargs.get("evaluation_points_size", 10)
 
         self.LATEX = kwargs.get("latex", False)  # use LaTeX instead of default fonts
         if self.LATEX:
@@ -116,11 +128,19 @@ class ViewBase(ABC):
 
         self.NAME = kwargs.get("name")  # name is used for output file name
         self.NBI = kwargs.get("nbi", 2)  # number of bisections per knot interval
+        self.PLOT3D = False  # False is 2D, descendants overwrite to True for 3D
 
         self.SERIALIZE = kwargs.get("serialize", False)  # save figure to disc
-
+        self.surface_triangulation = kwargs.get(
+            "surface-triangulation", False
+        )  # surface
+        self.triangulation_alpha = kwargs.get(
+            "triangulation-alpha", 1.0
+        )  # surface or volume
         self.XTICKS = kwargs.get("xticks", None)
         self.YTICKS = kwargs.get("yticks", None)
+        self.ZTICKS = kwargs.get("zticks", None)
+        self.Z_AXIS_LABEL_INVERTED = kwargs.get("z-axis-label-inverted", True)
 
         self.VERBOSITY = kwargs.get("verbosity", False)
 
@@ -402,8 +422,220 @@ class ViewBSplineCurve(ViewBSplineBase):
         ViewBSplineFigure(self)
 
 
-# class ViewBSplineSurface(ViewBSplineBase):
-# TODO
+# TODO: implement class ViewBSplineSurface(ViewBSplineBase):
+class ViewBSplineSurface(ViewBase):
+    """Creates a Matplotlib figure of BSpline surface."""
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.PLOT3D = True  # overwrite the base class
+        COEF = kwargs.get(
+            "coefficients", None
+        )  # None is basis, not None is curve, surface, or volume
+        assert COEF is not None
+
+        # show/hide control point locations
+        # _control_points_shown = kwargs.get("control_points_shown", False)
+
+        # show/hide knot locations
+        # _knots_shown = kwargs.get("knots_shown", False)
+        # _evaluated_knots = []
+        # if _knots_shown:
+        #     _knots_t = np.unique(self.KV)
+
+        # show/hide sample points in case of a B-spline fit
+        # _samples_shown = kwargs.get("samples_shown", False)
+
+        # build up B-spline basis functions, multiplied by coefficients
+        _NSD = len(COEF[0][0])  # number of space dimensions
+        assert _NSD == 3  # only 2D curves implemented for now, do 3D later
+
+        # for i in np.arange(_NSD):
+
+        #     coef = np.array(COEF)[:, i]
+
+        #     _B = bsp.Curve(self.KV, coef, self.DEGREE)
+
+        #     if _B.is_valid():
+        #         _y = _B.evaluate(self.evaluation_times)
+        #         self.evaluated_curve.append(_y)
+
+        #         if _knots_shown:
+        #             _y = _B.evaluate(_knots_t)
+        #             _evaluated_knots.append(_y)
+
+        # plot B-spline curve, assume 2D for now
+        self.fig = plt.figure(dpi=self.DPI)
+        # ax = self.fig.gca()
+        ax = self.fig.add_subplot(111, projection="3d")
+
+        # avoid "magic" numbers, assign (0, 1, 2) to variables
+        idx, idy, idz = (0, 1, 2)
+
+        if self.control_points_shown:
+
+            # plot control points
+            _cp_x = np.array(COEF)[:, :, idx].flatten()  # control points x-coordinates
+            _cp_y = np.array(COEF)[:, :, idy].flatten()  # control points y-coordinates
+            _cp_z = np.array(COEF)[:, :, idz].flatten()  # control points z-coordinates
+
+            ax.plot3D(
+                _cp_x,
+                _cp_y,
+                _cp_z,
+                color="red",
+                linewidth=1,
+                alpha=0.5,
+                marker="o",
+                markerfacecolor="white",
+                markersize=9,
+                linestyle="dashed",
+            )
+
+        if self.evaluation_points_shown or self.surface_triangulation:
+
+            kv_t = kwargs.get("knot_vector")
+            kv_u = kwargs.get("knot_vector_u")
+            # control_poiknts argument already exists as COEF variable
+
+            # S = bsp.Surface(
+            #     kv_t, kv_u, COEF, self.DEGREE, self.degree_u, verbose=self.VERBOSITY
+            # )
+            S = bsp.Surface(
+                knot_vector_t=kv_t,
+                knot_vector_u=kv_u,
+                coefficients=COEF,
+                degree_t=self.DEGREE,
+                degree_u=self.degree_u,
+                n_bisections=self.NBI,
+                verbose=self.VERBOSITY,
+            )
+
+            (_surf_x, _surf_y, _surf_z) = S.evaluations()
+
+            if self.evaluation_points_shown:
+                ax.plot3D(
+                    _surf_x.flatten(),
+                    _surf_y.flatten(),
+                    _surf_z.flatten(),
+                    color=self.evaluation_points_color,
+                    alpha=0.5,
+                    marker="o",
+                    markerfacecolor="white",
+                    markersize=self.evaluation_points_size,
+                )
+
+            # plot (t, u) evalation points
+
+            # self.evaluation_points_color = kwargs.get("evaluation_points_color", "blue")
+            # self.evaluation_points_shown = kwargs.get("evaluation_points_shown", False)
+            # self.evaluation_points_size = kwargs.get("evaluation_points_size", 10)
+
+        # if _samples_shown:
+        #     _samples_x = np.array(kwargs.get("samples"))[:, 0]
+        #     _samples_y = np.array(kwargs.get("samples"))[:, 1]
+        #     ax.plot(
+        #         _samples_x,
+        #         _samples_y,
+        #         color="darkorange",
+        #         alpha=1.0,
+        #         linestyle="none",
+        #         linewidth="6",
+        #         marker="+",
+        #         markersize=20,
+        #     )  # plus mark
+        #     ax.plot(
+        #         _samples_x,
+        #         _samples_y,
+        #         color="orange",
+        #         linestyle="none",
+        #         marker="D",
+        #         markerfacecolor="none",
+        #         markersize=14,
+        #     )  # diamond border around plus mark
+
+        # ax.plot(
+        #     self.evaluated_curve[0],
+        #     self.evaluated_curve[1],
+        #     color="navy",
+        #     linestyle="solid",
+        #     linewidth=3,
+        # )
+
+        # if _samples_shown:  # yet another layer for samples, small little dot atop curve
+        #     _samples_x = np.array(kwargs.get("samples"))[:, 0]
+        #     _samples_y = np.array(kwargs.get("samples"))[:, 1]
+        #     ax.plot(
+        #         _samples_x,
+        #         _samples_y,
+        #         color="darkorange",
+        #         linestyle="none",
+        #         marker=".",
+        #         markersize=2,
+        #     )  # dot
+
+        # if _knots_shown:
+        # for i, knot_num in enumerate(self.KV):
+        #    # plot only the first knot of any repeated knot
+        #    if i == 0:
+        #        # print(f"first index {i}")
+        #        k = i  # first evaluated knot index
+        #        if self.LATEX:
+        #            _str = r"$\mathsf T_{0}$"
+        #        else:
+        #            # _str = r"$T_{0}$"
+        #            continue  # GitHub unit test doesn't like LaTex
+        #    else:
+        #        if self.KV[i] == self.KV[i - 1]:
+        #            continue  # don't plot subsequently repeated knots
+
+        #        # print(f"subsequent index {i}")
+        #        k += 1  # next non-repeated knot index in evaluated knots
+
+        #        # _Ti = str(int(i + self.DEGREE))
+        #        _Ti = str(int(i))
+        #        if self.LATEX:
+        #            _str = r"$\mathsf T_{" + _Ti + "}$"
+        #        else:
+        #            # _str = r"$T_{" + _Ti + "}$"
+        #            continue  # GitHub unit test doesn't like LaTex
+
+        #    # print(_str)
+        #    ax.plot(
+        #        _evaluated_knots[0][k],
+        #        _evaluated_knots[1][k],
+        #        color="white",
+        #        alpha=0.6,
+        #        marker="o",
+        #        markersize=14,
+        #        markeredgecolor="darkcyan",
+        #    )  # background circle
+        #    ax.plot(
+        #        _evaluated_knots[0][k],
+        #        _evaluated_knots[1][k],
+        #        color="black",
+        #        marker=_str,
+        #        markersize=9,
+        #        markeredgecolor="none",
+        #    )  # knot number text
+
+        # self.fig.patch.set_facecolor("whitesmoke")
+        # ax.set_facecolor("lightgray")
+
+        xlabel = kwargs.get("xlabel", "x")
+        ylabel = kwargs.get("ylabel", "y")
+        zlabel = kwargs.get("zlabel", "z")
+
+        # ax.set_xlabel(r"$x$")
+        # ax.set_ylabel(r"$y$")
+
+        ax.set_xlabel(xlabel)
+        ax.set_ylabel(ylabel)
+        ax.set_zlabel(zlabel)
+
+        # finish figure by calling method with common figure functions
+        ViewBSplineFigure(self)
+
 
 # class ViewBSplineVolume(ViewBSplineBase):
 # TODO
@@ -433,6 +665,7 @@ class ViewBSplineCurveFit(ViewBSplineFitBase):
         kwargs["knot_vector"] = _fit.knot_vector
         # kwargs["latex"] = self.LS
         # kwargs["nbi"] = self.NBI
+
         kwargs["ncp"] = _fit.n_control_points
         # kwargs["serialize"] = self.SERIALIZE
         # kwargs["verbosity"] = self.VERBOSITY
@@ -447,11 +680,24 @@ class ViewBSplineFigure:
     def __init__(self, base: ViewBSplineBase):
         # base = ViewBSplineBase
         ax = base.fig.gca()
-        ax.set_aspect("equal")
-        # ax.grid(True, which="major", linestyle="-", color="whitesmoke")
-        ax.grid(True, which="major", linestyle="-")
-        ax.grid(True, which="minor", linestyle=":")
-        # ax.legend(bbox_to_anchor=(1.05, 1), loc="upper left", borderaxespad=0.0)
+        if not base.PLOT3D:
+            # then we have a 2D plot
+            ax.set_aspect("equal")
+            # ax.grid(True, which="major", linestyle="-", color="whitesmoke")
+            ax.grid(True, which="major", linestyle="-")
+            ax.grid(True, which="minor", linestyle=":")
+            # ax.legend(bbox_to_anchor=(1.05, 1), loc="upper left", borderaxespad=0.0)
+        else:
+            # then we have a 3D plot
+            if base.Z_AXIS_LABEL_INVERTED:
+                ax.zaxis.set_rotate_label(False)
+                ax.zaxis.label.set_rotation(90)
+
+            if base.ZTICKS:
+                ax.set_zticks(base.ZTICKS)
+
+            if base.camera_azimuth or base.camera_elevation is not None:
+                ax.view_init(elev=base.camera_elevation, azim=base.camera_azimuth)
 
         if base.XTICKS:
             ax.set_xticks(base.XTICKS)
