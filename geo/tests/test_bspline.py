@@ -300,7 +300,6 @@ class TestBSpline(TestCase):
         self.assertTrue(self.same(known_evaluation_times_t, calc_evaluation_times_t))
         self.assertTrue(self.same(known_evaluation_times_u, calc_evaluation_times_u))
 
-    @pytest.mark.skip(reason="work in progress")
     def test_202_Bingol_3D_surface(self):
         """Tests creation and plotting of BSpline surface, compared to
         GitHub repository orbingol
@@ -337,43 +336,99 @@ class TestBSpline(TestCase):
         # gives a matrix of [5x5] evalution points found by
         > surf.evalpts
         """
-        known_surface_evaluation_points = [
-            [
-                [0.0, 0.0, 0.0],
-                [0.0, 2.0, -0.1875],
-                [0.0, 4.0, -0.75],
-                [0.0, 6.0, -1.6875],
-                [0.0, 8.0, -3.0],
-            ],
-            [
-                [1.5, 0.0, 2.53125],
-                [1.5, 2.0, 1.353515625],
-                [1.5, 4.0, 0.3984375],
-                [1.5, 6.0, -0.333984375],
-                [1.5, 8.0, -0.84375],
-            ],
-            [
-                [3.0, 0.0, 2.25],
-                [3.0, 2.0, 1.171875],
-                [3.0, 4.0, 0.5625],
-                [3.0, 6.0, 0.421875],
-                [3.0, 8.0, 0.75],
-            ],
-            [
-                [4.5, 0.0, 0.84375],
-                [4.5, 2.0, 0.076171875],
-                [4.5, 4.0, -0.1171875],
-                [4.5, 6.0, 0.263671875],
-                [4.5, 8.0, 1.21875],
-            ],
-            [
-                [6.0, 0.0, 0.0],
-                [6.0, 2.0, -1.125],
-                [6.0, 4.0, -1.5],
-                [6.0, 6.0, -1.125],
-                [6.0, 8.0, 0.0],
-            ],
+        kv_t = list(map(float, [0, 0, 0, 0, 1, 1, 1, 1]))
+        kv_u = list(map(float, [0, 0, 0, 1, 1, 1]))
+        control_points = [
+            [[0, 0, 0], [0, 4, 0], [0, 8, -3]],
+            [[2, 0, 6], [2, 4, 0], [2, 8, 0]],
+            [[4, 0, 0], [4, 4, 0], [4, 8, 3]],
+            [[6, 0, 0], [6, 4, -3], [6, 8, 0]],
         ]
+        degree_t = 3  # cubic
+        degree_u = 2  # quadratic
+        nbi = 2  # number of bisections per knot interval
+
+        S = bsp.Surface(
+            kv_t,
+            kv_u,
+            control_points,
+            degree_t,
+            degree_u,
+            n_bisections=nbi,
+            verbose=True,
+        )
+
+        (
+            calc_surface_evaluations_x,
+            calc_surface_evaluations_y,
+            calc_surface_evaluations_z,
+        ) = S.evaluations
+
+        known_surface_evaluation_points = np.array(
+            [
+                [
+                    [0.0, 0.0, 0.0],
+                    [0.0, 2.0, -0.1875],
+                    [0.0, 4.0, -0.75],
+                    [0.0, 6.0, -1.6875],
+                    [0.0, 8.0, -3.0],
+                ],
+                [
+                    [1.5, 0.0, 2.53125],
+                    [1.5, 2.0, 1.353515625],
+                    [1.5, 4.0, 0.3984375],
+                    [1.5, 6.0, -0.333984375],
+                    [1.5, 8.0, -0.84375],
+                ],
+                [
+                    [3.0, 0.0, 2.25],
+                    [3.0, 2.0, 1.171875],
+                    [3.0, 4.0, 0.5625],
+                    [3.0, 6.0, 0.421875],
+                    [3.0, 8.0, 0.75],
+                ],
+                [
+                    [4.5, 0.0, 0.84375],
+                    [4.5, 2.0, 0.076171875],
+                    [4.5, 4.0, -0.1171875],
+                    [4.5, 6.0, 0.263671875],
+                    [4.5, 8.0, 1.21875],
+                ],
+                [
+                    [6.0, 0.0, 0.0],
+                    [6.0, 2.0, -1.125],
+                    [6.0, 4.0, -1.5],
+                    [6.0, 6.0, -1.125],
+                    [6.0, 8.0, 0.0],
+                ],
+            ]
+        )
+        (idx, idy, idz) = (0, 1, 2)
+        known_surface_evaluation_points_x = known_surface_evaluation_points[
+            :, :, idx
+        ].flatten()
+        known_surface_evaluation_points_y = known_surface_evaluation_points[
+            :, :, idy
+        ].flatten()
+        known_surface_evaluation_points_z = known_surface_evaluation_points[
+            :, :, idz
+        ].flatten()
+
+        self.assertTrue(
+            self.same(
+                known_surface_evaluation_points_x, calc_surface_evaluations_x.flatten()
+            )
+        )
+        self.assertTrue(
+            self.same(
+                known_surface_evaluation_points_y, calc_surface_evaluations_y.flatten()
+            )
+        )
+        self.assertTrue(
+            self.same(
+                known_surface_evaluation_points_z, calc_surface_evaluations_z.flatten()
+            )
+        )
 
     @pytest.mark.skip(reason="work in progress")
     def test_203_Bingol_3D_surface(self):
