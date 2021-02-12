@@ -236,7 +236,7 @@ class TestBSpline(TestCase):
             P_known_e = [e[i] for e in P_known]  # e is evaluation point
             self.assertTrue(self.same(P_known_e, y[:, i]))
 
-    def test_201_recover_bezier_bilinear_surface(self):
+    def test_201_recover_bezier_bilinear_B00_p1_surface(self):
         kv_t = [0.0, 0.0, 1.0, 1.0]  # knot vector for t parameter
         kv_u = [0.0, 0.0, 1.0, 1.0]  # knot vector for u parameter
         # control_points = [
@@ -244,7 +244,7 @@ class TestBSpline(TestCase):
         #     [[15.0, -10.0, 1.0], [15.0, 10.0, 1.0]],
         # ]
         control_points = [
-            [[0.0, 0.0, 0.0], [0.0, 1.0, 0.0]],
+            [[0.0, 0.0, 1.0], [0.0, 1.0, 0.0]],
             [[1.0, 0.0, 0.0], [1.0, 1.0, 0.0]],
         ]
         degree_t = 1  # linear
@@ -265,7 +265,7 @@ class TestBSpline(TestCase):
             calc_surface_evaluations_x,
             calc_surface_evaluations_y,
             calc_surface_evaluations_z,
-        ) = S.evaluations()
+        ) = S.evaluations
 
         known_surface_evaluations_x = np.array(
             [[0.0, 0.0, 0.0], [0.5, 0.5, 0.5], [1.0, 1.0, 1.0]]
@@ -276,7 +276,7 @@ class TestBSpline(TestCase):
         )
 
         known_surface_evaluations_z = np.array(
-            [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]]
+            [[1.0, 0.5, 0.0], [0.5, 0.25, 0.0], [0.0, 0.0, 0.0]]
         )
 
         difference_matrix_x = calc_surface_evaluations_x - known_surface_evaluations_x
@@ -290,6 +290,15 @@ class TestBSpline(TestCase):
         self.assertTrue(Frobenius_norm_x < self.TOL)
         self.assertTrue(Frobenius_norm_y < self.TOL)
         self.assertTrue(Frobenius_norm_z < self.TOL)
+
+        known_evaluation_times_t = [0.0, 0.5, 1.0]
+        known_evaluation_times_u = [0.0, 0.5, 1.0]
+
+        calc_evaluation_times_t = S.evaluation_times_t
+        calc_evaluation_times_u = S.evaluation_times_u
+
+        self.assertTrue(self.same(known_evaluation_times_t, calc_evaluation_times_t))
+        self.assertTrue(self.same(known_evaluation_times_u, calc_evaluation_times_u))
 
     @pytest.mark.skip(reason="work in progress")
     def test_202_Bingol_3D_surface(self):

@@ -126,16 +126,16 @@ class Surface:
         dt = knot_t_spans / (2.0 ** n_bisections)
         assert all([dti >= 0 for dti in dt]), "Error: knot vector T is decreasing."
         num_knots_t = len(knot_vector_t)
-        t = [
+        self.t = [
             knots_t_lhs[k] + j * dt[k]
             for k in np.arange(num_knots_t - 1)
             for j in np.arange(2 ** n_bisections)
         ]
-        t.append(knot_vector_t[-1])
-        t = np.array(t)
+        self.t.append(knot_vector_t[-1])
+        self.t = np.array(self.t)
         # retain only non-repeated evaluation points at beginning and end
         t_repeated_index = 2 ** n_bisections * degree_t
-        t = t[t_repeated_index:-t_repeated_index]
+        self.t = self.t[t_repeated_index:-t_repeated_index]
 
         knots_u_lhs = knot_vector_u[0:-1]  # left-hand-side knot values for u
         knots_u_rhs = knot_vector_u[1:]  # right-hand-side knot values for u
@@ -143,20 +143,20 @@ class Surface:
         du = knot_u_spans / (2.0 ** n_bisections)
         assert all([duj >= 0 for duj in du]), "Error: knot vector U is decreasing."
         num_knots_u = len(knot_vector_u)
-        u = [
+        self.u = [
             knots_u_lhs[k] + j * du[k]
             for k in np.arange(num_knots_u - 1)
             for j in np.arange(2 ** n_bisections)
         ]
-        u.append(knot_vector_u[-1])
-        u = np.array(u)
+        self.u.append(knot_vector_u[-1])
+        self.u = np.array(self.u)
         # retain only non-repeated evaluation points at beginning and end
         u_repeated_index = 2 ** n_bisections * degree_u
-        u = u[u_repeated_index:-u_repeated_index]
+        self.u = self.u[u_repeated_index:-u_repeated_index]
 
-        self.x_of_t_u = np.zeros((len(t), len(u)), dtype=float)
-        self.y_of_t_u = np.zeros((len(t), len(u)), dtype=float)
-        self.z_of_t_u = np.zeros((len(t), len(u)), dtype=float)
+        self.x_of_t_u = np.zeros((len(self.t), len(self.u)), dtype=float)
+        self.y_of_t_u = np.zeros((len(self.t), len(self.u)), dtype=float)
+        self.z_of_t_u = np.zeros((len(self.t), len(self.u)), dtype=float)
 
         ix = 0  # x-coordinate index
         iy = 1  # y-coordinate index
@@ -176,8 +176,8 @@ class Surface:
                 Nj = Curve(knot_vector_u, N_coef_u, degree_u)
 
                 if Ni.is_valid() and Nj.is_valid():
-                    Ni_of_t = Ni.evaluate(t)
-                    Nj_of_u = Nj.evaluate(u)
+                    Ni_of_t = Ni.evaluate(self.t)
+                    Nj_of_u = Nj.evaluate(self.u)
                     Nij = np.outer(Ni_of_t, Nj_of_u)
 
                     coef_x = coefficients[i][j][ix]
@@ -190,8 +190,9 @@ class Surface:
 
         self.valid = True
 
+    @property
     def evaluations(self):
-        """The BSpline surface evaluated at all parameter points `t` and `u`."""
+        """Returns the BSpline surface at all parameter evaluation points `t` and `u`."""
 
         """
             Returns:
@@ -210,3 +211,13 @@ class Surface:
                 print(error)
             # return error
             return (None, None, None)
+
+    @property
+    def evaluation_times_t(self):
+        """Returns the BSpline surface evaluation time parameters in the 't' direction."""
+        return self.t
+
+    @property
+    def evaluation_times_u(self):
+        """Returns the BSpline surface evaluation time parameters in the 'u' direction."""
+        return self.u

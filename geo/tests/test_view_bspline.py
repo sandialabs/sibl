@@ -70,8 +70,8 @@ class Test(TestCase):
         item = vbsp.ViewBSplineFactory.create(config=config_path)
         self.assertIsInstance(item, vbsp.ViewBSplineCurveFit)
 
-    def test_201_recover_bezier_bilinear(self):
-        config_file = "recover_bezier_bilinear.json"
+    def test_201_recover_bezier_bilinear_B00_p1(self):
+        config_file = "recover_bezier_bilinear_B00_p1.json"
         config_path = Path.joinpath(self.data_dir, config_file)
         item = vbsp.ViewBSplineFactory.create(config=config_path)
         self.assertIsInstance(item, vbsp.ViewBSplineSurface)

@@ -8,6 +8,7 @@ import sys
 import matplotlib.pyplot as plt
 from matplotlib import rc
 from matplotlib.ticker import MultipleLocator
+import matplotlib.tri as mtri
 import numpy as np
 
 import ptg.bspline as bsp
@@ -105,6 +106,16 @@ class ViewBase(ABC):
         # keep attributes in alphabetical order here:
         self.camera_elevation = kwargs.get("camera-elevation", None)
         self.camera_azimuth = kwargs.get("camera-azimuth", None)
+
+        self.control_points_alpha = kwargs.get("control_points_alpha", 0.5)
+        self.control_points_color = kwargs.get("control_points_color", "red")
+        self.control_points_linestyle = kwargs.get("control_points_linestyle", "dashed")
+        self.control_points_linewidth = kwargs.get("control_points_linewidth", 1)
+        self.control_points_marker = kwargs.get("control_points_marker", "o")
+        self.control_points_marker_facecolor = kwargs.get(
+            "control_points_marker_facecolor", "white"
+        )
+        self.control_points_marker_size = kwargs.get("control_points_marker_size", 9)
         self.control_points_shown = kwargs.get("control_points_shown", False)
 
         # factory has already checked items are specified, no default values necessary
@@ -116,9 +127,20 @@ class ViewBase(ABC):
         self.DPI = kwargs.get("dpi", 100)  # dots per inch
 
         # show evaulation points for parameters t, u, and v
-        self.evaluation_points_color = kwargs.get("evaluation_points_color", "blue")
+        self.evaluation_points_alpha = kwargs.get("evaluation_points_alpha", 0.5)
+        self.evaluation_points_color = kwargs.get("evaluation_points_color", "navy")
+        self.evaluation_points_linestyle = kwargs.get(
+            "evaluation_points_linestyle", "solid"
+        )
+        self.evaluation_points_linewidth = kwargs.get("evaluation_points_linewidth", 1)
+        self.evaluation_points_marker = kwargs.get("control_points_marker", ".")
+        # self.evaluation_points_marker_facecolor = kwargs.get(
+        #     "evluation_points_marker_facecolor", "white"
+        # )
+        self.evaluation_points_marker_size = kwargs.get(
+            "evaluation_points_marker_size", 3
+        )
         self.evaluation_points_shown = kwargs.get("evaluation_points_shown", False)
-        self.evaluation_points_size = kwargs.get("evaluation_points_size", 10)
 
         self.LATEX = kwargs.get("latex", False)  # use LaTeX instead of default fonts
         if self.LATEX:
@@ -132,11 +154,17 @@ class ViewBase(ABC):
 
         self.SERIALIZE = kwargs.get("serialize", False)  # save figure to disc
         self.surface_triangulation = kwargs.get(
-            "surface-triangulation", False
+            "surface_triangulation", False
         )  # surface
-        self.triangulation_alpha = kwargs.get(
-            "triangulation-alpha", 1.0
+        self.surface_triangulation_alpha = kwargs.get(
+            "surface_triangulation_alpha", 1.0
         )  # surface or volume
+
+        # https://matplotlib.org/3.1.0/users/dflt_style_changes.html
+        # color C0 is same as "#1f77b4", a medium-dark cyan
+        self.surface_triangulation_color = kwargs.get(
+            "surface_triangulation_color", "C0"
+        )
         self.XTICKS = kwargs.get("xticks", None)
         self.YTICKS = kwargs.get("yticks", None)
         self.ZTICKS = kwargs.get("zticks", None)
@@ -434,35 +462,8 @@ class ViewBSplineSurface(ViewBase):
         )  # None is basis, not None is curve, surface, or volume
         assert COEF is not None
 
-        # show/hide control point locations
-        # _control_points_shown = kwargs.get("control_points_shown", False)
-
-        # show/hide knot locations
-        # _knots_shown = kwargs.get("knots_shown", False)
-        # _evaluated_knots = []
-        # if _knots_shown:
-        #     _knots_t = np.unique(self.KV)
-
-        # show/hide sample points in case of a B-spline fit
-        # _samples_shown = kwargs.get("samples_shown", False)
-
-        # build up B-spline basis functions, multiplied by coefficients
         _NSD = len(COEF[0][0])  # number of space dimensions
         assert _NSD == 3  # only 2D curves implemented for now, do 3D later
-
-        # for i in np.arange(_NSD):
-
-        #     coef = np.array(COEF)[:, i]
-
-        #     _B = bsp.Curve(self.KV, coef, self.DEGREE)
-
-        #     if _B.is_valid():
-        #         _y = _B.evaluate(self.evaluation_times)
-        #         self.evaluated_curve.append(_y)
-
-        #         if _knots_shown:
-        #             _y = _B.evaluate(_knots_t)
-        #             _evaluated_knots.append(_y)
 
         # plot B-spline curve, assume 2D for now
         self.fig = plt.figure(dpi=self.DPI)
@@ -483,13 +484,13 @@ class ViewBSplineSurface(ViewBase):
                 _cp_x,
                 _cp_y,
                 _cp_z,
-                color="red",
-                linewidth=1,
-                alpha=0.5,
-                marker="o",
-                markerfacecolor="white",
-                markersize=9,
-                linestyle="dashed",
+                alpha=self.control_points_alpha,
+                color=self.control_points_color,
+                linestyle=self.control_points_linestyle,
+                linewidth=self.control_points_linewidth,
+                marker=self.control_points_marker,
+                markerfacecolor=self.control_points_marker_facecolor,
+                markersize=self.control_points_marker_size,
             )
 
         if self.evaluation_points_shown or self.surface_triangulation:
@@ -511,116 +512,39 @@ class ViewBSplineSurface(ViewBase):
                 verbose=self.VERBOSITY,
             )
 
-            (_surf_x, _surf_y, _surf_z) = S.evaluations()
+            (_surf_x, _surf_y, _surf_z) = S.evaluations
 
             if self.evaluation_points_shown:
                 ax.plot3D(
                     _surf_x.flatten(),
                     _surf_y.flatten(),
                     _surf_z.flatten(),
+                    alpha=self.evaluation_points_alpha,
                     color=self.evaluation_points_color,
-                    alpha=0.5,
-                    marker="o",
-                    markerfacecolor="white",
-                    markersize=self.evaluation_points_size,
+                    linestyle=self.evaluation_points_linestyle,
+                    linewidth=self.evaluation_points_linewidth,
+                    marker=self.evaluation_points_marker,
+                    markersize=self.evaluation_points_marker_size,
+                )
+                # markerfacecolor=self.evaluation_points_marker_facecolor,
+
+            if self.surface_triangulation:
+                # convention here is reverse of the (x, y) convention of
+                # mesh grid, see
+                # https://numpy.org/doc/stable/reference/generated/numpy.meshgrid.html
+                u, t = np.meshgrid(S.evaluation_times_u, S.evaluation_times_t)
+                u, t = u.flatten(), t.flatten()
+
+                tri = mtri.Triangulation(u, t)
+                ax.plot_trisurf(
+                    _surf_x.flatten(),
+                    _surf_y.flatten(),
+                    _surf_z.flatten(),
+                    alpha=self.surface_triangulation_alpha,
+                    triangles=tri.triangles,
                 )
 
-            # plot (t, u) evalation points
-
-            # self.evaluation_points_color = kwargs.get("evaluation_points_color", "blue")
-            # self.evaluation_points_shown = kwargs.get("evaluation_points_shown", False)
-            # self.evaluation_points_size = kwargs.get("evaluation_points_size", 10)
-
-        # if _samples_shown:
-        #     _samples_x = np.array(kwargs.get("samples"))[:, 0]
-        #     _samples_y = np.array(kwargs.get("samples"))[:, 1]
-        #     ax.plot(
-        #         _samples_x,
-        #         _samples_y,
-        #         color="darkorange",
-        #         alpha=1.0,
-        #         linestyle="none",
-        #         linewidth="6",
-        #         marker="+",
-        #         markersize=20,
-        #     )  # plus mark
-        #     ax.plot(
-        #         _samples_x,
-        #         _samples_y,
-        #         color="orange",
-        #         linestyle="none",
-        #         marker="D",
-        #         markerfacecolor="none",
-        #         markersize=14,
-        #     )  # diamond border around plus mark
-
-        # ax.plot(
-        #     self.evaluated_curve[0],
-        #     self.evaluated_curve[1],
-        #     color="navy",
-        #     linestyle="solid",
-        #     linewidth=3,
-        # )
-
-        # if _samples_shown:  # yet another layer for samples, small little dot atop curve
-        #     _samples_x = np.array(kwargs.get("samples"))[:, 0]
-        #     _samples_y = np.array(kwargs.get("samples"))[:, 1]
-        #     ax.plot(
-        #         _samples_x,
-        #         _samples_y,
-        #         color="darkorange",
-        #         linestyle="none",
-        #         marker=".",
-        #         markersize=2,
-        #     )  # dot
-
-        # if _knots_shown:
-        # for i, knot_num in enumerate(self.KV):
-        #    # plot only the first knot of any repeated knot
-        #    if i == 0:
-        #        # print(f"first index {i}")
-        #        k = i  # first evaluated knot index
-        #        if self.LATEX:
-        #            _str = r"$\mathsf T_{0}$"
-        #        else:
-        #            # _str = r"$T_{0}$"
-        #            continue  # GitHub unit test doesn't like LaTex
-        #    else:
-        #        if self.KV[i] == self.KV[i - 1]:
-        #            continue  # don't plot subsequently repeated knots
-
-        #        # print(f"subsequent index {i}")
-        #        k += 1  # next non-repeated knot index in evaluated knots
-
-        #        # _Ti = str(int(i + self.DEGREE))
-        #        _Ti = str(int(i))
-        #        if self.LATEX:
-        #            _str = r"$\mathsf T_{" + _Ti + "}$"
-        #        else:
-        #            # _str = r"$T_{" + _Ti + "}$"
-        #            continue  # GitHub unit test doesn't like LaTex
-
-        #    # print(_str)
-        #    ax.plot(
-        #        _evaluated_knots[0][k],
-        #        _evaluated_knots[1][k],
-        #        color="white",
-        #        alpha=0.6,
-        #        marker="o",
-        #        markersize=14,
-        #        markeredgecolor="darkcyan",
-        #    )  # background circle
-        #    ax.plot(
-        #        _evaluated_knots[0][k],
-        #        _evaluated_knots[1][k],
-        #        color="black",
-        #        marker=_str,
-        #        markersize=9,
-        #        markeredgecolor="none",
-        #    )  # knot number text
-
-        # self.fig.patch.set_facecolor("whitesmoke")
-        # ax.set_facecolor("lightgray")
+                # color=self.surface_triangulation_color,
 
         xlabel = kwargs.get("xlabel", "x")
         ylabel = kwargs.get("ylabel", "y")
