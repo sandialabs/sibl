@@ -1,6 +1,6 @@
 {
-    "camera-elevation": 15,
     "camera-azimuth": 15,
+    "camera-elevation": 15,
     "class": "surface",
     "coefficients": [
         [
@@ -54,7 +54,7 @@
     "latex": 0,
     "serialize": 0,
     "surface_triangulation": true,
-    "surface_triangulation_alpha": 0.9,
+    "surface_triangulation_alpha": 0.8,
     "xticks": [
         0,
         0.5,

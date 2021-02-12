@@ -66,6 +66,17 @@
             "console": "integratedTerminal"
         },
         {
+            "name": "view_BSpline_recover_bezier_bilinear_B00_p1",
+            "type": "python",
+            "request": "launch",
+            "program": "~/sibl/geo/src/ptg/view_bspline.py",
+            "args": [
+                "~/sibl/geo/data/bspline/recover_bezier_bilinear_B00_p1.json",
+                "--verbose"
+            ],
+            "console": "integratedTerminal"
+        },
+        {
             "name": "view_BSpline_quadratic_expanded",
             "type": "python",
             "request": "launch",
@@ -105,6 +116,17 @@
             "program": "~/sibl/geo/src/ptg/view_bspline.py",
             "args": [
                 "~/sibl/geo/data/bspline/Cottrell_Fig2p20.json",
+                "--verbose"
+            ],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "view_BSpline_Bingol_3D_surface",
+            "type": "python",
+            "request": "launch",
+            "program": "~/sibl/geo/src/ptg/view_bspline.py",
+            "args": [
+                "~/sibl/geo/data/bspline/Bingol_3D_surface.json",
                 "--verbose"
             ],
             "console": "integratedTerminal"

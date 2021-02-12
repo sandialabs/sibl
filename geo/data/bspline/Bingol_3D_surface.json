@@ -1,0 +1,129 @@
+{
+    "camera-azimuth": -135,
+    "camera-elevation": 50,
+    "class": "surface",
+    "coefficients": [
+        [
+            [
+                0.0,
+                0.0,
+                0.0
+            ],
+            [
+                0.0,
+                4.0,
+                0.0
+            ],
+            [
+                0.0,
+                8.0,
+                -3.0
+            ]
+        ],
+        [
+            [
+                2.0,
+                0.0,
+                6.0
+            ],
+            [
+                2.0,
+                4.0,
+                0.0
+            ],
+            [
+                2.0,
+                8.0,
+                0.0
+            ]
+        ],
+        [
+            [
+                4.0,
+                0.0,
+                0.0
+            ],
+            [
+                4.0,
+                4.0,
+                0.0
+            ],
+            [
+                4.0,
+                8.0,
+                3.0
+            ]
+        ],
+        [
+            [
+                6.0,
+                0.0,
+                0.0
+            ],
+            [
+                6.0,
+                4.0,
+                -3.0
+            ],
+            [
+                6.0,
+                8.0,
+                0.0
+            ]
+        ]
+    ],
+    "control_points_linewidth": 0,
+    "control_points_shown": true,
+    "degree": 3,
+    "degree_u": 2,
+    "display": false,
+    "evaluation_points_linewidth": 0,
+    "evaluation_points_shown": true,
+    "name": "bingol_3d_surface",
+    "nbi": 1,
+    "ncp": 12,
+    "knot_vector": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+    ],
+    "knot_vector_u": [
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        1.0,
+        1.0
+    ],
+    "knots_shown": 1,
+    "latex": 0,
+    "serialize": 0,
+    "surface_triangulation": true,
+    "surface_triangulation_alpha": 0.8,
+    "xticks": [
+        0,
+        2,
+        4,
+        6,
+        8
+    ],
+    "yticks": [
+        0,
+        2,
+        4,
+        6,
+        8
+    ],
+    "zticks": [
+        -2,
+        0,
+        2,
+        4,
+        6
+    ]
+}
