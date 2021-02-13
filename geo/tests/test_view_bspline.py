@@ -14,6 +14,8 @@ from pathlib import Path  # stop using os.path, use pathlib instead
 from unittest import TestCase, main
 import unittest
 
+import numpy as np
+
 import ptg.view_bspline as vbsp
 
 
@@ -76,6 +78,39 @@ class Test(TestCase):
         item = vbsp.ViewBSplineFactory.create(config=config_path)
         self.assertIsInstance(item, vbsp.ViewBSplineSurface)
         a = 4
+
+    def test_control_net_rows_columns(self):
+        exemplar_control_points_net = [
+            [[0.0, 0.0, 0.0], [0.0, 2.0, 1.0], [0.0, 4.0, 2.0]],
+            [[5.1, 0.2, 0.3], [5.2, 2.2, 1.3], [5.3, 4.2, 2.3]],
+        ]
+
+        known_rows = np.array(
+            [
+                [[0.0, 0.0, 0.0], [0.0, 2.0, 1.0], [0.0, 4.0, 2.0]],
+                [[5.1, 0.2, 0.3], [5.2, 2.2, 1.3], [5.3, 4.2, 2.3]],
+            ]
+        )
+
+        known_cols = np.array(
+            [
+                [[0.0, 0.0, 0.0], [5.1, 0.2, 0.3]],
+                [[0.0, 2.0, 1.0], [5.2, 2.2, 1.3]],
+                [[0.0, 4.0, 2.0], [5.3, 4.2, 2.3]],
+            ]
+        )
+
+        cn = vbsp.ControlNet(exemplar_control_points_net)
+
+        TOL = 1e-6  # tolerance
+
+        difference_rows = known_rows - cn.rows
+        norm_rows = np.linalg.norm(difference_rows.flatten())
+        self.assertTrue(norm_rows < TOL)
+
+        difference_cols = known_cols - cn.columns
+        norm_cols = np.linalg.norm(difference_cols.flatten())
+        self.assertTrue(norm_cols < TOL)
 
     # Ask Anirudh
     # def test_006_selftest_main(self):

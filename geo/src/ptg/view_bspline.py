@@ -3,6 +3,7 @@ import argparse
 import json
 from pathlib import Path
 import sys
+from typing import List
 
 # from matplotlib.ticker import AutoMinorLocator
 import matplotlib.pyplot as plt
@@ -21,6 +22,30 @@ e.g.
 $ python view_bspline.py ../../data/bspline/recover_bezier_linear.json
 $ python view_bspline.py ../../data/bspline/recover_bezier_linear.json --verbose
 """
+
+
+class ControlNet:
+    """Creates a control net for a BSpline surface.
+
+    Arguments:
+        control_points (List[List[List[float]]]): the control points arranged
+            in `t` direction rows, `u` direction columns, and `(x, y, z)` values
+    """
+
+    def __init__(self, control_points: List[List[List[float]]]) -> None:
+        self._rows = np.array(control_points)
+        (self.n_rows, self.n_cols, self.nsd) = self._rows.shape
+        self._cols = [self._rows[:, j, :] for j in np.arange(self.n_cols)]
+
+    @property
+    def rows(self):
+        """Returns a numpy array of `(x, y, z)` points composing each row."""
+        return self._rows
+
+    @property
+    def columns(self):
+        """Returns a numpy array of `(x, y, z)` points composing each column."""
+        return self._cols
 
 
 class ViewBSplineFactory:
@@ -107,6 +132,14 @@ class ViewBase(ABC):
         self.camera_elevation = kwargs.get("camera-elevation", None)
         self.camera_azimuth = kwargs.get("camera-azimuth", None)
 
+        # The control net connects the control points in an array, net, or lattice.
+        self.control_net_alpha = kwargs.get("control_net_alpha", 0.5)
+        self.control_net_color = kwargs.get("control_net_color", "magenta")
+        self.control_net_linestyle = kwargs.get("control_net_linestyle", "dashed")
+        self.control_net_linewidth = kwargs.get("control_net_linewidth", 1)
+        self.control_net_shown = kwargs.get("control_net_shown", True)
+
+        # The control points are the discrete (x,y) or (x,y,z) points in space.
         self.control_points_alpha = kwargs.get("control_points_alpha", 0.5)
         self.control_points_color = kwargs.get("control_points_color", "red")
         self.control_points_linestyle = kwargs.get("control_points_linestyle", "dashed")
@@ -116,7 +149,7 @@ class ViewBase(ABC):
             "control_points_marker_facecolor", "white"
         )
         self.control_points_marker_size = kwargs.get("control_points_marker_size", 9)
-        self.control_points_shown = kwargs.get("control_points_shown", False)
+        self.control_points_shown = kwargs.get("control_points_shown", True)
 
         # factory has already checked items are specified, no default values necessary
         self.DEGREE = kwargs.get("degree")  # 0 constant, 1 linear, 2 quadratic, etc.
@@ -472,6 +505,18 @@ class ViewBSplineSurface(ViewBase):
 
         # avoid "magic" numbers, assign (0, 1, 2) to variables
         idx, idy, idz = (0, 1, 2)
+
+        # self.control_net_alpha = kwargs.get("control_net_alpha", 0.5)
+        # self.control_net_color = kwargs.get("control_net_color", "magenta")
+        # self.control_net_linestyle = kwargs.get("control_net_linestyle", "dashed")
+        # self.control_net_linewidth = kwargs.get("control_net_linewidth", 1)
+        # self.control_net_shown = kwargs.get("control_net_shown", True)
+
+        if self.control_net_shown:
+            cp_net = np.array(COEF)
+            (n_rows, n_cols, nsd) = cp_net.shape
+            _control_net_line_rows = 4
+            _control_net_line_cols = 4
 
         if self.control_points_shown:
 
