@@ -22,9 +22,9 @@
             0.2
         ]
     ],
-    "control_points_shown": 1,
-    "degree": 4,
-    "knot_vector": [
+    "control_points_shown": true,
+    "degree_t": 4,
+    "knot_vector_t": [
         0,
         0,
         0,
@@ -36,10 +36,10 @@
         1,
         1
     ],
-    "knots_shown": 1,
+    "knots_shown": true,
     "name": "RoberArgo_curve_example",
     "nbi": 8,
     "ncp": 5,
-    "latex": 1,
-    "serialize": 0
+    "latex": true,
+    "serialize": false
 }

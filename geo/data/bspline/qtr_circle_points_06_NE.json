@@ -1,7 +1,8 @@
 {
     "class": "curvefit",
-    "control_points_shown": 1,
-    "degree": 5,
+    "control_points_shown": true,
+    "degree_t": 5,
+    "display": false,
     "knots_shown": 1,
     "latex": 1,
     "name": "circle_points_06",
@@ -32,7 +33,7 @@
             1
         ]
     ],
-    "samples_shown": 1,
-    "serialize": 0,
-    "verbosity": 1
+    "samples_shown": true,
+    "serialize": false,
+    "verbosity": true
 }

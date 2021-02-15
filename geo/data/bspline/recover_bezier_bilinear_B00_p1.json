@@ -30,7 +30,7 @@
     ],
     "control_points_linewidth": 0,
     "control_points_shown": true,
-    "degree": 1,
+    "degree_t": 1,
     "degree_u": 1,
     "display": false,
     "evaluation_points_linewidth": 0,
@@ -38,7 +38,7 @@
     "name": "recover_bezier_bilinear",
     "nbi": 2,
     "ncp": 4,
-    "knot_vector": [
+    "knot_vector_t": [
         0.0,
         0.0,
         1.0,
@@ -50,9 +50,9 @@
         1.0,
         1.0
     ],
-    "knots_shown": 1,
-    "latex": 0,
-    "serialize": 0,
+    "knots_shown": true,
+    "latex": false,
+    "serialize": false,
     "surface_triangulation": true,
     "surface_triangulation_alpha": 0.8,
     "xticks": [

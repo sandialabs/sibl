@@ -1,9 +1,9 @@
 {
     "class": "curvefit",
-    "control_points_shown": 1,
-    "degree": 4,
-    "knots_shown": 1,
-    "latex": 1,
+    "control_points_shown": true,
+    "degree_t": 4,
+    "knots_shown": true,
+    "latex": true,
     "name": "sin_x_p4_centripetal",
     "nbi": 1,
     "samples": [
@@ -53,9 +53,9 @@
         ]
     ],
     "sample_time_method": "centripetal",
-    "samples_shown": 1,
-    "serialize": 1,
-    "verbosity": 1,
+    "samples_shown": true,
+    "serialize": false,
+    "verbosity": true,
     "xticks": [
         0.0,
         0.25,

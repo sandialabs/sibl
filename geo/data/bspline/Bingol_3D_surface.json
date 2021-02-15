@@ -1,6 +1,6 @@
 {
-    "camera-azimuth": -135,
-    "camera-elevation": 50,
+    "camera-azimuth": -105,
+    "camera-elevation": 65,
     "class": "surface",
     "coefficients": [
         [
@@ -72,9 +72,10 @@
             ]
         ]
     ],
+    "control_net_shown": true,
     "control_points_linewidth": 0,
     "control_points_shown": true,
-    "degree": 3,
+    "degree_t": 3,
     "degree_u": 2,
     "display": false,
     "evaluation_points_linewidth": 0,
@@ -82,7 +83,7 @@
     "name": "bingol_3d_surface",
     "nbi": 1,
     "ncp": 12,
-    "knot_vector": [
+    "knot_vector_t": [
         0.0,
         0.0,
         0.0,
@@ -101,10 +102,25 @@
         1.0
     ],
     "knots_shown": 1,
-    "latex": 0,
-    "serialize": 0,
+    "latex": false,
+    "serialize": false,
     "surface_triangulation": true,
     "surface_triangulation_alpha": 0.8,
+    "xlabel": "$x$",
+    "ylabel": "$y$",
+    "zlabel": "$z$",
+    "xlim": [
+        0,
+        8
+    ],
+    "ylim": [
+        0,
+        8
+    ],
+    "zlim": [
+        -2,
+        6
+    ],
     "xticks": [
         0,
         2,

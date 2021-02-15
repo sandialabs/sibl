@@ -1,6 +1,6 @@
 {
     "class": "basis",
-    "degree": 1,
+    "degree_t": 1,
     "name": "linear_expanded",
     "ncp": 9
 }

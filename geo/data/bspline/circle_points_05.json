@@ -1,9 +1,10 @@
 {
     "class": "curvefit",
-    "control_points_shown": 1,
-    "degree": 2,
-    "knots_shown": 1,
-    "latex": 1,
+    "control_points_shown": true,
+    "degree_t": 2,
+    "display": false,
+    "knots_shown": true,
+    "latex": true,
     "name": "circle_points_05",
     "nbi": 6,
     "samples": [

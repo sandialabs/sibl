@@ -49,7 +49,7 @@
     "data-path": ".",
     "interactive": true,
     "latex": false,
-    "nti_divisions": 3,
+    "nti_divisions": 4,
     "serialize": false,
     "surface-triangulation": true,
     "triangulation-alpha": 0.9,

@@ -1,6 +1,6 @@
 {
     "class": "basis",
-    "degree": 3,
+    "degree_t": 3,
     "name": "recover_bezier_cubic",
     "nbi": 8,
     "ncp": 4

@@ -1,10 +1,10 @@
 {
     "class": "basis",
-    "degree": 3,
+    "degree_t": 3,
     "name": "Piegl_Fig2p12",
     "nbi": 8,
     "ncp": 7,
-    "knot_vector": [
+    "knot_vector_t": [
         0,
         0,
         0,

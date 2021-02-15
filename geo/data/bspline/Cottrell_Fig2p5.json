@@ -1,10 +1,10 @@
 {
     "class": "basis",
-    "degree": 2,
+    "degree_t": 2,
     "name": "Cottrell_Fig2p5",
     "nbi": 7,
     "ncp": 8,
-    "knot_vector": [
+    "knot_vector_t": [
         0,
         0,
         0,

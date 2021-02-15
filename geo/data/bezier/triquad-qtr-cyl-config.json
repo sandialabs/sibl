@@ -3,8 +3,8 @@
     "bezier-points-shown": true,
     "bezier-points-size": 0.0,
     "bezier-type": "solid",
-    "camera-elevation": 15,
     "camera-azimuth": -145,
+    "camera-elevation": 15,
     "control-nets": "triquad-qtr-cyl-control-nets.csv",
     "control-nets-shown": [
         0

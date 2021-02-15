@@ -38,12 +38,13 @@
             40.0
         ]
     ],
-    "control_points_shown": 1,
+    "control_points_shown": true,
     "name": "Bingol_2D_curve",
-    "degree": 4,
+    "degree_t": 4,
+    "display": false,
     "nbi": 8,
     "ncp": 9,
-    "knot_vector": [
+    "knot_vector_t": [
         0.0,
         0.0,
         0.0,
@@ -59,7 +60,7 @@
         1.0,
         1.0
     ],
-    "knots_shown": 1,
-    "latex": 0,
-    "serialize": 0
+    "knots_shown": true,
+    "latex": true,
+    "serialize": false
 }

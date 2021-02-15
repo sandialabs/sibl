@@ -1,9 +1,9 @@
 {
     "class": "curvefit",
-    "control_points_shown": 1,
-    "degree": 1,
-    "knots_shown": 1,
-    "latex": 1,
+    "control_points_shown": true,
+    "degree_t": 1,
+    "knots_shown": true,
+    "latex": true,
     "name": "sin_x",
     "nbi": 1,
     "samples": [
@@ -92,7 +92,7 @@
             0.0
         ]
     ],
-    "samples_shown": 1,
-    "serialize": 0,
-    "verbosity": 1
+    "samples_shown": true,
+    "serialize": false,
+    "verbosity": true
 }

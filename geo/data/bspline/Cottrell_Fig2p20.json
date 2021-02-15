@@ -34,13 +34,14 @@
             3
         ]
     ],
-    "control_points_shown": 1,
+    "control_points_shown": true,
     "name": "Cottrell_Fig2p20a",
-    "degree": 2,
-    "latex": 1,
+    "degree_t": 2,
+    "display": false,
+    "latex": false,
     "nbi": 7,
     "ncp": 8,
-    "knot_vector": [
+    "knot_vector_t": [
         0,
         0,
         0,
@@ -53,8 +54,8 @@
         5,
         5
     ],
-    "knots_shown": 1,
-    "serialize": 0,
+    "knots_shown": true,
+    "serialize": false,
     "xticks": [
         0,
         1,

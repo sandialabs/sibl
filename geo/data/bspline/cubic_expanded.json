@@ -1,6 +1,6 @@
 {
     "class": "basis",
-    "degree": 3,
+    "degree_t": 3,
     "name": "cubic_expanded",
     "nbi": 8,
     "ncp": 9

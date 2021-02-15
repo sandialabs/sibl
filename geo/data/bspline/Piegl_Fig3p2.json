@@ -30,12 +30,12 @@
             -5
         ]
     ],
-    "control_points_shown": 1,
-    "degree": 3,
+    "control_points_shown": true,
+    "degree_t": 3,
     "name": "Piegl_Fig3p2",
     "nbi": 8,
     "ncp": 7,
-    "knot_vector": [
+    "knot_vector_t": [
         0,
         0,
         0,
@@ -48,7 +48,7 @@
         1,
         1
     ],
-    "knots_shown": 1,
-    "latex": 0,
-    "serialize": 0
+    "knots_shown": true,
+    "latex": false,
+    "serialize": false
 }
