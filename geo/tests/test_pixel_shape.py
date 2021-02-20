@@ -2,8 +2,9 @@ import numpy as np
 
 import pytest
 
-from ptg.pixel_shape import PixelSphere as pixel_sphere
+from ptg.pixel_shape import PixelCube as pixel_cube
 from ptg.pixel_shape import PixelCylinder as pixel_cylinder
+from ptg.pixel_shape import PixelSphere as pixel_sphere
 
 # References:
 # https://code.visualstudio.com/docs/python/testing#_enable-a-test-framework
@@ -11,48 +12,77 @@ from ptg.pixel_shape import PixelCylinder as pixel_cylinder
 # > pytest --collect-only
 
 # Sphere and cylinder (stacked disc) verified against scikit-image 2021-01-03.
+# Generate Structuring Elements
+# https://scikit-image.org/docs/stable/auto_examples/numpy_operations/plot_structuring_elements.html#sphx-glr-auto-examples-numpy-operations-plot-structuring-elements-py
+
+
+def test_cube_construction_and_verbose():
+    cube = pixel_cube(pixels_per_len=3, verbose=True)
+    assert cube  # tests constructor
+
+    # tests defaults of width = 1 len, pixels_per_len = 2
+    known_mask = np.array(
+        [
+            [[1, 1, 1], [1, 1, 1], [1, 1, 1]],
+            [[1, 1, 1], [1, 1, 1], [1, 1, 1]],
+            [[1, 1, 1], [1, 1, 1], [1, 1, 1]],
+        ]
+    )
+    known_mask_vector = np.ndarray.flatten(known_mask)
+
+    calc_mask = cube.mask
+    calc_mask_vector = np.ndarray.flatten(calc_mask)
+    tolerance = 1e-6  # very small value
+    abs_error = np.abs(np.linalg.norm(known_mask_vector - calc_mask_vector))
+    assert abs_error < tolerance
+
+    bb = cube.bounding_box
+    assert bb.width == 3
+    assert bb.depth == 3
+    assert bb.height == 3
 
 
 def test_sphere_construction_and_defaults():
-    sphere = pixel_sphere()
+    sphere = pixel_sphere(radius=2.5, pixels_per_len=1)
     assert sphere  # tests constructor
 
-    # tests defaults of radius = 1 len, pixels_per_len = 2
+    # tests of radius = 2.5 len,
+    # pixels_per_len = 1
     known_mask = np.array(
         [
             [
                 [0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0],
-                [0, 0, 1, 0, 0],
-                [0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0],
-            ],
-            [
-                [0, 0, 0, 0, 0],
                 [0, 1, 1, 1, 0],
                 [0, 1, 1, 1, 0],
                 [0, 1, 1, 1, 0],
                 [0, 0, 0, 0, 0],
             ],
             [
-                [0, 0, 1, 0, 0],
                 [0, 1, 1, 1, 0],
                 [1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1],
                 [0, 1, 1, 1, 0],
-                [0, 0, 1, 0, 0],
+            ],
+            [
+                [0, 1, 1, 1, 0],
+                [1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1],
+                [0, 1, 1, 1, 0],
+            ],
+            [
+                [0, 1, 1, 1, 0],
+                [1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1],
+                [0, 1, 1, 1, 0],
             ],
             [
                 [0, 0, 0, 0, 0],
                 [0, 1, 1, 1, 0],
                 [0, 1, 1, 1, 0],
                 [0, 1, 1, 1, 0],
-                [0, 0, 0, 0, 0],
-            ],
-            [
-                [0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0],
-                [0, 0, 1, 0, 0],
-                [0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0],
             ],
         ]
@@ -65,36 +95,38 @@ def test_sphere_construction_and_defaults():
     abs_error = np.abs(np.linalg.norm(known_mask_vector - calc_mask_vector))
     assert abs_error < tolerance
 
+    bb = sphere.bounding_box
+    assert bb.width == 5
+    assert bb.depth == 5
+    assert bb.height == 5
+
 
 def test_cylinder_construction():
-    # tests defaults of radius = 1 len, pixels_per_len = 2
-    good_radius = 1  # len, some positive number is good
-    good_height = good_radius  # half-cubic bounding box, squat z size
-    cylinder = pixel_cylinder(good_radius, good_height)
+    cylinder = pixel_cylinder(radius=2.5, height=3.0, pixels_per_len=1)
     assert cylinder  # tests constructor
 
     known_mask = np.array(
         [
             [
-                [0, 0, 1, 0, 0],
                 [0, 1, 1, 1, 0],
                 [1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1],
                 [0, 1, 1, 1, 0],
-                [0, 0, 1, 0, 0],
             ],
             [
-                [0, 0, 1, 0, 0],
                 [0, 1, 1, 1, 0],
                 [1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1],
                 [0, 1, 1, 1, 0],
-                [0, 0, 1, 0, 0],
             ],
             [
-                [0, 0, 1, 0, 0],
                 [0, 1, 1, 1, 0],
                 [1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1],
                 [0, 1, 1, 1, 0],
-                [0, 0, 1, 0, 0],
             ],
         ]
     )
@@ -106,31 +138,36 @@ def test_cylinder_construction():
     abs_error = np.abs(np.linalg.norm(known_mask_vector - calc_mask_vector))
     assert abs_error < tolerance
 
+    bb = cylinder.bounding_box
+    assert bb.width == 5
+    assert bb.depth == 5
+    assert bb.height == 3
+
 
 def test_sphere_non_positive_radius():
     bad_radius = 0  # radius should be 1 or greater
     with pytest.raises(ValueError):
-        pixel_sphere(bad_radius)
+        pixel_sphere(radius=bad_radius)
 
 
 def test_cylinder_non_positive_radius():
     bad_radius = 0  # radius should be 1 or greater
     with pytest.raises(ValueError):
-        pixel_cylinder(bad_radius)
+        pixel_cylinder(radius=bad_radius)
 
 
 def test_cylinder_non_positive_height():
     good_radius = 10
     bad_height = 0  # radius should be 1 or greater
     with pytest.raises(ValueError):
-        pixel_cylinder(good_radius, bad_height)
+        pixel_cylinder(radius=good_radius, height=bad_height)
 
 
 def test_sphere_non_positive_pixels_per_len():
     good_radius = 4  # len, some positive number is good
     bad_pixels_per_len = 0  # should be 1 or greater
     with pytest.raises(ValueError):
-        pixel_sphere(good_radius, bad_pixels_per_len)
+        pixel_sphere(radius=good_radius, pixels_per_len=bad_pixels_per_len)
 
 
 def test_cylinder_non_positive_pixels_per_len():
@@ -138,21 +175,15 @@ def test_cylinder_non_positive_pixels_per_len():
     good_height = 2 * good_radius  # len, a very squat cylinder
     bad_pixels_per_len = 0  # should be 1 or greater
     with pytest.raises(ValueError):
-        pixel_cylinder(good_radius, good_height, bad_pixels_per_len)
-
-
-def test_cylinder_non_positive_pixels_per_len():
-    good_radius = 4  # len, some positive number is good
-    good_height = 2 * good_radius  # len, a very squat cylinder
-    bad_pixels_per_len = 0  # should be 1 or greater
-    with pytest.raises(ValueError):
-        pixel_cylinder(good_radius, good_height, bad_pixels_per_len)
+        pixel_cylinder(
+            radius=good_radius, height=good_height, pixels_per_len=bad_pixels_per_len
+        )
 
 
 @pytest.mark.skip(reason="test not yet completed")
 def test_sphere_one_len_radius_high_resolution():
     radius = 1  # len
     pixels_per_len = 10  # pixels per len unit
-    sphere = pixel_sphere(radius, pixels_per_len)
+    sphere = pixel_sphere(radius=radius, pixels_per_len=pixels_per_len)
     _ = sphere.mask
     pass
