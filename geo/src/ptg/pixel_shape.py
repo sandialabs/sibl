@@ -1,5 +1,6 @@
 from abc import ABC
 from collections import namedtuple
+from typing import NamedTuple
 
 import numpy as np
 
@@ -12,7 +13,7 @@ class PixelShapeBase(ABC):
         1 shape does occupy that voxel.
     k indexes `height`, j indexes `depth`, i indexes `width`.
 
-    Arguments:
+    Keyword Arguments:
         width (float): width of shape in `len` units.  Defaults to 1.0 `len`.
         depth (float): depth of shape in `len` units.  Defaults to 1.0 `len`.
         height (float): height of shape in `len` units.  Defaults to 1.0 `len`.
@@ -70,8 +71,8 @@ class PixelShapeBase(ABC):
         )
 
     @property
-    def bounding_box(self):
-        """namedtuple("boundingbox", "width, depth, height"):
+    def bounding_box(self) -> NamedTuple:
+        """NamedTuple: namedtuple("boundingbox", "width, depth, height"):
         Returns the shape's bounding box, in units of pixels, as a namedtuple, with
             width (int): width of shape in `pixel` units.
             depth (int): depth of shape in `pixel` units.
@@ -80,8 +81,8 @@ class PixelShapeBase(ABC):
         return self._bounding_box
 
     @property
-    def mask(self):
-        """np.array: Returns the 3D bit pixel mask as a numpy array, with (k, j, i)
+    def mask(self) -> np.ndarray:
+        """np.ndarray: Returns the 3D bit pixel mask as a numpy array, with (k, j, i)
         voxel index, value at index is either:
             0 cube does not occupy that voxel,
             1 cube does occupy that voxel (on boundary or interior).
@@ -97,7 +98,7 @@ class PixelCube(PixelShapeBase):
         1 cube does occupy that voxel (on boundary or interior).
     k indexes `height`, j indexes `depth`, i indexes `width`.
 
-    Arguments:
+    Keyword Arguments:
         width (float): width of cube in `len` units.  Defaults to 1.0 `len`.
         pixels_per_len (int): pixels per unit `len`.
             This is `pixel` resolution.  Increase `pixel_per_len` to increase resolution.
@@ -138,7 +139,7 @@ class PixelSphere(PixelShapeBase):
         1 cube does occupy that voxel (on boundary or interior).
     k indexes `height`, j indexes `depth`, i indexes `width`.
 
-    Arguments:
+    Keyword Arguments:
         radius (float): radius of sphere in `len` units.  Defaults to 1.0 `len`.
         pixels_per_len (int): pixels per unit `len`.
             This is `pixel` resolution.  Increase `pixel_per_len` to increase resolution.
@@ -170,28 +171,18 @@ class PixelSphere(PixelShapeBase):
         )
 
         _radius_pixels = int(radius * pixels_per_len)
-        _diameter_pixels = int(2.0 * radius * pixels_per_len)
 
-        self._mask = np.zeros(
-            (_diameter_pixels, _diameter_pixels, _diameter_pixels), dtype=dtype
+        _diameter_pixels = 2 * _radius_pixels + 1
+        _z, _y, _x = np.mgrid[
+            -_radius_pixels : _radius_pixels : _diameter_pixels * 1j,
+            -_radius_pixels : _radius_pixels : _diameter_pixels * 1j,
+            -_radius_pixels : _radius_pixels : _diameter_pixels * 1j,
+        ]
+
+        _r_squared = _x ** 2 + _y ** 2 + _z ** 2
+        self._mask = np.array(
+            _r_squared <= _radius_pixels * _radius_pixels, dtype=dtype
         )
-
-        # For a sphere centered at (0, 0, 0), the surface
-        # satisfies x^2 + y^2 + z^2 = R^2.  Here, the (0, 0, 0) points is
-        # at the minimum coordinate of the bounding box.
-        _radius_squared_pixels = int((radius * pixels_per_len) ** 2)
-
-        for k in np.arange(_diameter_pixels):
-            for j in np.arange(_diameter_pixels):
-                for i in np.arange(_diameter_pixels):
-                    # print(f"i: {i}, j:{j}, k:{k}")
-                    voxel_center_squared = (
-                        (i - _radius_pixels) ** 2
-                        + (j - _radius_pixels) ** 2
-                        + (k - _radius_pixels) ** 2
-                    )
-                    if voxel_center_squared <= _radius_squared_pixels:
-                        self._mask[k, j, i] = 1
 
 
 class PixelCylinder(PixelShapeBase):
@@ -201,7 +192,7 @@ class PixelCylinder(PixelShapeBase):
         1 cube does occupy that voxel (on boundary or interior).
     k indexes `height`, j indexes `depth`, i indexes `width`.
 
-    Arguments:
+    Keyword Arguments:
         radius (float): radius of cylinder in `len` units.  Defaults to 1.0 `len`.
         height (float): height of cylinder in `len` units.  Defaults to 1.0 `len`.
         pixels_per_len (int): pixels per unit `len`.
@@ -235,25 +226,18 @@ class PixelCylinder(PixelShapeBase):
         )
 
         _radius_pixels = int(radius * pixels_per_len)
-        _diameter_pixels = int(2.0 * radius * pixels_per_len)
         _height_pixels = int(height * pixels_per_len)
 
-        # perform radius calculations only once, on a single layer, then stack layers
-        self._mask_layer = np.zeros((_diameter_pixels, _diameter_pixels), dtype=dtype)
+        _diameter_pixels = 2 * _radius_pixels + 1
+        _y, _x = np.mgrid[
+            -_radius_pixels : _radius_pixels : _diameter_pixels * 1j,
+            -_radius_pixels : _radius_pixels : _diameter_pixels * 1j,
+        ]
 
-        # For a cylinder centered at (0, 0, 0), the surface
-        # satisfies x^2 + y^2 = R^2 for all z.
-        _radius_squared_pixels = int((radius * pixels_per_len) ** 2)
-
-        # one and only one computation, same for all layers, so only compute once
-        for j in np.arange(_diameter_pixels):
-            for i in np.arange(_diameter_pixels):
-                print(f"i: {i}, j:{j}")
-                voxel_center_squared = (i - _radius_pixels) ** 2 + (
-                    j - _radius_pixels
-                ) ** 2
-                if voxel_center_squared <= _radius_squared_pixels:
-                    self._mask_layer[j, i] = 1
+        _r_squared = _x ** 2 + _y ** 2
+        self._mask_layer = np.array(
+            _r_squared <= _radius_pixels * _radius_pixels, dtype=dtype
+        )
 
         # stack z layers to assembly volume in z-direction
         self._mask = np.stack([self._mask_layer for _ in range(_height_pixels)])
