@@ -170,6 +170,28 @@ def test_sphere_non_positive_pixels_per_len():
         pixel_sphere(radius=good_radius, pixels_per_len=bad_pixels_per_len)
 
 
+def test_cube_non_zero_anchor():
+    x, y, z = 2.0, 3.0, 4.0  # cm offset from origin
+    pc = pixel_cube(anchor_x=x, anchor_y=y, anchor_z=z)
+    calc_anchor = pc.anchor  # pixel (int)
+    assert calc_anchor.x == 2  # pixel (int)
+    assert calc_anchor.y == 3
+    assert calc_anchor.z == 4
+
+
+def test_cube_non_default_non_zero_anchor():
+    x, y, z = 2.0, 3.0, 4.0  # cm offset from origin
+    pc = pixel_cube(anchor_x=x, anchor_y=y, anchor_z=z, pixels_per_len=5)
+    calc_anchor = pc.anchor  # pixel (int)
+    assert calc_anchor.x == 10  # pixel (int)
+    assert calc_anchor.y == 15
+    assert calc_anchor.z == 20
+
+
+# def test_add_shape():
+#    pc1 = pixel_cube()
+
+
 def test_cylinder_non_positive_pixels_per_len():
     good_radius = 4  # len, some positive number is good
     good_height = 2 * good_radius  # len, a very squat cylinder

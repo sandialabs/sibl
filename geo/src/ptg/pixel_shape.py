@@ -14,6 +14,12 @@ class PixelShapeBase(ABC):
     k indexes `height`, j indexes `depth`, i indexes `width`.
 
     Keyword Arguments:
+        anchor_x (float): x-position in `len` units of shape's anchor (0, 0, 0)
+            in world coordinate system.  Defaults to 0.0 `len`.
+        anchor_y (float): y-position in `len` units of shape's anchor (0, 0, 0)
+            in world coordinate system.  Defaults to 0.0 `len`.
+        anchor_z (float): z-position in `len` units of shape's anchor (0, 0, 0)
+            in world coordinate system.  Defaults to 0.0 `len`.
         width (float): width of shape in `len` units.  Defaults to 1.0 `len`.
         depth (float): depth of shape in `len` units.  Defaults to 1.0 `len`.
         height (float): height of shape in `len` units.  Defaults to 1.0 `len`.
@@ -32,6 +38,9 @@ class PixelShapeBase(ABC):
     def __init__(
         self,
         *,
+        anchor_x: float = 0.0,
+        anchor_y: float = 0.0,
+        anchor_z: float = 0.0,
         width: float = 1.0,
         depth: float = 1.0,
         height: float = 1.0,
@@ -60,7 +69,7 @@ class PixelShapeBase(ABC):
         self._depth_pixels = int(depth * pixels_per_len)
         self._height_pixels = int(height * pixels_per_len)
 
-        _bb = namedtuple("boundingbox", "width, depth, height")
+        _bb = namedtuple("boundingbox", ["width", "depth", "height"])
         self._bounding_box = _bb(
             width=self._width_pixels,
             depth=self._depth_pixels,
@@ -70,9 +79,16 @@ class PixelShapeBase(ABC):
             [self._width_pixels, self._depth_pixels, self._height_pixels], dtype=dtype
         )
 
+        _anchor = namedtuple("anchor", ["x", "y", "z"])
+        self._anchor = _anchor(
+            x=int(anchor_x * pixels_per_len),
+            y=int(anchor_y * pixels_per_len),
+            z=int(anchor_z * pixels_per_len),
+        )
+
     @property
     def bounding_box(self) -> NamedTuple:
-        """NamedTuple: namedtuple("boundingbox", "width, depth, height"):
+        """NamedTuple: namedtuple("boundingbox", ["width", "depth", "height"]):
         Returns the shape's bounding box, in units of pixels, as a namedtuple, with
             width (int): width of shape in `pixel` units.
             depth (int): depth of shape in `pixel` units.
@@ -90,6 +106,17 @@ class PixelShapeBase(ABC):
         """
         return self._mask
 
+    @property
+    def anchor(self) -> NamedTuple:
+        """NamedTuple: namedtuple("anchor", ["x", "y", "z"]):
+        Returns the shape's anchor point coordinates, in units of pixels,
+        as a namedtuple, with
+            x (int): x-position of shape's anchor point in `pixel` units.
+            y (int): y-position of shape's anchor point in `pixel` units.
+            z (int): z-position of shape's anchor point in `pixel` units.
+        """
+        return self._anchor
+
 
 class PixelCube(PixelShapeBase):
     """Creates a cube, at `pixel_per_len` resolution, composed of pixels as
@@ -99,6 +126,12 @@ class PixelCube(PixelShapeBase):
     k indexes `height`, j indexes `depth`, i indexes `width`.
 
     Keyword Arguments:
+        anchor_x (float): x-position in `len` units of shape's anchor (0, 0, 0)
+            in world coordinate system.  Defaults to 0.0 `len`.
+        anchor_y (float): y-position in `len` units of shape's anchor (0, 0, 0)
+            in world coordinate system.  Defaults to 0.0 `len`.
+        anchor_z (float): z-position in `len` units of shape's anchor (0, 0, 0)
+            in world coordinate system.  Defaults to 0.0 `len`.
         width (float): width of cube in `len` units.  Defaults to 1.0 `len`.
         pixels_per_len (int): pixels per unit `len`.
             This is `pixel` resolution.  Increase `pixel_per_len` to increase resolution.
@@ -115,12 +148,18 @@ class PixelCube(PixelShapeBase):
     def __init__(
         self,
         *,
+        anchor_x: float = 0.0,
+        anchor_y: float = 0.0,
+        anchor_z: float = 0.0,
         width: float = 1.0,
         pixels_per_len: int = 1,
         verbose: bool = False,
         dtype=np.uint8,
     ):
         super().__init__(
+            anchor_x=anchor_x,
+            anchor_y=anchor_y,
+            anchor_z=anchor_z,
             width=width,
             depth=width,
             height=width,
@@ -140,6 +179,12 @@ class PixelSphere(PixelShapeBase):
     k indexes `height`, j indexes `depth`, i indexes `width`.
 
     Keyword Arguments:
+        anchor_x (float): x-position in `len` units of shape's anchor (0, 0, 0)
+            in world coordinate system.  Defaults to 0.0 `len`.
+        anchor_y (float): y-position in `len` units of shape's anchor (0, 0, 0)
+            in world coordinate system.  Defaults to 0.0 `len`.
+        anchor_z (float): z-position in `len` units of shape's anchor (0, 0, 0)
+            in world coordinate system.  Defaults to 0.0 `len`.
         radius (float): radius of sphere in `len` units.  Defaults to 1.0 `len`.
         pixels_per_len (int): pixels per unit `len`.
             This is `pixel` resolution.  Increase `pixel_per_len` to increase resolution.
@@ -156,12 +201,18 @@ class PixelSphere(PixelShapeBase):
     def __init__(
         self,
         *,
+        anchor_x: float = 0.0,
+        anchor_y: float = 0.0,
+        anchor_z: float = 0.0,
         radius: float = 1.0,
         pixels_per_len: int = 1,
         verbose: bool = False,
         dtype=np.uint8,
     ):
         super().__init__(
+            anchor_x=anchor_x,
+            anchor_y=anchor_y,
+            anchor_z=anchor_z,
             width=2 * radius,
             depth=2 * radius,
             height=2 * radius,
@@ -193,6 +244,12 @@ class PixelCylinder(PixelShapeBase):
     k indexes `height`, j indexes `depth`, i indexes `width`.
 
     Keyword Arguments:
+        anchor_x (float): x-position in `len` units of shape's anchor (0, 0, 0)
+            in world coordinate system.  Defaults to 0.0 `len`.
+        anchor_y (float): y-position in `len` units of shape's anchor (0, 0, 0)
+            in world coordinate system.  Defaults to 0.0 `len`.
+        anchor_z (float): z-position in `len` units of shape's anchor (0, 0, 0)
+            in world coordinate system.  Defaults to 0.0 `len`.
         radius (float): radius of cylinder in `len` units.  Defaults to 1.0 `len`.
         height (float): height of cylinder in `len` units.  Defaults to 1.0 `len`.
         pixels_per_len (int): pixels per unit `len`.
@@ -210,6 +267,9 @@ class PixelCylinder(PixelShapeBase):
     def __init__(
         self,
         *,
+        anchor_x: float = 0.0,
+        anchor_y: float = 0.0,
+        anchor_z: float = 0.0,
         radius: float = 1.0,
         height: float = 1.0,
         pixels_per_len: int = 1,
@@ -217,6 +277,9 @@ class PixelCylinder(PixelShapeBase):
         dtype=np.uint8,
     ):
         super().__init__(
+            anchor_x=anchor_x,
+            anchor_y=anchor_y,
+            anchor_z=anchor_z,
             width=2 * radius,
             depth=2 * radius,
             height=height,
