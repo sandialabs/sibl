@@ -139,7 +139,7 @@ Department 5421, Sandia National Laboratories, PO Box 5800,  Albuquerque NM 8718
 
 ### Heinrich 2019
 
-* Heinrich, G. (2016). Image Segmentation Using DIGITS 5. https://devblogs.nvidia.com/image-segmentation-using-digits-5 accessed April 22, 2020.
+* Heinrich G. (2016). Image Segmentation Using DIGITS 5. https://devblogs.nvidia.com/image-segmentation-using-digits-5 accessed April 22, 2020.
 
 ### IRCAD-France 2012
 
@@ -151,7 +151,7 @@ Department 5421, Sandia National Laboratories, PO Box 5800,  Albuquerque NM 8718
 
 ### Ronneberger 2015
 
-* Ronneberger, O., Fischer, P., and Brox, T. (2015). U-net: Convolutional networks for biomedical image segmentation. In International Conference on Medical image computing and computer-assisted intervention, pages 234–241. Springer. https://arxiv.org/abs/1505.04597.
+* Ronneberger O, Fischer P, and Brox T. (2015). U-net: Convolutional networks for biomedical image segmentation. In International Conference on Medical image computing and computer-assisted intervention, pages 234–241. Springer. https://arxiv.org/abs/1505.04597.
 
 ### SIBL 2019
 
