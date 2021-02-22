@@ -69,10 +69,13 @@ class PixelShapeBase(ABC):
 
         _bb = namedtuple("bounding_box", ["dx", "dy", "dz"])
         self._bounding_box = _bb(
-            dx=self._dx_pixels, dy=self._dy_pixels, dz=self._dz_pixels,
+            dx=self._dx_pixels,
+            dy=self._dy_pixels,
+            dz=self._dz_pixels,
         )
         self._mask = np.zeros(
-            [self._dx_pixels, self._dy_pixels, self._dz_pixels], dtype=dtype,
+            [self._dx_pixels, self._dy_pixels, self._dz_pixels],
+            dtype=dtype,
         )
 
         _anchor = namedtuple("anchor", ["x", "y", "z"])

@@ -185,7 +185,9 @@ def test_cylinder_non_positive_pixels_per_len():
     bad_pixels_per_len = 0  # should be 1 or greater
     with pytest.raises(ValueError):
         pixel_cylinder(
-            diameter=good_diameter, dx=good_height, pixels_per_len=bad_pixels_per_len,
+            diameter=good_diameter,
+            dx=good_height,
+            pixels_per_len=bad_pixels_per_len,
         )
 
 
