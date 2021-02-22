@@ -5,6 +5,7 @@ import pytest
 from ptg.pixel_shape import PixelCube as pixel_cube
 from ptg.pixel_shape import PixelCylinder as pixel_cylinder
 from ptg.pixel_shape import PixelSphere as pixel_sphere
+from ptg.pixel_shape import BoundingBoxLines as bbl
 
 # References:
 # https://code.visualstudio.com/docs/python/testing#_enable-a-test-framework
@@ -37,16 +38,24 @@ def test_cube_construction_and_verbose():
     assert abs_error < tolerance
 
     bb = cube.bounding_box
-    assert bb.width == 3
-    assert bb.depth == 3
-    assert bb.height == 3
+    assert bb.dx == 3
+    assert bb.dy == 3
+    assert bb.dz == 3
+
+
+@pytest.mark.skip(reason="test not yet completed")
+def test_cube_bounding_box():
+    cube = pixel_cube(
+        anchor_x=1.0, anchor_y=2.0, anchor_z=3.0, dx=1.0, pixels_per_len=2
+    )
+    _bbl = bbl(cube)
 
 
 def test_sphere_construction():
-    sphere = pixel_sphere(radius=2.5, pixels_per_len=1)
+    sphere = pixel_sphere(diameter=5.0, pixels_per_len=1)
     assert sphere  # tests constructor
 
-    # tests of radius = 2.5 len,
+    # tests of radius = 2.5 len -> diameter = 5.0
     # pixels_per_len = 1
     known_mask = np.array(
         [
@@ -96,13 +105,13 @@ def test_sphere_construction():
     assert abs_error < tolerance
 
     bb = sphere.bounding_box
-    assert bb.width == 5
-    assert bb.depth == 5
-    assert bb.height == 5
+    assert bb.dx == 5
+    assert bb.dy == 5
+    assert bb.dz == 5
 
 
 def test_cylinder_construction():
-    cylinder = pixel_cylinder(radius=2.5, height=3.0, pixels_per_len=1)
+    cylinder = pixel_cylinder(dx=3.0, diameter=5.0, pixels_per_len=1)
     assert cylinder  # tests constructor
 
     known_mask = np.array(
@@ -139,35 +148,45 @@ def test_cylinder_construction():
     assert abs_error < tolerance
 
     bb = cylinder.bounding_box
-    assert bb.width == 5
-    assert bb.depth == 5
-    assert bb.height == 3
+    assert bb.dx == 3
+    assert bb.dy == 5
+    assert bb.dz == 5
 
 
-def test_sphere_non_positive_radius():
-    bad_radius = 0  # radius should be 1 or greater
+def test_sphere_non_positive_diameter():
+    bad_value = 0  # diamter should be 1 or greater
     with pytest.raises(ValueError):
-        pixel_sphere(radius=bad_radius)
+        pixel_sphere(diameter=bad_value)
 
 
-def test_cylinder_non_positive_radius():
-    bad_radius = 0  # radius should be 1 or greater
+def test_cylinder_non_positive_diameter():
+    bad_value = 0  # diamter should be 1 or greater
     with pytest.raises(ValueError):
-        pixel_cylinder(radius=bad_radius)
+        pixel_cylinder(diameter=bad_value)
 
 
 def test_cylinder_non_positive_height():
-    good_radius = 10
-    bad_height = 0  # radius should be 1 or greater
+    good_diameter = 10
+    bad_height = 0  # height should be 1 or greater
     with pytest.raises(ValueError):
-        pixel_cylinder(radius=good_radius, height=bad_height)
+        pixel_cylinder(diameter=good_diameter, dx=bad_height)
 
 
 def test_sphere_non_positive_pixels_per_len():
-    good_radius = 4  # len, some positive number is good
+    good_diameter = 4  # len, some positive number is good
     bad_pixels_per_len = 0  # should be 1 or greater
     with pytest.raises(ValueError):
-        pixel_sphere(radius=good_radius, pixels_per_len=bad_pixels_per_len)
+        pixel_sphere(diameter=good_diameter, pixels_per_len=bad_pixels_per_len)
+
+
+def test_cylinder_non_positive_pixels_per_len():
+    good_diameter = 4  # len, some positive number is good
+    good_height = 2 * good_diameter  # len, a very squat cylinder
+    bad_pixels_per_len = 0  # should be 1 or greater
+    with pytest.raises(ValueError):
+        pixel_cylinder(
+            diameter=good_diameter, dx=good_height, pixels_per_len=bad_pixels_per_len,
+        )
 
 
 def test_cube_non_zero_anchor():
@@ -190,16 +209,6 @@ def test_cube_non_default_non_zero_anchor():
 
 # def test_add_shape():
 #    pc1 = pixel_cube()
-
-
-def test_cylinder_non_positive_pixels_per_len():
-    good_radius = 4  # len, some positive number is good
-    good_height = 2 * good_radius  # len, a very squat cylinder
-    bad_pixels_per_len = 0  # should be 1 or greater
-    with pytest.raises(ValueError):
-        pixel_cylinder(
-            radius=good_radius, height=good_height, pixels_per_len=bad_pixels_per_len
-        )
 
 
 @pytest.mark.skip(reason="test not yet completed")

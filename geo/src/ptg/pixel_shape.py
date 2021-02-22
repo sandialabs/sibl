@@ -8,10 +8,10 @@ import numpy as np
 class PixelShapeBase(ABC):
     """Abstract base class for all 3D pixel shape classes.
     Creates a shape, at `pixel_per_len` resolution, composed of pixels as
-    the 3D bit mask numpy array, with (k, j, i) voxel index, value at index is either:
+    the 3D bit mask numpy array, with (i, j, k) voxel index, value at index is either:
         0 shape does not occupy that voxel,
         1 shape does occupy that voxel.
-    k indexes `height`, j indexes `depth`, i indexes `width`.
+    i indexes `height`, j indexes `depth`, k indexes `width`.
 
     Keyword Arguments:
         anchor_x (float): x-position in `len` units of shape's anchor (0, 0, 0)
@@ -20,9 +20,9 @@ class PixelShapeBase(ABC):
             in world coordinate system.  Defaults to 0.0 `len`.
         anchor_z (float): z-position in `len` units of shape's anchor (0, 0, 0)
             in world coordinate system.  Defaults to 0.0 `len`.
-        width (float): width of shape in `len` units.  Defaults to 1.0 `len`.
-        depth (float): depth of shape in `len` units.  Defaults to 1.0 `len`.
-        height (float): height of shape in `len` units.  Defaults to 1.0 `len`.
+        dx (float): height of shape in `len` units.  Defaults to 1.0 `len`.
+        dy (float): depth of shape in `len` units.  Defaults to 1.0 `len`.
+        dz (float): width of shape in `len` units.  Defaults to 1.0 `len`.
         pixels_per_len (int): pixels per unit `len`.
             This is `pixel` resolution.  Increase `pixel_per_len` to increase resolution.
             Typical values include 150 pixels per inch and 300 pixels per inch.
@@ -32,7 +32,7 @@ class PixelShapeBase(ABC):
 
     Raises:
         ValueError: If `pixels_per_len` is less than 1.
-        ValueError: If bounding box `width` or `depth` or `height` is less than 1.0.
+        ValueError: If bounding box `dx` or `dy` or `dz` is less than 1.0.
     """
 
     def __init__(
@@ -41,9 +41,9 @@ class PixelShapeBase(ABC):
         anchor_x: float = 0.0,
         anchor_y: float = 0.0,
         anchor_z: float = 0.0,
-        width: float = 1.0,
-        depth: float = 1.0,
-        height: float = 1.0,
+        dx: float = 1.0,
+        dy: float = 1.0,
+        dz: float = 1.0,
         pixels_per_len: int = 1,
         verbose: bool = False,
         dtype=np.uint8,
@@ -52,31 +52,27 @@ class PixelShapeBase(ABC):
         if pixels_per_len < 1:
             raise ValueError("Error: pixels_per_len (ppl) must be 1 'ppl' or greater.")
 
-        if width < 1.0 or depth < 1.0 or height < 1.0:
-            raise ValueError(
-                "Error: width, depth, and height must be 1.0 'len' or greater."
-            )
+        if dx < 1.0 or dy < 1.0 or dz < 1.0:
+            raise ValueError("Error: dx, dy, and dz must be 1.0 'len' or greater.")
 
         if verbose:
             print("Creating object with following parameters:")
-            print(f"bounding box width = {width} [len]")
-            print(f"bounding box depth = {depth} [len]")
-            print(f"bounding box height = {height} [len]")
+            print(f"bounding box dx = {dx} [len]")
+            print(f"bounding box dy = {dy} [len]")
+            print(f"bounding box dz = {dz} [len]")
             print(f"resolution = {pixels_per_len} [pixels per len]")
             print(f"data type = {dtype}")
 
-        self._width_pixels = int(width * pixels_per_len)
-        self._depth_pixels = int(depth * pixels_per_len)
-        self._height_pixels = int(height * pixels_per_len)
+        self._dx_pixels = int(dx * pixels_per_len)
+        self._dy_pixels = int(dy * pixels_per_len)
+        self._dz_pixels = int(dz * pixels_per_len)
 
-        _bb = namedtuple("boundingbox", ["width", "depth", "height"])
+        _bb = namedtuple("bounding_box", ["dx", "dy", "dz"])
         self._bounding_box = _bb(
-            width=self._width_pixels,
-            depth=self._depth_pixels,
-            height=self._height_pixels,
+            dx=self._dx_pixels, dy=self._dy_pixels, dz=self._dz_pixels,
         )
         self._mask = np.zeros(
-            [self._width_pixels, self._depth_pixels, self._height_pixels], dtype=dtype
+            [self._dx_pixels, self._dy_pixels, self._dz_pixels], dtype=dtype,
         )
 
         _anchor = namedtuple("anchor", ["x", "y", "z"])
@@ -88,21 +84,21 @@ class PixelShapeBase(ABC):
 
     @property
     def bounding_box(self) -> NamedTuple:
-        """NamedTuple: namedtuple("boundingbox", ["width", "depth", "height"]):
+        """NamedTuple: namedtuple("bounding_box", ["dx", "dy", "dz"]):
         Returns the shape's bounding box, in units of pixels, as a namedtuple, with
-            width (int): width of shape in `pixel` units.
-            depth (int): depth of shape in `pixel` units.
-            height (int): height of shape in `pixel` units.
+            dx (int): height of shape in `pixel` units.
+            dy (int): depth of shape in `pixel` units.
+            dz (int): width of shape in `pixel` units.
         """
         return self._bounding_box
 
     @property
     def mask(self) -> np.ndarray:
-        """np.ndarray: Returns the 3D bit pixel mask as a numpy array, with (k, j, i)
+        """np.ndarray: Returns the 3D bit pixel mask as a numpy array, with (i, j, k)
         voxel index, value at index is either:
-            0 cube does not occupy that voxel,
-            1 cube does occupy that voxel (on boundary or interior).
-        k indexes height, j indexes depth, i indexes width.
+            0 (int) cube does not occupy that voxel,
+            1 (int) cube does occupy that voxel (on boundary or interior).
+        i indexes height, j indexes depth, k indexes width.
         """
         return self._mask
 
@@ -120,10 +116,10 @@ class PixelShapeBase(ABC):
 
 class PixelCube(PixelShapeBase):
     """Creates a cube, at `pixel_per_len` resolution, composed of pixels as
-    the 3D bit mask numpy array, with (k, j, i) voxel index, value at index is either:
-        0 cube does not occupy that voxel,
-        1 cube does occupy that voxel (on boundary or interior).
-    k indexes `height`, j indexes `depth`, i indexes `width`.
+    the 3D bit mask numpy array, with (i, j, k) voxel index, value at index is either:
+        0 shape does not occupy that voxel,
+        1 shape does occupy that voxel.
+    i indexes `height`, j indexes `depth`, k indexes `width`.
 
     Keyword Arguments:
         anchor_x (float): x-position in `len` units of shape's anchor (0, 0, 0)
@@ -132,7 +128,7 @@ class PixelCube(PixelShapeBase):
             in world coordinate system.  Defaults to 0.0 `len`.
         anchor_z (float): z-position in `len` units of shape's anchor (0, 0, 0)
             in world coordinate system.  Defaults to 0.0 `len`.
-        width (float): width of cube in `len` units.  Defaults to 1.0 `len`.
+        dx (float): height of shape in `len` units.  Defaults to 1.0 `len`.
         pixels_per_len (int): pixels per unit `len`.
             This is `pixel` resolution.  Increase `pixel_per_len` to increase resolution.
             Typical values include 150 pixels per inch and 300 pixels per inch.
@@ -142,7 +138,7 @@ class PixelCube(PixelShapeBase):
 
     Raises:
         ValueError: If `pixels_per_len` is less than 1.
-        ValueError: If bounding box `width` or `depth` or `height` is less than 1.0.
+        ValueError: If bounding box `dx` or `dy` or `dz` is less than 1.0.
     """
 
     def __init__(
@@ -151,7 +147,7 @@ class PixelCube(PixelShapeBase):
         anchor_x: float = 0.0,
         anchor_y: float = 0.0,
         anchor_z: float = 0.0,
-        width: float = 1.0,
+        dx: float = 1.0,
         pixels_per_len: int = 1,
         verbose: bool = False,
         dtype=np.uint8,
@@ -160,23 +156,23 @@ class PixelCube(PixelShapeBase):
             anchor_x=anchor_x,
             anchor_y=anchor_y,
             anchor_z=anchor_z,
-            width=width,
-            depth=width,
-            height=width,
+            dx=dx,
+            dy=dx,
+            dz=dx,
             pixels_per_len=pixels_per_len,
             verbose=verbose,
         )
-        _width_pixels = int(width * pixels_per_len)
+        _dx_pixels = int(dx * pixels_per_len)
 
-        self._mask = np.ones((_width_pixels, _width_pixels, _width_pixels), dtype=dtype)
+        self._mask = np.ones((_dx_pixels, _dx_pixels, _dx_pixels), dtype=dtype)
 
 
 class PixelSphere(PixelShapeBase):
     """Creates a sphere, at `pixel_per_len` resolution, composed of pixels as
-    the 3D bit mask numpy array, with (k, j, i) voxel index, value at index is either:
-        0 cube does not occupy that voxel,
-        1 cube does occupy that voxel (on boundary or interior).
-    k indexes `height`, j indexes `depth`, i indexes `width`.
+    the 3D bit mask numpy array, with (i, j, k) voxel index, value at index is either:
+        0 shape does not occupy that voxel,
+        1 shape does occupy that voxel.
+    i indexes `height`, j indexes `depth`, k indexes `width`.
 
     Keyword Arguments:
         anchor_x (float): x-position in `len` units of shape's anchor (0, 0, 0)
@@ -185,7 +181,8 @@ class PixelSphere(PixelShapeBase):
             in world coordinate system.  Defaults to 0.0 `len`.
         anchor_z (float): z-position in `len` units of shape's anchor (0, 0, 0)
             in world coordinate system.  Defaults to 0.0 `len`.
-        radius (float): radius of sphere in `len` units.  Defaults to 1.0 `len`.
+        diameter (float): diameter of sphere in `len` units (diameter = dx = dy = dz).
+            Defaults to 2.0 `len`.
         pixels_per_len (int): pixels per unit `len`.
             This is `pixel` resolution.  Increase `pixel_per_len` to increase resolution.
             Typical values include 150 pixels per inch and 300 pixels per inch.
@@ -195,7 +192,7 @@ class PixelSphere(PixelShapeBase):
 
     Raises:
         ValueError: If `pixels_per_len` is less than 1.
-        ValueError: If bounding box `width` or `depth` or `height` is less than 1.0.
+        ValueError: If bounding box `dx` or `dy` or `dz` is less than 1.0.
     """
 
     def __init__(
@@ -204,7 +201,7 @@ class PixelSphere(PixelShapeBase):
         anchor_x: float = 0.0,
         anchor_y: float = 0.0,
         anchor_z: float = 0.0,
-        radius: float = 1.0,
+        diameter: float = 2.0,
         pixels_per_len: int = 1,
         verbose: bool = False,
         dtype=np.uint8,
@@ -213,18 +210,18 @@ class PixelSphere(PixelShapeBase):
             anchor_x=anchor_x,
             anchor_y=anchor_y,
             anchor_z=anchor_z,
-            width=2 * radius,
-            depth=2 * radius,
-            height=2 * radius,
+            dx=diameter,
+            dy=diameter,
+            dz=diameter,
             pixels_per_len=pixels_per_len,
             verbose=verbose,
             dtype=np.uint8,
         )
 
-        _radius_pixels = int(radius * pixels_per_len)
+        _radius_pixels = int(diameter / 2.0 * pixels_per_len) + 1
+        _diameter_pixels = int(diameter * pixels_per_len)
 
-        _diameter_pixels = 2 * _radius_pixels + 1
-        _z, _y, _x = np.mgrid[
+        _x, _y, _z = np.mgrid[
             -_radius_pixels : _radius_pixels : _diameter_pixels * 1j,
             -_radius_pixels : _radius_pixels : _diameter_pixels * 1j,
             -_radius_pixels : _radius_pixels : _diameter_pixels * 1j,
@@ -238,10 +235,10 @@ class PixelSphere(PixelShapeBase):
 
 class PixelCylinder(PixelShapeBase):
     """Creates a cylinder, at `pixel_per_len` resolution, composed of pixels as
-    the 3D bit mask numpy array, with (k, j, i) voxel index, value at index is either:
-        0 cube does not occupy that voxel,
-        1 cube does occupy that voxel (on boundary or interior).
-    k indexes `height`, j indexes `depth`, i indexes `width`.
+    the 3D bit mask numpy array, with (i, j, k) voxel index, value at index is either:
+        0 shape does not occupy that voxel,
+        1 shape does occupy that voxel.
+    i indexes `height`, j indexes `depth`, k indexes `width`.
 
     Keyword Arguments:
         anchor_x (float): x-position in `len` units of shape's anchor (0, 0, 0)
@@ -250,8 +247,9 @@ class PixelCylinder(PixelShapeBase):
             in world coordinate system.  Defaults to 0.0 `len`.
         anchor_z (float): z-position in `len` units of shape's anchor (0, 0, 0)
             in world coordinate system.  Defaults to 0.0 `len`.
-        radius (float): radius of cylinder in `len` units.  Defaults to 1.0 `len`.
-        height (float): height of cylinder in `len` units.  Defaults to 1.0 `len`.
+        dx (float): height of cylinder in `len` units.  Defaults to 1.0 `len`.
+        diameter (float): diameter of cylinder in `len` units (diameter = dy = dz).
+            Defaults to 2.0 `len`.
         pixels_per_len (int): pixels per unit `len`.
             This is `pixel` resolution.  Increase `pixel_per_len` to increase resolution.
             Typical values include 150 pixels per inch and 300 pixels per inch.
@@ -261,7 +259,7 @@ class PixelCylinder(PixelShapeBase):
 
     Raises:
         ValueError: If `pixels_per_len` is less than 1.
-        ValueError: If bounding box `width` or `depth` or `height` is less than 1.0.
+        ValueError: If bounding box `dx` or `dy` or `dz` is less than 1.0.
     """
 
     def __init__(
@@ -270,8 +268,8 @@ class PixelCylinder(PixelShapeBase):
         anchor_x: float = 0.0,
         anchor_y: float = 0.0,
         anchor_z: float = 0.0,
-        radius: float = 1.0,
-        height: float = 1.0,
+        dx: float = 1.0,
+        diameter: float = 2.0,
         pixels_per_len: int = 1,
         verbose: bool = False,
         dtype=np.uint8,
@@ -280,27 +278,90 @@ class PixelCylinder(PixelShapeBase):
             anchor_x=anchor_x,
             anchor_y=anchor_y,
             anchor_z=anchor_z,
-            width=2 * radius,
-            depth=2 * radius,
-            height=height,
+            dx=dx,
+            dy=diameter,
+            dz=diameter,
             pixels_per_len=pixels_per_len,
             verbose=verbose,
             dtype=np.uint8,
         )
 
-        _radius_pixels = int(radius * pixels_per_len)
-        _height_pixels = int(height * pixels_per_len)
+        _radius_pixels = int(diameter / 2.0 * pixels_per_len) + 1
+        _diameter_pixels = int(diameter * pixels_per_len)
+        _height_pixels = int(dx * pixels_per_len)
 
-        _diameter_pixels = 2 * _radius_pixels + 1
-        _y, _x = np.mgrid[
+        _y, _z = np.mgrid[
             -_radius_pixels : _radius_pixels : _diameter_pixels * 1j,
             -_radius_pixels : _radius_pixels : _diameter_pixels * 1j,
         ]
 
-        _r_squared = _x ** 2 + _y ** 2
+        _r_squared = _y ** 2 + _z ** 2
         self._mask_layer = np.array(
             _r_squared <= _radius_pixels * _radius_pixels, dtype=dtype
         )
 
-        # stack z layers to assembly volume in z-direction
+        # stack x layers to assembly volume in x-direction
         self._mask = np.stack([self._mask_layer for _ in range(_height_pixels)])
+
+
+class BoundingBoxLines:
+    """Creates collection of points to compose lines of a shape's bounding box.
+
+    Arguments:
+        shape (PixelShapeBase): the shape object.
+    """
+
+    def __init__(self, shape: PixelShapeBase) -> None:
+
+        _x0, _y0, _z0 = shape.anchor.x, shape.anchor.y, shape.anchor.z
+        _dx, _dy, _dz = (
+            shape.bounding_box.dx,
+            shape.bounding_box.dy,
+            shape.bounding_box.dz,
+        )
+        _x1, _y1, _z1 = _x0 + _dx, _y0 + _dy, _z0 + _dz
+
+        self._edges_dx = np.array(
+            [
+                [[_x0, _y0, _z0], [_x1, _y0, _z0]],
+                [[_x0, _y0, _z1], [_x1, _y0, _z1]],
+                [[_x0, _y1, _z0], [_x1, _y1, _z0]],
+                [[_x0, _y1, _z1], [_x1, _y1, _z1]],
+            ],
+        )
+
+        self._edges_dy = np.array(
+            [
+                [[_x0, _y0, _z0], [_x0, _y1, _z0]],
+                [[_x0, _y0, _z1], [_x0, _y1, _z1]],
+                [[_x1, _y0, _z0], [_x1, _y1, _z0]],
+                [[_x1, _y0, _z1], [_x1, _y1, _z1]],
+            ],
+        )
+
+        self._edges_dz = np.array(
+            [
+                [[_x0, _y0, _z0], [_x0, _y0, _z1]],
+                [[_x0, _y1, _z0], [_x0, _y1, _z1]],
+                [[_x1, _y0, _z0], [_x1, _y0, _z1]],
+                [[_x1, _y1, _z0], [_x1, _y1, _z1]],
+            ],
+        )
+
+    @property
+    def edges_dx(self) -> np.ndarray:
+        """np.ndarray: Returns a numpy array of point pairs, (x, y, z) in pixel units,
+        composing edges parallel with the x direction."""
+        return self._edges_dx
+
+    @property
+    def edges_dy(self) -> np.ndarray:
+        """np.ndarray: Returns a numpy array of point pairs, (x, y, z) in pixel units,
+        composing edges parallel with the y direction."""
+        return self._edges_dy
+
+    @property
+    def edges_dz(self) -> np.ndarray:
+        """np.ndarray: Returns a numpy array of point pairs, (x, y, z) in pixel units,
+        composing edges parallel with the z direction."""
+        return self._edges_dz
