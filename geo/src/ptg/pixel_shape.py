@@ -307,6 +307,87 @@ class PixelCylinder(PixelShapeBase):
         self._mask = np.stack([self._mask_layer for _ in range(_height_pixels)])
 
 
+class PixelQuarterCylinder(PixelShapeBase):
+    """Creates a quarter cylinder, at `pixel_per_len` resolution, composed of pixels as
+    the 3D bit mask numpy array, with (i, j, k) voxel index, value at index is either:
+        0 shape does not occupy that voxel,
+        1 shape does occupy that voxel.
+    i indexes `height`, j indexes `depth`, k indexes `width`.
+
+    Keyword Arguments:
+        anchor_x (float): x-position in `len` units of shape's anchor (0, 0, 0)
+            in world coordinate system.  Defaults to 0.0 `len`.
+        anchor_y (float): y-position in `len` units of shape's anchor (0, 0, 0)
+            in world coordinate system.  Defaults to 0.0 `len`.
+        anchor_z (float): z-position in `len` units of shape's anchor (0, 0, 0)
+            in world coordinate system.  Defaults to 0.0 `len`.
+        dx (float): height of cylinder in `len` units.  Defaults to 1.0 `len`.
+        radius_inner (float): inner radius of cylinder in `len` units.
+            Defaults to 1.0 `len`.
+        radius_outer (float): outer radius of cylinder in `len` units.
+            Defaults to 2.0 `len`.
+        pixels_per_len (int): pixels per unit `len`.
+            This is `pixel` resolution.  Increase `pixel_per_len` to increase resolution.
+            Typical values include 150 pixels per inch and 300 pixels per inch.
+            Defaults to 1 `pixel_per_len`.
+        verbose (bool): True gives enhanced command line feedback.  Defaults to False.
+        dtype (np.uint8): the data type of the pixel.
+
+    Raises:
+        ValueError: If `pixels_per_len` is less than 1.
+        ValueError: If bounding box `dx` or `dy` or `dz` is less than 1.0.
+    """
+
+    def __init__(
+        self,
+        *,
+        anchor_x: float = 0.0,
+        anchor_y: float = 0.0,
+        anchor_z: float = 0.0,
+        dx: float = 1.0,
+        radius_inner: float = 1.0,
+        radius_outer: float = 2.0,
+        pixels_per_len: int = 1,
+        verbose: bool = False,
+        dtype=np.uint8,
+    ):
+        super().__init__(
+            anchor_x=anchor_x,
+            anchor_y=anchor_y,
+            anchor_z=anchor_z,
+            dx=dx,
+            dy=radius_outer,
+            dz=radius_outer,
+            pixels_per_len=pixels_per_len,
+            verbose=verbose,
+            dtype=np.uint8,
+        )
+
+        # _radius_pixels = int(diameter / 2.0 * pixels_per_len) + 1
+        # _diameter_pixels = int(diameter * pixels_per_len)
+        _radius_inner_pixels = int(radius_inner * pixels_per_len)
+        _radius_outer_pixels = int(radius_outer * pixels_per_len)
+        _height_pixels = int(dx * pixels_per_len)
+
+        _y, _z = np.mgrid[
+            0 : _radius_outer_pixels : _radius_outer_pixels * 1j,
+            0 : _radius_outer_pixels : _radius_outer_pixels * 1j,
+        ]
+
+        _r_squared = _y ** 2 + _z ** 2
+        _inner_mask = np.array(
+            _radius_inner_pixels * _radius_inner_pixels <= _r_squared
+        )
+        _outer_mask = np.array(
+            _r_squared <= _radius_outer_pixels * _radius_outer_pixels
+        )
+        # now intersection of inner radius mask and outer radius mask
+        self._mask_layer = np.array(_inner_mask * _outer_mask, dtype=dtype)
+
+        # stack x layers to assembly volume in x-direction
+        self._mask = np.stack([self._mask_layer for _ in range(_height_pixels)])
+
+
 class BoundingBoxLines:
     """Creates collection of points to compose lines of a shape's bounding box.
 

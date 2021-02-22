@@ -5,6 +5,7 @@ import pytest
 from ptg.pixel_shape import PixelCube as pixel_cube
 from ptg.pixel_shape import PixelCylinder as pixel_cylinder
 from ptg.pixel_shape import PixelSphere as pixel_sphere
+from ptg.pixel_shape import PixelQuarterCylinder as pixel_quarter_cylinder
 from ptg.pixel_shape import BoundingBoxLines as bbl
 
 # References:
@@ -151,6 +152,46 @@ def test_cylinder_construction():
     assert bb.dx == 3
     assert bb.dy == 5
     assert bb.dz == 5
+
+
+def test_quarter_cylinder_construction():
+    qtr_cylinder = pixel_quarter_cylinder(
+        dx=2, radius_inner=3.0, radius_outer=6.0, pixels_per_len=1
+    )
+    assert qtr_cylinder  # tests constructor
+
+    known_mask = np.array(
+        [
+            [
+                [0, 0, 0, 1, 1, 1],
+                [0, 0, 0, 1, 1, 0],
+                [0, 0, 1, 1, 1, 0],
+                [1, 1, 1, 1, 1, 0],
+                [1, 1, 1, 1, 0, 0],
+                [1, 0, 0, 0, 0, 0],
+            ],
+            [
+                [0, 0, 0, 1, 1, 1],
+                [0, 0, 0, 1, 1, 0],
+                [0, 0, 1, 1, 1, 0],
+                [1, 1, 1, 1, 1, 0],
+                [1, 1, 1, 1, 0, 0],
+                [1, 0, 0, 0, 0, 0],
+            ],
+        ]
+    )
+    known_mask_vector = np.ndarray.flatten(known_mask)
+
+    calc_mask = qtr_cylinder.mask
+    calc_mask_vector = np.ndarray.flatten(calc_mask)
+    tolerance = 1e-6  # very small value
+    abs_error = np.abs(np.linalg.norm(known_mask_vector - calc_mask_vector))
+    assert abs_error < tolerance
+
+    bb = qtr_cylinder.bounding_box
+    assert bb.dx == 2
+    assert bb.dy == 6
+    assert bb.dz == 6
 
 
 def test_sphere_non_positive_diameter():
