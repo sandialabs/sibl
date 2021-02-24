@@ -32,10 +32,10 @@ offsetx, offsety, offsetz = 0.0, 0.0, 0.0
 
 # quarter-cylinder primitive
 pixel_shape = pixel_quarter_cylinder(
-    dx=1,
+    height=1,
     radius_inner=3,
     radius_outer=6,
-    pixels_per_len=4,
+    pixels_per_len=2,
     anchor_x=offsetx,
     anchor_y=offsety,
     anchor_z=offsetz,

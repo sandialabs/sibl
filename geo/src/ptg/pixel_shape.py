@@ -1,8 +1,39 @@
 from abc import ABC
-from collections import namedtuple
+
+# from collections import namedtuple
 from typing import NamedTuple
 
 import numpy as np
+
+
+class PixelAnchor(NamedTuple):
+    """Create the shape's anchor (x, y, z) position, in units of pixels, as a
+    namedtuple, with the following attributes:
+
+    Attributes:
+        x (int): x-coordinate of position in `pixel` units.  Defaults to 0.
+        y (int): y-coordinate of position in `pixel` units.  Defaults to 0.
+        x (int): z-coordinate of position in `pixel` units.  Defaults to 0.
+    """
+
+    x: int = 0  # pixels
+    y: int = 0  # pixels
+    z: int = 0  # pixels
+
+
+class PixelBoundingBox(NamedTuple):
+    """Creates the shape's bounding box, in units of pixels, as a namedtuple, with
+    the following attributes:
+
+    Attributes:
+        dx (int): height of shape in `pixel` units. Defaults to 1.
+        dy (int): depth of shape in `pixel` units. Defaults to 1.
+        dz (int): width of shape in `pixel` units. Defaults to 1.
+    """
+
+    dx: int = 1  # pixels
+    dy: int = 1  # pixels
+    dz: int = 1  # pixels
 
 
 class PixelShapeBase(ABC):
@@ -63,37 +94,32 @@ class PixelShapeBase(ABC):
             print(f"resolution = {pixels_per_len} [pixels per len]")
             print(f"data type = {dtype}")
 
+        self._anchor_x_pixels = int(anchor_x * pixels_per_len)
+        self._anchor_y_pixels = int(anchor_y * pixels_per_len)
+        self._anchor_z_pixels = int(anchor_z * pixels_per_len)
+
         self._dx_pixels = int(dx * pixels_per_len)
         self._dy_pixels = int(dy * pixels_per_len)
         self._dz_pixels = int(dz * pixels_per_len)
 
-        _bb = namedtuple("bounding_box", ["dx", "dy", "dz"])
-        self._bounding_box = _bb(
-            dx=self._dx_pixels,
-            dy=self._dy_pixels,
-            dz=self._dz_pixels,
-        )
         self._mask = np.zeros(
             [self._dx_pixels, self._dy_pixels, self._dz_pixels],
             dtype=dtype,
         )
 
-        _anchor = namedtuple("anchor", ["x", "y", "z"])
-        self._anchor = _anchor(
-            x=int(anchor_x * pixels_per_len),
-            y=int(anchor_y * pixels_per_len),
-            z=int(anchor_z * pixels_per_len),
+    @property
+    def anchor(self) -> PixelAnchor:
+        """PixelAnchor"""
+        return PixelAnchor(
+            x=self._anchor_x_pixels, y=self._anchor_y_pixels, z=self._anchor_z_pixels
         )
 
     @property
-    def bounding_box(self) -> NamedTuple:
-        """NamedTuple: namedtuple("bounding_box", ["dx", "dy", "dz"]):
-        Returns the shape's bounding box, in units of pixels, as a namedtuple, with
-            dx (int): height of shape in `pixel` units.
-            dy (int): depth of shape in `pixel` units.
-            dz (int): width of shape in `pixel` units.
-        """
-        return self._bounding_box
+    def bounding_box(self) -> PixelBoundingBox:
+        """PixelBoundingBox"""
+        return PixelBoundingBox(
+            dx=self._dx_pixels, dy=self._dy_pixels, dz=self._dz_pixels
+        )
 
     @property
     def mask(self) -> np.ndarray:
@@ -104,17 +130,6 @@ class PixelShapeBase(ABC):
         i indexes height, j indexes depth, k indexes width.
         """
         return self._mask
-
-    @property
-    def anchor(self) -> NamedTuple:
-        """NamedTuple: namedtuple("anchor", ["x", "y", "z"]):
-        Returns the shape's anchor point coordinates, in units of pixels,
-        as a namedtuple, with
-            x (int): x-position of shape's anchor point in `pixel` units.
-            y (int): y-position of shape's anchor point in `pixel` units.
-            z (int): z-position of shape's anchor point in `pixel` units.
-        """
-        return self._anchor
 
 
 class PixelCube(PixelShapeBase):
@@ -271,7 +286,7 @@ class PixelCylinder(PixelShapeBase):
         anchor_x: float = 0.0,
         anchor_y: float = 0.0,
         anchor_z: float = 0.0,
-        dx: float = 1.0,
+        height: float = 1.0,
         diameter: float = 2.0,
         pixels_per_len: int = 1,
         verbose: bool = False,
@@ -281,7 +296,7 @@ class PixelCylinder(PixelShapeBase):
             anchor_x=anchor_x,
             anchor_y=anchor_y,
             anchor_z=anchor_z,
-            dx=dx,
+            dx=height,
             dy=diameter,
             dz=diameter,
             pixels_per_len=pixels_per_len,
@@ -291,7 +306,7 @@ class PixelCylinder(PixelShapeBase):
 
         _radius_pixels = int(diameter / 2.0 * pixels_per_len) + 1
         _diameter_pixels = int(diameter * pixels_per_len)
-        _height_pixels = int(dx * pixels_per_len)
+        _height_pixels = int(height * pixels_per_len)
 
         _y, _z = np.mgrid[
             -_radius_pixels : _radius_pixels : _diameter_pixels * 1j,
@@ -344,7 +359,7 @@ class PixelQuarterCylinder(PixelShapeBase):
         anchor_x: float = 0.0,
         anchor_y: float = 0.0,
         anchor_z: float = 0.0,
-        dx: float = 1.0,
+        height: float = 1.0,
         radius_inner: float = 1.0,
         radius_outer: float = 2.0,
         pixels_per_len: int = 1,
@@ -355,7 +370,7 @@ class PixelQuarterCylinder(PixelShapeBase):
             anchor_x=anchor_x,
             anchor_y=anchor_y,
             anchor_z=anchor_z,
-            dx=dx,
+            dx=height,
             dy=radius_outer,
             dz=radius_outer,
             pixels_per_len=pixels_per_len,
@@ -367,7 +382,7 @@ class PixelQuarterCylinder(PixelShapeBase):
         # _diameter_pixels = int(diameter * pixels_per_len)
         _radius_inner_pixels = int(radius_inner * pixels_per_len)
         _radius_outer_pixels = int(radius_outer * pixels_per_len)
-        _height_pixels = int(dx * pixels_per_len)
+        _height_pixels = int(height * pixels_per_len)
 
         _y, _z = np.mgrid[
             0 : _radius_outer_pixels : _radius_outer_pixels * 1j,
