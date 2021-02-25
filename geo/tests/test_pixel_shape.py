@@ -261,3 +261,42 @@ def test_sphere_one_len_radius_high_resolution():
     sphere = pixel_sphere(diameter=1, pixels_per_len=5)
     _mask = sphere.mask
     pass
+
+
+@pytest.mark.skip(reason="test not yet completed")
+def test_small_mesh_1x_1y_2z():
+
+    #            Two-element finite element mesh
+    #
+    #             Node (x, y, z) positions       Node Numbers
+    #
+    #             y-axis    x-axis
+    #               ^      /
+    #               |     /
+    #       /       | *---*---* 3                10--11--12
+    #      /        |/|  /|  /| 2                /|  /|  /|
+    #     /       3 *---*---* | 1               4---5---6 |
+    #    1        2 | *-|-*-|-* 0               | 7 | 8 | 9
+    #   x         1 |/  |/  |/                  |/  |/  |/
+    #  0 -------  0 *---*---*------> z-axis     1---2---3
+    # /             012345678
+
+    expected_node_list = [
+        [0.0, 0.0, 0.0],
+        [0.0, 0.0, 4.0],
+        [0.0, 0.0, 8.0],
+        [0.0, 3.0, 0.0],
+        [0.0, 3.0, 4.0],
+        [0.0, 3.0, 8.0],
+        [1.0, 0.0, 0.0],
+        [1.0, 0.0, 4.0],
+        [1.0, 0.0, 8.0],
+        [1.0, 3.0, 0.0],
+        [1.0, 3.0, 4.0],
+        [1.0, 3.0, 8.0],
+    ]
+
+    expected_element_list = [
+        [1, 2, 5, 4, 7, 8, 11, 10],
+        [2, 3, 6, 5, 8, 9, 12, 11],
+    ]
