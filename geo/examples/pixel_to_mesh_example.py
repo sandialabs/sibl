@@ -8,38 +8,55 @@ from ptg.pixel_shape import PixelCylinder as pixel_cylinder
 from ptg.pixel_shape import PixelQuarterCylinder as pixel_quarter_cylinder
 from ptg.pixel_shape import BoundingBoxLines as bbl
 
+
+offsetx, offsety, offsetz = 0.0, 0.0, 0.0
+# offsetx, offsety, offsetz = 0.0, 1.0, 2.0
+
+draw_cylinder = True
+draw_cylinder = False
+
+if draw_cylinder:
+    max_len = 12
+else:
+    max_len = 6
+
+ppl = 3  # pixels per length
+
+if draw_cylinder:
+    # cylinder primitive
+    pixel_shape = pixel_cylinder(
+        diameter_inner=6,
+        diameter_outer=max_len,
+        height=1,
+        pixels_per_len=ppl,
+        anchor_x=offsetx,
+        anchor_y=offsety,
+        anchor_z=offsetz,
+    )
+else:
+    # quarter-cylinder primitive
+    pixel_shape = pixel_quarter_cylinder(
+        height=1,
+        radius_inner=3,
+        radius_outer=max_len,
+        pixels_per_len=ppl,
+        anchor_x=offsetx,
+        anchor_y=offsety,
+        anchor_z=offsetz,
+    )
+
+
+# world start
 # create a world of pixel dimensions
 # n_layers_x, n_cols_y, n_rows_z = 1, 4, 6
-n_size = 30  # pixels
+# n_size = 40  # pixels
+n_size = max_len * ppl  # pixels
 n_layers_x, n_cols_y, n_rows_z = 5, n_size, n_size
 # indices
 inx, iny, inz = np.indices([n_layers_x, n_cols_y, n_rows_z])
 # world of extents dimensions and zero voxels throughout
 world = np.zeros([n_layers_x, n_cols_y, n_rows_z], dtype=np.uint8)
-
-offsetx, offsety, offsetz = 0.0, 0.0, 0.0
-# offsetx, offsety, offsetz = 0.0, 1.0, 2.0
-
-# cylinder primitive
-# pixel_shape = pixel_cylinder(
-#     diameter=5,
-#     dx=2,
-#     pixels_per_len=1,
-#     anchor_x=offsetx,
-#     anchor_y=offsety,
-#     anchor_z=offsetz,
-# )
-
-# quarter-cylinder primitive
-pixel_shape = pixel_quarter_cylinder(
-    height=1,
-    radius_inner=3,
-    radius_outer=6,
-    pixels_per_len=2,
-    anchor_x=offsetx,
-    anchor_y=offsety,
-    anchor_z=offsetz,
-)
+# world stop
 
 anchor = pixel_shape.anchor
 mask = pixel_shape.mask
@@ -56,7 +73,8 @@ for xx in range(npix_x):
 
 # camera_elevation, camera_azimuth = 15, -35  # degrees
 # camera_elevation, camera_azimuth = -150, 150  # degrees
-camera_elevation, camera_azimuth = -170, 160  # degrees
+# camera_elevation, camera_azimuth = -170, 160  # degrees
+camera_elevation, camera_azimuth = -160, 160  # degrees
 
 fig = plt.figure(figsize=(8, 8))
 
@@ -74,7 +92,7 @@ index = 1
 ax = fig.add_subplot(1, 1, index, projection=Axes3D.name)
 ax.view_init(elev=camera_elevation, azim=camera_azimuth)
 # ax.voxels(pixel_shape.mask, edgecolor="black")
-ax.voxels(world, edgecolor="black", alpha=0.9)
+ax.voxels(world, linewidth=0.25, edgecolor="black", alpha=0.5)
 # plot anchor point
 # anchor = pixel_shape.anchor
 ax.plot3D(anchor.x, anchor.y, anchor.z, color="magenta", markersize=10, marker="o")

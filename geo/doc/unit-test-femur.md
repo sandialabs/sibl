@@ -13,6 +13,8 @@ Demonstration of the Pixel To Geometry (PTG) workflow through 3D reconstruction 
 
 ### Data
 
+The client driver file, [pixel_to_mesh_example.py](../examples/pixel_to_mesh_example.py), created the following pixel shapes:
+
 * <img src="fig/qtr_cyl_ir3_or6_pixperlen1.png" alt="qtr_cyl_ir3_or6_pixperlen1" width="320"/>
 * > [Figure](fig/qtr_cyl_ir3_or6_pixperlen1.png): Quarter cylinder, H=1 len, IR=3 len, OR=6 len, pix/len = 1.
 
@@ -22,10 +24,14 @@ Demonstration of the Pixel To Geometry (PTG) workflow through 3D reconstruction 
 * <img src="fig/qtr_cyl_ir3_or6_pixperlen3.png" alt="qtr_cyl_ir3_or6_pixperlen3" width="320"/>
 * > [Figure](fig/qtr_cyl_ir3_or6_pixperlen3.png): Quarter cylinder, H=1 len, IR=3 len, OR=6 len, pix/len = 3.
 
-* <img src="fig/qtr_cyl_ir3_or6_pixperlen4.png" alt="qtr_cyl_ir3_or6_pixperlen4" width="320"/>
-* > [Figure](fig/qtr_cyl_ir3_or6_pixperlen4.png): Quarter cylinder, H=1 len, IR=3 len, OR=6 len, pix/len = 4.
+* <img src="fig/cyl_ir3_or6_pixperlen1.png" alt="cyl_ir3_or6_pixperlen1" width="320"/>
+* > [Figure](fig/cyl_ir3_or6_pixperlen1.png): Cylinder, H=1 len, ID=6 len, OD=12 len, pix/len = 1.
 
+* <img src="fig/cyl_ir3_or6_pixperlen2.png" alt="cyl_ir3_or6_pixperlen2" width="320"/>
+* > [Figure](fig/cyl_ir3_or6_pixperlen2.png): Cylinder, H=1 len, ID=6 len, OD=12 len, pix/len = 2.
 
+* <img src="fig/cyl_ir3_or6_pixperlen3.png" alt="cyl_ir3_or6_pixperlen3" width="320"/>
+* > [Figure](fig/cyl_ir3_or6_pixperlen3.png): Cylinder, H=1 len, ID=6 len, OD=12 len, pix/len = 3.
 
 ### Workflow
 
