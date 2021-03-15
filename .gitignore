@@ -51,3 +51,7 @@ geo/notebooks/.ipynb*
 
 # ignore output directory
 output/
+
+# ignore macOS database files
+.DS_Store
+
