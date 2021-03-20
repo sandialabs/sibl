@@ -1,3 +1,5 @@
+from typing import Union
+
 from scipy.interpolate import BSpline as scipy_bspline
 import numpy as np
 
@@ -5,8 +7,8 @@ import numpy as np
 class Curve:
     def __init__(
         self,
-        knot_vector_t: list,
-        coefficients: list,
+        knot_vector_t: Union[list, tuple],
+        coefficients: Union[list, tuple],
         degree_t: int = 0,
         verbose: bool = False,
     ):
@@ -83,9 +85,9 @@ class Curve:
 class Surface:
     def __init__(
         self,
-        knot_vector_t: list,
-        knot_vector_u: list,
-        coefficients: list,
+        knot_vector_t: Union[list, tuple],
+        knot_vector_u: Union[list, tuple],
+        coefficients: Union[list, tuple],
         degree_t: int = 0,
         degree_u: int = 0,
         n_bisections: int = 1,

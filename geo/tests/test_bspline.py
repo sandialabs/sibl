@@ -16,11 +16,11 @@ import ptg.bspline as bsp
 class TestBSpline(TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.TOL = 1e-6  # tolerance
+        cls.tol = 1e-6  # tolerance
         # cls.nti = 4  # number of time intervals per knot
         # t, e.g., nti=1 gives two sub-intervals, three evaluation points
         cls.verbosity = False
-        cls.kv = [0.0, 2.0, 3.0]  # list, knot_vector
+        cls.kv = (0.0, 2.0, 3.0)  # tuple, default knot_vector
         cls.ki = 0  # non-negative integer, defaults to first index
         cls.degree = 0  # non-negative polynomial degree, defaults to 0 (constant)
 
@@ -34,21 +34,21 @@ class TestBSpline(TestCase):
             print(f"array b = {b}")
             print(f"l2norm_diff = {l2norm_diff}")
 
-        if np.abs(l2norm_diff) < cls.TOL:
+        if np.abs(l2norm_diff) < cls.tol:
             same_to_tolerance = True
 
         return same_to_tolerance
 
     def test_000_curve_initialization(self):
-        knot_vector = [0.0, 1.0]
-        coef = [1.0]
+        knot_vector = (0.0, 1.0)
+        coef = (1.0,)
         degree = 0
         C = bsp.Curve(knot_vector, coef, degree)
         self.assertIsInstance(C, bsp.Curve)
 
     def test_001_curve_knot_vector_too_short(self):
-        knot_vector = [0.0]  # too short
-        coef = [1.0]
+        knot_vector = (0.0,)  # too short
+        coef = (1.0,)
         degree = 0
         C = bsp.Curve(knot_vector, coef, degree)
         result = C.is_valid()
@@ -56,8 +56,8 @@ class TestBSpline(TestCase):
         self.assertTrue(result.args[0] == "Error: knot vector mininum length is two.")
 
     def test_002_curve_degree_too_small_and_verbose(self):
-        knot_vector = [0.0, 1.0]
-        coef = [1.0]
+        knot_vector = (0.0, 1.0)
+        coef = (1.0,)
         degree = -1  # integer >= 0, so -1 is out of range for test
         verbosity = True  # to test the verbose code lines
         C = bsp.Curve(knot_vector, coef, degree, verbosity)
@@ -66,10 +66,10 @@ class TestBSpline(TestCase):
         self.assertTrue(result.args[0] == "Error: degree must be non-negative.")
 
     def test_003_curve_basis_recover_bezier_linear(self):
-        knot_vector = [0.0, 0.0, 1.0, 1.0]
+        knot_vector = (0.0, 0.0, 1.0, 1.0)
         degree = 1  # linear
 
-        coef_N0_p1 = [1.0, 0.0]
+        coef_N0_p1 = (1.0, 0.0)
         N0_p1 = bsp.Curve(knot_vector, coef_N0_p1, degree)
         result = N0_p1.is_valid()
         self.assertTrue(result)
@@ -79,32 +79,32 @@ class TestBSpline(TestCase):
         y_known = (1.0, 0.75, 0.5, 0.25, 0.0)
         self.assertTrue(self.same(y_known, y))
 
-        coef_N1_p1 = [0.0, 1.0]
+        coef_N1_p1 = (0.0, 1.0)
         N1_p1 = bsp.Curve(knot_vector, coef_N1_p1, degree)
         result = N1_p1.is_valid()
         self.assertTrue(result)
         # tmin, tmax, npts = 0.0, 1.0, 5
         t = np.linspace(tmin, tmax, npts, endpoint=True)
         y = N1_p1.evaluate(t)
-        y_known = [0.0, 0.25, 0.5, 0.75, 1.0]
+        y_known = (0.0, 0.25, 0.5, 0.75, 1.0)
         self.assertTrue(self.same(y_known, y))
 
     def test_004_curve_basis_degree_zero_seven_knots(self):
-        knot_vector = [0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
+        knot_vector = (0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0)
         degree = 0  # constant
-        coef = [0.0, 1.0, 0.0, 0.0, 0.0, 0.0]
+        coef = (0.0, 1.0, 0.0, 0.0, 0.0, 0.0)
         N1_p0 = bsp.Curve(knot_vector, coef, degree)
         result = N1_p0.is_valid()
         self.assertTrue(result)
         tmin, tmax, npts = knot_vector[0], knot_vector[-1], 13
         t = np.linspace(tmin, tmax, npts, endpoint=True)
         y = N1_p0.evaluate(t)
-        y_known = [0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+        y_known = (0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
         self.assertTrue(self.same(y_known, y))
 
     def test_100_curve_basis_quadratic_eight_knots(self):
         """Known example from NURBS Book, Piegl and Tiller, Ex2.2, Fig 2.6 page 55."""
-        KV = list(map(float, [0, 0, 0, 1, 2, 3, 4, 4, 5, 5, 5]))  # knot vector
+        KV = tuple(map(float, [0, 0, 0, 1, 2, 3, 4, 4, 5, 5, 5]))  # knot vector
         DEGREE = 2  # quadratic
         NBI = 3  # number of bisection intervals per knot span
         NCP = 8  # number of control points
@@ -175,7 +175,7 @@ class TestBSpline(TestCase):
         """
 
         # knot vector
-        KV = [0.0, 0.0, 0.0, 0.0, 0.0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.0, 1.0, 1.0, 1.0]
+        KV = (0.0, 0.0, 0.0, 0.0, 0.0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.0, 1.0, 1.0, 1.0)
         DEGREE = 4  # quadratic
         NBI = 1  # number of bisection intervals per knot span
         # NCP = 9  # number of control points
@@ -195,17 +195,17 @@ class TestBSpline(TestCase):
         t.append(KV[-1])
         t = np.array(t)
 
-        COEF = [
-            [5.0, 10.0],
-            [15.0, 25.0],
-            [30.0, 30.0],
-            [45.0, 5.0],
-            [55.0, 5.0],
-            [70.0, 40.0],
-            [60.0, 60.0],
-            [35.0, 60.0],
-            [20.0, 40.0],
-        ]
+        COEF = (
+            (5.0, 10.0),
+            (15.0, 25.0),
+            (30.0, 30.0),
+            (45.0, 5.0),
+            (55.0, 5.0),
+            (70.0, 40.0),
+            (60.0, 60.0),
+            (35.0, 60.0),
+            (20.0, 40.0),
+        )
         NSD = len(COEF[0])  # number of space dimensions
 
         C = bsp.Curve(KV, COEF, DEGREE)
@@ -216,19 +216,19 @@ class TestBSpline(TestCase):
         # (which drops redundant points and beginning and end)
         y = y[2 ** NBI * DEGREE : -(2 ** NBI * DEGREE)]
 
-        P_known = [
-            [5.0, 10.0],
-            [21.809895833333336, 24.60503472222222],
-            [33.95833333333333, 20.347222222222218],
-            [42.94270833333333, 11.692708333333336],
-            [49.79166666666665, 7.84722222222222],
-            [55.9157986111111, 12.174479166666664],
-            [61.527777777777786, 23.61111111111111],
-            [64.11458333333333, 38.29427083333332],
-            [59.8611111111111, 51.31944444444444],
-            [45.4079861111111, 57.37413194444444],
-            [20.0, 40.0],
-        ]  # from geomdl at curve.delta = 1./11., thus 11 evaluation points
+        P_known = (
+            (5.0, 10.0),
+            (21.809895833333336, 24.60503472222222),
+            (33.95833333333333, 20.347222222222218),
+            (42.94270833333333, 11.692708333333336),
+            (49.79166666666665, 7.84722222222222),
+            (55.9157986111111, 12.174479166666664),
+            (61.527777777777786, 23.61111111111111),
+            (64.11458333333333, 38.29427083333332),
+            (59.8611111111111, 51.31944444444444),
+            (45.4079861111111, 57.37413194444444),
+            (20.0, 40.0),
+        )  # from geomdl at curve.delta = 1./11., thus 11 evaluation points
         # The 11 evaluation points bisects the five elements plus the endpoint
         # will correspond to NBI=1 (number of bisection intervals) used here.
 
@@ -237,16 +237,16 @@ class TestBSpline(TestCase):
             self.assertTrue(self.same(P_known_e, y[:, i]))
 
     def test_201_recover_bezier_bilinear_B00_p1_surface(self):
-        kv_t = [0.0, 0.0, 1.0, 1.0]  # knot vector for t parameter
-        kv_u = [0.0, 0.0, 1.0, 1.0]  # knot vector for u parameter
+        kv_t = (0.0, 0.0, 1.0, 1.0)  # knot vector for t parameter
+        kv_u = (0.0, 0.0, 1.0, 1.0)  # knot vector for u parameter
         # control_points = [
         #     [[-15.0, -10.0, 1.0], [-15.0, 10.0, 1.0]],
         #     [[15.0, -10.0, 1.0], [15.0, 10.0, 1.0]],
         # ]
-        control_points = [
-            [[0.0, 0.0, 1.0], [0.0, 1.0, 0.0]],
-            [[1.0, 0.0, 0.0], [1.0, 1.0, 0.0]],
-        ]
+        control_points = (
+            ((0.0, 0.0, 1.0), (0.0, 1.0, 0.0)),
+            ((1.0, 0.0, 0.0), (1.0, 1.0, 0.0)),
+        )
         degree_t = 1  # linear
         degree_u = 1  # linear
         nbi = 1  # number of bisections per knot interval
@@ -268,15 +268,15 @@ class TestBSpline(TestCase):
         ) = S.evaluations
 
         known_surface_evaluations_x = np.array(
-            [[0.0, 0.0, 0.0], [0.5, 0.5, 0.5], [1.0, 1.0, 1.0]]
+            ((0.0, 0.0, 0.0), (0.5, 0.5, 0.5), (1.0, 1.0, 1.0))
         )
 
         known_surface_evaluations_y = np.array(
-            [[0.0, 0.5, 1.0], [0.0, 0.5, 1.0], [0.0, 0.5, 1.0]]
+            ((0.0, 0.5, 1.0), (0.0, 0.5, 1.0), (0.0, 0.5, 1.0))
         )
 
         known_surface_evaluations_z = np.array(
-            [[1.0, 0.5, 0.0], [0.5, 0.25, 0.0], [0.0, 0.0, 0.0]]
+            ((1.0, 0.5, 0.0), (0.5, 0.25, 0.0), (0.0, 0.0, 0.0))
         )
 
         difference_matrix_x = calc_surface_evaluations_x - known_surface_evaluations_x
@@ -287,12 +287,12 @@ class TestBSpline(TestCase):
         Frobenius_norm_y = np.linalg.norm(difference_matrix_y, ord="fro")
         Frobenius_norm_z = np.linalg.norm(difference_matrix_z, ord="fro")
 
-        self.assertTrue(Frobenius_norm_x < self.TOL)
-        self.assertTrue(Frobenius_norm_y < self.TOL)
-        self.assertTrue(Frobenius_norm_z < self.TOL)
+        self.assertTrue(Frobenius_norm_x < self.tol)
+        self.assertTrue(Frobenius_norm_y < self.tol)
+        self.assertTrue(Frobenius_norm_z < self.tol)
 
-        known_evaluation_times_t = [0.0, 0.5, 1.0]
-        known_evaluation_times_u = [0.0, 0.5, 1.0]
+        known_evaluation_times_t = (0.0, 0.5, 1.0)
+        known_evaluation_times_u = (0.0, 0.5, 1.0)
 
         calc_evaluation_times_t = S.evaluation_times_t
         calc_evaluation_times_u = S.evaluation_times_u
@@ -336,14 +336,14 @@ class TestBSpline(TestCase):
         # gives a matrix of [5x5] evalution points found by
         > surf.evalpts
         """
-        kv_t = list(map(float, [0, 0, 0, 0, 1, 1, 1, 1]))
-        kv_u = list(map(float, [0, 0, 0, 1, 1, 1]))
-        control_points = [
-            [[0, 0, 0], [0, 4, 0], [0, 8, -3]],
-            [[2, 0, 6], [2, 4, 0], [2, 8, 0]],
-            [[4, 0, 0], [4, 4, 0], [4, 8, 3]],
-            [[6, 0, 0], [6, 4, -3], [6, 8, 0]],
-        ]
+        kv_t = tuple(map(float, [0, 0, 0, 0, 1, 1, 1, 1]))
+        kv_u = tuple(map(float, [0, 0, 0, 1, 1, 1]))
+        control_points = (
+            ((0, 0, 0), (0, 4, 0), (0, 8, -3)),
+            ((2, 0, 6), (2, 4, 0), (2, 8, 0)),
+            ((4, 0, 0), (4, 4, 0), (4, 8, 3)),
+            ((6, 0, 0), (6, 4, -3), (6, 8, 0)),
+        )
         degree_t = 3  # cubic
         degree_u = 2  # quadratic
         nbi = 2  # number of bisections per knot interval
@@ -403,13 +403,17 @@ class TestBSpline(TestCase):
                 ],
             ]
         )
-        (idx, idy, idz) = (0, 1, 2)
+
+        idx, idy, idz = 0, 1, 2
+
         known_surface_evaluation_points_x = known_surface_evaluation_points[
             :, :, idx
         ].flatten()
+
         known_surface_evaluation_points_y = known_surface_evaluation_points[
             :, :, idy
         ].flatten()
+
         known_surface_evaluation_points_z = known_surface_evaluation_points[
             :, :, idz
         ].flatten()
