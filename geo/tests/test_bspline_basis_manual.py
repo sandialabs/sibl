@@ -23,7 +23,7 @@ class Test(TestCase):
         cls.nti = 4  # number of time intervals per knot
         # t, e.g., nti=1 gives two sub-intervals, three evaluation points
         cls.verbosity = False
-        cls.kv = [0, 2, 3]  # list, knot_vector
+        cls.kv = (0.0, 2.0, 3.0)  # knot_vector
         cls.ki = 0  # non-negative integer, defaults to first index
         cls.degree = 0  # non-negative polynomial degree, defaults to 0 (constant)
 
@@ -43,7 +43,7 @@ class Test(TestCase):
         return same_to_tolerance
 
     def test_001_knot_vector_minimum_length(self):
-        kv_too_short = [0]
+        kv_too_short = (0.0,)
         calc = bp.bspline_basis_manual(kv_too_short)
         self.assertIsInstance(calc, AssertionError)
         self.assertTrue(
@@ -108,7 +108,7 @@ class Test(TestCase):
     def test_008_decreasing_knots(self):
         # knot vector must be non-decreasing sequence, so test error
         # checking for a decreasing knot vector sequence
-        bad_knot_vector = [0, 2, 1]
+        bad_knot_vector = (0.0, 2.0, 1.0)
         calc = bp.bspline_basis_manual(bad_knot_vector)
         self.assertIsInstance(calc, AssertionError)
         self.assertTrue(calc.args[0] == "Error: knot vector is decreasing.")
@@ -117,26 +117,26 @@ class Test(TestCase):
         calc = bp.bspline_basis_manual(
             self.kv, self.ki, self.degree, self.nti, verbose=True
         )
-        known_t = [0, 0.5, 1, 1.5, 2, 2.25, 2.5, 2.75, 3]  # nti = 2
-        known_y = [1, 1, 1, 1, 0, 0, 0, 0, 0]
+        known_t = (0.0, 0.5, 1.0, 1.5, 2.0, 2.25, 2.5, 2.75, 3.0)  # nti = 2
+        known_f_of_t = tuple(map(float, [1, 1, 1, 1, 0, 0, 0, 0, 0]))
         self.assertTrue(self.same(known_t, calc[0]))
-        self.assertTrue(self.same(known_y, calc[1]))
+        self.assertTrue(self.same(known_f_of_t, calc[1]))
 
     def test_N10(self):
         knot_index = 1  # integer >= 0
         calc = bp.bspline_basis_manual(self.kv, knot_index, self.degree, self.nti)
-        known_t = [0, 0.5, 1, 1.5, 2, 2.25, 2.5, 2.75, 3]  # nti = 2
-        known_y = [0, 0, 0, 0, 1, 1, 1, 1, 0]
+        known_t = (0.0, 0.5, 1.0, 1.5, 2.0, 2.25, 2.5, 2.75, 3.0)  # nti = 2
+        known_f_of_t = tuple(map(float, [0, 0, 0, 0, 1, 1, 1, 1, 0]))
         self.assertTrue(self.same(known_t, calc[0]))
-        self.assertTrue(self.same(known_y, calc[1]))
+        self.assertTrue(self.same(known_f_of_t, calc[1]))
 
     def test_N20(self):
         knot_index = 2  # integer >= 0
         calc = bp.bspline_basis_manual(self.kv, knot_index, self.degree, self.nti)
-        known_t = [0, 0.5, 1, 1.5, 2, 2.25, 2.5, 2.75, 3]  # nti = 2
-        known_y = [0, 0, 0, 0, 0, 0, 0, 0, 1]
+        known_t = (0.0, 0.5, 1.0, 1.5, 2.0, 2.25, 2.5, 2.75, 3.0)  # nti = 2
+        known_f_of_t = tuple(map(float, [0, 0, 0, 0, 0, 0, 0, 0, 1]))
         self.assertTrue(self.same(known_t, calc[0]))
-        self.assertTrue(self.same(known_y, calc[1]))
+        self.assertTrue(self.same(known_f_of_t, calc[1]))
 
     # def test_N30_insufficient_knots(self):
     #     knot_index = 3  # integer >= 0
@@ -147,55 +147,83 @@ class Test(TestCase):
     #     )
 
     def test_N01(self):
-        knot_vector = [0, 1, 2]
+        knot_vector = tuple(map(float, [0, 1, 2]))
         degree = 1  # integer >= 0
         calc = bp.bspline_basis_manual(
             knot_vector, self.ki, degree, self.nti, verbose=True
         )
-        known_t = [0, 0.25, 0.50, 0.75, 1, 1.25, 1.50, 1.75, 2]  # nti = 2
-        known_y = [0, 0.25, 0.50, 0.75, 1, 0.75, 0.50, 0.25, 0]
+        known_t = (0.0, 0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0)  # nti = 2
+        known_f_of_t = (0.0, 0.25, 0.5, 0.75, 1.0, 0.75, 0.5, 0.25, 0.0)
         self.assertTrue(self.same(known_t, calc[0]))
-        self.assertTrue(self.same(known_y, calc[1]))
+        self.assertTrue(self.same(known_f_of_t, calc[1]))
 
     def test_N11(self):
-        knot_vector = [0, 1, 2, 3]
+        knot_vector = tuple(map(float, [0, 1, 2, 3]))
         knot_index = 1  # integer >= 0
         degree = 1  # integer >= 0
         calc = bp.bspline_basis_manual(
             knot_vector, knot_index, degree, self.nti, verbose=True
         )
-        known_t = [0, 0.25, 0.50, 0.75, 1, 1.25, 1.50, 1.75, 2, 2.25, 2.50, 2.75, 3]
-        known_y = [0, 0.00, 0.00, 0.00, 0, 0.25, 0.50, 0.75, 1, 0.75, 0.50, 0.25, 0]
+        known_t = (
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0,
+            1.25,
+            1.5,
+            1.75,
+            2.0,
+            2.25,
+            2.5,
+            2.75,
+            3.0,
+        )
+        known_f_of_t = (
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0,
+            0.75,
+            0.5,
+            0.25,
+            0.0,
+        )
         self.assertTrue(self.same(known_t, calc[0]))
-        self.assertTrue(self.same(known_y, calc[1]))
+        self.assertTrue(self.same(known_f_of_t, calc[1]))
 
     def test_N02(self):
-        knot_vector = [0, 1, 2, 3, 4]
+        knot_vector = tuple(map(float, [0, 1, 2, 3, 4]))
         degree = 2  # integer >= 0
         calc = bp.bspline_basis_manual(
             knot_vector, self.ki, degree, self.nti, verbose=True
         )
         # nti = 2
-        known_t = [
+        known_t = (
             0.0,
             0.25,
-            0.50,
+            0.5,
             0.75,
             1.0,
             1.25,
-            1.50,
+            1.5,
             1.75,
             2.0,
             2.25,
-            2.50,
+            2.5,
             2.75,
             3.0,
             3.25,
             3.5,
             3.75,
             4.0,
-        ]
-        known_y = [
+        )
+        known_f_of_t = (
             0.0,
             0.03125,
             0.125,
@@ -213,38 +241,38 @@ class Test(TestCase):
             0.0,
             0.0,
             0.0,
-        ]
+        )
         self.assertTrue(self.same(known_t, calc[0]))
-        self.assertTrue(self.same(known_y, calc[1]))
+        self.assertTrue(self.same(known_f_of_t, calc[1]))
 
     def test_N12(self):
-        knot_vector = [0, 1, 2, 3, 4]
+        knot_vector = tuple(map(float, [0, 1, 2, 3, 4]))
         knot_index = 1  # integer >= 0
         degree = 2  # integer >= 0
         calc = bp.bspline_basis_manual(
             knot_vector, knot_index, degree, self.nti, verbose=True
         )
         # nti = 2
-        known_t = [
+        known_t = (
             0.0,
             0.25,
-            0.50,
+            0.5,
             0.75,
             1.0,
             1.25,
-            1.50,
+            1.5,
             1.75,
             2.0,
             2.25,
-            2.50,
+            2.5,
             2.75,
             3.0,
             3.25,
             3.5,
             3.75,
             4.0,
-        ]
-        known_y = [
+        )
+        known_f_of_t = (
             0.0,
             0.0,
             0.0,
@@ -262,9 +290,9 @@ class Test(TestCase):
             0.125,
             0.03125,
             0.0,
-        ]
+        )
         self.assertTrue(self.same(known_t, calc[0]))
-        self.assertTrue(self.same(known_y, calc[1]))
+        self.assertTrue(self.same(known_f_of_t, calc[1]))
 
     def test_N03_not_yet_implemented(self):
         degree = 3  # integer >= 0

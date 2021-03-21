@@ -12,17 +12,20 @@ class Curve:
         degree_t: int = 0,
         verbose: bool = False,
     ):
-        """Creates a B-Spline curve or its derivatives.
+        """Creates a B-Spline curve.
 
         Args:
-            knot_vector_t (float array): [t0, t1, t2, ... tK]
-                len(knot_vector) = len(coef) + (degree + 1)
-                (K+1) knots, K knot spans
+            knot_vector_t (float array): [t0, t1, t2, ... tI]
+                len(knot_vector_t) = (I + 1)
+                len(knot_vector_t) = len(coefficients) + (degree_t + 1)
+                (I + 1) knots with (I) knot spans
                 must have length of two or more
                 must be a non-decreasing sequence
             coefficients (float array):
+                coordinates (x, y, z), with `(x, y, z)_coefficient_n` as in
                 spline coefficients [c0, c1, c2, ... cn]
-            degree_t (int >= 0): B-spline polynomial degree
+                len(coefficients) = (n + 1)
+            degree_t (int >= 0): B-spline polynomial degree.  Defaults to 0.
             verbose (bool): prints extended error checking, default False
 
         Example:
@@ -42,8 +45,8 @@ class Curve:
             True
             >>> tmin, tmax, npts = 0.0, 1.0, 5
             >>> t = np.linspace(tmin, tmax, npts, endpoint=True)
-            >>> y = N0_p1.evaluate(t)
-            >>> y
+            >>> f_of_t = N0_p1.evaluate(t)
+            >>> f_of_t
             array([1.  , 0.75, 0.5 , 0.25, 0.  ])
         """
         self.kv = knot_vector_t
@@ -96,19 +99,29 @@ class Surface:
         """Creates a B-Spline surface.
 
         Args:
-            knot_vector_t (list): knot vector for curve parameterized by `t`.
-            knot_vector_u (list): knot vector for curve parameterized by `u`.
+            knot_vector_t (float array): knot vector for curve parameterized by `t`.
+                len(knot_vector_t) = (I + 1)
+                len(knot_vector_t) = len(coefficients) + (degree_t + 1)
+                (I + 1) knots with (I) knot spans
+                must have length of two or more
+                must be a non-decreasing sequence
+            knot_vector_u (float array): knot vector for curve parameterized by `u`.
+                len(knot_vector_u) = (J + 1)
+                len(knot_vector_u) = len(coefficients[0]) + (degree_u + 1)
+                (J + 1) knots with (J) knot spans
+                must have length of two or more
+                must be a non-decreasing sequence
             coefficients (float array): control net/grid of points with
-                coordinates (x, y, z), as in
+                coordinates (x, y, z), with `(x, y, z)_coefficient_nm` as in
                 [
-                    [[x, y, z]_c00, [x, y, z]_c02, ... [x, y, z]_c0m],
+                    [[x, y, z]_c00, [x, y, z]_c01, ... [x, y, z]_c0m],
                     [[x, y, z]_cn0, [x, y, z]_cn1, ... [x, y, z]_cnm]
                 ]
             degree_t: (int >=0): B-spline polynomial degree for spline in `t`.
                 Defaults to 0.
             degree_u: (int >=0): B-spline polynomial degree for spline in `u`.
                 Defaults to 0.
-            n_bisections (int): Number of bisections per knot span.
+            n_bisections (int): Number of bisections per knot span for both `t` and `u`.
                 Defaults to 1.
             verbose (bool): prints extended error checking, default False
 
@@ -215,10 +228,10 @@ class Surface:
 
     @property
     def evaluation_times_t(self):
-        """Returns the BSpline surface evaluation time parameters in the 't' direction."""
+        """Returns the BSpline surface evaluation time parameters in the `t` direction."""
         return self.t
 
     @property
     def evaluation_times_u(self):
-        """Returns the BSpline surface evaluation time parameters in the 'u' direction."""
+        """Returns the BSpline surface evaluation time parameters in the `u` direction."""
         return self.u
