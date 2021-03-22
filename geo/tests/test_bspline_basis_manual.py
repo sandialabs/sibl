@@ -12,6 +12,7 @@ $ pytest geo/tests/test_bspline_basis_manual.py -v --cov=geo/src/ptg --cov-repor
 from unittest import TestCase, main
 
 import numpy as np
+import pytest
 
 import ptg.bspline_basis_manual as bp
 
@@ -105,13 +106,25 @@ class Test(TestCase):
             == "Error: knot index knot_i exceeds knot vector length minus 1."
         )
 
+    def test_007b_insufficient_knots_local_support(self):
+        knot_vector = (0.0, 0.0, 1.0, 1.0)
+        knot_i = 3  # the last knot
+        degree = 2  # quadratic
+        calc = bp.bspline_basis_manual(
+            knot_vector_t=knot_vector, knot_i=knot_i, p=degree
+        )
+        self.assertIsInstance(calc, AssertionError)
+        self.assertTrue(
+            calc.args[0] == "Error: insufficient remaining knots for local support."
+        )
+
     def test_008_decreasing_knots(self):
         # knot vector must be non-decreasing sequence, so test error
         # checking for a decreasing knot vector sequence
         bad_knot_vector = (0.0, 2.0, 1.0)
-        calc = bp.bspline_basis_manual(bad_knot_vector)
-        self.assertIsInstance(calc, AssertionError)
-        self.assertTrue(calc.args[0] == "Error: knot vector is decreasing.")
+        with pytest.raises(ValueError) as error:
+            _ = bp.bspline_basis_manual(bad_knot_vector)
+        self.assertTrue(str(error.value) == "Error: knot vector is decreasing.")
 
     def test_N00_and_verbose(self):
         calc = bp.bspline_basis_manual(

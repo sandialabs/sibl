@@ -7,7 +7,6 @@ $ pytest geo/tests/test_bspline.py -v
 """
 from unittest import TestCase, main
 import pytest
-
 import numpy as np
 
 import ptg.bspline as bsp
@@ -235,6 +234,54 @@ class TestBSpline(TestCase):
         for i in np.arange(NSD):
             P_known_e = [e[i] for e in P_known]  # e is evaluation point
             self.assertTrue(self.same(P_known_e, y[:, i]))
+
+    def test_200_evaluation_times_knot_vector_too_short(self):
+        kv = (0.0,)  # knot vector too short
+        deg = 0  # constant
+        n_bis = 2
+        with pytest.raises(ValueError) as error:
+            _ = bsp.evaluation_times(knot_vector=kv, degree=deg, n_bisections=n_bis)
+        self.assertTrue(
+            str(error.value) == "Error: knot vector length must be two or greater."
+        )
+
+    def test_200_evaluation_times_bad_degree(self):
+        kv = (0.0, 2.0, 3.0)  # knot vector
+        deg = -1  # bad value
+        n_bis = 2
+        with pytest.raises(ValueError) as error:
+            _ = bsp.evaluation_times(knot_vector=kv, degree=deg, n_bisections=n_bis)
+        self.assertTrue(
+            str(error.value)
+            == "Error: polynomial degree must be a non-negative integer."
+        )
+
+    def test_200_evaluation_times_bad_number_of_bisections(self):
+        kv = (0.0, 2.0, 3.0)  # knot vector
+        deg = 0  # constant
+        n_bis = 0  # bad value
+        with pytest.raises(ValueError) as error:
+            _ = bsp.evaluation_times(knot_vector=kv, degree=deg, n_bisections=n_bis)
+        self.assertTrue(
+            str(error.value)
+            == "Error: number of time interval bisections must be an integer >= 1."
+        )
+
+    def test_200_evaluation_times_decreasing_knot_vector(self):
+        kv = (0.0, 3.0, 2.0)  # bad knot vector
+        deg = 0  # constant
+        n_bis = 2
+        with pytest.raises(ValueError) as error:
+            _ = bsp.evaluation_times(knot_vector=kv, degree=deg, n_bisections=n_bis)
+        self.assertTrue(str(error.value) == "Error: knot vector is decreasing.")
+
+    def test_200_evaluation_times_non_uniform_knot_vector(self):
+        kv = (0.0, 0.0, 2.0, 3.0, 3.0)
+        deg = 1  # constant
+        n_bis = 2
+        calc_t = bsp.evaluation_times(knot_vector=kv, degree=deg, n_bisections=n_bis)
+        known_t = (0.0, 0.5, 1.0, 1.5, 2.0, 2.25, 2.5, 2.75, 3.0)  # nti = 2
+        self.assertTrue(self.same(calc_t, known_t))
 
     def test_201_recover_bezier_bilinear_B00_p1_surface(self):
         kv_t = (0.0, 0.0, 1.0, 1.0)  # knot vector for t parameter
