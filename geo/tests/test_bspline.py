@@ -714,6 +714,35 @@ class TestBSpline(TestCase):
         )
 
     @pytest.mark.skip(reason="work in progress")
+    def test_300_control_lattice_3D_volume(self):
+        control_points = [
+            [
+                [[0.0, 0.0, 0.0], [0.0, 0.0, 30.0]],
+                [[0.0, 20.0, 0.0], [0.0, 20.0, 30.0]],
+            ],
+            [
+                [[10.0, 0.0, 0.0], [10.0, 0.0, 30.0]],
+                [[10.0, 20.0, 0.0], [10.0, 20.0, 30.0]],
+            ],
+        ]
+        kv_t = (0, 0, 1, 1)
+        kv_u = (0, 0, 1, 1)
+        kv_v = (0, 0, 1, 1)
+        deg_t = 1
+        deg_u = 1
+        deg_v = 1
+
+        V = bsp.Volume(
+            knot_vector_t=kv_t,
+            knot_vector_u=kv_u,
+            knot_vector_v=kv_v,
+            coefficients=control_points,
+            degree_t=deg_t,
+            degree_u=deg_u,
+            degree_v=deg_v,
+        )
+
+    @pytest.mark.skip(reason="work in progress")
     def test_301_Bingol_3D_volume(self):
         """Tests creation and plotting of BSpline surface, compared to
         GitHub repository orbingol
@@ -750,12 +779,14 @@ class TestBSpline(TestCase):
         x          ]
         x      ],
         x      [
-        x          [10.0, 0.0, 0.0],
-        x          [10.0, 0.0, 30.0]
-        x      ],
-        x      [
-        x          [10.0, 20.0, 0.0],
-        x          [10.0, 20.0, 30.0]
+        x          [
+        x              [10.0, 0.0, 0.0],
+        x              [10.0, 0.0, 30.0]
+        x          ],
+        x          [
+        x              [10.0, 20.0, 0.0],
+        x              [10.0, 20.0, 30.0]
+        x          ]
         x      ]
         x  ]
         > control_points = [

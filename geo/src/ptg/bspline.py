@@ -29,6 +29,12 @@ def evaluation_times(
             e.g., for `t` in per-knot-span interval [t_i, t_{i+1}],
             likewise for `u` and `v` parameters.
             Defaults to 1.
+
+    Raises:
+        ValueError: If `len(knot_vector)` < 2.  Minimum `knot_vector` length is 2.
+        ValueError: If `degree` < 0.  The `degree` must be non-negative.
+        ValueError: If `n_bisections` < 1.  Minimum `n_bisections` is 1.
+        ValueError: If the knot vector is decreasing.
     """
     if not len(knot_vector) >= 2:
         raise ValueError("Error: knot vector length must be two or greater.")
@@ -201,6 +207,192 @@ class Surface:
         self.valid = False
         self.verbose = verbose
         self.ncp_t, self.ncp_u, self.nsd = np.array(coefficients).shape
+
+        # knots_t_lhs = knot_vector_t[0:-1]  # left-hand-side knot values for t
+        # knots_t_rhs = knot_vector_t[1:]  # right-hand-side knot values for t
+        # knot_t_spans = np.array(knots_t_rhs) - np.array(knots_t_lhs)
+        # dt = knot_t_spans / (2.0 ** n_bisections)
+        # assert all([dti >= 0 for dti in dt]), "Error: knot vector T is decreasing."
+        # num_knots_t = len(knot_vector_t)
+        # self.t = [
+        #     knots_t_lhs[k] + j * dt[k]
+        #     for k in np.arange(num_knots_t - 1)
+        #     for j in np.arange(2 ** n_bisections)
+        # ]
+        # self.t.append(knot_vector_t[-1])
+        # self.t = np.array(self.t)
+        # # retain only non-repeated evaluation points at beginning and end
+        # t_repeated_index = 2 ** n_bisections * degree_t
+        # self.t = self.t[t_repeated_index:-t_repeated_index]
+
+        # knots_u_lhs = knot_vector_u[0:-1]  # left-hand-side knot values for u
+        # knots_u_rhs = knot_vector_u[1:]  # right-hand-side knot values for u
+        # knot_u_spans = np.array(knots_u_rhs) - np.array(knots_u_lhs)
+        # du = knot_u_spans / (2.0 ** n_bisections)
+        # assert all([duj >= 0 for duj in du]), "Error: knot vector U is decreasing."
+        # num_knots_u = len(knot_vector_u)
+        # self.u = [
+        #     knots_u_lhs[k] + j * du[k]
+        #     for k in np.arange(num_knots_u - 1)
+        #     for j in np.arange(2 ** n_bisections)
+        # ]
+        # self.u.append(knot_vector_u[-1])
+        # self.u = np.array(self.u)
+        # # retain only non-repeated evaluation points at beginning and end
+        # u_repeated_index = 2 ** n_bisections * degree_u
+        # self.u = self.u[u_repeated_index:-u_repeated_index]
+
+        # self._t_new = evaluation_times(
+        #     knot_vector=knot_vector_t, degree=degree_t, n_bisections=n_bisections
+        # )
+        # self._u_new = evaluation_times(
+        #     knot_vector=knot_vector_u, degree=degree_u, n_bisections=n_bisections
+        # )
+
+        # assert np.norm(self._t_new - self.t < 0.00001)
+        # assert np.norm(self._u_new - self.u > 0.00001)
+
+        self.t = evaluation_times(
+            knot_vector=knot_vector_t, degree=degree_t, n_bisections=n_bisections
+        )
+        self.u = evaluation_times(
+            knot_vector=knot_vector_u, degree=degree_u, n_bisections=n_bisections
+        )
+
+        self.x_of_t_u = np.zeros((len(self.t), len(self.u)), dtype=float)
+        self.y_of_t_u = np.zeros((len(self.t), len(self.u)), dtype=float)
+        self.z_of_t_u = np.zeros((len(self.t), len(self.u)), dtype=float)
+
+        ix = 0  # x-coordinate index
+        iy = 1  # y-coordinate index
+        iz = 2  # z-coordinate index
+
+        for i in np.arange(self.ncp_t):
+            for j in np.arange(self.ncp_u):
+
+                N_coef_t = np.zeros(self.ncp_t)
+                N_coef_u = np.zeros(self.ncp_u)
+
+                N_coef_t[i] = 1.0
+                N_coef_u[j] = 1.0
+
+                Ni = Curve(knot_vector_t, N_coef_t, degree_t)
+                Nj = Curve(knot_vector_u, N_coef_u, degree_u)
+
+                if Ni.is_valid() and Nj.is_valid():
+                    Ni_of_t = Ni.evaluate(self.t)
+                    Nj_of_u = Nj.evaluate(self.u)
+                    Nij = np.outer(Ni_of_t, Nj_of_u)
+
+                    coef_x = coefficients[i][j][ix]
+                    coef_y = coefficients[i][j][iy]
+                    coef_z = coefficients[i][j][iz]
+
+                    self.x_of_t_u += Nij * coef_x
+                    self.y_of_t_u += Nij * coef_y
+                    self.z_of_t_u += Nij * coef_z
+
+        self.valid = True
+
+    @property
+    def evaluations(self):
+        """Returns the BSpline surface at all parameter evaluation points `t` and `u`."""
+
+        """
+            Returns:
+                A tuple of (x, y, z) values, evaluated over all parameterization
+                points `t` and `u`.
+
+            Raises:
+                AssertionError if the BSpline surface has not been properly defined.
+        """
+        try:
+            assert self.valid
+            return (self.x_of_t_u, self.y_of_t_u, self.z_of_t_u)
+
+        except AssertionError as error:
+            if self.verbose:
+                print(error)
+            # return error
+            return (None, None, None)
+
+    @property
+    def evaluation_times_t(self):
+        """Returns the BSpline surface evaluation time parameters in the `t` direction."""
+        return self.t
+
+    @property
+    def evaluation_times_u(self):
+        """Returns the BSpline surface evaluation time parameters in the `u` direction."""
+        return self.u
+
+
+class Volume:
+    def __init__(
+        self,
+        *,
+        knot_vector_t: Union[list, tuple],
+        knot_vector_u: Union[list, tuple],
+        knot_vector_v: Union[list, tuple],
+        coefficients: Union[list, tuple],
+        degree_t: int = 0,
+        degree_u: int = 0,
+        degree_v: int = 0,
+        n_bisections: int = 1,
+        verbose: bool = False,
+    ):
+        """Creates a B-Spline volume.
+
+        Args:
+            knot_vector_t (float array): knot vector for curve parameterized by `t`.
+                len(knot_vector_t) = (I + 1)
+                len(knot_vector_t) = len(coefficients) + (degree_t + 1)
+                (I + 1) knots with (I) knot spans
+                must have length of two or more
+                must be a non-decreasing sequence
+            knot_vector_u (float array): knot vector for curve parameterized by `u`.
+                len(knot_vector_u) = (J + 1)
+                len(knot_vector_u) = len(coefficients[0]) + (degree_u + 1)
+                (J + 1) knots with (J) knot spans
+                must have length of two or more
+                must be a non-decreasing sequence
+            knot_vector_v (float array): knot vector for curve parameterized by `v`.
+                len(knot_vector_v) = (K + 1)
+                len(knot_vector_v) = len(coefficients[0][0]) + (degree_v + 1)
+                (K + 1) knots with (K) knot spans
+                must have length of two or more
+                must be a non-decreasing sequence
+            coefficients (float array): control lattice of points with
+                coordinates (x, y, z), with `(x, y, z)_coefficient_nml` as in
+                [
+                    [
+                        [[x, y, z]_c000, [x, y, z]_c001, ... [x, y, z]_c00l],
+                        [[x, y, z]_c0m0, [x, y, z]_c0m1, ... [x, y, z]_c0ml]
+                    ],
+                    [
+                        [[x, y, z]_cn00, [x, y, z]_cn01, ... [x, y, z]_cn0l],
+                        [[x, y, z]_cnm0, [x, y, z]_cnm1, ... [x, y, z]_cnml]
+                    ]
+                ]
+                (n layers) x (m rows) x (l columns)
+            degree_t: (int >=0): B-spline polynomial degree for spline in `t`.
+                Defaults to 0.
+            degree_u: (int >=0): B-spline polynomial degree for spline in `u`.
+                Defaults to 0.
+            degree_v: (int >=0): B-spline polynomial degree for spline in `v`.
+                Defaults to 0.
+            n_bisections (int): Number of bisections per knot span for each of the
+                `t`, `u`, and `v` parameters.
+                Defaults to 1.
+            verbose (bool): prints extended error checking, default False
+
+        Example:
+            To come.
+        """
+        self.valid = False
+        self.verbose = verbose
+        # self.ncp_t, self.ncp_u, self.nsd = np.array(coefficients).shape
+        self.ncp_t, self.ncp_u, self.ncp_v, self.nsd = np.array(coefficients).shape
 
         # knots_t_lhs = knot_vector_t[0:-1]  # left-hand-side knot values for t
         # knots_t_rhs = knot_vector_t[1:]  # right-hand-side knot values for t
