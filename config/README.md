@@ -15,18 +15,17 @@
 
 # test: create and delete an example environment called sibltest
 (base) $ conda env list # verify sibltest is absent
-(base) $ conda create --name sibltest python=3.7 scipy matplotlib pandas pillow
+(base) $ conda create --name sibltest python=3.7 scipy matplotlib
 (base) $ conda env list # verify sibtest is present
 #
 (base) $ conda env remove --name sibltest
 (base) $ conda env list # verify sibltest is absent
 
 # create the actual environment siblenv
-(base) $ conda create --name siblenv python=3.8 black dash flake8 matplotlib notebook pandas pillow pytest pytest-cov seaborn scikit-image scipy xlrd
+(base) $ conda create --name siblenv python=3.8 black dash flake8 matplotlib notebook pytest pytest-cov seaborn scikit-image scipy
 (base) $ conda activate siblenv
 (siblenv) $ cd ~/sibl/cli/; pip install -e . # for xyfigure
 (siblenv) $ cd ~/sibl/geo/; pip install -e . # for xyfigure PTG extension
-(siblenv) $ cd ~/sibl/gui/; pip install -e . # for xyfigure zplot extension
 ```
 
 ### Create the environment configuration file
@@ -50,14 +49,11 @@ dependencies:
   - flake8
   - matplotlib
   - notebook
-  - pandas
-  - pillow
   - pytest
   - pytest-cov
   - seaborn
   - scikit-image
   - scipy
-  - xlrd
 ```
 
 ## User configuration

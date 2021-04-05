@@ -24,7 +24,7 @@ echo Conda environments after attempt at removal of old environment:
 conda env list
 
 echo Recreating a new $y environment...
-conda create --name $y python=3.8 black dash flake8 ipykernel matplotlib pandas pillow pytest pytest-cov scipy seaborn xlrd
+conda create --name $y python=3.8 black dash flake8 ipykernel matplotlib pytest pytest-cov scipy seaborn
 
 # echo Activating the new $y environment...
 # conda init bash
