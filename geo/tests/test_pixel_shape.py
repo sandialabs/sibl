@@ -82,16 +82,7 @@ def test_cylinder_construction_od4():
     )
     assert cylinder  # tests constructor
 
-    known_mask = np.array(
-        [
-            [
-                [0, 1, 1, 0],
-                [1, 1, 1, 1],
-                [1, 1, 1, 1],
-                [0, 1, 1, 0],
-            ]
-        ]
-    )
+    known_mask = np.array([[[0, 1, 1, 0], [1, 1, 1, 1], [1, 1, 1, 1], [0, 1, 1, 0]]])
     known_mask_vector = np.ndarray.flatten(known_mask)
 
     calc_mask = cylinder.mask

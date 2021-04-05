@@ -5,10 +5,7 @@ import numpy as np
 
 
 def evaluation_times(
-    *,
-    knot_vector: Union[list, tuple],
-    degree: int = 0,
-    n_bisections: int = 1,
+    *, knot_vector: Union[list, tuple], degree: int = 0, n_bisections: int = 1,
 ) -> list:
     """Returns the parameter evaluation times for a parameter space, e.g.,
     parameter `t`, `u` or `v`.
@@ -369,16 +366,16 @@ class Volume:
             coefficients (float array): control lattice of points with
                 coordinates (x, y, z), with `(x, y, z)_coefficient_nml` as in
                 [
-                    [
+                    [ # layer 0
                         [[x, y, z]_c000, [x, y, z]_c001, ... [x, y, z]_c00l],
                         [[x, y, z]_c0m0, [x, y, z]_c0m1, ... [x, y, z]_c0ml]
                     ],
-                    [
+                    [ # layer n
                         [[x, y, z]_cn00, [x, y, z]_cn01, ... [x, y, z]_cn0l],
                         [[x, y, z]_cnm0, [x, y, z]_cnm1, ... [x, y, z]_cnml]
                     ]
                 ]
-                (n layers) x (m rows) x (l columns)
+                (n+1 layers) x (m+1 rows) x (l+1 columns)
             degree_t: (int >=0): B-spline polynomial degree for spline in `t`.
                 Defaults to 0.
             degree_u: (int >=0): B-spline polynomial degree for spline in `u`.
@@ -416,50 +413,63 @@ class Volume:
         iy = 1  # y-coordinate index
         iz = 2  # z-coordinate index
 
-        # TODO 2021-04-02-1207 resume here
-
         for i in np.arange(self.ncp_t):
             for j in np.arange(self.ncp_u):
+                for k in np.arange(self.ncp_v):
 
-                N_coef_t = np.zeros(self.ncp_t)
-                N_coef_u = np.zeros(self.ncp_u)
+                    N_coef_t = np.zeros(self.ncp_t)
+                    N_coef_u = np.zeros(self.ncp_u)
+                    N_coef_v = np.zeros(self.ncp_v)
 
-                N_coef_t[i] = 1.0
-                N_coef_u[j] = 1.0
+                    N_coef_t[i] = 1.0
+                    N_coef_u[j] = 1.0
+                    N_coef_v[k] = 1.0
 
-                Ni = Curve(knot_vector_t, N_coef_t, degree_t)
-                Nj = Curve(knot_vector_u, N_coef_u, degree_u)
+                    # walk the curves and make three outer products
+                    Ni = Curve(knot_vector_t, N_coef_t, degree_t)
+                    Nj = Curve(knot_vector_u, N_coef_u, degree_u)
+                    Nk = Curve(knot_vector_v, N_coef_v, degree_v)
 
-                if Ni.is_valid() and Nj.is_valid():
-                    Ni_of_t = Ni.evaluate(self.t)
-                    Nj_of_u = Nj.evaluate(self.u)
-                    Nij = np.outer(Ni_of_t, Nj_of_u)
+                    if Ni.is_valid() and Nj.is_valid() and Nk.is_valid():
+                        Ni_of_t = Ni.evaluate(self.t)
+                        Nj_of_u = Nj.evaluate(self.u)
+                        Nk_of_v = Nk.evaluate(self.v)
 
-                    coef_x = coefficients[i][j][ix]
-                    coef_y = coefficients[i][j][iy]
-                    coef_z = coefficients[i][j][iz]
+                        # Nij = np.outer(Ni_of_t, Nj_of_u)
+                        # Nijk = np.outer(Ni_of_t, np.outer(Nj_of_u, Nk_of_v))
+                        Nijk = np.array(
+                            [_ * np.outer(Nj_of_u, Nk_of_v) for _ in Ni_of_t]
+                        )
 
-                    self.x_of_t_u += Nij * coef_x
-                    self.y_of_t_u += Nij * coef_y
-                    self.z_of_t_u += Nij * coef_z
+                        coef_x = coefficients[i][j][k][ix]
+                        coef_y = coefficients[i][j][k][iy]
+                        coef_z = coefficients[i][j][k][iz]
+
+                        # self.x_of_t_u += Nij * coef_x
+                        # self.y_of_t_u += Nij * coef_y
+                        # self.z_of_t_u += Nij * coef_z
+                        self.x_of_t_u_v += Nijk * coef_x
+                        self.y_of_t_u_v += Nijk * coef_y
+                        self.z_of_t_u_v += Nijk * coef_z
 
         self.valid = True
 
     @property
     def evaluations(self):
-        """Returns the BSpline surface at all parameter evaluation points `t` and `u`."""
+        """Returns the BSpline volume at all parameter evaluation points
+        `t`, `u`, and `v`."""
 
         """
             Returns:
                 A tuple of (x, y, z) values, evaluated over all parameterization
-                points `t` and `u`.
+                points `t`, `u`, and `v`.
 
             Raises:
-                AssertionError if the BSpline surface has not been properly defined.
+                AssertionError if the BSpline volume has not been properly defined.
         """
         try:
             assert self.valid
-            return (self.x_of_t_u, self.y_of_t_u, self.z_of_t_u)
+            return (self.x_of_t_u_v, self.y_of_t_u_v, self.z_of_t_u_v)
 
         except AssertionError as error:
             if self.verbose:
@@ -469,10 +479,15 @@ class Volume:
 
     @property
     def evaluation_times_t(self):
-        """Returns the BSpline surface evaluation time parameters in the `t` direction."""
+        """Returns the BSpline volume evaluation time parameters in the `t` direction."""
         return self.t
 
     @property
     def evaluation_times_u(self):
-        """Returns the BSpline surface evaluation time parameters in the `u` direction."""
+        """Returns the BSpline volume evaluation time parameters in the `u` direction."""
         return self.u
+
+    @property
+    def evaluation_times_v(self):
+        """Returns the BSpline volume evaluation time parameters in the `v` direction."""
+        return self.v

@@ -713,18 +713,28 @@ class TestBSpline(TestCase):
             )
         )
 
-    @pytest.mark.skip(reason="work in progress")
     def test_300_control_lattice_3D_volume(self):
-        control_points = [
-            [
-                [[0.0, 0.0, 0.0], [0.0, 0.0, 30.0]],
-                [[0.0, 20.0, 0.0], [0.0, 20.0, 30.0]],
-            ],
-            [
-                [[10.0, 0.0, 0.0], [10.0, 0.0, 30.0]],
-                [[10.0, 20.0, 0.0], [10.0, 20.0, 30.0]],
-            ],
-        ]
+        # control_points = [
+        #     [
+        #         [[0.0, 0.0, 0.0], [0.0, 0.0, 30.0]],
+        #         [[0.0, 20.0, 0.0], [0.0, 20.0, 30.0]],
+        #     ],
+        #     [
+        #         [[10.0, 0.0, 0.0], [10.0, 0.0, 30.0]],
+        #         [[10.0, 20.0, 0.0], [10.0, 20.0, 30.0]],
+        #     ],
+        # ]
+        control_points = (
+            (
+                ((0.0, 0.0, 0.0), (0.0, 0.0, 30.0)),
+                ((0.0, 20.0, 0.0), (0.0, 20.0, 30.0)),
+            ),
+            (
+                ((10.0, 0.0, 0.0), (10.0, 0.0, 30.0)),
+                ((10.0, 20.0, 0.0), (10.0, 20.0, 30.0)),
+            ),
+        )
+
         kv_t = (0, 0, 1, 1)
         kv_u = (0, 0, 1, 1)
         kv_v = (0, 0, 1, 1)
@@ -740,6 +750,56 @@ class TestBSpline(TestCase):
             degree_t=deg_t,
             degree_u=deg_u,
             degree_v=deg_v,
+        )
+
+        known_evaluation_times = (0.0, 0.5, 1.0)  # in this example, same in t, u, v
+        calc_evaluation_times_t = V.evaluation_times_t
+        calc_evaluation_times_u = V.evaluation_times_u
+        calc_evaluation_times_v = V.evaluation_times_v
+
+        self.assertTrue(self.same(known_evaluation_times, calc_evaluation_times_t))
+        self.assertTrue(self.same(known_evaluation_times, calc_evaluation_times_u))
+        self.assertTrue(self.same(known_evaluation_times, calc_evaluation_times_v))
+
+        known_volume_evaluations_x = (
+            ((0.0, 0.0, 0.0), (0.0, 0.0, 0.0), (0.0, 0.0, 0.0)),
+            ((5.0, 5.0, 5.0), (5.0, 5.0, 5.0), (5.0, 5.0, 5.0)),
+            ((10.0, 10.0, 10.0), (10.0, 10.0, 10.0), (10.0, 10.0, 10.0)),
+        )
+
+        known_volume_evaluations_y = (
+            ((0.0, 0.0, 0.0), (10.0, 10.0, 10.0), (20.0, 20.0, 20.0)),
+            ((0.0, 0.0, 0.0), (10.0, 10.0, 10.0), (20.0, 20.0, 20.0)),
+            ((0.0, 0.0, 0.0), (10.0, 10.0, 10.0), (20.0, 20.0, 20.0)),
+        )
+
+        known_volume_evaluations_z = (
+            ((0.0, 15.0, 30.0), (0.0, 15.0, 30.0), (0.0, 15.0, 30.0)),
+            ((0.0, 15.0, 30.0), (0.0, 15.0, 30.0), (0.0, 15.0, 30.0)),
+            ((0.0, 15.0, 30.0), (0.0, 15.0, 30.0), (0.0, 15.0, 30.0)),
+        )
+
+        ix, iy, iz = 0, 1, 2  # coordinate index for x, y, and z
+
+        self.assertTrue(
+            self.same(
+                np.array(known_volume_evaluations_x).flatten(),
+                V.evaluations[ix].flatten(),
+            )
+        )
+
+        self.assertTrue(
+            self.same(
+                np.array(known_volume_evaluations_y).flatten(),
+                V.evaluations[iy].flatten(),
+            )
+        )
+
+        self.assertTrue(
+            self.same(
+                np.array(known_volume_evaluations_z).flatten(),
+                V.evaluations[iz].flatten(),
+            )
         )
 
     @pytest.mark.skip(reason="work in progress")

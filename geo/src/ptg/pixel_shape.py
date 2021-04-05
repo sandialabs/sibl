@@ -103,8 +103,7 @@ class PixelShapeBase(ABC):
         self._dz_pixels = int(dz * pixels_per_len)
 
         self._mask = np.zeros(
-            [self._dx_pixels, self._dy_pixels, self._dz_pixels],
-            dtype=dtype,
+            [self._dx_pixels, self._dy_pixels, self._dz_pixels], dtype=dtype
         )
 
     @property
@@ -351,8 +350,7 @@ class PixelQuarterCylinder(PixelShapeBase):
         _height_pixels = int(height * pixels_per_len)
 
         _y, _z = np.mgrid[
-            1 : _radius_outer_pixels + 1,
-            1 : _radius_outer_pixels + 1,
+            1 : _radius_outer_pixels + 1, 1 : _radius_outer_pixels + 1,
         ]
         _r_squared = _y ** 2 + _z ** 2
 
