@@ -9,7 +9,7 @@ def evaluation_times(
     knot_vector: Union[list, tuple],
     degree: int = 0,
     n_bisections: int = 1,
-):
+) -> list:
     """Returns the parameter evaluation times for a parameter space, e.g.,
     parameter `t`, `u` or `v`.
 
@@ -29,6 +29,10 @@ def evaluation_times(
             e.g., for `t` in per-knot-span interval [t_i, t_{i+1}],
             likewise for `u` and `v` parameters.
             Defaults to 1.
+
+    Returns:
+        list: The pueudo-time parameter `t` (or `u` or `v`) evaluation times
+            spanning the knot vector with `n_bisection` bisections.
 
     Raises:
         ValueError: If `len(knot_vector)` < 2.  Minimum `knot_vector` length is 2.
@@ -394,64 +398,25 @@ class Volume:
         # self.ncp_t, self.ncp_u, self.nsd = np.array(coefficients).shape
         self.ncp_t, self.ncp_u, self.ncp_v, self.nsd = np.array(coefficients).shape
 
-        # knots_t_lhs = knot_vector_t[0:-1]  # left-hand-side knot values for t
-        # knots_t_rhs = knot_vector_t[1:]  # right-hand-side knot values for t
-        # knot_t_spans = np.array(knots_t_rhs) - np.array(knots_t_lhs)
-        # dt = knot_t_spans / (2.0 ** n_bisections)
-        # assert all([dti >= 0 for dti in dt]), "Error: knot vector T is decreasing."
-        # num_knots_t = len(knot_vector_t)
-        # self.t = [
-        #     knots_t_lhs[k] + j * dt[k]
-        #     for k in np.arange(num_knots_t - 1)
-        #     for j in np.arange(2 ** n_bisections)
-        # ]
-        # self.t.append(knot_vector_t[-1])
-        # self.t = np.array(self.t)
-        # # retain only non-repeated evaluation points at beginning and end
-        # t_repeated_index = 2 ** n_bisections * degree_t
-        # self.t = self.t[t_repeated_index:-t_repeated_index]
-
-        # knots_u_lhs = knot_vector_u[0:-1]  # left-hand-side knot values for u
-        # knots_u_rhs = knot_vector_u[1:]  # right-hand-side knot values for u
-        # knot_u_spans = np.array(knots_u_rhs) - np.array(knots_u_lhs)
-        # du = knot_u_spans / (2.0 ** n_bisections)
-        # assert all([duj >= 0 for duj in du]), "Error: knot vector U is decreasing."
-        # num_knots_u = len(knot_vector_u)
-        # self.u = [
-        #     knots_u_lhs[k] + j * du[k]
-        #     for k in np.arange(num_knots_u - 1)
-        #     for j in np.arange(2 ** n_bisections)
-        # ]
-        # self.u.append(knot_vector_u[-1])
-        # self.u = np.array(self.u)
-        # # retain only non-repeated evaluation points at beginning and end
-        # u_repeated_index = 2 ** n_bisections * degree_u
-        # self.u = self.u[u_repeated_index:-u_repeated_index]
-
-        # self._t_new = evaluation_times(
-        #     knot_vector=knot_vector_t, degree=degree_t, n_bisections=n_bisections
-        # )
-        # self._u_new = evaluation_times(
-        #     knot_vector=knot_vector_u, degree=degree_u, n_bisections=n_bisections
-        # )
-
-        # assert np.norm(self._t_new - self.t < 0.00001)
-        # assert np.norm(self._u_new - self.u > 0.00001)
-
         self.t = evaluation_times(
             knot_vector=knot_vector_t, degree=degree_t, n_bisections=n_bisections
         )
         self.u = evaluation_times(
             knot_vector=knot_vector_u, degree=degree_u, n_bisections=n_bisections
         )
+        self.v = evaluation_times(
+            knot_vector=knot_vector_v, degree=degree_v, n_bisections=n_bisections
+        )
 
-        self.x_of_t_u = np.zeros((len(self.t), len(self.u)), dtype=float)
-        self.y_of_t_u = np.zeros((len(self.t), len(self.u)), dtype=float)
-        self.z_of_t_u = np.zeros((len(self.t), len(self.u)), dtype=float)
+        self.x_of_t_u_v = np.zeros((len(self.t), len(self.u), len(self.v)), dtype=float)
+        self.y_of_t_u_v = np.zeros((len(self.t), len(self.u), len(self.v)), dtype=float)
+        self.z_of_t_u_v = np.zeros((len(self.t), len(self.u), len(self.v)), dtype=float)
 
         ix = 0  # x-coordinate index
         iy = 1  # y-coordinate index
         iz = 2  # z-coordinate index
+
+        # TODO 2021-04-02-1207 resume here
 
         for i in np.arange(self.ncp_t):
             for j in np.arange(self.ncp_u):
