@@ -5,7 +5,10 @@ import numpy as np
 
 
 def evaluation_times(
-    *, knot_vector: Union[list, tuple], degree: int = 0, n_bisections: int = 1,
+    *,
+    knot_vector: Union[list, tuple],
+    degree: int = 0,
+    n_bisections: int = 1,
 ) -> list:
     """Returns the parameter evaluation times for a parameter space, e.g.,
     parameter `t`, `u` or `v`.
