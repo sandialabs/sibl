@@ -31,12 +31,18 @@ nbi = 2  # number of bisections per knot interval
 
 # Compose collection of Bspline surfaces as a group of control_points that describe
 # each surface.
-surfaces = (
-    (((0.0, 0.0, 0.0), (0.0, 0.0, 1.0)), ((0.0, 1.0, 0.0), (0.0, 1.0, 1.0)),),
-    (((1.0, 0.0, 0.0), (1.0, 0.0, 1.0)), ((1.0, 1.0, 0.0), (1.0, 1.0, 1.0)),),
-)
+xneg = ((0.0, 0.0, 0.0), (0.0, 0.0, 1.0)), ((0.0, 1.0, 0.0), (0.0, 1.0, 1.0))
+xpos = ((1.0, 0.0, 0.0), (1.0, 0.0, 1.0)), ((1.0, 1.0, 0.0), (1.0, 1.0, 1.0))
 
-colors = ("tab:blue", "tab:orange")
+yneg = ((0.0, 0.0, 0.0), (1.0, 0.0, 0.0)), ((0.0, 0.0, 1.0), (1.0, 0.0, 1.0))
+ypos = ((0.0, 1.0, 0.0), (1.0, 1.0, 0.0)), ((0.0, 1.0, 1.0), (1.0, 1.0, 1.0))
+
+zneg = ((0.0, 0.0, 0.0), (0.0, 1.0, 0.0)), ((1.0, 0.0, 0.0), (1.0, 1.0, 0.0))
+zpos = ((0.0, 0.0, 1.0), (0.0, 1.0, 1.0)), ((1.0, 0.0, 1.0), (1.0, 1.0, 1.0))
+
+surfaces = (xneg, xpos, yneg, ypos, zneg, zpos)
+
+colors = ("tab:blue", "tab:orange", "tab:green", "tab:red", "tab:purple", "tab:cyan")
 
 for control_points, surface_color in zip(surfaces, colors):
     S = bsp.Surface(
@@ -45,7 +51,7 @@ for control_points, surface_color in zip(surfaces, colors):
     (surf_x, surf_y, surf_z) = S.evaluations
 
     S_evaluations_view_config = dict(
-        alpha=0.9,
+        alpha=0.5,
         color="navy",
         linestyle="dashed",
         linewidth=0,
