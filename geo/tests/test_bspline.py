@@ -714,16 +714,6 @@ class TestBSpline(TestCase):
         )
 
     def test_300_control_lattice_3D_volume(self):
-        # control_points = [
-        #     [
-        #         [[0.0, 0.0, 0.0], [0.0, 0.0, 30.0]],
-        #         [[0.0, 20.0, 0.0], [0.0, 20.0, 30.0]],
-        #     ],
-        #     [
-        #         [[10.0, 0.0, 0.0], [10.0, 0.0, 30.0]],
-        #         [[10.0, 20.0, 0.0], [10.0, 20.0, 30.0]],
-        #     ],
-        # ]
         control_points = (
             (
                 ((0.0, 0.0, 0.0), (0.0, 0.0, 30.0)),
@@ -802,7 +792,7 @@ class TestBSpline(TestCase):
             )
         )
 
-    @pytest.mark.skip(reason="work in progress")
+    # @pytest.mark.skip(reason="work in progress")
     def test_301_Bingol_3D_volume(self):
         """Tests creation and plotting of BSpline surface, compared to
         GitHub repository orbingol
@@ -889,6 +879,83 @@ class TestBSpline(TestCase):
         [[0.0, 0.0, 0.0], [5.0, 0.0, 0.0], [10.0, 0.0, 0.0], [0.0, 0.0, 15.0], [5.0, 0.0, 15.0], [10.0, 0.0, 15.0], [0.0, 0.0, 30.0], [5.0, 0.0, 30.0], [10.0, 0.0, 30.0], [0.0, 10.0, 0.0], [5.0, 10.0, 0.0], [10.0, 10.0, 0.0], [0.0, 10.0, 15.0], [5.0, 10.0, 15.0], [10.0, 10.0, 15.0], [0.0, 10.0, 30.0], [5.0, 10.0, 30.0], [10.0, 10.0, 30.0], [0.0, 20.0, 0.0], [5.0, 20.0, 0.0], [10.0, 20.0, 0.0], [0.0, 20.0, 15.0], [5.0, 20.0, 15.0], [10.0, 20.0, 15.0], [0.0, 20.0, 30.0], [5.0, 20.0, 30.0], [10.0, 20.0, 30.0]]
         > len(vol_points)
         27
+        """
+        control_points = (
+            (
+                ((0.0, 0.0, 0.0), (0.0, 0.0, 30.0)),
+                ((0.0, 20.0, 0.0), (0.0, 20.0, 30.0)),
+            ),
+            (
+                ((10.0, 0.0, 0.0), (10.0, 0.0, 30.0)),
+                ((10.0, 20.0, 0.0), (10.0, 20.0, 30.0)),
+            ),
+        )
+
+        kv_t = (0, 0, 1, 1)
+        kv_u = (0, 0, 1, 1)
+        kv_v = (0, 0, 1, 1)
+        deg_t = 1
+        deg_u = 1
+        deg_v = 1
+
+        V = bsp.Volume(
+            knot_vector_t=kv_t,
+            knot_vector_u=kv_u,
+            knot_vector_v=kv_v,
+            coefficients=control_points,
+            degree_t=deg_t,
+            degree_u=deg_u,
+            degree_v=deg_v,
+        )
+
+        known_points = [
+            [0.0, 0.0, 0.0],
+            [5.0, 0.0, 0.0],
+            [10.0, 0.0, 0.0],
+            [0.0, 0.0, 15.0],
+            [5.0, 0.0, 15.0],
+            [10.0, 0.0, 15.0],
+            [0.0, 0.0, 30.0],
+            [5.0, 0.0, 30.0],
+            [10.0, 0.0, 30.0],
+            [0.0, 10.0, 0.0],
+            [5.0, 10.0, 0.0],
+            [10.0, 10.0, 0.0],
+            [0.0, 10.0, 15.0],
+            [5.0, 10.0, 15.0],
+            [10.0, 10.0, 15.0],
+            [0.0, 10.0, 30.0],
+            [5.0, 10.0, 30.0],
+            [10.0, 10.0, 30.0],
+            [0.0, 20.0, 0.0],
+            [5.0, 20.0, 0.0],
+            [10.0, 20.0, 0.0],
+            [0.0, 20.0, 15.0],
+            [5.0, 20.0, 15.0],
+            [10.0, 20.0, 15.0],
+            [0.0, 20.0, 30.0],
+            [5.0, 20.0, 30.0],
+            [10.0, 20.0, 30.0],
+        ]
+
+        ix, iy, iz = 0, 1, 2  # coordinate index for x, y, and z
+
+        calc_points_x = V.evaluations[ix].flatten()
+        calc_points_y = V.evaluations[iy].flatten()
+        calc_points_z = V.evaluations[iz].flatten()
+
+        calc_points = np.transpose([calc_points_x, calc_points_y, calc_points_z])
+        assert len(known_points) == len(calc_points)
+
+        # pluck calculated points from matched known points, check known_points is an
+        # empty list thereafter
+        for i in calc_points:
+            known_points.remove(i.tolist())
+        assert len(known_points) == 0
+
+        a = 4
+
+        """
         # -----------------
         # refinement 2 of 2
         # -----------------
@@ -902,6 +969,15 @@ class TestBSpline(TestCase):
         > len(vol_points)
         64
         """
+        # V2 = bsp.Volume(
+        #     knot_vector_t=kv_t,
+        #     knot_vector_u=kv_u,
+        #     knot_vector_v=kv_v,
+        #     coefficients=control_points,
+        #     degree_t=deg_t,
+        #     degree_u=deg_u,
+        #     degree_v=deg_v,
+        # )
 
 
 # retain main for debugging this file in VS code
