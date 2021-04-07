@@ -48,8 +48,10 @@ defaults = {
         "linewidth": 0.5,
         "marker": ".",
         "markersize": 4,
+        "markeredgecolor": "None",
+        "markerfacecolor": "navy",
     },
-    "surface_kwargs": {"alpha": 0.8},
+    "surface_kwargs": {"alpha": 0.6, "edgecolor": "lightgray", "linewidth": 0.125},
 }
 
 

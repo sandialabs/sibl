@@ -8,7 +8,9 @@ Example:
 
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib import rc
 import matplotlib.tri as mtri
+from pathlib import Path
 
 import ptg.bspline as bsp
 import ptg.view_bspline as vbsp
@@ -17,13 +19,30 @@ import ptg.view_bspline as vbsp
 ix, iy, iz = 0, 1, 2  # xyz indicies, avoid magic numbers
 control_net_shown = True  # True lets control net be drawn, False skips it
 control_points_shown = True
+serialize = True
+latex = True
+if latex:
+    rc("font", **{"family": "serif", "serif": ["Computer Modern Roman"]})
+    rc("text", usetex=True)
 
 # The first and only figure
 fig = plt.figure()
 ax = fig.add_subplot(111, projection="3d")
-ax.set_xlabel("x")
-ax.set_ylabel("y")
-ax.set_zlabel("z")
+
+ax.set_xlabel(r"$x$")
+ax.set_ylabel(r"$y$")
+ax.set_zlabel(r"$z$")
+
+interval = [0.0, 1.0]
+
+# ax.set_xlim(interval)
+# ax.set_ylim(interval)
+# ax.set_zlim(interval)
+
+ax.set_xticks(interval)
+ax.set_yticks(interval)
+ax.set_zticks(interval)
+
 
 # Common to all Bspline surfaces used herein
 kv_t = (0.0, 0.0, 1.0, 1.0)  # knot vector for t parameter
@@ -44,8 +63,9 @@ zneg = ((0.0, 0.0, 0.0), (0.0, 1.0, 0.0)), ((1.0, 0.0, 0.0), (1.0, 1.0, 0.0))
 zpos = ((0.0, 0.0, 1.0), (0.0, 1.0, 1.0)), ((1.0, 0.0, 1.0), (1.0, 1.0, 1.0))
 
 # surfaces = (xneg, xpos)
-surfaces = (xneg, xpos, yneg, ypos)
-# surfaces = (xneg, xpos, yneg, ypos, zneg, zpos)
+# surfaces = (xneg, xpos, yneg, ypos)
+# surfaces = (yneg, ypos, zneg, zpos)
+surfaces = (xneg, xpos, yneg, ypos, zneg, zpos)
 
 if control_net_shown:
     pass
@@ -67,7 +87,7 @@ for control_points, surface_color in zip(surfaces, vbsp.colors):
         surf_x.flatten(),
         surf_y.flatten(),
         surf_z.flatten(),
-        **vbsp.defaults["evaluation_points_kwargs"]
+        **vbsp.defaults["evaluation_points_kwargs"],
     )
 
     u, t = np.meshgrid(S.evaluation_times_u, S.evaluation_times_t)
@@ -86,3 +106,9 @@ for control_points, surface_color in zip(surfaces, vbsp.colors):
 
 # Back to the singleton figure
 plt.show()
+
+if serialize:
+    extension = ".pdf"
+    filename = Path(__file__).name + extension
+    fig.savefig(filename, bbox_inches="tight", pad_inches=0)
+    print(f"Serialized to {filename}")
