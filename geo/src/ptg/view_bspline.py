@@ -23,6 +23,35 @@ $ python view_bspline.py ../../data/bspline/recover_bezier_linear.json
 $ python view_bspline.py ../../data/bspline/recover_bezier_linear.json --verbose
 """
 
+colors = ("tab:blue", "tab:orange", "tab:green", "tab:red", "tab:purple", "tab:cyan")
+
+defaults = {
+    "control_net_kwargs": {
+        "alpha": 0.5,
+        "color": "red",
+        "linestyle": "dashed",
+        "linewidth": 1,
+    },
+    "control_points_kwargs": {
+        "alpha": 0.5,
+        "color": "red",
+        "linestyle": "None",
+        "linewidth": 1,
+        "marker": "o",
+        "markerfacecolor": "white",
+        "markersize": 9,
+    },
+    "evaluation_points_kwargs": {
+        "alpha": 0.5,
+        "color": "navy",
+        "linestyle": "None",
+        "linewidth": 0.5,
+        "marker": ".",
+        "markersize": 4,
+    },
+    "surface_kwargs": {"alpha": 0.8},
+}
+
 
 class ControlNet:
     """Creates a control net for a BSpline surface.
