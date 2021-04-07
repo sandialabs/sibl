@@ -1,9 +1,8 @@
-"""This module recovers a six-sided (bottom, top, lateral) surfaces of a cube.
-
+"""
 Example:
 > cd ~/sibl/geo/examples
 > conda activate siblenv
-> python bspline_surface_cube_linear.py
+> python bspline_surface_qtrcyl_quadratic.py
 """
 
 import numpy as np
@@ -15,8 +14,7 @@ from pathlib import Path
 import ptg.bspline as bsp
 import ptg.view_bspline as vbsp
 
-
-# View Control
+# Utilites
 ix, iy, iz = 0, 1, 2  # xyz indicies, avoid magic numbers
 control_net_shown = True  # True lets control net be drawn, False skips it
 control_points_shown = True
@@ -34,15 +32,18 @@ ax.set_xlabel(r"$x$")
 ax.set_ylabel(r"$y$")
 ax.set_zlabel(r"$z$")
 
-interval = [0.0, 1.0]
+xmax = 3
+ax.set_xlim([0, xmax])
+ax.set_ylim([0, 1])
+ax.set_zlim([0, 1])
 
-# ax.set_xlim(interval)
-# ax.set_ylim(interval)
-# ax.set_zlim(interval)
+ax.set_box_aspect([2.5, 1, 1])
+
+interval = np.arange(0, xmax + 1, 1)
 
 ax.set_xticks(interval)
-ax.set_yticks(interval)
-ax.set_zticks(interval)
+ax.set_yticks([0, 1])
+ax.set_zticks([0, 1])
 
 # Common to all Bspline surfaces used herein
 kv_t = (0.0, 0.0, 0.0, 1.0, 1.0, 1.0)  # knot vector for t parameter
@@ -53,45 +54,25 @@ nbi = 2  # number of bisections per knot interval
 
 # Compose collection of Bspline surfaces as a group of control_points that describe
 # each surface.
-xneg = (
+xneg0 = (
     ((0.0, 0.0, 0.0), (0.0, 0.0, 0.5), (0.0, 0.0, 1.0)),
-    ((0.0, 0.5, 0.0), (0.0, 0.5, 0.5), (0.0, 0.5, 1.0)),
-    ((0.0, 1.0, 0.0), (0.0, 1.0, 0.5), (0.0, 1.0, 1.0)),
-)
-
-xpos = (
-    ((1.0, 0.0, 0.0), (1.0, 0.0, 0.5), (1.0, 0.0, 1.0)),
-    ((1.0, 0.5, 0.0), (1.0, 0.5, 0.5), (1.0, 0.5, 1.0)),
-    ((1.0, 1.0, 0.0), (1.0, 1.0, 0.5), (1.0, 1.0, 1.0)),
-)
-
-yneg = (
-    ((0.0, 0.0, 0.0), (0.5, 0.0, 0.0), (1.0, 0.0, 0.0)),
-    ((0.0, 0.0, 0.5), (0.5, 0.0, 0.5), (1.0, 0.0, 0.5)),
-    ((0.0, 0.0, 1.0), (0.5, 0.0, 1.0), (1.0, 0.0, 1.0)),
-)
-
-ypos = (
-    ((0.0, 1.0, 0.0), (0.5, 1.0, 0.0), (1.0, 1.0, 0.0)),
-    ((0.0, 1.0, 0.5), (0.5, 1.0, 0.5), (1.0, 1.0, 0.5)),
-    ((0.0, 1.0, 1.0), (0.5, 1.0, 1.0), (1.0, 1.0, 1.0)),
-)
-
-zneg = (
+    ((0.0, 0.0, 0.0), (0.0, 0.5, 0.5), (0.0, 1.0, 1.0)),
     ((0.0, 0.0, 0.0), (0.0, 0.5, 0.0), (0.0, 1.0, 0.0)),
-    ((0.5, 0.0, 0.0), (0.5, 0.5, 0.0), (0.5, 1.0, 0.0)),
-    ((1.0, 0.0, 0.0), (1.0, 0.5, 0.0), (1.0, 1.0, 0.0)),
 )
 
-zpos = (
-    ((0.0, 0.0, 1.0), (0.0, 0.5, 1.0), (0.0, 1.0, 1.0)),
-    ((0.5, 0.0, 1.0), (0.5, 0.5, 1.0), (0.5, 1.0, 1.0)),
-    ((1.0, 0.0, 1.0), (1.0, 0.5, 1.0), (1.0, 1.0, 1.0)),
+cyl = (
+    ((0.0, 1.0, 0.0), (0.0, 1.0, 1.0), (0.0, 0.0, 1.0)),
+    ((1.5, 1.0, 0.0), (1.5, 1.0, 1.0), (1.5, 0.0, 1.0)),
+    ((3.0, 1.0, 0.0), (3.0, 1.0, 1.0), (3.0, 0.0, 1.0)),
 )
 
-# surfaces = (xneg, xpos)
-# surfaces = (xneg, xpos, yneg, ypos)
-surfaces = (xneg, xpos, yneg, ypos, zneg, zpos)
+xneg3 = (
+    ((3.0, 0.0, 0.0), (3.0, 0.0, 0.5), (3.0, 0.0, 1.0)),
+    ((3.0, 0.0, 0.0), (3.0, 0.5, 0.5), (3.0, 1.0, 1.0)),
+    ((3.0, 0.0, 0.0), (3.0, 0.5, 0.0), (3.0, 1.0, 0.0)),
+)
+
+surfaces = (xneg0, cyl, xneg3)
 
 if control_net_shown:
     pass
@@ -102,7 +83,6 @@ if control_points_shown:
     cp_z = np.array(surfaces)[:, :, :, iz].flatten()  # control points z-coordinates
 
     ax.plot3D(cp_x, cp_y, cp_z, **vbsp.defaults["control_points_kwargs"])
-
 
 for control_points, surface_color in zip(surfaces, vbsp.colors):
     S = bsp.Surface(
