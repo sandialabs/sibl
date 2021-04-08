@@ -81,7 +81,7 @@ patches = [
         degree_t=degree_t,
         degree_u=degree_u,
         n_bisections=nbi,
-        color=vbsp.colors[i]
+        color=vbsp.colors[i],
     )
     for i, item in enumerate(scaffolds)
 ]
