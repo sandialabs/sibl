@@ -86,7 +86,13 @@ if control_points_shown:
 
 for control_points, surface_color in zip(surfaces, vbsp.colors):
     S = bsp.Surface(
-        kv_t, kv_u, control_points, degree_t, degree_u, n_bisections=nbi, verbose=True,
+        kv_t,
+        kv_u,
+        control_points,
+        degree_t,
+        degree_u,
+        n_bisections=nbi,
+        verbose=True,
     )
     (surf_x, surf_y, surf_z) = S.evaluations
 
