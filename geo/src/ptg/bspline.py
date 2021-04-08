@@ -1,7 +1,8 @@
-from typing import Union
+from typing import Union, NamedTuple
+
+import numpy as np
 
 from scipy.interpolate import BSpline as scipy_bspline
-import numpy as np
 
 
 def evaluation_times(
@@ -160,6 +161,47 @@ class Curve:
         # y = self._bspline(t)
         # return y
         return self._bspline(t)
+
+
+class SurfaceClientData(NamedTuple):
+    """Creates the client-specific input pluggable into a surface,
+    e.g, the Surface class.
+
+    Attributes:
+        knot_vector_t (float array): knot vector for curve parameterized by `t`.
+            len(knot_vector_t) = (I + 1)
+            len(knot_vector_t) = len(coefficients) + (degree_t + 1)
+            (I + 1) knots with (I) knot spans
+            must have length of two or more
+            must be a non-decreasing sequence
+        knot_vector_u (float array): knot vector for curve parameterized by `u`.
+            len(knot_vector_u) = (J + 1)
+            len(knot_vector_u) = len(coefficients[0]) + (degree_u + 1)
+            (J + 1) knots with (J) knot spans
+            must have length of two or more
+            must be a non-decreasing sequence
+        coefficients (float array): control net/grid of points with
+            coordinates (x, y, z), with `(x, y, z)_coefficient_nm` as in
+            [
+                [[x, y, z]_c00, [x, y, z]_c01, ... [x, y, z]_c0m],
+                [[x, y, z]_cn0, [x, y, z]_cn1, ... [x, y, z]_cnm]
+            ]
+        degree_t: (int >=0): B-spline polynomial degree for spline in `t`.
+            Defaults to 0.
+        degree_u: (int >=0): B-spline polynomial degree for spline in `u`.
+            Defaults to 0.
+        n_bisections (int): Number of bisections per knot span for both `t` and `u`.
+                Defaults to 1.
+        color (str): Any string acceptable to Matplotlib.  Defaults to "blue".
+    """
+
+    knot_vector_t: Union[list, tuple]
+    knot_vector_u: Union[list, tuple]
+    coefficients: Union[list, tuple]
+    degree_t: int = 0
+    degree_u: int = 0
+    n_bisections: int = 1
+    color: str = "blue"
 
 
 class Surface:
