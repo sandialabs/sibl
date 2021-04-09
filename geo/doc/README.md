@@ -36,6 +36,10 @@ PTG describes a **decoding** process of a physical system that was original **en
 * Bezier Geometry, updated [2021-04-02](bezier/Bezier-Geometry-2021-04-02.pdf)
 * B-Spline Geometry, updated [2021-04-02](bspline/B-Spline-Geometry-2021-04-02.pdf)
 
+## Animations
+
+![bspline_surface_biquad2tri_animation_opt](fig/bspline_surface_biquad2tri_animation_opt.gif)
+
 ## References
 
 * [Brain oriented programming](https://tobeva.com/articles/brain-oriented-programming/) limit classes to seven attributes.

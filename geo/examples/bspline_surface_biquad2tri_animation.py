@@ -19,7 +19,7 @@ ix, iy, iz = 0, 1, 2  # xyz indicies, avoid magic numbers
 control_net_shown = True  # True lets control net be drawn, False skips it
 control_points_shown = True
 serialize = True
-latex = False
+latex = True
 if latex:
     rc("font", **{"family": "serif", "serif": ["Computer Modern Roman"]})
     rc("text", usetex=True)
@@ -161,7 +161,8 @@ for i in range(nts + 1):
     # plt.show(block=True)
 
     if serialize:
-        extension = ".pdf"
+        # extension = ".pdf"
+        extension = ".png"
         filename = Path(__file__).name + str(i) + extension
         fig.savefig(filename, bbox_inches="tight", pad_inches=0)
         print(f"Serialized to {filename}")
