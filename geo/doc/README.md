@@ -34,11 +34,13 @@ PTG describes a **decoding** process of a physical system that was original **en
 ## Theory
 
 * Bezier Geometry, updated [2021-04-02](bezier/Bezier-Geometry-2021-04-02.pdf)
-* B-Spline Geometry, updated [2021-04-02](bspline/B-Spline-Geometry-2021-04-02.pdf)
+* B-Spline Geometry, updated [2021-04-09](bspline/B-Spline-Geometry-2021-04-09.pdf)
 
 ## Animations
 
 ![bspline_surface_biquad2tri_animation_opt](fig/bspline_surface_biquad2tri_animation_opt.gif)
+
+* See also [bspline_surface_biquad2tri_animation_flip_book.pdf](fig/bspline_surface_biquad2tri_animation_flip_book.pdf)
 
 ## References
 
