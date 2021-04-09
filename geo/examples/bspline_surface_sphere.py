@@ -34,23 +34,23 @@ ax.set_zlabel(r"$z$")
 
 xmax = 3
 ax.set_xlim([0, xmax])
-ax.set_ylim([0, 1])
-ax.set_zlim([0, 1])
+ax.set_ylim([-1, 1])
+ax.set_zlim([-1, 1])
 
 ax.set_box_aspect([2.5, 1, 1])
 
 interval = np.arange(0, xmax + 1, 1)
 
 ax.set_xticks(interval)
-ax.set_yticks([0, 1])
+ax.set_yticks([-1, 0, 1])
 ax.set_zticks([0, 1])
 
 # Common to all Bspline scaffolds used herein
-kv_t = (0.0, 0.0, 0.0, 1.0, 1.0, 1.0)  # knot vector for t parameter
-kv_u = (0.0, 0.0, 0.0, 1.0, 1.0, 1.0)  # knot vector for u parameter
-degree_t = 2  # quadratic
-degree_u = 2  # quadratic
-nbi = 3  # number of bisections per knot interval
+kv_p2 = (0.0, 0.0, 0.0, 1.0, 1.0, 1.0)  # knot vector for t, u parameter
+kv_p2ext = (0.0, 0.0, 0.0, 1.0, 2.0, 2.0, 2.0)  # knot insertion, for t, u parameter
+quadratic = 2  # quadratic
+# degree_cubic = 3  # quadratic
+nbi = 4  # number of bisections per knot interval
 
 # Compose collection of Bspline scaffolds as a group of control_points that describe
 # each surface.
@@ -59,6 +59,12 @@ cyl0 = (
     ((0.0, 0.5, 0.0), (0.0, 0.5, 0.5), (0.0, 0.0, 0.5)),
     ((0.5, 1.0, 0.0), (0.5, 1.0, 1.0), (0.5, 0.0, 1.0)),
     ((1.0, 0.5, 0.0), (1.0, 0.5, 0.5), (1.0, 0.0, 0.5)),
+)
+
+cyl0b = (
+    ((0.0, -0.5, 0.0), (0.0, -0.5, 0.5), (0.0, 0.0, 0.5)),
+    ((0.5, -1.0, 0.0), (0.5, -1.0, 1.0), (0.5, 0.0, 1.0)),
+    ((1.0, -0.5, 0.0), (1.0, -0.5, 0.5), (1.0, 0.0, 0.5)),
 )
 
 cyl2 = (
@@ -71,20 +77,23 @@ cyl2 = (
 # To come.
 
 # collect as scaffolds (formerly called "surfaces", which is not precise)
-scaffolds = (cyl0, cyl2)
+scaffolds = (cyl0, cyl0b, cyl2)
+knots = (kv_p2, kv_p2, kv_p2)
 
-patches = [
+# consider refactor into a Generator, e.g. snrl ref itertools.tee
+
+patches = tuple(
     bsp.SurfaceClientData(
-        knot_vector_t=kv_t,
-        knot_vector_u=kv_u,
-        coefficients=item,
-        degree_t=degree_t,
-        degree_u=degree_u,
+        knot_vector_t=knot,
+        knot_vector_u=knot,
+        coefficients=scaffold,
+        degree_t=quadratic,
+        degree_u=quadratic,
         n_bisections=nbi,
         color=vbsp.colors[i],
     )
-    for i, item in enumerate(scaffolds)
-]
+    for i, (scaffold, knot) in enumerate(zip(scaffolds, knots))
+)
 
 if control_net_shown:
     pass
