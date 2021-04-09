@@ -78,21 +78,21 @@ cyl2 = (
 
 # collect as scaffolds (formerly called "surfaces", which is not precise)
 scaffolds = (cyl0, cyl0b, cyl2)
-knots = (kv_p2, kv_p2, kv_p2)
+kvs = (kv_p2, kv_p2, kv_p2)  # knot vectors
 
 # consider refactor into a Generator, e.g. snrl ref itertools.tee
 
 patches = tuple(
     bsp.SurfaceClientData(
-        knot_vector_t=knot,
-        knot_vector_u=knot,
+        knot_vector_t=kv,
+        knot_vector_u=kv,
         coefficients=scaffold,
         degree_t=quadratic,
         degree_u=quadratic,
         n_bisections=nbi,
         color=vbsp.colors[i],
     )
-    for i, (scaffold, knot) in enumerate(zip(scaffolds, knots))
+    for i, (scaffold, kv) in enumerate(zip(scaffolds, kvs))
 )
 
 if control_net_shown:

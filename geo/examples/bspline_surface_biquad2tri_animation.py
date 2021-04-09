@@ -19,7 +19,7 @@ ix, iy, iz = 0, 1, 2  # xyz indicies, avoid magic numbers
 control_net_shown = True  # True lets control net be drawn, False skips it
 control_points_shown = True
 serialize = False
-latex = True
+latex = False
 if latex:
     rc("font", **{"family": "serif", "serif": ["Computer Modern Roman"]})
     rc("text", usetex=True)
@@ -67,20 +67,13 @@ ax.w_xaxis.line.set_color("white")
 # ax.xaxis.set_alpha(0.5)
 # ax.xaxis.spline.set_color("magenta")
 # ax.xaxis.set_visible(False)
-
 # Get rid of the panes
 # ax.w_xaxis.line.set_color((1.0, 0.0, 0.0, 0.0))
 # ax.w_yaxis.set_pane_color((0.0, 1.0, 0.0, 0.0))
 
-
-# camera
-# ax.view_init(elev=0.0, azim=0.0)
-
 # Common to all Bspline surfaces used herein
-kv_t = (0.0, 0.0, 0.0, 1.0, 1.0, 1.0)  # knot vector for t parameter
-kv_u = (0.0, 0.0, 0.0, 1.0, 1.0, 1.0)  # knot vector for u parameter
-degree_t = 2  # quadratic
-degree_u = 2  # quadratic
+kv = (0.0, 0.0, 0.0, 1.0, 1.0, 1.0)  # knot vector for t, u parameters
+quadratic = 2  # quadratic
 nbi = 2  # number of bisections per knot interval
 
 # Compose collection of Bspline surfaces as a group of control_points that describe
@@ -109,28 +102,45 @@ xneg0 = (
 #     ((3.0, 0.0, 0.0), (3.0, 0.5, 0.0), (3.0, 1.0, 0.0)),
 # )
 
-surfaces = (xneg0,)
+# surfaces = (xneg0,)
 # surfaces = (xneg0, xneg1, xneg2, xneg3)
+scaffolds = (xneg0,)
+kvs = (kv,)  # knot vectors
+
+patches = tuple(
+    bsp.SurfaceClientData(
+        knot_vector_t=kv,
+        knot_vector_u=kv,
+        coefficients=scaffold,
+        degree_t=quadratic,
+        degree_u=quadratic,
+        n_bisections=nbi,
+        color=vbsp.colors[i],
+    )
+    for i, (scaffold, kv) in enumerate(zip(scaffolds, kvs))
+)
+
 
 if control_net_shown:
     pass
 
 if control_points_shown:
-    cp_x = np.array(surfaces)[:, :, :, ix].flatten()  # control points x-coordinates
-    cp_y = np.array(surfaces)[:, :, :, iy].flatten()  # control points y-coordinates
-    cp_z = np.array(surfaces)[:, :, :, iz].flatten()  # control points z-coordinates
+    for p in patches:
+        cp_x = np.array(p.coefficients)[:, :, ix].flatten()
+        cp_y = np.array(p.coefficients)[:, :, iy].flatten()
+        cp_z = np.array(p.coefficients)[:, :, iz].flatten()
 
-    ax.plot3D(cp_x, cp_y, cp_z, **vbsp.defaults["control_points_kwargs"])
+        ax.plot3D(cp_x, cp_y, cp_z, **vbsp.defaults["control_points_kwargs"])
 
-for control_points in surfaces:
+for p in patches:
+
     S = bsp.Surface(
-        kv_t,
-        kv_u,
-        control_points,
-        degree_t,
-        degree_u,
-        n_bisections=nbi,
-        verbose=True,
+        knot_vector_t=p.knot_vector_t,
+        knot_vector_u=p.knot_vector_u,
+        coefficients=p.coefficients,
+        degree_t=p.degree_t,
+        degree_u=p.degree_u,
+        n_bisections=p.n_bisections,
     )
     (surf_x, surf_y, surf_z) = S.evaluations
 
@@ -148,7 +158,7 @@ for control_points in surfaces:
     triangulation_kwargs = dict(triangles=tri.triangles)
     triangulation_kwargs.update(**vbsp.defaults["surface_kwargs"])
 
-    current_color_kwargs = dict(color=vbsp.colors[0])
+    current_color_kwargs = dict(color=p.color)
     triangulation_kwargs.update(current_color_kwargs)
 
     ax.plot_trisurf(
