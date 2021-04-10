@@ -2,7 +2,7 @@
 Example:
 > cd ~/sibl/geo/examples
 > conda activate siblenv
-> python bspline_surface_biquad2tri_animation.py
+> python bspline_surface_cyl2sphere_animation.py
 """
 
 import numpy as np
@@ -18,9 +18,9 @@ import ptg.view_bspline as vbsp
 ix, iy, iz = 0, 1, 2  # xyz indicies, avoid magic numbers
 control_net_shown = True  # True lets control net be drawn, False skips it
 control_points_shown = True
-serialize = False
-display = True
-latex = False
+serialize = True
+display = False
+latex = True
 if latex:
     rc("font", **{"family": "serif", "serif": ["Computer Modern Roman"]})
     rc("text", usetex=True)
@@ -32,74 +32,84 @@ quadratic = 2  # quadratic
 nbi = 2  # number of bisections per knot interval
 
 
+# nts = 1  # number of time steps
+# nts = 5  # number of time steps
+# nts = 10  # number of time steps
 nts = 20  # number of time steps
 dt = 1.0 / nts  # delta time step
-for i in range(nts + 1):
+for ts in range(nts + 1):
 
     fig = plt.figure()
     ax = fig.add_subplot(111, projection="3d")
     ax.set_proj_type("ortho")
-    ax.view_init(elev=0, azim=0)
+    # ax.view_init(elev=30, azim=45)
+    ax.view_init(elev=40, azim=70)
     # ax.set_proj_type("persp")
 
     # plot3d api
     # https://matplotlib.org/stable/api/_as_gen/mpl_toolkits.mplot3d.axes3d.Axes3D.html?highlight=set_box_aspect#mpl_toolkits.mplot3d.axes3d.Axes3D.set_box_aspect
 
-    # ax.set_xlabel(r"$x$")
+    ax.set_xlabel(r"$x$")
     ax.set_ylabel(r"$y$")
     ax.set_zlabel(r"$z$")
 
     xmax = 1
     # ax.set_xlim([-xmax, 0.0])
-    ax.set_xlim([-xmax, 0])
-    ax.set_ylim([0, 1])
-    ax.set_zlim([0, 1])
+    # ax.set_xlim([-xmax, 0])
+    ax.set_xlim([0, 2])
+    ax.set_ylim([-1, 1])
+    ax.set_zlim([-1, 1])
 
     # ax.set_box_aspect([2.5, 1, 1])
     ax.set_box_aspect([1, 1, 1])
 
     interval = np.arange(0, xmax + 1, 1)
 
-    # ax.set_xticks(interval)
-    ax.set_xticks([])  # show no ticks
-    # ax.set_xticks([0, 1])
-    ax.set_yticks([0, 1])
-    ax.set_zticks([0, 1])
+    # ax.set_xticks([])  # show no ticks
+    ax.set_xticks([0, 1, 2])
+    ax.set_yticks([-1, 0, 1])
+    ax.set_zticks([-1, 0, 1])
     # ax.set_axis_off()  # turns off all three axes
     ax.grid(False)
-    # ax.tick_params(axis="x", color="red")
-    ax.xaxis.label.set_color("red")
-    # ax.xaxis.set_color("red")
-    ax.tick_params(axis="x", colors="blue")
-    # ax.spines["bottom"].set_color("red")
-    # ax.w_zaxis  # <- the z axis
-    ax.w_xaxis.line.set_color("white")
-    # ax.set_axis_off()
-    # ax.xaxis.set_alpha(0.5)
-    # ax.xaxis.spline.set_color("magenta")
-    # ax.xaxis.set_visible(False)
-    # Get rid of the panes
-    # ax.w_xaxis.line.set_color((1.0, 0.0, 0.0, 0.0))
-    # ax.w_yaxis.set_pane_color((0.0, 1.0, 0.0, 0.0))
 
-    # Compose collection of Bspline surfaces as a group of control_points that describe
-    # each surface.
-    xneg0 = (
-        ((0.0, 0.0, 0.0), (0.0, 0.0, 0.5), (0.0, 0.0, 1.0)),
+    scaf0 = (
+        ((0.0, 1.0, 0.0), (0.0, 1.0, 1.0), (0.0, 0.0, 1.0)),
         (
-            (0.0, 0.5 * (1 - i * dt), 0.0),
-            (0.0, 0.5, 0.5),
-            (0.0, 0.5 * (1 + i * dt), 1.0),
+            (1.0 - 0.25 * (ts * dt), 1.0, 0.0),
+            (1.0 - 0.25 * (ts * dt), 1.0, 1.0),
+            (1.0 - 0.25 * (ts * dt), 0.0, 1.0),
         ),
         (
-            (0.0, 1.0 * (1 - i * dt), 0.0),
-            (0.0, 1.0 * (1 - 0.5 * i * dt), 0.5 * (1 - i * dt)),
-            (0.0, 1.0, 1.0 * (1 - i * dt)),
+            (2.0 - 1.25 * (ts * dt), 1.0 * (1 - ts * dt), 0.0),
+            (2.0 - 1.25 * (ts * dt), 1.0 * (1 - ts * dt), 1.0 * (1 - ts * dt)),
+            (2.0 - 1.25 * (ts * dt), 0.0, 1.0 * (1 - ts * dt)),
         ),
     )
 
-    scaffolds = (xneg0,)
-    kvs = (kv,)  # knot vectors
+    scaf1 = (
+        ((0.0, -1.0, 0.0), (0.0, -1.0, 1.0), (0.0, 0.0, 1.0)),
+        (
+            (1.0 - 0.25 * (ts * dt), -1.0, 0.0),
+            (1.0 - 0.25 * (ts * dt), -1.0, 1.0),
+            (1.0 - 0.25 * (ts * dt), 0.0, 1.0),
+        ),
+        (
+            (2.0 - 1.25 * (ts * dt), -1.0 * (1 - ts * dt), 0.0),
+            (2.0 - 1.25 * (ts * dt), -1.0 * (1 - ts * dt), 1.0 * (1 - ts * dt)),
+            (2.0 - 1.25 * (ts * dt), 0.0, 1.0 * (1 - ts * dt)),
+        ),
+    )
+
+    # scaffolds = (scaf0,)
+    # scaffolds = (scaf1,)
+    scaffolds = (
+        scaf0,
+        scaf1,
+    )
+    kvs = (
+        kv,
+        kv,
+    )  # knot vectors
 
     patches = tuple(
         bsp.SurfaceClientData(
@@ -109,9 +119,9 @@ for i in range(nts + 1):
             degree_t=quadratic,
             degree_u=quadratic,
             n_bisections=nbi,
-            color=vbsp.colors[i],
+            color=vbsp.colors[patch_i],
         )
-        for i, (scaffold, kv) in enumerate(zip(scaffolds, kvs))
+        for patch_i, (scaffold, kv) in enumerate(zip(scaffolds, kvs))
     )
 
     if control_net_shown:
@@ -163,9 +173,9 @@ for i in range(nts + 1):
     plt.show(block=display)
 
     if serialize:
-        # extension = ".pdf"
-        extension = ".png"
-        filename = Path(__file__).name + str(i) + extension
+        extension = ".pdf"
+        # extension = ".png"
+        filename = Path(__file__).name + str(ts) + extension
         fig.savefig(filename, bbox_inches="tight", pad_inches=0)
         print(f"Serialized to {filename}")
 

@@ -4,7 +4,8 @@ import imageio
 from pygifsicle import optimize
 
 
-base_name = "bspline_surface_biquad2tri_animation"
+# base_name = "bspline_surface_biquad2tri_animation"
+base_name = "bspline_surface_cyl2sphere_animation"
 
 gif_path = base_name + ".gif"
 gif_opt = base_name + "_opt.gif"
@@ -12,6 +13,7 @@ gif_opt = base_name + "_opt.gif"
 # bspline_surface_biquad2tri_animation.py0
 # frames_path = "bspline_surface_biquad2tri_animation.py{i}.png"
 frames_path = base_name + ".py{i}.png"
+# n = 6  # number of frames
 n = 21  # number of frames
 
 with imageio.get_writer(gif_path, mode="I") as writer:

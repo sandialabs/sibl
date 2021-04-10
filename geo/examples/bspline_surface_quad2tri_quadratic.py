@@ -18,8 +18,8 @@ import ptg.view_bspline as vbsp
 ix, iy, iz = 0, 1, 2  # xyz indicies, avoid magic numbers
 control_net_shown = True  # True lets control net be drawn, False skips it
 control_points_shown = True
-serialize = True
-latex = True
+serialize = False
+latex = False
 if latex:
     rc("font", **{"family": "serif", "serif": ["Computer Modern Roman"]})
     rc("text", usetex=True)

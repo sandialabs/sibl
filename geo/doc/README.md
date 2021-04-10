@@ -42,6 +42,10 @@ PTG describes a **decoding** process of a physical system that was original **en
 
 * See also [bspline_surface_biquad2tri_animation_flip_book.pdf](fig/bspline_surface_biquad2tri_animation_flip_book.pdf)
 
+![bspline_surface_cyl2sphere_animation_opt](fig/bspline_surface_cyl2sphere_animation_opt.gif)
+
+* See also [bspline_surface_cyl2sphere_animation_flip_book.pdf](fig/bspline_surface_cyl2sphere_animation_flip_book.pdf) 
+
 ## References
 
 * [Brain oriented programming](https://tobeva.com/articles/brain-oriented-programming/) limit classes to seven attributes.
