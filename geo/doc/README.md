@@ -55,4 +55,5 @@ Dr. C.-K. Shene](https://pages.mtu.edu/~shene/COURSES/cs3621/NOTES/notes.html)
 * Schultz, Dave yyyy. [Introducing Rhino 6](https://www.linkedin.com/learning/introducing-rhino-6) and [designstudio](https://www.schultzeworks.com) for gallery examples.
 * Sentdex, First pass through data with 3DConvNet on [kaggle](https://www.kaggle.com/sentdex/first-pass-through-data-w-3d-convnet).
 * Aggarwal, Shashwat 2018.  3D-MNIST Image Classification on [medium](https://medium.com/shashwats-blog/3d-mnist-b922a3d07334) for [Data Science Bowl 2017](https://www.kaggle.com/c/data-science-bowl-2017).
-
+* Vernon, Greg.  [Webinar](https://coreform.com/company/news/2021/intro2iga/): Introduction to Coreform IGA, 09 January 2021, Coreform LLC.
+* Spline-based and Isogeometric FEA [lectures](https://youtu.be/Rp4LuwnXk-o) 23 Oct 2020, Coreform LLC, with research [page](https://research.coreform.com/index.php/Main_Page).
