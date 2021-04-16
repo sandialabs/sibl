@@ -28,7 +28,7 @@ single object | no objects | single object | multiple objects | multiple objects
 * From *{B}* to *{A}* is called the *inverse map*.
 * The mapping from *{A}* to *{B}* is reversible, such that the inverse map from *{B}* to *{A}* recovers the original *{A}* that created *{B}* in the forward map.
 * It is one of the morphisms of [category theory](https://en.wikipedia.org/wiki/Category_theory)
-  * It is a homomorphism that admits and inverse.
+  * It is a homomorphism that admits an inverse.
   * It is a monomorphism as it is injective (one-to-one) and surjective (onto).
 
 ## object
