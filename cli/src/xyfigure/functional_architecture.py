@@ -2,6 +2,9 @@
 
 from typing import NamedTuple, Tuple
 
+import numpy as np
+from pathlib import Path  # stop using os.path, use pathlib instead
+
 
 class Database(NamedTuple):
     filename: str = "filename.ext"
@@ -56,7 +59,13 @@ def csv_data_labels(x: Csv) -> PairedLabels:
 
 
 def csv_data(x: Csv) -> PairedSeries:
-    return PairedSeries()
+
+    file_pathed = Path.joinpath(x.filepath, x.filename)
+
+    data = np.genfromtxt(
+        file_pathed, dtype="float", delimiter=",", skip_header=1, usecols=(0, 1)
+    )
+    return PairedSeries(x=tuple(data[:, 0]), y=tuple(data[:, 1]))
 
 
 def dsr_data_labels(x: Dsr) -> PairedLabels:
