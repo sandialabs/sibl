@@ -2,6 +2,7 @@
 
 from typing import NamedTuple, Tuple
 
+import matplotlib.pyplot as plt
 import numpy as np
 from pathlib import Path  # stop using os.path, use pathlib instead
 
@@ -38,17 +39,14 @@ class PairedSeries(NamedTuple):
     y: Tuple[float] = (0.0,)
 
 
-class FigureBase(NamedTuple):
+class Figure(NamedTuple):
     labels: PairedLabels = PairedLabels()
     series: Tuple[PairedSeries] = (PairedSeries(),)
     xmin: float = 0.0
     xmax: float = 1.0
     ymin: float = 0.0
     ymax: float = 1.0
-    type: str = "pdf"
-
-
-class FigureMPL(FigureBase):
+    filename: str = "figure.pdf"
     width: float = 8.0  # inches
     height: float = 6.0  # inches
     dpi: int = 150  # dots per inch, resolution
@@ -92,7 +90,23 @@ def differentiate(x: PairedSeries) -> PairedSeries:
     return PairedSeries()
 
 
-def filter(
+def butterworth_filter(
     x0: PairedSeries, order: int = 4, type: str = "lowpass", cutoff: float = 1650.0
 ) -> PairedSeries:
     return PairedSeries()
+
+
+def figure_save(x: Figure) -> None:
+    fig, ax = plt.subplots(nrows=1, dpi=x.dpi)
+    fig.set_size_inches(w=x.width, h=x.height)
+
+    for item in x.series:
+        ax.plot(item.x, item.y)
+
+    ax.set_xlim([x.xmin, x.xmax])
+    ax.set_ylim([x.ymin, x.ymax])
+
+    ax.grid()
+    # ax.legend()
+    fig.savefig(x.filename, dpi=x.dpi, bbox_inches="tight")
+    print(f"  Saved figure as {x.filename}")

@@ -9,7 +9,7 @@ Example:
 # import numpy as np
 from pathlib import Path  # stop using os.path, use pathlib instead
 
-import pytest
+# import pytest
 
 import xyfigure.functional_architecture as fa
 
@@ -49,12 +49,30 @@ def test_csv_data():
     assert C.y == known_y
 
 
+def test_Figure():
+    C0 = fa.csv_data(test_Csv())
+
+    this_file = Path(__file__)
+    this_path = this_file.resolve().parent
+
+    test_file = "t-v-sines.csv"
+    test_path = this_path.joinpath("differentiation").resolve()
+
+    C1 = fa.csv_data(fa.Csv(filename=test_file, filepath=test_path))
+    D = fa.Figure(
+        series=(C0, C1), xmax=10, ymin=-2, ymax=50, filename="test_figure.pdf"
+    )
+    assert isinstance(D, fa.Figure)
+    fa.figure_save(D)
+
+
 def main():
     test_Csv()
     test_csv_data()
+    test_Figure()
 
 
 # retain main for debugging this file in VS code
 if __name__ == "__main__":
-    # main()  # calls unittest.main()
-    main()  # calls unittest.main()
+    # main()  # calls unittest.main() // no longer descend from unittest
+    main()  # calls local main()
