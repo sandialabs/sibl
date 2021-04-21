@@ -46,7 +46,7 @@ def test_csv_data():
     # known_x = tuple(map(float, [x for x in range(n_samples)]))
     # known_y = tuple([0.5 * y ** 2 for y in range(n_samples)])
     known_x = tuple(map(float, range(n_samples)))
-    known_y = tuple(map(lambda x: 0.5 * x ** 2, range(n_samples))
+    known_y = tuple(map(lambda x: 0.5 * x ** 2, range(n_samples)))
     assert C.x == known_x
     assert C.y == known_y
 
