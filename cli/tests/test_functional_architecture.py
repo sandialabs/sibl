@@ -13,6 +13,13 @@ from pathlib import Path  # stop using os.path, use pathlib instead
 
 import xyfigure.functional_architecture as fa
 
+#     f    g
+#  a --> b --> c
+#
+# b = f(a)
+# c = g(b)
+# c = g(f(a))
+
 
 # @pytest.mark.skip(reason="work in progress")
 def test_Csv() -> fa.Csv:
