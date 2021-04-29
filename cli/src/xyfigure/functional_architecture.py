@@ -32,11 +32,15 @@ class Dat(Database):
 class PairedLabels(NamedTuple):
     x: str = "x-axis"
     y: str = "y-axis"
+    # x: str
+    # y: str
 
 
 class PairedSeries(NamedTuple):
     x: Tuple[float] = (0.0,)
     y: Tuple[float] = (0.0,)
+    # x: Tuple[float]
+    # y: Tuple[float]
 
 
 class Figure(NamedTuple):
@@ -67,22 +71,27 @@ def csv_data(x: Csv) -> PairedSeries:
 
 
 def dsr_data_labels(x: Dsr) -> PairedLabels:
-    return PairedLabels()
+    # return PairedLabels()
+    raise NotImplementedError
 
 
 def dsr_data(x: Dsr) -> PairedSeries:
-    return PairedSeries()
+    # return PairedSeries()
+    raise NotImplementedError
 
 
 def caldat_data_labels(x0: Cal, x1: Dat) -> PairedLabels:
-    return PairedLabels()
+    # return PairedLabels()
+    raise NotImplementedError
 
 
 def caldat_data(x0: Cal, x1: Dat) -> PairedSeries:
-    return PairedSeries()
+    # return PairedSeries()
+    raise NotImplementedError
 
 
-def integrate(x0: PairedSeries, inital_condition: float = 0.0) -> PairedSeries:
+# def integrate(x0: PairedSeries, inital_condition: float = 0.0) -> PairedSeries:
+def integrate(x0: PairedSeries, inital_condition: float) -> PairedSeries:
     return PairedSeries()
 
 
@@ -90,8 +99,11 @@ def differentiate(x: PairedSeries) -> PairedSeries:
     return PairedSeries()
 
 
+# def butterworth_filter(
+#     x0: PairedSeries, order: int = 4, type: str = "lowpass", cutoff: float = 1650.0
+# ) -> PairedSeries:
 def butterworth_filter(
-    x0: PairedSeries, order: int = 4, type: str = "lowpass", cutoff: float = 1650.0
+    x0: PairedSeries, order: int, type: str, cutoff: float
 ) -> PairedSeries:
     return PairedSeries()
 
