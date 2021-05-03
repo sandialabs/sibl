@@ -41,6 +41,16 @@ to both *predict* and *reconstruct* a 3D shape known, *a priori*,
 * to have *extrinsic* transformations (rx, ry, rz), and
 * to have *exogenous* transformations (ux, uy, uz).
 
+### Data Standards
+
+DICOM, Digital Imaging and Communications in Medicine, is a medical imaging
+standard, but can be overly burdensome if only volume information is desired
+since the DICOM header is memory intensive.
+
+NIfTI, Neuroimaging Informatics Technology Initiative (NIfTI) is a DICOM
+alternative that stores only volume-specific header information (e.g., 
+position, rotation, resolution) within the volumetric data.
+
 ### Deep Learning
 
 * Deep Learning as a possible decode solution.
@@ -67,3 +77,4 @@ References:
 
 * [3D MNIST](https://www.kaggle.com/daavoo/3d-mnist)
 * [Spatial Transformer Network Tutorial](https://pytorch.org/tutorials/intermediate/spatial_transformer_tutorial.html)
+

@@ -59,4 +59,5 @@ Dr. C.-K. Shene](https://pages.mtu.edu/~shene/COURSES/cs3621/NOTES/notes.html)
 * Spline-based and Isogeometric FEA [lectures](https://youtu.be/Rp4LuwnXk-o) 23 Oct 2020, Coreform LLC, with research [page](https://research.coreform.com/index.php/Main_Page).
 * Chen, Howard. [DICOM processing](https://www.raddq.com/dicom-processing-segmentation-visualization-in-python/).  29 Jan 2017.
 * Boonyaprasert, Udomkar. [DICOM2MESH](https://github.com/UdomkarnBoonyaprasert/dicom2mesh).  24 Jun 2019.
+* [DOSMA: Deep Open-Source Medical Image Analysis](https://dosma.readthedocs.io/)
 
