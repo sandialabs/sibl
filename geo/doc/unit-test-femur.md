@@ -6,7 +6,6 @@ Demonstration of the Pixel To Geometry (PTG) workflow through 3D reconstruction 
 
 ## Introduction
 
-
 ## Objective
 
 ## Methods
@@ -37,23 +36,15 @@ The client driver file, [pixel_to_mesh_example.py](../examples/pixel_to_mesh_exa
 
 ## Results
 
-To come.
-
 ## Discussion
 
 ## Conclusion
-
-To come.
 
 ## Appendix
 
 ## References
 
 * Bauer, Eric.  [Human femur](https://sketchfab.com/3d-models/human-femur-a9c1f1a88b104c3fbfe975fa10b31b31) available in three formats, Stereolithography (stl), Generated GLTF (gltf), Generated USDZ (usdz), 165 MB, 3.5M triangles, 1.7M vertices, materials 1, ["Human Femur"](https://skfb.ly/6ursH) by Eric Bauer is licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/), 10 Nov 2019.  [Elon University](https://www.elon.edu/u/directory/profile/?user=ebauer).
-
-<div class="sketchfab-embed-wrapper"> <iframe title="Human Femur" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="fullscreen; autoplay; vr" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/a9c1f1a88b104c3fbfe975fa10b31b31/embed"> </iframe> <p style="font-size: 13px; font-weight: normal; margin: 5px; color: #4A4A4A;"> <a href="https://sketchfab.com/3d-models/human-femur-a9c1f1a88b104c3fbfe975fa10b31b31?utm_medium=embed&utm_campaign=share-popup&utm_content=a9c1f1a88b104c3fbfe975fa10b31b31" target="_blank" style="font-weight: bold; color: #1CAAD9;"> Human Femur </a> by <a href="https://sketchfab.com/ebauer4?utm_medium=embed&utm_campaign=share-popup&utm_content=a9c1f1a88b104c3fbfe975fa10b31b31" target="_blank" style="font-weight: bold; color: #1CAAD9;"> Eric Bauer </a> on <a href="https://sketchfab.com?utm_medium=embed&utm_campaign=share-popup&utm_content=a9c1f1a88b104c3fbfe975fa10b31b31" target="_blank" style="font-weight: bold; color: #1CAAD9;">Sketchfab</a></p></div>
-
-
 * Digital Morphology [Digimorph](http://www.digimorph.org/)
 * [OsiriX DICOM Viewer](https://www.osirix-viewer.com/)
 * [OsiriX Foundation](https://www.osirixfoundation.com/)
