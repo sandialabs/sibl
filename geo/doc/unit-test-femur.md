@@ -10,6 +10,8 @@ Demonstration of the Pixel To Geometry (PTG) workflow through 3D reconstruction 
 
 ## Methods
 
+* numpy-stl on [pypi](https://pypi.org/project/numpy-stl/) and on [GitLab](https://github.com/WoLpH/numpy-stl).
+
 ### Data
 
 The client driver file, [pixel_to_mesh_example.py](../examples/pixel_to_mesh_example.py), created the following pixel shapes:
