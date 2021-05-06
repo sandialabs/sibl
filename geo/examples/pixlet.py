@@ -9,8 +9,8 @@ from typing import NamedTuple, Tuple
 from ptg.pixel_shape import PixelSphere as ps
 
 # utilities
-serialize = True
-latex = True
+serialize = False
+latex = False
 if latex:
     rc("font", **{"family": "serif", "serif": ["Computer Modern Roman"]})
     rc("text", usetex=True)
@@ -20,28 +20,61 @@ if latex:
 class Letter(NamedTuple):
     """Create the letter index (x=0, y, z) position, in units of inkdrop, as a
     namedtuple, with the following attributes:
-
-    Attributes:
-        x (int): x-coordinate of position in `pixel` units.  Defaults to 0.
-        y (int): y-coordinate of position in `pixel` units.  Defaults to 0.
-        x (int): z-coordinate of position in `pixel` units.  Defaults to 0.
     """
 
-    n_inkdrop: int
-    y_path: Tuple[int, ...]
-    z_path: Tuple[int, ...]
+    name: str
+    yz_path: Tuple[Tuple[int, int], ...]
 
+
+letter_I = Letter(name="I", yz_path=((0, 2), (1, 2), (2, 2), (3, 2), (4, 2)))
+letter_J = Letter(
+    name="J", yz_path=((0, 3), (1, 3), (2, 3), (3, 3), (4, 3), (4, 2), (4, 1), (3, 1))
+)
+letter_C = Letter(
+    name="C",
+    yz_path=(
+        (1, 3),
+        (0, 3),
+        (0, 2),
+        (0, 1),
+        (1, 1),
+        (2, 1),
+        (3, 1),
+        (4, 1),
+        (4, 2),
+        (4, 3),
+        (3, 3),
+    ),
+)
+letter_S = Letter(
+    name="S",
+    yz_path=(
+        (0, 3),
+        (0, 2),
+        (0, 1),
+        (1, 1),
+        (2, 1),
+        (2, 2),
+        (2, 3),
+        (3, 3),
+        (4, 3),
+        (4, 2),
+        (4, 1),
+    ),
+)
+letter = letter_I
 
 # letters make with 5x5 grid of possible inkdrops
-letter_I = Letter(n_inkdrop=5, y_path=(0, 1, 2, 3, 4), z_path=(2, 2, 2, 2, 2))
-letter_J = Letter(n_inkdrop=6, y_path=(0, 1, 2, 3, 4, 3), z_path=(3, 3, 3, 3, 2, 1))
+droplet_grid_len = 5
 
 # shape marching cadence
 diam = 3  # pixels, diameter
 ppl = 1  # pixels per length
 stride = diam  # pixels, distance between sequential anchors
-n_shapes = 5  # int, number of sequential shapes added to world
-world_bounds = (n_shapes - 1) * stride + diam * ppl
+# n_shapes = 5  # int, number of sequential shapes added to world
+n_shapes = len(letter.yz_path)  # int, number of sequential shapes added to world
+# world_bounds = (n_shapes - 1) * stride + diam * ppl
+world_bounds = droplet_grid_len * diam * ppl  # pixels
 nsd = 3  # number of space dimensions
 
 # world
@@ -51,9 +84,18 @@ world = np.zeros([n_layers_x, n_cols_y, n_rows_z], dtype=np.uint8)
 inx, iny, inz = np.indices([n_layers_x, n_cols_y, n_rows_z])
 
 # fountain pen metaphor, ink in the shapes to the world
-for i in range(n_shapes):
-    anchor_x_i = i * stride
-    item = ps(anchor_x=anchor_x_i, diameter=diam, pixels_per_len=ppl, verbose=True)
+# for i in range(n_shapes):
+for i, anchor in enumerate(letter.yz_path):
+    # anchor_x_i = i * stride
+    # item = ps(anchor_x=anchor_x_i, diameter=diam, pixels_per_len=ppl, verbose=True)
+    item = ps(
+        anchor_x=0,
+        anchor_y=anchor[0] * stride,
+        anchor_z=anchor[1] * stride,
+        diameter=diam,
+        pixels_per_len=ppl,
+        verbose=True,
+    )
 
     mask = item.mask
     ox, oy, oz = item.anchor.x, item.anchor.y, item.anchor.z  # offsets
@@ -130,14 +172,16 @@ ax.set_ylim(ylim)
 ax.set_zlim(zlim)
 
 fig.tight_layout()
-# plt.show()
-plt.show(block=False)
+plt.show()
+# plt.show(block=False)
 
 if serialize:
     extension = ".pdf"
     filename = (
         Path(__file__).stem
-        + "_nsha_"
+        + "_"
+        + letter.name
+        + "_drop_"
         + str(n_shapes)
         + "_diam_"
         + str(diam)
