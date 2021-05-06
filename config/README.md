@@ -110,6 +110,15 @@ To install a specific version, e.g., version `0.0.5`:
 (siblenv) $ pip install --user xyfigure==0.0.5
 ```
 
+## Updates
+
+Here we demonstrate upgrading pip first, then upgrading the scikit-image package via pip.
+
+```bash
+python -m pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org --upgrade pip
+pip install scikit-image --upgrade
+```
+
 ## Optional Installs (In Development)
 
 Optional installs required for Qt application development:
