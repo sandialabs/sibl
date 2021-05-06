@@ -115,8 +115,8 @@ To install a specific version, e.g., version `0.0.5`:
 Here we demonstrate upgrading pip first, then upgrading the scikit-image package via pip.
 
 ```bash
-python -m pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org --upgrade pip
-pip install scikit-image --upgrade
+(siblenv) $ python -m pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org --upgrade pip
+(siblenv) $ pip install scikit-image --upgrade
 ```
 
 ## Optional Installs (In Development)
