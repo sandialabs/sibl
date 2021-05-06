@@ -4,6 +4,7 @@ from matplotlib import rc
 from mpl_toolkits.mplot3d import Axes3D
 from skimage.morphology import skeletonize_3d
 from pathlib import Path
+from typing import NamedTuple, Tuple
 
 from ptg.pixel_shape import PixelSphere as ps
 
@@ -13,6 +14,27 @@ latex = True
 if latex:
     rc("font", **{"family": "serif", "serif": ["Computer Modern Roman"]})
     rc("text", usetex=True)
+
+
+# alphabet
+class Letter(NamedTuple):
+    """Create the letter index (x=0, y, z) position, in units of inkdrop, as a
+    namedtuple, with the following attributes:
+
+    Attributes:
+        x (int): x-coordinate of position in `pixel` units.  Defaults to 0.
+        y (int): y-coordinate of position in `pixel` units.  Defaults to 0.
+        x (int): z-coordinate of position in `pixel` units.  Defaults to 0.
+    """
+
+    n_inkdrop: int
+    y_path: Tuple[int, ...]
+    z_path: Tuple[int, ...]
+
+
+# letters make with 5x5 grid of possible inkdrops
+letter_I = Letter(n_inkdrop=5, y_path=(0, 1, 2, 3, 4), z_path=(2, 2, 2, 2, 2))
+letter_J = Letter(n_inkdrop=6, y_path=(0, 1, 2, 3, 4, 3), z_path=(3, 3, 3, 3, 2, 1))
 
 # shape marching cadence
 diam = 3  # pixels, diameter
@@ -115,9 +137,11 @@ if serialize:
     extension = ".pdf"
     filename = (
         Path(__file__).stem
+        + "_nsha_"
+        + str(n_shapes)
         + "_diam_"
         + str(diam)
-        + "_stride_"
+        + "_stri_"
         + str(stride)
         + extension
     )
