@@ -1,4 +1,10 @@
 {
+    "instructions:": {
+        "class": "comment",
+        "$1": "cd ~/sibl",
+        "$2": "conda activate siblenv",
+        "$3": "python cli/src/xyfigure/client.py cli/io/mil_spec_paper/h1-master-acc.json"
+    },
     "exp-ave": {
         "class": "model",
         "folder": "../casco_sim/dot-exp-helmet-0305-hemi-001",
@@ -328,7 +334,7 @@
         "skip_rows": 3,
         "old_label": "sim rigid skull (bob-066b) sagittal (x)",
         "plot_kwargs": {
-            "label": "modified exp., skull sagittal rotation",
+            "label": "modified sim., human head, sagittal rotation",
             "linestyle": "dashdot",
             "alpha": 0.8,
             "linewidth": 2,
@@ -569,11 +575,12 @@
             "sim-rb-aaccel"
         ],
         "folder": "output",
-        "file": "h1-acc-jtrama-composite.pdf",
+        "file": "h1-acc-milmed-composite.png",
         "size": [
             8.0,
             6.0
         ],
+        "dpi": 300,
         "title": "",
         "xlim": [
             0,
@@ -586,7 +593,7 @@
         "xlabel": "time (s)",
         "ylabel": "translational deceleration (Gs) and angular acceleration (krad/s$^2$)",
         "details": 0,
-        "display": 1,
+        "display": 0,
         "latex": 1,
         "serialize": 1
     },

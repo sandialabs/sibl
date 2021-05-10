@@ -32,5 +32,6 @@ class XYFactory:
             return instance(item, **kwargs)
 
         # If we get here, we did not return an instance, so warn.
-        print(f"Warning: {item} class keyword specified with unknown key value.")
+        print(f"Warning: key 'class' specified 'value' of '{item}', which is unknown.")
+        print("This key will be skipped.")
         return None
