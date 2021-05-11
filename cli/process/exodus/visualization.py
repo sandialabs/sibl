@@ -1,24 +1,36 @@
+"""
+This module produces the strain versus strain rate populations, with bivariate
+histograms.
+
+Example:
+    > cd ~/sibl/cli/process/exodus
+    > conda activate siblenv
+    > python visualization.py
+"""
+
+
 import os
 
 import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib import rc
 
-np.random.seed(0)
 # import pandas as pd
 import seaborn as sns
 
+
+np.random.seed(0)
 sns.set(style="white", color_codes=True)
-import matplotlib.pyplot as plt
-from matplotlib import rc
 
 EXEMPLAR = 0  # turn on or off the exemplar problem
 TEST = 0  # turn on or off Bob test with small data set
 TRANSLATION = (
-    0  # turns on or off translational case (Bob-063f), else does rotation (Bob-066b)
+    1  # turns on or off translational case (Bob-063f), else does rotation (Bob-066b)
 )
 INJURY_0 = 0  # turn on or off cellular injury curve, original
 INJURY_1 = 1  # updated Summey injury curves
 FIG_NAME = os.path.basename(__file__).split(".")[0]  # remove the .py extension
-FIG_FORMAT = "pdf"
+FIG_FORMAT = "pdf"  # "pdf" or "png"
 LATEX = 1
 SERIALIZE = 1  # turn on or off write figure to disk
 
@@ -31,6 +43,24 @@ if LATEX:
     rc("text", usetex=True)
     rc("font", family="serif")
 
+# matplotlib.rcParams.update({'font.size': 22})
+# rcParams.update({"font.size": 16})
+# 2021-05-10: Increase base font size.  Process for smaller pdf files:
+# 1. Generate original pdf file (about 19 MB).
+# 2. Open original pdf file in Preview, save as tiff, at 600 dpi (about 56 MB)
+# 3. Open tiff, export as pdf (results in 1.7 MB)
+SMALL_SIZE = 8
+MEDIUM_SIZE = 10
+BIG_SIZE = 14
+
+plt.rc("font", size=BIG_SIZE)  # controls default text sizes
+# plt.rc("axes", titlesize=SMALL_SIZE)  # fontsize of the axes title
+plt.rc("axes", labelsize=BIG_SIZE)  # fontsize of the x and y labels
+plt.rc("xtick", labelsize=BIG_SIZE)  # fontsize of the tick labels
+plt.rc("ytick", labelsize=BIG_SIZE)  # fontsize of the tick labels
+plt.rc("legend", fontsize=BIG_SIZE)  # legend fontsize
+# plt.rc("figure", titlesize=BIGGER_SIZE)  # fontsize of the figure title
+
 
 # Exemplar joint distribution plot - begin
 if EXEMPLAR:
@@ -42,7 +72,7 @@ if EXEMPLAR:
     # legend_txt = 'hello'
     # legend_properties = {'weight': 'bold', 'size': 12}
 
-    g = sns.JointGrid(bill_data, tip_data)
+    g = sns.JointGrid(x=bill_data, y=tip_data)
     # g = g.plot_joint(plt.scatter, s=10, linewidths=0.05, edgecolors='blue', marker='o', alpha=0.3, label=legend_txt)
     g = g.plot_joint(
         plt.scatter, s=10, linewidths=0.05, edgecolors="blue", marker="o", alpha=0.3
@@ -108,9 +138,11 @@ else:
         if TRANSLATION:
 
             # relative to this script, location of the particular simulation
-            simulation_path = "../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-063f/"
+            simulation_path = (
+                "../../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-063f/"
+            )
 
-            idx = 2  # index for the probes
+            idx = 0  # index for the probes
             probes = {
                 "steps": [30, 51, 57],
                 "time": [
@@ -130,7 +162,8 @@ else:
                 ],
             }
 
-            axis_txt = f'time = {probes["time"][idx]*1000:.3f} ms (Bob-063f)'
+            # axis_txt = f'time = {probes["time"][idx]*1000:.3f} ms (Bob-063f)'
+            axis_txt = f'time = {probes["time"][idx]*1000:.3f} ms'
 
             strain_files = [
                 [
@@ -163,9 +196,11 @@ else:
             ]
 
         else:  # not a TRANSLATION, then the rotation case
-            simulation_path = "../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-066b/"
+            simulation_path = (
+                "../../../../casco_sim/bob-1mm-5kg-helmet2-0305-hemi-066b/"
+            )
 
-            idx = 0  # index for the probes
+            idx = 1  # index for the probes
             probes = {
                 "steps": [43, 69],
                 "time": [0.00840000000000000, 0.013600000000000000],
@@ -173,7 +208,8 @@ else:
                 "strain_rate_p95": [10.60000000000000, 5.190000000000000],
             }
 
-            axis_txt = f'time = {probes["time"][idx]*1000:.3f} ms (Bob-066b)'
+            # axis_txt = f'time = {probes["time"][idx]*1000:.3f} ms (Bob-066b)'
+            axis_txt = f'time = {probes["time"][idx]*1000:.3f} ms'
 
             strain_files = [
                 ["max_principal_green_lagrange_strain_ts_43.csv"],
@@ -203,7 +239,7 @@ else:
         strain = np.concatenate((strain, block_strain))
         strain_rate = np.concatenate((strain_rate, block_strain_rate))
 
-    g = sns.JointGrid(strain_rate, strain)
+    g = sns.JointGrid(x=strain_rate, y=strain)
     # g = g.plot_joint(plt.plot, linestyle='', marker=',', markersize=0.7, alpha=0.2)
     g = g.plot_joint(plt.plot, **marker_dict)
 
@@ -269,9 +305,12 @@ else:
         va="bottom",
     )
 
-    g.ax_joint.grid(color="gray")
-    g.ax_marg_x.grid(color="gray", axis="x")
-    g.ax_marg_y.grid(color="gray", axis="y")
+    # 2021-05-10: These seem not to work with new library, so just accept defaults.
+    # g.ax_joint.grid(color="gray")
+    # # g.ax_joint.grid(color="red")
+    # # g.ax_joint(grid_color="red")
+    # g.ax_marg_x.grid(color="green", axis="x")
+    # g.ax_marg_y.grid(color="gray", axis="y")
 
     plt.xlabel("max(eig(GL strain rate)) (1/s)")
     plt.ylabel("max(eig(GL strain)) (cm/cm)")
