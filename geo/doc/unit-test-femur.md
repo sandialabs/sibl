@@ -34,6 +34,8 @@ The client driver file, [pixel_to_mesh_example.py](../examples/pixel_to_mesh_exa
 * <img src="fig/cyl_ir3_or6_pixperlen3.png" alt="cyl_ir3_or6_pixperlen3" width="320"/>
 * > [Figure](fig/cyl_ir3_or6_pixperlen3.png): Cylinder, H=1 len, ID=6 len, OD=12 len, pix/len = 3.
 
+* Femoral fracture, 18-yo male, high-speed motor vehicle crash, case rID = 48399.  [Case](https://radiopaedia.org/cases/48399/play?lang=us)
+
 ### Workflow
 
 ## Results
