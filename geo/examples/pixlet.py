@@ -23,58 +23,41 @@ class Letter(NamedTuple):
     """
 
     name: str
-    yz_path: Tuple[Tuple[int, int], ...]
+    path_x: Tuple[int, ...]
+    path_y: Tuple[int, ...]
+    path_z: Tuple[int, ...]
 
 
-letter_I = Letter(name="I", yz_path=((0, 2), (1, 2), (2, 2), (3, 2), (4, 2)))
+letter_I = Letter(
+    name="I",
+    path_x=(0, 1, 2, 3, 4, 5, 6),
+    path_y=(4, 4, 4, 4, 4, 4, 4),
+    path_z=(4, 4, 4, 4, 4, 4, 4),
+)
+
 letter_J = Letter(
-    name="J", yz_path=((0, 3), (1, 3), (2, 3), (3, 3), (4, 3), (4, 2), (4, 1), (3, 1))
+    name="J",
+    path_x=(4, 3, 2, 1, 2, 3, 4, 5, 6),
+    path_y=(6, 6, 5, 4, 3, 2, 2, 2, 2),
+    path_z=(4, 4, 4, 4, 4, 4, 4, 4, 4),
 )
-letter_C = Letter(
-    name="C",
-    yz_path=(
-        (1, 3),
-        (0, 3),
-        (0, 2),
-        (0, 1),
-        (1, 1),
-        (2, 1),
-        (3, 1),
-        (4, 1),
-        (4, 2),
-        (4, 3),
-        (3, 3),
-    ),
-)
-letter_S = Letter(
-    name="S",
-    yz_path=(
-        (0, 3),
-        (0, 2),
-        (0, 1),
-        (1, 1),
-        (2, 1),
-        (2, 2),
-        (2, 3),
-        (3, 3),
-        (4, 3),
-        (4, 2),
-        (4, 1),
-    ),
-)
-letter = letter_I
+
+letter = letter_J
+assert len(letter.path_x) == len(letter.path_y) == len(letter.path_z)
 
 # letters make with 5x5 grid of possible inkdrops
-droplet_grid_len = 5
+# droplet_grid_len = 5
 
 # shape marching cadence
 diam = 3  # pixels, diameter
 ppl = 1  # pixels per length
-stride = diam  # pixels, distance between sequential anchors
+stride = 1  # pixels, distance between sequential anchors
 # n_shapes = 5  # int, number of sequential shapes added to world
-n_shapes = len(letter.yz_path)  # int, number of sequential shapes added to world
+n_shapes = len(letter.path_x)  # int, number of sequential shapes added to world
 # world_bounds = (n_shapes - 1) * stride + diam * ppl
-world_bounds = droplet_grid_len * diam * ppl  # pixels
+world_bounds = (
+    max(map(lambda i: max(i), (letter.path_x, letter.path_y, letter.path_z))) + diam
+)  # pixels
 nsd = 3  # number of space dimensions
 
 # world
@@ -85,13 +68,13 @@ inx, iny, inz = np.indices([n_layers_x, n_cols_y, n_rows_z])
 
 # fountain pen metaphor, ink in the shapes to the world
 # for i in range(n_shapes):
-for i, anchor in enumerate(letter.yz_path):
+for i, (xi, yi, zi) in enumerate(zip(letter.path_x, letter.path_y, letter.path_z)):
     # anchor_x_i = i * stride
     # item = ps(anchor_x=anchor_x_i, diameter=diam, pixels_per_len=ppl, verbose=True)
     item = ps(
-        anchor_x=0,
-        anchor_y=anchor[0] * stride,
-        anchor_z=anchor[1] * stride,
+        anchor_x=xi,
+        anchor_y=yi,
+        anchor_z=zi,
         diameter=diam,
         pixels_per_len=ppl,
         verbose=True,
