@@ -2,13 +2,20 @@
 
 ## Title
 
-Demonstration of the Pixel To Geometry (PTG) workflow through 3D reconstruction of the right, normal human femur, AM50. 
+Geometry workflow to enable patient-specific analysis from medical image data.
 
 ## Introduction
 
+## Motivation
+
+* Femoral fracture, 18-yo male, high-speed motor vehicle crash, case rID = 48399.  [Case](https://radiopaedia.org/cases/48399/play?lang=us)
+* Winquist 1980.  Classification of femoral shaft fractures [Case](https://radiopaedia.org/articles/winquist-classification-of-femoral-shaft-fractures-1?lang=us)
+
 ## Objective
 
-## Methods
+Demonstrate the Pixel To Geometry (PTG) workflow through 3D reconstruction of the right, normal human femur, AM50. 
+
+## Review
 
 * numpy-stl on [pypi](https://pypi.org/project/numpy-stl/) and on [GitHub](https://github.com/WoLpH/numpy-stl).
 * Remacle JF, Geuzaine C, Compere G, Marchandise E. High‐quality surface remeshing using harmonic maps. International Journal for Numerical Methods in Engineering. 2010 Jul 23;83(4):403-25. [link](https://www.gmsh.info/doc/preprints/gmsh_stl_preprint.pdf)
@@ -19,10 +26,25 @@ Demonstration of the Pixel To Geometry (PTG) workflow through 3D reconstruction 
 * Chuang JH, Ahuja N, Lin CC, Tsai CH, Chen CH. A potential-based generalized cylinder representation. Computers & Graphics. 2004 Dec 1;28(6):907-18. [link](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.390.1416&rep=rep1&type=pdf)
 * Zhang Y, Bajaj C, Sohn BS. 3D finite element meshing from imaging data. Computer methods in applied mechanics and engineering. 2005 Nov 15;194(48-49):5083-106. [link](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2748876/)
 
-## Motivation
+## Functional Workflow: `Function: Input -> Output`
 
-* Femoral fracture, 18-yo male, high-speed motor vehicle crash, case rID = 48399.  [Case](https://radiopaedia.org/cases/48399/play?lang=us)
-* Winquist 1980.  Classification of femoral shaft fractures [Case](https://radiopaedia.org/articles/winquist-classification-of-femoral-shaft-fractures-1?lang=us)
+| function | input | output
+| --|--|--
+| *scan* | human subject | `DICOM( array( int[0, 1] ) )`
+| `image_process` </br> `.denoise \|` </br> `.defleck \|` </br> `.deisland \|` | `DICOM` | `ImageStack( array(Image) )` </br> `Image( matrix(Intensity) )` </br> `Intensity( int[0, 256) )`
+| *segment* | `ImageStack` | `SegmentedStack( array(Mask) )` </br> `Mask( matrix( int[0, 1] ) )`
+**curve** | |
+`skeletonize` | in | out
+**surface** | |
+`isosurface` </br> `.MarchingCubes \|` </br> `.SurfaceNets \| ` </br> `.DualContouring \|`| in | out
+`contour_spectrum` | `SegmentedStack` | `(outer: Isosurface, inner: Isosurface)`
+`triangularize` | `SegmentedStack` | `STL(points: tuple(float, float, float), connectivity: tuple(int[0, 3)))`
+**volume** | | 
+`tetrahedralize` </br> `.tet4 \|` </br> `.tet10 \|` | `SegmentedStack` | `Tet4Mesh(points: tuple(float, float, float), connectivity: tuple(int[0, 4)))` </br></br> `Tet10Mesh(points: tuple(float, float, float), connectivity: tuple(int[0, 10)))`
+`hexahedralize` </br> `.hex8 \|` | `SegmentedStack` | `Hex8Mesh(points: tuple(float, float, float), connectivity: tuple(int[0, 8)))`
+`voxelize` | `SegmentedStack` | EulerianDomain3D (SugarCubes)
+
+## Methods
 
 ## Data
 
@@ -34,7 +56,6 @@ Demonstration of the Pixel To Geometry (PTG) workflow through 3D reconstruction 
 ### Workflow
 
 * Goncalves, Paulo.  [GMSH, MeshLab, Calculix - Frequency Analysis of Human Femur](https://youtu.be/4BbDXylSua0)
-
 
 ## Results
 
