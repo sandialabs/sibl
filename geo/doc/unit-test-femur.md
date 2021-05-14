@@ -25,26 +25,50 @@ Demonstrate the Pixel To Geometry (PTG) workflow through 3D reconstruction of th
 * Gu X, Wang Y, Chan TF, Thompson PM, Yau ST. Genus zero surface conformal mapping and its application to brain surface mapping. IEEE transactions on medical imaging. 2004 Aug 2;23(8):949-58. [link](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.5.1392&rep=rep1&type=pdf)
 * Chuang JH, Ahuja N, Lin CC, Tsai CH, Chen CH. A potential-based generalized cylinder representation. Computers & Graphics. 2004 Dec 1;28(6):907-18. [link](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.390.1416&rep=rep1&type=pdf)
 * Zhang Y, Bajaj C, Sohn BS. 3D finite element meshing from imaging data. Computer methods in applied mechanics and engineering. 2005 Nov 15;194(48-49):5083-106. [link](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2748876/)
+* Goncalves, Paulo.  [GMSH, MeshLab, Calculix - Frequency Analysis of Human Femur](https://youtu.be/4BbDXylSua0)
 
 ## Functional Workflow: `Function: Input -> Output`
 
-| function | input | output
-| --|--|--
+| scan | | |
+|--|--|--|
+| function | input | output |
 | *scan* | human subject | `DICOM( array( int[0, 1] ) )`
-| `image_process` </br> `.denoise \|` </br> `.defleck \|` </br> `.deisland \|` | `DICOM` | `ImageStack( array(Image) )` </br> `Image( matrix(Intensity) )` </br> `Intensity( int[0, 256) )`
-| *segment* | `ImageStack` | `SegmentedStack( array(Mask) )` </br> `Mask( matrix( int[0, 1] ) )`
-**curve** | |
-`skeletonize` | in | out
-**surface** | |
-`isosurface` </br> `.MarchingCubes \|` </br> `.SurfaceNets \| ` </br> `.DualContouring \|`| in | out
-`contour_spectrum` | `SegmentedStack` | `(outer: Isosurface, inner: Isosurface)`
-`triangularize` | `SegmentedStack` | `STL(points: tuple(float, float, float), connectivity: tuple(int[0, 3)))`
-**volume** | | 
-`tetrahedralize` </br> `.tet4 \|` </br> `.tet10 \|` | `SegmentedStack` | `Tet4Mesh(points: tuple(float, float, float), connectivity: tuple(int[0, 4)))` </br></br> `Tet10Mesh(points: tuple(float, float, float), connectivity: tuple(int[0, 10)))`
-`hexahedralize` </br> `.hex8 \|` | `SegmentedStack` | `Hex8Mesh(points: tuple(float, float, float), connectivity: tuple(int[0, 8)))`
-`voxelize` | `SegmentedStack` | EulerianDomain3D (SugarCubes)
 
-## Methods
+| image proces | | |
+|--|--|--|
+| function | input | output |
+| `image_process` </br> `.denoise \|` </br> `.defleck \|` </br> `.deisland \|` | `DICOM` | `ImageStack( array(Image) )` </br> `Image( matrix(Intensity) )` </br> `Intensity( int[0, 256) )` | 
+|  *segment* | `ImageStack` | `SegmentedStack( array(Mask) )` |
+| *unknown* | `DICOM` | `Isosurface( STL )` |
+
+| Primitive |
+|--|
+| `Point3D( tuple(float, float, float) )` |
+| `Con3( tuple(int, int, int) )` | 
+| `Con4( tuple(int, int, int, int) )` |
+| `Con8( tuple(int0, int1, ..., int7) )` |
+| `Con10( tuple(int0, int1, ..., int9) )` |
+| `Mask( matrix( int[0, 1] ) )` |
+
+| Curve | | |
+|--|--|--|
+| function | input | output |
+| `skeletonize` | in | out |
+
+| Surface | | |
+|--|--|--|
+| function | input | output |
+|  `isosurface` </br> `.MarchingCubes \|` </br> `.SurfaceNets \| ` </br> `.DualContouring \|`| in | out |
+|  `contour_spectrum` | `SegmentedStack` | `(outer: Isosurface, inner: Isosurface)` |
+| `triangularize` | `SegmentedStack` | `STL( array(Point3D), array(Con3) )` 
+
+| Volume | | |
+|--|--|--|
+| function | input | output |
+| `tetrahedralize` </br> `.tet4 \|` </br> `.tet10 \|` | `SegmentedStack` | `Tet4Mesh( array(Point3D), array(Con4) )` </br> `Tet10Mesh( array(Point3D), array(Con10) )`
+| `hexahedralize` </br> `.hex8 \|` | `SegmentedStack` | `Hex8Mesh( array(Point3D), array(Con8) )` |
+| `voxelize` | `SegmentedStack` | EulerianDomain3D (aka "SugarCubes") |
+| `BSplineTrivariate` | xx | xx |
 
 ## Data
 
@@ -53,9 +77,7 @@ Demonstrate the Pixel To Geometry (PTG) workflow through 3D reconstruction of th
   * Soodmand E, Kluess D, Varady PA, Cichon R, Schwarze M, Gehweiler D, Niemeyer F, Pahr D, Woiczinski M. Interlaboratory comparison of femur surface reconstruction from CT data compared to reference optical 3D scan. Biomedical engineering online. 2018 Dec;17(1):1-0.
   * [Link](https://biomedical-engineering-online.biomedcentral.com/articles/10.1186/s12938-018-0461-0)
 
-### Workflow
-
-* Goncalves, Paulo.  [GMSH, MeshLab, Calculix - Frequency Analysis of Human Femur](https://youtu.be/4BbDXylSua0)
+## Methods
 
 ## Results
 
