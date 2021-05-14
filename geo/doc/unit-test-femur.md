@@ -10,9 +10,50 @@ Demonstration of the Pixel To Geometry (PTG) workflow through 3D reconstruction 
 
 ## Methods
 
-* numpy-stl on [pypi](https://pypi.org/project/numpy-stl/) and on [GitLab](https://github.com/WoLpH/numpy-stl).
+* numpy-stl on [pypi](https://pypi.org/project/numpy-stl/) and on [GitHub](https://github.com/WoLpH/numpy-stl).
+* Remacle JF, Geuzaine C, Compere G, Marchandise E. High‐quality surface remeshing using harmonic maps. International Journal for Numerical Methods in Engineering. 2010 Jul 23;83(4):403-25. [link](https://www.gmsh.info/doc/preprints/gmsh_stl_preprint.pdf)
+* Marchandise E, de Wiart CC, Vos WG, Geuzaine C, Remacle JF. High‐quality surface remeshing using harmonic maps—Part II: Surfaces with high genus and of large aspect ratio. International Journal for Numerical Methods in Engineering. 2011 Jun 17;86(11):1303-21. [link](https://gmsh.info/doc/preprints/gmsh_stl2_preprint.pdf)
+* Geuzaine C, Remacle JF. Gmsh: A 3‐D finite element mesh generator with built‐in pre‐and post‐processing facilities. International journal for numerical methods in engineering. 2009 Sep 10;79(11):1309-31. [link](https://gmsh.info/doc/preprints/gmsh_paper_preprint.pdf)
+* Martin T, Cohen E, Kirby RM. Volumetric parameterization and trivariate B-spline fitting using harmonic functions. Computer aided geometric design. 2009 Aug 1;26(6):648-64.  [link](https://people.eecs.berkeley.edu/~sequin/CS284/PAPERS/Bspline_Volume_Meshing.pdf)
+* Gu X, Wang Y, Chan TF, Thompson PM, Yau ST. Genus zero surface conformal mapping and its application to brain surface mapping. IEEE transactions on medical imaging. 2004 Aug 2;23(8):949-58. [link](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.5.1392&rep=rep1&type=pdf)
+* Chuang JH, Ahuja N, Lin CC, Tsai CH, Chen CH. A potential-based generalized cylinder representation. Computers & Graphics. 2004 Dec 1;28(6):907-18. [link](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.390.1416&rep=rep1&type=pdf)
+* Zhang Y, Bajaj C, Sohn BS. 3D finite element meshing from imaging data. Computer methods in applied mechanics and engineering. 2005 Nov 15;194(48-49):5083-106. [link](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2748876/)
 
-### Data
+## Motivation
+
+* Femoral fracture, 18-yo male, high-speed motor vehicle crash, case rID = 48399.  [Case](https://radiopaedia.org/cases/48399/play?lang=us)
+* Winquist 1980.  Classification of femoral shaft fractures [Case](https://radiopaedia.org/articles/winquist-classification-of-femoral-shaft-fractures-1?lang=us)
+
+## Data
+
+* Bauer, Eric.  [Human femur](https://sketchfab.com/3d-models/human-femur-a9c1f1a88b104c3fbfe975fa10b31b31) available in three formats, Stereolithography (stl), Generated GLTF (gltf), Generated USDZ (usdz), 165 MB, 3.5M triangles, 1.7M vertices, materials 1, ["Human Femur"](https://skfb.ly/6ursH) by Eric Bauer is licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/), 10 Nov 2019.  [Elon University](https://www.elon.edu/u/directory/profile/?user=ebauer).
+* Soodmand 2018.  (Correspondence: ehsan.soodmand@gmail.com, Biomechanics and Implant Technology Research Laboratory, Department of Orthopaedics, University Medicine Rostock, Doberaner Strasse 142, 18057 Rostock, Germany, https://forbiomit.med.uni-rostock.de/en/about-us/staff)
+  * Soodmand E, Kluess D, Varady PA, Cichon R, Schwarze M, Gehweiler D, Niemeyer F, Pahr D, Woiczinski M. Interlaboratory comparison of femur surface reconstruction from CT data compared to reference optical 3D scan. Biomedical engineering online. 2018 Dec;17(1):1-0.
+  * [Link](https://biomedical-engineering-online.biomedcentral.com/articles/10.1186/s12938-018-0461-0)
+
+### Workflow
+
+* Goncalves, Paulo.  [GMSH, MeshLab, Calculix - Frequency Analysis of Human Femur](https://youtu.be/4BbDXylSua0)
+
+
+## Results
+
+## Discussion
+
+## Conclusion
+
+## Appendix
+
+## References
+
+* Digital Morphology [Digimorph](http://www.digimorph.org/)
+* [OsiriX DICOM Viewer](https://www.osirix-viewer.com/)
+* [OsiriX Foundation](https://www.osirixfoundation.com/)
+* [OsiriX Open Source](https://github.com/pixmeo/osirix)
+* [Slicer](https://github.com/Slicer)
+* SlicerMorph [GitHub](https://github.com/SlicerMorph/) and [website](https://slicermorph.github.io/)
+
+### Unit Tests
 
 The client driver file, [pixel_to_mesh_example.py](../examples/pixel_to_mesh_example.py), created the following pixel shapes:
 
@@ -33,28 +74,3 @@ The client driver file, [pixel_to_mesh_example.py](../examples/pixel_to_mesh_exa
 
 * <img src="fig/cyl_ir3_or6_pixperlen3.png" alt="cyl_ir3_or6_pixperlen3" width="320"/>
 * > [Figure](fig/cyl_ir3_or6_pixperlen3.png): Cylinder, H=1 len, ID=6 len, OD=12 len, pix/len = 3.
-
-* Femoral fracture, 18-yo male, high-speed motor vehicle crash, case rID = 48399.  [Case](https://radiopaedia.org/cases/48399/play?lang=us)
-
-### Workflow
-
-## Results
-
-## Discussion
-
-## Conclusion
-
-## Appendix
-
-## References
-
-* Bauer, Eric.  [Human femur](https://sketchfab.com/3d-models/human-femur-a9c1f1a88b104c3fbfe975fa10b31b31) available in three formats, Stereolithography (stl), Generated GLTF (gltf), Generated USDZ (usdz), 165 MB, 3.5M triangles, 1.7M vertices, materials 1, ["Human Femur"](https://skfb.ly/6ursH) by Eric Bauer is licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/), 10 Nov 2019.  [Elon University](https://www.elon.edu/u/directory/profile/?user=ebauer).
-* Digital Morphology [Digimorph](http://www.digimorph.org/)
-* [OsiriX DICOM Viewer](https://www.osirix-viewer.com/)
-* [OsiriX Foundation](https://www.osirixfoundation.com/)
-* [OsiriX Open Source](https://github.com/pixmeo/osirix)
-* [Slicer](https://github.com/Slicer)
-* SlicerMorph [GitHub](https://github.com/SlicerMorph/) and [website](https://slicermorph.github.io/)
-* Soodmand 2018.  (Correspondence: ehsan.soodmand@gmail.com, Biomechanics and Implant Technology Research Laboratory, Department of Orthopaedics, University Medicine Rostock, Doberaner Strasse 142, 18057 Rostock, Germany, https://forbiomit.med.uni-rostock.de/en/about-us/staff)
-  * Soodmand E, Kluess D, Varady PA, Cichon R, Schwarze M, Gehweiler D, Niemeyer F, Pahr D, Woiczinski M. Interlaboratory comparison of femur surface reconstruction from CT data compared to reference optical 3D scan. Biomedical engineering online. 2018 Dec;17(1):1-0.
-  * [Link](https://biomedical-engineering-online.biomedcentral.com/articles/10.1186/s12938-018-0461-0)
