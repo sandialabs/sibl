@@ -29,6 +29,17 @@ Demonstrate the Pixel To Geometry (PTG) workflow through 3D reconstruction of th
 * Yu Y, Wei X, Li A, Liu JG, He J, Zhang YJ. HexGen and Hex2Spline: Polycube-based Hexahedral Mesh Generation and Spline Modeling for Isogeometric Analysis Applications in LS-DYNA. arXiv preprint arXiv:2011.14213. 2020 Nov 28. [link](https://arxiv.org/pdf/2011.14213.pdf)  Submitted to Springer INdAM Series, 2020.
 * Goncalves, Paulo.  [GMSH, MeshLab, Calculix - Frequency Analysis of Human Femur](https://youtu.be/4BbDXylSua0)
 
+## Data States
+
+* human subject
+* DICOM
+* volume segmentation of part (e.g., 3D femur)
+* surface triangular mesh (skin) of a volume segmentation
+* surface segmentation via centroidal Voronoi tessellation (CVT)
+* polycube volume
+* hex volume mesh (control mesh)
+* spline volume mesh
+
 ## Functional Workflow: `Function: Input -> Output`
 
 | scan | | |
@@ -36,7 +47,7 @@ Demonstrate the Pixel To Geometry (PTG) workflow through 3D reconstruction of th
 | function | input | output |
 | *scan* | human subject | `DICOM( array( int[0, 1] ) )`
 
-| image proces | | |
+| image process | | |
 |--|--|--|
 | function | input | output |
 | `image_process` </br> `.denoise \|` </br> `.defleck \|` </br> `.deisland \|` | `DICOM` | `ImageStack( array(Image) )` </br> `Image( matrix(Intensity) )` </br> `Intensity( int[0, 256) )` | 
