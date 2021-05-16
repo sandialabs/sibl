@@ -25,6 +25,8 @@ Demonstrate the Pixel To Geometry (PTG) workflow through 3D reconstruction of th
 * Gu X, Wang Y, Chan TF, Thompson PM, Yau ST. Genus zero surface conformal mapping and its application to brain surface mapping. IEEE transactions on medical imaging. 2004 Aug 2;23(8):949-58. [link](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.5.1392&rep=rep1&type=pdf)
 * Chuang JH, Ahuja N, Lin CC, Tsai CH, Chen CH. A potential-based generalized cylinder representation. Computers & Graphics. 2004 Dec 1;28(6):907-18. [link](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.390.1416&rep=rep1&type=pdf)
 * Zhang Y, Bajaj C, Sohn BS. 3D finite element meshing from imaging data. Computer methods in applied mechanics and engineering. 2005 Nov 15;194(48-49):5083-106. [link](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2748876/)
+* Zhang, Computational Bio-Modeling Lab in Carnegie Mellon University (CMU-CBML) [GitHub](https://github.com/CMU-CBML).
+* Yu Y, Wei X, Li A, Liu JG, He J, Zhang YJ. HexGen and Hex2Spline: Polycube-based Hexahedral Mesh Generation and Spline Modeling for Isogeometric Analysis Applications in LS-DYNA. arXiv preprint arXiv:2011.14213. 2020 Nov 28. [link](https://arxiv.org/pdf/2011.14213.pdf)  Submitted to Springer INdAM Series, 2020.
 * Goncalves, Paulo.  [GMSH, MeshLab, Calculix - Frequency Analysis of Human Femur](https://youtu.be/4BbDXylSua0)
 
 ## Functional Workflow: `Function: Input -> Output`
