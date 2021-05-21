@@ -28,16 +28,41 @@ Demonstrate the Pixel To Geometry (PTG) workflow through 3D reconstruction of th
 * Zhang, Computational Bio-Modeling Lab in Carnegie Mellon University (CMU-CBML) [GitHub](https://github.com/CMU-CBML).
 * Yu Y, Wei X, Li A, Liu JG, He J, Zhang YJ. HexGen and Hex2Spline: Polycube-based Hexahedral Mesh Generation and Spline Modeling for Isogeometric Analysis Applications in LS-DYNA. arXiv preprint arXiv:2011.14213. 2020 Nov 28. [link](https://arxiv.org/pdf/2011.14213.pdf)  Submitted to Springer INdAM Series, 2020.
 * Goncalves, Paulo.  [GMSH, MeshLab, Calculix - Frequency Analysis of Human Femur](https://youtu.be/4BbDXylSua0)
+* Liu Y, Wang W, Lévy B, Sun F, Yan DM, Lu L, Yang C. On centroidal Voronoi tessellation—energy smoothness and fast computation. ACM Transactions on Graphics (ToG). 2009 Sep 8;28(4):1-7. [link](https://dl.acm.org/doi/pdf/10.1145/1559755.1559758?casa_token=8diohMBJlUsAAAAA:S44zPHY7QgzQxKN3ssyy3wzBE5cER2XEJmNoo88b0eKXqFsr4unzgJNEBcuYMslVppwutxCf6-ys)
+* libigl - A simple C++ geometry processing library [link](https://libigl.github.io/)
+* libigl-example-project [link](https://libigl.github.io/)
+* libigl-python-bindings [link](https://github.com/libigl/libigl-python-bindings)
+* [MeshLab](https://www.meshlab.net/)
+* [Meshmixer](https://www.meshmixer.com/)
+* Li, Xin, Regular/Structural Mesh Generation Using Polycube Parameterization. [link](https://www.ece.lsu.edu/xinli/Meshing/VolumeMeshing.html)
 
 ## Data States
 
 * human subject
 * DICOM
-* volume segmentation of part (e.g., 3D femur)
-* surface triangular mesh (skin) of a volume segmentation
-* surface segmentation via centroidal Voronoi tessellation (CVT)
-* polycube volume
-* hex volume mesh (control mesh)
+  * is an assembly, composed of two or more parts
+* **volume segmentation** 
+  * of part (e.g., 3D femur)
+* **trimesh** 
+  * is a *surface* of a volume segmentation, 
+  * is also known as a "skin"
+* **surface segmentation** 
+  * via centroidal Voronoi tessellation (CVT) [video](https://youtu.be/MZUIGpz4Hl4)
+    * via classical energy function -> initial Voronoi regions and generators
+    * via harmonic boundary-enhanced (HBE) energy function -> monotone boundaries (eliminate non-monotone boundaries)
+* **surface patch segmentation** 
+  * via manual step, such that
+    * two patches with opposing orientations cannot share a boundary
+    * each corner vertex must be shared by three or more patches
+    * each patch must have four boundaries
+* **polycube structure**
+  * is a topological equivalent to a cube
+* **hex mesh**
+  * is a volume mesh
+  * acts as the spline control mesh
+  * via parametric mapping
+  * via octree subdivision
+  * via quality improvement
 * spline volume mesh
 
 ## Functional Workflow: `Function: Input -> Output`
