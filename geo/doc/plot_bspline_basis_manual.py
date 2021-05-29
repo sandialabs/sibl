@@ -13,7 +13,7 @@ import ptg.bspline_basis_manual as bp
 
 # (siblenv) [~/sibl/geo/doc] python plot_bspline_basis_manual.py
 
-DEGREE = 2  # e.g., p=0 constant, p=1 linear, p=2 quadratic, p=3 cubic
+DEGREE = 2  # e.g., p=0 constant, p=1 linear, p=2 quadratic (max degree currently 2)
 DISPLAY = 1
 DPI = 100  # dots per inch
 LATEX = 0
