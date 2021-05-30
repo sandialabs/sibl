@@ -1,4 +1,9 @@
 """This module plots the first basis function for degree 0, 1, 2, 3, 4, 5.
+
+Example:
+> cd ~/sibl/geo/doc
+> conda activate siblenv
+> python plot_bspline_N0_p0_to_p4.py
 """
 
 import numpy as np
@@ -78,6 +83,8 @@ ax.legend(loc="upper right")
 _eps = 0.1
 ax.set_xlim([knot_vectors[-1][0] - 2 * _eps, knot_vectors[-1][-1] + 2 * _eps])
 ax.set_ylim([0.0 - 2 * _eps, 1.0 + 2 * _eps])
+
+ax.set_aspect("equal")
 
 ax.xaxis.set_major_locator(MultipleLocator(1.0))
 ax.xaxis.set_minor_locator(MultipleLocator(0.25))
