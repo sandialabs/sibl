@@ -18,34 +18,21 @@ latex = True  # False
 n_bisections = 6  # 2^n_bisections
 serialize = True
 
-# colors = ("tab:blue", "tab:orange", "tab:green", "tab:red", "tab:purple", "tab:cyan")
-colors = ("tab:orange", "tab:green", "tab:red", "tab:purple", "tab:cyan", "tab:blue")
-# linestyles = ("solid", "dashed", "dashdot")
-linestyles = ("dashed", "dashdot", "solid")
+colors = ("tab:blue", "tab:orange", "tab:green", "tab:red", "tab:purple", "tab:cyan")
+linestyles = ("solid", "dashed", "dashdot")
 
 if latex:
     rc("font", **{"family": "serif", "serif": ["Computer Modern Roman"]})
     rc("text", usetex=True)
 
-# bases = (0, 1, 2)  # three basis functions
 t = np.linspace(0, 1, 2 ** n_bisections + 1)
-# b = tuple(t)
-# a = tuple(map(lambda x: 1.0 - x, b))
-# a = np.array(tuple(map(lambda t: 1.0 - t, t)))
-# b = t
 
-# n0 = 0.5 * a * a * a
-# n1 = 1.5 * (a * a * b + 5 * a * b * b) + 0.5
-# n2 = 0.5 * b * b * b
-
-N0 = np.array(tuple(map(lambda t: 0.5 * (1.0 - t) ** 2, t)))
-N1 = np.array(
-    tuple(map(lambda t: 0.5 * (1.0 - t) ** 2 + 2 * t * (1.0 - t) + 0.5 * t ** 2, t))
-)
+N0 = np.array(tuple(map(lambda t: (1.0 - t) ** 2, t)))
+N1 = np.array(tuple(map(lambda t: 2 * t * (1.0 - t) + 0.5 * t ** 2, t)))
 N2 = np.array(tuple(map(lambda t: 0.5 * t ** 2, t)))
 
 bases = (N0, N1, N2)
-labels = (r"$\tilde{N}_0^2$", r"$\tilde{N}_1^2$", r"$\tilde{N}_2^2$")
+labels = (r"$\hat{N}_0^2$", r"$\hat{N}_1^2$", r"$\hat{N}_2^2$")
 
 # fig = plt.figure(figsize=plt.figaspect(1.0 / 1.0), dpi=dpi)
 fig = plt.figure()
@@ -68,7 +55,7 @@ ax.grid(True, which="major", linestyle="-")
 ax.grid(True, which="minor", linestyle=":")
 
 ax.set_xlabel(r"$t$")
-ax.set_ylabel(r"$\tilde{N}^{p=2}_i(t)$")
+ax.set_ylabel(r"$\hat{N}^{p=2}_i(t)$")
 # ax.legend(loc="upper right")
 ax.legend(bbox_to_anchor=(1.05, 1), loc="upper left", borderaxespad=0.0)
 
