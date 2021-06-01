@@ -3,7 +3,7 @@
 Example:
 > cd ~/sibl/geo/doc
 > conda activate siblenv
-> python plot_periodic_bspline_basis_p2.py
+> python plot_open_bspline_basis_p2.py
 """
 
 import numpy as np
@@ -32,7 +32,8 @@ N1 = np.array(tuple(map(lambda t: 2 * t * (1.0 - t) + 0.5 * t ** 2, t)))
 N2 = np.array(tuple(map(lambda t: 0.5 * t ** 2, t)))
 
 bases = (N0, N1, N2)
-labels = (r"$\hat{N}_0^2$", r"$\hat{N}_1^2$", r"$\hat{N}_2^2$")
+# labels = (r"$\hat{N}_0^2$", r"$\hat{N}_1^2$", r"$\hat{N}_2^2$")
+labels = (r"$\breve{N}_0^2$", r"$\breve{N}_1^2$", r"$\breve{N}_2^2$")
 
 # fig = plt.figure(figsize=plt.figaspect(1.0 / 1.0), dpi=dpi)
 fig = plt.figure()
@@ -55,7 +56,8 @@ ax.grid(True, which="major", linestyle="-")
 ax.grid(True, which="minor", linestyle=":")
 
 ax.set_xlabel(r"$t$")
-ax.set_ylabel(r"$\hat{N}^{p=2}_i(t)$")
+# ax.set_ylabel(r"$\hat{N}^{p=2}_i(t)$")
+ax.set_ylabel(r"$\breve{N}^{p=2}_i(t)$")
 # ax.legend(loc="upper right")
 ax.legend(bbox_to_anchor=(1.05, 1), loc="upper left", borderaxespad=0.0)
 
