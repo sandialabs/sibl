@@ -12,6 +12,17 @@
             "console": "integratedTerminal"
         },
         {
+            "name": "view bezier recovery",
+            "type": "python",
+            "request": "launch",
+            "program": "~/sibl/geo/src/ptg/view_bezier_recovery.py",
+            "args": [
+                "--verbose",
+                "~/sibl/geo/data/bezier/nine-point-circle.csv",
+            ],
+            "console": "integratedTerminal"
+        },
+        {
             "name": "xyfigure client",
             "type": "python",
             "request": "launch",
