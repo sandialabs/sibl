@@ -1,15 +1,10 @@
 """This module tests creation of an eight-sided ring composed of eight linear
 periodic basis functions (p=1), composed of nine knots.
 
-Example (test):
-> cd ~/sibl/geo/tests
-> conda activate siblenv
-> pytest test_bspline_fit_linear_ring.py
-
 Example (interactive):
 > cd ~/sibl/geo/tests
 > conda activate siblenv
-> python test_bspline_fit_linear_ring.py
+> python plot_bspline_periodic.py
 """
 
 import numpy as np

@@ -12,10 +12,10 @@
             "console": "integratedTerminal"
         },
         {
-            "name": "view bezier recovery",
+            "name": "bspline periodic",
             "type": "python",
             "request": "launch",
-            "program": "~/sibl/geo/src/ptg/view_bezier_recovery.py",
+            "program": "~/sibl/geo/src/ptg/bspline_periodic.py",
             "args": [
                 "~/sibl/geo/data/bezier/circle-points.csv",
                 "--verbose",

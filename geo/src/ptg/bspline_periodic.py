@@ -1,11 +1,11 @@
-"""This module creates a sequence of Bezier curves from 3D control points.
-The Bezier bases are recovered from the B-spline bases.
+"""This module creates a sequence of modified Bezier curves from 3D control points.
+The modified Bezier bases are recovered from the periodic B-spline bases.
 
 Example:
 > cd ~/sibl/geo/src/ptg
 > conda activate siblenv
-> python view_bezier_recovery.py --help
-> python view_bezier_recovery.py
+> python bspline_periodic.py --help
+> python bspline_periodic.py
 """
 import argparse
 
