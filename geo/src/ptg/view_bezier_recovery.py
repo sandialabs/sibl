@@ -11,7 +11,7 @@ import argparse
 
 # import os
 import sys
-from typing import NamedTuple, Tuple, Union
+from typing import NamedTuple, Tuple
 
 import numpy as np
 from pathlib import Path  # stop using os.path, use pathlib instead
@@ -39,16 +39,46 @@ def data_from_input(db: Database) -> TripleSeries:
     return TripleSeries(x=tuple(data[:, 0]), y=tuple(data[:, 1]), z=tuple(data[:, 2]))
 
 
+def close_control_points(cpts: TripleSeries) -> TripleSeries:
+    # repeat the first control point as the new last control point
+    return TripleSeries(
+        x=cpts.x + tuple([cpts.x[0]]),
+        y=cpts.y + tuple([cpts.y[0]]),
+        z=cpts.z + tuple([cpts.z[0]]),
+    )
+
+
 def main(argv):
     filename = __file__
     print(f"This is file '{filename}'")
 
+    # reference: https://www.golinuxcloud.com/python-argparse/
     parser = argparse.ArgumentParser()
 
+    # verbosity
     parser.add_argument(
         "-v", "--verbose", help="increase output verbosity", action="store_true"
     )
 
+    parser.add_argument(
+        "-d",
+        "--degree",
+        default=1,
+        dest="degree",
+        help="polynomial degree, integer in [1, 2], defaults to 1",
+        type=int,
+    )
+
+    parser.add_argument(
+        "-b",
+        "--bisections",
+        default=1,
+        dest="n_bisections",
+        help="number of bisections of parameter interval, integer in [1, 2, ...), defaults to 1",
+        type=int,
+    )
+
+    # client data input
     parser.add_argument(
         "input",
         help="fully pathed location to the points.csv input data",
@@ -56,14 +86,49 @@ def main(argv):
 
     args = parser.parse_args()
 
+    if args.verbose:
+        print("verbosity turned on")
+
+    assert args.degree in (1, 2), "Must be 1 or 2."
+
+    assert args.n_bisections >= 1, "Number of bisections must be >= 1."
+
     p = Path(args.input).resolve()
+    if args.verbose:
+        print(f"processing input file: {p}")
 
     db = Database(name=p.name, type=p.suffix, path=str(p.parent))
 
-    points = data_from_input(db)
+    control_points = data_from_input(db)
 
-    if args.verbose:
-        print("verbosity turned on")
+    # For periodic (non-open) linear (p=1) bases, number of valid controls points,
+    # assuming the first control point is repeated by this script as also the last
+    # control point, is (num_control_points, number_elements):
+    # (4, 4) a quad-shape
+    # (6, 6) a hex-shape
+    # (8, 8) an oct-shape, etc.
+
+    # For periodic (non-open) quadratic (p=2) bases, number of valid controls points,
+    # assuming the first control point is repeated by this script as also the last
+    # control point, is (num_control_points, number_elements):
+    # (4, 2) a snap-back curve
+    # (6, 3) a tri-shape
+    # (8, 4) a quad-shape
+    # (10, 5) a penta-shape
+    # (12, 6) a hex-shape, etc.
+    assert len(control_points.x) == len(control_points.y) == len(control_points.z)
+    assert len(control_points.x) % 2 == 0, "Number of control points must be even."
+    assert len(control_points.x) >= 4, "Number of control points must be >= 4."
+
+    control_points_closed = close_control_points(control_points)
+
+    t = np.linspace(0, 1, 2 ** args.n_bisections + 1)
+
+    N0 = np.array(tuple(map(lambda t: (1.0 - t) ** 2, t)))
+    N1 = np.array(tuple(map(lambda t: 2 * t * (1.0 - t) + 0.5 * t ** 2, t)))
+    N2 = np.array(tuple(map(lambda t: 0.5 * t ** 2, t)))
+
+    pass
 
 
 if __name__ == "__main__":

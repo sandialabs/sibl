@@ -17,8 +17,10 @@
             "request": "launch",
             "program": "~/sibl/geo/src/ptg/view_bezier_recovery.py",
             "args": [
+                "~/sibl/geo/data/bezier/circle-points.csv",
                 "--verbose",
-                "~/sibl/geo/data/bezier/nine-point-circle.csv",
+                "--degree",
+                "1"
             ],
             "console": "integratedTerminal"
         },
