@@ -174,6 +174,24 @@ def main(argv):
             )
         )
 
+        eval_y = tuple(
+            map(
+                lambda y0, y1, y2: tuple(N0 * y0 + N1 * y1 + N2 * y2),
+                control_points.y[:: args.degree],
+                control_points.y[1:][:: args.degree],
+                control_points_closed.y[2:][:: args.degree],
+            )
+        )
+
+        eval_z = tuple(
+            map(
+                lambda z0, z1, z2: tuple(N0 * z0 + N1 * z1 + N2 * z2),
+                control_points.z[:: args.degree],
+                control_points.z[1:][:: args.degree],
+                control_points_closed.z[2:][:: args.degree],
+            )
+        )
+
     pass
 
 
