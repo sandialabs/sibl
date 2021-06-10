@@ -40,15 +40,32 @@ x, y, z = bspp.bspline_periodic(
     control_points_file=c,
     verbose=True,
     degree=1,
-    n_bisections=1,
+    n_bisections=2,
 )
 
 fig = plt.figure()
 ax = fig.gca()
+# ax.grid()
+ax.grid(True, which="major", linestyle="-")
+ax.grid(True, which="minor", linestyle=":")
+
+for i in np.arange(len(x)):
+    print(f"element {i+1}")
+    ax.plot(
+        x[i],
+        y[i],
+        "-o",
+        linewidth=2,
+        linestyle=linestyles[np.remainder(i, len(linestyles))],
+    )
+
+ax.set_xlabel(r"$x$")
+ax.set_ylabel(r"$y$")
+# ax.legend(loc="upper right")
 
 _eps = 0.1
-ax.set_xlim([0.0 - 2 * _eps, 1.0 + 2 * _eps])
-ax.set_ylim([0.0 - 2 * _eps, 1.0 + 2 * _eps])
+ax.set_xlim([-1.0 - 2 * _eps, 1.0 + 2 * _eps])
+ax.set_ylim([-1.0 - 2 * _eps, 1.0 + 2 * _eps])
 
 ax.set_aspect("equal")
 
