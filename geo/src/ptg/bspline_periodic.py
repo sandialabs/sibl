@@ -48,53 +48,19 @@ def close_control_points(cpts: TripleSeries) -> TripleSeries:
     )
 
 
-def main(argv):
-    filename = __file__
-    print(f"This is file '{filename}'")
+def bspline_periodic(
+    *, control_points_file: str, verbose: bool, degree: int, n_bisections: int
+):
 
-    # reference: https://www.golinuxcloud.com/python-argparse/
-    parser = argparse.ArgumentParser()
-
-    # verbosity
-    parser.add_argument(
-        "-v", "--verbose", help="increase output verbosity", action="store_true"
-    )
-
-    parser.add_argument(
-        "-d",
-        "--degree",
-        default=1,
-        dest="degree",
-        help="polynomial degree, integer in [1, 2], defaults to 1",
-        type=int,
-    )
-
-    parser.add_argument(
-        "-b",
-        "--bisections",
-        default=1,
-        dest="n_bisections",
-        help="number of bisections of parameter interval, integer in [1, 2, ...), defaults to 1",
-        type=int,
-    )
-
-    # client data input
-    parser.add_argument(
-        "input",
-        help="fully pathed location to the points.csv input data",
-    )
-
-    args = parser.parse_args()
-
-    if args.verbose:
+    if verbose:
         print("verbosity turned on")
 
-    assert args.degree in (1, 2), "Must be 1 or 2."
+    assert degree in (1, 2), "Must be 1 or 2."
 
-    assert args.n_bisections >= 1, "Number of bisections must be >= 1."
+    assert n_bisections >= 1, "Number of bisections must be >= 1."
 
-    p = Path(args.input).resolve()
-    if args.verbose:
+    p = Path(control_points_file).resolve()
+    if verbose:
         print(f"processing input file: {p}")
 
     db = Database(name=p.name, type=p.suffix, path=str(p.parent))
@@ -120,13 +86,15 @@ def main(argv):
     assert len(control_points.x) % 2 == 0, "Number of control points must be even."
     assert len(control_points.x) >= 4, "Number of control points must be >= 4."
 
-    num_elements = int(len(control_points.x) / args.degree)
+    num_elements = int(len(control_points.x) / degree)
+    if verbose:
+        print(f"number of elements: {num_elements}")
 
     control_points_closed = close_control_points(control_points)
 
-    t = np.linspace(0, 1, 2 ** args.n_bisections + 1)
+    t = np.linspace(0, 1, 2 ** n_bisections + 1)
 
-    if args.degree == 1:
+    if degree == 1:
         N0 = np.array(tuple(map(lambda t: (1.0 - t), t)))
         N1 = np.array(tuple(map(lambda t: t, t)))
 
@@ -168,32 +136,80 @@ def main(argv):
         eval_x = tuple(
             map(
                 lambda x0, x1, x2: tuple(N0 * x0 + N1 * x1 + N2 * x2),
-                control_points.x[:: args.degree],
-                control_points.x[1:][:: args.degree],
-                control_points_closed.x[2:][:: args.degree],
+                control_points.x[::degree],
+                control_points.x[1:][::degree],
+                control_points_closed.x[2:][::degree],
             )
         )
 
         eval_y = tuple(
             map(
                 lambda y0, y1, y2: tuple(N0 * y0 + N1 * y1 + N2 * y2),
-                control_points.y[:: args.degree],
-                control_points.y[1:][:: args.degree],
-                control_points_closed.y[2:][:: args.degree],
+                control_points.y[::degree],
+                control_points.y[1:][::degree],
+                control_points_closed.y[2:][::degree],
             )
         )
 
         eval_z = tuple(
             map(
                 lambda z0, z1, z2: tuple(N0 * z0 + N1 * z1 + N2 * z2),
-                control_points.z[:: args.degree],
-                control_points.z[1:][:: args.degree],
-                control_points_closed.z[2:][:: args.degree],
+                control_points.z[::degree],
+                control_points.z[1:][::degree],
+                control_points_closed.z[2:][::degree],
             )
         )
 
-    pass
+    a = 4
+
+    return (eval_x, eval_y, eval_z)
+
+
+def main(argv):
+    filename = __file__
+    print(f"This is file '{filename}'")
+
+    # reference: https://www.golinuxcloud.com/python-argparse/
+    parser = argparse.ArgumentParser()
+
+    # verbosity
+    parser.add_argument(
+        "-v", "--verbose", help="increase output verbosity", action="store_true"
+    )
+
+    parser.add_argument(
+        "-d",
+        "--degree",
+        default=1,
+        dest="degree",
+        help="polynomial degree, integer in [1, 2], defaults to 1",
+        type=int,
+    )
+
+    parser.add_argument(
+        "-b",
+        "--bisections",
+        default=1,
+        dest="n_bisections",
+        help="number of bisections of parameter interval, integer in [1, 2, ...), defaults to 1",
+        type=int,
+    )
+
+    # client data input
+    parser.add_argument(
+        "control_points_file",
+        help="fully pathed location to the control points .csv file",
+    )
+
+    args = parser.parse_args()
+
+    return bspline_periodic(
+        control_points_file=args.control_points_file,
+        verbose=args.verbose,
+        degree=args.degree,
+        n_bisections=args.n_bisections,
+    )
 
 
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    _ = main(sys.argv[1:])

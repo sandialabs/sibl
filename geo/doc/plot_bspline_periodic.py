@@ -9,6 +9,11 @@ Example (interactive):
 
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib import rc
+from matplotlib.ticker import MultipleLocator
+from pathlib import Path
+
+import ptg.bspline_periodic as bspp
 
 display = True
 dpi = 100  # dots per inch
@@ -23,6 +28,28 @@ if latex:
     rc("font", **{"family": "serif", "serif": ["Computer Modern Roman"]})
     rc("text", usetex=True)
 
+degree = 1  # linear
+# degree = 2  # quadratic
+
+local_path = "~/sibl/geo/data/bezier/circle-points.csv"
+a = Path(local_path)
+b = a.expanduser()
+c = str(b)
+
+x, y, z = bspp.bspline_periodic(
+    control_points_file=c,
+    verbose=True,
+    degree=1,
+    n_bisections=1,
+)
+
+fig = plt.figure()
+ax = fig.gca()
+
+_eps = 0.1
+ax.set_xlim([0.0 - 2 * _eps, 1.0 + 2 * _eps])
+ax.set_ylim([0.0 - 2 * _eps, 1.0 + 2 * _eps])
+
 ax.set_aspect("equal")
 
 ax.xaxis.set_major_locator(MultipleLocator(1.0))
@@ -35,6 +62,6 @@ if display:
 
 if serialize:
     extension = ".pdf"  # or '.svg'
-    bstring = "bspline_fit_linear_ring" + extension
+    bstring = Path(__file__).stem + extension
     # fig.savefig(bstring, bbox_inches="tight")
     fig.savefig(bstring, bbox_inches="tight", pad_inches=0)
