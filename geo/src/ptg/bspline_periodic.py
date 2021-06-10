@@ -120,13 +120,59 @@ def main(argv):
     assert len(control_points.x) % 2 == 0, "Number of control points must be even."
     assert len(control_points.x) >= 4, "Number of control points must be >= 4."
 
+    num_elements = int(len(control_points.x) / args.degree)
+
     control_points_closed = close_control_points(control_points)
 
     t = np.linspace(0, 1, 2 ** args.n_bisections + 1)
 
-    N0 = np.array(tuple(map(lambda t: (1.0 - t) ** 2, t)))
-    N1 = np.array(tuple(map(lambda t: 2 * t * (1.0 - t) + 0.5 * t ** 2, t)))
-    N2 = np.array(tuple(map(lambda t: 0.5 * t ** 2, t)))
+    if args.degree == 1:
+        N0 = np.array(tuple(map(lambda t: (1.0 - t), t)))
+        N1 = np.array(tuple(map(lambda t: t, t)))
+
+        eval_x = tuple(
+            map(
+                lambda x0, x1: tuple(N0 * x0 + N1 * x1),
+                control_points.x,
+                control_points_closed.x[1:],
+            )
+        )
+        eval_y = tuple(
+            map(
+                lambda y0, y1: tuple(N0 * y0 + N1 * y1),
+                control_points.y,
+                control_points_closed.y[1:],
+            )
+        )
+        eval_z = tuple(
+            map(
+                lambda z0, z1: tuple(N0 * z0 + N1 * z1),
+                control_points.z,
+                control_points_closed.z[1:],
+            )
+        )
+
+    else:  # args.degree = 2
+        # These are not the normal B-spline basis functions.  Rather, they are the
+        # periodic modified quadratic Bezier basis functions
+        N0 = np.array(tuple(map(lambda t: 0.5 * (1.0 - t) ** 2, t)))  # $\hat{N}_0$
+        N1 = np.array(
+            tuple(
+                map(
+                    lambda t: 0.5 * (1.0 - t) ** 2 + 2 * (1.0 - t) * t + 0.5 * t ** 2, t
+                )
+            )
+        )  # $\hat{N}_1$
+        N2 = np.array(tuple(map(lambda t: 0.5 * t ** 2, t)))  # $\hat{N}_2$
+
+        eval_x = tuple(
+            map(
+                lambda x0, x1, x2: tuple(N0 * x0 + N1 * x1 + N2 * x2),
+                control_points.x[:: args.degree],
+                control_points.x[1:][:: args.degree],
+                control_points_closed.x[2:][:: args.degree],
+            )
+        )
 
     pass
 
