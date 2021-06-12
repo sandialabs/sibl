@@ -2,7 +2,7 @@
     "class": "curvefit",
     "control_points_shown": true,
     "degree_t": 5,
-    "display": false,
+    "display": true,
     "knots_shown": 1,
     "latex": 1,
     "name": "circle_points_06",

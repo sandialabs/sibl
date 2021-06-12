@@ -41,7 +41,7 @@
     "control_points_shown": true,
     "name": "Bingol_2D_curve",
     "degree_t": 4,
-    "display": false,
+    "display": true,
     "nbi": 8,
     "ncp": 9,
     "knot_vector_t": [

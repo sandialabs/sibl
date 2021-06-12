@@ -1,0 +1,82 @@
+{
+    "class": "curve",
+    "coefficients": [
+        [
+            1,
+            0
+        ],
+        [
+            1,
+            1
+        ],
+        [
+            0,
+            1
+        ],
+        [
+            -1,
+            1
+        ],
+        [
+            -1,
+            0
+        ],
+        [
+            -1,
+            -1
+        ],
+        [
+            0,
+            -1
+        ],
+        [
+            1,
+            -1
+        ],
+        [
+            1,
+            0
+        ]
+    ],
+    "control_points_shown": true,
+    "degree_t": 2,
+    "display": true,
+    "name": "circle_curve_9_points",
+    "nbi": 5,
+    "ncp": 9,
+    "knot_vector_t": [
+        0,
+        0,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        7,
+        7
+    ],
+    "knots_shown": true,
+    "latex": true,
+    "serialize": true,
+    "xticks": [
+        -1.5,
+        -1,
+        -0.5,
+        0,
+        0.5,
+        1,
+        1.5
+    ],
+    "yticks": [
+        -1.5,
+        -1,
+        -0.5,
+        0,
+        0.5,
+        1,
+        1.5
+    ]
+}

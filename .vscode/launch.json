@@ -20,7 +20,9 @@
                 "~/sibl/geo/data/bezier/circle-points.csv",
                 "--verbose",
                 "--degree",
-                "2"
+                "1",
+                "--bisections",
+                "1"
             ],
             "console": "integratedTerminal"
         },

@@ -17,6 +17,7 @@ import ptg.bspline_fit as bspfit
 
 """
 $ conda active siblenv
+$ cd ~/sibl/geo/src/ptg
 $ python view_bspline.py model_config.json
 e.g.
 $ python view_bspline.py ../../data/bspline/recover_bezier_linear.json

@@ -39,12 +39,29 @@ def data_from_input(db: Database) -> TripleSeries:
     return TripleSeries(x=tuple(data[:, 0]), y=tuple(data[:, 1]), z=tuple(data[:, 2]))
 
 
-def close_control_points(cpts: TripleSeries) -> TripleSeries:
+# def close_control_points(cpts: TripleSeries) -> TripleSeries:
+def periodic_control_points(*, cpts: TripleSeries, degree: int) -> TripleSeries:
     # repeat the first control point as the new last control point
+    # return TripleSeries(
+    #     x=cpts.x + tuple([cpts.x[0]]),
+    #     y=cpts.y + tuple([cpts.y[0]]),
+    #     z=cpts.z + tuple([cpts.z[0]]),
+    # )
+
+    # similar to an open b-spline with repeated knots, here we actual repeat the
+    # control points
+    # return TripleSeries(
+    #     x=tuple([cpts.x[-degree]]) + cpts.x + cpts.x[0:degree],
+    #     y=tuple([cpts.y[-degree]]) + cpts.y + cpts.y[0:degree],
+    #     z=tuple([cpts.z[-degree]]) + cpts.z + cpts.z[0:degree],
+    # )
+
+    # similar to an open b-spline with repeated knots, here we actual repeat the
+    # control points at the end of the original control points
     return TripleSeries(
-        x=cpts.x + tuple([cpts.x[0]]),
-        y=cpts.y + tuple([cpts.y[0]]),
-        z=cpts.z + tuple([cpts.z[0]]),
+        x=cpts.x + cpts.x[0:degree],
+        y=cpts.y + cpts.y[0:degree],
+        z=cpts.z + cpts.z[0:degree],
     )
 
 
@@ -90,9 +107,15 @@ def bspline_periodic(
     if verbose:
         print(f"number of elements: {num_elements}")
 
-    control_points_closed = close_control_points(control_points)
+    # control_points_closed = close_control_points(control_points)
+    control_points_periodic = periodic_control_points(
+        cpts=control_points, degree=degree
+    )
 
-    t = np.linspace(0, 1, 2 ** n_bisections + 1)
+    t_min, t_max = 0, 1
+    n_intervals = 2 ** n_bisections + 1
+    # t = np.linspace(0, 1, 2 ** n_bisections + 1)
+    t = np.linspace(t_min, t_max, n_intervals)
 
     if degree == 1:
         N0 = np.array(tuple(map(lambda t: (1.0 - t), t)))
@@ -102,21 +125,21 @@ def bspline_periodic(
             map(
                 lambda x0, x1: tuple(N0 * x0 + N1 * x1),
                 control_points.x,
-                control_points_closed.x[1:],
+                control_points_periodic.x[1:],
             )
         )
         eval_y = tuple(
             map(
                 lambda y0, y1: tuple(N0 * y0 + N1 * y1),
                 control_points.y,
-                control_points_closed.y[1:],
+                control_points_periodic.y[1:],
             )
         )
         eval_z = tuple(
             map(
                 lambda z0, z1: tuple(N0 * z0 + N1 * z1),
                 control_points.z,
-                control_points_closed.z[1:],
+                control_points_periodic.z[1:],
             )
         )
 
@@ -136,27 +159,36 @@ def bspline_periodic(
         eval_x = tuple(
             map(
                 lambda x0, x1, x2: tuple(N0 * x0 + N1 * x1 + N2 * x2),
-                control_points.x[::degree],
-                control_points.x[1:][::degree],
-                control_points_closed.x[2:][::degree],
+                # control_points.x[::degree],
+                control_points.x,
+                # control_points.x[1:][::degree],
+                control_points_periodic.x[1:],
+                # control_points_periodic.x[2:][::degree],
+                control_points_periodic.x[2:],
             )
         )
 
         eval_y = tuple(
             map(
                 lambda y0, y1, y2: tuple(N0 * y0 + N1 * y1 + N2 * y2),
-                control_points.y[::degree],
-                control_points.y[1:][::degree],
-                control_points_closed.y[2:][::degree],
+                # control_points.y[::degree],
+                control_points.y,
+                # control_points.y[1:][::degree],
+                control_points_periodic.y[1:],
+                # control_points_periodic.y[2:][::degree],
+                control_points_periodic.y[2:],
             )
         )
 
         eval_z = tuple(
             map(
                 lambda z0, z1, z2: tuple(N0 * z0 + N1 * z1 + N2 * z2),
-                control_points.z[::degree],
-                control_points.z[1:][::degree],
-                control_points_closed.z[2:][::degree],
+                # control_points.z[::degree],
+                control_points.z,
+                # control_points.z[1:][::degree],
+                control_points_periodic.z[1:],
+                # control_points_periodic.z[2:][::degree],
+                control_points_periodic.z[2:],
             )
         )
 

@@ -2,30 +2,46 @@
     "class": "curvefit",
     "control_points_shown": true,
     "degree_t": 2,
-    "display": false,
+    "display": true,
     "knots_shown": true,
     "latex": true,
-    "name": "circle_points_05",
+    "name": "circlefit_points_09",
     "nbi": 6,
     "samples": [
         [
-            4,
+            1,
             0
         ],
         [
-            0,
-            4
+            1,
+            1
         ],
         [
-            -4,
+            0,
+            1
+        ],
+        [
+            -1,
+            1
+        ],
+        [
+            -1,
             0
         ],
         [
-            0,
-            -4
+            -1,
+            -1
         ],
         [
-            4,
+            0,
+            -1
+        ],
+        [
+            1,
+            -1
+        ],
+        [
+            1,
             0
         ]
     ],
