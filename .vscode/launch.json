@@ -12,10 +12,10 @@
             "console": "integratedTerminal"
         },
         {
-            "name": "bspline periodic",
+            "name": "modified bezier",
             "type": "python",
             "request": "launch",
-            "program": "~/sibl/geo/src/ptg/bspline_periodic.py",
+            "program": "~/sibl/geo/src/ptg/modified_bezier.py",
             "args": [
                 "~/sibl/geo/data/bezier/circle-points.csv",
                 "--verbose",

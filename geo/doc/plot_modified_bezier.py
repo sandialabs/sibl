@@ -1,10 +1,10 @@
-"""This module tests creation of an eight-sided ring composed of eight linear
-periodic basis functions (p=1), composed of nine knots.
+"""This module tests creation of an eight-element ring generated from
+periodic modified (linear or quadratic) Bezier basis functions.
 
 Example (interactive):
-> cd ~/sibl/geo/tests
+> cd ~/sibl/geo/doc
 > conda activate siblenv
-> python plot_bspline_periodic.py
+> python plot_modified_bezier.py
 """
 
 import numpy as np
@@ -13,13 +13,12 @@ from matplotlib import rc
 from matplotlib.ticker import MultipleLocator
 from pathlib import Path
 
-import ptg.bspline_periodic as bspp
+import ptg.modified_bezier as mb
 
 display = True
 dpi = 100  # dots per inch
-latex = False
-n_bisections = 3  # 2^3 = 8 intervals
-serialize = False
+latex = True
+serialize = True
 
 colors = (
     "tab:blue",
@@ -39,19 +38,16 @@ if latex:
     rc("font", **{"family": "serif", "serif": ["Computer Modern Roman"]})
     rc("text", usetex=True)
 
-degree = 1  # linear
-# degree = 2  # quadratic
-
 local_path = "~/sibl/geo/data/bezier/circle-points.csv"
 a = Path(local_path)
 b = a.expanduser()
 c = str(b)
 
-x, y, z = bspp.bspline_periodic(
+x, y, z = mb.modified_bezier(
     control_points_file=c,
     verbose=True,
-    degree=2,
-    n_bisections=2,
+    degree=1,
+    n_bisections=1,
 )
 
 fig = plt.figure()
@@ -61,7 +57,7 @@ ax.grid(True, which="major", linestyle="-")
 ax.grid(True, which="minor", linestyle=":")
 
 # offset for element labels
-ox, oy = 0.1, 0.1
+ox, oy = 0.0, 0.0
 
 for i in np.arange(len(x)):
     # for i in np.arange(1):
@@ -70,7 +66,8 @@ for i in np.arange(len(x)):
     ax.plot(
         x[i],
         y[i],
-        "-o",
+        # "-o",
+        "-",
         linewidth=2,
         # color=colors[np.remainder(i, len(colors))],
         color=color,
@@ -110,3 +107,4 @@ if serialize:
     bstring = Path(__file__).stem + extension
     # fig.savefig(bstring, bbox_inches="tight")
     fig.savefig(bstring, bbox_inches="tight", pad_inches=0)
+    print(f"Serialized file to {bstring}")

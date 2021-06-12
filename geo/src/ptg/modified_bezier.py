@@ -1,11 +1,15 @@
 """This module creates a sequence of modified Bezier curves from 3D control points.
-The modified Bezier bases are recovered from the periodic B-spline bases.
+The modified Bezier bases are derived from the periodic B-spline bases.
 
 Example:
 > cd ~/sibl/geo/src/ptg
 > conda activate siblenv
-> python bspline_periodic.py --help
-> python bspline_periodic.py
+> python modified_bezier.py --help
+> python modified_bezier.py ../../data/bezier/circle-points.csv --verbose --degree 1 --bisections 1
+This is file 'modified_bezier.py'
+verbosity turned on
+processing input file: /Users/sparta/sibl/geo/data/bezier/circle-points.csv
+number of elements: 8
 """
 import argparse
 
@@ -39,7 +43,6 @@ def data_from_input(db: Database) -> TripleSeries:
     return TripleSeries(x=tuple(data[:, 0]), y=tuple(data[:, 1]), z=tuple(data[:, 2]))
 
 
-# def close_control_points(cpts: TripleSeries) -> TripleSeries:
 def periodic_control_points(*, cpts: TripleSeries, degree: int) -> TripleSeries:
     # repeat the first control point as the new last control point
     # return TripleSeries(
@@ -65,16 +68,43 @@ def periodic_control_points(*, cpts: TripleSeries, degree: int) -> TripleSeries:
     )
 
 
-def bspline_periodic(
+def modified_bezier(
     *, control_points_file: str, verbose: bool, degree: int, n_bisections: int
-):
+) -> Tuple:
+    """Creates a periodic modified Bezier curve evaluated between 0 and 1.
+
+    Args:
+        control_points_file (string): A fully pathed text file that contains a
+            comma-separated list of 3D control points.
+            For example, 'home/chovey/documents/points.csv' might contain three points:
+                # some comment, the first line of the .csv file is ignored
+                1.0, 0.0, 0.0
+                1.0, 1.0, 0.0
+                0.0, 1.0, 0.0
+        verbose (bool): prints additional information to the command line
+        degree (int): Bezier polynomial degree, currently limited to 1 or 2.
+        n_bisections (int): number bisections of parameter t interval [0, 1].
+            For example
+            n_bisections = 1 gives t = [0.0, 0.5, 1.0]
+            n_bisections = 2 gives t = [0.0, 0.25, 0.5, 0.75, 1.0]
+            ... and so on
+            Intervals are equidistant.  n_bisections must be greater or equal to 1.
+
+    Raises:
+        ValueError: If `degree` does not equal 1 or 2.
+        ValueError: If `n_bisections` < 1.
+    """
 
     if verbose:
         print("verbosity turned on")
 
-    assert degree in (1, 2), "Must be 1 or 2."
+    # assert degree in (1, 2), "Must be 1 or 2."
+    if degree not in (1, 2):
+        raise ValueError("Error: Degree must be 1 or 2.")
 
-    assert n_bisections >= 1, "Number of bisections must be >= 1."
+    # assert n_bisections >= 1, "Number of bisections must be >= 1."
+    if n_bisections < 1:
+        raise ValueError("Error: Number of bisections must be >= 1.")
 
     p = Path(control_points_file).resolve()
     if verbose:
@@ -84,26 +114,11 @@ def bspline_periodic(
 
     control_points = data_from_input(db)
 
-    # For periodic (non-open) linear (p=1) bases, number of valid controls points,
-    # assuming the first control point is repeated by this script as also the last
-    # control point, is (num_control_points, number_elements):
-    # (4, 4) a quad-shape
-    # (6, 6) a hex-shape
-    # (8, 8) an oct-shape, etc.
-
-    # For periodic (non-open) quadratic (p=2) bases, number of valid controls points,
-    # assuming the first control point is repeated by this script as also the last
-    # control point, is (num_control_points, number_elements):
-    # (4, 2) a snap-back curve
-    # (6, 3) a tri-shape
-    # (8, 4) a quad-shape
-    # (10, 5) a penta-shape
-    # (12, 6) a hex-shape, etc.
     assert len(control_points.x) == len(control_points.y) == len(control_points.z)
     assert len(control_points.x) % 2 == 0, "Number of control points must be even."
     assert len(control_points.x) >= 4, "Number of control points must be >= 4."
 
-    num_elements = int(len(control_points.x) / degree)
+    num_elements = len(control_points.x)
     if verbose:
         print(f"number of elements: {num_elements}")
 
@@ -114,7 +129,6 @@ def bspline_periodic(
 
     t_min, t_max = 0, 1
     n_intervals = 2 ** n_bisections + 1
-    # t = np.linspace(0, 1, 2 ** n_bisections + 1)
     t = np.linspace(t_min, t_max, n_intervals)
 
     if degree == 1:
@@ -145,7 +159,7 @@ def bspline_periodic(
 
     else:  # args.degree = 2
         # These are not the normal B-spline basis functions.  Rather, they are the
-        # periodic modified quadratic Bezier basis functions
+        # periodic modified quadratic Bezier basis functions.
         N0 = np.array(tuple(map(lambda t: 0.5 * (1.0 - t) ** 2, t)))  # $\hat{N}_0$
         N1 = np.array(
             tuple(
@@ -192,9 +206,7 @@ def bspline_periodic(
             )
         )
 
-    a = 4
-
-    return (eval_x, eval_y, eval_z)
+    return eval_x, eval_y, eval_z
 
 
 def main(argv):
@@ -235,7 +247,7 @@ def main(argv):
 
     args = parser.parse_args()
 
-    return bspline_periodic(
+    return modified_bezier(
         control_points_file=args.control_points_file,
         verbose=args.verbose,
         degree=args.degree,
