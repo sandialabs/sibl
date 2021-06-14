@@ -11,6 +11,7 @@ We initialize a circle around the astronaut's face and use the default boundary 
 
 1. Snakes: Active contour models. Kass, M.; Witkin, A.; Terzopoulos, D. International Journal of Computer Vision 1 (4): 321 (1988). DOI:10.1007/BF00133570
 """
+from pathlib import Path
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -18,10 +19,13 @@ from skimage.color import rgb2gray
 from skimage import data
 from skimage.filters import gaussian
 from skimage.segmentation import active_contour
-from skimage.draw import circle, circle_perimeter
+from skimage.draw import circle
+
+# from skimage.draw import circle_perimeter
 
 show_astro = True
-show_circle = True
+show_circle = False
+serialize = True
 
 if show_astro:
     img = (
@@ -82,28 +86,31 @@ if show_circle:
 
     # smooth image
     img[rr, cc] = 1  # perimeter mask
-    img_smoothed = gaussian(img, 3)
+    n_smoothings = 2
+    img_smoothed = gaussian(img, n_smoothings)
 
     # initialize spline
     s = np.linspace(0, 2 * np.pi, 100)
     # snake initialization is circle touching the outer border of the complete pixel snan
     init = 0.5 * n_pixels * np.array([np.sin(s), np.cos(s)]).T + 50
 
-    snake = active_contour(img_smoothed, init, w_edge=0, w_line=1, coordinates="rc")
-    fig2, axes = plt.subplots(
-        nrows=1, ncols=3, figsize=(12, 4), sharex=True, sharey=True
-    )
+    # snake = active_contour(img_smoothed, init, w_edge=0, w_line=1, coordinates="rc")
+    snake = active_contour(img_smoothed, init)
+    fig, axes = plt.subplots(nrows=1, ncols=3, figsize=(6, 2), sharex=True, sharey=True)
 
     ax = axes.ravel()
 
     ax[0].imshow(img, cmap=plt.cm.gray)
     ax[0].axis("image")
+    ax[0].set_title("original")
 
     ax[1].imshow(img_smoothed, cmap=plt.cm.gray)
     ax[1].axis("image")
+    ax[1].set_title("Gauss smoothings: " + str(n_smoothings))
 
     ax[2].imshow(img_smoothed, cmap=plt.cm.gray)
     ax[2].axis("image")
+    ax[2].set_title("snakes")
 
     ax[2].plot(
         init[:, 1], init[:, 0], linestyle="dashed", color="red", linewidth=3, alpha=0.7
@@ -117,4 +124,12 @@ if show_circle:
         alpha=0.7,
     )
 
+    fig.tight_layout()
     plt.show()
+
+if serialize:
+    extension = ".png"  # ".pdf"  # or '.svg'
+    bstring = Path(__file__).stem + extension
+    # fig.savefig(bstring, bbox_inches="tight")
+    fig.savefig(bstring, bbox_inches="tight", pad_inches=0)
+    print(f"Serialized file to {bstring}")
