@@ -15,10 +15,23 @@ from pathlib import Path
 
 import ptg.modified_bezier as mb
 
+# client input begin
+
 display = True
 dpi = 100  # dots per inch
-latex = True
-serialize = True
+latex = False
+serialize = False
+
+data = "~/sibl/geo/data/bezier/circle-points.csv"
+x_min, x_max = -1, 1
+y_min, y_max = -1, 1
+# data = "~/sibl/geo/data/bezier/sin_1_Hz_10_samples.csv"
+# x_min, x_max = -0.25, 2.25
+# y_min, y_max = -1, 1
+
+ox, oy = 0.0, 0.0  # offset for element labels
+
+# client input end
 
 colors = (
     "tab:blue",
@@ -32,14 +45,15 @@ colors = (
     "tab:olive",
     "tab:cyan",
 )
+
 linestyles = ("solid", "dashed", "dashdot")
 
 if latex:
     rc("font", **{"family": "serif", "serif": ["Computer Modern Roman"]})
     rc("text", usetex=True)
 
-local_path = "~/sibl/geo/data/bezier/circle-points.csv"
-a = Path(local_path)
+# data = "~/sibl/geo/data/bezier/circle-points.csv"
+a = Path(data)
 b = a.expanduser()
 c = str(b)
 
@@ -47,7 +61,7 @@ x, y, z = mb.modified_bezier(
     control_points_file=c,
     verbose=True,
     degree=1,
-    n_bisections=1,
+    n_bisections=5,
 )
 
 fig = plt.figure()
@@ -56,8 +70,6 @@ ax = fig.gca()
 ax.grid(True, which="major", linestyle="-")
 ax.grid(True, which="minor", linestyle=":")
 
-# offset for element labels
-ox, oy = 0.0, 0.0
 
 for i in np.arange(len(x)):
     # for i in np.arange(1):
@@ -89,8 +101,8 @@ ax.set_ylabel(r"$y$")
 # ax.legend(loc="upper right")
 
 _eps = 0.1
-ax.set_xlim([-1.0 - 2 * _eps, 1.0 + 2 * _eps])
-ax.set_ylim([-1.0 - 2 * _eps, 1.0 + 2 * _eps])
+ax.set_xlim([x_min - 2 * _eps, x_max + 2 * _eps])
+ax.set_ylim([y_min - 2 * _eps, y_max + 2 * _eps])
 
 ax.set_aspect("equal")
 
