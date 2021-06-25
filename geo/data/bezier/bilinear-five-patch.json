@@ -3,17 +3,17 @@
     "bezier-points-shown": true,
     "bezier-points-size": 3,
     "bezier-type": "surface",
-    "#camera-elevation": 85,
     "camera-elevation": 90,
-    "#camera-azimuth": -15,
     "camera-azimuth": -90,
-    "control-nets": "bilinear-three-patch-control-nets.csv",
+    "control-nets": "bilinear-five-patch-control-nets.csv",
     "control-nets-shown": [
         0,
         1,
-        2
+        2,
+        3,
+        4
     ],
-    "control-points": "bilinear-three-patch-control-points.csv",
+    "control-points": "bilinear-five-patch-control-points.csv",
     "control-points-label": true,
     "control-points-path": true,
     "control-points-shown": true,
@@ -23,31 +23,38 @@
     "serialize": true,
     "surface-triangulation": true,
     "triangulation-alpha": 0.5,
+    "xlabel": "x",
+    "ylabel": "y",
+    "zlabel": "",
     "xlim": [
         0,
-        20
+        30
     ],
     "ylim": [
         0,
-        20
+        30
     ],
     "zlim": [
         0,
-        20
+        30
     ],
     "xticks": [
         0,
         5,
         10,
         15,
-        20
+        20,
+        25,
+        30
     ],
     "yticks": [
         0,
         5,
         10,
         15,
-        20
+        20,
+        25,
+        30
     ],
     "zticks": [
         0

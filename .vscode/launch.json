@@ -169,12 +169,12 @@
             "console": "integratedTerminal"
         },
         {
-            "name": "bilinear-three-patch",
+            "name": "bilinear-five-patch",
             "type": "python",
             "request": "launch",
             "program": "~/sibl/geo/src/ptg/view_bezier.py",
             "args": [
-                "~/sibl/geo/data/bezier/bilinear-three-patch.json",
+                "~/sibl/geo/data/bezier/bilinear-five-patch.json",
                 "--verbose"
             ],
             "console": "integratedTerminal"
