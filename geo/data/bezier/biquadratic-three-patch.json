@@ -14,15 +14,18 @@
         2
     ],
     "control-points": "biquadratic-three-patch-control-points.csv",
-    "control-points-label": false,
+    "control-points-label": true,
     "control-points-path": false,
-    "control-points-shown": false,
+    "control-points-shown": true,
     "data-path": ".",
     "interactive": true,
     "nti_divisions": 2,
     "serialize": true,
     "surface-triangulation": true,
     "triangulation-alpha": 0.8,
+    "xlabel": "x",
+    "ylabel": "y",
+    "zlabel": "",
     "xlim": [
         0,
         20
