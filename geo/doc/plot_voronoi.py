@@ -18,9 +18,20 @@ from scipy.spatial import Voronoi, voronoi_plot_2d
 # )
 # seeds = ((0, 0), (0.5, 0), (1, 0), (0, 0.5), (0.5, 0.5), (0, 1), (1, 1))
 a = 0.5
+h = 0.5 * np.sqrt(2.0)
+i = 1.25
 b = a * np.sqrt(2.0) / 2.0
 # seeds = ((0, 0), (a, 0), (2 * a, 0), (0, a), (a, a), (0, 2 * a), (2 * a, 2 * a))
-seeds = ((0, 0), (a, 0), (2 * a, 0), (0, a), (b, b), (0, 2 * a), (2 * b, 2 * b))
+# seeds = ((0, 0), (a, 0), (2 * a, 0), (0, a), (b, b), (0, 2 * a), (2 * b, 2 * b))
+seeds = (
+    (0, 0),
+    (a, 0),
+    (0, a),
+    (h * i * a, h * i * a),
+    (2 * a, 0),
+    (0, 2 * a),
+    (2 * h * a, 2 * h * a),
+)
 
 vor = Voronoi(seeds)
 fig = voronoi_plot_2d(vor)

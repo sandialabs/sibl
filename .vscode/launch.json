@@ -169,6 +169,28 @@
             "console": "integratedTerminal"
         },
         {
+            "name": "bilinear-three-patch",
+            "type": "python",
+            "request": "launch",
+            "program": "~/sibl/geo/src/ptg/view_bezier.py",
+            "args": [
+                "~/sibl/geo/data/bezier/bilinear-three-patch.json",
+                "--verbose"
+            ],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "biquadratic-three-patch",
+            "type": "python",
+            "request": "launch",
+            "program": "~/sibl/geo/src/ptg/view_bezier.py",
+            "args": [
+                "~/sibl/geo/data/bezier/biquadratic-three-patch.json",
+                "--verbose"
+            ],
+            "console": "integratedTerminal"
+        },
+        {
             "name": "trilinear",
             "type": "python",
             "request": "launch",

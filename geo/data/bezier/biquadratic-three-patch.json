@@ -1,0 +1,55 @@
+{
+    "bezier-lines-shown": false,
+    "bezier-points-shown": true,
+    "bezier-points-size": 3,
+    "bezier-type": "surface",
+    "#camera-elevation": 85,
+    "camera-elevation": 90,
+    "#camera-azimuth": -15,
+    "camera-azimuth": -90,
+    "control-nets": "biquadratic-three-patch-control-nets.csv",
+    "control-nets-shown": [
+        0,
+        1,
+        2
+    ],
+    "control-points": "biquadratic-three-patch-control-points.csv",
+    "control-points-label": false,
+    "control-points-path": false,
+    "control-points-shown": false,
+    "data-path": ".",
+    "interactive": true,
+    "nti_divisions": 2,
+    "serialize": true,
+    "surface-triangulation": true,
+    "triangulation-alpha": 0.8,
+    "xlim": [
+        0,
+        20
+    ],
+    "ylim": [
+        0,
+        20
+    ],
+    "zlim": [
+        0,
+        20
+    ],
+    "xticks": [
+        0,
+        5,
+        10,
+        15,
+        20
+    ],
+    "yticks": [
+        0,
+        5,
+        10,
+        15,
+        20
+    ],
+    "zticks": [
+        0
+    ]
+}

@@ -4,10 +4,28 @@ from matplotlib import rc
 from matplotlib.ticker import MultipleLocator
 from pathlib import Path
 
-DISPLAY = False
+DISPLAY = True
 LATEX = 0
-SERIALIZE = True
-N_SMOOTHS = 20
+SERIALIZE = False
+N_SMOOTHS = 0
+
+ox, oy = 0.0, 0.0  # offset for element labels
+
+colors = (
+    "tab:blue",
+    "tab:orange",
+    "tab:green",
+    "tab:red",
+    "tab:purple",
+    "tab:brown",
+    "tab:pink",
+    "tab:gray",
+    "tab:olive",
+    "tab:cyan",
+)
+
+linestyles = ("solid", "dashed", "dashdot")
+
 
 if LATEX:
     rc("font", **{"family": "serif", "serif": ["Computer Modern Roman"]})
@@ -24,9 +42,18 @@ def periodic_smooth(xs: tuple) -> tuple:
 x0, y0 = 0.0, 0.0  # center of circle
 r = 5.0  # radius
 
-t = np.linspace(0.0, 2.0 * np.pi, 60)
+n_elements = 16
+t = np.linspace(0.0, 2.0 * np.pi, n_elements + 1)
+t = t[:-1]  # drop the last t because we make the elements periodic below
 xs = x0 + r * np.cos(t)
 ys = y0 + r * np.sin(t)
+
+nodes = np.transpose([xs, ys])
+elements = [(i, i + 1) for i in range(len(nodes) - 1)] + [
+    (len(nodes) - 1, 0)
+]  # periodic
+
+grid_size = 2.0  # characteristic grid side length
 
 fence = (
     (5, 0),
@@ -78,12 +105,34 @@ for smooth in range(N_SMOOTHS + 1):
     fig = plt.figure(figsize=(4, 4))
     ax = fig.gca()
     # ax.grid()
-    ax.plot(
-        xs,
-        ys,
-        "-",
-        linewidth=2,
-    )
+    # ax.plot(
+    #     xs,
+    #     ys,
+    #     "-",
+    #     linewidth=2,
+    # )
+
+    for e, element in enumerate(elements):
+        print(f"element {e}")
+        color = colors[np.remainder(e, len(colors))]
+        xs_e = [nodes[n, 0] for n in element]
+        ys_e = [nodes[n, 1] for n in element]
+        ax.plot(
+            xs_e,
+            ys_e,
+            linewidth=2,
+            color=color,
+            linestyle=linestyles[np.remainder(e, len(linestyles))],
+        )
+        # draw in elements as an element number with a circle
+        ax.annotate(
+            str(e),
+            xy=(np.average(xs_e) + ox, np.average(ys_e) + oy),
+            xycoords="data",
+            bbox={"boxstyle": "circle", "color": color, "alpha": 0.2},
+            horizontalalignment="center",
+            verticalalignment="center",
+        )
 
     ax.plot(xsf, ysf, "o-", linewidth=1, color="red", alpha=0.5)
 
@@ -103,9 +152,9 @@ for smooth in range(N_SMOOTHS + 1):
     ax.set_aspect("equal")
 
     ax.xaxis.set_major_locator(MultipleLocator(1.0))
-    ax.xaxis.set_minor_locator(MultipleLocator(0.5))
+    # ax.xaxis.set_minor_locator(MultipleLocator(0.5))
     ax.yaxis.set_major_locator(MultipleLocator(1.0))
-    ax.yaxis.set_minor_locator(MultipleLocator(0.5))
+    # ax.yaxis.set_minor_locator(MultipleLocator(0.5))
 
     if DISPLAY:
         plt.show()

@@ -228,7 +228,10 @@ class ViewBezier:
                 print(f"Number of control nets: {n_nets}")
                 print(f"Number of control points per net: {n_cp}")
 
-        ax = plt.axes(projection="3d")
+        fig = plt.figure(figsize=plt.figaspect(1.0), dpi=100)
+        # fig = plt.figure(figsize=(6.5, 3.25), dpi=DPI)
+        ax = fig.gca(projection="3d")
+        # ax = plt.axes(projection="3d")
         # ax.plot3D(cp_x, cp_y, cp_z)
         # ax.scatter3D(cp_x, cp_y, cp_z, edgecolor="blue",
         #              facecolor=(0, 0, 0, 0), s=10)
@@ -501,8 +504,8 @@ class ViewBezier:
         # ax.set_box_aspect([1, 1, 1])
         # ax.set_proj_type('ortho') # optional - default is perspective (shown in image above)
         # set_axes_equal(ax) # IMPORTANT - this is also required
-        fig = plt.gcf()
-        fig.set_size_inches(5, 5)
+        # fig = plt.gcf()
+        # fig.set_size_inches(5, 5)
         # ax.set_box_aspect(1)
 
         if xlim:
