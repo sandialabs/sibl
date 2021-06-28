@@ -27,6 +27,8 @@
 ![biquadratic-five-patch.png](fig/biquadratic-five-patch.png)
 ![B(p=2)_1_2.png](fig/B(p=2)_1_2.png)
 
+![Livesu_2021_scaled_jacobian_valence.png](fig/Livesu_2021_scaled_jacobian_valence.png)
+
 ## Curvature Mapping
 
 ![bspline_surface_biquad2tri_animation_opt.gif](fig/bspline_surface_biquad2tri_animation_opt.gif)
