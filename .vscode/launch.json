@@ -180,12 +180,12 @@
             "console": "integratedTerminal"
         },
         {
-            "name": "biquadratic-three-patch",
+            "name": "biquadratic-five-patch",
             "type": "python",
             "request": "launch",
             "program": "~/sibl/geo/src/ptg/view_bezier.py",
             "args": [
-                "~/sibl/geo/data/bezier/biquadratic-three-patch.json",
+                "~/sibl/geo/data/bezier/biquadratic-five-patch.json",
                 "--verbose"
             ],
             "console": "integratedTerminal"

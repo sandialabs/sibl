@@ -1,5 +1,5 @@
 {
-    "bezier-lines-shown": true,
+    "bezier-lines-shown": false,
     "bezier-points-shown": true,
     "bezier-points-size": 3,
     "bezier-type": "surface",
@@ -11,11 +11,12 @@
         1,
         2,
         3,
-        4
+        4,
+        5
     ],
     "control-points": "bilinear-five-patch-control-points.csv",
     "control-points-label": true,
-    "control-points-path": true,
+    "control-points-path": false,
     "control-points-shown": true,
     "data-path": ".",
     "interactive": true,
