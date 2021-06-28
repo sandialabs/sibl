@@ -1,5 +1,7 @@
 # unit test PTM
 
+![ptm_ptg_workflow.png](fig/ptm_ptg_workflow.png)
+
 ## pixel sea (stacked layers)
 
 ![ptm-001-image.png](fig/ptm-001-image.png)

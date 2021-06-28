@@ -27,7 +27,7 @@ The mathematical development used in the library is contained in two documents:
 | ![geo/doc/gezier/bezier_cover_page.png](geo/doc/bezier/bezier_cover_page.png) | ![geo/doc/bspline_cover_page.png](geo/doc/bspline/bspline_cover_page.png) |
 | 69 pages, 2.8 MB | 88 pages, 823 kB |
 
-The examples and validations presented in the documents are all created with the *SIBL Geometry Engine*, connecting theory with implementation.
+The examples and validations presented in the documents are all created with the *SIBL Geometry Engine*, connecting theory with implementation.  The *Geometry Engine* is a fundamental part of the Pixel to Mesh and Pixel to Geometry (PTM/PTG) [workflows](geo/doc/unit-test-ptm.md).
 
 This repository also contains documentation for the [xyfigure](cli/doc/README.md) and [tpav](cli/tests/tpav/README.md) implementations.
 
