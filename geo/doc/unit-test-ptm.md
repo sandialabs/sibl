@@ -28,6 +28,7 @@
 ![B(p=2)_1_2.png](fig/B(p=2)_1_2.png)
 
 ![Livesu_2021_scaled_jacobian_valence.png](fig/Livesu_2021_scaled_jacobian_valence.png)
+> *Livesu 2021: Optimal Dual Schemes for Adaptive Grid Based Hexmeshing*
 
 ## Curvature Mapping
 
@@ -50,11 +51,9 @@
 
 ![Livesu_2017_skeleton_mesh.png](fig/Livesu_2017_skeleton_mesh.png)
 
-
 > *Livesu 2017: Explicit Cylindrical Maps for General Tubular Shapes*
 
 ## *Alternative*
 
 ![Livesu_2021_adaptive_grid_hex.png](fig/Livesu_2021_adaptive_grid_hex.png)
 > *Livesu 2021: Optimal Dual Schemes for Adaptive Grid Based Hexmeshing*
-
