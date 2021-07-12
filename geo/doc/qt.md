@@ -2,6 +2,8 @@
 
 ## Install
 
+*2021-07-10*
+
 * Install the *Qt Open Source* version of [Qt](https://www.qt.io/download) via the [Qt Online Installer](https://www.qt.io/download-qt-installer).
   * Downloads to `~/Downloads/qt-unified-macOS-x64-4.1.1-online.dmg` (13.2 MB).
     * Installation dialog box: "You need to install Xcode and set up Xcode command line tools. Download Xcode from https://developer.apple.com".
@@ -93,4 +95,30 @@ make: Nothing to be done for `qmake_all'.
 /Library/Developer/CommandLineTools/usr/bin/clang++ -stdlib=libc++ -headerpad_max_install_names  -arch x86_64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -mmacosx-version-min=10.14 -Wl,-rpath,@executable_path/../Frameworks -Wl,-rpath,/Users/sparta/Qt/6.1.2/macos/lib -o demo.app/Contents/MacOS/demo main.o dialog.o moc_dialog.o   -F/Users/sparta/Qt/6.1.2/macos/lib -framework QtWidgets -framework QtGui -framework AppKit -framework ImageIO -framework Metal -framework QtCore -framework DiskArbitration -framework IOKit -framework AGL -framework OpenGL   
 13:06:30: The process "/usr/bin/make" exited normally.
 13:06:30: Elapsed time: 00:03.
+```
+
+*2021-07-11*
+
+For compatibility with **Cinolib**, uninstall Qt version 6 and install 5 instead.
+
+From `/Users/sparta/Qt/` launch the `MaintenanceTool.app`, select `Uninstall only`.  Confirmed once uninstalled finished, the `/Users/sparta/Qt` folder is non-existent.
+
+Again, launch `~/Downloads/qt-unified-macOS-x64-4.1.1-online.dmg` and select verion 5.15.2.  [Instal notes](https://doc.qt.io/qt-5/build-sources.html).
+
+Qt install directory: `/Users/sparta/Qt` (installs approximately 3.63 GB).
+
+
+![qt_install_010.png](fig/qt_install_010.png)
+![qt_install_011.png](fig/qt_install_011.png)
+![qt_install_012.png](fig/qt_install_012.png)
+
+```bash
+> ~/c/e/01_base_app_trimesh on master ⨯ ~/Qt/5.15.2/clang_64/bin/qmake CONFIG+=skd_no_version_check .
+> make -j4
+
+error: member initializer 'QGLWidget' does not name a non-static data member or base class
+
+GLcanvas::GLcanvas(QWidget *parent) : QGLWidget(parent)
+                                      ^~~~~~~~~~~~~~~~~
+
 ```

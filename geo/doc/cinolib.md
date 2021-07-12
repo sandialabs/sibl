@@ -5,6 +5,8 @@
 
 ## Install
 
+*2021-07-10* 
+
 Following the cinolab [instructions](https://github.com/mlivesu/cinolib#usage),
 
 ```bash
@@ -37,7 +39,7 @@ Submodule path 'external/graph_cut': checked out '66376566852b704a0e57bf49dcac74
 
 > *Qt Creator is a cross-platform integrated development environment (IDE) built for the maximum developer experience. Qt Creator runs on Windows, Linux, and macOS desktop operating systems, and allows developers to create applications across desktop, mobile, and embedded platforms.*
 
-* See the internal [Qt page](qt.md) to install cinlab's dependencies on Qt.
+* See the [internal Qt page](qt.md) to install cinlab's dependencies on Qt.
 
 ## Run
 
@@ -69,5 +71,59 @@ make: *** [main.o] Error 1
 Error while building/deploying project 01_base_app_trimesh (kit: Qt 6.1.2 for macOS)
 When executing step "Make"
 12:22:44: Elapsed time: 00:02.
-
 ```
+
+The original `01_base_app_trimesh.pro` file:
+
+```bash
+
+TEMPLATE        = app
+TARGET          = $$PWD/../01_base_app_trimesh_demo
+QT             += core opengl
+CONFIG         += c++11 release
+CONFIG         -= app_bundle
+INCLUDEPATH    += $$PWD/../../external/eigen
+INCLUDEPATH    += $$PWD/../../include
+DEFINES        += CINOLIB_USES_OPENGL
+DEFINES        += CINOLIB_USES_QT
+QMAKE_CXXFLAGS += -Wno-deprecated-declarations # gluQuadric gluSphere and gluCylinde are deprecated in macOS 10.9
+DATA_PATH       = \\\"$$PWD/../data/\\\"
+DEFINES        += DATA_PATH=$$DATA_PATH
+SOURCES        += main.cpp
+
+# just for Linux
+unix:!macx {
+DEFINES += GL_GLEXT_PROTOTYPES
+LIBS    += -lGLU
+}
+```
+
+*2021-07-11*
+
+From the [QApplication](https://doc.qt.io/qt-6/qapplication.html) class docs, `qmake` must include `+=widgets`, so update the `01_base_app_trimesh.pro` `QT` line to be
+
+```bash
+QT             += core opengl widgets
+```
+
+Great!  Now we pass the `<QApplication>` error, but get this `<QGLWidget>` error:
+
+```bash
+/Users/sparta/cinolib/include/cinolib/textures/textures.cpp:55: error: 'QGLWidget' file not found
+In file included from ../01_base_app_trimesh/main.cpp:13:
+In file included from ../../include/cinolib/meshes/meshes.h:43:
+In file included from ../../include/cinolib/meshes/drawable_trimesh.h:42:
+In file included from ../../include/cinolib/meshes/abstract_drawable_polygonmesh.h:43:
+In file included from ../../include/cinolib/gl/draw_lines_tris.h:54:
+In file included from ../../include/cinolib/textures/textures.h:141:
+../../include/cinolib/textures/textures.cpp:55:10: fatal error: 'QGLWidget' file not found
+#include <QGLWidget>
+         ^~~~~~~~~~~
+```
+
+The `QGLWidget` does not appear in the Qt 6 documentation, but it does appear in the Qt 5.15 documentation [here](https://doc.qt.io/qt-5/qglwidget.html), and from [this](https://doc.qt.io/qt-6/opengl-changes-qt6.html)
+
+Within `textures.cpp` which `#include <QGLWidget>`, line 230 shows `QImage img = QGLWidget::convertToGLFormat(QImage(bitmap));`, with Qt [doc](https://doc.qt.io/qt-5/qglwidget.html#convertToGLFormat).
+Who might provide `convertToGLFormat` in Qt 6?
+
+* Think easier path is to uninstall Qt 6 (version 6.1.2, and version 6.1.1 was just recently released on 2021-06-07, see [note](https://www.qt.io/blog/qt-6.1.1-released)) and then install Qt 5 (version 5.15), as I think Qt compatibility with cinolib is a very large undertaking, beyond scope of current investigation.
