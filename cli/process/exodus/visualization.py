@@ -25,12 +25,13 @@ sns.set(style="white", color_codes=True)
 EXEMPLAR = 0  # turn on or off the exemplar problem
 TEST = 0  # turn on or off Bob test with small data set
 TRANSLATION = (
-    0  # turns on or off translational case (Bob-063f), else does rotation (Bob-066b)
+    1  # turns on or off translational case (Bob-063f), else does rotation (Bob-066b)
 )
 INJURY_0 = 0  # turn on or off cellular injury curve, original
 INJURY_1 = 1  # updated Summey injury curves
 FIG_NAME = os.path.basename(__file__).split(".")[0]  # remove the .py extension
-FIG_FORMAT = "pdf"  # "pdf" or "png"
+FIG_FORMAT = "png"  # "pdf" or "png", but "tiff" doesn't look good
+DPI = 600
 LATEX = 1
 SERIALIZE = 1  # turn on or off write figure to disk
 
@@ -418,5 +419,5 @@ else:
 
 if SERIALIZE:
     title_string = FIG_NAME + "_" + axis_txt + "." + FIG_FORMAT
-    g.savefig(title_string, dpi=100)
+    g.savefig(title_string, dpi=DPI, bbox_inches="tight")  # avoid cutoff of labels
     print("Figure was saved to: " + os.path.join(os.getcwd(), title_string))

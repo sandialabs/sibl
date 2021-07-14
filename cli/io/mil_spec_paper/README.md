@@ -14,3 +14,10 @@ Following are notes for production-ready figures.
 ```
 
 ## Strain and Strain Rate Point Cloud
+
+```bash
+> cd ~/sibl/cli/process/exodus
+> conda activate siblenv
+> vim visualization.py  # edit as necessary
+> python visualization.py
+```
