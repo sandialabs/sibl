@@ -25,7 +25,7 @@ sns.set(style="white", color_codes=True)
 EXEMPLAR = 0  # turn on or off the exemplar problem
 TEST = 0  # turn on or off Bob test with small data set
 TRANSLATION = (
-    1  # turns on or off translational case (Bob-063f), else does rotation (Bob-066b)
+    0  # turns on or off translational case (Bob-063f), else does rotation (Bob-066b)
 )
 INJURY_0 = 0  # turn on or off cellular injury curve, original
 INJURY_1 = 1  # updated Summey injury curves
@@ -62,6 +62,12 @@ plt.rc("legend", fontsize=BIG_SIZE)  # legend fontsize
 # plt.rc("figure", titlesize=BIGGER_SIZE)  # fontsize of the figure title
 
 
+def cell_death_strain_rate_to_strain(x):
+    # The Summey cell death curve used for production-ready figures
+    y_cell_death = 0.128 * x ** (-0.156)
+    return y_cell_death
+
+
 # Exemplar joint distribution plot - begin
 if EXEMPLAR:
     tips = sns.load_dataset("tips")
@@ -91,16 +97,16 @@ if EXEMPLAR:
     plt.ylabel("tip")
 
     plt.show()
-    ## Exemplar joint distribution plot - end
+    # Exemplar joint distribution plot - end
 
 else:
 
-    ## -------------------------------- ##
-    ## Client application initializaton - begin
+    # -------------------------------- ##
+    # Client application initializaton - begin
     script_pth = os.getcwd()
 
-    ## Client application initializaton - end
-    ## -------------------------------- ##
+    # Client application initializaton - end
+    # -------------------------------- ##
 
     if TEST:
         simulation_path = "."  # here, in same location as visualization.py
@@ -163,7 +169,7 @@ else:
             }
 
             # axis_txt = f'time = {probes["time"][idx]*1000:.3f} ms (Bob-063f)'
-            axis_txt = f'time = {probes["time"][idx]*1000:.3f} ms'
+            axis_txt = f'time = {probes["time"][idx]*1000:.2f} ms'
 
             strain_files = [
                 [
@@ -209,7 +215,7 @@ else:
             }
 
             # axis_txt = f'time = {probes["time"][idx]*1000:.3f} ms (Bob-066b)'
-            axis_txt = f'time = {probes["time"][idx]*1000:.3f} ms'
+            axis_txt = f'time = {probes["time"][idx]*1000:.1f} ms'
 
             strain_files = [
                 ["max_principal_green_lagrange_strain_ts_43.csv"],
@@ -264,7 +270,11 @@ else:
     g.ax_joint.set_ylim([-0.02, 0.10])
 
     # g.ax_joint.text(0.02, 0.09, axis_txt, ha='left', va='bottom', bbox=bbox_props)
-    g.ax_joint.text(0.02, -0.015, axis_txt, ha="left", va="bottom", bbox=bbox_props)
+    time_label_x = 0.02  # strain rate
+    time_label_y = -0.015  # strain
+    g.ax_joint.text(
+        time_label_x, time_label_y, axis_txt, ha="left", va="bottom", bbox=bbox_props
+    )
 
     # draw 95th percentile boundaries
     line_prop = dict(color="orange", linewidth=1)
@@ -282,12 +292,17 @@ else:
         [strain_rate_095th, strain_rate_095th], [y0_log_sr, y1_log_sr], **line_prop
     )
     # marginal strain rate text
-    strain_rate_txt = r" 95\% = " + str(round(strain_rate_095th, 1))
+    if TRANSLATION:
+        # strain_rate_txt = r" 95\% = " + str(round(strain_rate_095th, 1))  # 26.6
+        strain_rate_txt = "{:.{}f}".format(strain_rate_095th, 1)  # 26.6
+    else:  # then rotation
+        # strain_rate_txt = r" 95\% = " + str(round(strain_rate_095th, 2))  # 5.2, not 5.20 as desired
+        strain_rate_txt = "{:.{}f}".format(strain_rate_095th, 2)  # 5.20
     # g.ax_marg_x.text(strain_rate_095th, (y0_log_sr + y1_log_sr) / 2.0, ' 95% = ' + str(round(strain_rate_095th, 1)), ha='left', va='bottom')
     g.ax_marg_x.text(
         strain_rate_095th,
         (y0_log_sr + y1_log_sr) / 2.0,
-        strain_rate_txt,
+        r" 95\% = " + strain_rate_txt,
         ha="left",
         va="bottom",
     )
@@ -296,11 +311,18 @@ else:
     x0_strain, x1_strain = g.ax_marg_y.get_xlim()
     g.ax_marg_y.plot([x0_strain, x1_strain], [strain_095th, strain_095th], **line_prop)
     # marginal strain text
-    strain_txt = r"95\% = " + str(round(strain_095th, 4))
+    if TRANSLATION:
+        # strain_txt = r"95\% = " + str(round(strain_095th, 4))  # 0.0130
+        strain_txt = "{:.{}f}".format(strain_095th, 4)  # 0.0130
+    else:  # then rotation
+        # strain_txt = r"95\% = " + str(round(strain_095th, 4))  # 0.0564
+        strain_txt = "{:.{}f}".format(strain_095th, 4)  # 0.0564
+
     g.ax_marg_y.text(
         (x0_strain + x1_strain) / 2.0,
         strain_095th,
-        strain_txt,
+        # strain_txt,
+        r" 95\% = " + strain_txt,
         ha="center",
         va="bottom",
     )
@@ -312,8 +334,10 @@ else:
     # g.ax_marg_x.grid(color="green", axis="x")
     # g.ax_marg_y.grid(color="gray", axis="y")
 
-    plt.xlabel("max(eig(GL strain rate)) (1/s)")
-    plt.ylabel("max(eig(GL strain)) (cm/cm)")
+    # plt.xlabel("max(eig(GL strain rate)) (1/s)")
+    plt.xlabel("maximum principal strain rate (1/s)")
+    # plt.ylabel("max(eig(GL strain)) (cm/cm)")
+    plt.ylabel("maximum principal strain (cm/cm)")
 
     if INJURY_0 or INJURY_1:
         exp_min = -2  # x-domain minimum 10^exp_min
@@ -344,7 +368,9 @@ else:
             g.ax_joint.legend(loc="upper right")
 
         if INJURY_1:
-            y_cell_death = 0.128 * x ** (-0.156)
+            # y_cell_death = 0.128 * x ** (-0.156)
+            y_cell_death = cell_death_strain_rate_to_strain(x)
+
             g.ax_joint.plot(
                 x,
                 y_cell_death,
@@ -355,6 +381,38 @@ else:
                 label="cell death",
             )
             g.ax_joint.legend(loc="upper right")
+
+            x_intercept = probes["strain_rate_p95"][idx]  # strain rate 10^x
+            y_intercept = cell_death_strain_rate_to_strain(x_intercept)  # strain
+            y_intercept_txt = "{:.{}f}".format(
+                y_intercept, 4
+            )  # 0.0767 trans, 0.0990 for rot
+            x_offset = 0  # strain rate
+            y_offset = 0.005  # strain
+
+            # strain_rate_txt = r" 95\% = " + str(round(strain_rate_095th, 1))
+            # intercept_txt = f"( {x_intercept}, {y_intercept})"
+            intercept_txt = "(" + strain_rate_txt + ", " + y_intercept_txt + ")"
+            # intercept_txt = "(x, y)"
+            # g.ax_joint.text(0.02, -0.015, axis_txt, ha="left", va="bottom", bbox=bbox_props)
+            # g.ax_joint.annotate(
+            #     intercept_txt,
+            #     xy=(x_intercept, y_intercept),
+            #     xycoords="data",
+            #     xytext=(x_intercept + x_offset, y_intercept + y_offset),
+            # )
+            intercept_label_x = time_label_x  # strain rate
+            intercept_label_y = 0.08  # strain
+            g.ax_joint.annotate(
+                intercept_txt,
+                xy=(x_intercept, y_intercept),
+                xycoords="data",
+                xytext=(intercept_label_x + x_offset, intercept_label_y + y_offset),
+                # arrowprops=dict(facecolor="black", arrowstyle="->"),
+                arrowprops=dict(facecolor="black", arrowstyle="simple"),
+                horizontalalignment="left",
+                verticalalignment="top",
+            )
 
     plt.show()
 
