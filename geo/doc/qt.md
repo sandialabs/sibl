@@ -2,7 +2,7 @@
 
 ## Install
 
-*2021-07-10*
+### *2021-07-10*
 
 * Install the *Qt Open Source* version of [Qt](https://www.qt.io/download) via the [Qt Online Installer](https://www.qt.io/download-qt-installer).
   * Downloads to `~/Downloads/qt-unified-macOS-x64-4.1.1-online.dmg` (13.2 MB).
@@ -97,7 +97,7 @@ make: Nothing to be done for `qmake_all'.
 13:06:30: Elapsed time: 00:03.
 ```
 
-*2021-07-11*
+### *2021-07-11*
 
 For compatibility with **Cinolib**, uninstall Qt version 6 and install 5 instead.
 
@@ -120,5 +120,24 @@ error: member initializer 'QGLWidget' does not name a non-static data member or 
 
 GLcanvas::GLcanvas(QWidget *parent) : QGLWidget(parent)
                                       ^~~~~~~~~~~~~~~~~
-
 ```
+
+### *2021-07-17*
+
+Suspicous I am lacking GL code.  
+
+* From Marco Livesu's [note](http://www.informit.com/articles/article.aspx?p=1405557&seqNum=2) on [line 111](https://github.com/mlivesu/cinolib/blob/e88d8bec10ca2210d920fbc042b56333dcd0c4a4/include/cinolib/gui/qt/glcanvas.cpp#L111) of `GLCanvas::initializeGL`, seems we are mixing both `QPainter` and native GL.  
+* The `GLCanvas` that inherits from `QGLCanvas` is must be lacking a non-static data member or base class.  
+* The installation record shows no check marks by the `Qt 3D Studio OpenGL Runtime...`
+* Try clean uninstall and then reinstall.  Appears the Qt 3D Studio is available only for version 5.15.1 but not 5.15.2.
+  * From `/Users/sparta/Qt/` launch the `MaintenanceTool.app`, select `Uninstall only`.  Confirmed once uninstalled finished, the `/Users/sparta/Qt` folder is non-existent
+
+Finally, success with `01_base_app_trimesh.pro` on `/Users/sparta/cinolib/examples/01_base_app_trimesh/`.
+
+![qt_install_013.png](fig/qt_install_013.png)
+![qt_install_014.png](fig/qt_install_014.png)
+![qt_install_015.png](fig/qt_install_015.png)
+![qt_install_016.png](fig/qt_install_016.png)
+![qt_install_017.png](fig/qt_install_017.png)
+![qt_install_018.png](fig/qt_install_018.png)
+![qt_install_019.png](fig/qt_install_019.png)

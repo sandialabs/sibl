@@ -5,7 +5,7 @@
 
 ## Install
 
-*2021-07-10* 
+### *2021-07-10* 
 
 Following the cinolab [instructions](https://github.com/mlivesu/cinolib#usage),
 
@@ -98,7 +98,7 @@ LIBS    += -lGLU
 }
 ```
 
-*2021-07-11*
+### *2021-07-11*
 
 From the [QApplication](https://doc.qt.io/qt-6/qapplication.html) class docs, `qmake` must include `+=widgets`, so update the `01_base_app_trimesh.pro` `QT` line to be
 
@@ -127,3 +127,38 @@ Within `textures.cpp` which `#include <QGLWidget>`, line 230 shows `QImage img =
 Who might provide `convertToGLFormat` in Qt 6?
 
 * Think easier path is to uninstall Qt 6 (version 6.1.2, and version 6.1.1 was just recently released on 2021-06-07, see [note](https://www.qt.io/blog/qt-6.1.1-released)) and then install Qt 5 (version 5.15), as I think Qt compatibility with cinolib is a very large undertaking, beyond scope of current investigation.
+
+### *2021-07-17*
+
+Git pull to update repo, see line 45 of `glcanvas.h` has changed from `#include <QOpenGLWidget>` to `#include <QGLWidget>`.  This is due to a local change that I did.  
+
+Delete `~/cinolib/` folder and start with a fresh git clone.
+
+```bash
+> git clone --recursive git@github.com:mlivesu/cinolib.git
+
+Cloning into 'cinolib'...
+remote: Enumerating objects: 16243, done.
+remote: Counting objects: 100% (1378/1378), done.
+remote: Compressing objects: 100% (565/565), done.
+remote: Total 16243 (delta 914), reused 1016 (delta 619), pack-reused 14865
+Receiving objects: 100% (16243/16243), 22.09 MiB | 5.42 MiB/s, done.
+Resolving deltas: 100% (11718/11718), done.
+Submodule 'eigen' (https://gitlab.com/libeigen/eigen.git) registered for path 'external/eigen'
+Submodule 'external/graph_cut' (https://github.com/mlivesu/GraphCuts) registered for path 'external/graph_cut'
+Cloning into '/Users/sparta/cinolib/external/eigen'...
+remote: Enumerating objects: 110406, done.
+remote: Counting objects: 100% (42/42), done.
+remote: Compressing objects: 100% (36/36), done.
+remote: Total 110406 (delta 20), reused 17 (delta 6), pack-reused 110364
+Receiving objects: 100% (110406/110406), 101.42 MiB | 11.51 MiB/s, done.
+Resolving deltas: 100% (90804/90804), done.
+Cloning into '/Users/sparta/cinolib/external/graph_cut'...
+remote: Enumerating objects: 31, done.
+remote: Total 31 (delta 0), reused 0 (delta 0), pack-reused 31
+Submodule path 'external/eigen': checked out '1fd5ce1002a6f30e1169b529b291216a18be2f7e'
+Submodule path 'external/graph_cut': checked out '66376566852b704a0e57bf49dcac74ee5210ff18'
+⋊> ~
+```
+
+Now follow [Qt install](qt.md#2021-07-17) section.
