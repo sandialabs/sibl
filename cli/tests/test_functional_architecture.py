@@ -72,7 +72,7 @@ def test_Figure():
         series=(C0, C1), xmax=10, ymin=-2, ymax=50, filename="test_figure.pdf"
     )
     assert isinstance(D, fa.Figure)
-    fa.figure_save(D)
+    # fa.figure_save(D)
 
 
 def main():

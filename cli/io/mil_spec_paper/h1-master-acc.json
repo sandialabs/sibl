@@ -562,10 +562,6 @@
         "class": "view",
         "model_keys": [
             "exp-ave",
-            "exp-1",
-            "exp-2",
-            "exp-3",
-            "exp-4",
             "cg-rb",
             "cg-rb-y",
             "bob-cg-low-freq-restart-0",
@@ -575,12 +571,12 @@
             "sim-rb-aaccel"
         ],
         "folder": "output",
-        "file": "h1-acc-milmed-composite.png",
+        "file": "h1-acc-milmed-composite.tiff",
         "size": [
             8.0,
             6.0
         ],
-        "dpi": 300,
+        "dpi": 600,
         "title": "",
         "xlim": [
             0,
