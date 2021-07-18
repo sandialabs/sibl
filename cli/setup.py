@@ -19,7 +19,7 @@ setuptools.setup(
     packages=setuptools.find_packages("src"),
     package_dir={"": "src"},
     py_modules=[splitext(basename(path))[0] for path in glob("src/*.py")],
-    python_requires=">=3.8",
+    python_requires=">=3.9",
     url="https://github.com/sandialabs/sibl",
-    version="0.0.8",
+    version="0.0.9",
 )

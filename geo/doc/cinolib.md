@@ -162,3 +162,9 @@ Submodule path 'external/graph_cut': checked out '66376566852b704a0e57bf49dcac74
 ```
 
 Now follow [Qt install](qt.md#2021-07-17) section.
+
+Questions or Comments for Marco Livesu:
+
+* [arXiv](https://arxiv.org/abs/2103.07745) paper
+  * Fig 5, transition from `4x4` to `2x2`, states there are "14 hanging nodes with valence 5", but I think I count 16 hanging nodes with valence 5 (the black dots).
+  
