@@ -22,7 +22,7 @@
 # install "only for me", which installs to /Users/sparta/opt/miniconda3
 > cd ~/.config/fish
 # update config_sparta.fish
-> cp config_sparta.fish config.fish
+> cp config_sparta.fish config.fish, then restart iterm2
 > which python
 (base)  Sun Jul 18 17:41:41 2021 /Users/sparta/opt/miniconda3/bin/python
 
