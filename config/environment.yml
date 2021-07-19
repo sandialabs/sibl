@@ -2,9 +2,8 @@ name: siblenv
 channels:
   - defaults
 dependencies:
-  - python=3.8
+  - python=3.9
   - black
-  - dash
   - flake8
   - ipykernel
   - matplotlib
