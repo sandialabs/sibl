@@ -67,4 +67,4 @@ def knot_indices(degree: int = 1, dimension: int = 1) -> Tuple:
             print("  degree (int) can be 1 (linear), 2 (quadratic), or 3 (cubic)")
             print("  dimension (int) can be 1 (1D), 2 (2D) or 3 (3D)")
 
-        return None
+        return tuple()  # empty tuple

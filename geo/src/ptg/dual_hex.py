@@ -1,13 +1,14 @@
-from typing import NamedTuple, Tuple
-import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib import rc
-from matplotlib.ticker import MultipleLocator
-from pathlib import Path
+from typing import NamedTuple, Iterable
 
-DISPLAY = True
-LATEX = 0
-SERIALIZE = False
+# import numpy as np
+# import matplotlib.pyplot as plt
+# from matplotlib import rc
+# from matplotlib.ticker import MultipleLocator
+# from pathlib import Path
+
+# DISPLAY = True
+# LATEX = 0
+# SERIALIZE = False
 
 # From https://github.com/mlivesu/cinolib/blob/master/include/cinolib/hex_transition_schemes.h
 # the same data scheme is followed here
@@ -24,7 +25,7 @@ class Flat(NamedTuple):
             integer node numbers.
     """
 
-    vertices: Tuple(Tuple[float]) = (
+    vertices: Iterable[tuple[float, float, float]] = (
         (0.0, 0.0, 0.0),
         (1.0, 0.0, 0.0),
         (0.0, 1.0, 0.0),
@@ -45,7 +46,7 @@ class Flat(NamedTuple):
         (0.0, 0.5, 1.0),
     )
 
-    faces: tuple[int] = (
+    faces: Iterable[tuple[int, ...]] = (
         (10, 4, 15, 9),
         (9, 15, 5, 11),
         (0, 10, 9, 16),
@@ -68,7 +69,7 @@ class Flat(NamedTuple):
         (11, 5, 7, 3, 14),
     )
 
-    polygons: tuple[int] = (
+    polygons: Iterable[tuple[int, ...]] = (
         (5, 6, 8, 10, 2),
         (6, 7, 9, 11, 3),
         (10, 13, 12, 16, 17, 0),
