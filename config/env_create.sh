@@ -12,7 +12,7 @@ echo Creating conda environment $y
 
 echo Verifying that conda is up-to-date:
 conda activate base
-conda update -n base -c defaults conda
+conda update --yes -n base -c defaults conda
 
 echo Current conda environments:
 conda env list
@@ -24,11 +24,29 @@ echo Conda environments after attempt at removal of old environment:
 conda env list
 
 echo Recreating a new $y environment...
-conda create --name $y python=3.9 black flake8 ipykernel matplotlib pytest pytest-cov scipy seaborn
-
+conda create --yes --name $y python=3.9 black flake8 ipykernel matplotlib notebook pytest pytest-cov seaborn scikit-image scipy
 # echo Activating the new $y environment...
 conda init bash
+eval "$(conda shell.bash hook)"
 conda activate $y
+
+# black flake8 ipykernel matplotlib notebook pytest pytest-cov seaborn scikit-image scipy
+# conda install --yes numpy
+# conda install --yes -c conda-forge black
+# conda install --yes -c anaconda flake8
+# conda install --yes -c anaconda ipykernel
+# conda install --yes -c anaconda matplotlib
+# conda install --yes -c anaconda notebook
+# conda install --yes -c anaconda pytest
+# conda install --yes -c anaconda pytest-cov
+# conda install --yes -c anaconda seaborn
+# conda install --yes -c anaconda scikit-image
+# conda install --yes -c anaconda scipy
+
+# echo "Using internal pip mirror"
+# pip config --user set global.index https://nexus.web.sandia.gov/repository/pypi-proxy
+# pip config --user set global.index-url https://nexus.web.sandia.gov/repository/pypi-proxy/simple
+
 # 
 echo Upgrading pip
 python -m pip install --upgrade pip
@@ -51,3 +69,11 @@ pip list
 echo --------------------------------------------
 echo The shell script setup.sh has now completed.
 echo --------------------------------------------
+
+# You may need to use the following to install
+# python -m pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org --upgrade pip
+# pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org pyglet
+
+# Alternatively, pip packages may need to be installed as follows:
+# python -m pip install --user --proxy http:proxy.sandia.gov:80 --trusted-host pypi.org --trusted-host files.pythonhosted.org --upgrade pip
+# python -m pip install --user --proxy http:proxy.sandia.gov:80 --trusted-host pypi.org --trusted-host files.pythonhosted.org pyglet
