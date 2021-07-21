@@ -83,7 +83,3 @@ echo "--------------------------------------------"
 # You may need to use the following to install
 # python -m pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org --upgrade pip
 # pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org pyglet
-
-# Alternatively, pip packages may need to be installed as follows:
-# python -m pip install --user --proxy http:proxy.sandia.gov:80 --trusted-host pypi.org --trusted-host files.pythonhosted.org --upgrade pip
-# python -m pip install --user --proxy http:proxy.sandia.gov:80 --trusted-host pypi.org --trusted-host files.pythonhosted.org pyglet
