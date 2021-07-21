@@ -1,29 +1,40 @@
 #!/bin/bash
 
-# reference: ruxi/make_conda_env.sh
+# References: ruxi/make_conda_env.sh
 # https://gist.github.com/ruxi/949e3d326c5a8a24ecffa8a225b2be2a 
-echo This shell script recreates the conda environment 
-echo for use with the xyfigure and ptg modules.
+#
+# Google's best practices for shell script:
+# https://google.github.io/styleguide/shellguide.html
 
 # echo "Select an environment name (e.g., siblenv):"
 # read y
 y='siblenv' # the conda environment of interest
-echo Creating conda environment $y
 
-echo Verifying that conda is up-to-date:
+echo "This shell script (re)creates the conda environment"
+echo "for use with the Sandia Injury Biomechanics Library (SIBL)"
+echo "modules:"
+echo "  - xyfigure"
+echo "  - ptg"
+echo "The name of the conda environment to be (re)created is:"
+echo $y
+
+echo "Verifying that conda is up-to-date:"
 conda activate base
 conda update --yes -n base -c defaults conda
 
-echo Current conda environments:
+echo "Current conda environments:"
 conda env list
 
 # remove existing environment, if it exists
-echo Removing existing $y environment, should it exist...
+echo "Should it already exist, this environment will be removed:" 
+echo $y
 conda env remove --name $y
-echo Conda environments after attempt at removal of old environment:
+
+echo "Conda environments after attempt at removal of old environment:"
 conda env list
 
-echo Recreating a new $y environment...
+echo "(Re)creating the conda environment:"
+echo $y
 conda create --yes --name $y python=3.9 black flake8 ipykernel matplotlib notebook pytest pytest-cov seaborn scikit-image scipy
 # echo Activating the new $y environment...
 conda init bash
@@ -48,27 +59,26 @@ conda activate $y
 # pip config --user set global.index-url https://nexus.web.sandia.gov/repository/pypi-proxy/simple
 
 # 
-echo Upgrading pip
+echo "Upgrading pip"
 python -m pip install --upgrade pip
 #
-# echo Finally, some pip items...
-echo The pip listing prior to install...
+echo "The pip listing prior to install:"
 pip list
 # 
-echo Installing the ptg module in developer mode...
+echo "Installing the ptg module in developer mode..."
 cd ~/sibl/geo
 pip install -e .
 #
-echo Installing the xyfigure module in developer mode...
+echo "Installing the xyfigure module in developer mode..."
 cd ~/sibl/cli
 pip install -e .
 # 
-echo The pip listing after install...
+echo "The pip listing after install..."
 pip list
 
-echo --------------------------------------------
-echo The shell script setup.sh has now completed.
-echo --------------------------------------------
+echo "--------------------------------------------"
+echo "The shell script setup.sh has now completed."
+echo "--------------------------------------------"
 
 # You may need to use the following to install
 # python -m pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org --upgrade pip
