@@ -80,6 +80,11 @@ Now create a feature branch:
 > git flow feature start feature_branch
 ```
 
+To push the current branch and set the remote as upstream, use
+
+    git push --set-upstream origin feature/feature_branch
+
+
 When the feature implementation is completed, to merge the `feature_branch` into the `develop` branch:
 
 ```bash
