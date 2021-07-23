@@ -17,7 +17,7 @@ creating branches for you.
 
 ```bash
 > git flow init  # and accept all defaults as shown below
-⋊> ~/sibl on master ◦ git flow init                                                                         (siblenv)  Fri Jul 23 16:33:18 2021
+⋊> ~/sibl on master ◦ git flow init                  (siblenv)  Fri Jul 23 16:33:18 2021
 
 Which branch should be used for bringing forth production releases?
    - master
@@ -38,7 +38,8 @@ a `develop` branch.  A simple way to do this is for one developer to create an e
 `develop` branch locally and push it to the server:
 
 ```bash
-⋊> ~/sibl on develop ⨯ git push -u origin develop                                                           (siblenv)  Fri Jul 23 16:34:32 2021
+⋊> ~/sibl on develop
+⨯> git push -u origin develop                        (siblenv)  Fri Jul 23 16:34:32 2021
 Total 0 (delta 0), reused 0 (delta 0)
 remote:
 remote: Create a pull request for 'develop' on GitHub by visiting:
@@ -56,12 +57,10 @@ branch for the `develop` branch:
 ```bash
 $ git flow init
 
-
 Initialized empty Git repository in ~/project/.git/
 No branches exist yet. Base branches must be created now.
 Branch name for production releases: [master]
 Branch name for "next release" development: [develop]
-
 
 How to name your supporting branch prefixes?
 Feature branches? [feature/]
@@ -69,7 +68,6 @@ Release branches? [release/]
 Hotfix branches? [hotfix/]
 Support branches? [support/]
 Version tag prefix? []
-
 
 $ git branch
 * develop
