@@ -69,7 +69,7 @@ Hotfix branches? [hotfix/]
 Support branches? [support/]
 Version tag prefix? []
 
-$ git branch
+$ git branch  # show available branches
 * develop
   master
 ```
