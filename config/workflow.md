@@ -89,7 +89,9 @@ To push the current branch and set the remote as upstream, use
 The proceed with local implementation, and `git commit -m 'message'` and `git push` to push
 local implementation up to the repo on the `feature_branch`.
 
-When the feature implementation is completed, to merge the `feature_branch` into the `develop` branch:
+When the feature implementation is completed:
+
+* Create a pull request, then merge the `feature_branch` into the `develop` branch:
 
 ```bash
 > git flow feature finish feature_branch
