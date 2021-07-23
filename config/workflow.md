@@ -86,7 +86,7 @@ To push the current branch and set the remote as upstream, use
 > git push --set-upstream origin feature/feature_branch
 ```
 
-The proceed with local implementation, and `git commit -m 'message` and `git push` to push
+The proceed with local implementation, and `git commit -m 'message'` and `git push` to push
 local implementation up to the repo on the `feature_branch`.
 
 When the feature implementation is completed, to merge the `feature_branch` into the `develop` branch:
