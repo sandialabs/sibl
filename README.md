@@ -6,13 +6,14 @@ The Sandia Injury Biomechanics Laboratory analyzes injury due to blast, ballisti
 
 For more information, see our [website](https://www.sandia.gov/biomechanics/).
 
-## Library 
+## Library
 
-### Information 
+### Information
 
 [![python](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/) [![license](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/sandialabs/sibl#license) [![pypi](https://img.shields.io/badge/pypi-v0.0.6-brightgreen.svg)](https://pypi.org/project/xyfigure/) [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-### Testing 
+### Testing
+
 [![pytest](https://github.com/sandialabs/sibl/workflows/pytest/badge.svg)](https://github.com/sandialabs/sibl/actions) [![blacktest](https://github.com/sandialabs/sibl/workflows/blacktest/badge.svg)](https://github.com/sandialabs/sibl/actions) [![covertest](https://github.com/sandialabs/sibl/workflows/covertest/badge.svg)](https://github.com/sandialabs/sibl/actions) [![codecov](https://codecov.io/gh/sandialabs/sibl/branch/master/graph/badge.svg)](https://codecov.io/gh/sandialabs/sibl)
 
 ### Documentation
@@ -31,61 +32,10 @@ The examples and validations presented in the documents are all created with the
 
 This repository also contains documentation for the [xyfigure](cli/doc/README.md) and [tpav](cli/tests/tpav/README.md) implementations.
 
-### Developer Workflow
+### Getting Started
 
-To get started, developers should [configure](config/README.md) their development environment.  Then, develop with the following contexts:
-
-```bash
-# ----
-# sync
-# ----
-$ (base) [~]$ cd ~/sibl
-$ (base) [~/sibl] git status
-$ (base) [~/sibl] git pull
-$ (base) [~/sibl] git add, git commit -m "message", git push
-#
-# ---------
-# implement
-# ---------
-$ (base) [~/sibl]$ conda activate siblenv
-$ (siblenv) [~/sibl]$ # development
-#
-# ------
-# pytest
-# ------
-# check unit tests
-$ (siblenv) [~/sibl]$ pytest # unit tests must pass prior to push to repository
-$ (siblenv) [~/sibl]$ pytest -v # for more verbose unittest output
-#
-# ---------
-# blacktest
-# ---------
-$ (siblenv) [~/sibl] black --check .
-#
-# or to check specific folders one at a time
-$ (siblenv) [~/sibl] black --check cli/
-$ (siblenv) [~/sibl] black --check geo/
-#
-# if above check failse, the diff or fix 
-# diff: (without automatic code modification)
-$ (siblenv) [~/sibl] black --check some_specific_file.py --diff 
-$ (siblenv) [~/sibl] black --check some_folder/ --diff
-# fix: (with automatic code modification)
-$ (siblenv) [~/sibl] black some_specific_file.py
-$ (siblenv) [~/sibl] black some_folder/
-$ (siblenv) [~/sibl]
-#
-# ---------
-# covertest
-# ---------
-$ (siblenv) [~/sibl]$ pytest --cov=.
-#
-# or to test specific folders
-$ (siblenv) [~/sibl]$ pytest --cov=cli/src/xyfigure --cov=geo/src/ptg
-#
-# and to add missing coverage line number reporting
-$ (siblenv) [~/sibl]$ pytest --cov=cli/src/xyfigure --cov=geo/src/ptg  --cov-report term-missing
-```
+* To get started, developers should [configure](config/README.md) their development environment.
+* Then, developers should follow the developer [workflow](config/workflow.md).
 
 ## Contact
 

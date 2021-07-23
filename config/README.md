@@ -75,6 +75,11 @@ $ git config user.name "James Bond"  # your first and last name in quotations
 $ git config user.email "jb007@company.com"  # your email address in quotations
 ```
 
+## Gitflow
+
+* macOS `> brew install git-flow`
+* Windows [download and install](https://git-scm.com/download/win) `git-flow`
+
 ## References
 
 * Conda [build](https://docs.conda.io/projects/conda-build/en/latest/resources/build-scripts.html)
