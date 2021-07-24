@@ -183,8 +183,10 @@ class Template_L1(NamedTuple):
 
 
 def face_as_coordinates(
-    face: tuple[int, int, int, int], vertices: tuple[tuple[float, float]],
+    face: tuple[int, int, int, int],
+    vertices: tuple[tuple[float, float]],
 ) -> tuple[tuple[float, float], ...]:
+
     b = tuple(vertices[i] for i in face)
     return b
 

@@ -91,9 +91,17 @@ if control_points_shown:
     ax.plot3D(cp_x, cp_y, cp_z, **vbsp.defaults["control_points_kwargs"])
 
 for control_points in surfaces:
+
     S = bsp.Surface(
-        kv_t, kv_u, control_points, degree_t, degree_u, n_bisections=nbi, verbose=True,
+        kv_t,
+        kv_u,
+        control_points,
+        degree_t,
+        degree_u,
+        n_bisections=nbi,
+        verbose=True,
     )
+
     (surf_x, surf_y, surf_z) = S.evaluations
 
     ax.plot3D(

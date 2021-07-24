@@ -35,7 +35,12 @@ conda env list
 
 echo "(Re)creating the conda environment:"
 echo $y
-conda create --yes --name $y python=3.9 black flake8 ipykernel matplotlib notebook pytest pytest-cov seaborn scikit-image scipy
+
+# pip install black==21.7b0 get the new blac, but conda default channel does not
+# conda create --yes --name $y python=3.9 black=21.7b0 flake8 ipykernel matplotlib notebook pytest pytest-cov seaborn scikit-image scipy
+# 2021-07-24 Install other libraries, e.g., black, from other channels, not conda
+conda create --yes --name $y python=3.9
+
 # echo Activating the new $y environment...
 conda init bash
 eval "$(conda shell.bash hook)"
@@ -44,15 +49,16 @@ conda activate $y
 # black flake8 ipykernel matplotlib notebook pytest pytest-cov seaborn scikit-image scipy
 # conda install --yes numpy
 # conda install --yes -c conda-forge black
-# conda install --yes -c anaconda flake8
-# conda install --yes -c anaconda ipykernel
-# conda install --yes -c anaconda matplotlib
-# conda install --yes -c anaconda notebook
-# conda install --yes -c anaconda pytest
-# conda install --yes -c anaconda pytest-cov
-# conda install --yes -c anaconda seaborn
-# conda install --yes -c anaconda scikit-image
-# conda install --yes -c anaconda scipy
+conda install --yes -c conda-forge black=21.7b0
+conda install --yes -c anaconda flake8
+conda install --yes -c anaconda ipykernel
+conda install --yes -c anaconda matplotlib
+conda install --yes -c anaconda notebook
+conda install --yes -c anaconda pytest
+conda install --yes -c anaconda pytest-cov
+conda install --yes -c anaconda seaborn
+conda install --yes -c anaconda scikit-image
+conda install --yes -c anaconda scipy
 
 # echo "Using internal pip mirror"
 # pip config --user set global.index https://nexus.web.sandia.gov/repository/pypi-proxy

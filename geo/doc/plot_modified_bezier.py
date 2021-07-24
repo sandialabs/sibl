@@ -58,7 +58,10 @@ b = a.expanduser()
 c = str(b)
 
 x, y, z = mb.modified_bezier(
-    control_points_file=c, verbose=True, degree=1, n_bisections=5,
+    control_points_file=c,
+    verbose=True,
+    degree=1,
+    n_bisections=5,
 )
 
 fig = plt.figure()
