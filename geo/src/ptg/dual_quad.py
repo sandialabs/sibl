@@ -119,7 +119,7 @@ class Template_0000(NamedTuple):
 
     where
       "+" is a fully four-valenced node
-      "*" is a hanging node, connect to create a four-valence  (none for this template)
+      "*" is a hanging node, connect to create a four-valence (none for this template)
     """
 
     name: str = "0000"
@@ -620,33 +620,33 @@ class Template_0111(NamedTuple):
 class Template_1111(NamedTuple):
     """Creates the fully level 1 (L1) data structure.
 
-    The 1111 pattern:
+    The 1111 pattern and node numbers:
 
-    Attributes:
-        name (str): Four digit binary unique identifier.
-        vertices (list[float]): The (x, y) positions of vertices on the unit cube.
-        faces (list[float]): The quadrilateral faces
-            composed of a sequence of integer node numbers,
-            in counter-clockwise (CCW) order, and first node is in the
-            lower left corner of the quadrilateral.
+    4----9---14---19---24
+    |    |    |    |    |
+    3----8---13---18---23
+    |    |    |    |    |
+    2----7---12---17---22
+    |    |    |    |    |
+    1----6---11---15---21
+    |    |    |    |    |
+    0----5---10---15---20
 
-    *--*--*--*--*
-    |  |  |  |  |
-    *--*--*--*--*
-    |  |  |  |  |
-    *--*--*--*--*
-    |  |  |  |  |
-    *--*--*--*--*
-    |  |  |  |  |
-    *--*--*--*--*
+    and with dual node numbers:
 
-    with node numbers:
+    +----+----+----+----+
+    |  3 |  7 | 11 | 15 |
+    +----+----+----+----+
+    |  2 |  6 | 10 | 14 |
+    +----+----+----+----+
+    |  1 |  5 |  9 | 13 |
+    +----+----+----+----+
+    |  0 |  4 |  8 | 12 |
+    +----+----+----+----+
 
-    4 9 14 19 24
-    3 8 13 18 23
-    2 7 12 17 22
-    1 6 11 16 21
-    0 5 10 15 20
+    where
+      "+" is a fully four-valenced node
+      "*" is a hanging node, connect to create a four-valence (none for this template)
     """
 
     name: str = "1111"
@@ -700,9 +700,53 @@ class Template_1111(NamedTuple):
         (18, 23, 24, 19),
     )
 
-    # vertices_dual: Iterable[Point2D] = ()
-    # faces_dual: Iterable[QuadFace] = ()
-    # ports: Iterable[Point2D] = ()
+    vertices_dual: Iterable[Point2D] = (
+        (0.5, 0.5),
+        (0.5, 1.5),
+        (0.5, 2.5),
+        (0.5, 3.5),
+        (1.5, 0.5),
+        (1.5, 1.5),
+        (1.5, 2.5),
+        (1.5, 3.5),
+        (2.5, 0.5),
+        (2.5, 1.5),
+        (2.5, 2.5),
+        (2.5, 3.5),
+        (3.5, 0.5),
+        (3.5, 1.5),
+        (3.5, 2.5),
+        (3.5, 3.5),
+    )
+    faces_dual: Iterable[QuadFace] = (
+        (0, 4, 5, 1),
+        (1, 5, 6, 2),
+        (2, 6, 7, 3),
+        (4, 8, 9, 5),
+        (5, 9, 10, 6),
+        (6, 10, 11, 7),
+        (8, 12, 13, 9),
+        (9, 13, 14, 10),
+        (10, 14, 15, 11),
+    )
+    ports: Iterable[Point2D] = (
+        (0.5, 0.0),
+        (1.5, 0.0),
+        (2.5, 0.0),
+        (3.5, 0.0),
+        (4.0, 0.5),
+        (4.0, 1.5),
+        (4.0, 2.5),
+        (4.0, 3.5),
+        (3.5, 4.0),
+        (2.5, 4.0),
+        (1.5, 4.0),
+        (0.5, 4.0),
+        (0.0, 3.5),
+        (0.0, 2.5),
+        (0.0, 1.5),
+        (0.0, 0.5),
+    )
 
 
 def face_as_coordinates(
@@ -782,7 +826,7 @@ def plot_template(template, *, dual_shown=False, serialize=False):
 
     if serialize:
 
-        extension = "_" + template.name + ".pdf"  # or '.svg'
+        extension = "_" + template.name + ".png"  # or '.svg'
         filename = Path(__file__).stem + extension
         fig.savefig(filename, bbox_inches="tight", pad_inches=0)
         print(f"Serialized to {filename}")
@@ -795,9 +839,7 @@ def main():
     plot_template(Template_0011(), dual_shown=True, serialize=True)
     plot_template(Template_0110(), dual_shown=True, serialize=True)
     plot_template(Template_0111(), dual_shown=True, serialize=True)
-
-    T5 = Template_1111()
-    plot_template(T5)
+    plot_template(Template_1111(), dual_shown=True, serialize=True)
 
 
 if __name__ == "__main__":
