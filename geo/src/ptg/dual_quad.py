@@ -169,40 +169,33 @@ class Template_0000(NamedTuple):
 class Template_0001(NamedTuple):
     """Creates the three level 0 (L0) and one level 1 (L1) data structure.
 
-    Attributes:
-        name (str): Four digit binary unique identifier.
-        vertices (list[float]): The (x, y) positions of vertices on the unit cube.
-        faces (list[float]): The quadrilateral faces
-            composed of a sequence of integer node numbers,
-            in counter-clockwise (CCW) order, and first node is in the
-            lower left corner of the quadrilateral.
+    The 0001 pattern and node numbers:
 
-    The 0001 pattern:
-
-    *-----*--*--*
-    |     |  |  |
-    |     *--*--*
-    |     |  |  |
-    *-----*--*--*
-    |     |     |
-    |     |     |
-    |     |     |
-    *-----*-----*
-
-    with node numbers:
-
-    2   6 9 13
-        5 8 12
-    1   4 7 11
-
-    0   3   10
+    2---------6----9---13
+    |         |    |    |
+    |         5----8---12
+    |         |    |    |
+    1---------4----7---11
+    |         |         |
+    |         |         |
+    |         |         |
+    0---------3--------10
 
     and with dual node numbers:
 
-    1     6  9
-       3  5  8
-       2  4
-    0        7
+    +---------+----+----+
+    |         |  6 |  9 |
+    |    1    *----+----+
+    |       3 |  5 |  8 |
+    +---------+----*----+
+    |       2 |  4      |
+    |    0    |      7  |
+    |         |         |
+    +---------+---------+
+
+    where
+      "+" is a fully four-valenced node
+      "*" is a hanging node, connect to create a four-valence
     """
 
     name: str = "0001"
@@ -506,33 +499,33 @@ class Template_0110(NamedTuple):
 class Template_0111(NamedTuple):
     """Creates the one level 0 (L0) and three level 1 (L1) data structure.
 
-    Attributes:
-        name (str): Four digit binary unique identifier.
-        vertices (list[float]): The (x, y) positions of vertices on the unit cube.
-        faces (list[float]): The quadrilateral faces
-            composed of a sequence of integer node numbers,
-            in counter-clockwise (CCW) order, and first node is in the
-            lower left corner of the quadrilateral.
+    The 0111 pattern and node numbers:
 
-    The 0111 pattern:
+    3----6---11---16---21
+    |    |    |    |    |
+    2----5---10---15---20
+    |    |    |    |    |
+    1----4----9---14---19
+    |         |    |    |
+    |         8---13---18
+    |         |    |    |
+    0---------7---12---17
 
-    *--*--*--*--*
-    |  |  |  |  |
-    *--*--*--*--*
-    |  |  |  |  |
-    *--*--*--*--*
-    |     |  |  |
-    |     *--*--*
-    |     |  |  |
-    *-----*--*--*
+    and with dual node numbers:
 
-    with node numbers:
+    +----+----+----+----+
+    |  2 |  5 |  9 | 13 |
+    +----+----+----+----+
+    |  1 |  4 |  8 | 12 |
+    +----*----+----+----+
+    |       3 |  7 | 11 |
+    |    0    *----+----+
+    |         |  6 | 10 |
+    +---------+----+----+
 
-    3 6 11 16 21
-    2 5 10 15 20
-    1 4  9 14 19
-         8 13 18
-    0    7 12 17
+    where
+      "+" is a fully four-valenced node
+      "*" is a hanging node, connect to create a four-valence
     """
 
     name: str = "0111"
@@ -578,6 +571,49 @@ class Template_0111(NamedTuple):
         (13, 18, 19, 14),
         (14, 19, 20, 15),
         (15, 20, 21, 16),
+    )
+
+    vertices_dual: Iterable[Point2D] = (
+        (1.0, 1.0),
+        (0.5, 2.5),
+        (0.5, 3.5),
+        (1.667, 1.667),
+        (1.5, 2.5),
+        (1.5, 3.5),
+        (2.5, 0.5),
+        (2.5, 1.5),
+        (2.5, 2.5),
+        (2.5, 3.5),
+        (3.5, 0.5),
+        (3.5, 1.5),
+        (3.5, 2.5),
+        (3.5, 3.5),
+    )
+    faces_dual: Iterable[QuadFace] = (
+        (0, 3, 4, 1),
+        (1, 4, 5, 2),
+        (0, 6, 7, 3),
+        (3, 7, 8, 4),
+        (4, 8, 9, 5),
+        (6, 10, 11, 7),
+        (7, 11, 12, 8),
+        (8, 12, 13, 9),
+    )
+    ports: Iterable[Point2D] = (
+        (1.0, 0.0),
+        (2.5, 0.0),
+        (3.5, 0.0),
+        (4.0, 0.5),
+        (4.0, 1.5),
+        (4.0, 2.5),
+        (4.0, 3.5),
+        (3.5, 4.0),
+        (2.5, 4.0),
+        (1.5, 4.0),
+        (0.5, 4.0),
+        (0.0, 3.5),
+        (0.0, 2.5),
+        (0.0, 1.0),
     )
 
 
@@ -663,6 +699,10 @@ class Template_1111(NamedTuple):
         (17, 22, 23, 18),
         (18, 23, 24, 19),
     )
+
+    # vertices_dual: Iterable[Point2D] = ()
+    # faces_dual: Iterable[QuadFace] = ()
+    # ports: Iterable[Point2D] = ()
 
 
 def face_as_coordinates(
@@ -754,9 +794,7 @@ def main():
     plot_template(Template_0001(), dual_shown=True, serialize=True)
     plot_template(Template_0011(), dual_shown=True, serialize=True)
     plot_template(Template_0110(), dual_shown=True, serialize=True)
-
-    T4 = Template_0111()
-    plot_template(T4)
+    plot_template(Template_0111(), dual_shown=True, serialize=True)
 
     T5 = Template_1111()
     plot_template(T5)
