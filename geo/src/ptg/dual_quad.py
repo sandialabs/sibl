@@ -39,6 +39,8 @@
 
 # from typing import Iterable, NamedTuple, Tuple
 from typing import Iterable, NamedTuple
+from pathlib import Path
+
 import matplotlib.pyplot as plt
 
 # from matplotlib.ticker import MultipleLocator
@@ -56,6 +58,19 @@ import matplotlib.pyplot as plt
 # https://docs.python.org/3/library/typing.html#type-aliases
 Point2D = tuple[float, float]
 QuadFace = tuple[int, int, int, int]
+
+colors = (
+    "tab:blue",
+    "tab:orange",
+    "tab:green",
+    "tab:red",
+    "tab:purple",
+    "tab:brown",
+    "tab:pink",
+    "tab:gray",
+    "tab:olive",
+    "tab:cyan",
+)
 
 
 class Template_0000(NamedTuple):
@@ -187,6 +202,15 @@ class Template_0011(NamedTuple):
         4  9 14
     0   3  8 13
 
+    and with dual node numbers:
+
+          7 11
+    1
+       3  6 10
+       2  5  9
+    0
+          4  8
+
     Attributes:
         vertices (list[float]): The (x, y) positions of vertices on the unit cube.
         faces (list[float]): The quadrilateral faces
@@ -194,6 +218,8 @@ class Template_0011(NamedTuple):
             in counter-clockwise (CCW) order, and first node is in the
             lower left corner of the quadrilateral.
     """
+
+    name: str = "0011"
 
     # vertices: tuple[tuple[float, float], ...] = (
     vertices: Iterable[Point2D] = (
@@ -229,6 +255,31 @@ class Template_0011(NamedTuple):
         (9, 14, 15, 10),
         (10, 15, 16, 11),
         (11, 16, 17, 12),
+    )
+
+    vertices_dual: Iterable[Point2D] = (
+        (1.0, 1.0),
+        (1.0, 3.0),
+        (1.667, 1.667),
+        (1.667, 2.333),
+        (2.5, 0.5),
+        (2.5, 1.5),
+        (2.5, 2.5),
+        (2.5, 3.5),
+        (3.5, 0.5),
+        (3.5, 1.5),
+        (3.5, 2.5),
+        (3.5, 3.5),
+    )
+
+    faces_dual: Iterable[QuadFace] = (
+        (0, 2, 3, 1),
+        (0, 4, 5, 2),
+        (2, 5, 6, 3),
+        (3, 6, 7, 1),
+        (4, 8, 9, 5),
+        (5, 9, 10, 6),
+        (6, 10, 11, 7),
     )
 
 
@@ -466,7 +517,7 @@ def face_as_coordinates(
     return b
 
 
-def plot_template(template):
+def plot_template(template, *, dual_shown=False, serialize=False):
     faces_as_points = tuple(
         face_as_coordinates(face, template.vertices) for face in template.faces
     )
@@ -478,16 +529,26 @@ def plot_template(template):
         xs = [face[i][0] for i in range(len(face))]
         ys = [face[i][1] for i in range(len(face))]
         plt.fill(
-            xs, ys, linestyle="dashed", edgecolor="blue", alpha=0.5, facecolor="gray"
+            xs, ys, linestyle="dotted", edgecolor="blue", alpha=0.5, facecolor="gray"
         )
 
-    # verts = ((0, 0), (1, 0), (1, 2), (0, 1))
-    # xs = [verts[i][0] for i in range(len(verts))]
-    # ys = [verts[i][1] for i in range(len(verts))]
+    if dual_shown:
+        faces_as_points = tuple(
+            face_as_coordinates(face, template.vertices_dual)
+            for face in template.faces_dual
+        )
 
-    # poly = Polygon(verts, facecolor="red", edgecolor="blue")
-    # ax.add_patch(poly)
-    # plt.fill(xs, ys, linestyle="dashed", edgecolor="red", alpha=0.5, facecolor="gray")
+        for face in faces_as_points:
+            xs = [face[i][0] for i in range(len(face))]
+            ys = [face[i][1] for i in range(len(face))]
+            plt.fill(
+                xs,
+                ys,
+                linestyle="solid",
+                edgecolor="black",
+                facecolor=colors[0],
+                alpha=0.5,
+            )
 
     # ax.set_ylim([0.0 - 2 * _eps, 1.0 + 2 * _eps])
 
@@ -508,18 +569,47 @@ def plot_template(template):
     # ax.set_xticks([0.0, 0.25, 0.5, 0.75, 1.0])
     # ax.set_yticks([0.0, 0.25, 0.5, 0.75, 1.0])
 
-https://docs.python.org/3/library/typing.html#type-aliases    plt.show()
+    plt.show()
+
+    if serialize:
+
+        extension = "_" + template.name + ".pdf"  # or '.svg'
+        filename = Path(__file__).stem + extension
+        fig.savefig(filename, bbox_inches="tight", pad_inches=0)
+        print(f"Serialized to {filename}")
+
+
+#         # extension = ".pdf"  # or '.svg'
+#         bstring = "N_0_p=0to4" + extension
+#         # fig.savefig(bstring, bbox_inches="tight")
+#         fig.savefig(bstring, bbox_inches="tight", pad_inches=0)
+#
+#         # extension = ".pdf"  # or '.svg'
+#         bstring = Path(__file__).stem + "_smooth_" + str(smooth) + extension
+#         # fig.savefig(bstring, bbox_inches="tight")
+#         fig.savefig(bstring, bbox_inches="tight", pad_inches=0)
+#         print(f"Serialized file to {bstring}")
+#
+#         # extension = ".pdf"
+#         filename = Path(__file__).name + extension
+#         fig.savefig(filename, bbox_inches="tight", pad_inches=0)
+#         print(f"Serialized to {filename}")
+#
+#         # extension = ".pdf"
+#         filename = Path(__file__).name + extension
+#         fig.savefig(filename, bbox_inches="tight", pad_inches=0)
+#         print(f"Serialized to {filename}")
 
 
 def main():
-    T0 = Template_0000()
-    plot_template(T0)
+    # T0 = Template_0000()
+    # plot_template(T0)
 
-    T1 = Template_0001()
-    plot_template(T1)
+    # T1 = Template_0001()
+    # plot_template(T1)
 
     T2 = Template_0011()
-    plot_template(T2)
+    plot_template(T2, dual_shown=True, serialize=True)
 
     T3 = Template_0110()
     plot_template(T3)
