@@ -76,6 +76,14 @@ colors = (
 class Template_0000(NamedTuple):
     """Creates the fully level 0 (L0) data structure.
 
+    Attributes:
+        name (str): Four digit binary unique identifier.
+        vertices (list[float]): The (x, y) positions of vertices on the unit cube.
+        faces (list[float]): The quadrilateral faces
+            composed of a sequence of integer node numbers,
+            in counter-clockwise (CCW) order, and first node is in the
+            lower left corner of the quadrilateral.
+
     The 0000 pattern:
 
     *-----*-----*
@@ -87,14 +95,9 @@ class Template_0000(NamedTuple):
     |     |     |
     |     |     |
     *-----*-----*
-
-    Attributes:
-        vertices (list[float]): The (x, y) positions of vertices on the unit cube.
-        faces (list[float]): The quadrilateral faces
-            composed of a sequence of integer node numbers,
-            in counter-clockwise (CCW) order, and first node is in the
-            lower left corner of the quadrilateral.
     """
+
+    name: str = "0000"
 
     # vertices: tuple[tuple[float, float], ...] = (
     vertices: Iterable[Point2D] = (
@@ -121,6 +124,14 @@ class Template_0000(NamedTuple):
 class Template_0001(NamedTuple):
     """Creates the three level 0 (L0) and one level 1 (L1) data structure.
 
+    Attributes:
+        name (str): Four digit binary unique identifier.
+        vertices (list[float]): The (x, y) positions of vertices on the unit cube.
+        faces (list[float]): The quadrilateral faces
+            composed of a sequence of integer node numbers,
+            in counter-clockwise (CCW) order, and first node is in the
+            lower left corner of the quadrilateral.
+
     The 0001 pattern:
 
     *-----*--*--*
@@ -140,14 +151,9 @@ class Template_0001(NamedTuple):
     1   4 7 11
 
     0   3   10
-
-    Attributes:
-        vertices (list[float]): The (x, y) positions of vertices on the unit cube.
-        faces (list[float]): The quadrilateral faces
-            composed of a sequence of integer node numbers,
-            in counter-clockwise (CCW) order, and first node is in the
-            lower left corner of the quadrilateral.
     """
+
+    name: str = "0010"
 
     # vertices: tuple[tuple[float, float], ...] = (
     vertices: Iterable[Point2D] = (
@@ -182,6 +188,18 @@ class Template_0001(NamedTuple):
 class Template_0011(NamedTuple):
     """Creates the two level 0 (L0) and two level 1 (L1) data structure.
 
+    Attributes:
+        name (str): Four digit binary unique identifier.
+        vertices (list[float]): The (x, y) positions of vertices on the unit cube.
+        faces (list[float]): The quadrilateral faces
+            composed of a sequence of integer node numbers,
+            in counter-clockwise (CCW) order, and first node is in the
+            lower left corner of the quadrilateral.
+        vertices_dual (Iterable[Point2D]):  To come.
+        faces_dual: To come.
+        ports: The list of (x, y) positions where the template can attach, ordered
+            along the template perimeter in a CCW order.
+
     The 0011 pattern:
 
     *-----*--*--*
@@ -210,13 +228,6 @@ class Template_0011(NamedTuple):
        2  5  9
     0
           4  8
-
-    Attributes:
-        vertices (list[float]): The (x, y) positions of vertices on the unit cube.
-        faces (list[float]): The quadrilateral faces
-            composed of a sequence of integer node numbers,
-            in counter-clockwise (CCW) order, and first node is in the
-            lower left corner of the quadrilateral.
     """
 
     name: str = "0011"
@@ -282,9 +293,32 @@ class Template_0011(NamedTuple):
         (6, 10, 11, 7),
     )
 
+    ports: Iterable[Point2D] = (
+        (1.0, 0.0),
+        (2.5, 0.0),
+        (3.5, 0.0),
+        (4.0, 0.5),
+        (4.0, 1.5),
+        (4.0, 2.5),
+        (4.0, 3.5),
+        (3.5, 4.0),
+        (2.5, 4.0),
+        (1.0, 4.0),
+        (0.0, 3.0),
+        (0.0, 1.0),
+    )
+
 
 class Template_0110(NamedTuple):
     """Creates the two level 0 (L0) and two level 1 (L1) data structure in opposition.
+
+    Attributes:
+        name (str): Four digit binary unique identifier.
+        vertices (list[float]): The (x, y) positions of vertices on the unit cube.
+        faces (list[float]): The quadrilateral faces
+            composed of a sequence of integer node numbers,
+            in counter-clockwise (CCW) order, and first node is in the
+            lower left corner of the quadrilateral.
 
     The 0110 pattern:
 
@@ -305,14 +339,9 @@ class Template_0110(NamedTuple):
     1 4  9 14 17
          8 13 16
     0    7 12 15
-
-    Attributes:
-        vertices (list[float]): The (x, y) positions of vertices on the unit cube.
-        faces (list[float]): The quadrilateral faces
-            composed of a sequence of integer node numbers,
-            in counter-clockwise (CCW) order, and first node is in the
-            lower left corner of the quadrilateral.
     """
+
+    name: str = "0110"
 
     # vertices: tuple[tuple[float, float], ...] = (
     vertices: Iterable[Point2D] = (
@@ -355,6 +384,14 @@ class Template_0110(NamedTuple):
 class Template_0111(NamedTuple):
     """Creates the one level 0 (L0) and three level 1 (L1) data structure.
 
+    Attributes:
+        name (str): Four digit binary unique identifier.
+        vertices (list[float]): The (x, y) positions of vertices on the unit cube.
+        faces (list[float]): The quadrilateral faces
+            composed of a sequence of integer node numbers,
+            in counter-clockwise (CCW) order, and first node is in the
+            lower left corner of the quadrilateral.
+
     The 0111 pattern:
 
     *--*--*--*--*
@@ -374,14 +411,9 @@ class Template_0111(NamedTuple):
     1 4  9 14 19
          8 13 18
     0    7 12 17
-
-    Attributes:
-        vertices (list[float]): The (x, y) positions of vertices on the unit cube.
-        faces (list[float]): The quadrilateral faces
-            composed of a sequence of integer node numbers,
-            in counter-clockwise (CCW) order, and first node is in the
-            lower left corner of the quadrilateral.
     """
+
+    name: str = "0111"
 
     # vertices: tuple[tuple[float, float], ...] = (
     vertices: Iterable[Point2D] = (
@@ -432,6 +464,14 @@ class Template_1111(NamedTuple):
 
     The 1111 pattern:
 
+    Attributes:
+        name (str): Four digit binary unique identifier.
+        vertices (list[float]): The (x, y) positions of vertices on the unit cube.
+        faces (list[float]): The quadrilateral faces
+            composed of a sequence of integer node numbers,
+            in counter-clockwise (CCW) order, and first node is in the
+            lower left corner of the quadrilateral.
+
     *--*--*--*--*
     |  |  |  |  |
     *--*--*--*--*
@@ -449,14 +489,9 @@ class Template_1111(NamedTuple):
     2 7 12 17 22
     1 6 11 16 21
     0 5 10 15 20
-
-    Attributes:
-        vertices (list[float]): The (x, y) positions of vertices on the unit cube.
-        faces (list[float]): The quadrilateral faces
-            composed of a sequence of integer node numbers,
-            in counter-clockwise (CCW) order, and first node is in the
-            lower left corner of the quadrilateral.
     """
+
+    name: str = "1111"
 
     # vertices: tuple[tuple[float, float], ...] = (
     vertices: Iterable[Point2D] = (
@@ -550,6 +585,18 @@ def plot_template(template, *, dual_shown=False, serialize=False):
                 alpha=0.5,
             )
 
+        xs = [template.ports[i][0] for i in range(len(template.ports))]
+        ys = [template.ports[i][1] for i in range(len(template.ports))]
+        # ax.plt(xs, ys, "o")
+        ax.scatter(
+            xs,
+            ys,
+            edgecolor="black",
+            facecolor="white",
+            alpha=0.7,
+            marker="o",
+            s=20,  # markersize
+        )
     # ax.set_ylim([0.0 - 2 * _eps, 1.0 + 2 * _eps])
 
     # ax.legend(bbox_to_anchor=(1.05, 1), loc="upper left", borderaxespad=0.0)
@@ -577,28 +624,6 @@ def plot_template(template, *, dual_shown=False, serialize=False):
         filename = Path(__file__).stem + extension
         fig.savefig(filename, bbox_inches="tight", pad_inches=0)
         print(f"Serialized to {filename}")
-
-
-#         # extension = ".pdf"  # or '.svg'
-#         bstring = "N_0_p=0to4" + extension
-#         # fig.savefig(bstring, bbox_inches="tight")
-#         fig.savefig(bstring, bbox_inches="tight", pad_inches=0)
-#
-#         # extension = ".pdf"  # or '.svg'
-#         bstring = Path(__file__).stem + "_smooth_" + str(smooth) + extension
-#         # fig.savefig(bstring, bbox_inches="tight")
-#         fig.savefig(bstring, bbox_inches="tight", pad_inches=0)
-#         print(f"Serialized file to {bstring}")
-#
-#         # extension = ".pdf"
-#         filename = Path(__file__).name + extension
-#         fig.savefig(filename, bbox_inches="tight", pad_inches=0)
-#         print(f"Serialized to {filename}")
-#
-#         # extension = ".pdf"
-#         filename = Path(__file__).name + extension
-#         fig.savefig(filename, bbox_inches="tight", pad_inches=0)
-#         print(f"Serialized to {filename}")
 
 
 def main():
