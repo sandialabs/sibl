@@ -89,34 +89,37 @@ class Template_0000(NamedTuple):
             composed of a sequence of integer node numbers,
             in counter-clockwise (CCW) order, and first node is in the
             lower left corner of the quadrilateral.
+        vertices_dual: to come.
+        faces_dual: to come.
+        ports: to come
 
-    The 0000 pattern:
+    The 0000 pattern and node numbers:
 
-    *-----*-----*
-    |     |     |
-    |     |     |
-    |     |     |
-    *-----*-----*
-    |     |     |
-    |     |     |
-    |     |     |
-    *-----*-----*
-
-    with node numbers:
-
-    2   5   8
-
-    1   4   7
-
-    0   3   6
+    2---------5---------8
+    |         |         |
+    |         |         |
+    |         |         |
+    1---------4---------7
+    |         |         |
+    |         |         |
+    |         |         |
+    0---------3---------6
 
     and with dual node numbers:
 
-    *   *   *
-      1   3
-    *   *   *
-      0   2
-    *   *   *
+    +---------+---------+
+    |         |         |
+    |    1    |    3    |
+    |         |         |
+    +---------+---------+
+    |         |         |
+    |    0    |    2    |
+    |         |         |
+    +---------+---------+
+
+    where
+      "+" is a fully four-valenced node
+      "*" is a hanging node, connect to create a four-valence  (none for this template)
     """
 
     name: str = "0000"
@@ -272,46 +275,33 @@ class Template_0001(NamedTuple):
 class Template_0011(NamedTuple):
     """Creates the two level 0 (L0) and two level 1 (L1) data structure.
 
-    Attributes:
-        name (str): Four digit binary unique identifier.
-        vertices (list[float]): The (x, y) positions of vertices on the unit cube.
-        faces (list[float]): The quadrilateral faces
-            composed of a sequence of integer node numbers,
-            in counter-clockwise (CCW) order, and first node is in the
-            lower left corner of the quadrilateral.
-        vertices_dual (Iterable[Point2D]):  To come.
-        faces_dual: To come.
-        ports: The list of (x, y) positions where the template can attach, ordered
-            along the template perimeter in a CCW order.
+    The 0011 pattern and node numbers:
 
-    The 0011 pattern:
-
-    *-----*--*--*
-    |     |  |  |
-    |     *--*--*
-    |     |  |  |
-    *-----*--*--*
-    |     |  |  |
-    |     *--*--*
-    |     |  |  |
-    *-----*--*--*
-
-    with node numbers:
-
-    2   7 12 17
-        6 11 16
-    1   5 10 15
-        4  9 14
-    0   3  8 13
+    2---------7---12---17
+    |         |    |    |
+    |         6---11---16
+    |         |    |    |
+    1---------5---10---15
+    |         |    |    |
+    |         4----9---14
+    |         |    |    |
+    0---------3----8---13
 
     and with dual node numbers:
 
-          7 11
-    1
-       3  6 10
-       2  5  9
-    0
-          4  8
+    +---------+----+----+
+    |         |  7 | 11 |
+    |    1    *----+----+
+    |       3 |  6 | 10 |
+    +---------+----+----+
+    |       2 |  5 |  9 |
+    |    0    *----+----+
+    |         |  4 |  8 |
+    +---------+----+----+
+
+    where
+      "+" is a fully four-valenced node
+      "*" is a hanging node, connect to create a four-valence
     """
 
     name: str = "0011"
@@ -428,11 +418,9 @@ class Template_0110(NamedTuple):
     |         |  6 |  9 |
     +---------+----+----+
 
-
     where
       "+" is a fully four-valenced node
       "*" is a hanging node, connect to create a four-valence
-
     """
 
     name: str = "0110"
