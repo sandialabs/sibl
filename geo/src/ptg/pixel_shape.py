@@ -350,8 +350,7 @@ class PixelQuarterCylinder(PixelShapeBase):
         _height_pixels = int(height * pixels_per_len)
 
         _y, _z = np.mgrid[
-            1 : _radius_outer_pixels + 1,
-            1 : _radius_outer_pixels + 1,
+            1 : _radius_outer_pixels + 1, 1 : _radius_outer_pixels + 1,
         ]
         _r_squared = _y ** 2 + _z ** 2
 
