@@ -47,9 +47,10 @@ import matplotlib.pyplot as plt
 # import numpy as np
 
 
-class Template(NamedTuple):
-    vertices: tuple[tuple[float, float]]
-    faces: tuple[tuple[int, int, int, int]]
+# TODO: implement a base class Template
+# class Template(NamedTuple):
+#     vertices: tuple[tuple[float, float]]
+#     faces: tuple[tuple[int, int, int, int]]
 
 
 class Template_L0(NamedTuple):
@@ -80,6 +81,45 @@ class Template_L0(NamedTuple):
         (1, 4, 5, 2),
         (3, 6, 7, 4),
         (4, 7, 8, 5),
+    )
+
+
+class Template_3L0_L1(NamedTuple):
+    """Creates the fully level 0 (L0) data structure.
+
+    Attributes:
+        vertices (list[float]): The (x, y) positions of vertices on the unit cube.
+        faces (list[float]): The quadrilateral faces
+            composed of a sequence of integer node numbers,
+            in counter-clockwise (CCW) order, and first node is in the
+            lower left corner of the quadratilater.
+    """
+
+    vertices: tuple[tuple[float, float], ...] = (
+        (0.0, 0.0),
+        (0.0, 2.0),
+        (0.0, 4.0),
+        (2.0, 0.0),
+        (2.0, 2.0),
+        (2.0, 3.0),
+        (2.0, 4.0),
+        (3.0, 2.0),
+        (3.0, 3.0),
+        (3.0, 4.0),
+        (4.0, 0.0),
+        (4.0, 2.0),
+        (4.0, 3.0),
+        (4.0, 4.0),
+    )
+
+    faces: tuple[tuple[int, int, int, int], ...] = (
+        (0, 3, 4, 1),
+        (1, 4, 6, 2),
+        (3, 10, 11, 4),
+        (4, 7, 8, 5),
+        (5, 8, 9, 6),
+        (7, 11, 12, 8),
+        (8, 12, 13, 9),
     )
 
 
@@ -195,11 +235,14 @@ def plot_template(template):
 
 
 def main():
-    # L0 = Template_L0()
-    # plot_template(L0)
+    # T0 = Template_L0()
+    # plot_template(T0)
 
-    L1 = Template_L1()
-    plot_template(L1)
+    # T1 = Template_L1()
+    # plot_template(T1)
+
+    T2 = Template_3L0_L1()
+    plot_template(T2)
 
 
 if __name__ == "__main__":
