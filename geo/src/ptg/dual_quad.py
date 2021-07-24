@@ -12,15 +12,15 @@
 #
 # (x0, y0), (x0, y1), (x1, y0), (x1, y1)
 
-#  0000  # "all L0"            <-- unique
-#  0001  # "single L1"         <-- unique
+#  0000  # "all L0"            <-- unique T0
+#  0001  # "single L1"         <-- unique T1
 #  0010  #     "single L1" (2)
-#  0011  # "half-half"         <-- unique
+#  0011  # "half-half"         <-- unique T2
 
 #  0100  #     "single L1" (3)
 #  0101  #     "half-half" (2)
-#  0110  # "fan"               <-- unique
-#  0111  # "single L0"         <-- unique
+#  0110  # "fan"               <-- unique T3
+#  0111  # "single L0"         <-- unique T4
 
 #  1000  #     "single L1" (4)
 #  1001  #     "fan" (2)
@@ -30,7 +30,7 @@
 #  1100  #     "half-half" (4)
 #  1101  #     "single L0" (3)
 #  1110  #     "single L0" (4)
-#  1111  #  "all L1"           <-- unique
+#  1111  #  "all L1"           <-- unique T5
 
 # So slots in a 2x2 grid template, 4^2 = 16 configurations, but
 # there are only six (6) unique configurations.
@@ -301,6 +301,81 @@ class Template_0110(NamedTuple):
     )
 
 
+class Template_0111(NamedTuple):
+    """Creates the one level 0 (L0) and three level 1 (L1) data structure.
+
+    The 0111 pattern:
+
+    *--*--*--*--*
+    |  |  |  |  |
+    *--*--*--*--*
+    |  |  |  |  |
+    *--*--*--*--*
+    |     |  |  |
+    |     *--*--*
+    |     |  |  |
+    *-----*--*--*
+
+    with node numbers:
+
+    3 6 11 16 21
+    2 5 10 15 20
+    1 4  9 14 19
+         8 13 18
+    0    7 12 17
+
+    Attributes:
+        vertices (list[float]): The (x, y) positions of vertices on the unit cube.
+        faces (list[float]): The quadrilateral faces
+            composed of a sequence of integer node numbers,
+            in counter-clockwise (CCW) order, and first node is in the
+            lower left corner of the quadrilateral.
+    """
+
+    # vertices: tuple[tuple[float, float], ...] = (
+    vertices: Iterable[Point2D] = (
+        (0.0, 0.0),
+        (0.0, 2.0),
+        (0.0, 3.0),
+        (0.0, 4.0),
+        (1.0, 2.0),
+        (1.0, 3.0),
+        (1.0, 4.0),
+        (2.0, 0.0),
+        (2.0, 1.0),
+        (2.0, 2.0),
+        (2.0, 3.0),
+        (2.0, 4.0),
+        (3.0, 0.0),
+        (3.0, 1.0),
+        (3.0, 2.0),
+        (3.0, 3.0),
+        (3.0, 4.0),
+        (4.0, 0.0),
+        (4.0, 1.0),
+        (4.0, 2.0),
+        (4.0, 3.0),
+        (4.0, 4.0),
+    )
+
+    # faces: tuple[tuple[int, int, int, int], ...] = (
+    faces: Iterable[QuadFace] = (
+        (0, 7, 9, 1),
+        (1, 4, 5, 2),
+        (2, 5, 6, 3),
+        (4, 9, 10, 5),
+        (5, 10, 11, 6),
+        (7, 12, 13, 8),
+        (8, 13, 14, 9),
+        (9, 14, 15, 10),
+        (10, 15, 16, 11),
+        (12, 17, 18, 13),
+        (13, 18, 19, 14),
+        (14, 19, 20, 15),
+        (15, 20, 21, 16),
+    )
+
+
 class Template_1111(NamedTuple):
     """Creates the fully level 1 (L1) data structure.
 
@@ -433,7 +508,7 @@ def plot_template(template):
     # ax.set_xticks([0.0, 0.25, 0.5, 0.75, 1.0])
     # ax.set_yticks([0.0, 0.25, 0.5, 0.75, 1.0])
 
-    plt.show()
+https://docs.python.org/3/library/typing.html#type-aliases    plt.show()
 
 
 def main():
@@ -448,6 +523,9 @@ def main():
 
     T3 = Template_0110()
     plot_template(T3)
+
+    T4 = Template_0111()
+    plot_template(T4)
 
     T5 = Template_1111()
     plot_template(T5)
