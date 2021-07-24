@@ -37,10 +37,12 @@
 
 # import sys
 
-from typing import Iterable, NamedTuple, Tuple
+# from typing import Iterable, NamedTuple, Tuple
+from typing import NamedTuple
 import matplotlib.pyplot as plt
-from matplotlib.ticker import MultipleLocator
-from matplotlib.patches import Polygon
+
+# from matplotlib.ticker import MultipleLocator
+# from matplotlib.patches import Polygon
 
 # import numpy as np
 
@@ -63,14 +65,14 @@ class Template_L0(NamedTuple):
 
     vertices: tuple[tuple[float, float], ...] = (
         (0.0, 0.0),
-        (0.0, 0.5),
-        (0.0, 1.0),
-        (0.5, 0.0),
-        (0.5, 0.5),
-        (0.5, 1.0),
-        (1.0, 0.0),
-        (1.0, 0.5),
-        (1.0, 1.0),
+        (0.0, 2.0),
+        (0.0, 4.0),
+        (2.0, 0.0),
+        (2.0, 2.0),
+        (2.0, 4.0),
+        (4.0, 0.0),
+        (4.0, 2.0),
+        (4.0, 4.0),
     )
 
     faces: tuple[tuple[int, int, int, int], ...] = (
@@ -78,6 +80,65 @@ class Template_L0(NamedTuple):
         (1, 4, 5, 2),
         (3, 6, 7, 4),
         (4, 7, 8, 5),
+    )
+
+
+class Template_L1(NamedTuple):
+    """Creates the fully level 1 (L1) data structure.
+
+    Attributes:
+        vertices (list[float]): The (x, y) positions of vertices on the unit cube.
+        faces (list[float]): The quadrilateral faces
+            composed of a sequence of integer node numbers,
+            in counter-clockwise (CCW) order, and first node is in the
+            lower left corner of the quadratilater.
+    """
+
+    vertices: tuple[tuple[float, float], ...] = (
+        (0.0, 0.0),
+        (0.0, 1.0),
+        (0.0, 2.0),
+        (0.0, 3.0),
+        (0.0, 4.0),
+        (1.0, 0.0),
+        (1.0, 1.0),
+        (1.0, 2.0),
+        (1.0, 3.0),
+        (1.0, 4.0),
+        (2.0, 0.0),
+        (2.0, 1.0),
+        (2.0, 2.0),
+        (2.0, 3.0),
+        (2.0, 4.0),
+        (3.0, 0.0),
+        (3.0, 1.0),
+        (3.0, 2.0),
+        (3.0, 3.0),
+        (3.0, 4.0),
+        (4.0, 0.0),
+        (4.0, 1.0),
+        (4.0, 2.0),
+        (4.0, 3.0),
+        (4.0, 4.0),
+    )
+
+    faces: tuple[tuple[int, int, int, int], ...] = (
+        (0, 5, 6, 1),
+        (1, 6, 7, 2),
+        (2, 7, 8, 3),
+        (3, 8, 9, 4),
+        (5, 10, 11, 6),
+        (6, 11, 12, 7),
+        (7, 12, 13, 8),
+        (8, 13, 14, 9),
+        (10, 15, 16, 11),
+        (11, 16, 17, 12),
+        (12, 17, 18, 13),
+        (13, 18, 19, 14),
+        (15, 20, 21, 16),
+        (16, 21, 22, 17),
+        (17, 22, 23, 18),
+        (18, 23, 24, 19),
     )
 
 
@@ -134,8 +195,11 @@ def plot_template(template):
 
 
 def main():
-    L0 = Template_L0()
-    plot_template(L0)
+    # L0 = Template_L0()
+    # plot_template(L0)
+
+    L1 = Template_L1()
+    plot_template(L1)
 
 
 if __name__ == "__main__":
