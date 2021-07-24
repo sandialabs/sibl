@@ -12,25 +12,25 @@
 #
 # (x0, y0), (x0, y1), (x1, y0), (x1, y1)
 
-#  0 0 0 0  # "all L0"
-#  0 0 0 1  # "single L1"
-#  0 0 1 0  #     "single L1" (2)
-#  0 0 1 1  # "half-half"
+#  0000  # "all L0"
+#  0001  # "single L1"
+#  0010  #     "single L1" (2)
+#  0011  # "half-half"
 
-#  0 1 0 0  #     "single L1" (3)
-#  0 1 0 1  #     "half-half" (2)
-#  0 1 1 0  # "fan"
-#  0 1 1 1  # "single L0"
+#  0100  #     "single L1" (3)
+#  0101  #     "half-half" (2)
+#  0110  # "fan"
+#  0111  # "single L0"
 
-#  1 0 0 0  #     "single L1" (4)
-#  1 0 0 1  #     "fan" (2)
-#  1 0 1 0  #     "half-half" (3)
-#  1 0 1 1  #     "single L0" (2)
+#  1000  #     "single L1" (4)
+#  1001  #     "fan" (2)
+#  1010  #     "half-half" (3)
+#  1011  #     "single L0" (2)
 
-#  1 1 0 0  #     "half-half" (4)
-#  1 1 0 1  #     "single L0" (3)
-#  1 1 1 0  #     "single L0" (4)
-#  1 1 1 1  #  "all L1"
+#  1100  #     "half-half" (4)
+#  1101  #     "single L0" (3)
+#  1110  #     "single L0" (4)
+#  1111  #  "all L1"
 
 # So slots in a 2x2 grid template, 4^2 = 16 configurations, but
 # there are only six (6) unique configurations.
@@ -38,7 +38,7 @@
 # import sys
 
 # from typing import Iterable, NamedTuple, Tuple
-from typing import NamedTuple
+from typing import Iterable, NamedTuple
 import matplotlib.pyplot as plt
 
 # from matplotlib.ticker import MultipleLocator
@@ -52,19 +52,37 @@ import matplotlib.pyplot as plt
 #     vertices: tuple[tuple[float, float]]
 #     faces: tuple[tuple[int, int, int, int]]
 
+# Type alias
+# https://docs.python.org/3/library/typing.html#type-aliases
+Point2D = tuple[float, float]
+QuadFace = tuple[int, int, int, int]
 
-class Template_L0(NamedTuple):
+
+class Template_0000(NamedTuple):
     """Creates the fully level 0 (L0) data structure.
+
+    The 0000 pattern:
+
+    *-----*-----*
+    |     |     |
+    |     |     |
+    |     |     |
+    *-----*-----*
+    |     |     |
+    |     |     |
+    |     |     |
+    *-----*-----*
 
     Attributes:
         vertices (list[float]): The (x, y) positions of vertices on the unit cube.
         faces (list[float]): The quadrilateral faces
             composed of a sequence of integer node numbers,
             in counter-clockwise (CCW) order, and first node is in the
-            lower left corner of the quadratilater.
+            lower left corner of the quadrilateral.
     """
 
-    vertices: tuple[tuple[float, float], ...] = (
+    # vertices: tuple[tuple[float, float], ...] = (
+    vertices: Iterable[Point2D] = (
         (0.0, 0.0),
         (0.0, 2.0),
         (0.0, 4.0),
@@ -76,7 +94,8 @@ class Template_L0(NamedTuple):
         (4.0, 4.0),
     )
 
-    faces: tuple[tuple[int, int, int, int], ...] = (
+    # faces: tuple[tuple[int, int, int, int], ...] = (
+    faces: Iterable[QuadFace] = (
         (0, 3, 4, 1),
         (1, 4, 5, 2),
         (3, 6, 7, 4),
@@ -84,18 +103,39 @@ class Template_L0(NamedTuple):
     )
 
 
-class Template_3L0_L1(NamedTuple):
-    """Creates the fully level 0 (L0) data structure.
+class Template_0001(NamedTuple):
+    """Creates the three level 0 (L0) and one level 1 (L1) data structure.
+
+    The 0001 pattern:
+
+    *-----*--*--*
+    |     |  |  |
+    |     *--*--*
+    |     |  |  |
+    *-----*--*--*
+    |     |     |
+    |     |     |
+    |     |     |
+    *-----*-----*
+
+    with node numbers:
+
+    2   6 9 13
+        5 8 12
+    1   4 7 11
+
+    0   3   10
 
     Attributes:
         vertices (list[float]): The (x, y) positions of vertices on the unit cube.
         faces (list[float]): The quadrilateral faces
             composed of a sequence of integer node numbers,
             in counter-clockwise (CCW) order, and first node is in the
-            lower left corner of the quadratilater.
+            lower left corner of the quadrilateral.
     """
 
-    vertices: tuple[tuple[float, float], ...] = (
+    # vertices: tuple[tuple[float, float], ...] = (
+    vertices: Iterable[Point2D] = (
         (0.0, 0.0),
         (0.0, 2.0),
         (0.0, 4.0),
@@ -112,7 +152,8 @@ class Template_3L0_L1(NamedTuple):
         (4.0, 4.0),
     )
 
-    faces: tuple[tuple[int, int, int, int], ...] = (
+    # faces: tuple[tuple[int, int, int, int], ...] = (
+    faces: Iterable[QuadFace] = (
         (0, 3, 4, 1),
         (1, 4, 6, 2),
         (3, 10, 11, 4),
@@ -123,18 +164,107 @@ class Template_3L0_L1(NamedTuple):
     )
 
 
-class Template_L1(NamedTuple):
-    """Creates the fully level 1 (L1) data structure.
+class Template_0011(NamedTuple):
+    """Creates the two level 0 (L0) and two level 1 (L1) data structure.
+
+    The 0011 pattern:
+
+    *-----*--*--*
+    |     |  |  |
+    |     *--*--*
+    |     |  |  |
+    *-----*--*--*
+    |     |  |  |
+    |     *--*--*
+    |     |  |  |
+    *-----*--*--*
+
+    with node numbers:
+
+    2   7 12 17
+        6 11 16
+    1   5 10 15
+        4  9 14
+    0   3  8 13
 
     Attributes:
         vertices (list[float]): The (x, y) positions of vertices on the unit cube.
         faces (list[float]): The quadrilateral faces
             composed of a sequence of integer node numbers,
             in counter-clockwise (CCW) order, and first node is in the
-            lower left corner of the quadratilater.
+            lower left corner of the quadrilateral.
     """
 
-    vertices: tuple[tuple[float, float], ...] = (
+    # vertices: tuple[tuple[float, float], ...] = (
+    vertices: Iterable[Point2D] = (
+        (0.0, 0.0),
+        (0.0, 2.0),
+        (0.0, 4.0),
+        (2.0, 0.0),
+        (2.0, 1.0),
+        (2.0, 2.0),
+        (2.0, 3.0),
+        (2.0, 4.0),
+        (3.0, 0.0),
+        (3.0, 1.0),
+        (3.0, 2.0),
+        (3.0, 3.0),
+        (3.0, 4.0),
+        (4.0, 0.0),
+        (4.0, 1.0),
+        (4.0, 2.0),
+        (4.0, 3.0),
+        (4.0, 4.0),
+    )
+
+    # faces: tuple[tuple[int, int, int, int], ...] = (
+    faces: Iterable[QuadFace] = (
+        (0, 3, 5, 1),
+        (1, 5, 7, 2),
+        (3, 8, 9, 4),
+        (4, 9, 10, 5),
+        (5, 10, 11, 6),
+        (6, 11, 12, 7),
+        (8, 13, 14, 9),
+        (9, 14, 15, 10),
+        (10, 15, 16, 11),
+        (11, 16, 17, 12),
+    )
+
+
+class Template_1111(NamedTuple):
+    """Creates the fully level 1 (L1) data structure.
+
+    The 1111 pattern:
+
+    *--*--*--*--*
+    |  |  |  |  |
+    *--*--*--*--*
+    |  |  |  |  |
+    *--*--*--*--*
+    |  |  |  |  |
+    *--*--*--*--*
+    |  |  |  |  |
+    *--*--*--*--*
+
+    with node numbers:
+
+    4 9 14 19 24
+    3 8 13 18 23
+    2 7 12 17 22
+    1 6 11 16 21
+    0 5 10 15 20
+
+    Attributes:
+        vertices (list[float]): The (x, y) positions of vertices on the unit cube.
+        faces (list[float]): The quadrilateral faces
+            composed of a sequence of integer node numbers,
+            in counter-clockwise (CCW) order, and first node is in the
+            lower left corner of the quadrilateral.
+    """
+
+    # vertices: tuple[tuple[float, float], ...] = (
+    vertices: Iterable[Point2D] = (
         (0.0, 0.0),
         (0.0, 1.0),
         (0.0, 2.0),
@@ -162,7 +292,8 @@ class Template_L1(NamedTuple):
         (4.0, 4.0),
     )
 
-    faces: tuple[tuple[int, int, int, int], ...] = (
+    # faces: tuple[tuple[int, int, int, int], ...] = (
+    faces: Iterable[QuadFace] = (
         (0, 5, 6, 1),
         (1, 6, 7, 2),
         (2, 7, 8, 3),
@@ -237,14 +368,17 @@ def plot_template(template):
 
 
 def main():
-    # T0 = Template_L0()
-    # plot_template(T0)
+    T0 = Template_0000()
+    plot_template(T0)
 
-    # T1 = Template_L1()
-    # plot_template(T1)
+    T1 = Template_0001()
+    plot_template(T1)
 
-    T2 = Template_3L0_L1()
+    T2 = Template_0011()
     plot_template(T2)
+
+    T5 = Template_1111()
+    plot_template(T5)
 
 
 if __name__ == "__main__":
