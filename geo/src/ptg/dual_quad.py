@@ -42,6 +42,7 @@ from typing import Iterable, NamedTuple
 from pathlib import Path
 
 import matplotlib.pyplot as plt
+from matplotlib import rc
 
 # from matplotlib.ticker import MultipleLocator
 # from matplotlib.patches import Polygon
@@ -71,6 +72,11 @@ colors = (
     "tab:olive",
     "tab:cyan",
 )
+
+latex = True
+if latex:
+    rc("font", **{"family": "serif", "serif": ["Computer Modern Roman"]})
+    rc("text", usetex=True)
 
 
 class Template_0000(NamedTuple):
@@ -398,25 +404,35 @@ class Template_0110(NamedTuple):
             in counter-clockwise (CCW) order, and first node is in the
             lower left corner of the quadrilateral.
 
-    The 0110 pattern:
+    The 0110 pattern and node numbers:
 
-    *--*--*-----*
-    |  |  |     |
-    *--*--*     |
-    |  |  |     |
-    *--*--*--*--*
-    |     |  |  |
-    |     *--*--*
-    |     |  |  |
-    *-----*--*--*
+    3----6---11--------18
+    |    |    |         |
+    2----5---10         |
+    |    |    |         |
+    1----4----9---14---17
+    |         |    |    |
+    |         8---13---16
+    |         |    |    |
+    0---------7---12---15
 
-    with node numbers:
+    and with dual node numbers:
 
-    3 6 11    18
-    2 5 10
-    1 4  9 14 17
-         8 13 16
-    0    7 12 15
+    +----+----+---------+
+    |  2 |  5 |         |
+    +----+----*   11    |
+    |  1 |  4 | 8       |
+    +----*----+----*----+
+    |       3 |  7 | 10 |
+    |    0    *----+----+
+    |         |  6 |  9 |
+    +---------+----+----+
+
+
+    where
+      "+" is a fully four-valenced node
+      "*" is a hanging node, connect to create a four-valence
+
     """
 
     name: str = "0110"
@@ -456,6 +472,46 @@ class Template_0110(NamedTuple):
         (12, 15, 16, 13),
         (13, 16, 17, 14),
         (9, 17, 18, 11),
+    )
+
+    vertices_dual: Iterable[Point2D] = (
+        (1.0, 1.0),
+        (0.5, 2.5),
+        (0.5, 3.5),
+        (1.667, 1.667),
+        (1.5, 2.5),
+        (1.5, 3.5),
+        (2.5, 0.5),
+        (2.5, 1.5),
+        (2.333, 2.333),
+        (3.5, 0.5),
+        (3.5, 1.5),
+        (3.0, 3.0),
+    )
+
+    faces_dual: Iterable[QuadFace] = (
+        (0, 3, 4, 1),
+        (1, 4, 5, 2),
+        (0, 6, 7, 3),
+        (3, 7, 8, 4),
+        (4, 8, 11, 5),
+        (6, 9, 10, 7),
+        (7, 10, 11, 8),
+    )
+
+    ports: Iterable[Point2D] = (
+        (1.0, 0.0),
+        (2.5, 0.0),
+        (3.5, 0.0),
+        (4.0, 0.5),
+        (4.0, 1.5),
+        (4.0, 3.0),
+        (3.0, 4.0),
+        (1.5, 4.0),
+        (0.5, 4.0),
+        (0.0, 3.5),
+        (0.0, 2.5),
+        (0.0, 1.0),
     )
 
 
@@ -688,8 +744,8 @@ def plot_template(template, *, dual_shown=False, serialize=False):
     # ax.yaxis.set_major_locator(MultipleLocator(1.0))
     # ax.yaxis.set_minor_locator(MultipleLocator(0.25))
 
-    ax.set_xlabel(r"x")
-    ax.set_ylabel(r"y")
+    ax.set_xlabel(r"$x$")
+    ax.set_ylabel(r"$y$")
 
     ax.set_xticks([0, 1, 2, 3, 4])
     ax.set_yticks([0, 1, 2, 3, 4])
@@ -709,9 +765,7 @@ def main():
     plot_template(Template_0000(), dual_shown=True, serialize=True)
     plot_template(Template_0001(), dual_shown=True, serialize=True)
     plot_template(Template_0011(), dual_shown=True, serialize=True)
-
-    T3 = Template_0110()
-    plot_template(T3)
+    plot_template(Template_0110(), dual_shown=True, serialize=True)
 
     T4 = Template_0111()
     plot_template(T4)
