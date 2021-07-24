@@ -95,6 +95,22 @@ class Template_0000(NamedTuple):
     |     |     |
     |     |     |
     *-----*-----*
+
+    with node numbers:
+
+    2   5   8
+
+    1   4   7
+
+    0   3   6
+
+    and with dual node numbers:
+
+    *   *   *
+      1   3
+    *   *   *
+      0   2
+    *   *   *
     """
 
     name: str = "0000"
@@ -118,6 +134,26 @@ class Template_0000(NamedTuple):
         (1, 4, 5, 2),
         (3, 6, 7, 4),
         (4, 7, 8, 5),
+    )
+
+    vertices_dual: Iterable[Point2D] = (
+        (1.0, 1.0),
+        (1.0, 3.0),
+        (3.0, 1.0),
+        (3.0, 3.0),
+    )
+
+    faces_dual: Iterable[QuadFace] = ((0, 2, 3, 1),)
+
+    ports: Iterable[Point2D] = (
+        (1.0, 0.0),
+        (3.0, 0.0),
+        (4.0, 1.0),
+        (4.0, 3.0),
+        (3.0, 4.0),
+        (1.0, 4.0),
+        (0.0, 3.0),
+        (0.0, 1.0),
     )
 
 
@@ -151,9 +187,16 @@ class Template_0001(NamedTuple):
     1   4 7 11
 
     0   3   10
+
+    and with dual node numbers:
+
+    1     6  9
+       3  5  8
+       2  4
+    0        7
     """
 
-    name: str = "0010"
+    name: str = "0001"
 
     # vertices: tuple[tuple[float, float], ...] = (
     vertices: Iterable[Point2D] = (
@@ -182,6 +225,41 @@ class Template_0001(NamedTuple):
         (5, 8, 9, 6),
         (7, 11, 12, 8),
         (8, 12, 13, 9),
+    )
+
+    vertices_dual: Iterable[Point2D] = (
+        (1.0, 1.0),
+        (1.0, 3.0),
+        (1.667, 1.667),
+        (1.667, 2.333),
+        (2.333, 1.667),
+        (2.5, 2.5),
+        (2.5, 3.5),
+        (3.0, 1.0),
+        (3.5, 2.5),
+        (3.5, 3.5),
+    )
+
+    faces_dual: Iterable[QuadFace] = (
+        (0, 2, 3, 1),
+        (0, 7, 4, 2),
+        (2, 4, 5, 3),
+        (3, 5, 6, 1),
+        (4, 7, 8, 5),
+        (5, 8, 9, 6),
+    )
+
+    ports: Iterable[Point2D] = (
+        (1.0, 0.0),
+        (3.0, 0.0),
+        (4.0, 1.0),
+        (4.0, 2.5),
+        (4.0, 3.5),
+        (3.5, 4.0),
+        (2.5, 4.0),
+        (1.0, 4.0),
+        (0.0, 3.0),
+        (0.0, 1.0),
     )
 
 
@@ -564,7 +642,7 @@ def plot_template(template, *, dual_shown=False, serialize=False):
         xs = [face[i][0] for i in range(len(face))]
         ys = [face[i][1] for i in range(len(face))]
         plt.fill(
-            xs, ys, linestyle="dotted", edgecolor="blue", alpha=0.5, facecolor="gray"
+            xs, ys, linestyle="dotted", edgecolor="magenta", alpha=0.5, facecolor="gray"
         )
 
     if dual_shown:
@@ -613,8 +691,8 @@ def plot_template(template, *, dual_shown=False, serialize=False):
     ax.set_xlabel(r"x")
     ax.set_ylabel(r"y")
 
-    # ax.set_xticks([0.0, 0.25, 0.5, 0.75, 1.0])
-    # ax.set_yticks([0.0, 0.25, 0.5, 0.75, 1.0])
+    ax.set_xticks([0, 1, 2, 3, 4])
+    ax.set_yticks([0, 1, 2, 3, 4])
 
     plt.show()
 
@@ -627,14 +705,10 @@ def plot_template(template, *, dual_shown=False, serialize=False):
 
 
 def main():
-    # T0 = Template_0000()
-    # plot_template(T0)
 
-    # T1 = Template_0001()
-    # plot_template(T1)
-
-    T2 = Template_0011()
-    plot_template(T2, dual_shown=True, serialize=True)
+    plot_template(Template_0000(), dual_shown=True, serialize=True)
+    plot_template(Template_0001(), dual_shown=True, serialize=True)
+    plot_template(Template_0011(), dual_shown=True, serialize=True)
 
     T3 = Template_0110()
     plot_template(T3)
