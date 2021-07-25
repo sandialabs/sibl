@@ -38,7 +38,8 @@
 # import sys
 
 # from typing import Iterable, NamedTuple, Tuple
-from typing import Iterable, NamedTuple
+# from typing import Iterable, NamedTuple
+from typing import NamedTuple
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -55,10 +56,47 @@ from matplotlib import rc
 #     vertices: tuple[tuple[float, float]]
 #     faces: tuple[tuple[int, int, int, int]]
 
-# Type alias
+# Pyschool example motivating type alias
+# import math
+#
+#
+# def polar_to_cartesian(point: tuple[float, float]) -> tuple[float, float]:
+#     r = point[0]
+#     t = point[1]
+#
+#     x = r * math.cos(t)
+#     y = r * math.sin(t)
+#
+#     return x, y
+#
+#
+# # abuse with reversal of argument and return
+# # abuse with tolerances
+
+# Type alias for functional style methods
 # https://docs.python.org/3/library/typing.html#type-aliases
-Point2D = tuple[float, float]
-QuadFace = tuple[int, int, int, int]
+Coordinate = tuple[float, float]
+
+# Vertex = tuple[float, float]
+Vertex = Coordinate
+# Vertices = Iterable[Vertex]
+Vertices = tuple[Vertex, ...]
+
+Face = tuple[int, int, int, int]
+# Faces = Iterable[Face]
+Faces = tuple[Face, ...]
+
+# Port = tuple[float, float]
+Port = Coordinate
+# Ports = Iterable[Port]
+Ports = tuple[Port, ...]
+
+# Point2D = tuple[float, float]
+# QuadFace = tuple[int, int, int, int]
+# QuadFace_as_coordinates = tuple[Point2D, ...]
+
+index_x, index_y = 0, 1  # avoid magic numbers later
+
 
 colors = (
     "tab:blue",
@@ -125,7 +163,8 @@ class Template_0000(NamedTuple):
     name: str = "0000"
 
     # vertices: tuple[tuple[float, float], ...] = (
-    vertices: Iterable[Point2D] = (
+    # vertices: Iterable[Point2D] = (
+    vertices: Vertices = (
         (0.0, 0.0),
         (0.0, 2.0),
         (0.0, 4.0),
@@ -138,23 +177,27 @@ class Template_0000(NamedTuple):
     )
 
     # faces: tuple[tuple[int, int, int, int], ...] = (
-    faces: Iterable[QuadFace] = (
+    # faces: Iterable[QuadFace] = (
+    faces: Faces = (
         (0, 3, 4, 1),
         (1, 4, 5, 2),
         (3, 6, 7, 4),
         (4, 7, 8, 5),
     )
 
-    vertices_dual: Iterable[Point2D] = (
+    # vertices_dual: Iterable[Point2D] = (
+    vertices_dual: Vertices = (
         (1.0, 1.0),
         (1.0, 3.0),
         (3.0, 1.0),
         (3.0, 3.0),
     )
 
-    faces_dual: Iterable[QuadFace] = ((0, 2, 3, 1),)
+    # faces_dual: Iterable[QuadFace] = ((0, 2, 3, 1),)
+    faces_dual: Faces = ((0, 2, 3, 1),)
 
-    ports: Iterable[Point2D] = (
+    # ports: Iterable[Point2D] = (
+    ports: Ports = (
         (1.0, 0.0),
         (3.0, 0.0),
         (4.0, 1.0),
@@ -201,7 +244,8 @@ class Template_0001(NamedTuple):
     name: str = "0001"
 
     # vertices: tuple[tuple[float, float], ...] = (
-    vertices: Iterable[Point2D] = (
+    # vertices: Iterable[Point2D] = (
+    vertices: Vertices = (
         (0.0, 0.0),
         (0.0, 2.0),
         (0.0, 4.0),
@@ -219,7 +263,8 @@ class Template_0001(NamedTuple):
     )
 
     # faces: tuple[tuple[int, int, int, int], ...] = (
-    faces: Iterable[QuadFace] = (
+    # faces: Iterable[QuadFace] = (
+    faces: Faces = (
         (0, 3, 4, 1),
         (1, 4, 6, 2),
         (3, 10, 11, 4),
@@ -229,7 +274,8 @@ class Template_0001(NamedTuple):
         (8, 12, 13, 9),
     )
 
-    vertices_dual: Iterable[Point2D] = (
+    # vertices_dual: Iterable[Point2D] = (
+    vertices_dual: Vertices = (
         (1.0, 1.0),
         (1.0, 3.0),
         (1.667, 1.667),
@@ -242,7 +288,8 @@ class Template_0001(NamedTuple):
         (3.5, 3.5),
     )
 
-    faces_dual: Iterable[QuadFace] = (
+    # faces_dual: Iterable[QuadFace] = (
+    faces_dual: Faces = (
         (0, 2, 3, 1),
         (0, 7, 4, 2),
         (2, 4, 5, 3),
@@ -251,7 +298,8 @@ class Template_0001(NamedTuple):
         (5, 8, 9, 6),
     )
 
-    ports: Iterable[Point2D] = (
+    # ports: Iterable[Point2D] = (
+    ports: Ports = (
         (1.0, 0.0),
         (3.0, 0.0),
         (4.0, 1.0),
@@ -300,7 +348,8 @@ class Template_0011(NamedTuple):
     name: str = "0011"
 
     # vertices: tuple[tuple[float, float], ...] = (
-    vertices: Iterable[Point2D] = (
+    # vertices: Iterable[Point2D] = (
+    vertices: Vertices = (
         (0.0, 0.0),
         (0.0, 2.0),
         (0.0, 4.0),
@@ -322,7 +371,8 @@ class Template_0011(NamedTuple):
     )
 
     # faces: tuple[tuple[int, int, int, int], ...] = (
-    faces: Iterable[QuadFace] = (
+    # faces: Iterable[QuadFace] = (
+    faces: Faces = (
         (0, 3, 5, 1),
         (1, 5, 7, 2),
         (3, 8, 9, 4),
@@ -335,7 +385,8 @@ class Template_0011(NamedTuple):
         (11, 16, 17, 12),
     )
 
-    vertices_dual: Iterable[Point2D] = (
+    # vertices_dual: Iterable[Point2D] = (
+    vertices_dual: Vertices = (
         (1.0, 1.0),
         (1.0, 3.0),
         (1.667, 1.667),
@@ -350,7 +401,8 @@ class Template_0011(NamedTuple):
         (3.5, 3.5),
     )
 
-    faces_dual: Iterable[QuadFace] = (
+    # faces_dual: Iterable[QuadFace] = (
+    faces_dual: Faces = (
         (0, 2, 3, 1),
         (0, 4, 5, 2),
         (2, 5, 6, 3),
@@ -360,7 +412,8 @@ class Template_0011(NamedTuple):
         (6, 10, 11, 7),
     )
 
-    ports: Iterable[Point2D] = (
+    # ports: Iterable[Point2D] = (
+    ports: Ports = (
         (1.0, 0.0),
         (2.5, 0.0),
         (3.5, 0.0),
@@ -419,7 +472,8 @@ class Template_0110(NamedTuple):
     name: str = "0110"
 
     # vertices: tuple[tuple[float, float], ...] = (
-    vertices: Iterable[Point2D] = (
+    # vertices: Iterable[Point2D] = (
+    vertices: Vertices = (
         (0.0, 0.0),
         (0.0, 2.0),
         (0.0, 3.0),
@@ -442,7 +496,8 @@ class Template_0110(NamedTuple):
     )
 
     # faces: tuple[tuple[int, int, int, int], ...] = (
-    faces: Iterable[QuadFace] = (
+    # faces: Iterable[QuadFace] = (
+    faces: Faces = (
         (0, 7, 9, 1),
         (1, 4, 5, 2),
         (2, 5, 6, 3),
@@ -455,7 +510,8 @@ class Template_0110(NamedTuple):
         (9, 17, 18, 11),
     )
 
-    vertices_dual: Iterable[Point2D] = (
+    # vertices_dual: Iterable[Point2D] = (
+    vertices_dual: Vertices = (
         (1.0, 1.0),
         (0.5, 2.5),
         (0.5, 3.5),
@@ -470,7 +526,8 @@ class Template_0110(NamedTuple):
         (3.0, 3.0),
     )
 
-    faces_dual: Iterable[QuadFace] = (
+    # faces_dual: Iterable[QuadFace] = (
+    faces_dual: Faces = (
         (0, 3, 4, 1),
         (1, 4, 5, 2),
         (0, 6, 7, 3),
@@ -480,7 +537,8 @@ class Template_0110(NamedTuple):
         (7, 10, 11, 8),
     )
 
-    ports: Iterable[Point2D] = (
+    # ports: Iterable[Point2D] = (
+    ports: Ports = (
         (1.0, 0.0),
         (2.5, 0.0),
         (3.5, 0.0),
@@ -531,7 +589,8 @@ class Template_0111(NamedTuple):
     name: str = "0111"
 
     # vertices: tuple[tuple[float, float], ...] = (
-    vertices: Iterable[Point2D] = (
+    # vertices: Iterable[Point2D] = (
+    vertices: Vertices = (
         (0.0, 0.0),
         (0.0, 2.0),
         (0.0, 3.0),
@@ -557,7 +616,8 @@ class Template_0111(NamedTuple):
     )
 
     # faces: tuple[tuple[int, int, int, int], ...] = (
-    faces: Iterable[QuadFace] = (
+    # faces: Iterable[QuadFace] = (
+    faces: Faces = (
         (0, 7, 9, 1),
         (1, 4, 5, 2),
         (2, 5, 6, 3),
@@ -573,7 +633,8 @@ class Template_0111(NamedTuple):
         (15, 20, 21, 16),
     )
 
-    vertices_dual: Iterable[Point2D] = (
+    # vertices_dual: Iterable[Point2D] = (
+    vertices_dual: Vertices = (
         (1.0, 1.0),
         (0.5, 2.5),
         (0.5, 3.5),
@@ -589,7 +650,9 @@ class Template_0111(NamedTuple):
         (3.5, 2.5),
         (3.5, 3.5),
     )
-    faces_dual: Iterable[QuadFace] = (
+
+    # faces_dual: Iterable[QuadFace] = (
+    faces_dual: Faces = (
         (0, 3, 4, 1),
         (1, 4, 5, 2),
         (0, 6, 7, 3),
@@ -599,7 +662,9 @@ class Template_0111(NamedTuple):
         (7, 11, 12, 8),
         (8, 12, 13, 9),
     )
-    ports: Iterable[Point2D] = (
+
+    # ports: Iterable[Point2D] = (
+    ports: Ports = (
         (1.0, 0.0),
         (2.5, 0.0),
         (3.5, 0.0),
@@ -652,7 +717,8 @@ class Template_1111(NamedTuple):
     name: str = "1111"
 
     # vertices: tuple[tuple[float, float], ...] = (
-    vertices: Iterable[Point2D] = (
+    # vertices: Iterable[Point2D] = (
+    vertices: Vertices = (
         (0.0, 0.0),
         (0.0, 1.0),
         (0.0, 2.0),
@@ -681,7 +747,8 @@ class Template_1111(NamedTuple):
     )
 
     # faces: tuple[tuple[int, int, int, int], ...] = (
-    faces: Iterable[QuadFace] = (
+    # faces: Iterable[QuadFace] = (
+    faces: Faces = (
         (0, 5, 6, 1),
         (1, 6, 7, 2),
         (2, 7, 8, 3),
@@ -700,7 +767,8 @@ class Template_1111(NamedTuple):
         (18, 23, 24, 19),
     )
 
-    vertices_dual: Iterable[Point2D] = (
+    # vertices_dual: Iterable[Point2D] = (
+    vertices_dual: Vertices = (
         (0.5, 0.5),
         (0.5, 1.5),
         (0.5, 2.5),
@@ -718,7 +786,9 @@ class Template_1111(NamedTuple):
         (3.5, 2.5),
         (3.5, 3.5),
     )
-    faces_dual: Iterable[QuadFace] = (
+
+    # faces_dual: Iterable[QuadFace] = (
+    faces_dual: Faces = (
         (0, 4, 5, 1),
         (1, 5, 6, 2),
         (2, 6, 7, 3),
@@ -729,7 +799,9 @@ class Template_1111(NamedTuple):
         (9, 13, 14, 10),
         (10, 14, 15, 11),
     )
-    ports: Iterable[Point2D] = (
+
+    # ports: Iterable[Point2D] = (
+    ports: Ports = (
         (0.5, 0.0),
         (1.5, 0.0),
         (2.5, 0.0),
@@ -749,39 +821,57 @@ class Template_1111(NamedTuple):
     )
 
 
-def face_as_coordinates(
-    face: tuple[int, int, int, int],
-    vertices: tuple[tuple[float, float]],
-) -> tuple[tuple[float, float], ...]:
+# def face_as_coordinates(
+#     face: tuple[int, int, int, int],
+#     vertices: tuple[tuple[float, float]],
+# ) -> tuple[tuple[float, float], ...]:
+#
+#     b = tuple(vertices[i] for i in face)
+#     return
 
-    b = tuple(vertices[i] for i in face)
-    return b
+
+# def face_coordinates(face: Face, vertices: Vertices) -> Iterable[Coordinate]:
+def face_coordinates(face: Face, vertices: Vertices) -> Vertices:
+
+    # b = tuple(vertices[i] for i in face)
+    bb = tuple(vertices[k] for k in face)
+    # return ((1.2, 1.2), (1.3, 1.2))
+    return bb
 
 
-def plot_template(template, *, dual_shown=False, serialize=False):
+def plot_template(template, *, dual_shown=False, plot_shown=False, serialize=False):
+    # faces_as_points = tuple(
+    #     face_as_coordinates(face, template.vertices) for face in template.faces
+    # )
     faces_as_points = tuple(
-        face_as_coordinates(face, template.vertices) for face in template.faces
+        face_coordinates(face, template.vertices) for face in template.faces
     )
 
-    fig = plt.figure(figsize=plt.figaspect(1.0), dpi=100)
+    # fig = plt.figure(figsize=plt.figaspect(1.0), dpi=100)
+    fig = plt.figure(figsize=(6.0, 6.0), dpi=100)
     ax = fig.gca()
 
     for face in faces_as_points:
-        xs = [face[i][0] for i in range(len(face))]
-        ys = [face[i][1] for i in range(len(face))]
+        xs = [face[k][index_x] for k in range(len(face))]
+        ys = [face[k][index_y] for k in range(len(face))]
         plt.fill(
             xs, ys, linestyle="dotted", edgecolor="magenta", alpha=0.5, facecolor="gray"
         )
 
     if dual_shown:
+        # faces_as_points = tuple(
+        #     face_as_coordinates(face, template.vertices_dual)
+        #     for face in template.faces_dual
+        # )
+
         faces_as_points = tuple(
-            face_as_coordinates(face, template.vertices_dual)
+            face_coordinates(face, template.vertices_dual)
             for face in template.faces_dual
         )
 
         for face in faces_as_points:
-            xs = [face[i][0] for i in range(len(face))]
-            ys = [face[i][1] for i in range(len(face))]
+            xs = [face[k][index_x] for k in range(len(face))]
+            ys = [face[k][index_y] for k in range(len(face))]
             plt.fill(
                 xs,
                 ys,
@@ -822,11 +912,12 @@ def plot_template(template, *, dual_shown=False, serialize=False):
     ax.set_xticks([0, 1, 2, 3, 4])
     ax.set_yticks([0, 1, 2, 3, 4])
 
-    plt.show()
+    if plot_shown:
+        plt.show()
 
     if serialize:
 
-        extension = "_" + template.name + ".png"  # or '.svg'
+        extension = "_" + template.name + ".pdf"  # or '.'.png' | '.pdf' | '.svg'
         filename = Path(__file__).stem + extension
         fig.savefig(filename, bbox_inches="tight", pad_inches=0)
         print(f"Serialized to {filename}")
@@ -834,12 +925,16 @@ def plot_template(template, *, dual_shown=False, serialize=False):
 
 def main():
 
-    plot_template(Template_0000(), dual_shown=True, serialize=True)
-    plot_template(Template_0001(), dual_shown=True, serialize=True)
-    plot_template(Template_0011(), dual_shown=True, serialize=True)
-    plot_template(Template_0110(), dual_shown=True, serialize=True)
-    plot_template(Template_0111(), dual_shown=True, serialize=True)
-    plot_template(Template_1111(), dual_shown=True, serialize=True)
+    dual = True
+    show = True
+    save = False
+
+    plot_template(Template_0000(), dual_shown=dual, plot_shown=show, serialize=save)
+    plot_template(Template_0001(), dual_shown=dual, plot_shown=show, serialize=save)
+    plot_template(Template_0011(), dual_shown=dual, plot_shown=show, serialize=save)
+    plot_template(Template_0110(), dual_shown=dual, plot_shown=show, serialize=save)
+    plot_template(Template_0111(), dual_shown=dual, plot_shown=show, serialize=save)
+    plot_template(Template_1111(), dual_shown=dual, plot_shown=show, serialize=save)
 
 
 if __name__ == "__main__":

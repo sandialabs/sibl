@@ -7,3 +7,5 @@
 | `Template_0110` | `Template_0111` | `Template_1111` |
 |:---:|:---:|:---:|
 | ![dual_quad_0110](fig/dual_quad_0110.png) | ![dual_quad_0111](fig/dual_quad_0111.png) | ![dual_quad_1111](fig/dual_quad_1111.png) | 
+
+Created with [dual_quad.py](../src/ptg/dual_quad.py)
