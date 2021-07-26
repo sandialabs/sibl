@@ -1,4 +1,4 @@
-"""This modeul is a unit test of the dual_hex implementation.
+"""This module is a unit test of the dual_hex implementation.
 
 To run
 > conda activate siblenv
