@@ -1,15 +1,17 @@
 # L0 refinement is the base level
-# L1 refinement is refined 1x relative to 0 refinement
+# L1 refinement is refined 1x relative to the 0 base level
 #
 # Consider a 2x2 grid template, composed of either L0 or L1 squares.
 # For each of the four grid spaces of the 2x2 grid can be composed
 # of either the L0 (one square) or L1 (four small squares).
-# There are 2^4 = 16 variations, but not of all these are unique.
+# There are 2^4 = 16 variations, but only six variations are unique,
+# as shown below.
 #
 # Let the x-axis be the major axis, and y-axis be the minor axis.
 # Then the array of fills for the 2x2 grid is
 # 0 -> L0, 1 -> L1
 #
+# SW,       NW,       SE,       NE
 # (x0, y0), (x0, y1), (x1, y0), (x1, y1)
 
 #  0000  # "all L0"            <-- unique T0
@@ -48,33 +50,12 @@ from matplotlib import rc
 # from matplotlib.ticker import MultipleLocator
 # from matplotlib.patches import Polygon
 
-# import numpy as np
-
-
-# TODO: implement a base class Template
-# class Template(NamedTuple):
-#     vertices: tuple[tuple[float, float]]
-#     faces: tuple[tuple[int, int, int, int]]
-
-# Pyschool example motivating type alias
-# import math
-#
-#
-# def polar_to_cartesian(point: tuple[float, float]) -> tuple[float, float]:
-#     r = point[0]
-#     t = point[1]
-#
-#     x = r * math.cos(t)
-#     y = r * math.sin(t)
-#
-#     return x, y
-#
-#
-# # abuse with reversal of argument and return
-# # abuse with tolerances
+# TODO: Ask AP re (1) Faces = Iterable[Face] versus Faces = tuple[Face, ...], and
+# (2) how to enforce same data structure across all six templates.
 
 # Type alias for functional style methods
 # https://docs.python.org/3/library/typing.html#type-aliases
+# Coordinate = tuple[float, float]
 Coordinate = tuple[float, float]
 
 # Vertex = tuple[float, float]
@@ -97,7 +78,6 @@ Ports = tuple[Port, ...]
 
 index_x, index_y = 0, 1  # avoid magic numbers later
 
-
 colors = (
     "tab:blue",
     "tab:orange",
@@ -117,19 +97,33 @@ if latex:
     rc("text", usetex=True)
 
 
-class Template_0000(NamedTuple):
-    """Creates the fully level 0 (L0) data structure.
+class Template_Base(NamedTuple):
+    """The base data type for all Templates.
 
     Attributes:
-        name (str): Four digit binary unique identifier.
-        vertices (list[float]): The (x, y) positions of vertices on the unit cube.
-        faces (list[float]): The quadrilateral faces
-            composed of a sequence of integer node numbers,
+        name: Four digit binary unique identifier, as a unique string.
+        vertices: The (x, y) positions of vertices on the primal mesh.
+        faces: The faces composing the primal mesh.  Face nodes are identified
             in counter-clockwise (CCW) order, and first node is in the
             lower left corner of the quadrilateral.
-        vertices_dual: to come.
-        faces_dual: to come.
-        ports: to come
+        vertices_dual: The (x, y) positions of vertices on the dual mesh.
+        faces_dual: The faces composing the dual mesh.  Ordering rules are the same
+            as for the primal mesh (above).
+        ports: The (x, y) positions of admissible template-to-template connections.
+            When two templated are jointed, a set of ports on an edge of a template
+            much match with the set of ports on the edge of an adjoining template.
+    """
+
+    name: str
+    vertices: Vertices
+    faces: Faces
+    vertices_dual: Vertices
+    faces_dual: Faces
+    ports: Ports
+
+
+class Template_0000(NamedTuple):
+    """Creates the fully level 0 (L0) data structure.
 
     The 0000 pattern and node numbers:
 
@@ -431,14 +425,6 @@ class Template_0011(NamedTuple):
 
 class Template_0110(NamedTuple):
     """Creates the two level 0 (L0) and two level 1 (L1) data structure in opposition.
-
-    Attributes:
-        name (str): Four digit binary unique identifier.
-        vertices (list[float]): The (x, y) positions of vertices on the unit cube.
-        faces (list[float]): The quadrilateral faces
-            composed of a sequence of integer node numbers,
-            in counter-clockwise (CCW) order, and first node is in the
-            lower left corner of the quadrilateral.
 
     The 0110 pattern and node numbers:
 
@@ -843,15 +829,14 @@ def plot_template(template, *, dual_shown=False, plot_shown=False, serialize=Fal
     # faces_as_points = tuple(
     #     face_as_coordinates(face, template.vertices) for face in template.faces
     # )
-    faces_as_points = tuple(
+    faces_as_coordinates = tuple(
         face_coordinates(face, template.vertices) for face in template.faces
     )
 
-    # fig = plt.figure(figsize=plt.figaspect(1.0), dpi=100)
     fig = plt.figure(figsize=(6.0, 6.0), dpi=100)
     ax = fig.gca()
 
-    for face in faces_as_points:
+    for face in faces_as_coordinates:
         xs = [face[k][index_x] for k in range(len(face))]
         ys = [face[k][index_y] for k in range(len(face))]
         plt.fill(
@@ -864,12 +849,12 @@ def plot_template(template, *, dual_shown=False, plot_shown=False, serialize=Fal
         #     for face in template.faces_dual
         # )
 
-        faces_as_points = tuple(
+        faces_as_coordinates = tuple(
             face_coordinates(face, template.vertices_dual)
             for face in template.faces_dual
         )
 
-        for face in faces_as_points:
+        for face in faces_as_coordinates:
             xs = [face[k][index_x] for k in range(len(face))]
             ys = [face[k][index_y] for k in range(len(face))]
             plt.fill(
@@ -926,8 +911,8 @@ def plot_template(template, *, dual_shown=False, plot_shown=False, serialize=Fal
 def main():
 
     dual = True
-    show = True
-    save = False
+    show = False
+    save = True
 
     plot_template(Template_0000(), dual_shown=dual, plot_shown=show, serialize=save)
     plot_template(Template_0001(), dual_shown=dual, plot_shown=show, serialize=save)
