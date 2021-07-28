@@ -170,6 +170,8 @@ class Template_0000(NamedTuple):
         (4.0, 4.0),
     )
 
+    vertices_revalence = None
+
     # faces: tuple[tuple[int, int, int, int], ...] = (
     # faces: Iterable[QuadFace] = (
     faces: Faces = (
@@ -239,7 +241,7 @@ class Template_0001(NamedTuple):
 
     # vertices: tuple[tuple[float, float], ...] = (
     # vertices: Iterable[Point2D] = (
-    vertices: Vertices = (
+    vertices: tuple[Vertex, ...] = (
         (0.0, 0.0),
         (0.0, 2.0),
         (0.0, 4.0),
@@ -254,6 +256,15 @@ class Template_0001(NamedTuple):
         (4.0, 2.0),
         (4.0, 3.0),
         (4.0, 4.0),
+    )
+
+    vertices_revalence: tuple[tuple[Vertex, ...]] = (
+        (
+            (2.0, 3.0),
+            (1.0, 2.0),
+            (2.0, 1.0),
+            (3.0, 2.0),
+        ),
     )
 
     # faces: tuple[tuple[int, int, int, int], ...] = (
@@ -343,7 +354,7 @@ class Template_0011(NamedTuple):
 
     # vertices: tuple[tuple[float, float], ...] = (
     # vertices: Iterable[Point2D] = (
-    vertices: Vertices = (
+    vertices: tuple[Vertex, ...] = (
         (0.0, 0.0),
         (0.0, 2.0),
         (0.0, 4.0),
@@ -362,6 +373,14 @@ class Template_0011(NamedTuple):
         (4.0, 2.0),
         (4.0, 3.0),
         (4.0, 4.0),
+    )
+
+    vertices_revalence: tuple[tuple[Vertex, ...]] = (
+        (
+            (2.0, 3.0),
+            (1.0, 2.0),
+            (2.0, 1.0),
+        ),
     )
 
     # faces: tuple[tuple[int, int, int, int], ...] = (
@@ -479,6 +498,17 @@ class Template_0110(NamedTuple):
         (4.0, 1.0),
         (4.0, 2.0),
         (4.0, 4.0),
+    )
+
+    vertices_revalence: tuple[tuple[Vertex, ...], ...] = (
+        (
+            (1.0, 2.0),
+            (2.0, 1.0),
+        ),
+        (
+            (3.0, 2.0),
+            (2.0, 3.0),
+        ),
     )
 
     # faces: tuple[tuple[int, int, int, int], ...] = (
@@ -599,6 +629,13 @@ class Template_0111(NamedTuple):
         (4.0, 2.0),
         (4.0, 3.0),
         (4.0, 4.0),
+    )
+
+    vertices_revalence: tuple[tuple[Vertex, ...]] = (
+        (
+            (1.0, 2.0),
+            (2.0, 1.0),
+        ),
     )
 
     # faces: tuple[tuple[int, int, int, int], ...] = (
@@ -731,6 +768,8 @@ class Template_1111(NamedTuple):
         (4.0, 3.0),
         (4.0, 4.0),
     )
+
+    vertices_revalence = None
 
     # faces: tuple[tuple[int, int, int, int], ...] = (
     # faces: Iterable[QuadFace] = (
@@ -878,6 +917,30 @@ def plot_template(template, *, dual_shown=False, plot_shown=False, serialize=Fal
             marker="o",
             s=20,  # markersize
         )
+
+    # finally, show the hanging nodes if any, and the revalence path
+    try:
+        if template.vertices_revalence is not None:
+            for xys in template.vertices_revalence:
+                # xys = template.vertices_revalence
+                xs = [xys[k][index_x] for k in range(len(xys))]
+                ys = [xys[k][index_y] for k in range(len(xys))]
+                plt.plot(
+                    xs, ys, linestyle="dotted", linewidth=1.0, color="black", alpha=0.3
+                )
+                ax.scatter(
+                    [xs[0], xs[-1]],
+                    [ys[0], ys[-1]],
+                    edgecolor="magenta",
+                    facecolor="magenta",
+                    alpha=1.0,
+                    marker="o",
+                    s=20,  # markersize
+                )
+    except AttributeError as e:
+        print(e)
+        print("Warning: this template should specify hanging vertices or None.")
+
     # ax.set_ylim([0.0 - 2 * _eps, 1.0 + 2 * _eps])
 
     # ax.legend(bbox_to_anchor=(1.05, 1), loc="upper left", borderaxespad=0.0)
@@ -902,7 +965,7 @@ def plot_template(template, *, dual_shown=False, plot_shown=False, serialize=Fal
 
     if serialize:
 
-        extension = "_" + template.name + ".pdf"  # or '.'.png' | '.pdf' | '.svg'
+        extension = "_" + template.name + ".png"  # or '.'.png' | '.pdf' | '.svg'
         filename = Path(__file__).stem + extension
         fig.savefig(filename, bbox_inches="tight", pad_inches=0)
         print(f"Serialized to {filename}")
