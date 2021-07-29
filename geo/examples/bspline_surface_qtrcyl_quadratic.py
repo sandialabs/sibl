@@ -85,6 +85,7 @@ if control_points_shown:
     ax.plot3D(cp_x, cp_y, cp_z, **vbsp.defaults["control_points_kwargs"])
 
 for control_points, surface_color in zip(surfaces, vbsp.colors):
+
     S = bsp.Surface(
         kv_t,
         kv_u,
