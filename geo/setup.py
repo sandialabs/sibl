@@ -1,5 +1,4 @@
 import setuptools
-from glob import glob
 
 with open("../README.md", "r") as fh:
     long_description = fh.read()
@@ -18,7 +17,6 @@ setuptools.setup(
     name="ptg",
     packages=setuptools.find_packages("src"),
     package_dir={"": "src"},
-    py_modules=[splitext(basename(path))[0] for path in glob("src/*.py")],
     python_requires=">=3.9",
     url="https://github.com/sandialabs/sibl",
     version="0.0.2",

@@ -256,7 +256,12 @@ class Template_0001(NamedTuple):
     )
 
     vertices_revalence: tuple[tuple[Vertex, ...]] = (
-        ((2.0, 3.0), (1.0, 2.0), (2.0, 1.0), (3.0, 2.0),),
+        (
+            (2.0, 3.0),
+            (1.0, 2.0),
+            (2.0, 1.0),
+            (3.0, 2.0),
+        ),
     )
 
     # faces: tuple[tuple[int, int, int, int], ...] = (
@@ -368,7 +373,11 @@ class Template_0011(NamedTuple):
     )
 
     vertices_revalence: tuple[tuple[Vertex, ...]] = (
-        ((2.0, 3.0), (1.0, 2.0), (2.0, 1.0),),
+        (
+            (2.0, 3.0),
+            (1.0, 2.0),
+            (2.0, 1.0),
+        ),
     )
 
     # faces: tuple[tuple[int, int, int, int], ...] = (
@@ -489,8 +498,14 @@ class Template_0110(NamedTuple):
     )
 
     vertices_revalence: tuple[tuple[Vertex, ...], ...] = (
-        ((1.0, 2.0), (2.0, 1.0),),
-        ((3.0, 2.0), (2.0, 3.0),),
+        (
+            (1.0, 2.0),
+            (2.0, 1.0),
+        ),
+        (
+            (3.0, 2.0),
+            (2.0, 3.0),
+        ),
     )
 
     # faces: tuple[tuple[int, int, int, int], ...] = (
@@ -613,7 +628,12 @@ class Template_0111(NamedTuple):
         (4.0, 4.0),
     )
 
-    vertices_revalence: tuple[tuple[Vertex, ...]] = (((1.0, 2.0), (2.0, 1.0),),)
+    vertices_revalence: tuple[tuple[Vertex, ...]] = (
+        (
+            (1.0, 2.0),
+            (2.0, 1.0),
+        ),
+    )
 
     # faces: tuple[tuple[int, int, int, int], ...] = (
     # faces: Iterable[QuadFace] = (

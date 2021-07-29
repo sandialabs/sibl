@@ -82,9 +82,9 @@ pip install -e .
 echo "The pip listing after install..."
 pip list
 
-echo "--------------------------------------------"
-echo "The shell script setup.sh has now completed."
-echo "--------------------------------------------"
+echo "-----------------------------"
+echo "The script has now completed."
+echo "-----------------------------"
 
 # You may need to use the following to install
 # python -m pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org --upgrade pip
