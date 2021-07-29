@@ -3,7 +3,8 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib import gridspec
+
+# from matplotlib import gridspec
 
 
 class Point:
@@ -16,11 +17,11 @@ class Point:
         self.x, self.y = x, y
         self.payload = payload
 
-    def __repr__(self):
-        return "{}: {}".format(str((self.x, self.y)), repr(self.payload))
+    # def __repr__(self):
+    #     return "{}: {}".format(str((self.x, self.y)), repr(self.payload))
 
-    def __str__(self):
-        return "P({:.2f}, {:.2f})".format(self.x, self.y)
+    # def __str__(self):
+    #     return "P({:.2f}, {:.2f})".format(self.x, self.y)
 
     def distance_to(self, other):
         try:
@@ -43,13 +44,13 @@ class Rect:
         self.west_edge, self.east_edge = cx - w / 2, cx + w / 2
         self.north_edge, self.south_edge = cy - h / 2, cy + h / 2
 
-    def __repr__(self):
-        return str((self.west_edge, self.east_edge, self.north_edge, self.south_edge))
+    # def __repr__(self):
+    #     return str((self.west_edge, self.east_edge, self.north_edge, self.south_edge))
 
-    def __str__(self):
-        return "({:.2f}, {:.2f}, {:.2f}, {:.2f})".format(
-            self.west_edge, self.north_edge, self.east_edge, self.south_edge
-        )
+    # def __str__(self):
+    #     return "({:.2f}, {:.2f}, {:.2f}, {:.2f})".format(
+    #         self.west_edge, self.north_edge, self.east_edge, self.south_edge
+    #     )
 
     def contains(self, point):
         """Is point (a Point object or (x,y) tuple) inside this Rect?"""
@@ -111,25 +112,25 @@ class QuadTree:
         # self.se = None
         # self.sw = None
 
-    def __str__(self):
-        """Return a string representation of this node, suitably formatted."""
-        sp = " " * self.depth * 2
-        s = str(self.boundary) + "\n"
-        s += sp + ", ".join(str(point) for point in self.points)
-        if not self.divided:
-            return s
-        return (
-            s
-            + "\n"
-            + "\n".join(
-                [
-                    sp + "nw: " + str(self.nw),
-                    sp + "ne: " + str(self.ne),
-                    sp + "se: " + str(self.se),
-                    sp + "sw: " + str(self.sw),
-                ]
-            )
-        )
+    # def __str__(self):
+    #     """Return a string representation of this node, suitably formatted."""
+    #     sp = " " * self.depth * 2
+    #     s = str(self.boundary) + "\n"
+    #     s += sp + ", ".join(str(point) for point in self.points)
+    #     if not self.divided:
+    #         return s
+    #     return (
+    #         s
+    #         + "\n"
+    #         + "\n".join(
+    #             [
+    #                 sp + "nw: " + str(self.nw),
+    #                 sp + "ne: " + str(self.ne),
+    #                 sp + "se: " + str(self.se),
+    #                 sp + "sw: " + str(self.sw),
+    #             ]
+    #         )
+    #     )
 
     def divide(self):
         """Divide (branch) this node by spawning four children nodes."""
@@ -194,39 +195,39 @@ class QuadTree:
             self.sw.query(boundary, found_points)
         return found_points
 
-    def query_circle(self, boundary, centre, radius, found_points):
-        """Find the points in the quadtree that lie within radius of centre.
+    # def query_circle(self, boundary, centre, radius, found_points):
+    #     """Find the points in the quadtree that lie within radius of centre.
 
-        boundary is a Rect object (a square) that bounds the search circle.
-        There is no need to call this method directly: use query_radius.
+    #     boundary is a Rect object (a square) that bounds the search circle.
+    #     There is no need to call this method directly: use query_radius.
 
-        """
+    #     """
 
-        if not self.boundary.intersects(boundary):
-            # If the domain of this node does not intersect the search
-            # region, we don't need to look in it for points.
-            return False
+    #     if not self.boundary.intersects(boundary):
+    #         # If the domain of this node does not intersect the search
+    #         # region, we don't need to look in it for points.
+    #         return False
 
-        # Search this node's points to see if they lie within boundary
-        # and also lie within a circle of given radius around the centre point.
-        for point in self.points:
-            if boundary.contains(point) and point.distance_to(centre) <= radius:
-                found_points.append(point)
+    #     # Search this node's points to see if they lie within boundary
+    #     # and also lie within a circle of given radius around the centre point.
+    #     for point in self.points:
+    #         if boundary.contains(point) and point.distance_to(centre) <= radius:
+    #             found_points.append(point)
 
-        # Recurse the search into this node's children.
-        if self.divided:
-            self.nw.query_circle(boundary, centre, radius, found_points)
-            self.ne.query_circle(boundary, centre, radius, found_points)
-            self.se.query_circle(boundary, centre, radius, found_points)
-            self.sw.query_circle(boundary, centre, radius, found_points)
-        return found_points
+    #     # Recurse the search into this node's children.
+    #     if self.divided:
+    #         self.nw.query_circle(boundary, centre, radius, found_points)
+    #         self.ne.query_circle(boundary, centre, radius, found_points)
+    #         self.se.query_circle(boundary, centre, radius, found_points)
+    #         self.sw.query_circle(boundary, centre, radius, found_points)
+    #     return found_points
 
-    def query_radius(self, centre, radius, found_points):
-        """Find the points in the quadtree that lie within radius of centre."""
+    # def query_radius(self, centre, radius, found_points):
+    #     """Find the points in the quadtree that lie within radius of centre."""
 
-        # First find the square that bounds the search circle as a Rect object.
-        boundary = Rect(*centre, 2 * radius, 2 * radius)
-        return self.query_circle(boundary, centre, radius, found_points)
+    #     # First find the square that bounds the search circle as a Rect object.
+    #     boundary = Rect(*centre, 2 * radius, 2 * radius)
+    #     return self.query_circle(boundary, centre, radius, found_points)
 
     def __len__(self):
         """Return the number of points in the quadtree."""
@@ -251,14 +252,23 @@ def main():
     DPI = 72
     np.random.seed(60)
 
-    width, height = 600, 400
+    # width, height = 600, 400
+    n_pixels = 400
+    width, height = n_pixels, n_pixels
 
-    N = 500
-    coords = np.random.randn(N, 2) * height / 3 + (width / 2, height / 2)
+    n_points = 60  # 500
+
+    # N = n_points
+    # coords = np.random.randn(N, 2) * height / 3 + (width / 2, height / 2)
+    # points = [Point(*coord) for coord in coords]
+
+    px = np.linspace(start=150, stop=250, num=n_points, endpoint=True, dtype=float)
+    py = np.linspace(start=0, stop=400, num=n_points, endpoint=True, dtype=float)
+    coords = np.transpose([px, py])
     points = [Point(*coord) for coord in coords]
 
     domain = Rect(width / 2, height / 2, width, height)
-    qtree = QuadTree(domain, 3)
+    qtree = QuadTree(boundary=domain, max_points=3)
     for point in points:
         qtree.insert(point)
 
@@ -271,28 +281,36 @@ def main():
     qtree.draw(ax)
 
     ax.scatter([p.x for p in points], [p.y for p in points], s=4)
-    ax.set_xticks([])
-    ax.set_yticks([])
+    # ax.set_xticks([])
+    # ax.set_yticks([])
 
-    region = Rect(140, 190, 150, 150)
-    found_points = []
-    qtree.query(region, found_points)
-    print("Number of found points =", len(found_points))
+    # region = Rect(140, 190, 150, 150)
+    # found_points = []
+    # qtree.query(region, found_points)
+    # print("Number of found points =", len(found_points))
 
-    ax.scatter(
-        [p.x for p in found_points],
-        [p.y for p in found_points],
-        facecolors="none",
-        edgecolors="r",
-        s=32,
-    )
+    # ax.scatter(
+    #     [p.x for p in found_points],
+    #     [p.y for p in found_points],
+    #     facecolors="none",
+    #     edgecolors="r",
+    #     s=32,
+    # )
 
-    region.draw(ax, c="r")
+    # region.draw(ax, c="r")
 
-    ax.invert_yaxis()
+    # ax.invert_yaxis()  # inversion for photograph analogy, not used for meshing
+    ax.set_aspect("equal")
+    ax.set_xlabel(r"$x$")
+    ax.set_ylabel(r"$y$")
+
     plt.tight_layout()
     # plt.savefig("search-quadtree.png", DPI=72)
-    plt.savefig("search-quadtree.png")
+    # plt.savefig("search-quadtree.png")
+    filename = "search-quadtree.pdf"
+    fig.savefig(filename, bbox_inches="tight", pad_inches=0)
+    print(f"Serialized to {filename}")
+
     plt.show()
 
 
