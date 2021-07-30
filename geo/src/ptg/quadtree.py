@@ -164,7 +164,7 @@ class QuadTree:
         self.points = tuple(filter(self.cell.contains, points))
 
         # If there is one or more point(s) inside of this cell, then subdivide.
-e       if len(self.points) > 0:
+        if len(self.points) > 0:
             self.cell.divide()
             self.level += 1
             children = cell.children[0]
