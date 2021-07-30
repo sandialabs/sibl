@@ -14,7 +14,7 @@ class Coordinate(NamedTuple):
 #     nw: Cell  # northwest
 
 
-Population = tuple[Coordinate, ...]
+# Population = tuple[Coordinate, ...]
 
 
 class Cell:
@@ -108,34 +108,106 @@ class Children:
         return self._sw
 
     @southwest.setter
-    def southwest(self, newsw: Cell):
-        self._sw = newsw
+    def southwest(self, new_sw: Cell):
+        self._sw = new_sw
 
     @property
     def northwest(self):
         return self._nw
 
     @northwest.setter
-    def northwest(self, newnw: Cell):
-        self._nw = newnw
+    def northwest(self, new_nw: Cell):
+        self._nw = new_nw
 
     @property
     def southeast(self):
         return self._se
 
     @southeast.setter
-    def southeast(self, newse: Cell):
-        self._se = newse
+    def southeast(self, new_se: Cell):
+        self._se = new_se
 
     @property
     def northeast(self):
         return self._ne
 
     @northeast.setter
-    def northeast(self, newne: Cell):
-        self._ne = newne
+    def northeast(self, new_ne: Cell):
+        self._ne = new_ne
 
 
-# class QuadTree:
-#     def __init__(self):
-#         a = 4
+class QuadTree:
+    def __init__(
+        self, *, cell: Cell, level: int, level_max: int, points: tuple[Coordinate, ...]
+    ):
+        """A QuadTree is a specific instance of a cell with cell subdivisions.
+        If points lie within a cell, then a cell will divide, otherwise a cell
+        will not divide.
+        Cell division occurs level_max number of times.
+        """
+
+        self.cell = cell
+
+        if level_max < 0:
+            raise ValueError("level_max must be zero or greater.")
+
+        if level > level_max:
+            return  # no further refinement occurs
+
+        assert level <= level_max
+
+        self.level = level
+
+        # Avoid blind acceptance of all client points.  Instead, filter to
+        # make sure points lie only within the cell boundary.
+        # self.points = points  # avoid since may contain points outside of the cell
+        self.points = tuple(filter(self.cell.contains, points))
+
+        # If there is one or more point(s) inside of this cell, then subdivide.
+e       if len(self.points) > 0:
+            self.cell.divide()
+            self.level += 1
+            children = cell.children[0]
+            self.sw = QuadTree(
+                cell=children.southwest,
+                level=self.level,
+                level_max=level_max,
+                points=self.points,
+            )
+            self.nw = QuadTree(
+                cell=children.northwest,
+                level=self.level,
+                level_max=level_max,
+                points=self.points,
+            )
+            self.se = QuadTree(
+                cell=children.southeast,
+                level=self.level,
+                level_max=level_max,
+                points=self.points,
+            )
+            self.ne = QuadTree(
+                cell=children.northeast,
+                level=self.level,
+                level_max=level_max,
+                points=self.points,
+            )
+
+        # # self.level = 0
+        # search_cells = [self.root]
+        # for level in range(self.level_max + 1):
+        #     print(f"level is {level}")
+        #     # find the list of points contained in this cell
+        #     for cell in search_cells:
+        #         contained_points = tuple(filter(cell.contains, points))
+        #         if len(contained_points) > 0:
+        #             cell.divide()
+        #             children_object = cell.children[0]
+        #             search_cells = [
+        #                 children_object.southwest,
+        #                 children_object.northwest,
+        #                 children_object.southeast,
+        #                 children_object.northeast,
+        #             ]
+        #             bb = 4
+        # a = 4

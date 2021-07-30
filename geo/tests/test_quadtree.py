@@ -106,3 +106,46 @@ def test_cell_divide():
     assert child_ne.east == 3.0
     assert child_ne.south == 0.0
     assert child_ne.north == 1.0
+
+
+def test_quadtree():
+    """
+    ^
+    |     *-----------*
+    |     |           |
+    *-----1-----2-----3-----4-->
+    |     |           |
+    |     *-----------*
+    """
+    ctr = qt.Coordinate(x=2.0, y=0.0)
+    cell = qt.Cell(center=ctr, size=2.0)
+    points = tuple([qt.Coordinate(2.1, 0.1), qt.Coordinate(2.6, 0.6)])
+
+    tree = qt.QuadTree(cell=cell, level=0, level_max=1, points=points)
+    a = 4
+    assert tree.cell.center == qt.Coordinate(2.0, 0.0)
+    assert tree.cell.children[0].southwest.center == qt.Coordinate(1.5, -0.5)
+    assert tree.cell.children[0].northwest.center == qt.Coordinate(1.5, 0.5)
+    assert tree.cell.children[0].southeast.center == qt.Coordinate(2.5, -0.5)
+    assert tree.cell.children[0].northeast.center == qt.Coordinate(2.5, 0.5)
+
+    assert len(tree.cell.children[0].southwest.children) == 0
+    assert len(tree.cell.children[0].northwest.children) == 0
+    assert len(tree.cell.children[0].southeast.children) == 0
+    assert len(tree.cell.children[0].northeast.children) == 1
+
+    assert tree.cell.children[0].northeast.children[
+        0
+    ].southwest.center == qt.Coordinate(2.25, 0.25)
+
+    assert tree.cell.children[0].northeast.children[
+        0
+    ].northwest.center == qt.Coordinate(2.25, 0.75)
+
+    assert tree.cell.children[0].northeast.children[
+        0
+    ].southeast.center == qt.Coordinate(2.75, 0.25)
+
+    assert tree.cell.children[0].northeast.children[
+        0
+    ].northeast.center == qt.Coordinate(2.75, 0.75)
