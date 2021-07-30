@@ -65,7 +65,7 @@ class Rect:
             and point_x < self.east_edge
             and point_y >= self.north_edge
             and point_y < self.south_edge
-        )
+        )  # note that Hill inverts the y-axis, so this test is ok
 
     def intersects(self, other):
         """Does Rect object other interesect this Rect?
