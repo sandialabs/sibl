@@ -1,0 +1,211 @@
+%%!TEX TS-program = latex
+%
+% > pdflatex -shell-escape main.tex
+%
+% --------------
+% DOCUMENT CLASS
+% --------------
+%\documentclass[10pt,twoside,letterpaper,fleqn]{report}
+%\documentclass[12pt,a4paper,twoside,fleqn]{book}
+\documentclass[12pt,letterpaper,twoside,fleqn]{book}
+% A4 paper measures 210 × 297 millimeters (8.27 × 11.69 inches).
+
+ 
+% -------
+% PACKAGE
+% -------
+\usepackage{amsmath} % needed for align of equations
+\usepackage{amssymb}
+\usepackage{bigstrut}
+\usepackage{datetime}  \renewcommand{\dateseparator}{-}
+\usepackage{epsfig}
+%\usepackage{include/fancyheadings}
+%\usepackage{fancyheadings}
+\usepackage{fancyhdr}
+%
+% \usepackage{minted}
+\usepackage[outputdir=./temp]{minted}
+% See minted documentation 
+% http://mirrors.rit.edu/CTAN/macros/latex/contrib/minted/minted.pdf0
+% $pdflatex -shell-escape main.tex
+\usepackage{multirow}  
+\usepackage[percent]{overpic}
+\usepackage{pifont} % required for dingbats
+\usepackage{psfrag}
+%\usepackage[cleanup={.tex,.dvi,.ps,.log},process=all]{pstool}
+%\usepackage{showframe} % bounding boxes on all LaTeX text areas
+%\usepackage{subfigure} % requires \usepackage{epsfig} too
+\usepackage{cancel}
+%\usepackage{bbm}
+\usepackage{bbold}
+\usepackage{enumitem}
+%\usepackage[usenames, dvipsnames]{color}
+%\definecolor{hg}{gray}{0.6} % Hovey gray
+%\usepackage[svgnames]{xcolor}
+\usepackage[x11names]{xcolor}
+\definecolor{hred}{rgb}{1,0,0}
+\definecolor{hivory}{rgb}{1,1,0.94}
+\usepackage{colortbl}
+% See X11 colors, 256 color, 
+% https://en.wikipedia.org/wiki/Web_colors
+% red orange yellow green blue indigo violet
+% Note: the "RBG" here must be capitalized, not "rgb"
+\definecolor{red}{RGB}{204,0,0}
+\definecolor{redfaded}{RGB}{255,204,204}
+\definecolor{horange}{RGB}{255,165,0}
+\definecolor{yellowfaded}{RGB}{255,255,100}
+\definecolor{green}{RGB}{0,204,0}
+\definecolor{greenfaded}{RGB}{204,255,204}
+\definecolor{magentafaded}{RGB}{204,100,204}
+\usepackage{tikz}
+\usetikzlibrary{trees}
+% -------
+% INCLUDE
+% -------
+
+%\include{include/Hformatams}
+%\include{Hformatams}
+% 2017-10-16 Too many version of Hformatams floating around, so 
+% rename the format file used for the book to
+%\include{h_math_ams}
+%\input{../book/h_math_ams} % reach back into the book, for D.R.Y. singleton
+% BEGIN float definitions for boxes
+\usepackage{float}
+\floatstyle{boxed}
+% define box float; top bottom here; list of boxes; 
+%\newfloat{Box}{tbh}{lob}[chapter]
+\newfloat{hboxfloat}{tbh}{lob}
+\floatname{hboxfloat}{Box}
+%\restylefloat{table}   % To re-style the 'table' float
+% END float definitions for boxes
+ 
+
+% ----------
+% PAGE SETUP
+% ----------
+% =============================================
+% https://www.sharelatex.com/learn/Page_size_and_margins (page was removed?)
+% https://en.wikibooks.org/wiki/LaTeX/Page_Layout
+% =============================================
+% 0
+%\setlength{\paperwidth}{8.5in}
+%\setlength{\paperheight}{11.0in}
+% 1
+\setlength{\hoffset}{0.0in}
+% 2
+\setlength{\voffset}{0in}
+% 3
+\setlength{\oddsidemargin}{0.25in}
+\setlength{\evensidemargin}{0.25in}
+% 4
+\setlength{\topmargin}{-0.25in}
+% 5
+\setlength{\headheight}{0.125in}
+% 6
+\setlength{\headsep}{0.25in}
+% 7
+\setlength{\textheight}{8.5in}
+% 8
+\setlength{\textwidth}{6.0in}
+% 9
+\setlength{\marginparsep}{10pt}
+% 10 
+\setlength{\marginparwidth}{0mm}
+\setlength{\voffset}{0pt}
+% 11
+\setlength{\footskip}{10mm}
+
+% Paragraphs
+\setlength{\parindent}{10mm}
+\setlength{\parskip}{0mm}
+
+% Space between lines
+\renewcommand{\baselinestretch}{1.2}
+
+
+% -----------------
+% HEADER AND FOOTER
+% -----------------
+
+\newcommand{\titlestring}{Notes}   
+\newcommand{\authorstring}{C.B. Hovey}
+\newcommand{\yearstring}{2019}
+\title{\titlestring}
+\author{\authorstring}
+
+\date{\today}
+
+%\pagestyle{empty} % before redefining, empty head and foot
+%\chead{\sc{\small  \titlestring
+%   \hfill \footnotesize \thepage}}
+%\lhead[\small \thesection ]{\small \titlestring}
+%\lhead[\thepage]{\chaptermark}
+%\rhead[\thesection]{\thepage}
+%\chead{} % leave empty
+%\rhead[\thesubsection]{\thepage}
+%\chead{} % leave empty
+%\rhead[\small CCC]{\sc{\small \thepage}}
+%\lhead[square bracket]{squiggly backet}
+%\rhead[]{\titlestring}
+%\chead{} % leave empty
+%\lfoot[\small \thepage]{\yyyymmdddate\today}
+%\rfoot[\yyyymmdddate\today]{\thepage}
+%\cfoot{} % leave empty
+%\cfoot{ \sc{\small c.b.~hovey} \hfill \footnotesize \today}
+
+%\setlength{\footrulewidth}{0.4pt}
+
+\fancyhead{} % clear all header fields
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[LO]{\rightmark}
+\fancyhead[RE]{\leftmark}
+\fancyfoot{} % clear all footer fields
+\fancyfoot[LE,RO]{\scriptsize \yyyymmdddate\today}
+\fancyfoot[LO,RE]{\scriptsize \titlestring \; \copyright \; \authorstring }
+\pagestyle{fancy}
+
+
+% ==========================================
+
+% --------------------------------------------------------
+% INCLUDE ONLY THESE FILES BUT ACCOUNT FOR REMAINING FILES
+% --------------------------------------------------------
+%\includeonly{continuum}
+
+
+% -----------------
+% THE MAIN DOCUMENT
+% -----------------
+\begin{document}
+%
+%\include{front}
+%\include{preface}
+%
+\newpage
+\setcounter{page}{1}
+\pagenumbering{arabic}
+%
+%\include{include/Hformatams}
+
+
+\include{quadtree}
+
+% \include{expectation}  
+% \include{variance} % includes covariance
+% \include{linearregression}
+% \section{Cross-Correlation (Series Dot Product)}
+%\include{crosscorrelation}  % \include does a page break, try \input instead
+% \input{crosscorrelation} 
+% \include{error}
+% \include{dependentvariables}
+% \include{confusionmatrix}
+% \include{activationfunctions}
+%\include{portfolio}
+\end{document}
+
+
+
+
+ 
+
+
