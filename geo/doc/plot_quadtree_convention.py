@@ -9,7 +9,7 @@ import ptg.quadtree as qt
 # def test_plot_quadtree():
 def main():
     shown = True
-    serialize = False
+    serialize = True
 
     colors = (
         "tab:blue",
@@ -58,10 +58,10 @@ def main():
     # ax.set_xlim([1, 3])
     # ax.set_ylim([-1, 1])
 
-    ax.set_xticks([1, 2, 3])
-    ax.set_yticks([-1, 0, 1])
-    # ax.set_xticks([])
-    # ax.set_yticks([])
+    # ax.set_xticks([1, 2, 3])
+    # ax.set_yticks([-1, 0, 1])
+    ax.set_xticks([])
+    ax.set_yticks([])
 
     quad_color = (
         "tab:orange",
@@ -70,16 +70,16 @@ def main():
         "tab:green",
         "tab:green",
         "tab:green",
-        "tab:purple",
-        "tab:purple",
-        "tab:purple",
-        "tab:purple",
+        "tab:red",
+        "tab:red",
+        "tab:red",
+        "tab:red",
     )  # hard code colors for this specific example
 
     # draw the base L0 quad
     plt.fill(
-        [0.99, 3.01, 3.01, 0.99],
-        [-1.01, -1.01, 1.01, 1.01],
+        [0.98, 3.02, 3.02, 0.98],
+        [-1.02, -1.02, 1.02, 1.02],
         edgecolor="tab:blue",
         alpha=1.0,
         linewidth=2.0,
@@ -105,11 +105,84 @@ def main():
     ax.scatter(xs, ys, linestyle="solid", edgecolor="black", color="tab:red")
 
     plt.annotate(
-        "00",
+        r"$\bf{00}$",
         xy=(1.5, -0.5),
-        color=colors[1],
+        color="tab:orange",
         horizontalalignment="center",
         verticalalignment="center",
+        fontsize="xx-large",
+    )
+    plt.annotate(
+        r"$\bf{01}$",
+        xy=(1.5, 0.5),
+        color="tab:orange",
+        horizontalalignment="center",
+        verticalalignment="center",
+        fontsize="xx-large",
+    )
+    plt.annotate(
+        r"$\bf{10}$",
+        xy=(2.5, -0.5),
+        color="tab:orange",
+        horizontalalignment="center",
+        verticalalignment="center",
+        fontsize="xx-large",
+    )
+    plt.annotate(
+        r"$\bf{1100}$",
+        xy=(2.25, 0.25),
+        color="tab:green",
+        horizontalalignment="center",
+        verticalalignment="center",
+        fontsize="x-large",
+    )
+    plt.annotate(
+        r"$\bf{1101}$",
+        xy=(2.25, 0.75),
+        color="tab:green",
+        horizontalalignment="center",
+        verticalalignment="center",
+        fontsize="x-large",
+    )
+    plt.annotate(
+        r"$\bf{1110}$",
+        xy=(2.75, 0.25),
+        color="tab:green",
+        horizontalalignment="center",
+        verticalalignment="center",
+        fontsize="x-large",
+    )
+    plt.annotate(
+        r"$\bf{111100}$",
+        xy=(2.625, 0.625),
+        color="tab:red",
+        horizontalalignment="center",
+        verticalalignment="center",
+        fontsize="small",
+    )
+    plt.annotate(
+        r"$\bf{111101}$",
+        xy=(2.625, 0.875),
+        color="tab:red",
+        horizontalalignment="center",
+        verticalalignment="center",
+        fontsize="small",
+    )
+    plt.annotate(
+        r"$\bf{111110}$",
+        xy=(2.875, 0.625),
+        color="tab:red",
+        horizontalalignment="center",
+        verticalalignment="center",
+        fontsize="small",
+    )
+    plt.annotate(
+        r"$\bf{111111}$",
+        xy=(2.875, 0.875),
+        color="tab:red",
+        horizontalalignment="center",
+        verticalalignment="center",
+        fontsize="small",
     )
 
     if shown:
