@@ -124,28 +124,32 @@ def test_quadtree():
     tree = qt.QuadTree(cell=cell, level=0, level_max=1, points=points)
     a = 4
     assert tree.cell.center == qt.Coordinate(2.0, 0.0)
-    assert tree.cell.children[0].southwest.center == qt.Coordinate(1.5, -0.5)
-    assert tree.cell.children[0].northwest.center == qt.Coordinate(1.5, 0.5)
-    assert tree.cell.children[0].southeast.center == qt.Coordinate(2.5, -0.5)
-    assert tree.cell.children[0].northeast.center == qt.Coordinate(2.5, 0.5)
+    # assert tree.cell.children[0].southwest.center == qt.Coordinate(1.5, -0.5)
+    # assert tree.cell.children[0].northwest.center == qt.Coordinate(1.5, 0.5)
+    # assert tree.cell.children[0].southeast.center == qt.Coordinate(2.5, -0.5)
+    # assert tree.cell.children[0].northeast.center == qt.Coordinate(2.5, 0.5)
+    assert tree.cell.sw.center == qt.Coordinate(1.5, -0.5)
+    assert tree.cell.nw.center == qt.Coordinate(1.5, 0.5)
+    assert tree.cell.se.center == qt.Coordinate(2.5, -0.5)
+    assert tree.cell.ne.center == qt.Coordinate(2.5, 0.5)
 
-    assert len(tree.cell.children[0].southwest.children) == 0
-    assert len(tree.cell.children[0].northwest.children) == 0
-    assert len(tree.cell.children[0].southeast.children) == 0
-    assert len(tree.cell.children[0].northeast.children) == 1
+    # assert len(tree.cell.children[0].southwest.children) == 0
 
-    assert tree.cell.children[0].northeast.children[
-        0
-    ].southwest.center == qt.Coordinate(2.25, 0.25)
+    # assert len(tree.cell.children[0].northwest.children) == 0
+    # assert len(tree.cell.children[0].southeast.children) == 0
+    # assert len(tree.cell.children[0].northeast.children) == 1
 
-    assert tree.cell.children[0].northeast.children[
-        0
-    ].northwest.center == qt.Coordinate(2.25, 0.75)
+    assert tree.cell.sw.has_children is False
+    assert tree.cell.nw.has_children is False
+    assert tree.cell.se.has_children is False
+    assert tree.cell.ne.has_children is True
 
-    assert tree.cell.children[0].northeast.children[
-        0
-    ].southeast.center == qt.Coordinate(2.75, 0.25)
+    assert tree.cell.ne.sw.center == qt.Coordinate(2.25, 0.25)
+    assert tree.cell.ne.nw.center == qt.Coordinate(2.25, 0.75)
+    assert tree.cell.ne.se.center == qt.Coordinate(2.75, 0.25)
+    assert tree.cell.ne.ne.center == qt.Coordinate(2.75, 0.75)
 
-    assert tree.cell.children[0].northeast.children[
-        0
-    ].northeast.center == qt.Coordinate(2.75, 0.75)
+    assert tree.cell.ne.sw.has_children is False
+    assert tree.cell.ne.nw.has_children is False
+    assert tree.cell.ne.se.has_children is False
+    assert tree.cell.ne.ne.has_children is False
