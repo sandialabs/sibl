@@ -1,0 +1,154 @@
+\documentclass[border=10pt]{standalone}
+
+\usepackage{tikz}
+\usetikzlibrary{backgrounds}
+\usepackage{xcolor}
+\usepackage{pagecolor}
+\definecolor{hred}{rgb}{1,0,0}
+\definecolor{hivory}{rgb}{1,1,0.94}
+\definecolor{hdarkblueblack}{RGB}{30,30,40}
+\definecolor{hdarkgrayblack}{RGB}{35,35,35}
+% \pagecolor{hdarkgrayblack}
+
+% reference
+% https://public.tableau.com/static/images/Ta/TableauColors/ColorPaletteswithRGBValues/1_rss.png
+\definecolor{tabblue}{RGB}{31,119,180}
+\definecolor{taborange}{RGB}{255,127,14}
+\definecolor{tabgreen}{RGB}{44,160,44}
+\definecolor{tabred}{RGB}{214,39,40}
+\definecolor{tabpurple}{RGB}{148,103,189}
+\definecolor{tabbrown}{RGB}{140,86,75}
+\definecolor{tabpink}{RGB}{227,119,194}
+\definecolor{tabgray}{RGB}{127,127,127}
+\definecolor{tabolive}{RGB}{188,189,34}
+\definecolor{tabcyan}{RGB}{23,190,207}
+
+\begin{document}
+\pagestyle{empty}
+
+% set overall layout of tree
+% \tikzstyle{level 0}=[red]  # doesn't work, so set in tree instead
+\tikzstyle{level 1}=[taborange, level distance=2.0cm, sibling distance=2.5cm]
+\tikzstyle{level 2}=[tabgreen, level distance=2.0cm, sibling distance=1.5cm]
+\tikzstyle{level 3}=[tabred, level distance=2.0cm, sibling distance=1.5cm]
+
+% define styles for bags and leaves
+\tikzstyle{bag} = [text width=4em, text centered]
+\tikzstyle{end} = [circle, minimum width=3pt, inner sep=0pt]
+
+%\begin{tikzpicture}[grow=right, sloped]
+\begin{tikzpicture}[sloped]
+%\begin{tikzpicture}[grow=right]
+\node[circle, draw, tabblue] {\tiny root}
+	child {
+		node[circle, draw] {\tiny \bf{00}}
+			% child {
+			% 	node[circle, draw] {\tiny \bf{0000}}
+			% 	child {
+			% 		node[circle, draw] {\tiny \bf{000000}}
+			% 		edge from parent
+			% 	}
+			% 	child {
+			% 		node[circle, draw] {\tiny \bf{000001}}
+			% 		edge from parent
+			% 	}
+			% 	child {
+			% 		node[circle, draw] {\tiny \bf{000010}}
+			% 		edge from parent
+			% 	}
+			% 	child {
+			% 		node[circle, draw] {\tiny \bf{000011}}
+			% 		edge from parent
+			% 	}
+			% 	edge from parent
+			% }
+			% child {
+			% 	node[circle, draw] {\tiny \bf{0001}}
+			% 	edge from parent
+			% }
+			% child {
+			% 	node[circle, draw] {\tiny \bf{0010}}
+			% 	edge from parent
+			% }
+			% child {
+			% 	node[circle, draw] {\tiny \bf{0011}}
+			% 	edge from parent
+			% }
+		edge from parent
+		% node[above] {\scriptsize $P(\overline{C})=0.99$}
+	}
+	child {
+		node[circle, draw] {\tiny \bf{01}}
+			% child {
+			% 	node[circle, draw] {\tiny \bf{$\cdots$}}
+			% 	edge from parent
+			% }
+		edge from parent
+		% node[above] {\scriptsize $P(\overline{C})=0.99$}
+	}
+	child {
+		node[circle, draw] {\tiny \bf{10}}
+			% child {
+			% 	node[circle, draw] {\tiny \bf{$\cdots$}}
+			% 	edge from parent
+			% }
+		edge from parent
+		% node[above] {\scriptsize $P(\overline{C})=0.99$}
+	}
+	child {
+		node[circle, draw] {\tiny \bf{11}}
+			child {
+				node[circle, draw] {\tiny \bf{1100}}
+				edge from parent
+			}
+			child {
+				node[circle, draw] {\tiny \bf{1101}}
+				edge from parent
+			}
+			child {
+				node[circle, draw] {\tiny \bf{1110}}
+				edge from parent
+			}
+			child {
+				node[circle, draw] {\tiny \bf{1111}}
+				child {
+					node[circle, draw] {\tiny \bf{111100}}
+					edge from parent
+				}
+				child {
+					node[circle, draw] {\tiny \bf{111101}}
+					edge from parent
+				}
+				child {
+					node[circle, draw] {\tiny \bf{111110}}
+					edge from parent
+				}
+				child {
+					node[circle, draw] {\tiny \bf{111111}}
+					edge from parent
+				}
+				edge from parent
+			}
+		edge from parent
+	}; % remember trailing semi-colon after last child
+\end{tikzpicture}
+
+  % \begin{tikzpicture}
+  %   [
+  %     background rectangle/.style = {fill=hdarkgrayblack},
+  %     show background rectangle
+  %   ]
+
+  %   \begin{scope}[shift={(3cm,-5cm)}, fill opacity=0.3,
+  %     mytext/.style={text opacity=1,font=\large\bfseries}]
+
+	 %  \draw[fill=green] (-3,0) circle (2) node[hivory] (domain) {domain $\mathcal{A}$};
+  % 	  \draw[fill=blue] (3,0) circle (3) node[hivory] {\hspace{4em} co-domain $\mathcal{B}$};
+  %     \draw[fill=red] (1.5,0) circle (1) node[hivory] (image) {image $B$};
+
+  %     \draw[->,hivory] (domain) edge[bend right] node [below] {$f$} (image);
+
+  %   \end{scope}
+  % \end{tikzpicture}
+
+\end{document}
