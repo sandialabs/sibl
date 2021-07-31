@@ -14,65 +14,65 @@
 
 \begin{figure}[htb]
 \centering
-\begin{tikzpicture}[grow=right, sloped]
+\begin{tikzpicture}[grow=right, sloped,
+	level 0/.style = {tabblue},
+	level 1/.style = {taborange, sibling distance = 4cm},
+    level 2/.style = {tabgreen, sibling distance = 1.0cm},
+    level 3/.style = {teal, level distance = 1cm}]
 %\begin{tikzpicture}[grow=right]
-\node[circle, draw] {\tiny $10,000$}
+\node[circle, draw] {\tiny root}
 	child {
-		node[circle, draw] {\tiny 9,900}
+		node[circle, draw] {\tiny \bf{11}}
 			child {
-				node[circle, draw, fill=redfaded,
-				     label=right:
-				{\scriptsize $P(\overline{C} \cap \overline{T}) = 
-				P(\overline{C}) \cdot P(\overline{T}|\overline{C}) = 
-				\frac{9,900}{10,000} \cdot
-				\frac{9,405}{9,900} = 
-				\frac{9,405}{10,000}$}
-				    ] {\tiny 9,405}
+				node[circle, draw] {\tiny \bf{0011}}
 				edge from parent
-				node[above] {\scriptsize $P(\overline{T}|\overline{C}) = 0.95$}
-				node[below] {\scriptsize specificity}
 			}
 			child {
-				node[circle, draw, fill=yellowfaded,
-				     label=right:
-				{\scriptsize $P(\overline{C} \cap T) = 
-				P(\overline{C}) \cdot P(T|\overline{C}) = 
-				\frac{9,900}{10,000} \cdot
-				\frac{495}{9,900} = 
-				\frac{495}{10,000}$}
-			     	    ] {\tiny 495}
+				node[circle, draw] {\tiny \bf{0010}}
 				edge from parent
-				node[above] {\scriptsize $P(T|\overline{C}) = 0.05$}
-				node[below] {\hspace{1cm}\scriptsize false positive}
+			}
+			child {
+				node[circle, draw] {\tiny \bf{0001}}
+				edge from parent
+			}
+			child {
+				node[circle, draw] {\tiny \bf{0000}}
+				edge from parent
 			}
 		edge from parent
-		node[above] {\scriptsize $P(\overline{C})=0.99$}
+		% node[above] {\scriptsize $P(\overline{C})=0.99$}
 	}
 	child {
-		node[circle, draw] {\tiny 100}
+		node[circle, draw] {\tiny \bf{10}}
+		edge from parent
+		% node[above] {\scriptsize $P(\overline{C})=0.99$}
+	}
+	child {
+		node[circle, draw] {\tiny \bf{01}}
+		edge from parent
+		% node[above] {\scriptsize $P(\overline{C})=0.99$}
+	}
+	child {
+		node[circle, draw] {\tiny \bf{00}}
 			child {
-				node[circle, draw, fill=horange,
-				     label=right:
-				{\scriptsize $P(C \cap \overline{T}) = P(C) \cdot P(\overline{T}|C) = 
-				\frac{100}{10,000}\cdot\frac{20}{100} = \frac{20}{10,000}$}
-				    ] {\tiny 20}
+				node[circle, draw] {\tiny \bf{0011}}
 				edge from parent
-				node[above] {\scriptsize $P(\overline{T}|C) = 0.20$}
-				node[below] {\scriptsize false negative}
 			}
 			child {
-				node[circle, draw, fill=greenfaded,
-				     label=right:
-				{\scriptsize $P(C \cap T) = P(C) \cdot P(T|C) = \frac{100}{10,000}
-				\cdot\frac{80}{100} = \frac{80}{10,000}$}
-			     	    ] {\tiny 80}
+				node[circle, draw] {\tiny \bf{0010}}
 				edge from parent
-				node[above] {\scriptsize $P(T|C) = 0.80$}
-				node[below] {\hspace{1cm}\scriptsize sensitivity}
+			}
+			child {
+				node[circle, draw] {\tiny \bf{0001}}
+				edge from parent
+			}
+			child {
+				node[circle, draw] {\tiny \bf{0000}}
+				edge from parent
 			}
 		edge from parent
-		node[above] {\scriptsize $P(C)=0.01$}
-		node[below] {\scriptsize prevalence}
+		% node[above] {\scriptsize $P(C)=0.01$}
+		% node[below] {\scriptsize prevalence}
 	}; % remember trailing semi-colon after last child
 \end{tikzpicture}
 % \caption{Decision tree for mammogram as a test $T$ for breast cancer $C$.} 
