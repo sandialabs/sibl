@@ -1,20 +1,9 @@
 from typing import NamedTuple
 
 
-# Coordinate = tuple[float, float]  # 2D coordinate
-
-
 class Coordinate(NamedTuple):
     x: float  # x-coordinate
     y: float  # y-coordinate
-
-
-# class Children(NamedTuple):
-#     sw: Cell  # southwest
-#     nw: Cell  # northwest
-
-
-# Population = tuple[Coordinate, ...]
 
 
 class Cell:
@@ -37,8 +26,14 @@ class Cell:
         self.north = center.y + size / 2.0
 
         self.has_children = False
-        # self._children = []  # empty list at init
-        # self._children = None
+
+        # vertices start in sw corner, and proceed counter-clockwise
+        self.vertices = (
+            (self.west, self.south),
+            (self.east, self.south),
+            (self.east, self.north),
+            (self.west, self.north),
+        )
 
     def contains(self, point: Coordinate) -> bool:
         """
@@ -82,67 +77,9 @@ class Cell:
             center=Coordinate(x=center_east_x, y=center_north_y), size=divided_size
         )
 
-        # self._children = Children(parent=self, sw=sw, nw=nw, se=se, ne=ne)
-        # self._children.append(Children(parent=self, sw=sw, nw=nw, se=se, ne=ne))
-
         self.has_children = True  # overwrite from False in __init__
 
         print("Finished cell division.")
-
-    # @property
-    # def children(self):  # as AP how to type hint here
-    #     # if self._children is None:
-    #     #     return None
-    #     # else:
-    #     #     return self._children
-    #     # return self._children
-    #     if self._has_children:
-    #         # get the Children object, there will be just one, and return
-    #         # the actual list of children cells instead
-    #         return self._children[0]
-    #     else:
-    #         return self._children  # an empty list
-
-
-# class Children:
-#     def __init__(self, *, parent: Cell, sw: Cell, nw: Cell, se: Cell, ne: Cell):
-#         self.parent = parent
-#         self.southwest = sw
-#         self.northwest = nw
-#         self.southeast = se
-#         self.northeast = ne
-#
-#     @property
-#     def southwest(self):
-#         return self._sw
-#
-#     @southwest.setter
-#     def southwest(self, new_sw: Cell):
-#         self._sw = new_sw
-#
-#     @property
-#     def northwest(self):
-#         return self._nw
-#
-#     @northwest.setter
-#     def northwest(self, new_nw: Cell):
-#         self._nw = new_nw
-#
-#     @property
-#     def southeast(self):
-#         return self._se
-#
-#     @southeast.setter
-#     def southeast(self, new_se: Cell):
-#         self._se = new_se
-#
-#     @property
-#     def northeast(self):
-#         return self._ne
-#
-#     @northeast.setter
-#     def northeast(self, new_ne: Cell):
-#         self._ne = new_ne
 
 
 class QuadTree:
@@ -202,48 +139,3 @@ class QuadTree:
                     level_max=level_max,
                     points=self.points,
                 )
-            # children = cell.children[0]
-            # children = Childrecell.children
-            # self.sw = QuadTree(
-            #     cell=self.cell
-            #     level=self.level,
-            #     level_max=level_max,
-            #     points=self.points,
-            # )
-            # self.nw = QuadTree(
-            #     cell=children.northwest,
-            #     level=self.level,
-            #     level_max=level_max,
-            #     points=self.points,
-            # )
-            # self.se = QuadTree(
-            #     cell=children.southeast,
-            #     level=self.level,
-            #     level_max=level_max,
-            #     points=self.points,
-            # )
-            # self.ne = QuadTree(
-            #     cell=children.northeast,
-            #     level=self.level,
-            #     level_max=level_max,
-            #     points=self.points,
-            # )
-
-        # # self.level = 0
-        # search_cells = [self.root]
-        # for level in range(self.level_max + 1):
-        #     print(f"level is {level}")
-        #     # find the list of points contained in this cell
-        #     for cell in search_cells:
-        #         contained_points = tuple(filter(cell.contains, points))
-        #         if len(contained_points) > 0:
-        #             cell.divide()
-        #             children_object = cell.children[0]
-        #             search_cells = [
-        #                 children_object.southwest,
-        #                 children_object.northwest,
-        #                 children_object.southeast,
-        #                 children_object.northeast,
-        #             ]
-        #             bb = 4
-        # a = 4

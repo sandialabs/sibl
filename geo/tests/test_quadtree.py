@@ -6,6 +6,8 @@ To run
 > pytest geo/tests/test_quadtree.py -v
 """
 
+import pytest
+
 import ptg.quadtree as qt
 
 
@@ -19,8 +21,8 @@ def test_cell():
     assert cell.south == -2.0  # 4.0 - 12.0 / 2 = -2.0
     assert cell.north == 10.0  # 4.0 + 12.0 / 2 = 10.0
 
-    assert len(cell.children) == 0  # empty list
-    # assert cell.children is None
+    assert cell.has_children is False
+    assert cell.vertices == ((-3.0, -2.0), (9.0, -2.0), (9.0, 10.0), (-3.0, 10.0))
 
 
 def test_cell_contains():
@@ -34,6 +36,8 @@ def test_cell_contains():
     """
     ctr = qt.Coordinate(x=2.0, y=0.0)
     cell = qt.Cell(center=ctr, size=2.0)
+
+    assert cell.vertices == ((1.0, -1.0), (3.0, -1.0), (3.0, 1.0), (1.0, 1.0))
 
     # y constant, delta x
     assert cell.contains(qt.Coordinate(x=0.9, y=0.0)) is False
@@ -72,40 +76,33 @@ def test_cell_divide():
     ctr = qt.Coordinate(x=2.0, y=0.0)
     cell = qt.Cell(center=ctr, size=2.0)
 
-    # assert cell.children is None  # empty list
-    assert len(cell.children) == 0  # empty list
+    assert cell.has_children is False
     cell.divide()  # cell division into four children
-    assert len(cell.children) == 1  # single list of four children
+    assert cell.has_children is True
 
-    children = cell.children[0]
+    assert cell.sw.center == qt.Coordinate(x=1.5, y=-0.5)
+    assert cell.sw.west == 1.0
+    assert cell.sw.east == 2.0
+    assert cell.sw.south == -1.0
+    assert cell.sw.north == 0.0
 
-    child_sw = children.southwest
-    assert child_sw.center == qt.Coordinate(x=1.5, y=-0.5)
-    assert child_sw.west == 1.0
-    assert child_sw.east == 2.0
-    assert child_sw.south == -1.0
-    assert child_sw.north == 0.0
+    assert cell.nw.center == qt.Coordinate(x=1.5, y=0.5)
+    assert cell.nw.west == 1.0
+    assert cell.nw.east == 2.0
+    assert cell.nw.south == 0.0
+    assert cell.nw.north == 1.0
 
-    child_nw = children.northwest
-    assert child_nw.center == qt.Coordinate(x=1.5, y=0.5)
-    assert child_nw.west == 1.0
-    assert child_nw.east == 2.0
-    assert child_nw.south == 0.0
-    assert child_nw.north == 1.0
+    assert cell.se.center == qt.Coordinate(x=2.5, y=-0.5)
+    assert cell.se.west == 2.0
+    assert cell.se.east == 3.0
+    assert cell.se.south == -1.0
+    assert cell.se.north == 0.0
 
-    child_se = children.southeast
-    assert child_se.center == qt.Coordinate(x=2.5, y=-0.5)
-    assert child_se.west == 2.0
-    assert child_se.east == 3.0
-    assert child_se.south == -1.0
-    assert child_se.north == 0.0
-
-    child_ne = children.northeast
-    assert child_ne.center == qt.Coordinate(x=2.5, y=0.5)
-    assert child_ne.west == 2.0
-    assert child_ne.east == 3.0
-    assert child_ne.south == 0.0
-    assert child_ne.north == 1.0
+    assert cell.ne.center == qt.Coordinate(x=2.5, y=0.5)
+    assert cell.ne.west == 2.0
+    assert cell.ne.east == 3.0
+    assert cell.ne.south == 0.0
+    assert cell.ne.north == 1.0
 
 
 def test_quadtree():
@@ -122,22 +119,13 @@ def test_quadtree():
     points = tuple([qt.Coordinate(2.1, 0.1), qt.Coordinate(2.6, 0.6)])
 
     tree = qt.QuadTree(cell=cell, level=0, level_max=1, points=points)
-    a = 4
+
     assert tree.cell.center == qt.Coordinate(2.0, 0.0)
-    # assert tree.cell.children[0].southwest.center == qt.Coordinate(1.5, -0.5)
-    # assert tree.cell.children[0].northwest.center == qt.Coordinate(1.5, 0.5)
-    # assert tree.cell.children[0].southeast.center == qt.Coordinate(2.5, -0.5)
-    # assert tree.cell.children[0].northeast.center == qt.Coordinate(2.5, 0.5)
+
     assert tree.cell.sw.center == qt.Coordinate(1.5, -0.5)
     assert tree.cell.nw.center == qt.Coordinate(1.5, 0.5)
     assert tree.cell.se.center == qt.Coordinate(2.5, -0.5)
     assert tree.cell.ne.center == qt.Coordinate(2.5, 0.5)
-
-    # assert len(tree.cell.children[0].southwest.children) == 0
-
-    # assert len(tree.cell.children[0].northwest.children) == 0
-    # assert len(tree.cell.children[0].southeast.children) == 0
-    # assert len(tree.cell.children[0].northeast.children) == 1
 
     assert tree.cell.sw.has_children is False
     assert tree.cell.nw.has_children is False
@@ -153,3 +141,42 @@ def test_quadtree():
     assert tree.cell.ne.nw.has_children is False
     assert tree.cell.ne.se.has_children is False
     assert tree.cell.ne.ne.has_children is False
+
+
+def test_quadtree_bad_level_max():
+    ctr = qt.Coordinate(x=2.0, y=0.0)
+    cell = qt.Cell(center=ctr, size=2.0)
+    points = tuple([qt.Coordinate(2.1, 0.1), qt.Coordinate(2.6, 0.6)])
+
+    bad_max = -1  # must have at least Level 0
+    with pytest.raises(ValueError):
+        tree = qt.QuadTree(cell=cell, level=0, level_max=bad_max, points=points)
+
+
+def test_draw_quadtree():
+    # set to False for regular testing, True for manual point testing
+    test = False
+
+    if test:
+        import matplotlib.pyplot as plt
+        from matplotlib import rc
+
+        index_x, index_y = 0, 1  # avoid magic numbers later
+        latex = True
+        if latex:
+            rc("font", **{"family": "serif", "serif": ["Computer Modern Roman"]})
+            rc("text", usetex=True)
+
+        """
+        ^
+        |     *-----------*
+        |     |           |
+        *-----1-----2-----3-----4-->
+        |     |           |
+        |     *-----------*
+        """
+        ctr = qt.Coordinate(x=2.0, y=0.0)
+        cell = qt.Cell(center=ctr, size=2.0)
+        points = tuple([qt.Coordinate(2.1, 0.1), qt.Coordinate(2.6, 0.6)])
+
+        tree = qt.QuadTree(cell=cell, level=0, level_max=1, points=points)
