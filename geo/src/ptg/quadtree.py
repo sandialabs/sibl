@@ -141,33 +141,19 @@ class QuadTree:
                 )
 
     def quads(self):
-        """Returns a tuple of levels.
-        Each level consists of cells, ordered sw, nw, se, ne.
-        Each cell has vertices, ordered counter-clockwise as sw, se, ne, nw.
+        """Returns the quadtree as an assembly of quadrilateral
+        elements.  Each quad has vertices composed of (x, y) coordinates.
+        Each quad has vertices ordered counter-clockwise, as sw, se, ne, nw.
         """
-        # _vertices = [(self.cell.vertices,)]  # Level 0 vertices, must exist
-
         _vertices = QuadTree.child_vertices(self.cell)
 
-        # while self.cell.has_children:
-        #     aa = QuadTree.child_vertices(self.cell)
-        #     _vertices.append(aa)
-        #     # L0.append(QuadTree.child_vertices(self.cell))
-
-        # L1 = self.quads_on_level(self.cell)
-
-        # if self.cell.has_children:
-        #     L1 = (
-        #         self.cell.sw.vertices,
-        #         self.cell.se.vertices,
-        #         self.cell.ne.vertices,
-        #         self.cell.nw.vertices,
-        #     )
-
         bb = tuple(QuadTree.tuple_flatten(_vertices))
+
         nnc = 8  # number of nodal x or y coordinates per element
         nel = int(len(bb) / nnc)  # number of elements
+
         cc = tuple(bb[k * nnc : nnc + k * nnc] for k in range(nel))
+
         xs = tuple(tuple(cc[k][i] for i in (0, 2, 4, 6)) for k in range(nel))
         ys = tuple(tuple(cc[k][j] for j in (1, 3, 5, 7)) for k in range(nel))
 
@@ -175,13 +161,6 @@ class QuadTree:
             tuple([xs[k][n], ys[k][n]] for n in (0, 1, 2, 3)) for k in range(nel)
         )
 
-        # dd = tuple(
-        #     (cc[k][i], cc[k][j])
-        #     for i in (0, 2, 4, 6)
-        #     for j in (1, 3, 5, 7)
-        #     for k in range(nel)
-        # )
-        # return _vertices
         return qs
 
     @staticmethod
