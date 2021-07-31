@@ -156,8 +156,12 @@ def test_quadtree_bad_level_max():
 def test_draw_quadtree():
     # set to False for regular testing, True for manual point testing
     test = False
+    plot_shown = True
+    serialize = True
 
     if test:
+        from pathlib import Path
+
         import matplotlib.pyplot as plt
         from matplotlib import rc
 
@@ -180,3 +184,53 @@ def test_draw_quadtree():
         points = tuple([qt.Coordinate(2.1, 0.1), qt.Coordinate(2.6, 0.6)])
 
         tree = qt.QuadTree(cell=cell, level=0, level_max=1, points=points)
+
+        fig = plt.figure(figsize=(6.0, 6.0), dpi=100)
+        ax = fig.gca()
+
+        quads = (
+            tree.cell.vertices,
+            tree.cell.sw.vertices,
+            tree.cell.nw.vertices,
+            tree.cell.se.vertices,
+            tree.cell.ne.vertices,
+            tree.cell.ne.sw.vertices,
+            tree.cell.ne.nw.vertices,
+            tree.cell.ne.se.vertices,
+            tree.cell.ne.ne.vertices,
+        )
+
+        for quad in quads:
+            # xys = tree.cell.vertices
+            xs = [quad[k][index_x] for k in range(len(quad))]
+            ys = [quad[k][index_y] for k in range(len(quad))]
+            plt.fill(
+                xs,
+                ys,
+                linestyle="dotted",
+                edgecolor="magenta",
+                alpha=0.5,
+                facecolor="gray",
+            )
+
+        xs = [point.x for point in points]
+        ys = [point.y for point in points]
+        ax.scatter(xs, ys, linestyle="solid", edgecolor="black", color="tab:red")
+
+        ax.set_aspect("equal")
+
+        ax.set_xlabel(r"$x$")
+        ax.set_ylabel(r"$y$")
+
+        ax.set_xticks([1, 2, 3])
+        ax.set_yticks([-1, 0, 1])
+
+        if plot_shown:
+            plt.show()
+
+        if serialize:
+
+            extension = ".png"  # or '.'.png' | '.pdf' | '.svg'
+            filename = Path(__file__).stem + extension
+            fig.savefig(filename, bbox_inches="tight", pad_inches=0)
+            print(f"Serialized to {filename}")
