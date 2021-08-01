@@ -19,6 +19,7 @@ Created with [fig_quadtree.tex](fig_quadtree.tex):
 
 ## Refinement Example
 
+* `L0` square domain $$(x, y) \in ([1, 3] \otimes  [-1, 1])$$
 * Single point at `(2.6, 0.6)` to trigger refinement.
 
 
