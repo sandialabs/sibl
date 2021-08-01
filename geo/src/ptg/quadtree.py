@@ -7,13 +7,13 @@ class Coordinate(NamedTuple):
 
 
 class Cell:
-    """A square shape centered at (cx, cy) with size = width = height."""
-
     def __init__(self, *, center: Coordinate, size: float):
         """
+        A square shape centered at (cx, cy) with size = width = height.
+
         Arguments:
             center (Coordinate): The (x, y) float coordinate of the center of the cell.
-            size (float): The side length dimension of the cell.
+            size (float): The side length dimension of the square-shaped cell.
                 The cell width = cell height = cell size.
         """
         self.center = center
@@ -37,6 +37,8 @@ class Cell:
 
     def contains(self, point: Coordinate) -> bool:
         """
+        Determines if the coordinates of a point lie within the boundary of a cell.
+
         Arguments:
             point (Coordinate): The (x, y) float coordinate of a points for testing
                 inside the Cell or not.  A point on the Cell boundary is considered
@@ -44,7 +46,7 @@ class Cell:
 
         Returns:
             bool:
-                True is the point is on the interior or boundary of the cell.
+                True if the point is on the interior or boundary of the cell.
                 False if the point is on the exterior of the cell.
         """
         return (
@@ -55,7 +57,13 @@ class Cell:
         )
 
     def divide(self):
-        """Divides the Cell into four children Cells."""
+        """Divides the Cell into four children Cells:
+        Southwest (sw)
+        Northwest (nw)
+        Southeast (se)
+        Northeast (ne)
+        The side length of a child cell is half of the side length of the parent cell.
+        """
         center_west_x = (self.center.x + self.west) / 2.0
         center_east_x = (self.center.x + self.east) / 2.0
 
@@ -86,9 +94,9 @@ class QuadTree:
     def __init__(
         self, *, cell: Cell, level: int, level_max: int, points: tuple[Coordinate, ...]
     ):
-        """A QuadTree is a specific instance of a cell with cell subdivisions.
-        If points lie within a cell, then a cell will divide, otherwise a cell
-        will not divide.
+        """A QuadTree is a specific instance of a cell with zero ore more recursive cell
+        subdivisions.  Points passed into the QuadTree trigger cell division.  If points
+        lie within a cell, then a cell will divide, otherwise a cell will not divide.
         Cell division occurs level_max number of times.
 
         Arguments:
@@ -96,7 +104,7 @@ class QuadTree:
             level (int): The starting level of the root cell, typically zero (0).
             level_max (int): The maximum level of bisection.
                 level_max >= level
-            points (tuple[Coordinate,...]): Coordinatex (x, y) that trigger local
+            points (tuple[Coordinate,...]): Coordinates (x, y) that trigger local
                 refinement.
         """
 
@@ -112,12 +120,15 @@ class QuadTree:
 
         self.level = level
 
-        # Avoid blind acceptance of all client points.  Instead, filter to
-        # make sure points lie only within the cell boundary.
-        # self.points = points  # avoid since may contain points outside of the cell
+        # Avoid blind acceptance of all client points.  Thus, avoid this original
+        # implementation the first list of points supplied from a client may contain
+        # points outside of the cell.
+        # self.points = points  # <-- avoid this original implementation
+        #
+        # Instead, filter to make sure points lie only within the cell boundary.
         self.points = tuple(filter(self.cell.contains, points))
 
-        # If there is one or more point(s) inside of this cell, then subdivide.
+        # If there is one or more point(s) inside of this parent cell, then subdivide.
         if len(self.points) > 0:
             self.cell.divide()
             self.level += 1
@@ -149,15 +160,26 @@ class QuadTree:
                 )
 
     def quads(self):
-        """Returns the quadtree as an assembly of quadrilateral
-        elements.  Each quad has vertices composed of (x, y) coordinates.
+        """Maps the quadtree to an assembly of quadrilateral elements.
+        Each quad has vertices composed of (x, y) coordinates.
         Each quad has vertices ordered counter-clockwise, as sw, se, ne, nw.
+
+        Returns:
+            For (n+1) quads, the return will be
+            (
+                ([x0, y0], [x1, y1], [x2, y2], [x3, y3]),  # <-- quad 0
+                ([x0, y0], [x1, y1], [x2, y2], [x3, y3]),  # <-- quad 1
+                ...
+                ([x0, y0], [x1, y1], [x2, y2], [x3, y3]),  # <-- quad n
+            )
         """
         _vertices = QuadTree.child_vertices(self.cell)
 
         bb = tuple(QuadTree.tuple_flatten(_vertices))
 
-        nnc = 8  # number of nodal x or y coordinates per element
+        # A quad with four vertices in 2D has eight (8) total coordinates:
+        # nnc = length of ((x0, y0), (x1, y1), (x2, y2), (x3, y3))
+        nnc = 8  # number of nodal (x or y) coordinates (per element) nnc
         nel = int(len(bb) / nnc)  # number of elements
 
         cc = tuple(bb[k * nnc : nnc + k * nnc] for k in range(nel))
@@ -169,10 +191,14 @@ class QuadTree:
             tuple([xs[k][n], ys[k][n]] for n in (0, 1, 2, 3)) for k in range(nel)
         )
 
+        # return the list of quads qs
         return qs
 
     @staticmethod
     def child_vertices(cell: Cell):
+        """Given a cell, returns the cell's vertices, and (recursively) the vertices of
+        the cell's children, grandchildren, et cetera.  Recursion ends when a cell level
+        has no children."""
         if cell.has_children:
             return (
                 QuadTree.child_vertices(cell.sw),
@@ -186,5 +212,7 @@ class QuadTree:
 
     @staticmethod
     def tuple_flatten(nested: tuple):
+        """Given a nested tuple, which is generated from the QuadTree class recursive
+        __init__ function calls, yields a flattened tuple."""
         for i in nested:
             yield from [i] if not isinstance(i, tuple) else QuadTree.tuple_flatten(i)
