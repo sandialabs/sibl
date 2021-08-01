@@ -90,6 +90,14 @@ class QuadTree:
         If points lie within a cell, then a cell will divide, otherwise a cell
         will not divide.
         Cell division occurs level_max number of times.
+
+        Arguments:
+            cell (Cell): The root cell to be recursively bisected.  Must be square.
+            level (int): The starting level of the root cell, typically zero (0).
+            level_max (int): The maximum level of bisection.
+                level_max >= level
+            points (tuple[Coordinate,...]): Coordinatex (x, y) that trigger local
+                refinement.
         """
 
         self.cell = cell
@@ -97,7 +105,7 @@ class QuadTree:
         if level_max < 0:
             raise ValueError("level_max must be zero or greater.")
 
-        if level > level_max:
+        if level + 1 > level_max:
             return  # no further refinement occurs
 
         assert level <= level_max

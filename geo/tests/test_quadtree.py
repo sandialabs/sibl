@@ -118,7 +118,7 @@ def test_quadtree():
     cell = qt.Cell(center=ctr, size=2.0)
     points = tuple([qt.Coordinate(2.1, 0.1), qt.Coordinate(2.6, 0.6)])
 
-    tree = qt.QuadTree(cell=cell, level=0, level_max=1, points=points)
+    tree = qt.QuadTree(cell=cell, level=0, level_max=2, points=points)
 
     assert tree.cell.center == qt.Coordinate(2.0, 0.0)
 
@@ -166,7 +166,7 @@ def test_quads():
     cell = qt.Cell(center=ctr, size=2.0)
     points = tuple([qt.Coordinate(2.1, 0.1), qt.Coordinate(2.6, 0.6)])
 
-    tree = qt.QuadTree(cell=cell, level=0, level_max=1, points=points)
+    tree = qt.QuadTree(cell=cell, level=0, level_max=2, points=points)
 
     quads = tree.quads()
 

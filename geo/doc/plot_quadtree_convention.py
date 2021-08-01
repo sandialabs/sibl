@@ -9,20 +9,20 @@ import ptg.quadtree as qt
 # def test_plot_quadtree():
 def main():
     shown = True
-    serialize = True
+    serialize = False
 
-    colors = (
-        "tab:blue",
-        "tab:orange",
-        "tab:green",
-        "tab:red",
-        "tab:purple",
-        "tab:brown",
-        "tab:pink",
-        "tab:gray",
-        "tab:olive",
-        "tab:cyan",
-    )
+    # colors = (
+    #     "tab:blue",
+    #     "tab:orange",
+    #     "tab:green",
+    #     "tab:red",
+    #     "tab:purple",
+    #     "tab:brown",
+    #     "tab:pink",
+    #     "tab:gray",
+    #     "tab:olive",
+    #     "tab:cyan",
+    # )
 
     index_x, index_y = 0, 1  # avoid magic numbers later
     latex = True
@@ -43,7 +43,7 @@ def main():
     # points = tuple([qt.Coordinate(2.1, 0.1), qt.Coordinate(2.6, 0.6)])
     points = tuple([qt.Coordinate(2.6, 0.6)])
 
-    tree = qt.QuadTree(cell=cell, level=0, level_max=2, points=points)
+    tree = qt.QuadTree(cell=cell, level=0, level_max=3, points=points)
 
     quads = tree.quads()
 

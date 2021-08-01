@@ -9,20 +9,7 @@ import ptg.quadtree as qt
 # def test_plot_quadtree():
 def main():
     shown = True
-    serialize = False
-
-    colors = (
-        "tab:blue",
-        "tab:orange",
-        "tab:green",
-        "tab:red",
-        "tab:purple",
-        "tab:brown",
-        "tab:pink",
-        "tab:gray",
-        "tab:olive",
-        "tab:cyan",
-    )
+    serialize = True
 
     index_x, index_y = 0, 1  # avoid magic numbers later
     latex = True
@@ -43,7 +30,7 @@ def main():
     # points = tuple([qt.Coordinate(2.1, 0.1), qt.Coordinate(2.6, 0.6)])
     points = tuple([qt.Coordinate(2.6, 0.6)])
 
-    tree = qt.QuadTree(cell=cell, level=0, level_max=2, points=points)
+    tree = qt.QuadTree(cell=cell, level=0, level_max=6, points=points)
 
     quads = tree.quads()
 
@@ -63,54 +50,23 @@ def main():
     # ax.set_xticks([])
     # ax.set_yticks([])
 
-    quad_color = (
-        "tab:orange",
-        "tab:orange",
-        "tab:orange",
-        "tab:green",
-        "tab:green",
-        "tab:green",
-        "tab:purple",
-        "tab:purple",
-        "tab:purple",
-        "tab:purple",
-    )  # hard code colors for this specific example
-
-    # draw the base L0 quad
-    plt.fill(
-        [0.99, 3.01, 3.01, 0.99],
-        [-1.01, -1.01, 1.01, 1.01],
-        edgecolor="tab:blue",
-        alpha=1.0,
-        linewidth=2.0,
-        linestyle="dashed",
-        facecolor="white",
-    )
-
-    # draw remaining L1 through L3 quads
+    # draw remaining L1 through Ln quads
     for i, quad in enumerate(quads):
         xs = [quad[k][index_x] for k in range(len(quad))]
         ys = [quad[k][index_y] for k in range(len(quad))]
         plt.fill(
             xs,
             ys,
-            edgecolor=quad_color[i],
-            alpha=1.0,
-            linewidth=2.0,
+            edgecolor="black",
+            alpha=0.2,
+            linestyle="solid",
+            linewidth=1.0,
             facecolor="white",
         )
 
     xs = [point.x for point in points]
     ys = [point.y for point in points]
     ax.scatter(xs, ys, linestyle="solid", edgecolor="black", color="tab:red")
-
-    plt.annotate(
-        "00",
-        xy=(1.5, -0.5),
-        color=colors[1],
-        horizontalalignment="center",
-        verticalalignment="center",
-    )
 
     if shown:
         plt.show()

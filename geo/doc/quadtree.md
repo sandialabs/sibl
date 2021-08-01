@@ -1,6 +1,6 @@
 # quadtree
 
-*Numbering convention*
+## Numbering convention
 
 * *x* is the dominant (first) axis
 * *y* is the subordinant (second) axis
@@ -17,3 +17,17 @@ Created with [fig_quadtree.tex](fig_quadtree.tex):
 
 ![fig_quadtree](fig/fig_quadtree.png)
 
+## Refinement Example
+
+* Single point at `(2.6, 0.6)` to trigger refinement.
+
+
+| `level_max` | quadtree |
+|:---:|:---:|
+| `0` | ![plot_quadtree_L0](fig/plot_quadtree_L0.png) |
+| `1` | ![plot_quadtree_L0](fig/plot_quadtree_L1.png) |
+| `2` | ![plot_quadtree_L0](fig/plot_quadtree_L2.png) |
+| `3` | ![plot_quadtree_L0](fig/plot_quadtree_L3.png) |
+| `4` | ![plot_quadtree_L0](fig/plot_quadtree_L4.png) |
+| `5` | ![plot_quadtree_L0](fig/plot_quadtree_L5.png) |
+| `6` | ![plot_quadtree_L0](fig/plot_quadtree_L6.png) |
