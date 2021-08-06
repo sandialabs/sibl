@@ -1,6 +1,6 @@
 # quadtree
 
-## Numbering convention
+## Numbering Convention
 
 * *x* is the dominant (first) axis
 * *y* is the subordinant (second) axis
@@ -32,3 +32,12 @@ Created with [fig_quadtree.tex](fig_quadtree.tex):
 | `4` | ![plot_quadtree_L0](fig/plot_quadtree_L4.png) |
 | `5` | ![plot_quadtree_L0](fig/plot_quadtree_L5.png) |
 | `6` | ![plot_quadtree_L0](fig/plot_quadtree_L6.png) |
+
+## Rebalancing
+
+| before | after |
+|:---:|:---:|
+| ![rebalance_pre](fig/rebalance_pre.png) | ![rebalance_post](fig/rebalance_post.png) |
+| ![plot_quadtree_npts_9](fig/plot_quadtree_npts_9.png) | |
+| ![plot_quadtree_npts_5](fig/plot_quadtree_npts_5.png) | |
+| ![plot_quadtree_npts_3](fig/plot_quadtree_npts_3.png) | |

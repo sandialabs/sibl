@@ -10,9 +10,10 @@ import ptg.quadtree as qt
 def main():
     shown = True
     serialize = True
+    level_max = 5
 
     index_x, index_y = 0, 1  # avoid magic numbers later
-    latex = True
+    latex = False
     if latex:
         rc("font", **{"family": "serif", "serif": ["Computer Modern Roman"]})
         rc("text", usetex=True)
@@ -25,12 +26,25 @@ def main():
     |     |           |
     |     *-----------*
     """
-    ctr = qt.Coordinate(x=2.0, y=0.0)
-    cell = qt.Cell(center=ctr, size=2.0)
+    ctr = qt.Coordinate(x=0.0, y=0.0)
+    cell = qt.Cell(center=ctr, size=1024.0)
     # points = tuple([qt.Coordinate(2.1, 0.1), qt.Coordinate(2.6, 0.6)])
-    points = tuple([qt.Coordinate(2.6, 0.6)])
+    # points = tuple([qt.Coordinate(2.6, 0.6)])
+    points = tuple(
+        [
+            qt.Coordinate(-128.0, -512.0),
+            # qt.Coordinate(-96.0, -384.0),
+            # qt.Coordinate(-64.0, -256.0),
+            # qt.Coordinate(-32.0, -128.0),
+            qt.Coordinate(0.0, 0.0),
+            # qt.Coordinate(32.0, 128.0),
+            # qt.Coordinate(64.0, 256.0),
+            # qt.Coordinate(96.0, 384.0),
+            qt.Coordinate(128.0, 512.0),
+        ]
+    )
 
-    tree = qt.QuadTree(cell=cell, level=0, level_max=6, points=points)
+    tree = qt.QuadTree(cell=cell, level=0, level_max=level_max, points=points)
 
     quads = tree.quads()
 
@@ -41,14 +55,17 @@ def main():
 
     ax.set_xlabel(r"$x$")
     ax.set_ylabel(r"$y$")
+    ax.set_title(f"level max = {level_max}")
 
     # ax.set_xlim([1, 3])
     # ax.set_ylim([-1, 1])
 
-    ax.set_xticks([1, 2, 3])
-    ax.set_yticks([-1, 0, 1])
+    # ax.set_xticks([1, 2, 3])
+    # ax.set_yticks([-1, 0, 1])
     # ax.set_xticks([])
     # ax.set_yticks([])
+    ax.set_xticks([-512, -256, -128, 0, 128, 256, 512])
+    ax.set_yticks([-512, -256, -128, 0, 128, 256, 512])
 
     # draw remaining L1 through Ln quads
     for i, quad in enumerate(quads):
