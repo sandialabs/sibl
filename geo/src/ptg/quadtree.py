@@ -159,7 +159,7 @@ class QuadTree:
                     points=self.points,
                 )
 
-    def quads(self):
+    def quads(self) -> tuple[list[float], ...]:
         """Maps the quadtree to an assembly of quadrilateral elements.
         Each quad has vertices composed of (x, y) coordinates.
         Each quad has vertices ordered counter-clockwise, as sw, se, ne, nw.
@@ -173,9 +173,9 @@ class QuadTree:
                 ([x0, y0], [x1, y1], [x2, y2], [x3, y3]),  # <-- quad n
             )
         """
-        _vertices = QuadTree.child_vertices(self.cell)
+        _vertices = QuadTree._child_vertices(self.cell)
 
-        bb = tuple(QuadTree.tuple_flatten(_vertices))
+        bb = tuple(QuadTree._tuple_flatten(_vertices))
 
         # A quad with four vertices in 2D has eight (8) total coordinates:
         # nnc = length of ((x0, y0), (x1, y1), (x2, y2), (x3, y3))
@@ -194,25 +194,46 @@ class QuadTree:
         # return the list of quads qs
         return qs
 
+    def quad_levels(self) -> tuple[int, ...]:
+        qls = QuadTree._quad_levels(cell=self.cell, level=0)
+        return tuple(QuadTree._tuple_flatten(qls))
+
     @staticmethod
-    def child_vertices(cell: Cell):
+    def _child_vertices(cell: Cell):
         """Given a cell, returns the cell's vertices, and (recursively) the vertices of
         the cell's children, grandchildren, et cetera.  Recursion ends when a cell level
         has no children."""
         if cell.has_children:
             return (
-                QuadTree.child_vertices(cell.sw),
-                QuadTree.child_vertices(cell.nw),
-                QuadTree.child_vertices(cell.se),
-                QuadTree.child_vertices(cell.ne),
+                QuadTree._child_vertices(cell.sw),
+                QuadTree._child_vertices(cell.nw),
+                QuadTree._child_vertices(cell.se),
+                QuadTree._child_vertices(cell.ne),
             )
         else:
             # return (cell.vertices,)
             return cell.vertices
 
     @staticmethod
-    def tuple_flatten(nested: tuple):
+    def _quad_levels(*, cell: Cell, level: int):
+        """Given a cell, returns the cell's quad levels, and (recursively) the quad levels of
+        the cell's children, grandchildren, et cetera.  Recursion ends when a cell level
+        has no children."""
+        if cell.has_children:
+            return (
+                QuadTree._quad_levels(cell=cell.sw, level=level + 1),
+                QuadTree._quad_levels(cell=cell.nw, level=level + 1),
+                QuadTree._quad_levels(cell=cell.se, level=level + 1),
+                QuadTree._quad_levels(cell=cell.ne, level=level + 1),
+            )
+        else:
+            # return (cell.vertices,)
+            # return cell.level
+            return (level,)
+
+    @staticmethod
+    def _tuple_flatten(nested: tuple):
         """Given a nested tuple, which is generated from the QuadTree class recursive
         __init__ function calls, yields a flattened tuple."""
         for i in nested:
-            yield from [i] if not isinstance(i, tuple) else QuadTree.tuple_flatten(i)
+            yield from [i] if not isinstance(i, tuple) else QuadTree._tuple_flatten(i)

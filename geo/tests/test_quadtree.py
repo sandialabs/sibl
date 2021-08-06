@@ -153,7 +153,7 @@ def test_quadtree_bad_level_max():
         _ = qt.QuadTree(cell=cell, level=0, level_max=bad_max, points=points)
 
 
-def test_quads():
+def test_quads_and_levels():
     """
     ^
     |     *-----------*
@@ -178,4 +178,15 @@ def test_quads():
         ([2.0, 0.5], [2.5, 0.5], [2.5, 1.0], [2.0, 1.0]),
         ([2.5, 0.0], [3.0, 0.0], [3.0, 0.5], [2.5, 0.5]),
         ([2.5, 0.5], [3.0, 0.5], [3.0, 1.0], [2.5, 1.0]),
+    )
+
+    quad_levels = tree.quad_levels()
+    assert quad_levels == (
+        1,
+        1,
+        1,
+        2,
+        2,
+        2,
+        2,
     )

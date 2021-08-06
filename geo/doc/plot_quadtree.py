@@ -1,5 +1,6 @@
 from pathlib import Path
 
+import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import rc
 
@@ -10,43 +11,27 @@ import ptg.quadtree as qt
 def main():
     shown = True
     serialize = True
-    level_max = 5
+
+    color_fill = True
+
+    colors = (
+        "tab:blue",
+        "tab:orange",
+        "tab:green",
+        "tab:red",
+        "tab:purple",
+        "tab:brown",
+        "tab:pink",
+        "tab:gray",
+        "tab:olive",
+    )
 
     index_x, index_y = 0, 1  # avoid magic numbers later
-    latex = False
+
+    latex = True
     if latex:
         rc("font", **{"family": "serif", "serif": ["Computer Modern Roman"]})
         rc("text", usetex=True)
-
-    """
-    ^
-    |     *-----------*
-    |     |           |
-    *-----1-----2-----3-----4-->
-    |     |           |
-    |     *-----------*
-    """
-    ctr = qt.Coordinate(x=0.0, y=0.0)
-    cell = qt.Cell(center=ctr, size=1024.0)
-    # points = tuple([qt.Coordinate(2.1, 0.1), qt.Coordinate(2.6, 0.6)])
-    # points = tuple([qt.Coordinate(2.6, 0.6)])
-    points = tuple(
-        [
-            qt.Coordinate(-128.0, -512.0),
-            # qt.Coordinate(-96.0, -384.0),
-            # qt.Coordinate(-64.0, -256.0),
-            # qt.Coordinate(-32.0, -128.0),
-            qt.Coordinate(0.0, 0.0),
-            # qt.Coordinate(32.0, 128.0),
-            # qt.Coordinate(64.0, 256.0),
-            # qt.Coordinate(96.0, 384.0),
-            qt.Coordinate(128.0, 512.0),
-        ]
-    )
-
-    tree = qt.QuadTree(cell=cell, level=0, level_max=level_max, points=points)
-
-    quads = tree.quads()
 
     fig = plt.figure(figsize=(6.0, 6.0), dpi=100)
     ax = fig.gca()
@@ -55,31 +40,76 @@ def main():
 
     ax.set_xlabel(r"$x$")
     ax.set_ylabel(r"$y$")
+
+    """
+    ^  simple example:
+    |
+    |     *-----------*
+    |     |           |
+    *-----1-----2-----3-----4-->
+    |     |           |
+    |     *-----------*
+    """
+    simple_example = True
+    level_max = 6
     ax.set_title(f"level max = {level_max}")
 
-    # ax.set_xlim([1, 3])
-    # ax.set_ylim([-1, 1])
+    if simple_example:
+        ctr = qt.Coordinate(x=2.0, y=0.0)
+        cell = qt.Cell(center=ctr, size=2.0)
+        # points = tuple([qt.Coordinate(2.1, 0.1), qt.Coordinate(2.6, 0.6)])
+        points = tuple([qt.Coordinate(2.6, 0.6)])
+        ax.set_xticks([1, 2, 3])
+        ax.set_yticks([-1, 0, 1])
+    else:
+        ctr = qt.Coordinate(x=0.0, y=0.0)
+        cell = qt.Cell(center=ctr, size=1024.0)
+        points = tuple(
+            [
+                qt.Coordinate(-128.0, -512.0),
+                qt.Coordinate(-96.0, -384.0),
+                qt.Coordinate(-64.0, -256.0),
+                qt.Coordinate(-32.0, -128.0),
+                qt.Coordinate(0.0, 0.0),
+                qt.Coordinate(32.0, 128.0),
+                qt.Coordinate(64.0, 256.0),
+                qt.Coordinate(96.0, 384.0),
+                qt.Coordinate(128.0, 512.0),
+            ]
+        )
+        ax.set_xticks([-512, -256, -128, 0, 128, 256, 512])
+        ax.set_yticks([-512, -256, -128, 0, 128, 256, 512])
 
-    # ax.set_xticks([1, 2, 3])
-    # ax.set_yticks([-1, 0, 1])
-    # ax.set_xticks([])
-    # ax.set_yticks([])
-    ax.set_xticks([-512, -256, -128, 0, 128, 256, 512])
-    ax.set_yticks([-512, -256, -128, 0, 128, 256, 512])
+    tree = qt.QuadTree(cell=cell, level=0, level_max=level_max, points=points)
+
+    quads = tree.quads()
+    quad_levels = tree.quad_levels()
 
     # draw remaining L1 through Ln quads
     for i, quad in enumerate(quads):
         xs = [quad[k][index_x] for k in range(len(quad))]
         ys = [quad[k][index_y] for k in range(len(quad))]
-        plt.fill(
-            xs,
-            ys,
-            edgecolor="black",
-            alpha=0.2,
-            linestyle="solid",
-            linewidth=1.0,
-            facecolor="white",
-        )
+        if color_fill:
+            color_level = colors[np.remainder(quad_levels[i], len(colors))]
+            plt.fill(
+                xs,
+                ys,
+                edgecolor=color_level,
+                alpha=0.2,
+                linestyle="solid",
+                linewidth=1.0,
+                facecolor=color_level,
+            )
+        else:
+            plt.fill(
+                xs,
+                ys,
+                edgecolor="black",
+                alpha=0.2,
+                linestyle="solid",
+                linewidth=1.0,
+                facecolor="white",
+            )
 
     xs = [point.x for point in points]
     ys = [point.y for point in points]

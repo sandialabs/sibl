@@ -19,6 +19,8 @@ Created with [fig_quadtree.tex](fig_quadtree.tex):
 
 ## Refinement Example
 
+Created with [plot_quadtree.py](plot_quadtree.py):
+
 * `L0` square domain $$(x, y) \in ([1, 3] \otimes  [-1, 1])$$
 * Single point at `(2.6, 0.6)` to trigger refinement.
 
@@ -34,6 +36,8 @@ Created with [fig_quadtree.tex](fig_quadtree.tex):
 | `6` | ![plot_quadtree_L0](fig/plot_quadtree_L6.png) |
 
 ## Rebalancing
+
+Created with [plot_quadtree.py](plot_quadtree.py):
 
 | before | after |
 |:---:|:---:|
