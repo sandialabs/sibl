@@ -2,11 +2,47 @@ from typing import NamedTuple
 
 
 class Coordinate(NamedTuple):
+    """Creates a coordinate as a (x, y) pair of floats."""
+
     x: float  # x-coordinate
     y: float  # y-coordinate
 
 
+Vertex = Coordinate  # a vertex belongs to a quad
+# A vertex and a coordinate have the same data type, but different
+# semantic.  A quad is composed of four vertices.  A quad is not
+# composed of four coordinates.
+
+
+class Quad(NamedTuple):
+    """Creates a Quad with vertices in a counter-clockwise manner,
+    starting from (0, 0) as the southwest corner.
+    """
+
+    sw: Vertex  # southwest corner
+    se: Vertex  # southeast corner
+    ne: Vertex  # northeast corner
+    nw: Vertex  # northwest corner
+
+
+# Reference: recursive type hinting:
+# https://stackoverflow.com/questions/53845024/defining-a-recursive-type-hint-in-python
+# Quads = Union[Quad, Iterable["Quads"]]
+
+
 def coordinates(*, pairs: tuple[tuple[float, float], ...]) -> tuple[Coordinate, ...]:
+    """Creates a tuple of Coordinates from a tuple of (x, y) pairs.
+
+    Argments:
+        pairs (tuple of tuple of floats), e.g.,
+            ((x0, y0), (x1, y1), ... (xn, yn))
+
+
+    Returns:
+        tuple of Coordinates:
+            A tuple of Coordinates, which is a NamedTuple
+            representation of the pairs.
+    """
     xs = tuple(pairs[k][0] for k in range(len(pairs)))
     ys = tuple(pairs[k][1] for k in range(len(pairs)))
     cs = tuple(map(Coordinate, xs, ys))  # coordinates
@@ -15,8 +51,8 @@ def coordinates(*, pairs: tuple[tuple[float, float], ...]) -> tuple[Coordinate, 
 
 class Cell:
     def __init__(self, *, center: Coordinate, size: float):
-        """
-        A square shape centered at (cx, cy) with size = width = height.
+        """A square shape centered at (cx, cy) with
+            size = width = height.
 
         Arguments:
             center (Coordinate): The (x, y) float coordinate of the center of the cell.
@@ -43,17 +79,16 @@ class Cell:
         # self._ne = None
         self.has_children = False
 
-        # vertices start in sw corner, and proceed counter-clockwise
-        self.vertices = (
-            (self.west, self.south),
-            (self.east, self.south),
-            (self.east, self.north),
-            (self.west, self.north),
+        # A cell has a Quad scheme collection of Vertices.
+        self.vertices = Quad(
+            sw=Vertex(self.west, self.south),
+            se=Vertex(self.east, self.south),
+            ne=Vertex(self.east, self.north),
+            nw=Vertex(self.west, self.north),
         )
 
     def contains(self, point: Coordinate) -> bool:
-        """
-        Determines if the coordinates of a point lie within the boundary of a cell.
+        """Determines if the coordinates of a point lie within the boundary of a cell.
 
         Arguments:
             point (Coordinate): The (x, y) float coordinate of a points for testing
@@ -88,10 +123,10 @@ class Cell:
 
     def divide(self):
         """Divides the Cell into four children Cells:
-        Southwest (sw)
-        Northwest (nw)
-        Southeast (se)
-        Northeast (ne)
+            Southwest (sw)
+            Northwest (nw)
+            Southeast (se)
+            Northeast (ne)
         The side length of a child cell is half of the side length of the parent cell.
         """
         center_west_x = (self.center.x + self.west) / 2.0
@@ -189,7 +224,7 @@ class QuadTree:
                     points=self.points,
                 )
 
-    def quads(self) -> tuple[list[float], ...]:
+    def quads(self) -> tuple[Quad, ...]:
         """Maps the quadtree to an assembly of quadrilateral elements.
         Each quad has vertices composed of (x, y) coordinates.
         Each quad has vertices ordered counter-clockwise, as sw, se, ne, nw.
@@ -197,32 +232,20 @@ class QuadTree:
         Returns:
             For (n+1) quads, the return will be
             (
-                ([x0, y0], [x1, y1], [x2, y2], [x3, y3]),  # <-- quad 0
-                ([x0, y0], [x1, y1], [x2, y2], [x3, y3]),  # <-- quad 1
+                ((x0, y0), (x1, y1), (x2, y2), (x3, y3)),  # <-- quad 0
+                ((x0, y0), (x1, y1), (x2, y2), (x3, y3)),  # <-- quad 1
                 ...
-                ([x0, y0], [x1, y1], [x2, y2], [x3, y3]),  # <-- quad n
+                ((x0, y0), (x1, y1), (x2, y2), (x3, y3)),  # <-- quad n
             )
         """
+
+        # _vertices will have nested tuples
         _vertices = QuadTree._child_vertices(self.cell)
 
-        bb = tuple(QuadTree._tuple_flatten(_vertices))
+        # quads will have the same tuples, just flattened
+        _quads = tuple(QuadTree._quads_flatten(_vertices))
 
-        # A quad with four vertices in 2D has eight (8) total coordinates:
-        # nnc = length of ((x0, y0), (x1, y1), (x2, y2), (x3, y3))
-        nnc = 8  # number of nodal (x or y) coordinates (per element) nnc
-        nel = int(len(bb) / nnc)  # number of elements
-
-        cc = tuple(bb[k * nnc : nnc + k * nnc] for k in range(nel))
-
-        xs = tuple(tuple(cc[k][i] for i in (0, 2, 4, 6)) for k in range(nel))
-        ys = tuple(tuple(cc[k][j] for j in (1, 3, 5, 7)) for k in range(nel))
-
-        qs = tuple(
-            tuple([xs[k][n], ys[k][n]] for n in (0, 1, 2, 3)) for k in range(nel)
-        )
-
-        # return the list of quads qs
-        return qs
+        return _quads
 
     def quad_levels(self) -> tuple[int, ...]:
         qls = QuadTree._quad_levels(cell=self.cell, level=0)
@@ -230,11 +253,13 @@ class QuadTree:
 
     # figure out type hinting soon
     # def _child_vertices(cell: Cell) -> tuple[tuple[float, float], ...]:
+    # def _child_vertices(cell: Cell) -> Quads:   # <-- this works in part
     @staticmethod
     def _child_vertices(cell: Cell):
         """Given a cell, returns the cell's vertices, and (recursively) the vertices of
         the cell's children, grandchildren, et cetera.  Recursion ends when a cell level
-        has no children."""
+        has no children.
+        """
         if cell.has_children:
             return (
                 QuadTree._child_vertices(cell.sw),
@@ -250,7 +275,8 @@ class QuadTree:
     def _quad_levels(*, cell: Cell, level: int):
         """Given a cell, returns the cell's quad levels, and (recursively) the quad levels of
         the cell's children, grandchildren, et cetera.  Recursion ends when a cell level
-        has no children."""
+        has no children.
+        """
         if cell.has_children:
             return (
                 QuadTree._quad_levels(cell=cell.sw, level=level + 1),
@@ -265,7 +291,12 @@ class QuadTree:
 
     @staticmethod
     def _tuple_flatten(nested: tuple):
-        """Given a nested tuple, which is generated from the QuadTree class recursive
-        __init__ function calls, yields a flattened tuple."""
+        """Given a tuple of items, yields a tuple item in a flattened sequence."""
         for i in nested:
             yield from [i] if not isinstance(i, tuple) else QuadTree._tuple_flatten(i)
+
+    @staticmethod
+    def _quads_flatten(nested: tuple):
+        """Given a tuple of nested quads, yields a quad in a flattened sequence."""
+        for i in nested:
+            yield from [i] if isinstance(i, Quad) else QuadTree._quads_flatten(i)

@@ -7,7 +7,6 @@ from matplotlib import rc
 import ptg.quadtree as qt
 
 
-# def test_plot_quadtree():
 def main():
     shown = True
     serialize = True
@@ -25,8 +24,6 @@ def main():
         "tab:gray",
         "tab:olive",
     )
-
-    index_x, index_y = 0, 1  # avoid magic numbers later
 
     latex = True
     if latex:
@@ -50,15 +47,17 @@ def main():
     |     |           |
     |     *-----------*
     """
-    simple_example = True
-    level_max = 6
+    simple_example = False
+    level_max = 5
     ax.set_title(f"level max = {level_max}")
 
     if simple_example:
         ctr = qt.Coordinate(x=2.0, y=0.0)
         cell = qt.Cell(center=ctr, size=2.0)
         # points = tuple([qt.Coordinate(2.1, 0.1), qt.Coordinate(2.6, 0.6)])
-        points = tuple([qt.Coordinate(2.6, 0.6)])
+        points = tuple(
+            [qt.Coordinate(2.6, 0.6)],
+        )
         ax.set_xticks([1, 2, 3])
         ax.set_yticks([-1, 0, 1])
     else:
@@ -87,8 +86,8 @@ def main():
 
     # draw remaining L1 through Ln quads
     for i, quad in enumerate(quads):
-        xs = [quad[k][index_x] for k in range(len(quad))]
-        ys = [quad[k][index_y] for k in range(len(quad))]
+        xs = (quad.sw.x, quad.se.x, quad.ne.x, quad.nw.x)
+        ys = (quad.sw.y, quad.se.y, quad.ne.y, quad.nw.y)
         if color_fill:
             color_level = colors[np.remainder(quad_levels[i], len(colors))]
             plt.fill(
@@ -111,15 +110,14 @@ def main():
                 facecolor="white",
             )
 
-    xs = [point.x for point in points]
-    ys = [point.y for point in points]
+    xs = tuple(point.x for point in points)
+    ys = tuple(point.y for point in points)
     ax.scatter(xs, ys, linestyle="solid", edgecolor="black", color="tab:red")
 
     if shown:
         plt.show()
 
     if serialize:
-
         extension = ".png"  # ".png" | ".pdf" | ".svg"
         filename = Path(__file__).stem + extension
         fig.savefig(filename, bbox_inches="tight", pad_inches=0)

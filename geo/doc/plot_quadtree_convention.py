@@ -6,25 +6,10 @@ from matplotlib import rc
 import ptg.quadtree as qt
 
 
-# def test_plot_quadtree():
 def main():
     shown = True
     serialize = False
 
-    # colors = (
-    #     "tab:blue",
-    #     "tab:orange",
-    #     "tab:green",
-    #     "tab:red",
-    #     "tab:purple",
-    #     "tab:brown",
-    #     "tab:pink",
-    #     "tab:gray",
-    #     "tab:olive",
-    #     "tab:cyan",
-    # )
-
-    index_x, index_y = 0, 1  # avoid magic numbers later
     latex = True
     if latex:
         rc("font", **{"family": "serif", "serif": ["Computer Modern Roman"]})
@@ -40,8 +25,14 @@ def main():
     """
     ctr = qt.Coordinate(x=2.0, y=0.0)
     cell = qt.Cell(center=ctr, size=2.0)
-    # points = tuple([qt.Coordinate(2.1, 0.1), qt.Coordinate(2.6, 0.6)])
-    points = tuple([qt.Coordinate(2.6, 0.6)])
+
+    # two trigger point variation
+    # points = tuple([qt.Coordinate(2.1, 0.1), qt.Coordinate(2.6, 0.6)],)
+
+    # one trigger point variation
+    points = tuple(
+        [qt.Coordinate(2.6, 0.6)],
+    )
 
     tree = qt.QuadTree(cell=cell, level=0, level_max=3, points=points)
 
@@ -55,11 +46,6 @@ def main():
     ax.set_xlabel(r"$x$")
     ax.set_ylabel(r"$y$")
 
-    # ax.set_xlim([1, 3])
-    # ax.set_ylim([-1, 1])
-
-    # ax.set_xticks([1, 2, 3])
-    # ax.set_yticks([-1, 0, 1])
     ax.set_xticks([])
     ax.set_yticks([])
 
@@ -89,8 +75,8 @@ def main():
 
     # draw remaining L1 through L3 quads
     for i, quad in enumerate(quads):
-        xs = [quad[k][index_x] for k in range(len(quad))]
-        ys = [quad[k][index_y] for k in range(len(quad))]
+        xs = (quad.sw.x, quad.se.x, quad.ne.x, quad.nw.x)
+        ys = (quad.sw.y, quad.se.y, quad.ne.y, quad.nw.y)
         plt.fill(
             xs,
             ys,
@@ -100,8 +86,8 @@ def main():
             facecolor="white",
         )
 
-    xs = [point.x for point in points]
-    ys = [point.y for point in points]
+    xs = tuple(point.x for point in points)
+    ys = tuple(point.y for point in points)
     ax.scatter(xs, ys, linestyle="solid", edgecolor="black", color="tab:red")
 
     plt.annotate(

@@ -204,14 +204,61 @@ def test_quads_and_levels():
 
     quads = tree.quads()
 
+    # terse version
     assert quads == (
-        ([1.0, -1.0], [2.0, -1.0], [2.0, 0.0], [1.0, 0.0]),
-        ([1.0, 0.0], [2.0, 0.0], [2.0, 1.0], [1.0, 1.0]),
-        ([2.0, -1.0], [3.0, -1.0], [3.0, 0.0], [2.0, 0.0]),
-        ([2.0, 0.0], [2.5, 0.0], [2.5, 0.5], [2.0, 0.5]),
-        ([2.0, 0.5], [2.5, 0.5], [2.5, 1.0], [2.0, 1.0]),
-        ([2.5, 0.0], [3.0, 0.0], [3.0, 0.5], [2.5, 0.5]),
-        ([2.5, 0.5], [3.0, 0.5], [3.0, 1.0], [2.5, 1.0]),
+        ((1.0, -1.0), (2.0, -1.0), (2.0, 0.0), (1.0, 0.0)),
+        ((1.0, 0.0), (2.0, 0.0), (2.0, 1.0), (1.0, 1.0)),
+        ((2.0, -1.0), (3.0, -1.0), (3.0, 0.0), (2.0, 0.0)),
+        ((2.0, 0.0), (2.5, 0.0), (2.5, 0.5), (2.0, 0.5)),
+        ((2.0, 0.5), (2.5, 0.5), (2.5, 1.0), (2.0, 1.0)),
+        ((2.5, 0.0), (3.0, 0.0), (3.0, 0.5), (2.5, 0.5)),
+        ((2.5, 0.5), (3.0, 0.5), (3.0, 1.0), (2.5, 1.0)),
+    )
+
+    # verbose version
+    assert quads == (
+        qt.Quad(
+            sw=qt.Coordinate(1.0, -1.0),
+            se=qt.Coordinate(2.0, -1.0),
+            ne=qt.Coordinate(2.0, 0.0),
+            nw=qt.Coordinate(1.0, 0.0),
+        ),
+        qt.Quad(
+            sw=qt.Coordinate(1.0, 0.0),
+            se=qt.Coordinate(2.0, 0.0),
+            ne=qt.Coordinate(2.0, 1.0),
+            nw=qt.Coordinate(1.0, 1.0),
+        ),
+        qt.Quad(
+            sw=qt.Coordinate(2.0, -1.0),
+            se=qt.Coordinate(3.0, -1.0),
+            ne=qt.Coordinate(3.0, 0.0),
+            nw=qt.Coordinate(2.0, 0.0),
+        ),
+        qt.Quad(
+            sw=qt.Coordinate(2.0, 0.0),
+            se=qt.Coordinate(2.5, 0.0),
+            ne=qt.Coordinate(2.5, 0.5),
+            nw=qt.Coordinate(2.0, 0.5),
+        ),
+        qt.Quad(
+            sw=qt.Coordinate(2.0, 0.5),
+            se=qt.Coordinate(2.5, 0.5),
+            ne=qt.Coordinate(2.5, 1.0),
+            nw=qt.Coordinate(2.0, 1.0),
+        ),
+        qt.Quad(
+            sw=qt.Coordinate(2.5, 0.0),
+            se=qt.Coordinate(3.0, 0.0),
+            ne=qt.Coordinate(3.0, 0.5),
+            nw=qt.Coordinate(2.5, 0.5),
+        ),
+        qt.Quad(
+            sw=qt.Coordinate(2.5, 0.5),
+            se=qt.Coordinate(3.0, 0.5),
+            ne=qt.Coordinate(3.0, 1.0),
+            nw=qt.Coordinate(2.5, 1.0),
+        ),
     )
 
     quad_levels = tree.quad_levels()
