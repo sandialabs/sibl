@@ -11,6 +11,40 @@ import pytest
 import ptg.quadtree as qt
 
 
+def test_coordinates():
+
+    pairs = ((0.0, 0.0), (1.0, 1.0), (2.0, 4.0), (3.0, 9.0))
+    points = qt.coordinates(pairs=pairs)
+
+    for k, point in enumerate(points):
+        assert point == qt.Coordinate(pairs[k][0], pairs[k][1])
+
+
+def test_tuple_flatten_pairs():
+
+    given = (
+        ((0, 0), (1, 0), (1, 1), (0, 1)),
+        (((10, 10), (11, 10), (11, 11), (10, 11))),
+    )
+    found = tuple(qt.QuadTree._tuple_flatten(given))
+    known = (0, 0, 1, 0, 1, 1, 0, 1, 10, 10, 11, 10, 11, 11, 10, 11)
+
+    assert found == known
+
+
+def test_tuple_flatten_singletons():
+    given = (
+        (
+            ((0,), 1),
+            2,
+        ),
+        3,
+    )
+    found = tuple(qt.QuadTree._tuple_flatten(given))
+    known = (0, 1, 2, 3)
+    assert found == known
+
+
 def test_cell():
     ctr = qt.Coordinate(x=3.0, y=4.0)
     cell = qt.Cell(center=ctr, size=12.0)
