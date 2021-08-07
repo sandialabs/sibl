@@ -6,6 +6,13 @@ class Coordinate(NamedTuple):
     y: float  # y-coordinate
 
 
+def coordinates(*, pairs: tuple[tuple[float, float], ...]) -> tuple[Coordinate, ...]:
+    xs = tuple(pairs[k][0] for k in range(len(pairs)))
+    ys = tuple(pairs[k][1] for k in range(len(pairs)))
+    cs = tuple(map(Coordinate, xs, ys))  # coordinates
+    return cs
+
+
 class Cell:
     def __init__(self, *, center: Coordinate, size: float):
         """
@@ -25,6 +32,15 @@ class Cell:
         self.south = center.y - size / 2.0
         self.north = center.y + size / 2.0
 
+        # # children are non-existent on construction
+        # self.sw = None
+        # self.nw = None
+        # self.se = None
+        # self.ne = None
+        # self._sw = None
+        # self._nw = None
+        # self._se = None
+        # self._ne = None
         self.has_children = False
 
         # vertices start in sw corner, and proceed counter-clockwise
@@ -55,6 +71,20 @@ class Cell:
             and point.y >= self.south
             and point.y <= self.north
         )
+
+    # getter property
+    # @property
+    # def sw(self):
+    #     # raise error if self._sw is None, indicate Cell.divide has not yet been called
+    #     if self._sw is None:
+    #         raise
+
+    # Do not implement the setter, on purpose, to prohibit client from setting
+    # self.sw, self.nw, self.se, and self.ne except by calling self.divide() method.
+    # setter property
+    # @sw.setter
+    # def sw(self, val):
+    #     pass
 
     def divide(self):
         """Divides the Cell into four children Cells:
@@ -198,6 +228,8 @@ class QuadTree:
         qls = QuadTree._quad_levels(cell=self.cell, level=0)
         return tuple(QuadTree._tuple_flatten(qls))
 
+    # figure out type hinting soon
+    # def _child_vertices(cell: Cell) -> tuple[tuple[float, float], ...]:
     @staticmethod
     def _child_vertices(cell: Cell):
         """Given a cell, returns the cell's vertices, and (recursively) the vertices of
