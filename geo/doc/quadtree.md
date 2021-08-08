@@ -55,7 +55,8 @@ Compare the above three cases, with # boundary points, `nbp`, as 3, 5, 9, and re
 * To maintain continuity of the 4x4 brown square region, the `L5` refinement, the boundary maximum point-to-point interval distance, `ppd_max`, in either the `x` or the `y` direction must be no greater than `4 * 32-mm`, which provides 2 side lengths from each of the two square regions, totaling 4 brown squares on the interval from point-to-point.
 * Generally, if the smallest side length is `Ln = L0 / (2^n)`
   * then `ppd_max = 4 * Ln = 4 * L0 / (2^n)`
-  * If the number of quad tree bisections `n` increases, the boundary maximum point-to-point interval distance `ppd_max` decreases, which makes sense.
+  * If the number of quad tree bisections `n` increases, the boundary maximum point-to-point interval distance `ppd_max` decreases.  This makes sense because a successive bisection refinement causes the quad tree side length to be halved.
+  * <u> **The goal then is to create a boundary with sufficient density such that `ppd < ppd_max`.** </u>
 * Also, a distinction for *open* versus *closed* boundaries:
   * `nbi`, the number of boundary intervals, relates to `npb`, the number of boundary points, as
     * `nbi = nbp` for a closed boundary, and
@@ -82,7 +83,7 @@ Compare the above three cases, with # boundary points, `nbp`, as 3, 5, 9, and re
 | `nbp = 9` | `nbp = 17` |
 |:---:|:---:|
 | ![plot_quadtree_diag_npts_9](fig/plot_quadtree_diag_npts_9.png) | ![plot_quadtree_diag_npts_17](fig/plot_quadtree_diag_npts_17.png) |
-> Illustration of worst-case continuity condition (left) with `nbp = 9` compared to a single additional bisection (right) with `nbp = 17`.  
+> Illustration of worst-case continuity condition (left) with `nbp = 9` and `ppd = 181-mm`compared to a single additional bisection (right) with `nbp = 17` and `ppd = 90.5-mm`.  For `boundary_length = 1448-mm` and `level_max = 5`, `ppd_max = 128-mm`.
 
 
 | `nbp = 9` | `nbp = 17` |
