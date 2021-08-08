@@ -75,8 +75,17 @@ Compare the above three cases, with # boundary points, `nbp`, as 3, 5, 9, and re
       * `No` if the continuity condition is vertex continuity only.
       * `Yes` if the continuity condition is edge continuity.
       * Edge continuity is a stronger continuity condition than vertex continuity.
+      * The quad tree refinement changes because 
+        * the `nbp = 9` results in a `ppd = 181-mm`, which exceeds `ppd_max = 128-mm` by 41-percent.  
+        * With `nbp = 17` (thus `nbi = 16` for an open curve), `ppd =  90.5-mm`, which does not exceed the `ppd_max = 128-mm` value.
 
 | `nbp = 9` | `nbp = 17` |
 |:---:|:---:|
 | ![plot_quadtree_diag_npts_9](fig/plot_quadtree_diag_npts_9.png) | ![plot_quadtree_diag_npts_17](fig/plot_quadtree_diag_npts_17.png) |
-> Illustration of worst-case continuity condition (left) with `nbp = 9` compared to a single additional bisection (right) with `nbp = 17`.
+> Illustration of worst-case continuity condition (left) with `nbp = 9` compared to a single additional bisection (right) with `nbp = 17`.  
+
+
+| `nbp = 9` | `nbp = 17` |
+|:---:|:---:|
+| ![plot_quadtree_npts_9](fig/plot_quadtree_npts_9.png) | ![plot_quadtree_npts_17](fig/plot_quadtree_npts_17.png) |
+> Illustration of original case continuity condition (left) with `nbp = 9` compared to a single additional bisection (right) with `nbp = 17`.

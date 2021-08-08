@@ -48,7 +48,7 @@ def main():
     |     *-----------*
     """
     simple_example = False
-    diagonal_example = True
+    diagonal_example = False
     level_max = 5
     ax.set_title(f"level max = {level_max}")
 
@@ -64,15 +64,17 @@ def main():
     else:
         ctr = qt.Coordinate(x=0.0, y=0.0)
         cell = qt.Cell(center=ctr, size=1024.0)
+        num_points = 17  # 9 for single density, or 17 for double density
 
         # boundary points
         if diagonal_example:
-            num_points = 9  # 9 for single density, or 17 for double density
             bpx = np.linspace(start=-512.0, stop=512.0, num=num_points, endpoint=True)
             bpy = bpx
         else:
-            bpx = (-128.0, -96.0, -64.0, -32.0, 0.0, 32.0, 64.0, 96.0, 128.0)
-            bpy = (-512.0, -384.0, -256.0, -128.0, 0.0, 128.0, 256.0, 384.0, 512.0)
+            # bpx = (-128.0, -96.0, -64.0, -32.0, 0.0, 32.0, 64.0, 96.0, 128.0)
+            bpx = np.linspace(start=-128.0, stop=128.0, num=num_points, endpoint=True)
+            # bpy = (-512.0, -384.0, -256.0, -128.0, 0.0, 128.0, 256.0, 384.0, 512.0)
+            bpy = np.linspace(start=-512.0, stop=512.0, num=num_points, endpoint=True)
 
         points = tuple(map(qt.Coordinate, bpx, bpy))
         ax.set_xticks([-512, -256, -128, 0, 128, 256, 512])
