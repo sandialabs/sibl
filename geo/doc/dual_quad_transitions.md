@@ -1,5 +1,7 @@
 # primal/dual quadrilateral transitions
 
+* *See also: [quadtree](quadtree.md)*
+
 Created with [dual_quad.py](../src/ptg/dual_quad.py):
 
 | Template | Primal | Dual |
