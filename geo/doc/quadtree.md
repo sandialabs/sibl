@@ -33,7 +33,14 @@ Created with [plot_quadtree.py](plot_quadtree.py):
 
 Created with [plot_quadtree.py](plot_quadtree.py):
 
-| before | after |
+* *strongly balanced* [3D volume] cells that differ by more than one level of refinement must not share any vertex, edge, or face. [Livesu 2021, Section 6]
+* *weakly balanced* [3D volume] cells that differ by more than one level of refinement must not share any face.
+
+> Our key observation is that when there is high disparity in the refinement associated to nearby cells, satisfying the strong balancing criterion requires a conspicuous amount of additional refinement, significantly increasing the cell count. Conversely, if the balancing criterion was weaker, meaning that restrictions applied only to face-adjacent cells, the amount of necessary subdivisions would be much lower (Figure 13).
+> ![Livesu_2021_Fig_13](fig/Livesu_2021_Fig_13.png)
+> Weakly balanced grids may contain edges shared between cells with three different levels of refinement, and vertices incident to cells spanning four different levels of refinement. Luckily, the vertex case does not require any special handling because – regardless of the size disparity – any grid vertex has 8 incident cells and 6 incident edges, which means that it always yields a hexahedron in the dual mesh. This is also the reason why weakly balanced grids in 2D do not necessitate dedicated schemes. Conversely, edges shared by cells spanning three levels of refinement generate hanging vertices that must be incorporated into the mesh connectivity. As shown in Figure 11 there are four possible cases, which correspond to an open concave edge, or a concave corner where 1, 2 or 3 of the incident concave edges contain additional hanging vertices.
+
+| before (unbalanced) | after (weakly balanced) |
 |:---:|:---:|
 | ![rebalance_pre](fig/rebalance_pre.png) | ![rebalance_post](fig/rebalance_post.png) |
 | ![plot_quadtree_npts_9](fig/plot_quadtree_npts_9.png) # boundary points = 9 | |
