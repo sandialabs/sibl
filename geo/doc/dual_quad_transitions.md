@@ -17,10 +17,15 @@ Created with [dual_quad.py](../src/ptg/dual_quad.py) and [plot_dual_quad.py](plo
 
 ## Hash Table
 
+* The hash table is composed of 16 templates,
+  * Six templates are unique,
+  * Ten templates are non-unique.
+
+
 | `0000` | `0001` | `0010` | `0011` | `0100` | `0101` | `0110` | `0111` | 
 |:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|
-| ![primal_quad_0000](fig/primal_quad_0000.png) | ![primal_quad_0001](fig/primal_quad_0001.png) | ![primal_quad_0010](fig/primal_quad_0010.png) | ![primal_quad_0011](fig/primal_quad_0011.png) | ![primal_quad_0100](fig/primal_quad_0100.png) | ![primal_quad_0101](fig/primal_quad_0101.png) | 7 | 8 |
-| ![dual_quad_0000](fig/dual_quad_0000.png) | ![dual_quad_0001](fig/dual_quad_0001.png) | ![dual_quad_0010](fig/dual_quad_0010.png) | ![dual_quad_0011](fig/dual_quad_0011.png) | ![dual_quad_0100](fig/dual_quad_0100.png) | ![dual_quad_0101](fig/dual_quad_0101.png) | 7 | 8 |
+| ![primal_quad_0000](fig/primal_quad_0000.png) | ![primal_quad_0001](fig/primal_quad_0001.png) | ![primal_quad_0010](fig/primal_quad_0010.png) | ![primal_quad_0011](fig/primal_quad_0011.png) | ![primal_quad_0100](fig/primal_quad_0100.png) | ![primal_quad_0101](fig/primal_quad_0101.png) | ![primal_quad_0110](fig/primal_quad_0110.png) | ![primal_quad_0111](fig/primal_quad_0111.png) |
+| ![dual_quad_0000](fig/dual_quad_0000.png) | ![dual_quad_0001](fig/dual_quad_0001.png) | ![dual_quad_0010](fig/dual_quad_0010.png) | ![dual_quad_0011](fig/dual_quad_0011.png) | ![dual_quad_0100](fig/dual_quad_0100.png) | ![dual_quad_0101](fig/dual_quad_0101.png) | ![dual_quad_0110](fig/dual_quad_0110.png) | ![dual_quad_0111](fig/dual_quad_0111.png) |
 
 
 
@@ -28,5 +33,5 @@ Created with [dual_quad.py](../src/ptg/dual_quad.py) and [plot_dual_quad.py](plo
 
 | `1000` | `1001` | `1010` | `1011` | `1100` | `1101` | `1110` | `1111` | 
 |:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|
-| ![primal_quad_1000](fig/primal_quad_1000.png) | 2 | ![primal_quad_1010](fig/primal_quad_1010.png) | 4 | ![primal_quad_1100](fig/primal_quad_1100.png) | 6 | 7 | 8 |
-| ![dual_quad_1000](fig/dual_quad_1000.png) | 2 | ![dual_quad_1010](fig/dual_quad_1010.png) | 4 | ![dual_quad_1100](fig/dual_quad_1100.png) | 6 | 7 | 8 |
+| ![primal_quad_1000](fig/primal_quad_1000.png) | ![primal_quad_1001](fig/primal_quad_1001.png) | ![primal_quad_1010](fig/primal_quad_1010.png) | ![primal_quad_1011](fig/primal_quad_1011.png) | ![primal_quad_1100](fig/primal_quad_1100.png) | ![primal_quad_1101](fig/primal_quad_1101.png) | ![primal_quad_1110](fig/primal_quad_1110.png) | 8 |
+| ![dual_quad_1000](fig/dual_quad_1000.png) | ![dual_quad_1001](fig/dual_quad_1001.png) | ![dual_quad_1010](fig/dual_quad_1010.png) | ![dual_quad_1011](fig/dual_quad_1011.png) | ![dual_quad_1100](fig/dual_quad_1100.png) | ![dual_quad_1101](fig/dual_quad_1101.png) | ![dual_quad_1110](fig/dual_quad_1110.png) | 8 |

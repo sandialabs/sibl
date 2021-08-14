@@ -138,7 +138,7 @@ def plot_template(template, *, dual_shown=False, plot_shown=False, serialize=Fal
 
 def main():
 
-    dual = False
+    dual = True
     show = False
     save = True
 
@@ -160,7 +160,15 @@ def main():
     # based on Template_0011
     # plot_template(dq.Template_0101(), dual_shown=dual, plot_shown=show, serialize=save)
     # plot_template(dq.Template_1010(), dual_shown=dual, plot_shown=show, serialize=save)
-    plot_template(dq.Template_1100(), dual_shown=dual, plot_shown=show, serialize=save)
+    # plot_template(dq.Template_1100(), dual_shown=dual, plot_shown=show, serialize=save)
+    #
+    # based on Template_0110
+    # plot_template(dq.Template_1001(), dual_shown=dual, plot_shown=show, serialize=save)
+    #
+    # based on Template_0111
+    plot_template(dq.Template_1011(), dual_shown=dual, plot_shown=show, serialize=save)
+    plot_template(dq.Template_1101(), dual_shown=dual, plot_shown=show, serialize=save)
+    plot_template(dq.Template_1110(), dual_shown=dual, plot_shown=show, serialize=save)
 
 
 if __name__ == "__main__":
