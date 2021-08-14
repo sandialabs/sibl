@@ -120,8 +120,10 @@ def plot_template(template, *, dual_shown=False, plot_shown=False, serialize=Fal
     ax.set_xlabel(r"$x$")
     ax.set_ylabel(r"$y$")
 
-    ax.set_xticks([0, 1, 2, 3, 4])
-    ax.set_yticks([0, 1, 2, 3, 4])
+    # ax.set_xticks([0, 1, 2, 3, 4])
+    # ax.set_yticks([0, 1, 2, 3, 4])
+    ax.set_xticks([-1, -0.5, 0, 0.5, 1])
+    ax.set_yticks([-1, -0.5, 0, 0.5, 1])
 
     if plot_shown:
         plt.show()
@@ -140,12 +142,16 @@ def main():
     show = False
     save = True
 
+    # The six unique transitions
     plot_template(dq.Template_0000(), dual_shown=dual, plot_shown=show, serialize=save)
     plot_template(dq.Template_0001(), dual_shown=dual, plot_shown=show, serialize=save)
-    plot_template(dq.Template_0011(), dual_shown=dual, plot_shown=show, serialize=save)
-    plot_template(dq.Template_0110(), dual_shown=dual, plot_shown=show, serialize=save)
-    plot_template(dq.Template_0111(), dual_shown=dual, plot_shown=show, serialize=save)
-    plot_template(dq.Template_1111(), dual_shown=dual, plot_shown=show, serialize=save)
+    # plot_template(dq.Template_0011(), dual_shown=dual, plot_shown=show, serialize=save)
+    # plot_template(dq.Template_0110(), dual_shown=dual, plot_shown=show, serialize=save)
+    # plot_template(dq.Template_0111(), dual_shown=dual, plot_shown=show, serialize=save)
+    # plot_template(dq.Template_1111(), dual_shown=dual, plot_shown=show, serialize=save)
+
+    # The remaining (non-unique) transitions
+    plot_template(dq.Template_0010(), dual_shown=dual, plot_shown=show, serialize=save)
 
 
 if __name__ == "__main__":

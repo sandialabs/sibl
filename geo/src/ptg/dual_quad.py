@@ -39,6 +39,8 @@
 
 from typing import NamedTuple
 
+import math
+
 # TODO: Inherit ABC to assure interface same across all templates.
 
 # Type alias for functional style methods
@@ -50,6 +52,39 @@ Vertex = Coordinate
 Face = tuple[int, int, int, int]
 
 Port = Coordinate
+
+
+def rotate(ref: tuple[Vertex, ...], angle: float) -> tuple[Vertex, ...]:
+    """Rotates about the origin an amount of angle (degrees) a tuple of points
+    in the reference position to a new position.
+
+    Attributes:
+        ref (tuple[Vertex, ...]): The tuple of (x, y) coordinates in the reference
+            configurations, e.g., ((x0, y0), (x1, y1), ... (xn, yn)).
+        angle (float): The magnitude of rotation in degrees about the origin.
+
+    Returns:
+        new (tuple[Vertex, ...]):  The new positions of the ref coordinates, now
+            rotated about the origin by an angle (in degrees).
+    """
+
+    xs = tuple(ref[k][0] for k in range(len(ref)))
+    ys = tuple(ref[k][1] for k in range(len(ref)))
+
+    xnew = tuple(
+        xs[k] * math.cos(angle * math.pi / 180.0)
+        - ys[k] * math.sin(angle * math.pi / 180.0)
+        for k in range(len(xs))
+    )
+
+    ynew = tuple(
+        xs[k] * math.sin(angle * math.pi / 180.0)
+        + ys[k] * math.cos(angle * math.pi / 180.0)
+        for k in range(len(ys))
+    )
+
+    new = tuple((xnew[k], ynew[k]) for k in range(len(ref)))
+    return new
 
 
 class Template_Base(NamedTuple):
@@ -112,15 +147,24 @@ class Template_0000(NamedTuple):
     name: str = "0000"
 
     vertices: tuple[Vertex, ...] = (
+        # (0.0, 0.0),
+        # (0.0, 2.0),
+        # (0.0, 4.0),
+        # (2.0, 0.0),
+        # (2.0, 2.0),
+        # (2.0, 4.0),
+        # (4.0, 0.0),
+        # (4.0, 2.0),
+        # (4.0, 4.0),
+        (-1.0, -1.0),
+        (-1.0, 0.0),
+        (-1.0, 1.0),
+        (0.0, -1.0),
         (0.0, 0.0),
-        (0.0, 2.0),
-        (0.0, 4.0),
-        (2.0, 0.0),
-        (2.0, 2.0),
-        (2.0, 4.0),
-        (4.0, 0.0),
-        (4.0, 2.0),
-        (4.0, 4.0),
+        (0.0, 1.0),
+        (1.0, -1.0),
+        (1.0, 0.0),
+        (1.0, 1.0),
     )
 
     vertices_revalence = None
@@ -133,23 +177,35 @@ class Template_0000(NamedTuple):
     )
 
     vertices_dual: tuple[Vertex, ...] = (
-        (1.0, 1.0),
-        (1.0, 3.0),
-        (3.0, 1.0),
-        (3.0, 3.0),
+        # (1.0, 1.0),
+        # (1.0, 3.0),
+        # (3.0, 1.0),
+        # (3.0, 3.0),
+        (-0.5, -0.5),
+        (-0.5, 0.5),
+        (0.5, -0.5),
+        (0.5, 0.5),
     )
 
     faces_dual: tuple[Face, ...] = ((0, 2, 3, 1),)
 
     ports: tuple[Port, ...] = (
-        (1.0, 0.0),
-        (3.0, 0.0),
-        (4.0, 1.0),
-        (4.0, 3.0),
-        (3.0, 4.0),
-        (1.0, 4.0),
-        (0.0, 3.0),
-        (0.0, 1.0),
+        # (1.0, 0.0),
+        # (3.0, 0.0),
+        # (4.0, 1.0),
+        # (4.0, 3.0),
+        # (3.0, 4.0),
+        # (1.0, 4.0),
+        # (0.0, 3.0),
+        # (0.0, 1.0),
+        (-0.5, -1.0),
+        (0.5, -1.0),
+        (1.0, -0.5),
+        (1.0, 0.5),
+        (0.5, 1.0),
+        (-0.5, 1.0),
+        (-1.0, 0.5),
+        (-1.0, -0.5),
     )
 
 
@@ -187,29 +243,53 @@ class Template_0001(NamedTuple):
 
     name: str = "0001"
 
+    # vertices: tuple[Vertex, ...] = (
+    #     (0.0, 0.0),
+    #     (0.0, 2.0),
+    #     (0.0, 4.0),
+    #     (2.0, 0.0),
+    #     (2.0, 2.0),
+    #     (2.0, 3.0),
+    #     (2.0, 4.0),
+    #     (3.0, 2.0),
+    #     (3.0, 3.0),
+    #     (3.0, 4.0),
+    #     (4.0, 0.0),
+    #     (4.0, 2.0),
+    #     (4.0, 3.0),
+    #     (4.0, 4.0),
+    # )
     vertices: tuple[Vertex, ...] = (
+        (-1.0, -1.0),
+        (-1.0, 0.0),
+        (-1.0, 1.0),
+        (0.0, -1.0),
         (0.0, 0.0),
-        (0.0, 2.0),
-        (0.0, 4.0),
-        (2.0, 0.0),
-        (2.0, 2.0),
-        (2.0, 3.0),
-        (2.0, 4.0),
-        (3.0, 2.0),
-        (3.0, 3.0),
-        (3.0, 4.0),
-        (4.0, 0.0),
-        (4.0, 2.0),
-        (4.0, 3.0),
-        (4.0, 4.0),
+        (0.0, 0.5),
+        (0.0, 1.0),
+        (0.5, 0.0),
+        (0.5, 0.5),
+        (0.5, 1.0),
+        (1.0, -1.0),
+        (1.0, 0.0),
+        (1.0, 0.5),
+        (1.0, 1.0),
     )
 
+    # vertices_revalence: tuple[tuple[Vertex, ...]] = (
+    #     (
+    #         (2.0, 3.0),
+    #         (1.0, 2.0),
+    #         (2.0, 1.0),
+    #         (3.0, 2.0),
+    #     ),
+    # )
     vertices_revalence: tuple[tuple[Vertex, ...]] = (
         (
-            (2.0, 3.0),
-            (1.0, 2.0),
-            (2.0, 1.0),
-            (3.0, 2.0),
+            (0.0, 0.5),
+            (-0.5, 0.0),
+            (0.0, -0.5),
+            (0.5, 0.0),
         ),
     )
 
@@ -223,17 +303,29 @@ class Template_0001(NamedTuple):
         (8, 12, 13, 9),
     )
 
+    # vertices_dual: tuple[Vertex, ...] = (
+    #     (1.0, 1.0),
+    #     (1.0, 3.0),
+    #     (1.667, 1.667),
+    #     (1.667, 2.333),
+    #     (2.333, 1.667),
+    #     (2.5, 2.5),
+    #     (2.5, 3.5),
+    #     (3.0, 1.0),
+    #     (3.5, 2.5),
+    #     (3.5, 3.5),
+    # )
     vertices_dual: tuple[Vertex, ...] = (
-        (1.0, 1.0),
-        (1.0, 3.0),
-        (1.667, 1.667),
-        (1.667, 2.333),
-        (2.333, 1.667),
-        (2.5, 2.5),
-        (2.5, 3.5),
-        (3.0, 1.0),
-        (3.5, 2.5),
-        (3.5, 3.5),
+        (-0.5, -0.5),
+        (-0.5, 0.5),
+        (-0.1665, -0.1665),
+        (-0.1665, 0.1665),
+        (0.1665, -0.1665),
+        (0.25, 0.25),
+        (0.25, 0.75),
+        (0.5, -0.5),
+        (0.75, 0.25),
+        (0.75, 0.75),
     )
 
     faces_dual: tuple[Face, ...] = (
@@ -245,18 +337,54 @@ class Template_0001(NamedTuple):
         (5, 8, 9, 6),
     )
 
+    # ports: tuple[Port, ...] = (
+    #     (1.0, 0.0),
+    #     (3.0, 0.0),
+    #     (4.0, 1.0),
+    #     (4.0, 2.5),
+    #     (4.0, 3.5),
+    #     (3.5, 4.0),
+    #     (2.5, 4.0),
+    #     (1.0, 4.0),
+    #     (0.0, 3.0),
+    #     (0.0, 1.0),
+    # )
+
     ports: tuple[Port, ...] = (
-        (1.0, 0.0),
-        (3.0, 0.0),
-        (4.0, 1.0),
-        (4.0, 2.5),
-        (4.0, 3.5),
-        (3.5, 4.0),
-        (2.5, 4.0),
-        (1.0, 4.0),
-        (0.0, 3.0),
-        (0.0, 1.0),
+        (-0.5, -1.0),
+        (0.5, -1.0),
+        (1.0, -0.5),
+        (1.0, 0.25),
+        (1.0, 0.75),
+        (0.75, 1.0),
+        (0.25, 1.0),
+        (-0.5, 1.0),
+        (-1.0, 0.5),
+        (-1.0, -0.5),
     )
+
+
+class Template_0010(NamedTuple):
+    """This is a non-unique template, visualized as the unique 0010 template,
+    rotated -90 degrees (90 degrees clockwise rotation).
+    """
+
+    name: str = "0010"
+
+    _base = Template_0001()
+    _angles = tuple(-90.0 for _ in range(len(_base.vertices_revalence)))
+
+    vertices: tuple[Vertex, ...] = rotate(ref=_base.vertices, angle=-90.0)
+
+    vertices_revalence = tuple(map(rotate, _base.vertices_revalence, _angles))
+
+    faces: tuple[Face, ...] = _base.faces
+
+    vertices_dual: tuple[Vertex, ...] = rotate(ref=_base.vertices_dual, angle=-90.0)
+
+    faces_dual: tuple[Face, ...] = _base.faces_dual
+
+    ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=-90.0)
 
 
 class Template_0011(NamedTuple):
