@@ -138,20 +138,29 @@ def plot_template(template, *, dual_shown=False, plot_shown=False, serialize=Fal
 
 def main():
 
-    dual = True
+    dual = False
     show = False
     save = True
 
     # The six unique transitions
-    plot_template(dq.Template_0000(), dual_shown=dual, plot_shown=show, serialize=save)
-    plot_template(dq.Template_0001(), dual_shown=dual, plot_shown=show, serialize=save)
+    # plot_template(dq.Template_0000(), dual_shown=dual, plot_shown=show, serialize=save)
+    # plot_template(dq.Template_0001(), dual_shown=dual, plot_shown=show, serialize=save)
     # plot_template(dq.Template_0011(), dual_shown=dual, plot_shown=show, serialize=save)
     # plot_template(dq.Template_0110(), dual_shown=dual, plot_shown=show, serialize=save)
     # plot_template(dq.Template_0111(), dual_shown=dual, plot_shown=show, serialize=save)
     # plot_template(dq.Template_1111(), dual_shown=dual, plot_shown=show, serialize=save)
 
     # The remaining (non-unique) transitions
-    plot_template(dq.Template_0010(), dual_shown=dual, plot_shown=show, serialize=save)
+    #
+    # based on Template_0001
+    # plot_template(dq.Template_0010(), dual_shown=dual, plot_shown=show, serialize=save)
+    # plot_template(dq.Template_0100(), dual_shown=dual, plot_shown=show, serialize=save)
+    # plot_template(dq.Template_1000(), dual_shown=dual, plot_shown=show, serialize=save)
+    #
+    # based on Template_0011
+    # plot_template(dq.Template_0101(), dual_shown=dual, plot_shown=show, serialize=save)
+    # plot_template(dq.Template_1010(), dual_shown=dual, plot_shown=show, serialize=save)
+    plot_template(dq.Template_1100(), dual_shown=dual, plot_shown=show, serialize=save)
 
 
 if __name__ == "__main__":
