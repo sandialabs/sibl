@@ -138,7 +138,7 @@ def plot_template(template, *, dual_shown=False, plot_shown=False, serialize=Fal
 
 def main():
 
-    dual = True
+    dual = False
     show = False
     save = True
 
@@ -148,7 +148,7 @@ def main():
     # plot_template(dq.Template_0011(), dual_shown=dual, plot_shown=show, serialize=save)
     # plot_template(dq.Template_0110(), dual_shown=dual, plot_shown=show, serialize=save)
     # plot_template(dq.Template_0111(), dual_shown=dual, plot_shown=show, serialize=save)
-    # plot_template(dq.Template_1111(), dual_shown=dual, plot_shown=show, serialize=save)
+    plot_template(dq.Template_1111(), dual_shown=dual, plot_shown=show, serialize=save)
 
     # The remaining (non-unique) transitions
     #
@@ -166,9 +166,9 @@ def main():
     # plot_template(dq.Template_1001(), dual_shown=dual, plot_shown=show, serialize=save)
     #
     # based on Template_0111
-    plot_template(dq.Template_1011(), dual_shown=dual, plot_shown=show, serialize=save)
-    plot_template(dq.Template_1101(), dual_shown=dual, plot_shown=show, serialize=save)
-    plot_template(dq.Template_1110(), dual_shown=dual, plot_shown=show, serialize=save)
+    # plot_template(dq.Template_1011(), dual_shown=dual, plot_shown=show, serialize=save)
+    # plot_template(dq.Template_1101(), dual_shown=dual, plot_shown=show, serialize=save)
+    # plot_template(dq.Template_1110(), dual_shown=dual, plot_shown=show, serialize=save)
 
 
 if __name__ == "__main__":
