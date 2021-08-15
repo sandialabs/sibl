@@ -1,38 +1,40 @@
-# L0 refinement is the base level
-# L1 refinement is refined 1x relative to the 0 base level
+# L0 refinement is the base quad level, a singleton, the entire domain
+# * full L1 refinement of L0 creates 2x2 = 4 quads
+# * full L2 refinement of L0 creates 4x4 = 16 quads
+# * full L3 refinement of L0 creates 8x8 = 64 quads
 #
-# Consider a 2x2 grid template, composed of either L0 or L1 squares.
+# Consider a 2x2 grid template, composed of either L1 or L2 squares.
 # For each of the four grid spaces of the 2x2 grid can be composed
-# of either the L0 (one square) or L1 (four small squares).
+# of either the L1 (one square) or L2 (four small squares).
 # There are 2^4 = 16 variations, but only six variations are unique,
 # as shown below.
 #
 # Let the x-axis be the major axis, and y-axis be the minor axis.
 # Then the array of fills for the 2x2 grid is
-# 0 -> L0, 1 -> L1
+# 0 -> L1, 1 -> L2
 #
 # SW,       NW,       SE,       NE
 # (x0, y0), (x0, y1), (x1, y0), (x1, y1)
 
-#  0000  # "all L0"            <-- unique T0
-#  0001  # "single L1"         <-- unique T1
-#  0010  #     "single L1" (2)
+#  0000  # "all L1"            <-- unique T0
+#  0001  # "single L2"         <-- unique T1
+#  0010  #     "single L2" (2)
 #  0011  # "half-half"         <-- unique T2
 
-#  0100  #     "single L1" (3)
+#  0100  #     "single L2" (3)
 #  0101  #     "half-half" (2)
 #  0110  # "fan"               <-- unique T3
-#  0111  # "single L0"         <-- unique T4
+#  0111  # "single L1"         <-- unique T4
 
-#  1000  #     "single L1" (4)
+#  1000  #     "single L2" (4)
 #  1001  #     "fan" (2)
 #  1010  #     "half-half" (3)
-#  1011  #     "single L0" (2)
+#  1011  #     "single L1" (2)
 
 #  1100  #     "half-half" (4)
-#  1101  #     "single L0" (3)
-#  1110  #     "single L0" (4)
-#  1111  #  "all L1"           <-- unique T5
+#  1101  #     "single L1" (3)
+#  1110  #     "single L1" (4)
+#  1111  #  "all L2"           <-- unique T5
 
 # So slots in a 2x2 grid template, 4^2 = 16 configurations, but
 # there are only six (6) unique configurations.
@@ -113,7 +115,7 @@ class Template_Base(NamedTuple):
 
 
 class Template_0000(NamedTuple):
-    """Creates the fully level 0 (L0) data structure.
+    """Creates the fully level 1 (L1) data structure.
 
     The 0000 pattern and node numbers:
 
@@ -189,7 +191,7 @@ class Template_0000(NamedTuple):
 
 
 class Template_0001(NamedTuple):
-    """Creates the three level 0 (L0) and one level 1 (L1) data structure.
+    """Creates the three level 1 (L1) and one level 2 (L2) data structure.
 
     The 0001 pattern and node numbers:
 
@@ -364,7 +366,7 @@ class Template_1000(NamedTuple):
 
 
 class Template_0011(NamedTuple):
-    """Creates the two level 0 (L0) and two level 1 (L1) data structure.
+    """Creates the two level 1 (L1) and two level 2 (L2) data structure.
 
     The 0011 pattern and node numbers:
 
@@ -550,7 +552,7 @@ class Template_1100(NamedTuple):
 
 
 class Template_0110(NamedTuple):
-    """Creates the two level 0 (L0) and two level 1 (L1) data structure in opposition.
+    """Creates the two level 1 (L1) and two level 2 (L2) data structure in opposition.
 
     The 0110 pattern and node numbers:
 
@@ -694,7 +696,7 @@ class Template_1001(NamedTuple):
 
 
 class Template_0111(NamedTuple):
-    """Creates the one level 0 (L0) and three level 1 (L1) data structure.
+    """Creates the one level 1 (L1) and three level 2 (L2) data structure.
 
     The 0111 pattern and node numbers:
 
@@ -891,7 +893,7 @@ class Template_1110(NamedTuple):
 
 
 class Template_1111(NamedTuple):
-    """Creates the fully level 1 (L1) data structure.
+    """Creates the fully level 2 (L2) data structure.
 
     The 1111 pattern and node numbers:
 
