@@ -1245,3 +1245,72 @@ class Template_0112(NamedTuple):
         (-1.0, 0.25),  # w-nw
         (-1.0, -0.5),  # s-sw
     )
+
+
+class Template_1021(NamedTuple):  # rotate Template_0112 90 degrees clockwise
+    """This is a non-unique template, visualized as the unique 0112 template,
+    rotated -90 degrees (90 degrees clockwise rotation).
+    """
+
+    name: str = "1021"
+
+    _base = Template_0112()
+    _angles = tuple(-90.0 for _ in range(len(_base.vertices_revalence)))
+
+    vertices: tuple[Vertex, ...] = rotate(ref=_base.vertices, angle=-90.0)
+
+    vertices_revalence = tuple(map(rotate, _base.vertices_revalence, _angles))
+
+    faces: tuple[Face, ...] = _base.faces
+
+    vertices_dual: tuple[Vertex, ...] = rotate(ref=_base.vertices_dual, angle=-90.0)
+
+    faces_dual: tuple[Face, ...] = _base.faces_dual
+
+    ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=-90.0)
+
+
+class Template_1201(NamedTuple):  # rotate Template_0112 90 degrees counter clockwise
+    """This is a non-unique template, visualized as the unique 0112 template,
+    rotated 90 degrees (90 degrees counter clockwise rotation).
+    """
+
+    name: str = "1201"
+
+    _base = Template_0112()
+    _angles = tuple(90.0 for _ in range(len(_base.vertices_revalence)))
+
+    vertices: tuple[Vertex, ...] = rotate(ref=_base.vertices, angle=90.0)
+
+    vertices_revalence = tuple(map(rotate, _base.vertices_revalence, _angles))
+
+    faces: tuple[Face, ...] = _base.faces
+
+    vertices_dual: tuple[Vertex, ...] = rotate(ref=_base.vertices_dual, angle=90.0)
+
+    faces_dual: tuple[Face, ...] = _base.faces_dual
+
+    ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=90.0)
+
+
+class Template_2110(NamedTuple):  # rotate Template_0112 180 degrees
+    """This is a non-unique template, visualized as the unique 0112 template,
+    rotated 180 degrees (180 degrees counter clockwise rotation).
+    """
+
+    name: str = "2110"
+
+    _base = Template_0112()
+    _angles = tuple(180.0 for _ in range(len(_base.vertices_revalence)))
+
+    vertices: tuple[Vertex, ...] = rotate(ref=_base.vertices, angle=180.0)
+
+    vertices_revalence = tuple(map(rotate, _base.vertices_revalence, _angles))
+
+    faces: tuple[Face, ...] = _base.faces
+
+    vertices_dual: tuple[Vertex, ...] = rotate(ref=_base.vertices_dual, angle=180.0)
+
+    faces_dual: tuple[Face, ...] = _base.faces_dual
+
+    ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=180.0)

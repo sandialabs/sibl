@@ -172,6 +172,11 @@ def main():
 
     # The weakly balanced transition
     plot_template(dq.Template_0112(), dual_shown=dual, plot_shown=show, serialize=save)
+    #
+    # based on Template_0112
+    plot_template(dq.Template_1021(), dual_shown=dual, plot_shown=show, serialize=save)
+    plot_template(dq.Template_1201(), dual_shown=dual, plot_shown=show, serialize=save)
+    plot_template(dq.Template_2110(), dual_shown=dual, plot_shown=show, serialize=save)
 
 
 if __name__ == "__main__":
