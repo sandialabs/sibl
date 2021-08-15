@@ -2,7 +2,7 @@
 
 * *See also: [quadtree](quadtree.md)*
 
-## Six Unique Transitions
+## Six Unique Strongly Balanced Transitions
 
 Created with [dual_quad.py](../src/ptg/dual_quad.py) and [plot_dual_quad.py](plot_dual_quad.py):
 
@@ -14,6 +14,12 @@ Created with [dual_quad.py](../src/ptg/dual_quad.py) and [plot_dual_quad.py](plo
 | `Diagonal` Template_0110 | ![primal_quad_0110](fig/primal_quad_0110.png) | ![dual_quad_0110](fig/dual_quad_0110.png) 
 | `Concave` Template_0111 | ![primal_quad_0111](fig/primal_quad_0111.png) | ![dual_quad_0111](fig/dual_quad_0111.png) 
 | `L1` Template_1111 | ![primal_quad_1111](fig/primal_quad_1111.png) | ![dual_quad_1111](fig/dual_quad_1111.png) | 
+
+## One Unique Weakly Balanced Transition
+
+| Template | Primal | Dual |
+|:---:|:---:|:---:|
+| `L2` Template_0112 | ![primal_quad_0112](fig/primal_quad_0112.png) | ![dual_quad_0112](fig/dual_quad_0112.png) 
 
 ## Hash Table
 
