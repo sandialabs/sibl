@@ -1,4 +1,7 @@
 from typing import NamedTuple
+from functools import reduce
+
+import ptg.dual_quad as dual_quad
 
 
 class Coordinate(NamedTuple):
@@ -23,6 +26,44 @@ class Quad(NamedTuple):
     se: Vertex  # southeast corner
     ne: Vertex  # northeast corner
     nw: Vertex  # northwest corner
+
+
+class DualHash(NamedTuple):
+    """Creates dual hash of the parent primal cell's four corners.  Each int
+    value is the number of dual ports in each of the four corner quadrants.
+
+    Example:
+        0 gives 2^0 = 1 port in each x and y directions within the corner quadrant,
+        1 gives 2^1 = 2 ports, and
+        2 gives 2^2 = 4 ports.
+
+    Current has table,
+    https://github.com/sandialabs/sibl/blob/master/geo/doc/dual_quad_transitions.md
+    suports only "0", "1" and "2" as int possibilities.
+    """
+
+    sw: int  # southwest corner
+    nw: int  # northwest corner
+    se: int  # southeast corner
+    ne: int  # northeast corner
+
+
+def quad_key(*, quad_corners: tuple[int, ...]) -> str:
+    _quad_key = "Q" + str(reduce(lambda x, y: str(x) + str(y), quad_corners))
+    return _quad_key
+
+
+class QuadsToTemplate(NamedTuple):
+    """Maps keys, which are converstion of tuple(int, int, int, int) to string, to a
+    specific template.
+    """
+
+    Q1111: NamedTuple = dual_quad.Template_0000()
+
+    Q1114: NamedTuple = dual_quad.Template_0001()
+    Q1141: NamedTuple = dual_quad.Template_0010()
+    Q1411: NamedTuple = dual_quad.Template_0100()
+    Q4111: NamedTuple = dual_quad.Template_1000()
 
 
 # Reference: recursive type hinting:
@@ -178,6 +219,8 @@ class QuadTree:
         if level_max < 0:
             raise ValueError("level_max must be zero or greater.")
 
+        self.level_max = level_max
+
         if level + 1 > level_max:
             return  # no further refinement occurs
 
@@ -202,25 +245,25 @@ class QuadTree:
                 self.sw = QuadTree(
                     cell=self.cell.sw,
                     level=self.level,
-                    level_max=level_max,
+                    level_max=self.level_max,
                     points=self.points,
                 )
                 self.nw = QuadTree(
                     cell=self.cell.nw,
                     level=self.level,
-                    level_max=level_max,
+                    level_max=self.level_max,
                     points=self.points,
                 )
                 self.se = QuadTree(
                     cell=self.cell.se,
                     level=self.level,
-                    level_max=level_max,
+                    level_max=self.level_max,
                     points=self.points,
                 )
                 self.ne = QuadTree(
                     cell=self.cell.ne,
                     level=self.level,
-                    level_max=level_max,
+                    level_max=self.level_max,
                     points=self.points,
                 )
 
@@ -247,8 +290,33 @@ class QuadTree:
 
         return _quads
 
-    def quad_levels(self) -> tuple[int, ...]:
+    def duals(self):
+        """Returns the dual hashes embedded in the QuadTree.
+        See
+        https://github.com/sandialabs/sibl/blob/master/geo/doc/dual_quad_transitions.md
+        for the has illustrations.
+
+        Returns:
+            A tuple of the dual hashes embedded by the QuadTree.
+        """
+        if self.level_max < 1:
+            raise ValueError(
+                "level_max must be one or greater for dual hashes to exist."
+            )
+
+        if self.level_max == 1:
+            return (DualHash(sw=0, nw=0, se=0, ne=0),)
+
+        _quad_levels = QuadTree._quad_levels(cell=self.cell, level=0)
+        return _quad_levels
+
+    def quad_levels_recursive(self) -> tuple[tuple[int, ...], ...]:
         qls = QuadTree._quad_levels(cell=self.cell, level=0)
+        return qls
+
+    def quad_levels(self) -> tuple[int, ...]:
+        # qls = QuadTree._quad_levels(cell=self.cell, level=0)
+        qls = self.quad_levels_recursive()
         return tuple(QuadTree._tuple_flatten(qls))
 
     # figure out type hinting soon
@@ -268,8 +336,46 @@ class QuadTree:
                 QuadTree._child_vertices(cell.ne),
             )
         else:
-            # return (cell.vertices,)
-            return cell.vertices
+            return (cell.vertices,)
+            # return cell.vertices
+
+    # ) -> Union[
+    #     tuple[
+    #         tuple[int],
+    #         Union[
+    #             tuple[tuple[int], ...],
+    #             tuple[int],
+    #             Union[
+    #                 tuple[tuple[int], ...],
+    #                 tuple[int],
+    #                 Union[
+    #                     tuple[tuple[int], ...],
+    #                     tuple[int],
+    #                     tuple[tuple[int], ...],
+    #                 ],
+    #             ],
+    #         ],
+    #     ]
+    # ]:
+    #
+    # OR
+    #
+    #         tuple[int],
+    #         Union[
+    #             tuple[tuple[int], ...],
+    #             tuple[int],
+    #             Union[
+    #                 tuple[tuple[int], ...],
+    #                 tuple[int],
+    #                 Union[
+    #                     tuple[tuple[int], ...],
+    #                     tuple[int],
+    #                 ],
+    #             ],
+    #         ],
+    #         tuple[tuple[int], ...],
+    #     ]
+    # ]:
 
     @staticmethod
     def _quad_levels(*, cell: Cell, level: int):

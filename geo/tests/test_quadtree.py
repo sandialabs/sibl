@@ -271,3 +271,92 @@ def test_quads_and_levels():
         2,
         2,
     )
+
+
+def test_duals():
+    """Tests dual quads in the quad tree."""
+    ctr = qt.Coordinate(x=0.0, y=0.0)
+    cell = qt.Cell(center=ctr, size=2.0)
+    points = tuple([qt.Coordinate(0.6, -0.6)])
+
+    # level_max = 0, base domain, no cell division
+    tree = qt.QuadTree(cell=cell, level=0, level_max=0, points=points)
+    quads = tree.quads()
+    assert len(quads) == 1
+    assert len(quads[0]) == 4
+    quad_levels = tree.quad_levels()
+    assert quad_levels == (0,)
+    with pytest.raises(ValueError):
+        _ = tree.duals()
+
+    # level_max = 1, single cell division, four quads
+    tree = qt.QuadTree(cell=cell, level=0, level_max=1, points=points)
+    quads = tree.quads()
+    assert len(quads) == 4
+    assert len(quads[0]) == 4
+    quad_levels = tree.quad_levels()
+    assert quad_levels == (
+        1,
+        1,
+        1,
+        1,
+    )
+    duals = tree.duals()
+    assert duals == (qt.DualHash(sw=0, nw=0, se=0, ne=0),)
+
+    # level_max = 2, one to four cell division(s), seven to 16 quads in general, and
+    # this example, with one trigger point, generates seven quads, and the
+    # 0001 dual hash template.
+    tree = qt.QuadTree(cell=cell, level=0, level_max=2, points=points)
+    quads = tree.quads()
+    assert len(quads) == 7
+    duals = tree.duals()
+    # assert duals == (qt.DualHash(sw=0, nw=0, se=0, ne=0),)
+
+
+def test_manual_0001():
+    quads_recursive = ((1,), (1,), (1,), ((2,), (2,), (2,), (2,)))
+    quad_corners = tuple(len(corner) for corner in quads_recursive)
+    assert quad_corners == (1, 1, 1, 4)
+
+    quad_key = qt.quad_key(quad_corners=quad_corners)
+    hash = qt.QuadsToTemplate()
+
+    template = getattr(hash, quad_key)
+    assert template.name == "0001"
+
+
+def test_manual_0010():
+    quads_recursive = ((1,), (1,), ((2,), (2,), (2,), (2,)), (1,))
+    quad_corners = tuple(len(corner) for corner in quads_recursive)
+    assert quad_corners == (1, 1, 4, 1)
+
+    quad_key = qt.quad_key(quad_corners=quad_corners)
+    hash = qt.QuadsToTemplate()
+
+    template = getattr(hash, quad_key)
+    assert template.name == "0010"
+
+
+def test_manual_0100():
+    quads_recursive = ((1,), ((2,), (2,), (2,), (2,)), (1,), (1,))
+    quad_corners = tuple(len(corner) for corner in quads_recursive)
+    assert quad_corners == (1, 4, 1, 1)
+
+    quad_key = qt.quad_key(quad_corners=quad_corners)
+    hash = qt.QuadsToTemplate()
+
+    template = getattr(hash, quad_key)
+    assert template.name == "0100"
+
+
+def test_manual_1000():
+    quads_recursive = (((2,), (2,), (2,), (2,)), (1,), (1,), (1,))
+    quad_corners = tuple(len(corner) for corner in quads_recursive)
+    assert quad_corners == (4, 1, 1, 1)
+
+    quad_key = qt.quad_key(quad_corners=quad_corners)
+    hash = qt.QuadsToTemplate()
+
+    template = getattr(hash, quad_key)
+    assert template.name == "1000"
