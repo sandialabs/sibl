@@ -25,7 +25,7 @@ def main():
         "tab:olive",
     )
 
-    latex = True
+    latex = False
     if latex:
         rc("font", **{"family": "serif", "serif": ["Computer Modern Roman"]})
         rc("text", usetex=True)
@@ -48,9 +48,11 @@ def main():
     |     *-----------*
     """
     simple_example = False
+    quarter_brush = True
     diagonal_example = False
-    level_max = 5
-    ax.set_title(f"level max = {level_max}")
+    level_max = 4
+    # ax.set_title(f"level max = {level_max}")
+    plt.axis("off")
 
     if simple_example:
         ctr = qt.Coordinate(x=2.0, y=0.0)
@@ -61,12 +63,26 @@ def main():
         )
         ax.set_xticks([1, 2, 3])
         ax.set_yticks([-1, 0, 1])
+
+    elif quarter_brush:
+        ctr = qt.Coordinate(x=1024.0, y=1024.0)
+        cell = qt.Cell(center=ctr, size=2048.0)
+        num_points = 2
+        axis_1 = np.linspace(start=0.0, stop=0.0, num=num_points, endpoint=True)
+        axis_0 = np.linspace(start=0.0, stop=0.0, num=num_points, endpoint=True)
+        xaxis = tuple(map(qt.Coordinate, axis_1, axis_0))
+        yaxis = tuple(map(qt.Coordinate, axis_0, axis_1))
+        points = xaxis + yaxis
+
+        ax.set_xticks([0, 128, 256, 512, 1024, 2048])
+        ax.set_yticks([0, 128, 256, 512, 1024, 2048])
+
     else:
         ctr = qt.Coordinate(x=0.0, y=0.0)
         cell = qt.Cell(center=ctr, size=1024.0)
-        num_points = 17  # 9 for single density, or 17 for double density
 
         # boundary points
+        num_points = 17  # 9 for single density, or 17 for double density
         if diagonal_example:
             bpx = np.linspace(start=-512.0, stop=512.0, num=num_points, endpoint=True)
             bpy = bpx
@@ -119,7 +135,7 @@ def main():
         plt.show()
 
     if serialize:
-        extension = ".png"  # ".png" | ".pdf" | ".svg"
+        extension = ".pdf"  # ".png" | ".pdf" | ".svg"
         filename = Path(__file__).stem + extension
         fig.savefig(filename, bbox_inches="tight", pad_inches=0)
         print(f"Serialized to {filename}")
