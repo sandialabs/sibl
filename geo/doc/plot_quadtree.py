@@ -8,61 +8,30 @@ import ptg.quadtree as qt
 
 
 def main():
-    shown = True
+    shown = False
     serialize = True
-
     color_fill = True
-
-    colors = (
-        "tab:blue",
-        "tab:orange",
-        "tab:green",
-        "tab:red",
-        "tab:purple",
-        "tab:brown",
-        "tab:pink",
-        "tab:gray",
-        "tab:olive",
-    )
-
     latex = False
     if latex:
         rc("font", **{"family": "serif", "serif": ["Computer Modern Roman"]})
         rc("text", usetex=True)
 
-    fig = plt.figure(figsize=(6.0, 6.0), dpi=100)
-    ax = fig.gca()
-
-    ax.set_aspect("equal")
-
-    ax.set_xlabel(r"$x$")
-    ax.set_ylabel(r"$y$")
-
-    """
-    ^  simple example:
-    |
-    |     *-----------*
-    |     |           |
-    *-----1-----2-----3-----4-->
-    |     |           |
-    |     *-----------*
-    """
-    simple_example = False
-    quarter_brush = True
+    simple_example = True
+    quarter_brush = False
     diagonal_example = False
-    level_max = 4
-    # ax.set_title(f"level max = {level_max}")
-    plt.axis("off")
+    level_max = 1
 
     if simple_example:
-        ctr = qt.Coordinate(x=2.0, y=0.0)
+        ctr = qt.Coordinate(x=0.0, y=0.0)
         cell = qt.Cell(center=ctr, size=2.0)
         # points = tuple([qt.Coordinate(2.1, 0.1), qt.Coordinate(2.6, 0.6)])
         points = tuple(
-            [qt.Coordinate(2.6, 0.6)],
+            [qt.Coordinate(0.6, 0.6)],
         )
-        ax.set_xticks([1, 2, 3])
-        ax.set_yticks([-1, 0, 1])
+        _xticks = [-2, -1, 0, 1, 2]
+        _yticks = _xticks
+        # ax.set_xticks([1, 2, 3])
+        # ax.set_yticks([-1, 0, 1])
 
     elif quarter_brush:
         ctr = qt.Coordinate(x=1024.0, y=1024.0)
@@ -74,8 +43,10 @@ def main():
         yaxis = tuple(map(qt.Coordinate, axis_0, axis_1))
         points = xaxis + yaxis
 
-        ax.set_xticks([0, 128, 256, 512, 1024, 2048])
-        ax.set_yticks([0, 128, 256, 512, 1024, 2048])
+        # ax.set_xticks([0, 128, 256, 512, 1024, 2048])
+        # ax.set_yticks([0, 128, 256, 512, 1024, 2048])
+        _xticks = [0, 128, 256, 512, 1024, 2048]
+        _yticks = [0, 128, 256, 512, 1024, 2048]
 
     else:
         ctr = qt.Coordinate(x=0.0, y=0.0)
@@ -93,8 +64,10 @@ def main():
             bpy = np.linspace(start=-512.0, stop=512.0, num=num_points, endpoint=True)
 
         points = tuple(map(qt.Coordinate, bpx, bpy))
-        ax.set_xticks([-512, -256, -128, 0, 128, 256, 512])
-        ax.set_yticks([-512, -256, -128, 0, 128, 256, 512])
+        # ax.set_xticks([-512, -256, -128, 0, 128, 256, 512])
+        # ax.set_yticks([-512, -256, -128, 0, 128, 256, 512])
+        _xticks = [-512, -256, -128, 0, 128, 256, 512]
+        _yticks = [-512, -256, -128, 0, 128, 256, 512]
 
     tree = qt.QuadTree(cell=cell, level=0, level_max=level_max, points=points)
 
@@ -102,6 +75,31 @@ def main():
     quad_levels = tree.quad_levels()
 
     # draw remaining L1 through Ln quads
+    fig = plt.figure(figsize=(6.0, 6.0), dpi=100)
+    ax = fig.gca()
+
+    ax.set_aspect("equal")
+
+    ax.set_xlabel(r"$x$")
+    ax.set_ylabel(r"$y$")
+
+    # ax.set_title(f"level max = {level_max}")
+    plt.axis("on")
+    ax.set_xticks(_xticks)
+    ax.set_yticks(_yticks)
+
+    colors = (
+        "tab:blue",
+        "tab:orange",
+        "tab:green",
+        "tab:red",
+        "tab:purple",
+        "tab:brown",
+        "tab:pink",
+        "tab:gray",
+        "tab:olive",
+    )
+
     for i, quad in enumerate(quads):
         xs = (quad.sw.x, quad.se.x, quad.ne.x, quad.nw.x)
         ys = (quad.sw.y, quad.se.y, quad.ne.y, quad.nw.y)
