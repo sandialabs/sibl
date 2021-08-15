@@ -24,7 +24,7 @@ Created with [dual_quad.py](../src/ptg/dual_quad.py) and [plot_dual_quad.py](plo
 ## Hash Table
 
 * The hash table is composed
-  * 16 stronly balanced templates,
+  * 16 strongly balanced templates,
     * Six templates are unique,
     * Ten templates are non-unique, and
   * Four weakly balanced template,
