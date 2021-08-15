@@ -1,5 +1,6 @@
 from typing import NamedTuple
 from functools import reduce
+import math
 
 import ptg.dual_quad as dual_quad
 
@@ -48,8 +49,19 @@ class DualHash(NamedTuple):
     ne: int  # northeast corner
 
 
+def number_bisections(n_quads: int) -> int:
+    assert n_quads >= 0
+    # n = log_2 [sqrt(n_quads)]
+    number = math.sqrt(n_quads)
+    base = 2
+    exponent = int(math.log(number, base))
+    return exponent
+
+
 def quad_key(*, quad_corners: tuple[int, ...]) -> str:
-    _quad_key = "Q" + str(reduce(lambda x, y: str(x) + str(y), quad_corners))
+    _rooted_quad_corners = tuple(map(number_bisections, quad_corners))
+    # _quad_key = "Q" + str(reduce(lambda x, y: str(x) + str(y), quad_corners))
+    _quad_key = "Q" + str(reduce(lambda x, y: str(x) + str(y), _rooted_quad_corners))
     return _quad_key
 
 
@@ -58,12 +70,14 @@ class QuadsToTemplate(NamedTuple):
     specific template.
     """
 
-    Q1111: NamedTuple = dual_quad.Template_0000()
+    Q0000: NamedTuple = dual_quad.Template_0000()
 
-    Q1114: NamedTuple = dual_quad.Template_0001()
-    Q1141: NamedTuple = dual_quad.Template_0010()
-    Q1411: NamedTuple = dual_quad.Template_0100()
-    Q4111: NamedTuple = dual_quad.Template_1000()
+    Q0001: NamedTuple = dual_quad.Template_0001()
+    Q0010: NamedTuple = dual_quad.Template_0010()
+    Q0100: NamedTuple = dual_quad.Template_0100()
+    Q1000: NamedTuple = dual_quad.Template_1000()
+
+    Q0112: NamedTuple = dual_quad.Template_0112()
 
 
 # Reference: recursive type hinting:

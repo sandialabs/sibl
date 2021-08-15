@@ -320,6 +320,7 @@ def test_manual_0001():
     assert quad_corners == (1, 1, 1, 4)
 
     quad_key = qt.quad_key(quad_corners=quad_corners)
+    assert quad_key == "Q0001"
     hash = qt.QuadsToTemplate()
 
     template = getattr(hash, quad_key)
@@ -332,6 +333,7 @@ def test_manual_0010():
     assert quad_corners == (1, 1, 4, 1)
 
     quad_key = qt.quad_key(quad_corners=quad_corners)
+    assert quad_key == "Q0010"
     hash = qt.QuadsToTemplate()
 
     template = getattr(hash, quad_key)
@@ -344,6 +346,7 @@ def test_manual_0100():
     assert quad_corners == (1, 4, 1, 1)
 
     quad_key = qt.quad_key(quad_corners=quad_corners)
+    assert quad_key == "Q0100"
     hash = qt.QuadsToTemplate()
 
     template = getattr(hash, quad_key)
@@ -356,7 +359,57 @@ def test_manual_1000():
     assert quad_corners == (4, 1, 1, 1)
 
     quad_key = qt.quad_key(quad_corners=quad_corners)
+    assert quad_key == "Q1000"
     hash = qt.QuadsToTemplate()
 
     template = getattr(hash, quad_key)
     assert template.name == "1000"
+
+
+def test_manual_0112():
+    quads_recursive = (
+        (1,),
+        ((2,), (2,), (2,), (2,)),
+        ((2,), (2,), (2,), (2,)),
+        (
+            (3,),
+            (3,),
+            (3,),
+            (3,),
+            (3,),
+            (3,),
+            (3,),
+            (3,),
+            (3,),
+            (3,),
+            (3,),
+            (3,),
+            (3,),
+            (3,),
+            (3,),
+            (3,),
+        ),
+    )
+    quad_corners = tuple(len(corner) for corner in quads_recursive)
+    assert quad_corners == (1, 4, 4, 16)
+
+    quad_key = qt.quad_key(quad_corners=quad_corners)
+    assert quad_key == "Q0112"
+    hash = qt.QuadsToTemplate()
+
+    template = getattr(hash, quad_key)
+    assert template.name == "0112"
+
+
+@pytest.mark.skip("Work in progress.")
+def test_manual_nested_0001():
+    quads_recursive = ((1,), (1,), (1,), ((2,), (2,), (2,), ((3,), (3,), (3,), (3,))))
+    quad_corners = tuple(len(corner) for corner in quads_recursive)
+    assert quad_corners == (1, 1, 1, 4)
+
+    quad_key = qt.quad_key(quad_corners=quad_corners)
+    assert quad_key == "Q0001"
+    hash = qt.QuadsToTemplate()
+
+    template = getattr(hash, quad_key)
+    assert template.name == "0001"
