@@ -306,7 +306,7 @@ def test_duals():
 
     # level_max = 2, one to four cell division(s), seven to 16 quads in general, and
     # this example, with one trigger point, generates seven quads, and the
-    # 0001 dual hash template.
+    # 0001 dual factory template.
     tree = qt.QuadTree(cell=cell, level=0, level_max=2, points=points)
     quads = tree.quads()
     assert len(quads) == 7
@@ -319,11 +319,11 @@ def test_manual_0001():
     quad_corners = tuple(len(corner) for corner in quads_recursive)
     assert quad_corners == (1, 1, 1, 4)
 
-    quad_key = qt.quad_key(quad_corners=quad_corners)
-    assert quad_key == "Q0001"
-    hash = qt.QuadsToTemplate()
+    template_key = qt.template_key(quad_corners=quad_corners)
+    assert template_key == "key_0001"
+    factory = qt.TemplateFactory()
 
-    template = getattr(hash, quad_key)
+    template = getattr(factory, template_key)
     assert template.name == "0001"
 
 
@@ -332,11 +332,11 @@ def test_manual_0010():
     quad_corners = tuple(len(corner) for corner in quads_recursive)
     assert quad_corners == (1, 1, 4, 1)
 
-    quad_key = qt.quad_key(quad_corners=quad_corners)
-    assert quad_key == "Q0010"
-    hash = qt.QuadsToTemplate()
+    template_key = qt.template_key(quad_corners=quad_corners)
+    assert template_key == "key_0010"
+    factory = qt.TemplateFactory()
 
-    template = getattr(hash, quad_key)
+    template = getattr(factory, template_key)
     assert template.name == "0010"
 
 
@@ -345,11 +345,11 @@ def test_manual_0100():
     quad_corners = tuple(len(corner) for corner in quads_recursive)
     assert quad_corners == (1, 4, 1, 1)
 
-    quad_key = qt.quad_key(quad_corners=quad_corners)
-    assert quad_key == "Q0100"
-    hash = qt.QuadsToTemplate()
+    template_key = qt.template_key(quad_corners=quad_corners)
+    assert template_key == "key_0100"
+    factory = qt.TemplateFactory()
 
-    template = getattr(hash, quad_key)
+    template = getattr(factory, template_key)
     assert template.name == "0100"
 
 
@@ -358,11 +358,11 @@ def test_manual_1000():
     quad_corners = tuple(len(corner) for corner in quads_recursive)
     assert quad_corners == (4, 1, 1, 1)
 
-    quad_key = qt.quad_key(quad_corners=quad_corners)
-    assert quad_key == "Q1000"
-    hash = qt.QuadsToTemplate()
+    template_key = qt.template_key(quad_corners=quad_corners)
+    assert template_key == "key_1000"
+    factory = qt.TemplateFactory()
 
-    template = getattr(hash, quad_key)
+    template = getattr(factory, template_key)
     assert template.name == "1000"
 
 
@@ -393,11 +393,11 @@ def test_manual_0112():
     quad_corners = tuple(len(corner) for corner in quads_recursive)
     assert quad_corners == (1, 4, 4, 16)
 
-    quad_key = qt.quad_key(quad_corners=quad_corners)
-    assert quad_key == "Q0112"
-    hash = qt.QuadsToTemplate()
+    template_key = qt.template_key(quad_corners=quad_corners)
+    assert template_key == "key_0112"
+    factory = qt.TemplateFactory()
 
-    template = getattr(hash, quad_key)
+    template = getattr(factory, template_key)
     assert template.name == "0112"
 
 
@@ -407,9 +407,36 @@ def test_manual_nested_0001():
     quad_corners = tuple(len(corner) for corner in quads_recursive)
     assert quad_corners == (1, 1, 1, 4)
 
-    quad_key = qt.quad_key(quad_corners=quad_corners)
-    assert quad_key == "Q0001"
-    hash = qt.QuadsToTemplate()
+    template_key = qt.template_key(quad_corners=quad_corners)
+    assert template_key == "key_0001"
+    factory = qt.TemplateFactory()
 
-    template = getattr(hash, quad_key)
+    template = getattr(factory, template_key)
     assert template.name == "0001"
+
+
+@pytest.mark.skip("Work in progress.")
+def test_dual_mesh_0000():
+    ctr = qt.Coordinate(x=0.0, y=0.0)
+    cell = qt.Cell(center=ctr, size=2.0)
+    # Generate template_0000 and template_0001
+    # points = tuple([qt.Coordinate(0.6, 0.6)])
+
+    # Generate template_0011
+    # points = tuple([qt.Coordinate(0.6, 0.6), qt.Coordinate(0.6, -0.6)])
+
+    # Generate template_0110
+    # points = tuple([qt.Coordinate(-0.6, 0.6), qt.Coordinate(0.6, -0.6)])
+
+    # Generate template_0111
+    points = tuple(
+        [qt.Coordinate(-0.6, 0.6), qt.Coordinate(0.6, 0.6), qt.Coordinate(0.6, -0.6)]
+    )
+
+    level_max = 2
+    tree = qt.QuadTree(cell=cell, level=0, level_max=level_max, points=points)
+    quads = tree.quads()
+    quad_levels = tree.quad_levels()
+    quad_levels_recursive = tree.quad_levels_recursive()
+    quads_dual = tree.quads_dual()
+    aa = 4

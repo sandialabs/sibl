@@ -50,6 +50,13 @@ class DualHash(NamedTuple):
 
 
 def number_bisections(n_quads: int) -> int:
+    """Helper function of template_key to map from number of sub-quads composing a
+    corner quadrant to level of additional refinement above zero of a sub-quad.
+
+    Arguments:
+        n_quads (int):  The number of sub-quads composing a particular corner quadrant.
+            Must be in [0, 4, 16, 64, ... ).
+    """
     assert n_quads >= 0
     # n = log_2 [sqrt(n_quads)]
     number = math.sqrt(n_quads)
@@ -58,26 +65,58 @@ def number_bisections(n_quads: int) -> int:
     return exponent
 
 
-def quad_key(*, quad_corners: tuple[int, ...]) -> str:
+def template_key(*, quad_corners: tuple[int, ...]) -> str:
+    """Provides a string template key, e.g., "key_0001" that can be used with the
+    TemplateFactory to return a Template.
+
+    Arguments:
+        quad_corners (tuple[int, ...]): The number of sub-quads in each of the four
+            quadrant corners (sw, nw, se, ne).
+
+    Example:
+        template_key(quad_corners=(1, 1, 1, 4)) returns "key_0001"
+    """
     _rooted_quad_corners = tuple(map(number_bisections, quad_corners))
     # _quad_key = "Q" + str(reduce(lambda x, y: str(x) + str(y), quad_corners))
-    _quad_key = "Q" + str(reduce(lambda x, y: str(x) + str(y), _rooted_quad_corners))
+    # _quad_key = "Q" + str(reduce(lambda x, y: str(x) + str(y), _rooted_quad_corners))
+    _quad_key = "key_" + str(reduce(lambda x, y: str(x) + str(y), _rooted_quad_corners))
     return _quad_key
 
 
-class QuadsToTemplate(NamedTuple):
+class TemplateFactory(NamedTuple):
     """Maps keys, which are converstion of tuple(int, int, int, int) to string, to a
     specific template.
+
+    See https://github.com/sandialabs/sibl/blob/master/geo/doc/dual_quad_transitions.md
+        for visual representations of these Template types.
     """
 
-    Q0000: NamedTuple = dual_quad.Template_0000()
+    key_0000: NamedTuple = dual_quad.Template_0000()
 
-    Q0001: NamedTuple = dual_quad.Template_0001()
-    Q0010: NamedTuple = dual_quad.Template_0010()
-    Q0100: NamedTuple = dual_quad.Template_0100()
-    Q1000: NamedTuple = dual_quad.Template_1000()
+    key_0001: NamedTuple = dual_quad.Template_0001()
+    key_0010: NamedTuple = dual_quad.Template_0010()
+    key_0100: NamedTuple = dual_quad.Template_0100()
+    key_1000: NamedTuple = dual_quad.Template_1000()
 
-    Q0112: NamedTuple = dual_quad.Template_0112()
+    key_0011: NamedTuple = dual_quad.Template_0011()
+    key_0101: NamedTuple = dual_quad.Template_0101()
+    key_1010: NamedTuple = dual_quad.Template_1010()
+    key_1100: NamedTuple = dual_quad.Template_1100()
+
+    key_0110: NamedTuple = dual_quad.Template_0110()
+    key_1001: NamedTuple = dual_quad.Template_1001()
+
+    key_0111: NamedTuple = dual_quad.Template_0111()
+    key_1011: NamedTuple = dual_quad.Template_1011()
+    key_1101: NamedTuple = dual_quad.Template_1101()
+    key_1110: NamedTuple = dual_quad.Template_1110()
+
+    key_1111: NamedTuple = dual_quad.Template_1111()
+
+    key_0112: NamedTuple = dual_quad.Template_0112()
+    key_1021: NamedTuple = dual_quad.Template_1021()
+    key_1201: NamedTuple = dual_quad.Template_1201()
+    key_2110: NamedTuple = dual_quad.Template_2110()
 
 
 # Reference: recursive type hinting:
@@ -304,18 +343,42 @@ class QuadTree:
 
         return _quads
 
+    # def quads_dual(self) -> tuple[Quad, ...]:
+    def quads_dual(self):
+        """Maps the quadtree to an assembly of dualized quadrilateral elements mesh.
+        Returns the (vertices, faces) for all templates embedded in the quadtree.
+        """
+        # _quads_dual = QuadTree._quads_dual(cell=self.cell, level=0)
+        # return _quads_dual
+        # quads_recursive = ((1,), (1,), (1,), ((2,), (2,), (2,), ((3,), (3,), (3,), (3,))))
+
+        _quads_recursive = self.quad_levels_recursive()
+        _quad_corners = tuple(len(corner) for corner in _quads_recursive)
+
+        # for example, _quad_corners == (1, 1, 1, 4)
+
+        _template_key = template_key(quad_corners=_quad_corners)
+        # for example, _template_key == "key_0001"
+        _factory = TemplateFactory()
+
+        _template = getattr(_factory, _template_key)
+        # for example, _template.name == "0001"
+
+        aa = 4
+        return (_template.vertices_dual, _template.faces_dual)
+
     def duals(self):
-        """Returns the dual hashes embedded in the QuadTree.
+        """Returns the dual template(s) embedded in the QuadTree.
         See
         https://github.com/sandialabs/sibl/blob/master/geo/doc/dual_quad_transitions.md
         for the has illustrations.
 
         Returns:
-            A tuple of the dual hashes embedded by the QuadTree.
+            A tuple of the dual template(s) embedded by the QuadTree.
         """
         if self.level_max < 1:
             raise ValueError(
-                "level_max must be one or greater for dual hashes to exist."
+                "level_max must be one or greater for dual template to exist."
             )
 
         if self.level_max == 1:
@@ -408,6 +471,19 @@ class QuadTree:
             # return (cell.vertices,)
             # return cell.level
             return (level,)
+
+    @staticmethod
+    def _quads_dual(*, cell: Cell, level: int):
+        """Returns the dual mesh encoded by the QuadTree."""
+        if cell.has_children:
+            return (
+                QuadTree._quads_dual(cell=cell.sw, level=level + 1),
+                QuadTree._quads_dual(cell=cell.nw, level=level + 1),
+                QuadTree._quads_dual(cell=cell.se, level=level + 1),
+                QuadTree._quads_dual(cell=cell.ne, level=level + 1),
+            )
+        else:
+            return  # implementation to be determined, work in progress
 
     @staticmethod
     def _tuple_flatten(nested: tuple):
