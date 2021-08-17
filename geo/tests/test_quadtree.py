@@ -182,7 +182,7 @@ def test_quadtree_bad_level_max():
     cell = qt.Cell(center=ctr, size=2.0)
     points = tuple([qt.Coordinate(2.1, 0.1), qt.Coordinate(2.6, 0.6)])
 
-    bad_max = -1  # must have at least Level 0
+    bad_max = 0  # must have at least Level 1
     with pytest.raises(ValueError):
         _ = qt.QuadTree(cell=cell, level=0, level_max=bad_max, points=points)
 
@@ -279,15 +279,16 @@ def test_duals():
     cell = qt.Cell(center=ctr, size=2.0)
     points = tuple([qt.Coordinate(0.6, -0.6)])
 
-    # level_max = 0, base domain, no cell division
-    tree = qt.QuadTree(cell=cell, level=0, level_max=0, points=points)
-    quads = tree.quads()
-    assert len(quads) == 1
-    assert len(quads[0]) == 4
-    quad_levels = tree.quad_levels()
-    assert quad_levels == (0,)
-    with pytest.raises(ValueError):
-        _ = tree.duals()
+    # this portion of the test no longer relevant
+    # # level_max = 0, base domain, no cell division
+    # tree = qt.QuadTree(cell=cell, level=0, level_max=0, points=points)
+    # quads = tree.quads()
+    # assert len(quads) == 1
+    # assert len(quads[0]) == 4
+    # quad_levels = tree.quad_levels()
+    # assert quad_levels == (0,)
+    # with pytest.raises(ValueError):
+    #     _ = tree.duals()
 
     # level_max = 1, single cell division, four quads
     tree = qt.QuadTree(cell=cell, level=0, level_max=1, points=points)
@@ -312,6 +313,19 @@ def test_duals():
     assert len(quads) == 7
     duals = tree.duals()
     # assert duals == (qt.DualHash(sw=0, nw=0, se=0, ne=0),)
+
+
+def test_manual_0000():
+    quads_recursive = ((1,), (1,), (1,), (1,))
+    quad_corners = tuple(len(corner) for corner in quads_recursive)
+    assert quad_corners == (1, 1, 1, 1)
+
+    template_key = qt.template_key(quad_corners=quad_corners)
+    assert template_key == "key_0000"
+    factory = qt.TemplateFactory()
+
+    template = getattr(factory, template_key)
+    assert template.name == "0000"
 
 
 def test_manual_0001():
@@ -415,12 +429,76 @@ def test_manual_nested_0001():
     assert template.name == "0001"
 
 
+def test_scale_then_translate():
+    ref = ((-1.0, -1.0), (1.0, -1.0), (1.0, 1.0), (-1.0, 1.0))
+
+    bad_scale = 0
+    scale = 100
+    translate = qt.Coordinate(x=10.0, y=20.0)
+
+    with pytest.raises(ValueError):
+        _ = qt.scale_then_translate(ref=ref, scale=bad_scale, translate=translate)
+
+    known = ((-90.0, -80.0), (110.0, -80.0), (110.0, 120.0), (-90.0, 120.0))
+
+    found = qt.scale_then_translate(ref=ref, scale=scale, translate=translate)
+
+    assert known == found
+
+
+def test_known_quad_corners():
+    known_true_corners = (
+        (1, 1, 1, 1),  # flat-L1
+        (1, 1, 1, 4),  # concave has four variations
+        (1, 1, 4, 1),
+        (1, 4, 1, 1),
+        (4, 1, 1, 1),
+        (1, 1, 4, 4),  # wave has four variations
+        (1, 4, 4, 1),
+        (4, 1, 4, 1),
+        (4, 4, 1, 1),
+        (1, 4, 4, 1),  # diagonal has two variations
+        (4, 1, 1, 4),
+        (1, 4, 4, 4),  # concave has four variations
+        (4, 1, 4, 4),
+        (4, 4, 1, 4),
+        (4, 4, 4, 1),
+        (4, 4, 4, 4),  # flat-L2
+        (1, 4, 4, 16),  # weak transition has four variations
+        (4, 1, 16, 4),
+        (4, 16, 1, 4),
+        (16, 4, 4, 1),
+    )
+
+    for item in known_true_corners:
+        assert qt.known_quad_corners(quad_corners=item)
+
+    known_false_corners = (
+        (7, 1, 1, 1),  # level_max = 3 of southwest quad
+        (10, 1, 1, 1),  # level_max = 4 of southwest quad
+        (13, 1, 1, 1),  # level_max = 5 of southwest quad
+    )
+
+    for item in known_false_corners:
+        assert not qt.known_quad_corners(quad_corners=item)
+
+
+# @pytest.mark.skip("Work in progress.")
 @pytest.mark.skip("Work in progress.")
 def test_dual_mesh_0000():
     ctr = qt.Coordinate(x=0.0, y=0.0)
     cell = qt.Cell(center=ctr, size=2.0)
-    # Generate template_0000 and template_0001
-    # points = tuple([qt.Coordinate(0.6, 0.6)])
+    # Generate template_0000 with level_max = 1
+    # Generate template_1000 with level_max = 2
+    points = tuple([qt.Coordinate(-0.6, -0.6)])
+
+    level_max = 3
+    tree = qt.QuadTree(cell=cell, level=0, level_max=level_max, points=points)
+    # quads = tree.quads()
+    # quad_levels = tree.quad_levels()
+    # quad_levels_recursive = tree.quad_levels_recursive()
+    mesh_dual = tree.mesh_dual()
+    aa = 4
 
     # Generate template_0011
     # points = tuple([qt.Coordinate(0.6, 0.6), qt.Coordinate(0.6, -0.6)])
@@ -429,14 +507,6 @@ def test_dual_mesh_0000():
     # points = tuple([qt.Coordinate(-0.6, 0.6), qt.Coordinate(0.6, -0.6)])
 
     # Generate template_0111
-    points = tuple(
-        [qt.Coordinate(-0.6, 0.6), qt.Coordinate(0.6, 0.6), qt.Coordinate(0.6, -0.6)]
-    )
-
-    level_max = 2
-    tree = qt.QuadTree(cell=cell, level=0, level_max=level_max, points=points)
-    quads = tree.quads()
-    quad_levels = tree.quad_levels()
-    quad_levels_recursive = tree.quad_levels_recursive()
-    quads_dual = tree.quads_dual()
-    aa = 4
+    # points = tuple(
+    #     [qt.Coordinate(-0.6, 0.6), qt.Coordinate(0.6, 0.6), qt.Coordinate(0.6, -0.6)]
+    # )

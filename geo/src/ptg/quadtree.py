@@ -1,6 +1,7 @@
 from typing import NamedTuple
 from functools import reduce
 import math
+from itertools import permutations
 
 import ptg.dual_quad as dual_quad
 
@@ -27,6 +28,13 @@ class Quad(NamedTuple):
     se: Vertex  # southeast corner
     ne: Vertex  # northeast corner
     nw: Vertex  # northwest corner
+
+
+class Mesh(NamedTuple):
+    """Creates a mesh, which consists of a tuple of Coordinates and Connectivity."""
+
+    coordinates: tuple[Coordinate, ...]
+    connectivity: tuple[tuple[int, int, int, int], ...]
 
 
 class DualHash(NamedTuple):
@@ -65,6 +73,24 @@ def number_bisections(n_quads: int) -> int:
     return exponent
 
 
+def known_quad_corners(*, quad_corners: tuple[int, ...]) -> bool:
+    flat_L1 = ((1, 1, 1, 1),)
+    convex = tuple(set(permutations([1, 1, 1, 4])))  # assert len == 4
+    wave_and_diagonal = tuple(set(permutations([1, 1, 4, 4])))  # assert len == 6
+    concave = tuple(set(permutations([1, 4, 4, 4])))  # assert len == 4
+    flat_L2 = ((4, 4, 4, 4),)
+    weak = ((1, 4, 4, 16), (4, 1, 16, 4), (4, 16, 1, 4), (16, 4, 4, 1))
+
+    _known_quad_corners = (
+        flat_L1 + convex + wave_and_diagonal + concave + flat_L2 + weak
+    )
+
+    if quad_corners in _known_quad_corners:
+        return True
+    else:
+        return False
+
+
 def template_key(*, quad_corners: tuple[int, ...]) -> str:
     """Provides a string template key, e.g., "key_0001" that can be used with the
     TemplateFactory to return a Template.
@@ -76,11 +102,56 @@ def template_key(*, quad_corners: tuple[int, ...]) -> str:
     Example:
         template_key(quad_corners=(1, 1, 1, 4)) returns "key_0001"
     """
-    _rooted_quad_corners = tuple(map(number_bisections, quad_corners))
-    # _quad_key = "Q" + str(reduce(lambda x, y: str(x) + str(y), quad_corners))
-    # _quad_key = "Q" + str(reduce(lambda x, y: str(x) + str(y), _rooted_quad_corners))
-    _quad_key = "key_" + str(reduce(lambda x, y: str(x) + str(y), _rooted_quad_corners))
-    return _quad_key
+    if known_quad_corners(quad_corners=quad_corners):
+        _rooted_quad_corners = tuple(map(number_bisections, quad_corners))
+        # _quad_key = "Q" + str(reduce(lambda x, y: str(x) + str(y), quad_corners))
+        # _quad_key = "Q" + str(reduce(lambda x, y: str(x) + str(y), _rooted_quad_corners))
+        _template_key = "key_" + str(
+            reduce(lambda x, y: str(x) + str(y), _rooted_quad_corners)
+        )
+    else:
+        _template_key = "key_unknown"
+
+    return _template_key
+
+
+def scale_then_translate(
+    ref: tuple[tuple[float, float], ...], scale: float, translate: Coordinate
+) -> tuple[tuple[float, float], ...]:
+    """Scales about the origin and then translates a tuple of points
+    in the reference position to a new position.
+
+    Attributes:
+        ref (tuple[Vertex, ...]): The tuple of (x, y) coordinates in the reference
+            configurations, e.g., ((x0, y0), (x1, y1), ... (xn, yn)).
+        scale (float): The magnitude of scale up (scale > 1) or scale down (scale < 1).
+            Note that scale > 0.
+
+    Returns:
+        new (tuple[Vertex, ...]):  The new positions of the ref coordinates, now
+            scaled about the origin and translated to the new coordinates.
+
+    Raises:
+        ValueError if scale is not positive.
+    """
+    if scale <= 0.0:
+        raise ValueError("Error: scale must be positive.")
+
+    # Chad, upzip these, way more Pythonic!  -Chad
+    # xs = tuple(ref[k][0] for k in range(len(ref)))
+    # ys = tuple(ref[k][1] for k in range(len(ref)))
+    xs, ys = zip(*ref)
+
+    # Chad, map these, way more Pythonic!  -Chad
+    # xnew = tuple(xs[k] * scale + translate.x for k in range(len(xs)))
+    # ynew = tuple(ys[k] * scale + translate.y for k in range(len(ys)))
+    xnew = tuple(map(lambda x: x * scale + translate.x, xs))
+    ynew = tuple(map(lambda y: y * scale + translate.y, ys))
+
+    # Chad, zip these, way more Pythonic!  -Chad
+    # new = tuple((xnew[k], ynew[k]) for k in range(len(ref)))
+    new = tuple(zip(xnew, ynew))
+    return new
 
 
 class TemplateFactory(NamedTuple):
@@ -262,15 +333,18 @@ class QuadTree:
             cell (Cell): The root cell to be recursively bisected.  Must be square.
             level (int): The starting level of the root cell, typically zero (0).
             level_max (int): The maximum level of bisection.
-                level_max >= level
+                level_max >= level.  Must be >= 1.
             points (tuple[Coordinate,...]): Coordinates (x, y) that trigger local
                 refinement.
+
+        Raises:
+            ValueError if level_max is < 1.
         """
 
         self.cell = cell
 
-        if level_max < 0:
-            raise ValueError("level_max must be zero or greater.")
+        if level_max < 1:
+            raise ValueError("level_max must be one or greater")
 
         self.level_max = level_max
 
@@ -344,28 +418,37 @@ class QuadTree:
         return _quads
 
     # def quads_dual(self) -> tuple[Quad, ...]:
-    def quads_dual(self):
+    # def quads_dual(self):
+    def mesh_dual(self):
         """Maps the quadtree to an assembly of dualized quadrilateral elements mesh.
         Returns the (vertices, faces) for all templates embedded in the quadtree.
         """
-        # _quads_dual = QuadTree._quads_dual(cell=self.cell, level=0)
-        # return _quads_dual
+        _quad_levels_recursive = self.quad_levels_recursive()
+        _mesh_dual = QuadTree._mesh_dual(
+            cell=self.cell, level=0, quad_levels_recursive_subset=_quad_levels_recursive
+        )
+        return _mesh_dual
         # quads_recursive = ((1,), (1,), (1,), ((2,), (2,), (2,), ((3,), (3,), (3,), (3,))))
 
-        _quads_recursive = self.quad_levels_recursive()
-        _quad_corners = tuple(len(corner) for corner in _quads_recursive)
+        # _cell = self.cell
 
-        # for example, _quad_corners == (1, 1, 1, 4)
+        # _quads_recursive = self.quad_levels_recursive()
+        # _quad_corners = tuple(len(corner) for corner in _quads_recursive)
+        # # for example, _quad_corners == (1, 1, 1, 4)
 
-        _template_key = template_key(quad_corners=_quad_corners)
-        # for example, _template_key == "key_0001"
-        _factory = TemplateFactory()
+        # _template_key = template_key(quad_corners=_quad_corners)
+        # # for example, _template_key == "key_0001"
+        # _factory = TemplateFactory()
 
-        _template = getattr(_factory, _template_key)
-        # for example, _template.name == "0001"
+        # _template = getattr(_factory, _template_key)
+        # # for example, _template.name == "0001"
 
-        aa = 4
-        return (_template.vertices_dual, _template.faces_dual)
+        # _scaled_translated_vertices_dual = scale_then_translate(
+        #     ref=_template.vertices_dual, scale=_cell.size, translate=_cell.center
+        # )
+
+        # # return (_template.vertices_dual, _template.faces_dual)
+        # return (_scaled_translated_vertices_dual, _template.faces_dual)
 
     def duals(self):
         """Returns the dual template(s) embedded in the QuadTree.
@@ -473,17 +556,74 @@ class QuadTree:
             return (level,)
 
     @staticmethod
-    def _quads_dual(*, cell: Cell, level: int):
+    def _mesh_dual(*, cell: Cell, level: int, quad_levels_recursive_subset: tuple):
         """Returns the dual mesh encoded by the QuadTree."""
+
+        _factory = TemplateFactory()
+
         if cell.has_children:
-            return (
-                QuadTree._quads_dual(cell=cell.sw, level=level + 1),
-                QuadTree._quads_dual(cell=cell.nw, level=level + 1),
-                QuadTree._quads_dual(cell=cell.se, level=level + 1),
-                QuadTree._quads_dual(cell=cell.ne, level=level + 1),
+            subset_sw = quad_levels_recursive_subset[0]
+            subset_nw = quad_levels_recursive_subset[1]
+            subset_se = quad_levels_recursive_subset[2]
+            subset_ne = quad_levels_recursive_subset[3]
+
+            n_nested_sw = len(tuple(QuadTree._tuple_flatten(subset_sw)))
+            n_nested_nw = len(tuple(QuadTree._tuple_flatten(subset_nw)))
+            n_nested_se = len(tuple(QuadTree._tuple_flatten(subset_se)))
+            n_nested_ne = len(tuple(QuadTree._tuple_flatten(subset_ne)))
+
+            _template_key = template_key(
+                quad_corners=tuple([n_nested_sw, n_nested_nw, n_nested_se, n_nested_ne])
             )
-        else:
-            return  # implementation to be determined, work in progress
+
+            if _template_key == "key_unknown":
+
+                # A known template cannot be fit to the combination of quad_corners,
+                # so recursively march down until a key is found.
+
+                return (
+                    QuadTree._mesh_dual(
+                        cell=cell.sw,
+                        level=level + 1,
+                        quad_levels_recursive_subset=subset_sw,
+                    ),
+                    QuadTree._mesh_dual(
+                        cell=cell.nw,
+                        level=level + 1,
+                        quad_levels_recursive_subset=subset_nw,
+                    ),
+                    QuadTree._mesh_dual(
+                        cell=cell.se,
+                        level=level + 1,
+                        quad_levels_recursive_subset=subset_se,
+                    ),
+                    QuadTree._mesh_dual(
+                        cell=cell.ne,
+                        level=level + 1,
+                        quad_levels_recursive_subset=subset_ne,
+                    ),
+                )
+
+            else:
+                # A known template can be constructed.
+
+                _template = getattr(_factory, _template_key, None)
+                # for example, _template.name == "0001"
+                assert _template
+
+                _scaled_translated_vertices_dual = scale_then_translate(
+                    ref=_template.vertices_dual, scale=cell.size, translate=cell.center
+                )
+
+                _new_coordinates = coordinates(pairs=_scaled_translated_vertices_dual)
+
+                # return (_template.vertices_dual, _template.faces_dual)
+                # return (_scaled_translated_vertices_dual, _template.faces_dual)
+                mesh = Mesh(
+                    coordinates=_new_coordinates, connectivity=_template.vertices_dual
+                )
+                return (mesh,)
+                # return 42
 
     @staticmethod
     def _tuple_flatten(nested: tuple):
