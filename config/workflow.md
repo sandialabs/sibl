@@ -78,12 +78,18 @@ Now create a feature branch:
 
 ```bash
 > git flow feature start feature_branch
+
+# Example:
+> git flow feature start io_refactor
 ```
 
 To push the current branch and set the remote as upstream, use
 
 ```bash
 > git push --set-upstream origin feature/feature_branch
+
+# Example:
+> git push --set-upstream origin feature/io_refactor
 ```
 
 The proceed with local implementation, and `git commit -m 'message'` and `git push` to push
@@ -95,6 +101,9 @@ When the feature implementation is completed:
 
 ```bash
 > git flow feature finish feature_branch
+
+# Example
+> git flow feature finish io_refactor
 ```
 
 ## Pytest and Coverage
