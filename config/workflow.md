@@ -106,6 +106,15 @@ When the feature implementation is completed:
 > git flow feature finish io_refactor
 ```
 
+The command line will switch back to the `develop` branch, list changes, and finally:
+
+```bash
+Summary of actions:
+- The feature branch 'feature/io_refactor' was merged into 'develop'
+- Feature branch 'feature/io_refactor' has been removed
+- You are now on branch 'develop'
+```
+
 ## Pytest and Coverage
 
 ```bash
