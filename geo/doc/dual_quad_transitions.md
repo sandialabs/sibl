@@ -48,3 +48,8 @@ Created with [dual_quad.py](../src/ptg/dual_quad.py) and [plot_dual_quad.py](plo
 |:------:|:------:|:------:|:------:|
 | ![primal_quad_0112](fig/primal_quad_0112.png) | ![primal_quad_1021](fig/primal_quad_1021.png) | ![primal_quad_1201](fig/primal_quad_1201.png) | ![primal_quad_2110](fig/primal_quad_2110.png) | 
 | ![dual_quad_0112](fig/dual_quad_0112.png) | ![dual_quad_1021](fig/dual_quad_1021.png) | ![dual_quad_1201](fig/dual_quad_1201.png) | ![dual_quad_2110](fig/dual_quad_2110.png) |
+
+## Assembly
+
+![plot_quadtree_concentric_convex](fig/plot_quadtree_concentric_convex.png)
+> *Illustration of three concentric levels using the convex transition, Template_0001. The assembled dual mesh is (partly, sufficient to demonstrate symmetric) shown in blue.*

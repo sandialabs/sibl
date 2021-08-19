@@ -113,6 +113,9 @@ Summary of actions:
 - The feature branch 'feature/io_refactor' was merged into 'develop'
 - Feature branch 'feature/io_refactor' has been removed
 - You are now on branch 'develop'
+
+> git checkout master
+> git merge develop
 ```
 
 ## Pytest and Coverage
