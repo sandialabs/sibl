@@ -70,7 +70,7 @@ def rotate(ref: tuple[Vertex, ...], angle: float) -> tuple[Vertex, ...]:
             rotated about the origin by an angle (in degrees).
     """
 
-    xs = tuple(ref[k][0] for k in range(len(ref)))
+    xs = tuple(ref[k][0] for k in range(len(ref)))  # Refactor Chad!
     ys = tuple(ref[k][1] for k in range(len(ref)))
 
     xnew = tuple(
@@ -304,6 +304,8 @@ class Template_0010(NamedTuple):
     name: str = "0010"
 
     _base = Template_0001()
+    # ang = -90.0
+    # _angles = tuple(-90.0 for _ in range(len(_base.vertices_revalence)))
     _angles = tuple(-90.0 for _ in range(len(_base.vertices_revalence)))
 
     vertices: tuple[Vertex, ...] = rotate(ref=_base.vertices, angle=-90.0)

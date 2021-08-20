@@ -1,4 +1,4 @@
-from typing import NamedTuple
+from typing import NamedTuple, Union, Iterable
 from functools import reduce
 import math
 from itertools import permutations
@@ -30,6 +30,12 @@ class Quad(NamedTuple):
     nw: Vertex  # northwest corner
 
 
+# Reference: recursive type hinting:
+# https://stackoverflow.com/questions/53845024/defining-a-recursive-type-hint-in-python
+# Garthoks = Union[Garthok, Iterable['Garthoks']]
+Quads = Union[Iterable["Quads"], tuple[Quad, ...]]  # support for recursive type hint
+
+
 class Mesh(NamedTuple):
     """Creates a mesh, which consists of a tuple of Coordinates and Connectivity."""
 
@@ -46,7 +52,7 @@ class DualHash(NamedTuple):
         1 gives 2^1 = 2 ports, and
         2 gives 2^2 = 4 ports.
 
-    Current has table,
+    Current has table:
     https://github.com/sandialabs/sibl/blob/master/geo/doc/dual_quad_transitions.md
     suports only "0", "1" and "2" as int possibilities.
     """
@@ -74,6 +80,21 @@ def number_bisections(n_quads: int) -> int:
 
 
 def known_quad_corners(*, quad_corners: tuple[int, ...]) -> bool:
+    """Given a tuple of quad_corners, determines if they are known or unknown
+    templates of:
+    https://github.com/sandialabs/sibl/blob/master/config/workflow.md
+
+    Arguments:
+        quad_corners (tuple[int, ...]) that describes the number of sub-quads that
+            are present in each of the four corners of a parent quad.
+
+    Returns:
+        True if the quad_corner is a known template, False otherwise.
+
+    Example:
+        known_quad_corner(quad_corner=tuple(1, 1, 1, 4)) returns True because it
+            is a known quad_corner and is the template with key_0001.
+    """
     flat_L1 = ((1, 1, 1, 1),)
     convex = tuple(set(permutations([1, 1, 1, 4])))  # assert len == 4
     wave_and_diagonal = tuple(set(permutations([1, 1, 4, 4])))  # assert len == 6
@@ -98,6 +119,10 @@ def template_key(*, quad_corners: tuple[int, ...]) -> str:
     Arguments:
         quad_corners (tuple[int, ...]): The number of sub-quads in each of the four
             quadrant corners (sw, nw, se, ne).
+
+    Returns:
+        str that has a prefex of "key_" plus a suffix of four integers, e.g, "1114",
+            for a completed key of `"key_1114".
 
     Example:
         template_key(quad_corners=(1, 1, 1, 4)) returns "key_0001"
@@ -188,11 +213,6 @@ class TemplateFactory(NamedTuple):
     key_1021: NamedTuple = dual_quad.Template_1021()
     key_1201: NamedTuple = dual_quad.Template_1201()
     key_2110: NamedTuple = dual_quad.Template_2110()
-
-
-# Reference: recursive type hinting:
-# https://stackoverflow.com/questions/53845024/defining-a-recursive-type-hint-in-python
-# Quads = Union[Quad, Iterable["Quads"]]
 
 
 def coordinates(*, pairs: tuple[tuple[float, float], ...]) -> tuple[Coordinate, ...]:
@@ -482,8 +502,11 @@ class QuadTree:
     # figure out type hinting soon
     # def _child_vertices(cell: Cell) -> tuple[tuple[float, float], ...]:
     # def _child_vertices(cell: Cell) -> Quads:   # <-- this works in part
+    # def _child_vertices(cell: Cell) -> tuple[Quads, ...]:
     @staticmethod
-    def _child_vertices(cell: Cell):
+    def _child_vertices(
+        cell: Cell,
+    ) -> Union[Quads, tuple[Quad]]:
         """Given a cell, returns the cell's vertices, and (recursively) the vertices of
         the cell's children, grandchildren, et cetera.  Recursion ends when a cell level
         has no children.
@@ -499,49 +522,11 @@ class QuadTree:
             return (cell.vertices,)
             # return cell.vertices
 
-    # ) -> Union[
-    #     tuple[
-    #         tuple[int],
-    #         Union[
-    #             tuple[tuple[int], ...],
-    #             tuple[int],
-    #             Union[
-    #                 tuple[tuple[int], ...],
-    #                 tuple[int],
-    #                 Union[
-    #                     tuple[tuple[int], ...],
-    #                     tuple[int],
-    #                     tuple[tuple[int], ...],
-    #                 ],
-    #             ],
-    #         ],
-    #     ]
-    # ]:
-    #
-    # OR
-    #
-    #         tuple[int],
-    #         Union[
-    #             tuple[tuple[int], ...],
-    #             tuple[int],
-    #             Union[
-    #                 tuple[tuple[int], ...],
-    #                 tuple[int],
-    #                 Union[
-    #                     tuple[tuple[int], ...],
-    #                     tuple[int],
-    #                 ],
-    #             ],
-    #         ],
-    #         tuple[tuple[int], ...],
-    #     ]
-    # ]:
-
     @staticmethod
     def _quad_levels(*, cell: Cell, level: int):
-        """Given a cell, returns the cell's quad levels, and (recursively) the quad levels of
-        the cell's children, grandchildren, et cetera.  Recursion ends when a cell level
-        has no children.
+        """Given a cell, returns the cell's quad levels, and (recursively) the quad
+        levels of the cell's children, grandchildren, et cetera.  Recursion ends when
+        a cell level has no children.
         """
         if cell.has_children:
             return (
