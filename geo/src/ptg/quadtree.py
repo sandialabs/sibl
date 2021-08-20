@@ -13,6 +13,28 @@ class Coordinate(NamedTuple):
     y: float  # y-coordinate
 
 
+def coordinates(*, pairs: tuple[tuple[float, float], ...]) -> tuple[Coordinate, ...]:
+    """Creates a tuple of Coordinates from a tuple of (x, y) pairs.
+
+    Argments:
+        pairs (tuple of tuple of floats), e.g.,
+            ((x0, y0), (x1, y1), ... (xn, yn))
+
+
+    Returns:
+        tuple of Coordinates:
+            A tuple of Coordinates, which is a NamedTuple
+            representation of the pairs.
+    """
+
+    # Chad, upzip these, way more Pythonic!  -Chad
+    # xs = tuple(pairs[k][0] for k in range(len(pairs)))
+    # ys = tuple(pairs[k][1] for k in range(len(pairs)))
+    xs, ys = zip(*pairs)
+    cs = tuple(map(Coordinate, xs, ys))  # coordinates
+    return cs
+
+
 Vertex = Coordinate  # a vertex belongs to a quad
 # A vertex and a coordinate have the same data type, but different
 # semantic.  A quad is composed of four vertices.  A quad is not
@@ -37,7 +59,13 @@ Quads = Union[Iterable["Quads"], tuple[Quad, ...]]  # support for recursive type
 
 
 class Mesh(NamedTuple):
-    """Creates a mesh, which consists of a tuple of Coordinates and Connectivity."""
+    """Creates a mesh, which consists of a tuple of coordinates and
+    a tuple of connectivity.
+
+    Notation connection with Finite Element Method (FEM), cf., TJR Hughes
+        nnp = number of nodal points = len(coordinates)
+        nel = number of elements = len(connectivity)
+    """
 
     coordinates: tuple[Coordinate, ...]
     connectivity: tuple[tuple[int, int, int, int], ...]
@@ -141,19 +169,20 @@ def template_key(*, quad_corners: tuple[int, ...]) -> str:
 
 
 def scale_then_translate(
-    ref: tuple[tuple[float, float], ...], scale: float, translate: Coordinate
-) -> tuple[tuple[float, float], ...]:
-    """Scales about the origin and then translates a tuple of points
+    *, ref: tuple[Coordinate, ...], scale: float, translate: Coordinate
+) -> tuple[Coordinate, ...]:
+    """Scales about the origin and then translates a tuple of Coordinates
     in the reference position to a new position.
 
     Attributes:
-        ref (tuple[Vertex, ...]): The tuple of (x, y) coordinates in the reference
-            configurations, e.g., ((x0, y0), (x1, y1), ... (xn, yn)).
-        scale (float): The magnitude of scale up (scale > 1) or scale down (scale < 1).
+        ref (tuple[Coordinate, ...]): The tuple of (x, y) coordinates in the
+            reference configurations, e.g., ((x0, y0), (x1, y1), ... (xn, yn)).
+        scale (float): The magnitude of scale up (scale > 1) or
+            scale down (scale < 1).
             Note that scale > 0.
 
     Returns:
-        new (tuple[Vertex, ...]):  The new positions of the ref coordinates, now
+        new (tuple[Coordinate, ...]):  The new positions of the ref coordinates, now
             scaled about the origin and translated to the new coordinates.
 
     Raises:
@@ -175,7 +204,8 @@ def scale_then_translate(
 
     # Chad, zip these, way more Pythonic!  -Chad
     # new = tuple((xnew[k], ynew[k]) for k in range(len(ref)))
-    new = tuple(zip(xnew, ynew))
+    # new = tuple(zip(xnew, ynew))
+    new = coordinates(pairs=tuple(zip(xnew, ynew)))
     return new
 
 
@@ -213,25 +243,6 @@ class TemplateFactory(NamedTuple):
     key_1021: NamedTuple = dual_quad.Template_1021()
     key_1201: NamedTuple = dual_quad.Template_1201()
     key_2110: NamedTuple = dual_quad.Template_2110()
-
-
-def coordinates(*, pairs: tuple[tuple[float, float], ...]) -> tuple[Coordinate, ...]:
-    """Creates a tuple of Coordinates from a tuple of (x, y) pairs.
-
-    Argments:
-        pairs (tuple of tuple of floats), e.g.,
-            ((x0, y0), (x1, y1), ... (xn, yn))
-
-
-    Returns:
-        tuple of Coordinates:
-            A tuple of Coordinates, which is a NamedTuple
-            representation of the pairs.
-    """
-    xs = tuple(pairs[k][0] for k in range(len(pairs)))
-    ys = tuple(pairs[k][1] for k in range(len(pairs)))
-    cs = tuple(map(Coordinate, xs, ys))  # coordinates
-    return cs
 
 
 class Cell:
@@ -470,25 +481,25 @@ class QuadTree:
         # # return (_template.vertices_dual, _template.faces_dual)
         # return (_scaled_translated_vertices_dual, _template.faces_dual)
 
-    def duals(self):
-        """Returns the dual template(s) embedded in the QuadTree.
-        See
-        https://github.com/sandialabs/sibl/blob/master/geo/doc/dual_quad_transitions.md
-        for the has illustrations.
+    # def duals(self):
+    #     """Returns the dual template(s) embedded in the QuadTree.
+    #     See
+    #     https://github.com/sandialabs/sibl/blob/master/geo/doc/dual_quad_transitions.md
+    #     for the has illustrations.
 
-        Returns:
-            A tuple of the dual template(s) embedded by the QuadTree.
-        """
-        if self.level_max < 1:
-            raise ValueError(
-                "level_max must be one or greater for dual template to exist."
-            )
+    #     Returns:
+    #         A tuple of the dual template(s) embedded by the QuadTree.
+    #     """
+    #     if self.level_max < 1:
+    #         raise ValueError(
+    #             "level_max must be one or greater for dual template to exist."
+    #         )
 
-        if self.level_max == 1:
-            return (DualHash(sw=0, nw=0, se=0, ne=0),)
+    #     if self.level_max == 1:
+    #         return (DualHash(sw=0, nw=0, se=0, ne=0),)
 
-        _quad_levels = QuadTree._quad_levels(cell=self.cell, level=0)
-        return _quad_levels
+    #     _quad_levels = QuadTree._quad_levels(cell=self.cell, level=0)
+    #     return _quad_levels
 
     def quad_levels_recursive(self) -> tuple[tuple[int, ...], ...]:
         qls = QuadTree._quad_levels(cell=self.cell, level=0)
@@ -499,10 +510,6 @@ class QuadTree:
         qls = self.quad_levels_recursive()
         return tuple(QuadTree._tuple_flatten(qls))
 
-    # figure out type hinting soon
-    # def _child_vertices(cell: Cell) -> tuple[tuple[float, float], ...]:
-    # def _child_vertices(cell: Cell) -> Quads:   # <-- this works in part
-    # def _child_vertices(cell: Cell) -> tuple[Quads, ...]:
     @staticmethod
     def _child_vertices(
         cell: Cell,

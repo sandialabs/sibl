@@ -273,46 +273,46 @@ def test_quads_and_levels():
     )
 
 
-def test_duals():
-    """Tests dual quads in the quad tree."""
-    ctr = qt.Coordinate(x=0.0, y=0.0)
-    cell = qt.Cell(center=ctr, size=2.0)
-    points = tuple([qt.Coordinate(0.6, -0.6)])
-
-    # this portion of the test no longer relevant
-    # # level_max = 0, base domain, no cell division
-    # tree = qt.QuadTree(cell=cell, level=0, level_max=0, points=points)
-    # quads = tree.quads()
-    # assert len(quads) == 1
-    # assert len(quads[0]) == 4
-    # quad_levels = tree.quad_levels()
-    # assert quad_levels == (0,)
-    # with pytest.raises(ValueError):
-    #     _ = tree.duals()
-
-    # level_max = 1, single cell division, four quads
-    tree = qt.QuadTree(cell=cell, level=0, level_max=1, points=points)
-    quads = tree.quads()
-    assert len(quads) == 4
-    assert len(quads[0]) == 4
-    quad_levels = tree.quad_levels()
-    assert quad_levels == (
-        1,
-        1,
-        1,
-        1,
-    )
-    duals = tree.duals()
-    assert duals == (qt.DualHash(sw=0, nw=0, se=0, ne=0),)
-
-    # level_max = 2, one to four cell division(s), seven to 16 quads in general, and
-    # this example, with one trigger point, generates seven quads, and the
-    # 0001 dual factory template.
-    tree = qt.QuadTree(cell=cell, level=0, level_max=2, points=points)
-    quads = tree.quads()
-    assert len(quads) == 7
-    duals = tree.duals()
-    # assert duals == (qt.DualHash(sw=0, nw=0, se=0, ne=0),)
+# def test_duals():
+#     """Tests dual quads in the quad tree."""
+#     ctr = qt.Coordinate(x=0.0, y=0.0)
+#     cell = qt.Cell(center=ctr, size=2.0)
+#     points = tuple([qt.Coordinate(0.6, -0.6)])
+#
+#     # this portion of the test no longer relevant
+#     # # level_max = 0, base domain, no cell division
+#     # tree = qt.QuadTree(cell=cell, level=0, level_max=0, points=points)
+#     # quads = tree.quads()
+#     # assert len(quads) == 1
+#     # assert len(quads[0]) == 4
+#     # quad_levels = tree.quad_levels()
+#     # assert quad_levels == (0,)
+#     # with pytest.raises(ValueError):
+#     #     _ = tree.duals()
+#
+#     # level_max = 1, single cell division, four quads
+#     tree = qt.QuadTree(cell=cell, level=0, level_max=1, points=points)
+#     quads = tree.quads()
+#     assert len(quads) == 4
+#     assert len(quads[0]) == 4
+#     quad_levels = tree.quad_levels()
+#     assert quad_levels == (
+#         1,
+#         1,
+#         1,
+#         1,
+#     )
+#     duals = tree.duals()
+#     assert duals == (qt.DualHash(sw=0, nw=0, se=0, ne=0),)
+#
+#     # level_max = 2, one to four cell division(s), seven to 16 quads in general, and
+#     # this example, with one trigger point, generates seven quads, and the
+#     # 0001 dual factory template.
+#     tree = qt.QuadTree(cell=cell, level=0, level_max=2, points=points)
+#     quads = tree.quads()
+#     assert len(quads) == 7
+#     duals = tree.duals()
+#     # assert duals == (qt.DualHash(sw=0, nw=0, se=0, ne=0),)
 
 
 def test_manual_0000():
@@ -430,7 +430,7 @@ def test_manual_nested_0001():
 
 
 def test_scale_then_translate():
-    ref = ((-1.0, -1.0), (1.0, -1.0), (1.0, 1.0), (-1.0, 1.0))
+    ref = qt.coordinates(pairs=((-1.0, -1.0), (1.0, -1.0), (1.0, 1.0), (-1.0, 1.0)))
 
     bad_scale = 0
     scale = 100
