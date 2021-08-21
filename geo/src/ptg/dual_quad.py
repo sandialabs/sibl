@@ -75,7 +75,7 @@ def rotate(ref: tuple[Vertex, ...], angle: float) -> tuple[Vertex, ...]:
     # ys = tuple(ref[k][1] for k in range(len(ref)))
     xs, ys = zip(*ref)
 
-    _deg_to_rad = math.pi / 180.0  # degress/radians
+    _deg_to_rad = math.pi / 180.0  # degrees/radians
     _angle_rad = angle * _deg_to_rad  # radians
 
     # xnew = tuple(

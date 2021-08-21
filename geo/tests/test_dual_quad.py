@@ -713,16 +713,15 @@ def test_rotate():
     known_y_axis = (-1.0 * math.sin(ang_r), math.cos(ang_r))
     # some vector moved 30 degrees, now at 90 deg in current config
     known_vector = (0.0, 1000.0)
-
     known = (known_x_axis, known_y_axis, known_vector)
 
     found = dquad.rotate(ref=given, angle=angle)
 
-    tol = 1.0e-9
     kx, ky = zip(*known)
     knowns = kx + ky
 
     fx, fy = zip(*found)
     founds = fx + fy
 
+    tol = 1.0e-9
     assert all(map(lambda a, b: abs(a - b) < tol, knowns, founds))
