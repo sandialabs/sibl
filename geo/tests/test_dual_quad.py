@@ -6,6 +6,8 @@ To run
 > pytest geo/tests/test_dual_quad.py -v
 """
 
+import math
+
 import ptg.dual_quad as dquad
 
 
@@ -693,3 +695,34 @@ def test_weakly_balanced():
         (-1.0, 0.25),  # w-nw
         (-1.0, -0.5),  # s-sw
     )
+
+
+def test_rotate():
+    given_x_axis = (1.0, 0.0)
+    given_y_axis = (0.0, 1.0)
+    # some vector at 60 deg in reference config
+    # given_vector = (500.0, 866.0)
+    given_vector = (500.0, 1000.0 * math.sqrt(3.0) / 2.0)
+    given = (given_x_axis, given_y_axis, given_vector)
+
+    deg_to_rad = math.pi / 180.0
+    angle = 30.0  # degrees
+    ang_r = angle * deg_to_rad  # radians
+
+    known_x_axis = (math.cos(ang_r), math.sin(ang_r))
+    known_y_axis = (-1.0 * math.sin(ang_r), math.cos(ang_r))
+    # some vector moved 30 degrees, now at 90 deg in current config
+    known_vector = (0.0, 1000.0)
+
+    known = (known_x_axis, known_y_axis, known_vector)
+
+    found = dquad.rotate(ref=given, angle=angle)
+
+    tol = 1.0e-9
+    kx, ky = zip(*known)
+    knowns = kx + ky
+
+    fx, fy = zip(*found)
+    founds = fx + fy
+
+    assert all(map(lambda a, b: abs(a - b) < tol, knowns, founds))

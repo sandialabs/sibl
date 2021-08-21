@@ -70,22 +70,32 @@ def rotate(ref: tuple[Vertex, ...], angle: float) -> tuple[Vertex, ...]:
             rotated about the origin by an angle (in degrees).
     """
 
-    xs = tuple(ref[k][0] for k in range(len(ref)))  # Refactor Chad!
-    ys = tuple(ref[k][1] for k in range(len(ref)))
+    # Chad, please refactor to be more Pythonic.  -Chad
+    # xs = tuple(ref[k][0] for k in range(len(ref)))
+    # ys = tuple(ref[k][1] for k in range(len(ref)))
+    xs, ys = zip(*ref)
 
+    _deg_to_rad = math.pi / 180.0  # degress/radians
+    _angle_rad = angle * _deg_to_rad  # radians
+
+    # xnew = tuple(
+    #     xs[k] * math.cos(_angle_rad) - ys[k] * math.sin(_angle_rad)
+    #     for k in range(len(xs))
+    # )
     xnew = tuple(
-        xs[k] * math.cos(angle * math.pi / 180.0)
-        - ys[k] * math.sin(angle * math.pi / 180.0)
-        for k in range(len(xs))
+        map(lambda x, y: x * math.cos(_angle_rad) - y * math.sin(_angle_rad), xs, ys)
     )
 
+    # ynew = tuple(
+    #     xs[k] * math.sin(_angle_rad) + ys[k] * math.cos(_angle_rad)
+    #     for k in range(len(ys))
+    # )
     ynew = tuple(
-        xs[k] * math.sin(angle * math.pi / 180.0)
-        + ys[k] * math.cos(angle * math.pi / 180.0)
-        for k in range(len(ys))
+        map(lambda x, y: x * math.sin(_angle_rad) + y * math.cos(_angle_rad), xs, ys)
     )
 
-    new = tuple((xnew[k], ynew[k]) for k in range(len(ref)))
+    # new = tuple((xnew[k], ynew[k]) for k in range(len(ref)))
+    new = tuple(zip(xnew, ynew))
     return new
 
 
