@@ -15,9 +15,9 @@
 
 ## References
 
-* [Alliez 2003 isotropic surface remesh](ref/Alliez%20%2003%20%isotropic%20%surface%20%remesh.pdf)
-* [Alliez 2005 centroidal voronoi isotropic remesh](ref/Alliez%20%2005%20%centroidal%20%voronoi%20%isotropic%20%remesh.pdf)
-* [Botsch 2007 geometric modeling polygonal meshes book](ref/Botsch%202007%20geometric%20modeling%20polygonal%20meshes%20book.pdf)
+* [Alliez 2003 isotropic surface remesh](ref/Alliez_2003_isotropic_surface_remesh.pdf)
+* [Alliez 2005 centroidal voronoi isotropic remesh](ref/Alliez_2005_centroidal_voronoi_isotropic_remesh.pdf)
+* [Botsch 2007 geometric modeling polygonal meshes book](ref/Botsch_2007_geometric_modeling_polygonal_meshes_book.pdf)
 
 ```bash
 @book{kobbelt2000geometric,
