@@ -43,6 +43,8 @@ from typing import NamedTuple
 
 import math
 
+from itertools import repeat
+
 # TODO: Inherit ABC to assure interface same across all templates.
 
 # Type alias for functional style methods
@@ -314,21 +316,20 @@ class Template_0010(NamedTuple):
     name: str = "0010"
 
     _base = Template_0001()
-    # ang = -90.0
-    # _angles = tuple(-90.0 for _ in range(len(_base.vertices_revalence)))
-    _angles = tuple(-90.0 for _ in range(len(_base.vertices_revalence)))
+    _theta = -90.0  # degrees
+    _angles = tuple(repeat(_theta, len(_base.vertices_revalence)))
 
-    vertices: tuple[Vertex, ...] = rotate(ref=_base.vertices, angle=-90.0)
+    vertices: tuple[Vertex, ...] = rotate(ref=_base.vertices, angle=_theta)
 
     vertices_revalence = tuple(map(rotate, _base.vertices_revalence, _angles))
 
     faces: tuple[Face, ...] = _base.faces
 
-    vertices_dual: tuple[Vertex, ...] = rotate(ref=_base.vertices_dual, angle=-90.0)
+    vertices_dual: tuple[Vertex, ...] = rotate(ref=_base.vertices_dual, angle=_theta)
 
     faces_dual: tuple[Face, ...] = _base.faces_dual
 
-    ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=-90.0)
+    ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=_theta)
 
 
 class Template_0100(NamedTuple):
@@ -339,19 +340,20 @@ class Template_0100(NamedTuple):
     name: str = "0100"
 
     _base = Template_0001()
-    _angles = tuple(90.0 for _ in range(len(_base.vertices_revalence)))
+    _theta = 90.0  # degrees
+    _angles = tuple(repeat(_theta, len(_base.vertices_revalence)))
 
-    vertices: tuple[Vertex, ...] = rotate(ref=_base.vertices, angle=90.0)
+    vertices: tuple[Vertex, ...] = rotate(ref=_base.vertices, angle=_theta)
 
     vertices_revalence = tuple(map(rotate, _base.vertices_revalence, _angles))
 
     faces: tuple[Face, ...] = _base.faces
 
-    vertices_dual: tuple[Vertex, ...] = rotate(ref=_base.vertices_dual, angle=90.0)
+    vertices_dual: tuple[Vertex, ...] = rotate(ref=_base.vertices_dual, angle=_theta)
 
     faces_dual: tuple[Face, ...] = _base.faces_dual
 
-    ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=90.0)
+    ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=_theta)
 
 
 class Template_1000(NamedTuple):
@@ -362,19 +364,20 @@ class Template_1000(NamedTuple):
     name: str = "1000"
 
     _base = Template_0001()
-    _angles = tuple(180.0 for _ in range(len(_base.vertices_revalence)))
+    _theta = 180.0  # degrees
+    _angles = tuple(repeat(_theta, len(_base.vertices_revalence)))
 
-    vertices: tuple[Vertex, ...] = rotate(ref=_base.vertices, angle=180.0)
+    vertices: tuple[Vertex, ...] = rotate(ref=_base.vertices, angle=_theta)
 
     vertices_revalence = tuple(map(rotate, _base.vertices_revalence, _angles))
 
     faces: tuple[Face, ...] = _base.faces
 
-    vertices_dual: tuple[Vertex, ...] = rotate(ref=_base.vertices_dual, angle=180.0)
+    vertices_dual: tuple[Vertex, ...] = rotate(ref=_base.vertices_dual, angle=_theta)
 
     faces_dual: tuple[Face, ...] = _base.faces_dual
 
-    ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=180.0)
+    ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=_theta)
 
 
 class Template_0011(NamedTuple):
@@ -502,19 +505,20 @@ class Template_0101(NamedTuple):
     name: str = "0101"
 
     _base = Template_0011()
-    _angles = tuple(90.0 for _ in range(len(_base.vertices_revalence)))
+    _theta = 90.0  # degrees
+    _angles = tuple(repeat(_theta, len(_base.vertices_revalence)))
 
-    vertices: tuple[Vertex, ...] = rotate(ref=_base.vertices, angle=90.0)
+    vertices: tuple[Vertex, ...] = rotate(ref=_base.vertices, angle=_theta)
 
     vertices_revalence = tuple(map(rotate, _base.vertices_revalence, _angles))
 
     faces: tuple[Face, ...] = _base.faces
 
-    vertices_dual: tuple[Vertex, ...] = rotate(ref=_base.vertices_dual, angle=90.0)
+    vertices_dual: tuple[Vertex, ...] = rotate(ref=_base.vertices_dual, angle=_theta)
 
     faces_dual: tuple[Face, ...] = _base.faces_dual
 
-    ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=90.0)
+    ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=_theta)
 
 
 class Template_1010(NamedTuple):
@@ -525,19 +529,20 @@ class Template_1010(NamedTuple):
     name: str = "1010"
 
     _base = Template_0011()
-    _angles = tuple(-90.0 for _ in range(len(_base.vertices_revalence)))
+    _theta = -90.0  # degrees
+    _angles = tuple(repeat(_theta, len(_base.vertices_revalence)))
 
-    vertices: tuple[Vertex, ...] = rotate(ref=_base.vertices, angle=-90.0)
+    vertices: tuple[Vertex, ...] = rotate(ref=_base.vertices, angle=_theta)
 
     vertices_revalence = tuple(map(rotate, _base.vertices_revalence, _angles))
 
     faces: tuple[Face, ...] = _base.faces
 
-    vertices_dual: tuple[Vertex, ...] = rotate(ref=_base.vertices_dual, angle=-90.0)
+    vertices_dual: tuple[Vertex, ...] = rotate(ref=_base.vertices_dual, angle=_theta)
 
     faces_dual: tuple[Face, ...] = _base.faces_dual
 
-    ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=-90.0)
+    ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=_theta)
 
 
 class Template_1100(NamedTuple):
@@ -548,19 +553,20 @@ class Template_1100(NamedTuple):
     name: str = "1100"
 
     _base = Template_0011()
-    _angles = tuple(180.0 for _ in range(len(_base.vertices_revalence)))
+    _theta = 180.0  # degrees
+    _angles = tuple(repeat(_theta, len(_base.vertices_revalence)))
 
-    vertices: tuple[Vertex, ...] = rotate(ref=_base.vertices, angle=180.0)
+    vertices: tuple[Vertex, ...] = rotate(ref=_base.vertices, angle=_theta)
 
     vertices_revalence = tuple(map(rotate, _base.vertices_revalence, _angles))
 
     faces: tuple[Face, ...] = _base.faces
 
-    vertices_dual: tuple[Vertex, ...] = rotate(ref=_base.vertices_dual, angle=180.0)
+    vertices_dual: tuple[Vertex, ...] = rotate(ref=_base.vertices_dual, angle=_theta)
 
     faces_dual: tuple[Face, ...] = _base.faces_dual
 
-    ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=180.0)
+    ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=_theta)
 
 
 class Template_0110(NamedTuple):
@@ -685,26 +691,27 @@ class Template_0110(NamedTuple):
 
 
 class Template_1001(NamedTuple):
-    """This is a non-unique template, visualized as the unique 0111 template,
+    """This is a non-unique template, visualized as the unique 0110 template,
     rotated 90 degrees (90 degrees counter clockwise rotation).
     """
 
     name: str = "1001"
 
     _base = Template_0110()
-    _angles = tuple(90.0 for _ in range(len(_base.vertices_revalence)))
+    _theta = 90.0  # degrees
+    _angles = tuple(repeat(_theta, len(_base.vertices_revalence)))
 
-    vertices: tuple[Vertex, ...] = rotate(ref=_base.vertices, angle=90.0)
+    vertices: tuple[Vertex, ...] = rotate(ref=_base.vertices, angle=_theta)
 
     vertices_revalence = tuple(map(rotate, _base.vertices_revalence, _angles))
 
     faces: tuple[Face, ...] = _base.faces
 
-    vertices_dual: tuple[Vertex, ...] = rotate(ref=_base.vertices_dual, angle=90.0)
+    vertices_dual: tuple[Vertex, ...] = rotate(ref=_base.vertices_dual, angle=_theta)
 
     faces_dual: tuple[Face, ...] = _base.faces_dual
 
-    ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=90.0)
+    ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=_theta)
 
 
 class Template_0111(NamedTuple):
@@ -843,19 +850,20 @@ class Template_1011(NamedTuple):
     name: str = "1011"
 
     _base = Template_0111()
-    _angles = tuple(-90.0 for _ in range(len(_base.vertices_revalence)))
+    _theta = -90.0  # degrees
+    _angles = tuple(repeat(_theta, len(_base.vertices_revalence)))
 
-    vertices: tuple[Vertex, ...] = rotate(ref=_base.vertices, angle=-90.0)
+    vertices: tuple[Vertex, ...] = rotate(ref=_base.vertices, angle=_theta)
 
     vertices_revalence = tuple(map(rotate, _base.vertices_revalence, _angles))
 
     faces: tuple[Face, ...] = _base.faces
 
-    vertices_dual: tuple[Vertex, ...] = rotate(ref=_base.vertices_dual, angle=-90.0)
+    vertices_dual: tuple[Vertex, ...] = rotate(ref=_base.vertices_dual, angle=_theta)
 
     faces_dual: tuple[Face, ...] = _base.faces_dual
 
-    ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=-90.0)
+    ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=_theta)
 
 
 class Template_1101(NamedTuple):
@@ -866,19 +874,20 @@ class Template_1101(NamedTuple):
     name: str = "1101"
 
     _base = Template_0111()
-    _angles = tuple(90.0 for _ in range(len(_base.vertices_revalence)))
+    _theta = 90.0  # degrees
+    _angles = tuple(repeat(_theta, len(_base.vertices_revalence)))
 
-    vertices: tuple[Vertex, ...] = rotate(ref=_base.vertices, angle=90.0)
+    vertices: tuple[Vertex, ...] = rotate(ref=_base.vertices, angle=_theta)
 
     vertices_revalence = tuple(map(rotate, _base.vertices_revalence, _angles))
 
     faces: tuple[Face, ...] = _base.faces
 
-    vertices_dual: tuple[Vertex, ...] = rotate(ref=_base.vertices_dual, angle=90.0)
+    vertices_dual: tuple[Vertex, ...] = rotate(ref=_base.vertices_dual, angle=_theta)
 
     faces_dual: tuple[Face, ...] = _base.faces_dual
 
-    ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=90.0)
+    ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=_theta)
 
 
 class Template_1110(NamedTuple):
@@ -889,19 +898,20 @@ class Template_1110(NamedTuple):
     name: str = "1110"
 
     _base = Template_0111()
-    _angles = tuple(180.0 for _ in range(len(_base.vertices_revalence)))
+    _theta = 180.0  # degrees
+    _angles = tuple(repeat(_theta, len(_base.vertices_revalence)))
 
-    vertices: tuple[Vertex, ...] = rotate(ref=_base.vertices, angle=180.0)
+    vertices: tuple[Vertex, ...] = rotate(ref=_base.vertices, angle=_theta)
 
     vertices_revalence = tuple(map(rotate, _base.vertices_revalence, _angles))
 
     faces: tuple[Face, ...] = _base.faces
 
-    vertices_dual: tuple[Vertex, ...] = rotate(ref=_base.vertices_dual, angle=180.0)
+    vertices_dual: tuple[Vertex, ...] = rotate(ref=_base.vertices_dual, angle=_theta)
 
     faces_dual: tuple[Face, ...] = _base.faces_dual
 
-    ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=180.0)
+    ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=_theta)
 
 
 class Template_1111(NamedTuple):
@@ -1267,19 +1277,20 @@ class Template_1021(NamedTuple):  # rotate Template_0112 90 degrees clockwise
     name: str = "1021"
 
     _base = Template_0112()
-    _angles = tuple(-90.0 for _ in range(len(_base.vertices_revalence)))
+    _theta = -90.0  # degrees
+    _angles = tuple(repeat(_theta, len(_base.vertices_revalence)))
 
-    vertices: tuple[Vertex, ...] = rotate(ref=_base.vertices, angle=-90.0)
+    vertices: tuple[Vertex, ...] = rotate(ref=_base.vertices, angle=_theta)
 
     vertices_revalence = tuple(map(rotate, _base.vertices_revalence, _angles))
 
     faces: tuple[Face, ...] = _base.faces
 
-    vertices_dual: tuple[Vertex, ...] = rotate(ref=_base.vertices_dual, angle=-90.0)
+    vertices_dual: tuple[Vertex, ...] = rotate(ref=_base.vertices_dual, angle=_theta)
 
     faces_dual: tuple[Face, ...] = _base.faces_dual
 
-    ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=-90.0)
+    ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=_theta)
 
 
 class Template_1201(NamedTuple):  # rotate Template_0112 90 degrees counter clockwise
@@ -1290,19 +1301,20 @@ class Template_1201(NamedTuple):  # rotate Template_0112 90 degrees counter cloc
     name: str = "1201"
 
     _base = Template_0112()
-    _angles = tuple(90.0 for _ in range(len(_base.vertices_revalence)))
+    _theta = 90.0  # degrees
+    _angles = tuple(repeat(_theta, len(_base.vertices_revalence)))
 
-    vertices: tuple[Vertex, ...] = rotate(ref=_base.vertices, angle=90.0)
+    vertices: tuple[Vertex, ...] = rotate(ref=_base.vertices, angle=_theta)
 
     vertices_revalence = tuple(map(rotate, _base.vertices_revalence, _angles))
 
     faces: tuple[Face, ...] = _base.faces
 
-    vertices_dual: tuple[Vertex, ...] = rotate(ref=_base.vertices_dual, angle=90.0)
+    vertices_dual: tuple[Vertex, ...] = rotate(ref=_base.vertices_dual, angle=_theta)
 
     faces_dual: tuple[Face, ...] = _base.faces_dual
 
-    ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=90.0)
+    ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=_theta)
 
 
 class Template_2110(NamedTuple):  # rotate Template_0112 180 degrees
@@ -1313,16 +1325,17 @@ class Template_2110(NamedTuple):  # rotate Template_0112 180 degrees
     name: str = "2110"
 
     _base = Template_0112()
-    _angles = tuple(180.0 for _ in range(len(_base.vertices_revalence)))
+    _theta = 180.0  # degrees
+    _angles = tuple(repeat(_theta, len(_base.vertices_revalence)))
 
-    vertices: tuple[Vertex, ...] = rotate(ref=_base.vertices, angle=180.0)
+    vertices: tuple[Vertex, ...] = rotate(ref=_base.vertices, angle=_theta)
 
     vertices_revalence = tuple(map(rotate, _base.vertices_revalence, _angles))
 
     faces: tuple[Face, ...] = _base.faces
 
-    vertices_dual: tuple[Vertex, ...] = rotate(ref=_base.vertices_dual, angle=180.0)
+    vertices_dual: tuple[Vertex, ...] = rotate(ref=_base.vertices_dual, angle=_theta)
 
     faces_dual: tuple[Face, ...] = _base.faces_dual
 
-    ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=180.0)
+    ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=_theta)

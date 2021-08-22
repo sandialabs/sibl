@@ -7,11 +7,12 @@ To run
 """
 
 import math
+from itertools import chain
 
 import ptg.dual_quad as dquad
 
 
-def test_L0():
+def test_Template_0000():
     template = dquad.Template_0000()
     assert template
 
@@ -59,7 +60,7 @@ def test_L0():
     )
 
 
-def test_Convex():
+def test_Template_0001():
     template = dquad.Template_0001()
     assert template
 
@@ -137,7 +138,116 @@ def test_Convex():
     )
 
 
-def test_Flat():
+def test_Template_0100():
+    template = dquad.Template_0100()
+    assert template
+    assert template.name == "0100"
+
+    TOL = 1.0e-9
+
+    # template vertices
+    known = (
+        (1.0, -1.0),
+        (0.0, -1.0),
+        (-1.0, -1.0),
+        (1.0, 0.0),
+        (0.0, 0.0),
+        (-0.5, 0.0),
+        (-1.0, 0.0),
+        (0.0, 0.5),
+        (-0.5, 0.5),
+        (-1.0, 0.5),
+        (1.0, 1.0),
+        (0.0, 1.0),
+        (-0.5, 1.0),
+        (-1.0, 1.0),
+    )
+
+    found = template.vertices
+
+    assert all(map(lambda a, b: abs(a - b) < TOL, chain(*known), chain(*found)))
+
+    # template vertices_revalence
+    known = (
+        (
+            (-0.5, 0.0),
+            (0.0, -0.5),
+            (0.5, 0.0),
+            (0.0, 0.5),
+        ),
+    )
+    known_flatten_one = tuple(chain(*known))
+
+    found = template.vertices_revalence
+    found_flatten_one = tuple(chain(*found))
+
+    assert all(
+        map(
+            lambda a, b: abs(a - b) < TOL,
+            chain(*known_flatten_one),
+            chain(*found_flatten_one),
+        )
+    )
+
+    assert template.faces == (
+        (0, 3, 4, 1),
+        (1, 4, 6, 2),
+        (3, 10, 11, 4),
+        (4, 7, 8, 5),
+        (5, 8, 9, 6),
+        (7, 11, 12, 8),
+        (8, 12, 13, 9),
+    )
+
+    # template vertices_dual
+
+    known = (
+        (0.5, -0.5),
+        (-0.5, -0.5),
+        (0.1665, -0.1665),
+        (-0.1665, -0.1665),
+        (0.1665, 0.1665),
+        (-0.25, 0.25),
+        (-0.75, 0.25),
+        (0.5, 0.5),
+        (-0.25, 0.75),
+        (-0.75, 0.75),
+    )
+
+    found = template.vertices_dual
+
+    assert all(map(lambda a, b: abs(a - b) < TOL, chain(*known), chain(*found)))
+
+    assert template.faces_dual == (
+        (0, 2, 3, 1),
+        (0, 7, 4, 2),
+        (2, 4, 5, 3),
+        (3, 5, 6, 1),
+        (4, 7, 8, 5),
+        (5, 8, 9, 6),
+    )
+
+    # template ports
+
+    known = (
+        (1.0, -0.5),
+        (1.0, 0.5),
+        (0.5, 1.0),
+        (-0.25, 1.0),
+        (-0.75, 1.0),
+        (-1.0, 0.75),
+        (-1.0, 0.25),
+        (-1.0, -0.5),
+        (-0.5, -1.0),
+        (0.5, -1.0),
+    )
+
+    found = template.ports
+
+    assert all(map(lambda a, b: abs(a - b) < TOL, chain(*known), chain(*found)))
+
+
+def test_Template_0011():
     template = dquad.Template_0011()
     assert template
 
@@ -226,7 +336,7 @@ def test_Flat():
     )
 
 
-def test_Diagonal():
+def test_Template_0110():
     template = dquad.Template_0110()
     assert template
 
@@ -319,7 +429,7 @@ def test_Diagonal():
     )
 
 
-def test_Concave():
+def test_Template_0111():
     template = dquad.Template_0111()
     assert template
 
@@ -419,7 +529,7 @@ def test_Concave():
     )
 
 
-def test_L1():
+def test_Template_1111():
     template = dquad.Template_1111()
     assert template
 
@@ -525,7 +635,7 @@ def test_L1():
     )
 
 
-def test_weakly_balanced():
+def test_Template_0112():
     template = dquad.Template_0112()
     assert template
 
@@ -706,8 +816,8 @@ def test_rotate():
     given = (given_x_axis, given_y_axis, given_vector)
 
     deg_to_rad = math.pi / 180.0
-    angle = 30.0  # degrees
-    ang_r = angle * deg_to_rad  # radians
+    ang_d = 30.0  # degrees
+    ang_r = ang_d * deg_to_rad  # radians
 
     known_x_axis = (math.cos(ang_r), math.sin(ang_r))
     known_y_axis = (-1.0 * math.sin(ang_r), math.cos(ang_r))
@@ -715,7 +825,7 @@ def test_rotate():
     known_vector = (0.0, 1000.0)
     known = (known_x_axis, known_y_axis, known_vector)
 
-    found = dquad.rotate(ref=given, angle=angle)
+    found = dquad.rotate(ref=given, angle=ang_d)
 
     kx, ky = zip(*known)
     knowns = kx + ky

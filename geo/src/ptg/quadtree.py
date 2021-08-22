@@ -157,8 +157,6 @@ def template_key(*, quad_corners: tuple[int, ...]) -> str:
     """
     if known_quad_corners(quad_corners=quad_corners):
         _rooted_quad_corners = tuple(map(number_bisections, quad_corners))
-        # _quad_key = "Q" + str(reduce(lambda x, y: str(x) + str(y), quad_corners))
-        # _quad_key = "Q" + str(reduce(lambda x, y: str(x) + str(y), _rooted_quad_corners))
         _template_key = "key_" + str(
             reduce(lambda x, y: str(x) + str(y), _rooted_quad_corners)
         )
