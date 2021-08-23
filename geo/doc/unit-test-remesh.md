@@ -18,6 +18,7 @@
 * [Alliez 2003 isotropic surface remesh](ref/Alliez_2003_isotropic_surface_remesh.pdf)
 * [Alliez 2005 centroidal voronoi isotropic remesh](ref/Alliez_2005_centroidal_voronoi_isotropic_remesh.pdf)
 * [Botsch 2007 geometric modeling polygonal meshes book](ref/Botsch_2007_geometric_modeling_polygonal_meshes_book.pdf)
+* [Zhang 2009 smoothing quality quad hex](ref/Zhang_2009_smoothing_quality_quad_hex.pdf)
 
 ```bash
 @book{kobbelt2000geometric,
