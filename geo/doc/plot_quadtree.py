@@ -1,25 +1,28 @@
 from pathlib import Path
+from typing import Final
 
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import rc
 
+
 import ptg.quadtree as qt
 
 
 def main():
-    shown = False
-    serialize = True
-    color_fill = True
-    latex = False
+    shown: Final = False
+    serialize: Final = True
+    color_fill: Final = True
+    latex: Final = False
     if latex:
         rc("font", **{"family": "serif", "serif": ["Computer Modern Roman"]})
         rc("text", usetex=True)
 
-    simple_example = True
-    quarter_brush = False
-    diagonal_example = False
-    level_max = 1
+    simple_example: Final = False
+    quarter_brush: Final = False
+    diagonal_example: Final = False
+    nested_0001: Final = True
+    level_max: Final = 3
 
     if simple_example:
         ctr = qt.Coordinate(x=0.0, y=0.0)
@@ -48,6 +51,13 @@ def main():
         _xticks = [0, 128, 256, 512, 1024, 2048]
         _yticks = [0, 128, 256, 512, 1024, 2048]
 
+    elif nested_0001:
+        ctr = qt.Coordinate(x=0.0, y=0.0)
+        cell = qt.Cell(center=ctr, size=2.0)
+        points = tuple([qt.Coordinate(0.6, 0.6)])
+        _xticks = [-2, -1, 0, 1, 2]
+        _yticks = _xticks
+
     else:
         ctr = qt.Coordinate(x=0.0, y=0.0)
         cell = qt.Cell(center=ctr, size=1024.0)
@@ -73,6 +83,7 @@ def main():
 
     quads = tree.quads()
     quad_levels = tree.quad_levels()
+    # quad_levels_recursive = tree.quad_levels_recursive()
 
     # draw remaining L1 through Ln quads
     fig = plt.figure(figsize=(6.0, 6.0), dpi=100)
@@ -128,6 +139,30 @@ def main():
     xs = tuple(point.x for point in points)
     ys = tuple(point.y for point in points)
     ax.scatter(xs, ys, linestyle="solid", edgecolor="black", color="tab:red")
+
+    if nested_0001:
+        mesh_dual = tree.mesh_dual()
+
+        meshes = tuple(filter(lambda x: x is not None, mesh_dual))
+
+        for mesh in meshes:
+
+            coordinates = mesh[0].coordinates
+            faces = mesh[0].connectivity
+            xs = tuple(map(lambda item: item.x, coordinates))
+            ys = tuple(map(lambda item: item.y, coordinates))
+
+            for face in faces:
+                xf = [xs[k] for k in face]
+                yf = [ys[k] for k in face]
+                plt.fill(
+                    xf,
+                    yf,
+                    linestyle="solid",
+                    edgecolor="black",
+                    facecolor=colors[0],
+                    alpha=0.5,
+                )
 
     if shown:
         plt.show()

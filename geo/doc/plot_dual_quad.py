@@ -1,11 +1,10 @@
 from pathlib import Path
+from typing import Final
 
 import matplotlib.pyplot as plt
 from matplotlib import rc
 
 import ptg.dual_quad as dq
-
-index_x, index_y = 0, 1  # avoid magic numbers later
 
 colors = (
     "tab:blue",
@@ -20,57 +19,42 @@ colors = (
     "tab:cyan",
 )
 
-latex = True
+latex: Final = True
 if latex:
     rc("font", **{"family": "serif", "serif": ["Computer Modern Roman"]})
     rc("text", usetex=True)
 
 
-def face_coordinates(
-    face: dq.Face, vertices: tuple[dq.Vertex, ...]
-) -> tuple[dq.Vertex, ...]:
-
-    bb = tuple(vertices[k] for k in face)
-    return bb
-
-
 def plot_template(template, *, dual_shown=False, plot_shown=False, serialize=False):
-    faces_as_coordinates = tuple(
-        face_coordinates(face, template.vertices) for face in template.faces
-    )
+    xs, ys = zip(*template.vertices)
 
     fig = plt.figure(figsize=(6.0, 6.0), dpi=100)
     ax = fig.gca()
 
-    for face in faces_as_coordinates:
-        xs = [face[k][index_x] for k in range(len(face))]
-        ys = [face[k][index_y] for k in range(len(face))]
+    for face in template.faces:
+        xf = [xs[k] for k in face]
+        yf = [ys[k] for k in face]
         plt.fill(
-            xs, ys, linestyle="dotted", edgecolor="magenta", alpha=0.5, facecolor="gray"
+            xf, yf, linestyle="dotted", edgecolor="magenta", alpha=0.5, facecolor="gray"
         )
 
     if dual_shown:
 
-        faces_as_coordinates = tuple(
-            face_coordinates(face, template.vertices_dual)
-            for face in template.faces_dual
-        )
+        xs, ys = zip(*template.vertices_dual)
 
-        for face in faces_as_coordinates:
-            xs = [face[k][index_x] for k in range(len(face))]
-            ys = [face[k][index_y] for k in range(len(face))]
+        for face in template.faces_dual:
+            xf = [xs[k] for k in face]
+            yf = [ys[k] for k in face]
             plt.fill(
-                xs,
-                ys,
+                xf,
+                yf,
                 linestyle="solid",
                 edgecolor="black",
                 facecolor=colors[0],
                 alpha=0.5,
             )
 
-        xs = [template.ports[i][0] for i in range(len(template.ports))]
-        ys = [template.ports[i][1] for i in range(len(template.ports))]
-        # ax.plt(xs, ys, "o")
+        xs, ys = zip(*template.ports)
         ax.scatter(
             xs,
             ys,
@@ -84,10 +68,8 @@ def plot_template(template, *, dual_shown=False, plot_shown=False, serialize=Fal
     # finally, show the hanging nodes if any, and the revalence path
     try:
         if template.vertices_revalence is not None:
-            for xys in template.vertices_revalence:
-                # xys = template.vertices_revalence
-                xs = [xys[k][index_x] for k in range(len(xys))]
-                ys = [xys[k][index_y] for k in range(len(xys))]
+            for reval_path in template.vertices_revalence:
+                xs, ys = zip(*reval_path)
                 plt.plot(
                     xs, ys, linestyle="dotted", linewidth=1.0, color="black", alpha=0.3
                 )
@@ -105,7 +87,6 @@ def plot_template(template, *, dual_shown=False, plot_shown=False, serialize=Fal
         print("Warning: this template must specify hanging vertices or None.")
 
     # ax.set_ylim([0.0 - 2 * _eps, 1.0 + 2 * _eps])
-
     # ax.legend(bbox_to_anchor=(1.05, 1), loc="upper left", borderaxespad=0.0)
 
     ax.set_aspect("equal")
@@ -120,8 +101,6 @@ def plot_template(template, *, dual_shown=False, plot_shown=False, serialize=Fal
     ax.set_xlabel(r"$x$")
     ax.set_ylabel(r"$y$")
 
-    # ax.set_xticks([0, 1, 2, 3, 4])
-    # ax.set_yticks([0, 1, 2, 3, 4])
     ax.set_xticks([-1, -0.5, 0, 0.5, 1])
     ax.set_yticks([-1, -0.5, 0, 0.5, 1])
 
@@ -138,13 +117,13 @@ def plot_template(template, *, dual_shown=False, plot_shown=False, serialize=Fal
 
 def main():
 
-    dual = True
-    show = False
-    save = True
+    dual: Final = True
+    show: Final = False
+    save: Final = True
 
     # The six unique transitions
     # plot_template(dq.Template_0000(), dual_shown=dual, plot_shown=show, serialize=save)
-    # plot_template(dq.Template_0001(), dual_shown=dual, plot_shown=show, serialize=save)
+    plot_template(dq.Template_0001(), dual_shown=dual, plot_shown=show, serialize=save)
     # plot_template(dq.Template_0011(), dual_shown=dual, plot_shown=show, serialize=save)
     # plot_template(dq.Template_0110(), dual_shown=dual, plot_shown=show, serialize=save)
     # plot_template(dq.Template_0111(), dual_shown=dual, plot_shown=show, serialize=save)
@@ -172,11 +151,11 @@ def main():
 
     # The weakly balanced transition
     # plot_template(dq.Template_0112(), dual_shown=dual, plot_shown=show, serialize=save)
-    # #
-    # # based on Template_0112
+    #
+    # based on Template_0112
     # plot_template(dq.Template_1021(), dual_shown=dual, plot_shown=show, serialize=save)
     # plot_template(dq.Template_1201(), dual_shown=dual, plot_shown=show, serialize=save)
-    plot_template(dq.Template_2110(), dual_shown=dual, plot_shown=show, serialize=save)
+    # plot_template(dq.Template_2110(), dual_shown=dual, plot_shown=show, serialize=save)
 
 
 if __name__ == "__main__":

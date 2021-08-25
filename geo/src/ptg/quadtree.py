@@ -458,47 +458,6 @@ class QuadTree:
             cell=self.cell, level=0, quad_levels_recursive_subset=_quad_levels_recursive
         )
         return _mesh_dual
-        # quads_recursive = ((1,), (1,), (1,), ((2,), (2,), (2,), ((3,), (3,), (3,), (3,))))
-
-        # _cell = self.cell
-
-        # _quads_recursive = self.quad_levels_recursive()
-        # _quad_corners = tuple(len(corner) for corner in _quads_recursive)
-        # # for example, _quad_corners == (1, 1, 1, 4)
-
-        # _template_key = template_key(quad_corners=_quad_corners)
-        # # for example, _template_key == "key_0001"
-        # _factory = TemplateFactory()
-
-        # _template = getattr(_factory, _template_key)
-        # # for example, _template.name == "0001"
-
-        # _scaled_translated_vertices_dual = scale_then_translate(
-        #     ref=_template.vertices_dual, scale=_cell.size, translate=_cell.center
-        # )
-
-        # # return (_template.vertices_dual, _template.faces_dual)
-        # return (_scaled_translated_vertices_dual, _template.faces_dual)
-
-    # def duals(self):
-    #     """Returns the dual template(s) embedded in the QuadTree.
-    #     See
-    #     https://github.com/sandialabs/sibl/blob/master/geo/doc/dual_quad_transitions.md
-    #     for the has illustrations.
-
-    #     Returns:
-    #         A tuple of the dual template(s) embedded by the QuadTree.
-    #     """
-    #     if self.level_max < 1:
-    #         raise ValueError(
-    #             "level_max must be one or greater for dual template to exist."
-    #         )
-
-    #     if self.level_max == 1:
-    #         return (DualHash(sw=0, nw=0, se=0, ne=0),)
-
-    #     _quad_levels = QuadTree._quad_levels(cell=self.cell, level=0)
-    #     return _quad_levels
 
     def quad_levels_recursive(self) -> tuple[tuple[int, ...], ...]:
         qls = QuadTree._quad_levels(cell=self.cell, level=0)
