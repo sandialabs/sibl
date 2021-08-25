@@ -1,7 +1,7 @@
 from typing import NamedTuple, Union, Iterable
 from functools import reduce
 import math
-from itertools import permutations
+from itertools import permutations, repeat
 
 import ptg.dual_quad as dual_quad
 
@@ -52,12 +52,6 @@ class Quad(NamedTuple):
     nw: Vertex  # northwest corner
 
 
-# Reference: recursive type hinting:
-# https://stackoverflow.com/questions/53845024/defining-a-recursive-type-hint-in-python
-# Garthoks = Union[Garthok, Iterable['Garthoks']]
-Quads = Union[Iterable["Quads"], tuple[Quad, ...]]  # support for recursive type hint
-
-
 class Mesh(NamedTuple):
     """Creates a mesh, which consists of a tuple of coordinates and
     a tuple of connectivity.
@@ -69,6 +63,13 @@ class Mesh(NamedTuple):
 
     coordinates: tuple[Coordinate, ...]
     connectivity: tuple[tuple[int, int, int, int], ...]
+
+
+# Reference: recursive type hinting:
+# https://stackoverflow.com/questions/53845024/defining-a-recursive-type-hint-in-python
+# Garthoks = Union[Garthok, Iterable['Garthoks']]
+Quads = Union[Iterable["Quads"], tuple[Quad, ...]]  # support for recursive type hint
+Meshes = Union[Iterable["Meshes"], tuple[Mesh, ...]]
 
 
 class DualHash(NamedTuple):
@@ -545,9 +546,15 @@ class QuadTree:
             # return cell.level
             return (level,)
 
+    # def _mesh_dual(
+    #     *, cell: Cell, level: int, quad_levels_recursive_subset: tuple
+    # ) -> Union[Meshes, tuple[Mesh]]:
     @staticmethod
     def _mesh_dual(*, cell: Cell, level: int, quad_levels_recursive_subset: tuple):
         """Returns the dual mesh encoded by the QuadTree."""
+
+        if cell.has_children is False:
+            return  # no further refinement occur
 
         _factory = TemplateFactory()
 
@@ -570,6 +577,28 @@ class QuadTree:
 
                 # A known template cannot be fit to the combination of quad_corners,
                 # so recursively march down until a key is found.
+                # Also, capture the topology of the parent template, append to the
+                # end of the recursion.
+
+                n_parent_sw = len(subset_sw)
+                n_parent_nw = len(subset_nw)
+                n_parent_se = len(subset_se)
+                n_parent_ne = len(subset_ne)
+
+                quad_levels_recursive_parent = tuple(
+                    [
+                        tuple(repeat(level, n_parent_sw)),
+                        tuple(repeat(level, n_parent_nw)),
+                        tuple(repeat(level, n_parent_se)),
+                        tuple(repeat(level, n_parent_ne)),
+                    ]
+                )
+
+                # _template_key_parent = template_key(
+                #     quad_corners=tuple(
+                #         [n_parent_sw, n_parent_nw, n_parent_se, n_parent_ne]
+                #     )
+                # )
 
                 return (
                     QuadTree._mesh_dual(
@@ -592,6 +621,11 @@ class QuadTree:
                         level=level + 1,
                         quad_levels_recursive_subset=subset_ne,
                     ),
+                    QuadTree._mesh_dual(
+                        cell=cell,
+                        level=level,
+                        quad_levels_recursive_subset=quad_levels_recursive_parent,
+                    ),
                 )
 
             else:
@@ -602,7 +636,9 @@ class QuadTree:
                 assert _template
 
                 _scaled_translated_vertices_dual = scale_then_translate(
-                    ref=_template.vertices_dual, scale=cell.size, translate=cell.center
+                    ref=_template.vertices_dual,
+                    scale=cell.size / 2.0,
+                    translate=cell.center,
                 )
 
                 _new_coordinates = coordinates(pairs=_scaled_translated_vertices_dual)
@@ -610,7 +646,7 @@ class QuadTree:
                 # return (_template.vertices_dual, _template.faces_dual)
                 # return (_scaled_translated_vertices_dual, _template.faces_dual)
                 mesh = Mesh(
-                    coordinates=_new_coordinates, connectivity=_template.vertices_dual
+                    coordinates=_new_coordinates, connectivity=_template.faces_dual
                 )
                 return (mesh,)
                 # return 42

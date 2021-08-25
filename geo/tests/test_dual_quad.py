@@ -8,6 +8,7 @@ To run
 
 import math
 from itertools import chain
+from typing import Final
 
 import ptg.dual_quad as dquad
 
@@ -143,7 +144,7 @@ def test_Template_0100():
     assert template
     assert template.name == "0100"
 
-    TOL = 1.0e-9
+    TOL: Final = 1.0e-9
 
     # template vertices
     known = (
@@ -833,5 +834,5 @@ def test_rotate():
     fx, fy = zip(*found)
     founds = fx + fy
 
-    tol = 1.0e-9
-    assert all(map(lambda a, b: abs(a - b) < tol, knowns, founds))
+    TOL: Final = 1.0e-9
+    assert all(map(lambda a, b: abs(a - b) < TOL, knowns, founds))

@@ -273,48 +273,6 @@ def test_quads_and_levels():
     )
 
 
-# def test_duals():
-#     """Tests dual quads in the quad tree."""
-#     ctr = qt.Coordinate(x=0.0, y=0.0)
-#     cell = qt.Cell(center=ctr, size=2.0)
-#     points = tuple([qt.Coordinate(0.6, -0.6)])
-#
-#     # this portion of the test no longer relevant
-#     # # level_max = 0, base domain, no cell division
-#     # tree = qt.QuadTree(cell=cell, level=0, level_max=0, points=points)
-#     # quads = tree.quads()
-#     # assert len(quads) == 1
-#     # assert len(quads[0]) == 4
-#     # quad_levels = tree.quad_levels()
-#     # assert quad_levels == (0,)
-#     # with pytest.raises(ValueError):
-#     #     _ = tree.duals()
-#
-#     # level_max = 1, single cell division, four quads
-#     tree = qt.QuadTree(cell=cell, level=0, level_max=1, points=points)
-#     quads = tree.quads()
-#     assert len(quads) == 4
-#     assert len(quads[0]) == 4
-#     quad_levels = tree.quad_levels()
-#     assert quad_levels == (
-#         1,
-#         1,
-#         1,
-#         1,
-#     )
-#     duals = tree.duals()
-#     assert duals == (qt.DualHash(sw=0, nw=0, se=0, ne=0),)
-#
-#     # level_max = 2, one to four cell division(s), seven to 16 quads in general, and
-#     # this example, with one trigger point, generates seven quads, and the
-#     # 0001 dual factory template.
-#     tree = qt.QuadTree(cell=cell, level=0, level_max=2, points=points)
-#     quads = tree.quads()
-#     assert len(quads) == 7
-#     duals = tree.duals()
-#     # assert duals == (qt.DualHash(sw=0, nw=0, se=0, ne=0),)
-
-
 def test_manual_0000():
     quads_recursive = ((1,), (1,), (1,), (1,))
     quad_corners = tuple(len(corner) for corner in quads_recursive)
@@ -415,20 +373,6 @@ def test_manual_0112():
     assert template.name == "0112"
 
 
-@pytest.mark.skip("Work in progress.")
-def test_manual_nested_0001():
-    quads_recursive = ((1,), (1,), (1,), ((2,), (2,), (2,), ((3,), (3,), (3,), (3,))))
-    quad_corners = tuple(len(corner) for corner in quads_recursive)
-    assert quad_corners == (1, 1, 1, 4)
-
-    template_key = qt.template_key(quad_corners=quad_corners)
-    assert template_key == "key_0001"
-    factory = qt.TemplateFactory()
-
-    template = getattr(factory, template_key)
-    assert template.name == "0001"
-
-
 def test_scale_then_translate():
     ref = qt.coordinates(pairs=((-1.0, -1.0), (1.0, -1.0), (1.0, 1.0), (-1.0, 1.0)))
 
@@ -483,30 +427,98 @@ def test_known_quad_corners():
         assert not qt.known_quad_corners(quad_corners=item)
 
 
-# @pytest.mark.skip("Work in progress.")
-@pytest.mark.skip("Work in progress.")
-def test_dual_mesh_0000():
+def test_static_mesh_dual():
     ctr = qt.Coordinate(x=0.0, y=0.0)
     cell = qt.Cell(center=ctr, size=2.0)
-    # Generate template_0000 with level_max = 1
-    # Generate template_1000 with level_max = 2
-    points = tuple([qt.Coordinate(-0.6, -0.6)])
+    points = tuple([qt.Coordinate(0.6, 0.6)])
 
-    level_max = 3
-    tree = qt.QuadTree(cell=cell, level=0, level_max=level_max, points=points)
-    # quads = tree.quads()
-    # quad_levels = tree.quad_levels()
-    # quad_levels_recursive = tree.quad_levels_recursive()
+    # test key_0000 dual mesh construction
+    tree = qt.QuadTree(cell=cell, level=0, level_max=1, points=points)
     mesh_dual = tree.mesh_dual()
+
+    known_coordinates = ((-0.5, -0.5), (-0.5, 0.5), (0.5, -0.5), (0.5, 0.5))
+    known_connectivity = ((0, 2, 3, 1),)
+
+    found_coordinates = mesh_dual[0].coordinates
+    found_connectivity = mesh_dual[0].connectivity
+
+    assert known_coordinates == found_coordinates
+    assert known_connectivity == found_connectivity
+
+    # test key_0001
+    tree = qt.QuadTree(cell=cell, level=0, level_max=2, points=points)
+    mesh_dual = tree.mesh_dual()
+
+    known_coordinates = (
+        (-0.5, -0.5),
+        (-0.5, 0.5),
+        (-0.1665, -0.1665),
+        (-0.1665, 0.1665),
+        (0.1665, -0.1665),
+        (0.25, 0.25),
+        (0.25, 0.75),
+        (0.5, -0.5),
+        (0.75, 0.25),
+        (0.75, 0.75),
+    )
+
+    known_connectivity = (
+        (0, 2, 3, 1),
+        (0, 7, 4, 2),
+        (2, 4, 5, 3),
+        (3, 5, 6, 1),
+        (4, 7, 8, 5),
+        (5, 8, 9, 6),
+    )
+
+    found_coordinates = mesh_dual[0].coordinates
+    found_connectivity = mesh_dual[0].connectivity
+
+    assert known_coordinates == found_coordinates
+    assert known_connectivity == found_connectivity
+
+    # test key_0001 nested once with self
+    tree = qt.QuadTree(cell=cell, level=0, level_max=3, points=points)
+    mesh_dual = tree.mesh_dual()
+
+    known_coordinates_child = (
+        (0.25, 0.25),
+        (0.25, 0.75),
+        (0.41675, 0.41675),
+        (0.41675, 0.58325),
+        (0.58325, 0.41675),
+        (0.625, 0.625),
+        (0.625, 0.875),
+        (0.75, 0.25),
+        (0.875, 0.625),
+        (0.875, 0.875),
+    )
+
+    known_coordinates_parent = (
+        (-0.5, -0.5),
+        (-0.5, 0.5),
+        (-0.1665, -0.1665),
+        (-0.1665, 0.1665),
+        (0.1665, -0.1665),
+        (0.25, 0.25),
+        (0.25, 0.75),
+        (0.5, -0.5),
+        (0.75, 0.25),
+        (0.75, 0.75),
+    )
+
+    # known_connectivity is unchanged from above
+
+    found_coordinates_child = mesh_dual[3][0].coordinates
+    found_connectivity = mesh_dual[3][0].connectivity
+
+    assert known_coordinates_child == found_coordinates_child
+    assert known_connectivity == found_connectivity
+
+    found_coordinates_parent = mesh_dual[4][0].coordinates
+    found_connectivity = mesh_dual[4][0].connectivity
+
+    assert known_coordinates_parent == found_coordinates_parent
+    assert known_connectivity == found_connectivity
+
     aa = 4
-
-    # Generate template_0011
-    # points = tuple([qt.Coordinate(0.6, 0.6), qt.Coordinate(0.6, -0.6)])
-
-    # Generate template_0110
-    # points = tuple([qt.Coordinate(-0.6, 0.6), qt.Coordinate(0.6, -0.6)])
-
-    # Generate template_0111
-    # points = tuple(
-    #     [qt.Coordinate(-0.6, 0.6), qt.Coordinate(0.6, 0.6), qt.Coordinate(0.6, -0.6)]
-    # )
