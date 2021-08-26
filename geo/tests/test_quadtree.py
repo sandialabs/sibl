@@ -441,6 +441,8 @@ def test_static_mesh_dual():
 
     found_coordinates = mesh_dual[0].coordinates
     found_connectivity = mesh_dual[0].connectivity
+    # found_coordinates = mesh_dual.coordinates
+    # found_connectivity = mesh_dual.connectivity
 
     assert known_coordinates == found_coordinates
     assert known_connectivity == found_connectivity
@@ -473,6 +475,8 @@ def test_static_mesh_dual():
 
     found_coordinates = mesh_dual[0].coordinates
     found_connectivity = mesh_dual[0].connectivity
+    # found_coordinates = mesh_dual.coordinates
+    # found_connectivity = mesh_dual.connectivity
 
     assert known_coordinates == found_coordinates
     assert known_connectivity == found_connectivity
@@ -509,16 +513,12 @@ def test_static_mesh_dual():
 
     # known_connectivity is unchanged from above
 
-    found_coordinates_child = mesh_dual[3][0].coordinates
-    found_connectivity = mesh_dual[3][0].connectivity
-
-    assert known_coordinates_child == found_coordinates_child
-    assert known_connectivity == found_connectivity
-
-    found_coordinates_parent = mesh_dual[4][0].coordinates
-    found_connectivity = mesh_dual[4][0].connectivity
-
+    found_coordinates_parent = mesh_dual[0].coordinates
+    found_connectivity = mesh_dual[0].connectivity
     assert known_coordinates_parent == found_coordinates_parent
     assert known_connectivity == found_connectivity
 
-    aa = 4
+    found_coordinates_child = mesh_dual[1].coordinates
+    found_connectivity = mesh_dual[1].connectivity
+    assert known_coordinates_child == found_coordinates_child
+    assert known_connectivity == found_connectivity

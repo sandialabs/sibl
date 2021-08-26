@@ -512,9 +512,6 @@ class QuadTree:
     def _mesh_dual(*, cell: Cell, level: int, quad_levels_recursive_subset: tuple):
         """Returns the dual mesh encoded by the QuadTree."""
 
-        if cell.has_children is False:
-            return  # no further refinement occur
-
         _factory = TemplateFactory()
 
         if cell.has_children:
@@ -553,39 +550,45 @@ class QuadTree:
                     ]
                 )
 
-                # _template_key_parent = template_key(
-                #     quad_corners=tuple(
-                #         [n_parent_sw, n_parent_nw, n_parent_se, n_parent_ne]
-                #     )
-                # )
+                _subquads = QuadTree._mesh_dual(
+                    cell=cell,
+                    level=level,
+                    quad_levels_recursive_subset=quad_levels_recursive_parent,
+                )
 
-                return (
-                    QuadTree._mesh_dual(
+                if cell.sw.has_children:
+                    _subquad_sw = QuadTree._mesh_dual(
                         cell=cell.sw,
                         level=level + 1,
                         quad_levels_recursive_subset=subset_sw,
-                    ),
-                    QuadTree._mesh_dual(
+                    )
+                    _subquads = _subquads + _subquad_sw
+
+                if cell.nw.has_children:
+                    _subquad_nw = QuadTree._mesh_dual(
                         cell=cell.nw,
                         level=level + 1,
                         quad_levels_recursive_subset=subset_nw,
-                    ),
-                    QuadTree._mesh_dual(
+                    )
+                    _subquads = _subquads + _subquad_nw
+
+                if cell.se.has_children:
+                    _subquad_se = QuadTree._mesh_dual(
                         cell=cell.se,
                         level=level + 1,
                         quad_levels_recursive_subset=subset_se,
-                    ),
-                    QuadTree._mesh_dual(
+                    )
+                    _subquads = _subquads + _subquad_se
+
+                if cell.ne.has_children:
+                    _subquad_ne = QuadTree._mesh_dual(
                         cell=cell.ne,
                         level=level + 1,
                         quad_levels_recursive_subset=subset_ne,
-                    ),
-                    QuadTree._mesh_dual(
-                        cell=cell,
-                        level=level,
-                        quad_levels_recursive_subset=quad_levels_recursive_parent,
-                    ),
-                )
+                    )
+                    _subquads = _subquads + _subquad_ne
+
+                return _subquads
 
             else:
                 # A known template can be constructed.
@@ -602,12 +605,11 @@ class QuadTree:
 
                 _new_coordinates = coordinates(pairs=_scaled_translated_vertices_dual)
 
-                # return (_template.vertices_dual, _template.faces_dual)
-                # return (_scaled_translated_vertices_dual, _template.faces_dual)
                 mesh = Mesh(
                     coordinates=_new_coordinates, connectivity=_template.faces_dual
                 )
                 return (mesh,)
+                # return mesh
                 # return 42
 
     @staticmethod
