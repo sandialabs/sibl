@@ -459,7 +459,8 @@ class QuadTree:
         return _mesh_dual
 
     # def quad_levels_recursive(self) -> Ints:
-    def quad_levels_recursive(self) -> tuple[tuple[int, ...], ...]:
+    # def quad_levels_recursive(self) -> tuple[tuple[int, ...], ...]:
+    def quad_levels_recursive(self):
         qls = QuadTree._quad_levels(cell=self.cell, level=0)
         return qls
 
@@ -490,9 +491,7 @@ class QuadTree:
 
     # def _quad_levels(*, cell: Cell, level: int) -> Ints:
     @staticmethod
-    def _quad_levels(
-        *, cell: Cell, level: int
-    ) -> Union[Iterable[tuple[int, ...]], tuple[int, ...]]:
+    def _quad_levels(*, cell: Cell, level: int):
         """Given a cell, returns the cell's quad levels, and (recursively) the quad
         levels of the cell's children, grandchildren, et cetera.  Recursion ends when
         a cell level has no children.
@@ -610,10 +609,11 @@ class QuadTree:
             mesh = Mesh(coordinates=_new_coordinates, connectivity=_template.faces_dual)
             return (mesh,)
 
+    # def _tuple_flatten(
+    #     nested: Union[Iterable[tuple[int, ...]], tuple[int, ...]]
+    # ) -> Iterable[int]:
     @staticmethod
-    def _tuple_flatten(
-        nested: Union[Iterable[tuple[int, ...]], tuple[int, ...]]
-    ) -> Iterable[int]:
+    def _tuple_flatten(nested) -> Iterable[int]:
         """Given a tuple of items, yields a tuple item in a flattened sequence.
         Example:
             Given:
