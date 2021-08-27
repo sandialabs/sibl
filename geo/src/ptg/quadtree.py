@@ -1,4 +1,4 @@
-from typing import NamedTuple, Union, Iterable
+from typing import Iterable, NamedTuple, Tuple, Union
 from functools import reduce
 import math
 from itertools import permutations, repeat
@@ -68,9 +68,13 @@ class Mesh(NamedTuple):
 # Reference: recursive type hinting:
 # https://stackoverflow.com/questions/53845024/defining-a-recursive-type-hint-in-python
 # Garthoks = Union[Garthok, Iterable['Garthoks']]
+# and
+# Forward references:
+# https://www.python.org/dev/peps/pep-0484/#forward-references
 Quads = Union[Iterable["Quads"], tuple[Quad, ...]]  # support for recursive type hint
 Meshes = Union[Iterable["Meshes"], tuple[Mesh, ...]]
 # Ints = Union[Iterable["Ints"], tuple[int, ...]]
+NestedInts = Union[Tuple[int], Iterable["NestedInts"]]
 
 
 class DualHash(NamedTuple):
@@ -458,17 +462,13 @@ class QuadTree:
         )
         return _mesh_dual
 
-    # def quad_levels_recursive(self) -> Ints:
-    # def quad_levels_recursive(self) -> tuple[tuple[int, ...], ...]:
-    def quad_levels_recursive(self):
+    def quad_levels_recursive(self) -> NestedInts:
         qls = QuadTree._quad_levels(cell=self.cell, level=0)
         return qls
 
-    # def quad_levels(self) -> Int:
     def quad_levels(self) -> tuple[int, ...]:
-        # qls = QuadTree._quad_levels(cell=self.cell, level=0)
         qls = self.quad_levels_recursive()
-        return tuple(QuadTree._tuple_flatten(qls))
+        return tuple(QuadTree._levels_flatten(nested=qls))
 
     @staticmethod
     def _child_vertices(
@@ -491,7 +491,7 @@ class QuadTree:
 
     # def _quad_levels(*, cell: Cell, level: int) -> Ints:
     @staticmethod
-    def _quad_levels(*, cell: Cell, level: int):
+    def _quad_levels(*, cell: Cell, level: int) -> NestedInts:
         """Given a cell, returns the cell's quad levels, and (recursively) the quad
         levels of the cell's children, grandchildren, et cetera.  Recursion ends when
         a cell level has no children.
@@ -523,10 +523,10 @@ class QuadTree:
         subset_se = quad_levels_recursive_subset[2]
         subset_ne = quad_levels_recursive_subset[3]
 
-        n_nested_sw = len(tuple(QuadTree._tuple_flatten(subset_sw)))
-        n_nested_nw = len(tuple(QuadTree._tuple_flatten(subset_nw)))
-        n_nested_se = len(tuple(QuadTree._tuple_flatten(subset_se)))
-        n_nested_ne = len(tuple(QuadTree._tuple_flatten(subset_ne)))
+        n_nested_sw = len(tuple(QuadTree._levels_flatten(subset_sw)))
+        n_nested_nw = len(tuple(QuadTree._levels_flatten(subset_nw)))
+        n_nested_se = len(tuple(QuadTree._levels_flatten(subset_se)))
+        n_nested_ne = len(tuple(QuadTree._levels_flatten(subset_ne)))
 
         _template_key = template_key(
             quad_corners=tuple([n_nested_sw, n_nested_nw, n_nested_se, n_nested_ne])
@@ -609,12 +609,10 @@ class QuadTree:
             mesh = Mesh(coordinates=_new_coordinates, connectivity=_template.faces_dual)
             return (mesh,)
 
-    # def _tuple_flatten(
-    #     nested: Union[Iterable[tuple[int, ...]], tuple[int, ...]]
-    # ) -> Iterable[int]:
     @staticmethod
-    def _tuple_flatten(nested) -> Iterable[int]:
-        """Given a tuple of items, yields a tuple item in a flattened sequence.
+    def _levels_flatten(nested: NestedInts) -> Iterable[int]:
+        """Given a tuple of nest ints, yields an int in a flattened sequence.
+
         Example:
             Given:
             ((1,), (1,), (1,), ((2,), (2,), (2,), (2,)))
@@ -623,7 +621,7 @@ class QuadTree:
         """
         for i in nested:
             # yield from [i] if not isinstance(i, tuple) else QuadTree._tuple_flatten(i)
-            yield from [i] if isinstance(i, int) else QuadTree._tuple_flatten(i)
+            yield from [i] if isinstance(i, int) else QuadTree._levels_flatten(i)
 
     @staticmethod
     def _quads_flatten(nested: Quads) -> Iterable[Quad]:

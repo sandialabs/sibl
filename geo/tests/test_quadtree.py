@@ -20,19 +20,19 @@ def test_coordinates():
         assert point == qt.Coordinate(pairs[k][0], pairs[k][1])
 
 
-def test_tuple_flatten_pairs():
+def test_levels_flatten_pairs():
 
     given = (
         ((0, 0), (1, 0), (1, 1), (0, 1)),
         (((10, 10), (11, 10), (11, 11), (10, 11))),
     )
-    found = tuple(qt.QuadTree._tuple_flatten(given))
+    found = tuple(qt.QuadTree._levels_flatten(given))
     known = (0, 0, 1, 0, 1, 1, 0, 1, 10, 10, 11, 10, 11, 11, 10, 11)
 
     assert found == known
 
 
-def test_tuple_flatten_singletons():
+def test_levels_flatten_singletons():
     given = (
         (
             ((0,), 1),
@@ -40,15 +40,15 @@ def test_tuple_flatten_singletons():
         ),
         3,
     )
-    found = tuple(qt.QuadTree._tuple_flatten(given))
+    found = tuple(qt.QuadTree._levels_flatten(given))
     known = (0, 1, 2, 3)
     assert found == known
 
 
-def test_tuple_flatten_recursion_pattern():
+def test_levels_flatten_recursion_pattern():
     given = ((1,), (1,), (1,), ((2,), (2,), (2,), (2,)))
 
-    found = tuple(qt.QuadTree._tuple_flatten(given))
+    found = tuple(qt.QuadTree._levels_flatten(given))
     known = (1, 1, 1, 2, 2, 2, 2)
     assert found == known
 
