@@ -143,12 +143,12 @@ def main():
     if nested_0001:
         mesh_dual = tree.mesh_dual()
 
-        meshes = tuple(filter(lambda x: x is not None, mesh_dual))
+        # meshes = tuple(filter(lambda x: x is not None, mesh_dual))
 
-        for mesh in meshes:
+        for mesh in mesh_dual:
 
-            coordinates = mesh[0].coordinates
-            faces = mesh[0].connectivity
+            coordinates = mesh.coordinates
+            faces = mesh.connectivity
             xs = tuple(map(lambda item: item.x, coordinates))
             ys = tuple(map(lambda item: item.y, coordinates))
 
