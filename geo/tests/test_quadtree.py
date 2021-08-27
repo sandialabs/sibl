@@ -45,6 +45,14 @@ def test_tuple_flatten_singletons():
     assert found == known
 
 
+def test_tuple_flatten_recursion_pattern():
+    given = ((1,), (1,), (1,), ((2,), (2,), (2,), (2,)))
+
+    found = tuple(qt.QuadTree._tuple_flatten(given))
+    known = (1, 1, 1, 2, 2, 2, 2)
+    assert found == known
+
+
 def test_cell():
     ctr = qt.Coordinate(x=3.0, y=4.0)
     cell = qt.Cell(center=ctr, size=12.0)
