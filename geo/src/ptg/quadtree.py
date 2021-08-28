@@ -1,4 +1,4 @@
-from typing import Iterable, NamedTuple, Union
+from typing import Final, Iterable, NamedTuple, Union
 from functools import reduce
 import math
 from itertools import permutations, repeat
@@ -538,18 +538,21 @@ class QuadTree:
 
             # A known template cannot be fit to the combination of quad_corners,
             # so recursively march down until a key is found.
-            # Also, capture the topology of the parent template, append to the
-            # end of the recursion.
+            # Also, capture the topology of the parent template, prepend to the
+            # beginning of the recursion.
 
             # example: (1, 1, 1, 4) for Template_0001 parent
             n_parent_quads = tuple(
                 map(lambda x: len(x), (subset_sw, subset_nw, subset_se, subset_ne))
             )
 
-            # example: ((1,), (1,), (1,), ((2,), (2,), (2,), (2,)))
+            # Example: ((1,), (1,), (1,), ((2,), (2,), (2,), (2,)))
+            n_subquads_per_quad: Final = 4  # given transition from level -> level + 1
             quad_levels_recursive_parent = tuple(
                 (
-                    (level + 1,) if x == 1 else tuple(repeat((level + 2,), 4))
+                    (level + 1,)
+                    if x == 1
+                    else tuple(repeat((level + 2,), n_subquads_per_quad))
                     for x in n_parent_quads
                 )
             )
@@ -595,9 +598,8 @@ class QuadTree:
             return _subquads
 
         else:
-            # A known template can be constructed.
+            # A known template can be constructed.  Example, _template.name == "0001"
             _template = getattr(_factory, _template_key, None)
-            # for example, _template.name == "0001"
             assert _template  # _template should never be None at this point
 
             _scaled_translated_vertices_dual = scale_then_translate(

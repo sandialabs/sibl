@@ -449,8 +449,6 @@ def test_static_mesh_dual():
 
     found_coordinates = mesh_dual[0].coordinates
     found_connectivity = mesh_dual[0].connectivity
-    # found_coordinates = mesh_dual.coordinates
-    # found_connectivity = mesh_dual.connectivity
 
     assert known_coordinates == found_coordinates
     assert known_connectivity == found_connectivity
@@ -483,8 +481,6 @@ def test_static_mesh_dual():
 
     found_coordinates = mesh_dual[0].coordinates
     found_connectivity = mesh_dual[0].connectivity
-    # found_coordinates = mesh_dual.coordinates
-    # found_connectivity = mesh_dual.connectivity
 
     assert known_coordinates == found_coordinates
     assert known_connectivity == found_connectivity
@@ -492,19 +488,6 @@ def test_static_mesh_dual():
     # test key_0001 nested once with self
     tree = qt.QuadTree(cell=cell, level=0, level_max=3, points=points)
     mesh_dual = tree.mesh_dual()
-
-    known_coordinates_child = (
-        (0.25, 0.25),
-        (0.25, 0.75),
-        (0.41675, 0.41675),
-        (0.41675, 0.58325),
-        (0.58325, 0.41675),
-        (0.625, 0.625),
-        (0.625, 0.875),
-        (0.75, 0.25),
-        (0.875, 0.625),
-        (0.875, 0.875),
-    )
 
     known_coordinates_parent = (
         (-0.5, -0.5),
@@ -517,6 +500,19 @@ def test_static_mesh_dual():
         (0.5, -0.5),
         (0.75, 0.25),
         (0.75, 0.75),
+    )
+
+    known_coordinates_child = (
+        (0.25, 0.25),
+        (0.25, 0.75),
+        (0.41675, 0.41675),
+        (0.41675, 0.58325),
+        (0.58325, 0.41675),
+        (0.625, 0.625),
+        (0.625, 0.875),
+        (0.75, 0.25),
+        (0.875, 0.625),
+        (0.875, 0.875),
     )
 
     # known_connectivity is unchanged from above
