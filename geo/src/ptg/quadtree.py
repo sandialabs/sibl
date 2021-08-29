@@ -27,10 +27,10 @@ def coordinates(*, pairs: tuple[tuple[float, float], ...]) -> tuple[Coordinate, 
             representation of the pairs.
     """
 
-    # Chad, upzip these, way more Pythonic!  -Chad
     # xs = tuple(pairs[k][0] for k in range(len(pairs)))
     # ys = tuple(pairs[k][1] for k in range(len(pairs)))
     xs, ys = zip(*pairs)
+    # cs = tuple(Coordinate(x=pairs[i][0], y=pairs[i][1]) for i in range(len(pairs)))
     cs = tuple(map(Coordinate, xs, ys))  # coordinates
     return cs
 
@@ -195,18 +195,15 @@ def scale_then_translate(
     if scale <= 0.0:
         raise ValueError("Error: scale must be positive.")
 
-    # Chad, upzip these, way more Pythonic!  -Chad
-    # xs = tuple(ref[k][0] for k in range(len(ref)))
-    # ys = tuple(ref[k][1] for k in range(len(ref)))
     xs, ys = zip(*ref)
 
-    # Chad, map these, way more Pythonic!  -Chad
     # xnew = tuple(xs[k] * scale + translate.x for k in range(len(xs)))
     # ynew = tuple(ys[k] * scale + translate.y for k in range(len(ys)))
-    xnew = tuple(map(lambda x: x * scale + translate.x, xs))
-    ynew = tuple(map(lambda y: y * scale + translate.y, ys))
+    # xnew = tuple(map(lambda x: x * scale + translate.x, xs))
+    # ynew = tuple(map(lambda y: y * scale + translate.y, ys))
+    xnew = tuple([xi * scale + translate.x for xi in xs])
+    ynew = tuple([yi * scale + translate.y for yi in ys])
 
-    # Chad, zip these, way more Pythonic!  -Chad
     # new = tuple((xnew[k], ynew[k]) for k in range(len(ref)))
     # new = tuple(zip(xnew, ynew))
     new = coordinates(pairs=tuple(zip(xnew, ynew)))
@@ -542,8 +539,11 @@ class QuadTree:
             # beginning of the recursion.
 
             # example: (1, 1, 1, 4) for Template_0001 parent
+            # n_parent_quads = tuple(
+            #     map(lambda x: len(x), (subset_sw, subset_nw, subset_se, subset_ne))
+            # )
             n_parent_quads = tuple(
-                map(lambda x: len(x), (subset_sw, subset_nw, subset_se, subset_ne))
+                [len(xi) for xi in (subset_sw, subset_nw, subset_se, subset_ne)]
             )
 
             # Example: ((1,), (1,), (1,), ((2,), (2,), (2,), (2,)))
