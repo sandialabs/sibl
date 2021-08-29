@@ -46,9 +46,10 @@ Created with [plot_quadtree.py](plot_quadtree.py) and C++/MATLAB.
 
 | before (unbalanced) | after (weakly balanced) |
 |:---:|:---:|
-| ![rebalance_pre](fig/rebalance_pre.png) | ![rebalance_post](fig/rebalance_post.png) |
-| ![plot_quadtree_npts_9](fig/plot_quadtree_npts_9.png) # boundary points = 9 | |
+| ![Line-5Pt-(sic9Pt)-before-2021-08-10](fig/Line-5Pt-sic9Pt-before-2021-08-10.png) # boundary points = 9 | ![Line-5Pt-sic9Pt-after-2021-10-08](fig/Line-5Pt-sic9Pt-after-2021-10-08.png) # boundary points = 9|
+| ![plot_quadtree_npts_9](fig/plot_quadtree_npts_9.png) # boundary points = 9 |  |
 | ![plot_quadtree_npts_5](fig/plot_quadtree_npts_5.png) # boundary points = 5 | |
+| ![Line-3Pt-before-2021-08-10](fig/Line-3Pt-before-2021-08-10.png) # boundary points = 9 | ![Line-3Pt-after-2021-10-08](fig/Line-3Pt-after-2021-10-08.png) # boundary points = 9|
 | ![plot_quadtree_npts_3](fig/plot_quadtree_npts_3.png) # boundary points = 3 | |
 
 ### Remark: Number of Boundary Points
