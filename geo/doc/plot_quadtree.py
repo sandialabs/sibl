@@ -21,7 +21,8 @@ def main():
     simple_example: Final = False
     quarter_brush: Final = False
     diagonal_example: Final = False
-    nested_0001: Final = True
+    nested_0001: Final = False
+    wall_0011: Final = True
     level_max: Final = 3
 
     if simple_example:
@@ -54,7 +55,21 @@ def main():
     elif nested_0001:
         ctr = qt.Coordinate(x=0.0, y=0.0)
         cell = qt.Cell(center=ctr, size=2.0)
-        points = tuple([qt.Coordinate(0.6, 0.6)])
+        points = tuple([qt.Coordinate(0.8, 0.8)])
+        _xticks = [-2, -1, 0, 1, 2]
+        _yticks = _xticks
+
+    elif wall_0011:
+        ctr = qt.Coordinate(x=0.0, y=0.0)
+        cell = qt.Cell(center=ctr, size=2.0)
+        points = tuple(
+            [
+                qt.Coordinate(0.8, 0.8),
+                qt.Coordinate(0.8, 0.2),
+                qt.Coordinate(0.8, -0.2),
+                qt.Coordinate(0.8, -0.8),
+            ]
+        )
         _xticks = [-2, -1, 0, 1, 2]
         _yticks = _xticks
 
@@ -140,7 +155,7 @@ def main():
     ys = tuple(point.y for point in points)
     ax.scatter(xs, ys, linestyle="solid", edgecolor="black", color="tab:red")
 
-    if nested_0001:
+    if nested_0001 or wall_0011:
         mesh_dual = tree.mesh_dual()
 
         # meshes = tuple(filter(lambda x: x is not None, mesh_dual))
