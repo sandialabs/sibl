@@ -202,7 +202,7 @@ class Template_0000(NamedTuple):
     )
 
 
-class Template_0001(NamedTuple):
+class Template_0001_Base(NamedTuple):
     """Creates the three level 1 (L1) and one level 2 (L2) data structure.
 
     The 0001 pattern and node numbers:
@@ -234,7 +234,7 @@ class Template_0001(NamedTuple):
       "*" is a hanging node, connect to create a four-valence
     """
 
-    name: str = "0001"
+    name: str = "0001_Base"
 
     vertices: tuple[Vertex, ...] = (
         (-1.0, -1.0),
@@ -308,10 +308,10 @@ class Template_0001(NamedTuple):
     )
 
 
-class Template_0001_base(NamedTuple):
+class Template_0001(NamedTuple):
     """Creates the three level 1 (L1) to fit with one level 2 (L2) data structure.
 
-    The 0001 to 0001_base pattern and node numbers:
+    The 0001_base to 0001 pattern and node numbers:
 
     2---------6----9---13         2---------6
     |         |    |    |         |         |
@@ -325,7 +325,7 @@ class Template_0001_base(NamedTuple):
 
     and with dual node numbers:
 
-                                      -6      -8
+                                      -6      -7
                                        @       @
     +---------+----+----+      -4@x----x----+--x
     |         |  6 |  9 |         |         |  6
@@ -337,7 +337,7 @@ class Template_0001_base(NamedTuple):
     |         |         |         |         |         |
     +---------+---------+      -1@x----x----+----x----x@-9
                                        @         @
-                                      -5        -7
+                                      -5        -8
 
     where
       "+" is a fully four-valenced node
@@ -345,7 +345,7 @@ class Template_0001_base(NamedTuple):
       "x" is a port, or formerly a "+" and now designated as a port
     """
 
-    name: str = "0001_base"
+    name: str = "0001"
 
     vertices: tuple[Vertex, ...] = (
         (-1.0, -1.0),  # 0
@@ -368,6 +368,7 @@ class Template_0001_base(NamedTuple):
     #         (0.5, 0.0),
     #     ),
     # )
+    vertices_revalence = None
 
     faces: tuple[Face, ...] = (
         (0, 3, 4, 1),
@@ -388,8 +389,8 @@ class Template_0001_base(NamedTuple):
         (1.0, 0.25),  # -11
         (1.0, -0.5),  # -10
         (1.0, -1.0),  # -9
-        (0.25, 1.0),  # -8
-        (0.5, -1.0),  # -7
+        (0.5, -1.0),  # -8
+        (0.25, 1.0),  # -7
         (-0.5, 1.0),  # -6
         (-0.5, -1.0),  # -5
         (-1.0, 1.0),  # -4
@@ -419,14 +420,15 @@ class Template_0001_base(NamedTuple):
     #     (1.0, -0.5),
     #     (1.0, 0.25),
     # )
+    ports: tuple[Port, ...] = vertices_dual[9:]
 
     faces_ports: tuple[Face, ...] = (
         (-1, -5, 0, -2),
         (-2, 0, 1, -3),
         (-3, 1, -6, -4),
-        (-5, -7, 7, 0),
-        (1, 6, -8, -6),
-        (-7, -9, -10, 7),
+        (-5, -8, 7, 0),
+        (1, 6, -7, -6),
+        (-8, -9, -10, 7),
         (7, -10, -11, 8),
     )
 
@@ -438,7 +440,7 @@ class Template_0010(NamedTuple):
 
     name: str = "0010"
 
-    _base = Template_0001()
+    _base = Template_0001_Base()
     _theta = -90.0  # degrees
     _angles = tuple(repeat(_theta, len(_base.vertices_revalence)))
 
@@ -462,7 +464,7 @@ class Template_0100(NamedTuple):
 
     name: str = "0100"
 
-    _base = Template_0001()
+    _base = Template_0001_Base()
     _theta = 90.0  # degrees
     _angles = tuple(repeat(_theta, len(_base.vertices_revalence)))
 
@@ -486,7 +488,7 @@ class Template_1000(NamedTuple):
 
     name: str = "1000"
 
-    _base = Template_0001()
+    _base = Template_0001_Base()
     _theta = 180.0  # degrees
     _angles = tuple(repeat(_theta, len(_base.vertices_revalence)))
 

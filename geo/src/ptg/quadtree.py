@@ -610,7 +610,17 @@ class QuadTree:
 
             _new_coordinates = coordinates(pairs=_scaled_translated_vertices_dual)
 
-            mesh = Mesh(coordinates=_new_coordinates, connectivity=_template.faces_dual)
+            # temporary hard code to test key_0001
+            if _template_key == "key_0001":
+                _new_connectivity = _template.faces_dual + _template.faces_ports
+                mesh = Mesh(
+                    coordinates=_new_coordinates, connectivity=_new_connectivity
+                )
+            else:
+                mesh = Mesh(
+                    coordinates=_new_coordinates, connectivity=_template.faces_dual
+                )
+
             return (mesh,)
 
     @staticmethod

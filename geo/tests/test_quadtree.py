@@ -435,7 +435,7 @@ def test_known_quad_corners():
         assert not qt.known_quad_corners(quad_corners=item)
 
 
-def test_static_mesh_dual():
+def test_static_mesh_dual_key_0000():
     ctr = qt.Coordinate(x=0.0, y=0.0)
     cell = qt.Cell(center=ctr, size=2.0)
     points = tuple([qt.Coordinate(0.6, 0.6)])
@@ -454,29 +454,83 @@ def test_static_mesh_dual():
     assert known_connectivity == found_connectivity
 
     # test key_0001
+    # tree = qt.QuadTree(cell=cell, level=0, level_max=2, points=points)
+    # mesh_dual = tree.mesh_dual()
+
+    # known_coordinates = (
+    #     (-0.5, -0.5),
+    #     (-0.5, 0.5),
+    #     (-0.1665, -0.1665),
+    #     (-0.1665, 0.1665),
+    #     (0.1665, -0.1665),
+    #     (0.25, 0.25),
+    #     (0.25, 0.75),
+    #     (0.5, -0.5),
+    #     (0.75, 0.25),
+    #     (0.75, 0.75),
+    # )
+
+    # known_connectivity = (
+    #     (0, 2, 3, 1),
+    #     (0, 7, 4, 2),
+    #     (2, 4, 5, 3),
+    #     (3, 5, 6, 1),
+    #     (4, 7, 8, 5),
+    #     (5, 8, 9, 6),
+    # )
+
+    # found_coordinates = mesh_dual[0].coordinates
+    # found_connectivity = mesh_dual[0].connectivity
+
+    # assert known_coordinates == found_coordinates
+    # assert known_connectivity == found_connectivity
+
+
+def test_static_mesh_dual_key_0001():
+    ctr = qt.Coordinate(x=0.0, y=0.0)
+    cell = qt.Cell(center=ctr, size=2.0)
+    points = tuple([qt.Coordinate(0.6, 0.6)])
+
+    # test key_0001
     tree = qt.QuadTree(cell=cell, level=0, level_max=2, points=points)
     mesh_dual = tree.mesh_dual()
 
     known_coordinates = (
-        (-0.5, -0.5),
-        (-0.5, 0.5),
-        (-0.1665, -0.1665),
-        (-0.1665, 0.1665),
-        (0.1665, -0.1665),
-        (0.25, 0.25),
-        (0.25, 0.75),
-        (0.5, -0.5),
-        (0.75, 0.25),
-        (0.75, 0.75),
+        (-0.5, -0.5),  # 0
+        (-0.5, 0.5),  # 1
+        (-0.1665, -0.1665),  # 2
+        (-0.1665, 0.1665),  # 3
+        (0.1665, -0.1665),  # 4
+        (0.25, 0.25),  # 5
+        (0.25, 0.75),  # 6
+        (0.5, -0.5),  # 7
+        (0.75, 0.25),  # 8
+        (1.0, 0.25),  # -11
+        (1.0, -0.5),  # -10
+        (1.0, -1.0),  # -9
+        (0.5, -1.0),  # -8
+        (0.25, 1.0),  # -7
+        (-0.5, 1.0),  # -6
+        (-0.5, -1.0),  # -5
+        (-1.0, 1.0),  # -4
+        (-1.0, 0.5),  # -3
+        (-1.0, -0.5),  # -2
+        (-1.0, -1.0),  # -1
     )
 
     known_connectivity = (
-        (0, 2, 3, 1),
+        (0, 2, 3, 1),  # faces_dual
         (0, 7, 4, 2),
         (2, 4, 5, 3),
         (3, 5, 6, 1),
         (4, 7, 8, 5),
-        (5, 8, 9, 6),
+        (-1, -5, 0, -2),  # faces_ports
+        (-2, 0, 1, -3),
+        (-3, 1, -6, -4),
+        (-5, -8, 7, 0),
+        (1, 6, -7, -6),
+        (-8, -9, -10, 7),
+        (7, -10, -11, 8),
     )
 
     found_coordinates = mesh_dual[0].coordinates
@@ -485,34 +539,76 @@ def test_static_mesh_dual():
     assert known_coordinates == found_coordinates
     assert known_connectivity == found_connectivity
 
+
+def test_static_mesh_dual_key_0001_nested_1x():
+    ctr = qt.Coordinate(x=0.0, y=0.0)
+    cell = qt.Cell(center=ctr, size=2.0)
+    points = tuple([qt.Coordinate(0.6, 0.6)])
+
     # test key_0001 nested once with self
     tree = qt.QuadTree(cell=cell, level=0, level_max=3, points=points)
     mesh_dual = tree.mesh_dual()
 
     known_coordinates_parent = (
-        (-0.5, -0.5),
-        (-0.5, 0.5),
-        (-0.1665, -0.1665),
-        (-0.1665, 0.1665),
-        (0.1665, -0.1665),
-        (0.25, 0.25),
-        (0.25, 0.75),
-        (0.5, -0.5),
-        (0.75, 0.25),
-        (0.75, 0.75),
+        (-0.5, -0.5),  # 0
+        (-0.5, 0.5),  # 1
+        (-0.1665, -0.1665),  # 2
+        (-0.1665, 0.1665),  # 3
+        (0.1665, -0.1665),  # 4
+        (0.25, 0.25),  # 5
+        (0.25, 0.75),  # 6
+        (0.5, -0.5),  # 7
+        (0.75, 0.25),  # 8
+        (1.0, 0.25),  # -11
+        (1.0, -0.5),  # -10
+        (1.0, -1.0),  # -9
+        (0.5, -1.0),  # -8
+        (0.25, 1.0),  # -7
+        (-0.5, 1.0),  # -6
+        (-0.5, -1.0),  # -5
+        (-1.0, 1.0),  # -4
+        (-1.0, 0.5),  # -3
+        (-1.0, -0.5),  # -2
+        (-1.0, -1.0),  # -1
+    )
+
+    # local connectivity is the same for both parent and child
+    known_connectivity = (
+        (0, 2, 3, 1),  # faces_dual
+        (0, 7, 4, 2),
+        (2, 4, 5, 3),
+        (3, 5, 6, 1),
+        (4, 7, 8, 5),
+        (-1, -5, 0, -2),  # faces_ports
+        (-2, 0, 1, -3),
+        (-3, 1, -6, -4),
+        (-5, -8, 7, 0),
+        (1, 6, -7, -6),
+        (-8, -9, -10, 7),
+        (7, -10, -11, 8),
     )
 
     known_coordinates_child = (
-        (0.25, 0.25),
-        (0.25, 0.75),
-        (0.41675, 0.41675),
-        (0.41675, 0.58325),
-        (0.58325, 0.41675),
-        (0.625, 0.625),
-        (0.625, 0.875),
-        (0.75, 0.25),
-        (0.875, 0.625),
-        (0.875, 0.875),
+        (0.25, 0.25),  # 0
+        (0.25, 0.75),  # 1
+        (0.41675, 0.41675),  # 2
+        (0.41675, 0.58325),  # 3
+        (0.58325, 0.41675),  # 4
+        (0.625, 0.625),  # 5
+        (0.625, 0.875),  # 6
+        (0.75, 0.25),  # 7
+        (0.875, 0.625),  # 8
+        (1.0, 0.625),  # -11
+        (1.0, 0.25),  # -10
+        (1.0, 0.0),  # -9
+        (0.75, 0.0),  # -8
+        (0.625, 1.0),  # -7
+        (0.25, 1.0),  # -6
+        (0.25, 0.0),  # -5
+        (0.0, 1.0),  # -4
+        (0.0, 0.75),  # -3
+        (0.0, 0.25),  # -2
+        (0.0, 0.0),  # -1
     )
 
     # known_connectivity is unchanged from above

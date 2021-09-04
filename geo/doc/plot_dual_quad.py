@@ -32,8 +32,8 @@ def plot_template(template, *, dual_shown=False, plot_shown=False, serialize=Fal
     ax = fig.gca()
 
     for face in template.faces:
-        xf = [xs[k] for k in face]
-        yf = [ys[k] for k in face]
+        xf = tuple(xs[k] for k in face)
+        yf = tuple(ys[k] for k in face)
         plt.fill(
             xf, yf, linestyle="dotted", edgecolor="magenta", alpha=0.5, facecolor="gray"
         )
@@ -43,8 +43,8 @@ def plot_template(template, *, dual_shown=False, plot_shown=False, serialize=Fal
         xs, ys = zip(*template.vertices_dual)
 
         for face in template.faces_dual:
-            xf = [xs[k] for k in face]
-            yf = [ys[k] for k in face]
+            xf = tuple(xs[k] for k in face)
+            yf = tuple(ys[k] for k in face)
             plt.fill(
                 xf,
                 yf,
@@ -53,6 +53,20 @@ def plot_template(template, *, dual_shown=False, plot_shown=False, serialize=Fal
                 facecolor=colors[0],
                 alpha=0.5,
             )
+
+        if hasattr(template, "faces_ports"):
+            # use same (xs, ys) from above
+            for face in template.faces_ports:
+                xf = tuple(xs[k] for k in face)
+                yf = tuple(ys[k] for k in face)
+                plt.fill(
+                    xf,
+                    yf,
+                    linestyle="solid",
+                    edgecolor="black",
+                    facecolor=colors[1],
+                    alpha=0.5,
+                )
 
         xs, ys = zip(*template.ports)
         ax.scatter(
@@ -123,6 +137,9 @@ def main():
 
     # The six unique transitions
     # plot_template(dq.Template_0000(), dual_shown=dual, plot_shown=show, serialize=save)
+    plot_template(
+        dq.Template_0001_Base(), dual_shown=dual, plot_shown=show, serialize=save
+    )
     plot_template(dq.Template_0001(), dual_shown=dual, plot_shown=show, serialize=save)
     # plot_template(dq.Template_0011(), dual_shown=dual, plot_shown=show, serialize=save)
     # plot_template(dq.Template_0110(), dual_shown=dual, plot_shown=show, serialize=save)

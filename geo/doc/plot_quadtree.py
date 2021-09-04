@@ -13,19 +13,18 @@ def main():
     shown: Final = False
     serialize: Final = True
     color_fill: Final = True
+
     latex: Final = False
     if latex:
         rc("font", **{"family": "serif", "serif": ["Computer Modern Roman"]})
         rc("text", usetex=True)
 
-    simple_example: Final = False
-    quarter_brush: Final = False
-    diagonal_example: Final = False
-    nested_0001: Final = False
-    wall_0011: Final = True
+    # test_cases: "simple", "brush", "diagonal", "nested_0001", "wall_0011"
+    test_case = "wall_0011"
+
     level_max: Final = 3
 
-    if simple_example:
+    if test_case == "simple":
         ctr = qt.Coordinate(x=0.0, y=0.0)
         cell = qt.Cell(center=ctr, size=2.0)
         # points = tuple([qt.Coordinate(2.1, 0.1), qt.Coordinate(2.6, 0.6)])
@@ -37,7 +36,7 @@ def main():
         # ax.set_xticks([1, 2, 3])
         # ax.set_yticks([-1, 0, 1])
 
-    elif quarter_brush:
+    elif test_case == "brush":
         ctr = qt.Coordinate(x=1024.0, y=1024.0)
         cell = qt.Cell(center=ctr, size=2048.0)
         num_points = 2
@@ -52,14 +51,14 @@ def main():
         _xticks = [0, 128, 256, 512, 1024, 2048]
         _yticks = [0, 128, 256, 512, 1024, 2048]
 
-    elif nested_0001:
+    elif test_case == "nested_0001":
         ctr = qt.Coordinate(x=0.0, y=0.0)
         cell = qt.Cell(center=ctr, size=2.0)
         points = tuple([qt.Coordinate(0.8, 0.8)])
         _xticks = [-2, -1, 0, 1, 2]
         _yticks = _xticks
 
-    elif wall_0011:
+    elif test_case == "wall_0011":
         ctr = qt.Coordinate(x=0.0, y=0.0)
         cell = qt.Cell(center=ctr, size=2.0)
         points = tuple(
@@ -79,7 +78,7 @@ def main():
 
         # boundary points
         num_points = 17  # 9 for single density, or 17 for double density
-        if diagonal_example:
+        if test_case == "diagonal":
             bpx = np.linspace(start=-512.0, stop=512.0, num=num_points, endpoint=True)
             bpy = bpx
         else:
@@ -155,7 +154,7 @@ def main():
     ys = tuple(point.y for point in points)
     ax.scatter(xs, ys, linestyle="solid", edgecolor="black", color="tab:red")
 
-    if nested_0001 or wall_0011:
+    if test_case == "nested_0001" or test_case == "wall_0011":
         mesh_dual = tree.mesh_dual()
 
         # meshes = tuple(filter(lambda x: x is not None, mesh_dual))
@@ -184,7 +183,7 @@ def main():
 
     if serialize:
         extension = ".pdf"  # ".png" | ".pdf" | ".svg"
-        filename = Path(__file__).stem + extension
+        filename = Path(__file__).stem + "_" + test_case + extension
         fig.savefig(filename, bbox_inches="tight", pad_inches=0)
         print(f"Serialized to {filename}")
 
