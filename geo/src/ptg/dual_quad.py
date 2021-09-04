@@ -575,6 +575,58 @@ class Template_0001_0(NamedTuple):
     )
 
 
+class Template_0001_1(NamedTuple):
+    """Creates the first partial of Template_0001_0."""
+
+    name: str = "0001_1"
+
+    _base = Template_0001_0()
+
+    vertices: tuple[Vertex, ...] = _base.vertices
+    vertices_revalence = _base.vertices_revalence
+    vertices_dual: tuple[Vertex, ...] = _base.vertices_dual
+    ports: tuple[Port, ...] = _base.ports
+
+    faces: tuple[Face, ...] = _base.faces[0:6]
+    faces_dual: tuple[Face, ...] = _base.faces_dual[0:5]
+    faces_ports: tuple[Face, ...] = _base.faces_ports[0:5] + _base.faces_ports[6:8]
+
+
+class Template_0001_2(NamedTuple):
+    """Creates the second partial of Template_0001_0."""
+
+    name: str = "0001_2"
+
+    _base = Template_0001_0()
+
+    vertices: tuple[Vertex, ...] = _base.vertices
+    vertices_revalence = _base.vertices_revalence
+    vertices_dual: tuple[Vertex, ...] = _base.vertices_dual
+
+    ports: tuple[Port, ...] = _base.ports
+
+    faces: tuple[Face, ...] = _base.faces[0:6]
+    faces_dual: tuple[Face, ...] = _base.faces_dual[0:5]
+    faces_ports: tuple[Face, ...] = _base.faces_ports[4:5] + _base.faces_ports[7:8]
+
+
+class Template_0001_3(NamedTuple):
+    """Creates the third partial of Template_0001_0."""
+
+    name: str = "0001_3"
+
+    _base = Template_0001_0()
+
+    vertices: tuple[Vertex, ...] = _base.vertices
+    vertices_revalence = _base.vertices_revalence
+    vertices_dual: tuple[Vertex, ...] = _base.vertices_dual
+    ports: tuple[Port, ...] = _base.ports
+
+    faces: tuple[Face, ...] = _base.faces
+    faces_dual: tuple[Face, ...] = _base.faces_dual
+    faces_ports: tuple[Face, ...] = _base.faces_ports[4:6] + _base.faces_ports[7:]
+
+
 class Template_0010(NamedTuple):
     """This is a non-unique template, visualized as the unique 0001 template,
     rotated -90 degrees (90 degrees clockwise rotation).

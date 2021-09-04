@@ -144,6 +144,15 @@ def main():
     plot_template(
         dq.Template_0001_0(), dual_shown=dual, plot_shown=show, serialize=save
     )
+    plot_template(
+        dq.Template_0001_1(), dual_shown=dual, plot_shown=show, serialize=save
+    )
+    plot_template(
+        dq.Template_0001_2(), dual_shown=dual, plot_shown=show, serialize=save
+    )
+    plot_template(
+        dq.Template_0001_3(), dual_shown=dual, plot_shown=show, serialize=save
+    )
     # plot_template(dq.Template_0011(), dual_shown=dual, plot_shown=show, serialize=save)
     # plot_template(dq.Template_0110(), dual_shown=dual, plot_shown=show, serialize=save)
     # plot_template(dq.Template_0111(), dual_shown=dual, plot_shown=show, serialize=save)
