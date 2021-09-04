@@ -137,10 +137,13 @@ def main():
 
     # The six unique transitions
     # plot_template(dq.Template_0000(), dual_shown=dual, plot_shown=show, serialize=save)
+    # plot_template(
+    #     dq.Template_0001_Base(), dual_shown=dual, plot_shown=show, serialize=save
+    # )
+    # plot_template(dq.Template_0001(), dual_shown=dual, plot_shown=show, serialize=save)
     plot_template(
-        dq.Template_0001_Base(), dual_shown=dual, plot_shown=show, serialize=save
+        dq.Template_0001_0(), dual_shown=dual, plot_shown=show, serialize=save
     )
-    plot_template(dq.Template_0001(), dual_shown=dual, plot_shown=show, serialize=save)
     # plot_template(dq.Template_0011(), dual_shown=dual, plot_shown=show, serialize=save)
     # plot_template(dq.Template_0110(), dual_shown=dual, plot_shown=show, serialize=save)
     # plot_template(dq.Template_0111(), dual_shown=dual, plot_shown=show, serialize=save)
