@@ -146,13 +146,15 @@ def known_quad_corners(*, quad_corners: tuple[int, ...]) -> bool:
         return False
 
 
-def template_key(*, quad_corners: tuple[int, ...]) -> str:
+def template_key(*, quad_corners: tuple[int, ...], level: int, partial: bool) -> str:
     """Provides a string template key, e.g., "key_0001" that can be used with the
     TemplateFactory to return a Template.
 
     Arguments:
         quad_corners (tuple[int, ...]): The number of sub-quads in each of the four
             quadrant corners (sw, nw, se, ne).
+        level (int):  The quadtree level >= 0 for a given template being fit.
+        partial (bool): Whether or not this is a partially filled template.
 
     Returns:
         str that has a prefex of "key_" plus a suffix of four integers, e.g, "1114",
@@ -166,6 +168,24 @@ def template_key(*, quad_corners: tuple[int, ...]) -> str:
         _template_key = "key_" + str(
             reduce(lambda x, y: str(x) + str(y), _rooted_quad_corners)
         )
+        if _template_key == "key_0001":
+            # then further logic to determine refinement and partial status
+            # r0 is not refined; r1 is refined
+            # p0 is not partial; p1 is partial
+            if level == 0 and partial is False:
+                _template_key = _template_key + "_r0_p0"
+
+            elif level == 0 and partial is True:
+                _template_key = _template_key + "_r0_p1"
+
+            elif level > 0 and partial is False:
+                _template_key = _template_key + "_r1_p0"
+
+            elif level > 0 and partial is True:
+                _template_key = _template_key + "_r1_p1"
+
+            else:
+                raise ValueError("Level of refinement and partial status undefined.")
     else:
         _template_key = "key_unknown"
 
@@ -220,7 +240,12 @@ class TemplateFactory(NamedTuple):
 
     key_0000: NamedTuple = dual_quad.Template_0000()
 
-    key_0001: NamedTuple = dual_quad.Template_0001()
+    # key_0001: NamedTuple = dual_quad.Template_0001()
+    key_0001_r0_p0: NamedTuple = dual_quad.Template_0001_r0_p0()
+    key_0001_r0_p1: NamedTuple = dual_quad.Template_0001_r0_p1()
+    key_0001_r1_p0: NamedTuple = dual_quad.Template_0001_r1_p0()
+    key_0001_r1_p1: NamedTuple = dual_quad.Template_0001_r1_p1()
+
     key_0010: NamedTuple = dual_quad.Template_0010()
     key_0100: NamedTuple = dual_quad.Template_0100()
     key_1000: NamedTuple = dual_quad.Template_1000()
@@ -455,7 +480,10 @@ class QuadTree:
         """
         _quad_levels_recursive = self.quad_levels_recursive()
         _mesh_dual = QuadTree._mesh_dual(
-            cell=self.cell, level=0, quad_levels_recursive_subset=_quad_levels_recursive
+            cell=self.cell,
+            level=0,
+            quad_levels_recursive_subset=_quad_levels_recursive,
+            partial=False,
         )
         return _mesh_dual
 
@@ -511,7 +539,7 @@ class QuadTree:
 
     @staticmethod
     def _mesh_dual(
-        *, cell: Cell, level: int, quad_levels_recursive_subset: tuple
+        *, cell: Cell, level: int, quad_levels_recursive_subset: tuple, partial: bool
     ) -> tuple[Mesh, ...]:
         """Returns the dual mesh encoded by the QuadTree."""
 
@@ -528,13 +556,16 @@ class QuadTree:
         n_nested_ne = len(tuple(QuadTree._levels_flatten(subset_ne)))
 
         _template_key = template_key(
-            quad_corners=tuple([n_nested_sw, n_nested_nw, n_nested_se, n_nested_ne])
+            quad_corners=tuple([n_nested_sw, n_nested_nw, n_nested_se, n_nested_ne]),
+            level=level,
+            partial=partial,
         )
 
         if _template_key == "key_unknown":
 
             # A known template cannot be fit to the combination of quad_corners,
             # so recursively march down until a key is found.
+
             # Also, capture the topology of the parent template, prepend to the
             # beginning of the recursion.
 
@@ -557,17 +588,21 @@ class QuadTree:
                 )
             )
 
+            # accumlate the parent part quad first
             _subquads = QuadTree._mesh_dual(
                 cell=cell,
                 level=level,
                 quad_levels_recursive_subset=quad_levels_recursive_parent,
+                partial=True,
             )
 
+            # then accumlate each of the children
             if cell.sw.has_children:
                 _subquad_sw = QuadTree._mesh_dual(
                     cell=cell.sw,
                     level=level + 1,
                     quad_levels_recursive_subset=subset_sw,
+                    partial=False,
                 )
                 _subquads = _subquads + _subquad_sw
 
@@ -576,6 +611,7 @@ class QuadTree:
                     cell=cell.nw,
                     level=level + 1,
                     quad_levels_recursive_subset=subset_nw,
+                    partial=False,
                 )
                 _subquads = _subquads + _subquad_nw
 
@@ -584,6 +620,7 @@ class QuadTree:
                     cell=cell.se,
                     level=level + 1,
                     quad_levels_recursive_subset=subset_se,
+                    partial=False,
                 )
                 _subquads = _subquads + _subquad_se
 
@@ -592,6 +629,7 @@ class QuadTree:
                     cell=cell.ne,
                     level=level + 1,
                     quad_levels_recursive_subset=subset_ne,
+                    partial=False,
                 )
                 _subquads = _subquads + _subquad_ne
 
@@ -611,7 +649,8 @@ class QuadTree:
             _new_coordinates = coordinates(pairs=_scaled_translated_vertices_dual)
 
             # temporary hard code to test key_0001
-            if _template_key == "key_0001":
+            # if _template_key == "key_0001":
+            if "key_0001" in _template_key:
                 _new_connectivity = _template.faces_dual + _template.faces_ports
                 mesh = Mesh(
                     coordinates=_new_coordinates, connectivity=_new_connectivity

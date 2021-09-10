@@ -286,7 +286,7 @@ def test_manual_0000():
     quad_corners = tuple(len(corner) for corner in quads_recursive)
     assert quad_corners == (1, 1, 1, 1)
 
-    template_key = qt.template_key(quad_corners=quad_corners)
+    template_key = qt.template_key(quad_corners=quad_corners, level=0, partial=False)
     assert template_key == "key_0000"
     factory = qt.TemplateFactory()
 
@@ -299,12 +299,12 @@ def test_manual_0001():
     quad_corners = tuple(len(corner) for corner in quads_recursive)
     assert quad_corners == (1, 1, 1, 4)
 
-    template_key = qt.template_key(quad_corners=quad_corners)
-    assert template_key == "key_0001"
+    template_key = qt.template_key(quad_corners=quad_corners, level=0, partial=False)
+    assert template_key == "key_0001_r0_p0"
     factory = qt.TemplateFactory()
 
     template = getattr(factory, template_key)
-    assert template.name == "0001"
+    assert template.name == "0001_r0_p0"
 
 
 def test_manual_0010():
@@ -312,7 +312,7 @@ def test_manual_0010():
     quad_corners = tuple(len(corner) for corner in quads_recursive)
     assert quad_corners == (1, 1, 4, 1)
 
-    template_key = qt.template_key(quad_corners=quad_corners)
+    template_key = qt.template_key(quad_corners=quad_corners, level=0, partial=False)
     assert template_key == "key_0010"
     factory = qt.TemplateFactory()
 
@@ -325,7 +325,7 @@ def test_manual_0100():
     quad_corners = tuple(len(corner) for corner in quads_recursive)
     assert quad_corners == (1, 4, 1, 1)
 
-    template_key = qt.template_key(quad_corners=quad_corners)
+    template_key = qt.template_key(quad_corners=quad_corners, level=0, partial=False)
     assert template_key == "key_0100"
     factory = qt.TemplateFactory()
 
@@ -338,7 +338,7 @@ def test_manual_1000():
     quad_corners = tuple(len(corner) for corner in quads_recursive)
     assert quad_corners == (4, 1, 1, 1)
 
-    template_key = qt.template_key(quad_corners=quad_corners)
+    template_key = qt.template_key(quad_corners=quad_corners, level=0, partial=False)
     assert template_key == "key_1000"
     factory = qt.TemplateFactory()
 
@@ -373,7 +373,7 @@ def test_manual_0112():
     quad_corners = tuple(len(corner) for corner in quads_recursive)
     assert quad_corners == (1, 4, 4, 16)
 
-    template_key = qt.template_key(quad_corners=quad_corners)
+    template_key = qt.template_key(quad_corners=quad_corners, level=0, partial=False)
     assert template_key == "key_0112"
     factory = qt.TemplateFactory()
 
@@ -453,40 +453,8 @@ def test_static_mesh_dual_key_0000():
     assert known_coordinates == found_coordinates
     assert known_connectivity == found_connectivity
 
-    # test key_0001
-    # tree = qt.QuadTree(cell=cell, level=0, level_max=2, points=points)
-    # mesh_dual = tree.mesh_dual()
 
-    # known_coordinates = (
-    #     (-0.5, -0.5),
-    #     (-0.5, 0.5),
-    #     (-0.1665, -0.1665),
-    #     (-0.1665, 0.1665),
-    #     (0.1665, -0.1665),
-    #     (0.25, 0.25),
-    #     (0.25, 0.75),
-    #     (0.5, -0.5),
-    #     (0.75, 0.25),
-    #     (0.75, 0.75),
-    # )
-
-    # known_connectivity = (
-    #     (0, 2, 3, 1),
-    #     (0, 7, 4, 2),
-    #     (2, 4, 5, 3),
-    #     (3, 5, 6, 1),
-    #     (4, 7, 8, 5),
-    #     (5, 8, 9, 6),
-    # )
-
-    # found_coordinates = mesh_dual[0].coordinates
-    # found_connectivity = mesh_dual[0].connectivity
-
-    # assert known_coordinates == found_coordinates
-    # assert known_connectivity == found_connectivity
-
-
-def test_static_mesh_dual_key_0001():
+def test_static_mesh_dual_key_0001_r0_p0():
     ctr = qt.Coordinate(x=0.0, y=0.0)
     cell = qt.Cell(center=ctr, size=2.0)
     points = tuple([qt.Coordinate(0.6, 0.6)])
@@ -505,9 +473,13 @@ def test_static_mesh_dual_key_0001():
         (0.25, 0.75),  # 6
         (0.5, -0.5),  # 7
         (0.75, 0.25),  # 8
-        (1.0, 0.25),  # -11
-        (1.0, -0.5),  # -10
-        (1.0, -1.0),  # -9
+        (0.75, 0.75),  # 9
+        (1.0, 1.0),  # -14
+        (1.0, 0.75),  # -13
+        (1.0, 0.25),  # -12
+        (1.0, -0.5),  # -11
+        (1.0, -1.0),  # -10
+        (0.75, 1.0),  # -9
         (0.5, -1.0),  # -8
         (0.25, 1.0),  # -7
         (-0.5, 1.0),  # -6
@@ -524,13 +496,17 @@ def test_static_mesh_dual_key_0001():
         (2, 4, 5, 3),
         (3, 5, 6, 1),
         (4, 7, 8, 5),
+        (5, 8, 9, 6),
         (-1, -5, 0, -2),  # faces_ports
         (-2, 0, 1, -3),
         (-3, 1, -6, -4),
         (-5, -8, 7, 0),
         (1, 6, -7, -6),
-        (-8, -9, -10, 7),
-        (7, -10, -11, 8),
+        (6, 9, -9, -7),
+        (-8, -10, -11, 7),
+        (7, -11, -12, 8),
+        (8, -12, -13, 9),
+        (9, -13, -14, -9),
     )
 
     found_coordinates = mesh_dual[0].coordinates
@@ -540,13 +516,22 @@ def test_static_mesh_dual_key_0001():
     assert known_connectivity == found_connectivity
 
 
-def test_static_mesh_dual_key_0001_nested_1x():
+def test_static_mesh_dual_key_0001_r0_p1_and_key_0001_r1_p0():
     ctr = qt.Coordinate(x=0.0, y=0.0)
     cell = qt.Cell(center=ctr, size=2.0)
     points = tuple([qt.Coordinate(0.6, 0.6)])
 
     # test key_0001 nested once with self
     tree = qt.QuadTree(cell=cell, level=0, level_max=3, points=points)
+    known_quad_levels_recursive = (
+        (1,),
+        (1,),
+        (1,),
+        ((2,), (2,), (2,), ((3,), (3,), (3,), (3,))),
+    )
+    found_quad_levels_recursive = tree.quad_levels_recursive()
+    assert known_quad_levels_recursive == found_quad_levels_recursive
+
     mesh_dual = tree.mesh_dual()
 
     known_coordinates_parent = (
@@ -559,9 +544,13 @@ def test_static_mesh_dual_key_0001_nested_1x():
         (0.25, 0.75),  # 6
         (0.5, -0.5),  # 7
         (0.75, 0.25),  # 8
-        (1.0, 0.25),  # -11
-        (1.0, -0.5),  # -10
-        (1.0, -1.0),  # -9
+        (0.75, 0.75),  # 9
+        (1.0, 1.0),  # -14
+        (1.0, 0.75),  # -13
+        (1.0, 0.25),  # -12
+        (1.0, -0.5),  # -11
+        (1.0, -1.0),  # -10
+        (0.75, 1.0),  # -9
         (0.5, -1.0),  # -8
         (0.25, 1.0),  # -7
         (-0.5, 1.0),  # -6
@@ -572,20 +561,23 @@ def test_static_mesh_dual_key_0001_nested_1x():
         (-1.0, -1.0),  # -1
     )
 
-    # local connectivity is the same for both parent and child
-    known_connectivity = (
+    known_connectivity_parent = (
         (0, 2, 3, 1),  # faces_dual
         (0, 7, 4, 2),
         (2, 4, 5, 3),
         (3, 5, 6, 1),
         (4, 7, 8, 5),
-        (-1, -5, 0, -2),  # faces_ports
+        # (5, 8, 9, 6),  # does not include this dual face
+        (-1, -5, 0, -2),
         (-2, 0, 1, -3),
         (-3, 1, -6, -4),
         (-5, -8, 7, 0),
         (1, 6, -7, -6),
-        (-8, -9, -10, 7),
-        (7, -10, -11, 8),
+        # (6, 9, -9, -7),  # does not include this port face
+        (-8, -10, -11, 7),
+        (7, -11, -12, 8),
+        # (8, -12, -13, 9),  # does not include this port face
+        # (9, -13, -14, -9),  # does not include this port face
     )
 
     known_coordinates_child = (
@@ -598,9 +590,13 @@ def test_static_mesh_dual_key_0001_nested_1x():
         (0.625, 0.875),  # 6
         (0.75, 0.25),  # 7
         (0.875, 0.625),  # 8
-        (1.0, 0.625),  # -11
-        (1.0, 0.25),  # -10
-        (1.0, 0.0),  # -9
+        (0.875, 0.875),  # 9
+        (1.0, 1.0),  # -14
+        (1.0, 0.875),  # -13
+        (1.0, 0.625),  # -12
+        (1.0, 0.25),  # -11
+        (1.0, 0.0),  # -10
+        (0.875, 1.0),  # -9
         (0.75, 0.0),  # -8
         (0.625, 1.0),  # -7
         (0.25, 1.0),  # -6
@@ -611,14 +607,31 @@ def test_static_mesh_dual_key_0001_nested_1x():
         (0.0, 0.0),  # -1
     )
 
-    # known_connectivity is unchanged from above
+    known_connectivity_child = (
+        (0, 2, 3, 1),  # faces_dual
+        (0, 7, 4, 2),
+        (2, 4, 5, 3),
+        (3, 5, 6, 1),
+        (4, 7, 8, 5),
+        (5, 8, 9, 6),
+        # (-1, -5, 0, -2),  # does not include these port faces
+        # (-2, 0, 1, -3),
+        # (-3, 1, -6, -4),
+        # (-5, -8, 7, 0),
+        (1, 6, -7, -6),
+        (6, 9, -9, -7),
+        # (-8, -10, -11, 7),  # does include this port face
+        (7, -11, -12, 8),
+        (8, -12, -13, 9),
+        (9, -13, -14, -9),
+    )
 
     found_coordinates_parent = mesh_dual[0].coordinates
-    found_connectivity = mesh_dual[0].connectivity
+    found_connectivity_parent = mesh_dual[0].connectivity
     assert known_coordinates_parent == found_coordinates_parent
-    assert known_connectivity == found_connectivity
+    assert known_connectivity_parent == found_connectivity_parent
 
     found_coordinates_child = mesh_dual[1].coordinates
-    found_connectivity = mesh_dual[1].connectivity
+    found_connectivity_child = mesh_dual[1].connectivity
     assert known_coordinates_child == found_coordinates_child
-    assert known_connectivity == found_connectivity
+    assert known_connectivity_child == found_connectivity_child

@@ -20,9 +20,9 @@ def main():
         rc("text", usetex=True)
 
     # test_cases: "simple", "brush", "diagonal", "nested_0001", "wall_0011"
-    test_case = "wall_0011"
+    test_case = "nested_0001"
 
-    level_max: Final = 3
+    level_max: Final = 4
 
     if test_case == "simple":
         ctr = qt.Coordinate(x=0.0, y=0.0)
