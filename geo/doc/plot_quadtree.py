@@ -14,7 +14,7 @@ def main():
     serialize: Final = True
     color_fill: Final = True
 
-    latex: Final = False
+    latex: Final = True
     if latex:
         rc("font", **{"family": "serif", "serif": ["Computer Modern Roman"]})
         rc("text", usetex=True)
@@ -182,7 +182,7 @@ def main():
         plt.show()
 
     if serialize:
-        extension = ".pdf"  # ".png" | ".pdf" | ".svg"
+        extension = ".png"  # ".png" | ".pdf" | ".svg"
         filename = Path(__file__).stem + "_" + test_case + extension
         fig.savefig(filename, bbox_inches="tight", pad_inches=0)
         print(f"Serialized to {filename}")
