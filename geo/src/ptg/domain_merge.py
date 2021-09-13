@@ -19,7 +19,7 @@ class Domain(NamedTuple):
     boundaries: tuple[tuple[int, ...], ...]
 
 
-def mesh_merge(
+def domain_merge(
     *,
     d0: Domain,
     d1: Domain,

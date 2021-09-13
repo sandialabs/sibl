@@ -9,10 +9,10 @@ To run
 import pytest
 
 from ptg.quadtree import Mesh, coordinates
-from ptg.mesh_merge import Domain, mesh_merge
+from ptg.domain_merge import Domain, domain_merge
 
 
-def test_two_elements_non_union():
+def test_two_domains_non_union():
     """Tests merging of two meshes with two elements each
     and a non-union result because the boundaries are not
     sufficiently close to each other.
@@ -93,7 +93,7 @@ def test_two_elements_non_union():
     d0 = Domain(mesh=m0, boundaries=b0)
     d1 = Domain(mesh=m1, boundaries=b1)
 
-    d2 = mesh_merge(d0=d0, d1=d1, tolerance=1e-6)
+    d2 = domain_merge(d0=d0, d1=d1, tolerance=1e-6)
 
     m2 = d2.mesh
     b2 = d2.boundaries
@@ -105,7 +105,7 @@ def test_two_elements_non_union():
 
 
 @pytest.mark.skip("work in progress")
-def test_two_elements():
+def test_two_domains():
     """Tests merging of two meshes with two elements each.
 
     -1.0      -0.5       0.0   /   0.0       0.5       1.0  --> x-axis
@@ -125,6 +125,7 @@ def test_two_elements():
       "o" is a port, or formerly a "+" and now designated as a port
     """
 
+    # vertices (aka points or coordinates)
     v0 = coordinates(
         pairs=(
             (-0.5, 0.0),  # 0
@@ -147,6 +148,7 @@ def test_two_elements():
         )
     )
 
+    # faces (aka elements or connectivity)
     c0 = (
         (0, 2, 3, 1),  # faces_dual
         (-1, 0, 1, -2),  # faces_ports
@@ -157,9 +159,11 @@ def test_two_elements():
         (2, -1, -2, 3),  # faces_ports
     )
 
+    # meshes
     m0 = Mesh(coordinates=v0, connectivity=c0)
     m1 = Mesh(coordinates=v1, connectivity=c1)
 
+    # boundaries
     b0 = (
         (
             -1,
@@ -184,6 +188,6 @@ def test_two_elements():
     d0 = Domain(mesh=m0, boundaries=b0)
     d1 = Domain(mesh=m1, boundaries=b1)
 
-    mout = mesh_merge(d0=d0, d1=d1)
+    mout = domain_merge(d0=d0, d1=d1)
 
     assert True
