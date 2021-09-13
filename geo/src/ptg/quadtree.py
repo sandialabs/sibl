@@ -62,7 +62,8 @@ class Mesh(NamedTuple):
     """
 
     coordinates: tuple[Coordinate, ...]
-    connectivity: tuple[tuple[int, int, int, int], ...]
+    # connectivity: tuple[tuple[int, int, int, int], ...]
+    connectivity: tuple[tuple[int, ...], ...]
 
 
 # Reference: recursive type hinting:

@@ -6,26 +6,24 @@ To run
 > pytest geo/tests/test_mesh_merge.py -v
 """
 
-import pytest
+# import pytest
 
 from ptg.quadtree import Mesh, coordinates
 from ptg.domain_merge import Domain, domain_merge
 
 
 def test_two_domains_non_union():
-    """Tests merging of two meshes with two elements each
+    """Tests merging of two domains (meshes + boundaries)
     and a non-union result because the boundaries are not
     sufficiently close to each other.
 
-    -1.0      -0.5       0.0   /   0.1       0.5       1.0  --> x-axis
-
-     -2         1         3         1         3        -2
+     -2->4      1         3         1->7      3->9     -2->10
       o---------+---------+    /    +---------+---------o   0.5
       |         |         |    /    |         |         |       ^
       |         |         |    /    |         |         |       |
       |         |         |    /    |         |         |       |
       o---------+---------+    /    +---------+---------o   0.0 y-axis
-     -1         0         2         0         2        -1
+     -1->5      0         2         0->6      2->8     -1->11
 
     -1.0      -0.5       0.0   /   0.1       0.5       1.0  --> x-axis
 
@@ -34,6 +32,7 @@ def test_two_domains_non_union():
       "o" is a port, or formerly a "+" and now designated as a port
     """
 
+    # vertices (aka points or coordinates)
     v0 = coordinates(
         pairs=(
             (-0.5, 0.0),  # 0
@@ -56,6 +55,7 @@ def test_two_domains_non_union():
         )
     )
 
+    # faces (aka elements or connectivity)
     c0 = (
         (0, 2, 3, 1),  # faces_dual
         (-1, 0, 1, -2),  # faces_ports
@@ -66,9 +66,11 @@ def test_two_domains_non_union():
         (2, -1, -2, 3),  # faces_ports
     )
 
+    # meshes
     m0 = Mesh(coordinates=v0, connectivity=c0)
     m1 = Mesh(coordinates=v1, connectivity=c1)
 
+    # boundaries
     b0 = (
         (
             -1,
@@ -79,6 +81,7 @@ def test_two_domains_non_union():
             3,
         ),
     )
+
     b1 = (
         (
             0,
@@ -90,6 +93,7 @@ def test_two_domains_non_union():
         ),
     )
 
+    # domains
     d0 = Domain(mesh=m0, boundaries=b0)
     d1 = Domain(mesh=m1, boundaries=b1)
 
@@ -104,19 +108,17 @@ def test_two_domains_non_union():
     assert b2 == ((5, 4), (2, 3), (6, 7), (11, 10))
 
 
-@pytest.mark.skip("work in progress")
+# @pytest.mark.skip("work in progress")
 def test_two_domains():
-    """Tests merging of two meshes with two elements each.
+    """Tests merging of two domains along a single boundary.
 
-    -1.0      -0.5       0.0   /   0.0       0.5       1.0  --> x-axis
-
-     -2         1         3         1         3        -2
+     -2->4      1         3         1->7->3   3->9     -2->10
       o---------+---------+    /    +---------+---------o   0.5
       |         |         |    /    |         |         |       ^
       |         |         |    /    |         |         |       |
       |         |         |    /    |         |         |       |
       o---------+---------+    /    +---------+---------o   0.0 y-axis
-     -1         0         2         0         2        -1
+     -1->5      0         2         0->6->2   2->8     -1->11
 
     -1.0      -0.5       0.0   /   0.0       0.5       1.0  --> x-axis
 
@@ -174,6 +176,7 @@ def test_two_domains():
             3,
         ),
     )
+
     b1 = (
         (
             0,
@@ -185,9 +188,16 @@ def test_two_domains():
         ),
     )
 
+    # domains
     d0 = Domain(mesh=m0, boundaries=b0)
     d1 = Domain(mesh=m1, boundaries=b1)
 
-    mout = domain_merge(d0=d0, d1=d1)
+    d2 = domain_merge(d0=d0, d1=d1, tolerance=1e-6)
 
-    assert True
+    m2 = d2.mesh
+    b2 = d2.boundaries
+    assert m2.coordinates == v0 + v1
+
+    assert m2.connectivity == ((0, 2, 3, 1), (5, 0, 1, 4), (2, 8, 9, 3), (8, 11, 10, 9))
+
+    assert b2 == ((5, 4), (11, 10))
