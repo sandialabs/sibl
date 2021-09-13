@@ -32,9 +32,21 @@ def mesh_merge(
             boundary.
         d1 (Domain): The second domain, composed of a mesh and mergeable
             boundary.
+        tolerance (float): The maximum small distance magnitude that can
+            exist in both the x and y directions betwee two separate points
+            belonging to two separate meshes for the two points to be
+            considered coincident and thus merged into a single point in
+            returned domain.
 
     Returns:
         (Domain): The domain merged from the first and second domains.
+            If no points from the meshes overlap (are within tolerance),
+                then the returned single mesh contains two floating
+                but non-joined meshes with global coordinate numbering
+                and connectivity.
+            If points in the mesh overlap (are within tolerance), then
+                the nodes are merged and the two meshes are joined at
+                the overlapping nodes.
     """
     # tol = 1e-6  # tolerance
     tol = tolerance

@@ -6,6 +6,8 @@ To run
 > pytest geo/tests/test_mesh_merge.py -v
 """
 
+import pytest
+
 from ptg.quadtree import Mesh, coordinates
 from ptg.mesh_merge import Domain, mesh_merge
 
@@ -91,18 +93,18 @@ def test_two_elements_non_union():
     d0 = Domain(mesh=m0, boundaries=b0)
     d1 = Domain(mesh=m1, boundaries=b1)
 
-    d3 = mesh_merge(d0=d0, d1=d1, tolerance=1e-6)
+    d2 = mesh_merge(d0=d0, d1=d1, tolerance=1e-6)
 
-    # m3 = d3.mesh
-    # b3 = d3.boundaries
-    # assert m3.coordinates == v0 + v1
+    m2 = d2.mesh
+    b2 = d2.boundaries
+    assert m2.coordinates == v0 + v1
 
-    # assert m3.connectivity == ((0, 2, 3, 1), (5, 0, 1, 4), (6, 8, 9, 7), (8, 11, 10, 9))
+    assert m2.connectivity == ((0, 2, 3, 1), (5, 0, 1, 4), (6, 8, 9, 7), (8, 11, 10, 9))
 
-    # assert d3.boundaries = ((5, 4), (2, 3), (6, 7), (11, 10))
-    assert True
+    assert b2 == ((5, 4), (2, 3), (6, 7), (11, 10))
 
 
+@pytest.mark.skip("work in progress")
 def test_two_elements():
     """Tests merging of two meshes with two elements each.
 

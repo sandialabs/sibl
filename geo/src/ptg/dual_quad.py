@@ -599,7 +599,8 @@ class Template_0001_r0_p1(NamedTuple):
 class Template_0001_r1_p0(NamedTuple):
     """Creates the second partial of Template_0001_r0_p0.
     Of the three partial populations, L1, L1-L2, transition, and L2,
-    only the L1-L2 and L2 are populated."""
+    only the L1-L2 and L2 are populated.
+    """
 
     name: str = "0001_r1_p0"
 
