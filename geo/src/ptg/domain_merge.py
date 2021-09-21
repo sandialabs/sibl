@@ -25,20 +25,20 @@ class Domain(NamedTuple):
 
 def domain_merge(
     *,
-    d0: Domain,
-    d1: Domain,
+    domain0: Domain,
+    domain1: Domain,
     tolerance: float,
 ) -> Domain:
     """Merges two separate domains into a single domain.  Each domain has
     a tuple of boundaries.  Two domains may be merged only along one boundary
     per domain.  Once a matching pair of boundaries is found (one boundary from
-    `d0` and one boundary from `d1`), all other boundaries are disregarded.
+    `domain0` and one boundary from `domain1`), all other boundaries are disregarded.
     This method does not merge domains among mutiple boundaries.
 
     Arguments:
-        d0 (Domain): The first domain, composed of a mesh and mergeable
+        domain0 (Domain): The first domain, composed of a mesh and mergeable
             boundary(ies).
-        d1 (Domain): The second domain, composed of a mesh and mergeable
+        domain1 (Domain): The second domain, composed of a mesh and mergeable
             boundary(ies).
         tolerance (float): The maximum small distance magnitude that can
             exist separately in both the x and y directions between two
@@ -63,12 +63,12 @@ def domain_merge(
     match = False  # start from no matching borders
 
     # x and y coordinates in mesh zero
-    c0x = tuple([c.x for c in d0.mesh.coordinates])
-    c0y = tuple([c.y for c in d0.mesh.coordinates])
+    c0x = tuple([c.x for c in domain0.mesh.coordinates])
+    c0y = tuple([c.y for c in domain0.mesh.coordinates])
 
     # x and y coordinates in mesh one
-    c1x = tuple([c.x for c in d1.mesh.coordinates])
-    c1y = tuple([c.y for c in d1.mesh.coordinates])
+    c1x = tuple([c.x for c in domain1.mesh.coordinates])
+    c1y = tuple([c.y for c in domain1.mesh.coordinates])
 
     b0_matched = tuple()
     b1_matched = tuple()
@@ -77,17 +77,17 @@ def domain_merge(
     # boundary match is found.  Only a single boundary pair is ever joined.
     # It is also possible that no boundaries are joined.
 
-    for b0 in d0.boundaries:
-        for b1 in d1.boundaries:
+    for b0 in domain0.boundaries:
+        for b1 in domain1.boundaries:
 
             # only two boundaries of equal length can be a match
             if len(b0) == len(b1):
 
-                # x and y coordinates in a d0.boundary
+                # x and y coordinates in a domain0.boundary
                 b0x = np.array([c0x[k] for k in b0])
                 b0y = np.array([c0y[k] for k in b0])
 
-                # x and y coordinates in a d1.boundary
+                # x and y coordinates in a domain1.boundary
                 b1x = np.array([c1x[k] for k in b1])
                 b1y = np.array([c1y[k] for k in b1])
 
@@ -105,7 +105,7 @@ def domain_merge(
                 # flip the ordering of the second boundary
                 b1_reversed = b1[::-1]
 
-                # reverse ordered x and y coordinates in d1.boundary
+                # reverse ordered x and y coordinates in domain1.boundary
                 b1x_reversed = np.array([c1x[k] for k in b1_reversed])
                 b1y_reversed = np.array([c1y[k] for k in b1_reversed])
 
@@ -124,43 +124,43 @@ def domain_merge(
             # go on to the next boundary pairs
 
     # number of nodal points
-    nnp0 = len(d0.mesh.coordinates)  # number of nodal points in mesh0
-    nnp1 = len(d1.mesh.coordinates)  # number of nodal points in mesh1
+    nnp0 = len(domain0.mesh.coordinates)  # number of nodal points in mesh0
+    nnp1 = len(domain1.mesh.coordinates)  # number of nodal points in mesh1
 
     # number of faces
-    n_faces0 = len(d0.mesh.connectivity)
-    n_faces1 = len(d1.mesh.connectivity)
+    n_faces0 = len(domain0.mesh.connectivity)
+    n_faces1 = len(domain1.mesh.connectivity)
 
     # number of nodes per element (=4 for quads)
-    nen0 = len(d0.mesh.connectivity[0])
-    nen1 = len(d1.mesh.connectivity[0])
+    nen0 = len(domain0.mesh.connectivity[0])
+    nen1 = len(domain1.mesh.connectivity[0])
 
     if nen0 != 4 or nen1 != 4:
         raise ValueError("Only 2D quadrilateral elements are allowed.")
 
     # number of boundaries on each domain
-    n_bound0 = len(d0.boundaries)  # number of boundaries on mesh0
-    n_bound1 = len(d1.boundaries)  # number of boundaries on mesh1
+    n_bound0 = len(domain0.boundaries)  # number of boundaries on mesh0
+    n_bound1 = len(domain1.boundaries)  # number of boundaries on mesh1
 
     # number of points per boundary
-    n_pts_per_bound0 = tuple(len(x) for x in d0.boundaries)
-    n_pts_per_bound1 = tuple(len(x) for x in d1.boundaries)
+    n_pts_per_bound0 = tuple(len(x) for x in domain0.boundaries)
+    n_pts_per_bound1 = tuple(len(x) for x in domain1.boundaries)
 
     # globally renumber faces
     faces0 = tuple(
         tuple(
-            d0.mesh.connectivity[i][j] + nnp0
-            if d0.mesh.connectivity[i][j] < 0
-            else d0.mesh.connectivity[i][j]
+            domain0.mesh.connectivity[i][j] + nnp0
+            if domain0.mesh.connectivity[i][j] < 0
+            else domain0.mesh.connectivity[i][j]
             for j in range(0, nen0)
         )
         for i in range(0, n_faces0)
     )
     faces1 = tuple(
         tuple(
-            d1.mesh.connectivity[i][j] + nnp1 + nnp0
-            if d1.mesh.connectivity[i][j] < 0
-            else d1.mesh.connectivity[i][j] + nnp0
+            domain1.mesh.connectivity[i][j] + nnp1 + nnp0
+            if domain1.mesh.connectivity[i][j] < 0
+            else domain1.mesh.connectivity[i][j] + nnp0
             for j in range(0, nen1)
         )
         for i in range(0, n_faces1)
@@ -169,24 +169,24 @@ def domain_merge(
     # globally renumber boundaries
     bounds0 = tuple(
         tuple(
-            d0.boundaries[i][j] + nnp0
-            if d0.boundaries[i][j] < 0
-            else d0.boundaries[i][j]
+            domain0.boundaries[i][j] + nnp0
+            if domain0.boundaries[i][j] < 0
+            else domain0.boundaries[i][j]
             for j in range(0, n_pts_per_bound0[i])
         )
         for i in range(0, n_bound0)
     )
     bounds1 = tuple(
         tuple(
-            d1.boundaries[i][j] + nnp1 + nnp0
-            if d1.boundaries[i][j] < 0
-            else d1.boundaries[i][j] + nnp0
+            domain1.boundaries[i][j] + nnp1 + nnp0
+            if domain1.boundaries[i][j] < 0
+            else domain1.boundaries[i][j] + nnp0
             for j in range(0, n_pts_per_bound1[i])
         )
         for i in range(0, n_bound1)
     )
 
-    vertices = d0.mesh.coordinates + d1.mesh.coordinates
+    vertices = domain0.mesh.coordinates + domain1.mesh.coordinates
 
     if not match:
         # just return the two domains, without merged boudaries, as a new

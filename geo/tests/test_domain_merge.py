@@ -3,7 +3,7 @@
 To run
 > conda activate siblenv
 > cd ~/sibl
-> pytest geo/tests/test_mesh_merge.py -v
+> pytest geo/tests/test_domain_merge.py -v
 """
 
 # import pytest
@@ -97,7 +97,7 @@ def test_two_domains_non_union():
     d0 = Domain(mesh=m0, boundaries=b0)
     d1 = Domain(mesh=m1, boundaries=b1)
 
-    d2 = domain_merge(d0=d0, d1=d1, tolerance=1e-6)
+    d2 = domain_merge(domain0=d0, domain1=d1, tolerance=1e-6)
 
     m2 = d2.mesh
     b2 = d2.boundaries
@@ -192,7 +192,7 @@ def test_two_domains():
     d0 = Domain(mesh=m0, boundaries=b0)
     d1 = Domain(mesh=m1, boundaries=b1)
 
-    d2 = domain_merge(d0=d0, d1=d1, tolerance=1e-6)
+    d2 = domain_merge(domain0=d0, domain1=d1, tolerance=1e-6)
 
     m2 = d2.mesh
     b2 = d2.boundaries
