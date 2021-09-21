@@ -575,6 +575,13 @@ class Template_0001_r0_p0(NamedTuple):
         (9, -13, -14, -9),
     )
 
+    boundaries_dual: tuple[tuple[int, ...], ...] = (
+        (-1, -5, -8, -10),
+        (-10, -11, -12, -13, -14),
+        (-14, -9, -7, -6, -4),
+        (-4, -3, -2, -1),
+    )
+
 
 class Template_0001_r0_p1(NamedTuple):
     """Creates the first partial of Template_0001_r0_p0.
@@ -594,6 +601,15 @@ class Template_0001_r0_p1(NamedTuple):
     faces: tuple[Face, ...] = _base.faces[0:6]
     faces_dual: tuple[Face, ...] = _base.faces_dual[0:5]
     faces_ports: tuple[Face, ...] = _base.faces_ports[0:5] + _base.faces_ports[6:8]
+
+    boundaries_dual: tuple[tuple[int, ...], ...] = (
+        (-1, -5, -8, -10),
+        (-10, -11, -12),
+        (-12, 8, 5),
+        (5, 6, -7),
+        (-7, -6, -4),
+        (-4, -3, -2, -1),
+    )
 
 
 class Template_0001_r1_p0(NamedTuple):
@@ -615,6 +631,13 @@ class Template_0001_r1_p0(NamedTuple):
     faces_dual: tuple[Face, ...] = _base.faces_dual
     faces_ports: tuple[Face, ...] = _base.faces_ports[4:6] + _base.faces_ports[7:]
 
+    boundaries_dual: tuple[tuple[int, ...], ...] = (
+        (0, 7, -11),
+        (-11, -12, -13, -14),
+        (-14, -9, -7, -6),
+        (-6, 1, 0),
+    )
+
 
 class Template_0001_r1_p1(NamedTuple):
     """Creates the third partial of Template_0001_r0_p0.
@@ -635,6 +658,15 @@ class Template_0001_r1_p1(NamedTuple):
     faces: tuple[Face, ...] = _base.faces[0:6]
     faces_dual: tuple[Face, ...] = _base.faces_dual[0:5]
     faces_ports: tuple[Face, ...] = _base.faces_ports[4:5] + _base.faces_ports[7:8]
+
+    boundaries_dual: tuple[tuple[int, ...], ...] = (
+        (0, 7, -11),
+        (-11, -12),
+        (-12, 8, 5),
+        (5, 6, -7),
+        (-7, -6),
+        (-6, 1, 0),
+    )
 
 
 class Template_0010(NamedTuple):
