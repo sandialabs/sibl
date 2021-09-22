@@ -10,7 +10,21 @@ import pytest
 
 # from ptg.quadtree import Mesh, coordinates
 import ptg.quadtree as qt
-from ptg.domain_merge import domain_merge
+from ptg.domain_merge import boundary_substraction, domain_merge
+
+
+def test_boundary_subtraction():
+    # test boundary
+    b0 = ((0, 1, 2, 3), (3, 4, 5), (5, 6), (6, 0))
+
+    # test boundary subset
+    s0 = ((3, 4, 5), (6, 0))
+
+    known_result = ((0, 1, 2, 3), (5, 6))
+
+    found_result = boundary_substraction(boundary=b0, subtracted=s0)
+
+    assert known_result == found_result
 
 
 def test_two_domains_non_union():
@@ -109,7 +123,7 @@ def test_two_domains_non_union():
     assert b2 == ((5, 4), (2, 3), (6, 7), (11, 10))
 
 
-@pytest.mark.skip("work in progress")
+# @pytest.mark.skip("work in progress")
 def test_two_domains():
     """Tests merging of two domains along a single boundary.
 

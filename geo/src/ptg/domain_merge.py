@@ -24,6 +24,26 @@ from ptg.quadtree import Domain, Mesh
 #     boundaries: tuple[tuple[int, ...], ...]
 
 
+def boundary_substraction(
+    *, boundary: tuple[tuple[int, ...], ...], subtracted: tuple[tuple[int, ...], ...]
+) -> tuple[tuple[int, ...], ...]:
+    """From a boundary composed of tuples of node number segments, subtracts the subset
+    of those segments contained in the subtracted tuple.
+
+    Arguments:
+        boundary (tuple[tuple[int, ...], ...]):  A tuple of tuples of ints, where each
+            integer is a node number in sequence along a discrete boundary.
+        subtracted (tuple[tuple[int, ...], ...]):  A subset of the boundary.
+
+    Returns:
+        tuple[tuple[int, ...], ...]: The difference of boundary less subtracted.
+    """
+    output = tuple(
+        boundary_i for boundary_i in boundary if boundary_i not in subtracted
+    )
+    return output
+
+
 def domain_merge(
     *,
     domain0: Domain,
@@ -234,13 +254,21 @@ def domain_merge(
     else:
 
         # n_boundary_merged_points = len(b0_matched)
-        n_boundary_merged_points = tuple(len(x) for x in b0_matched)
+        # n_boundary_merged_points = tuple(len(x) for x in b0_matched)
+
+        # tuple of segments in b0_matched, count number of merged points per segment
+        # n_points_merged_per_seg = n_boundary_merged_points
+        n_points_merged_per_seg = tuple(len(x) for x in b0_matched)
 
         # merge the matched boundaries along each segment
         # b0_merged = tuple(
         #     b0_matched[k] + nnp0 if b0_matched[k] < 0 else b0_matched[k]
         #     for k in range(0, len(b0_matched))
         # )
+
+        # _matched is a collection of node numbers per segment in the input domain
+        # _merged is the same collection with renumbered node numbers in the output domain
+
         b0_merged = tuple(
             tuple(seg[k] + nnp0 if seg[k] < 0 else seg[k] for k in range(len(seg)))
             for seg in b0_matched
@@ -258,21 +286,27 @@ def domain_merge(
         )
 
         # collect the non-merged boundaries from each domain
-        b0_unmerged = tuple(filter(lambda x: x != b0_merged, bounds0))
-        b1_unmerged = tuple(filter(lambda x: x != b1_merged, bounds1))
+        b0_unmerged = boundary_substraction(boundary=bounds0, subtracted=b0_merged)
+        b1_unmerged = boundary_substraction(boundary=bounds1, subtracted=b1_merged)
+
+        # b0_unmerged = tuple(filter(lambda x: x != b0_merged, bounds0))
+        # b1_unmerged = tuple(filter(lambda x: x != b1_merged, bounds1))
 
         # collect all unmerged boundaries as the new boundary of the new domain
         new_boundaries = b0_unmerged + b1_unmerged
 
         # renumber the new faces1
-        for k in range(0, n_boundary_merged_points):
-            faces1 = tuple(  # not faces1_merged, need to update face1 each k loop
-                tuple(
-                    faces1[i][j] if faces1[i][j] != b1_merged[k] else b0_merged[k]
-                    for j in range(0, nen1)
+        for segment in range(0, len(n_points_merged_per_seg)):
+            for k in range(0, n_points_merged_per_seg[segment]):
+                faces1 = tuple(  # not faces1_merged, need to update face1 each k loop
+                    tuple(
+                        faces1[i][j]
+                        if faces1[i][j] != b1_merged[segment][k]
+                        else b0_merged[segment][k]
+                        for j in range(0, nen1)
+                    )
+                    for i in range(0, n_faces1)
                 )
-                for i in range(0, n_faces1)
-            )
 
         faces = faces0 + faces1
 
