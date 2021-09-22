@@ -124,6 +124,7 @@ class Template_Base(NamedTuple):
     vertices_dual: tuple[Vertex, ...]
     faces_dual: tuple[Face, ...]
     ports: tuple[Port, ...]
+    boundaries_dual: tuple[tuple[int, ...], ...]
 
 
 class Template_0000(NamedTuple):
@@ -199,6 +200,13 @@ class Template_0000(NamedTuple):
         (-0.5, 1.0),
         (-1.0, 0.5),
         (-1.0, -0.5),
+    )
+
+    boundaries_dual: tuple[tuple[int, ...], ...] = (
+        (0, 2),
+        (2, 3),
+        (3, 1),
+        (1, 0),
     )
 
 
@@ -305,6 +313,13 @@ class Template_0001_Base(NamedTuple):
         (-0.5, 1.0),
         (-1.0, 0.5),
         (-1.0, -0.5),
+    )
+
+    boundaries_dual: tuple[tuple[int, ...], ...] = (
+        (0, 7),
+        (7, 8, 9),
+        (9, 6, 1),
+        (1, 0),
     )
 
 
@@ -430,6 +445,15 @@ class Template_0001(NamedTuple):
         (1, 6, -7, -6),
         (-8, -9, -10, 7),
         (7, -10, -11, 8),
+    )
+
+    boundaries_dual: tuple[tuple[int, ...], ...] = (
+        (0, 7),
+        (7, 8),
+        (8, 5),
+        (5, 6),
+        (6, 1),
+        (1, 0),
     )
 
 
@@ -692,6 +716,8 @@ class Template_0010(NamedTuple):
 
     ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=_theta)
 
+    boundaries_dual: tuple[tuple[int, ...], ...] = _base.boundaries_dual
+
 
 class Template_0100(NamedTuple):
     """This is a non-unique template, visualized as the unique 0001 template,
@@ -716,6 +742,8 @@ class Template_0100(NamedTuple):
 
     ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=_theta)
 
+    boundaries_dual: tuple[tuple[int, ...], ...] = _base.boundaries_dual
+
 
 class Template_1000(NamedTuple):
     """This is a non-unique template, visualized as the unique 0001 template,
@@ -739,6 +767,8 @@ class Template_1000(NamedTuple):
     faces_dual: tuple[Face, ...] = _base.faces_dual
 
     ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=_theta)
+
+    boundaries_dual: tuple[tuple[int, ...], ...] = _base.boundaries_dual
 
 
 class Template_0011(NamedTuple):
@@ -857,6 +887,13 @@ class Template_0011(NamedTuple):
         (-1.0, -0.5),
     )
 
+    boundaries_dual: tuple[tuple[int, ...], ...] = (
+        (0, 4, 8),
+        (8, 9, 10, 11),
+        (11, 7, 1),
+        (1, 0),
+    )
+
 
 class Template_0101(NamedTuple):
     """This is a non-unique template, visualized as the unique 0011 template,
@@ -880,6 +917,8 @@ class Template_0101(NamedTuple):
     faces_dual: tuple[Face, ...] = _base.faces_dual
 
     ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=_theta)
+
+    boundaries_dual: tuple[tuple[int, ...], ...] = _base.boundaries_dual
 
 
 class Template_1010(NamedTuple):
@@ -905,6 +944,8 @@ class Template_1010(NamedTuple):
 
     ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=_theta)
 
+    boundaries_dual: tuple[tuple[int, ...], ...] = _base.boundaries_dual
+
 
 class Template_1100(NamedTuple):
     """This is a non-unique template, visualized as the unique 0011 template,
@@ -928,6 +969,8 @@ class Template_1100(NamedTuple):
     faces_dual: tuple[Face, ...] = _base.faces_dual
 
     ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=_theta)
+
+    boundaries_dual: tuple[tuple[int, ...], ...] = _base.boundaries_dual
 
 
 class Template_0110(NamedTuple):
@@ -1050,6 +1093,13 @@ class Template_0110(NamedTuple):
         (-1.0, -0.5),
     )
 
+    boundaries_dual: tuple[tuple[int, ...], ...] = (
+        (0, 6, 9),
+        (9, 10, 11),
+        (11, 5, 2),
+        (2, 1, 0),
+    )
+
 
 class Template_1001(NamedTuple):
     """This is a non-unique template, visualized as the unique 0110 template,
@@ -1073,6 +1123,8 @@ class Template_1001(NamedTuple):
     faces_dual: tuple[Face, ...] = _base.faces_dual
 
     ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=_theta)
+
+    boundaries_dual: tuple[tuple[int, ...], ...] = _base.boundaries_dual
 
 
 class Template_0111(NamedTuple):
@@ -1202,6 +1254,13 @@ class Template_0111(NamedTuple):
         (-1.0, -0.5),
     )
 
+    boundaries_dual: tuple[tuple[int, ...], ...] = (
+        (0, 6, 10),
+        (10, 11, 12, 13),
+        (13, 9, 5, 2),
+        (2, 1, 0),
+    )
+
 
 class Template_1011(NamedTuple):
     """This is a non-unique template, visualized as the unique 0111 template,
@@ -1225,6 +1284,8 @@ class Template_1011(NamedTuple):
     faces_dual: tuple[Face, ...] = _base.faces_dual
 
     ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=_theta)
+
+    boundaries_dual: tuple[tuple[int, ...], ...] = _base.boundaries_dual
 
 
 class Template_1101(NamedTuple):
@@ -1250,6 +1311,8 @@ class Template_1101(NamedTuple):
 
     ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=_theta)
 
+    boundaries_dual: tuple[tuple[int, ...], ...] = _base.boundaries_dual
+
 
 class Template_1110(NamedTuple):
     """This is a non-unique template, visualized as the unique 0111 template,
@@ -1273,6 +1336,8 @@ class Template_1110(NamedTuple):
     faces_dual: tuple[Face, ...] = _base.faces_dual
 
     ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=_theta)
+
+    boundaries_dual: tuple[tuple[int, ...], ...] = _base.boundaries_dual
 
 
 class Template_1111(NamedTuple):
@@ -1406,6 +1471,13 @@ class Template_1111(NamedTuple):
         (-1.0, 0.25),
         (-1.0, -0.25),
         (-1.0, -0.75),
+    )
+
+    boundaries_dual: tuple[tuple[int, ...], ...] = (
+        (0, 4, 8, 12),
+        (12, 13, 14, 15),
+        (15, 11, 7, 3),
+        (3, 2, 1, 0),
     )
 
 
@@ -1629,6 +1701,13 @@ class Template_0112(NamedTuple):
         (-1.0, -0.5),  # s-sw
     )
 
+    boundaries_dual: tuple[tuple[int, ...], ...] = (
+        (0, 8, 19),
+        (19, 20, 26, 27, 28, 29),
+        (29, 25, 18, 14, 7, 2),
+        (2, 1, 0),
+    )
+
 
 class Template_1021(NamedTuple):  # rotate Template_0112 90 degrees clockwise
     """This is a non-unique template, visualized as the unique 0112 template,
@@ -1652,6 +1731,8 @@ class Template_1021(NamedTuple):  # rotate Template_0112 90 degrees clockwise
     faces_dual: tuple[Face, ...] = _base.faces_dual
 
     ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=_theta)
+
+    boundaries_dual: tuple[tuple[int, ...], ...] = _base.boundaries_dual
 
 
 class Template_1201(NamedTuple):  # rotate Template_0112 90 degrees counter clockwise
@@ -1677,6 +1758,8 @@ class Template_1201(NamedTuple):  # rotate Template_0112 90 degrees counter cloc
 
     ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=_theta)
 
+    boundaries_dual: tuple[tuple[int, ...], ...] = _base.boundaries_dual
+
 
 class Template_2110(NamedTuple):  # rotate Template_0112 180 degrees
     """This is a non-unique template, visualized as the unique 0112 template,
@@ -1700,3 +1783,5 @@ class Template_2110(NamedTuple):  # rotate Template_0112 180 degrees
     faces_dual: tuple[Face, ...] = _base.faces_dual
 
     ports: tuple[Vertex, ...] = rotate(ref=_base.ports, angle=_theta)
+
+    boundaries_dual: tuple[tuple[int, ...], ...] = _base.boundaries_dual

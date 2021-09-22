@@ -435,33 +435,44 @@ def test_known_quad_corners():
         assert not qt.known_quad_corners(quad_corners=item)
 
 
-def test_static_mesh_dual_key_0000():
+def test_static_domain_dual_key_0000():
     ctr = qt.Coordinate(x=0.0, y=0.0)
     cell = qt.Cell(center=ctr, size=2.0)
     points = tuple([qt.Coordinate(0.6, 0.6)])
 
     # test key_0000 dual mesh construction
     tree = qt.QuadTree(cell=cell, level=0, level_max=1, points=points)
-    mesh_dual = tree.mesh_dual()
+    domain_dual = tree.domain_dual()
 
     known_coordinates = ((-0.5, -0.5), (-0.5, 0.5), (0.5, -0.5), (0.5, 0.5))
     known_connectivity = ((0, 2, 3, 1),)
 
-    found_coordinates = mesh_dual[0].coordinates
-    found_connectivity = mesh_dual[0].connectivity
+    found_coordinates = domain_dual[0].mesh.coordinates
+    found_connectivity = domain_dual[0].mesh.connectivity
 
     assert known_coordinates == found_coordinates
     assert known_connectivity == found_connectivity
 
+    known_boundaries_dual = (
+        (0, 2),
+        (2, 3),
+        (3, 1),
+        (1, 0),
+    )
 
-def test_static_mesh_dual_key_0001_r0_p0():
+    found_boundaries_dual = domain_dual[0].boundaries
+
+    assert known_boundaries_dual == found_boundaries_dual
+
+
+def test_static_domain_dual_key_0001_r0_p0():
     ctr = qt.Coordinate(x=0.0, y=0.0)
     cell = qt.Cell(center=ctr, size=2.0)
     points = tuple([qt.Coordinate(0.6, 0.6)])
 
     # test key_0001
     tree = qt.QuadTree(cell=cell, level=0, level_max=2, points=points)
-    mesh_dual = tree.mesh_dual()
+    domain_dual = tree.domain_dual()
 
     known_coordinates = (
         (-0.5, -0.5),  # 0
@@ -509,14 +520,25 @@ def test_static_mesh_dual_key_0001_r0_p0():
         (9, -13, -14, -9),
     )
 
-    found_coordinates = mesh_dual[0].coordinates
-    found_connectivity = mesh_dual[0].connectivity
+    found_coordinates = domain_dual[0].mesh.coordinates
+    found_connectivity = domain_dual[0].mesh.connectivity
 
     assert known_coordinates == found_coordinates
     assert known_connectivity == found_connectivity
 
+    known_boundaries_dual = (
+        (-1, -5, -8, -10),
+        (-10, -11, -12, -13, -14),
+        (-14, -9, -7, -6, -4),
+        (-4, -3, -2, -1),
+    )
 
-def test_static_mesh_dual_key_0001_r0_p1_and_key_0001_r1_p0():
+    found_boundaries_dual = domain_dual[0].boundaries
+
+    assert known_boundaries_dual == found_boundaries_dual
+
+
+def test_static_domain_dual_key_0001_r0_p1_and_key_0001_r1_p0():
     ctr = qt.Coordinate(x=0.0, y=0.0)
     cell = qt.Cell(center=ctr, size=2.0)
     points = tuple([qt.Coordinate(0.6, 0.6)])
@@ -532,7 +554,7 @@ def test_static_mesh_dual_key_0001_r0_p1_and_key_0001_r1_p0():
     found_quad_levels_recursive = tree.quad_levels_recursive()
     assert known_quad_levels_recursive == found_quad_levels_recursive
 
-    mesh_dual = tree.mesh_dual()
+    domain_dual = tree.domain_dual()
 
     known_coordinates_parent = (
         (-0.5, -0.5),  # 0
@@ -578,6 +600,15 @@ def test_static_mesh_dual_key_0001_r0_p1_and_key_0001_r1_p0():
         (7, -11, -12, 8),
         # (8, -12, -13, 9),  # does not include this port face
         # (9, -13, -14, -9),  # does not include this port face
+    )
+
+    known_boundaries_dual_parent = (
+        (-1, -5, -8, -10),
+        (-10, -11, -12),
+        (-12, 8, 5),
+        (5, 6, -7),
+        (-7, -6, -4),
+        (-4, -3, -2, -1),
     )
 
     known_coordinates_child = (
@@ -626,12 +657,23 @@ def test_static_mesh_dual_key_0001_r0_p1_and_key_0001_r1_p0():
         (9, -13, -14, -9),
     )
 
-    found_coordinates_parent = mesh_dual[0].coordinates
-    found_connectivity_parent = mesh_dual[0].connectivity
+    known_boundaries_dual_child = (
+        (0, 7, -11),
+        (-11, -12, -13, -14),
+        (-14, -9, -7, -6),
+        (-6, 1, 0),
+    )
+
+    found_coordinates_parent = domain_dual[0].mesh.coordinates
+    found_connectivity_parent = domain_dual[0].mesh.connectivity
+    found_boundaries_dual_parent = domain_dual[0].boundaries
     assert known_coordinates_parent == found_coordinates_parent
     assert known_connectivity_parent == found_connectivity_parent
+    assert known_boundaries_dual_parent == found_boundaries_dual_parent
 
-    found_coordinates_child = mesh_dual[1].coordinates
-    found_connectivity_child = mesh_dual[1].connectivity
+    found_coordinates_child = domain_dual[1].mesh.coordinates
+    found_connectivity_child = domain_dual[1].mesh.connectivity
+    found_boundaries_dual_child = domain_dual[1].boundaries
     assert known_coordinates_child == found_coordinates_child
     assert known_connectivity_child == found_connectivity_child
+    assert known_boundaries_dual_child == found_boundaries_dual_child

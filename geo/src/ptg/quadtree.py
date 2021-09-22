@@ -66,6 +66,23 @@ class Mesh(NamedTuple):
     connectivity: tuple[tuple[int, ...], ...]
 
 
+class Domain(NamedTuple):
+    """Creates a Domain, which consists of a Mesh and a boundaries tuple.
+
+    Mesh: see definition above.
+
+    boundaries (tuple[tuple[int, ...], ...]):  Each tuple is a boundary. Each
+        boundary is a tuple of integers that identify the node number in the mesh.
+        The boundary integers should be sequential along the boundary.  There
+        ordering of the boundary from first to last node or last to first node is
+        immaterial, since the `domain_merge` function compares both forward and
+        backward boundary sequences.
+    """
+
+    mesh: Mesh
+    boundaries: tuple[tuple[int, ...], ...]
+
+
 # Reference: recursive type hinting:
 # https://stackoverflow.com/questions/53845024/defining-a-recursive-type-hint-in-python
 # Garthoks = Union[Garthok, Iterable['Garthoks']]
@@ -475,18 +492,19 @@ class QuadTree:
 
         return _quads
 
-    def mesh_dual(self) -> tuple[Mesh, ...]:
-        """Maps the quadtree to an assembly of dualized quadrilateral elements mesh.
-        Returns the (vertices, faces) for all templates embedded in the quadtree.
+    def domain_dual(self) -> tuple[Domain, ...]:
+        """Maps the quadtree to a collection of dualized Domains
+        Returns the (mesh=(vertices, faces), boundaries) for all
+        templates embedded in the quadtree.
         """
         _quad_levels_recursive = self.quad_levels_recursive()
-        _mesh_dual = QuadTree._mesh_dual(
+        _domain_dual = QuadTree._domain_dual(
             cell=self.cell,
             level=0,
             quad_levels_recursive_subset=_quad_levels_recursive,
             partial=False,
         )
-        return _mesh_dual
+        return _domain_dual
 
     # def quad_levels_recursive(self) -> NestedInts:
     def quad_levels_recursive(self) -> tuple:
@@ -539,10 +557,10 @@ class QuadTree:
             return (level,)
 
     @staticmethod
-    def _mesh_dual(
+    def _domain_dual(
         *, cell: Cell, level: int, quad_levels_recursive_subset: tuple, partial: bool
-    ) -> tuple[Mesh, ...]:
-        """Returns the dual mesh encoded by the QuadTree."""
+    ) -> tuple[Domain, ...]:
+        """Returns the dual domain encoded by the QuadTree."""
 
         _factory = TemplateFactory()
 
@@ -590,7 +608,7 @@ class QuadTree:
             )
 
             # accumlate the parent part quad first
-            _subquads = QuadTree._mesh_dual(
+            _subdomain = QuadTree._domain_dual(
                 cell=cell,
                 level=level,
                 quad_levels_recursive_subset=quad_levels_recursive_parent,
@@ -599,42 +617,42 @@ class QuadTree:
 
             # then accumlate each of the children
             if cell.sw.has_children:
-                _subquad_sw = QuadTree._mesh_dual(
+                _subquad_sw = QuadTree._domain_dual(
                     cell=cell.sw,
                     level=level + 1,
                     quad_levels_recursive_subset=subset_sw,
                     partial=False,
                 )
-                _subquads = _subquads + _subquad_sw
+                _subdomain = _subdomain + _subquad_sw
 
             if cell.nw.has_children:
-                _subquad_nw = QuadTree._mesh_dual(
+                _subquad_nw = QuadTree._domain_dual(
                     cell=cell.nw,
                     level=level + 1,
                     quad_levels_recursive_subset=subset_nw,
                     partial=False,
                 )
-                _subquads = _subquads + _subquad_nw
+                _subdomain = _subdomain + _subquad_nw
 
             if cell.se.has_children:
-                _subquad_se = QuadTree._mesh_dual(
+                _subquad_se = QuadTree._domain_dual(
                     cell=cell.se,
                     level=level + 1,
                     quad_levels_recursive_subset=subset_se,
                     partial=False,
                 )
-                _subquads = _subquads + _subquad_se
+                _subdomain = _subdomain + _subquad_se
 
             if cell.ne.has_children:
-                _subquad_ne = QuadTree._mesh_dual(
+                _subquad_ne = QuadTree._domain_dual(
                     cell=cell.ne,
                     level=level + 1,
                     quad_levels_recursive_subset=subset_ne,
                     partial=False,
                 )
-                _subquads = _subquads + _subquad_ne
+                _subdomain = _subdomain + _subquad_ne
 
-            return _subquads
+            return _subdomain
 
         else:
             # A known template can be constructed.  Example, _template.name == "0001"
@@ -661,7 +679,10 @@ class QuadTree:
                     coordinates=_new_coordinates, connectivity=_template.faces_dual
                 )
 
-            return (mesh,)
+            domain = Domain(mesh=mesh, boundaries=_template.boundaries_dual)
+
+            # return (mesh,)
+            return (domain,)
 
     @staticmethod
     def _levels_flatten(nested: tuple) -> Iterable[int]:

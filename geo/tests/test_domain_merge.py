@@ -6,10 +6,11 @@ To run
 > pytest geo/tests/test_domain_merge.py -v
 """
 
-# import pytest
+import pytest
 
-from ptg.quadtree import Mesh, coordinates
-from ptg.domain_merge import Domain, domain_merge
+# from ptg.quadtree import Mesh, coordinates
+import ptg.quadtree as qt
+from ptg.domain_merge import domain_merge
 
 
 def test_two_domains_non_union():
@@ -33,7 +34,7 @@ def test_two_domains_non_union():
     """
 
     # vertices (aka points or coordinates)
-    v0 = coordinates(
+    v0 = qt.coordinates(
         pairs=(
             (-0.5, 0.0),  # 0
             (-0.5, 0.5),  # 1
@@ -44,7 +45,7 @@ def test_two_domains_non_union():
         )
     )
 
-    v1 = coordinates(
+    v1 = qt.coordinates(
         pairs=(
             (0.1, 0.0),  # 0
             (0.1, 0.5),  # 1
@@ -67,8 +68,8 @@ def test_two_domains_non_union():
     )
 
     # meshes
-    m0 = Mesh(coordinates=v0, connectivity=c0)
-    m1 = Mesh(coordinates=v1, connectivity=c1)
+    m0 = qt.Mesh(coordinates=v0, connectivity=c0)
+    m1 = qt.Mesh(coordinates=v1, connectivity=c1)
 
     # boundaries
     b0 = (
@@ -94,8 +95,8 @@ def test_two_domains_non_union():
     )
 
     # domains
-    d0 = Domain(mesh=m0, boundaries=b0)
-    d1 = Domain(mesh=m1, boundaries=b1)
+    d0 = qt.Domain(mesh=m0, boundaries=b0)
+    d1 = qt.Domain(mesh=m1, boundaries=b1)
 
     d2 = domain_merge(domain0=d0, domain1=d1, tolerance=1e-6)
 
@@ -108,7 +109,7 @@ def test_two_domains_non_union():
     assert b2 == ((5, 4), (2, 3), (6, 7), (11, 10))
 
 
-# @pytest.mark.skip("work in progress")
+@pytest.mark.skip("work in progress")
 def test_two_domains():
     """Tests merging of two domains along a single boundary.
 
@@ -128,7 +129,7 @@ def test_two_domains():
     """
 
     # vertices (aka points or coordinates)
-    v0 = coordinates(
+    v0 = qt.coordinates(
         pairs=(
             (-0.5, 0.0),  # 0
             (-0.5, 0.5),  # 1
@@ -139,7 +140,7 @@ def test_two_domains():
         )
     )
 
-    v1 = coordinates(
+    v1 = qt.coordinates(
         pairs=(
             (0.0, 0.0),  # 0
             (0.0, 0.5),  # 1
@@ -162,8 +163,8 @@ def test_two_domains():
     )
 
     # meshes
-    m0 = Mesh(coordinates=v0, connectivity=c0)
-    m1 = Mesh(coordinates=v1, connectivity=c1)
+    m0 = qt.Mesh(coordinates=v0, connectivity=c0)
+    m1 = qt.Mesh(coordinates=v1, connectivity=c1)
 
     # boundaries
     b0 = (
@@ -189,8 +190,8 @@ def test_two_domains():
     )
 
     # domains
-    d0 = Domain(mesh=m0, boundaries=b0)
-    d1 = Domain(mesh=m1, boundaries=b1)
+    d0 = qt.Domain(mesh=m0, boundaries=b0)
+    d1 = qt.Domain(mesh=m1, boundaries=b1)
 
     d2 = domain_merge(domain0=d0, domain1=d1, tolerance=1e-6)
 
@@ -201,3 +202,31 @@ def test_two_domains():
     assert m2.connectivity == ((0, 2, 3, 1), (5, 0, 1, 4), (2, 8, 9, 3), (8, 11, 10, 9))
 
     assert b2 == ((5, 4), (11, 10))
+
+
+@pytest.mark.skip("work in progress")
+def test_domain_merge_key_0001_r0_p1_and_key_0001_r1_p0():
+    ctr = qt.Coordinate(x=0.0, y=0.0)
+    cell = qt.Cell(center=ctr, size=2.0)
+    points = tuple([qt.Coordinate(0.6, 0.6)])
+
+    # test key_0001 nested once with self
+    tree = qt.QuadTree(cell=cell, level=0, level_max=3, points=points)
+    known_quad_levels_recursive = (
+        (1,),
+        (1,),
+        (1,),
+        ((2,), (2,), (2,), ((3,), (3,), (3,), (3,))),
+    )
+    found_quad_levels_recursive = tree.quad_levels_recursive()
+    assert known_quad_levels_recursive == found_quad_levels_recursive
+
+    domain_dual = tree.domain_dual()
+
+    d0 = domain_dual[0]
+    d1 = domain_dual[1]
+
+    d2 = domain_merge(domain0=d0, domain1=d1, tolerance=1e-6)
+
+    m2 = d2.mesh
+    b2 = d2.boundaries

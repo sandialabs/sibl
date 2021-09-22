@@ -60,6 +60,8 @@ def test_Template_0000():
         (-1.0, -0.5),
     )
 
+    assert template.boundaries_dual == ((0, 2), (2, 3), (3, 1), (1, 0))
+
 
 def test_Template_0001_Base():
     template = dquad.Template_0001_Base()
@@ -137,6 +139,8 @@ def test_Template_0001_Base():
         (-1.0, 0.5),
         (-1.0, -0.5),
     )
+
+    assert template.boundaries_dual == ((0, 7), (7, 8, 9), (9, 6, 1), (1, 0))
 
 
 def test_Template_0001():
@@ -219,6 +223,15 @@ def test_Template_0001():
         (1, 6, -7, -6),
         (-8, -9, -10, 7),
         (7, -10, -11, 8),
+    )
+
+    assert template.boundaries_dual == (
+        (0, 7),
+        (7, 8),
+        (8, 5),
+        (5, 6),
+        (6, 1),
+        (1, 0),
     )
 
 
@@ -558,6 +571,13 @@ def test_Template_0100():
 
     assert all(map(lambda a, b: abs(a - b) < TOL, chain(*known), chain(*found)))
 
+    assert template.boundaries_dual == (
+        (0, 7),
+        (7, 8, 9),
+        (9, 6, 1),
+        (1, 0),
+    )
+
 
 def test_Template_0011():
     template = dquad.Template_0011()
@@ -645,6 +665,13 @@ def test_Template_0011():
         (-0.5, 1.0),
         (-1.0, 0.5),
         (-1.0, -0.5),
+    )
+
+    assert template.boundaries_dual == (
+        (0, 4, 8),
+        (8, 9, 10, 11),
+        (11, 7, 1),
+        (1, 0),
     )
 
 
@@ -738,6 +765,13 @@ def test_Template_0110():
         (-1.0, 0.75),
         (-1.0, 0.25),
         (-1.0, -0.5),
+    )
+
+    assert template.boundaries_dual == (
+        (0, 6, 9),
+        (9, 10, 11),
+        (11, 5, 2),
+        (2, 1, 0),
     )
 
 
@@ -838,6 +872,13 @@ def test_Template_0111():
         (-1.0, 0.75),
         (-1.0, 0.25),
         (-1.0, -0.5),
+    )
+
+    assert template.boundaries_dual == (
+        (0, 6, 10),
+        (10, 11, 12, 13),
+        (13, 9, 5, 2),
+        (2, 1, 0),
     )
 
 
@@ -944,6 +985,13 @@ def test_Template_1111():
         (-1.0, 0.25),
         (-1.0, -0.25),
         (-1.0, -0.75),
+    )
+
+    assert template.boundaries_dual == (
+        (0, 4, 8, 12),
+        (12, 13, 14, 15),
+        (15, 11, 7, 3),
+        (3, 2, 1, 0),
     )
 
 
@@ -1116,6 +1164,13 @@ def test_Template_0112():
         (-1.0, 0.75),  # w-nw
         (-1.0, 0.25),  # w-nw
         (-1.0, -0.5),  # s-sw
+    )
+
+    assert template.boundaries_dual == (
+        (0, 8, 19),
+        (19, 20, 26, 27, 28, 29),
+        (29, 25, 18, 14, 7, 2),
+        (2, 1, 0),
     )
 
 

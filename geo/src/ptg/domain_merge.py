@@ -1,26 +1,27 @@
 """The module merges two domains at a single boundary."""
-from typing import NamedTuple
+# from typing import NamedTuple
 
 import numpy as np
 
-from ptg.quadtree import Mesh
+# from ptg.quadtree import Mesh
+from ptg.quadtree import Domain, Mesh
 
 
-class Domain(NamedTuple):
-    """Creates a Domain, which consists of a Mesh and a boundaries tuple.
-
-    Mesh: see definition in the included Python module above.
-
-    boundaries (tuple[tuple[int, ...], ...]):  Each tuple is a boundary. Each
-        boundary is a tuple of integers that identify the node number in the mesh.
-        The boundary integers should be sequential along the boundary.  There
-        ordering of the boundary from first to last node or last to first node is
-        immaterial, since the `domain_merge` function compares both forward and
-        backward boundary sequences.
-    """
-
-    mesh: Mesh
-    boundaries: tuple[tuple[int, ...], ...]
+# class Domain(NamedTuple):
+#     """Creates a Domain, which consists of a Mesh and a boundaries tuple.
+#
+#     Mesh: see definition in the included Python module above.
+#
+#     boundaries (tuple[tuple[int, ...], ...]):  Each tuple is a boundary. Each
+#         boundary is a tuple of integers that identify the node number in the mesh.
+#         The boundary integers should be sequential along the boundary.  There
+#         ordering of the boundary from first to last node or last to first node is
+#         immaterial, since the `domain_merge` function compares both forward and
+#         backward boundary sequences.
+#     """
+#
+#     mesh: Mesh
+#     boundaries: tuple[tuple[int, ...], ...]
 
 
 def domain_merge(
@@ -30,10 +31,13 @@ def domain_merge(
     tolerance: float,
 ) -> Domain:
     """Merges two separate domains into a single domain.  Each domain has
-    a tuple of boundaries.  Two domains may be merged only along one boundary
-    per domain.  Once a matching pair of boundaries is found (one boundary from
-    `domain0` and one boundary from `domain1`), all other boundaries are disregarded.
-    This method does not merge domains among mutiple boundaries.
+    a tuple of boundaries.  Two domains may be merged only along a boundary sequence
+    per domain.
+
+    xxx (no longer enforced)
+    xxx Once a matching pair of boundaries is found (one boundary from
+    xxx `domain0` and one boundary from `domain1`), all other boundaries are disregarded.
+    xxx This method does not merge domains among mutiple boundaries.
 
     Arguments:
         domain0 (Domain): The first domain, composed of a mesh and mergeable
@@ -60,7 +64,8 @@ def domain_merge(
         ValueError: if meshes with elements that are not 2D quadrilaterals.
     """
     tol = tolerance  # typical is 1e-6
-    match = False  # start from no matching borders
+    # match = False  # start from no matching borders
+    n_matches = 0  # start from zero matching border pairs
 
     # x and y coordinates in mesh zero
     c0x = tuple([c.x for c in domain0.mesh.coordinates])
@@ -74,8 +79,9 @@ def domain_merge(
     b1_matched = tuple()
 
     # Compare boundaries from the two domains, break out of comparison if/when a
-    # boundary match is found.  Only a single boundary pair is ever joined.
-    # It is also possible that no boundaries are joined.
+    # boundary match is found.
+    # xxx (no longer enforced) Only a single boundary pair is ever joined.
+    # It is possible that no boundaries are joined.
 
     for b0 in domain0.boundaries:
         for b1 in domain1.boundaries:
@@ -97,9 +103,19 @@ def domain_merge(
                 normx = np.abs(np.linalg.norm(diffx))
                 normy = np.abs(np.linalg.norm(diffy))
                 if normx < tol and normy < tol:
-                    b0_matched = b0
-                    b1_matched = b1
-                    match = True
+                    # b0_matched = b0
+                    # b1_matched = b1
+                    # if len(b0_matched) == 0 and len(b1_matched) == 0:
+                    if n_matches == 0:
+                        # b0_matched = b0_matched + b0  # eliminate empty placeholder
+                        # b1_matched = b1_matched + b1  # eliminate empty placeholder
+                        b0_matched = (b0,)  # eliminate empty placeholder
+                        b1_matched = (b1,)  # eliminate empty placeholder
+                    else:
+                        b0_matched = (b0_matched, b0)
+                        b1_matched = (b1_matched, b1)
+                    # match = True
+                    n_matches += 1
                     break
 
                 # flip the ordering of the second boundary
@@ -115,9 +131,21 @@ def domain_merge(
                 normx_reversed = np.abs(np.linalg.norm(diffx_reversed))
                 normy_reversed = np.abs(np.linalg.norm(diffy_reversed))
                 if normx_reversed < tol and normy_reversed < tol:
-                    b0_matched = b0
-                    b1_matched = b1_reversed
-                    match = True
+                    # b0_matched = b0
+                    # b1_matched = b1_reversed
+                    # b0_matched = b0_matched + b0
+                    # b1_matched = b1_matched + b1_reversed
+                    # if len(b0_matched) == 0 and len(b1_matched) == 0:
+                    if n_matches == 0:
+                        # b0_matched = b0_matched + b0  # eliminate empty placeholder
+                        # b1_matched = b1_matched + b1  # eliminate empty placeholder
+                        b0_matched = (b0,)  # eliminate empty placeholder
+                        b1_matched = (b1,)  # eliminate empty placeholder
+                    else:
+                        b0_matched = (b0_matched, b0)
+                        b1_matched = (b1_matched, b1)  # retain original ordering
+                    # match = True
+                    n_matches += 1
                     break
 
             # else:
@@ -188,8 +216,10 @@ def domain_merge(
 
     vertices = domain0.mesh.coordinates + domain1.mesh.coordinates
 
-    if not match:
+    # if not match:
+    if n_matches == 0:
         # just return the two domains, without merged boudaries, as a new
+
         # single domain
 
         faces = faces0 + faces1
@@ -203,16 +233,28 @@ def domain_merge(
 
     else:
 
-        n_boundary_merged_points = len(b0_matched)
+        # n_boundary_merged_points = len(b0_matched)
+        n_boundary_merged_points = tuple(len(x) for x in b0_matched)
 
-        # merge the matched boundaries
+        # merge the matched boundaries along each segment
+        # b0_merged = tuple(
+        #     b0_matched[k] + nnp0 if b0_matched[k] < 0 else b0_matched[k]
+        #     for k in range(0, len(b0_matched))
+        # )
         b0_merged = tuple(
-            b0_matched[k] + nnp0 if b0_matched[k] < 0 else b0_matched[k]
-            for k in range(0, len(b0_matched))
+            tuple(seg[k] + nnp0 if seg[k] < 0 else seg[k] for k in range(len(seg)))
+            for seg in b0_matched
         )
+        # b1_merged = tuple(
+        #     b1_matched[k] + nnp1 + nnp0 if b1_matched[k] < 0 else b1_matched[k] + nnp0
+        #     for k in range(0, len(b1_matched))
+        # )
         b1_merged = tuple(
-            b1_matched[k] + nnp1 + nnp0 if b1_matched[k] < 0 else b1_matched[k] + nnp0
-            for k in range(0, len(b1_matched))
+            tuple(
+                seg[k] + nnp0 + nnp1 if seg[k] < 0 else seg[k] + nnp0
+                for k in range(0, len(seg))
+            )
+            for seg in b1_matched
         )
 
         # collect the non-merged boundaries from each domain
