@@ -129,8 +129,10 @@ def domain_merge(
                     if n_matches == 0:
                         # b0_matched = b0_matched + b0  # eliminate empty placeholder
                         # b1_matched = b1_matched + b1  # eliminate empty placeholder
-                        b0_matched = (b0,)  # eliminate empty placeholder
-                        b1_matched = (b1,)  # eliminate empty placeholder
+                        # b0_matched = (b0,)  # eliminate empty placeholder
+                        # b1_matched = (b1,)  # eliminate empty placeholder
+                        b0_matched = b0  # eliminate empty placeholder
+                        b1_matched = b1  # eliminate empty placeholder
                     else:
                         b0_matched = (b0_matched, b0)
                         b1_matched = (b1_matched, b1)
@@ -159,8 +161,10 @@ def domain_merge(
                     if n_matches == 0:
                         # b0_matched = b0_matched + b0  # eliminate empty placeholder
                         # b1_matched = b1_matched + b1  # eliminate empty placeholder
-                        b0_matched = (b0,)  # eliminate empty placeholder
-                        b1_matched = (b1,)  # eliminate empty placeholder
+                        # b0_matched = (b0,)  # eliminate empty placeholder
+                        # b1_matched = (b1,)  # eliminate empty placeholder
+                        b0_matched = b0  # eliminate empty placeholder
+                        b1_matched = b1  # eliminate empty placeholder
                     else:
                         b0_matched = (b0_matched, b0)
                         b1_matched = (b1_matched, b1)  # retain original ordering
