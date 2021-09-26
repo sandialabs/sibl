@@ -129,14 +129,16 @@ def domain_merge(
                     if n_matches == 0:
                         # b0_matched = b0_matched + b0  # eliminate empty placeholder
                         # b1_matched = b1_matched + b1  # eliminate empty placeholder
-                        # b0_matched = (b0,)  # eliminate empty placeholder
-                        # b1_matched = (b1,)  # eliminate empty placeholder
-                        b0_matched = b0  # eliminate empty placeholder
-                        b1_matched = b1  # eliminate empty placeholder
+                        b0_matched = (b0,)  # eliminate empty placeholder
+                        b1_matched = (b1,)  # eliminate empty placeholder
+                        # b0_matched = b0  # eliminate empty placeholder
+                        # b1_matched = b1  # eliminate empty placeholder
                     else:
-                        b0_matched = (b0_matched, b0)
-                        b1_matched = (b1_matched, b1)
-                    # match = True
+                        # b0_matched = (b0_matched, b0)
+                        # b1_matched = (b1_matched, b1)
+                        b0_matched = b0_matched + (b0,)
+                        b1_matched = b1_matched + (b1,)
+                    # match = true
                     n_matches += 1
                     break
 
@@ -161,13 +163,15 @@ def domain_merge(
                     if n_matches == 0:
                         # b0_matched = b0_matched + b0  # eliminate empty placeholder
                         # b1_matched = b1_matched + b1  # eliminate empty placeholder
-                        # b0_matched = (b0,)  # eliminate empty placeholder
-                        # b1_matched = (b1,)  # eliminate empty placeholder
-                        b0_matched = b0  # eliminate empty placeholder
-                        b1_matched = b1  # eliminate empty placeholder
+                        b0_matched = (b0,)  # eliminate empty placeholder
+                        b1_matched = (b1,)  # eliminate empty placeholder
+                        # b0_matched = b0  # eliminate empty placeholder
+                        # b1_matched = b1  # eliminate empty placeholder
                     else:
-                        b0_matched = (b0_matched, b0)
-                        b1_matched = (b1_matched, b1)  # retain original ordering
+                        # b0_matched = (b0_matched, b0)
+                        # b1_matched = (b1_matched, b1)  # retain original ordering
+                        b0_matched = b0_matched + (b0,)
+                        b1_matched = b1_matched + (b1,)  # retain original ordering
                     # match = True
                     n_matches += 1
                     break
@@ -301,12 +305,12 @@ def domain_merge(
 
         # renumber the new faces1
         for segment in range(0, len(n_points_merged_per_seg)):
-            for k in range(0, n_points_merged_per_seg[segment]):
+            for point in range(0, n_points_merged_per_seg[segment]):
                 faces1 = tuple(  # not faces1_merged, need to update face1 each k loop
                     tuple(
                         faces1[i][j]
-                        if faces1[i][j] != b1_merged[segment][k]
-                        else b0_merged[segment][k]
+                        if faces1[i][j] != b1_merged[segment][point]
+                        else b0_merged[segment][point]
                         for j in range(0, nen1)
                     )
                     for i in range(0, n_faces1)
