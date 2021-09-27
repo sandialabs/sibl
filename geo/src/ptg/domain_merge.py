@@ -4,28 +4,99 @@
 import numpy as np
 
 # from ptg.quadtree import Mesh
-from ptg.quadtree import Domain, Mesh
+from ptg.quadtree import Domain, Mesh, Coordinate
 
 
-# class Domain(NamedTuple):
-#     """Creates a Domain, which consists of a Mesh and a boundaries tuple.
-#
-#     Mesh: see definition in the included Python module above.
-#
-#     boundaries (tuple[tuple[int, ...], ...]):  Each tuple is a boundary. Each
-#         boundary is a tuple of integers that identify the node number in the mesh.
-#         The boundary integers should be sequential along the boundary.  There
-#         ordering of the boundary from first to last node or last to first node is
-#         immaterial, since the `domain_merge` function compares both forward and
-#         backward boundary sequences.
-#     """
-#
-#     mesh: Mesh
-#     boundaries: tuple[tuple[int, ...], ...]
+def boundary_match(
+    *,
+    boundary0: tuple[tuple[int, ...], ...],
+    coordinates0: tuple[Coordinate, ...],
+    boundary1: tuple[tuple[int, ...], ...],
+    coordinates1: tuple[Coordinate, ...],
+    tolerance: float,
+) -> tuple[tuple[int, ...], ...]:
+    tol = tolerance  # typical is 1e-6
+
+    n_seg0 = len(boundary0)  # number of boundary segments
+    n_seg1 = len(boundary1)
+
+    # number of points per boundary segment
+    n_pts_per_seg0 = tuple(len(x) for x in boundary0)
+    n_pts_per_seg1 = tuple(len(x) for x in boundary1)
+
+    # x and y coordinates in boundary zero
+    c0x = tuple([c.x for c in coordinates0])
+    c0y = tuple([c.y for c in coordinates0])
+
+    # x and y coordinates in boundary one
+    c1x = tuple([c.x for c in coordinates1])
+    c1y = tuple([c.y for c in coordinates1])
+
+    matches = [[0 for j in range(0, n_seg1)] for i in range(0, n_seg0)]
+    n_matches = 0
+
+    for m, b0 in enumerate(boundary0):
+
+        for n, b1 in enumerate(boundary1):
+
+            if len(b0) == len(b1):
+
+                (b0x, b0y) = (
+                    np.array([c0x[k] for k in b0]),
+                    np.array([c0y[k] for k in b0]),
+                )
+                (b1x, b1y) = (
+                    np.array([c1x[k] for k in b1]),
+                    np.array([c1y[k] for k in b1]),
+                )
+
+                (diffx, diffy) = (b0x - b1x, b0y - b1y)
+                (normx, normy) = (
+                    np.abs(np.linalg.norm(diffx)),
+                    np.abs(np.linalg.norm(diffy)),
+                )
+
+                if normx < tol and normy < tol:
+                    # b0 and b1 match
+                    n_matches += 1
+                    matches[m][n] = n_matches
+                    break  # stop further evaluation of this loop
+
+                # no match yet, so flip order of the second boundary
+                b1_r = b1[::-1]
+
+                (b1x_r, b1y_r) = (
+                    np.array([c1x[k] for k in b1_r]),
+                    np.array([c1y[k] for k in b1_r]),
+                )
+
+                (diffx_r, diffy_r) = (b0x - b1x_r, b0y - b1y_r)
+
+                (normx_r, normy_r) = (
+                    np.abs(np.linalg.norm(diffx_r)),
+                    np.abs(np.linalg.norm(diffy_r)),
+                )
+
+                if normx_r < tol and normy_r < tol:
+                    # b0 and b1_r match
+                    n_matches += 1
+                    # remove these matches from the unmatched buckets
+                    matches[m][
+                        n
+                    ] = -n_matches  # negative number indicates order reversal
+                    break  # stop further evaluation of this loop
+
+    match_tuple = tuple(
+        tuple(matches[i][j] for j in range(0, n_seg1)) for i in range(0, n_seg0)
+    )
+
+    return match_tuple
 
 
 def boundary_substraction(
-    *, boundary: tuple[tuple[int, ...], ...], subtracted: tuple[tuple[int, ...], ...]
+    *,
+    boundary: tuple[tuple[int, ...], ...],
+    subtracted: tuple[tuple[int, ...], ...],
 ) -> tuple[tuple[int, ...], ...]:
     """From a boundary composed of tuples of node number segments, subtracts the subset
     of those segments contained in the subtracted tuple.
@@ -86,6 +157,7 @@ def domain_merge(
     tol = tolerance  # typical is 1e-6
     # match = False  # start from no matching borders
     n_matches = 0  # start from zero matching border pairs
+    n_unmatches = 0  # count of the number of unmatched border pairs
 
     # x and y coordinates in mesh zero
     c0x = tuple([c.x for c in domain0.mesh.coordinates])
@@ -95,53 +167,118 @@ def domain_merge(
     c1x = tuple([c.x for c in domain1.mesh.coordinates])
     c1y = tuple([c.y for c in domain1.mesh.coordinates])
 
+    # sort all boundaries into matched and unmatched buckets
     b0_matched = tuple()
     b1_matched = tuple()
+    b0_unmatched = domain0.boundaries
+    b1_unmatched = domain1.boundaries
 
-    # Compare boundaries from the two domains, break out of comparison if/when a
-    # boundary match is found.
-    # xxx (no longer enforced) Only a single boundary pair is ever joined.
+    # Compare boundaries from the two domains.
     # It is possible that no boundaries are joined.
 
+    m = 0  # increment in b0 dimension
+
+    b0 = b0_unmatched[m]
+
+    match_in_n = False
+
+    # while not match_in_n:
+    for n in range(0, len(b1_unmatched)):  # increment in b1 dimension
+        # given a segment b0, try to find a match across all b1 candidates
+        b1 = b1_unmatched[n]
+
+        (b0x, b0y) = (np.array([c0x[k] for k in b0]), np.array([c0y[k] for k in b0]))
+        (b1x, b1y) = (np.array([c1x[k] for k in b1]), np.array([c1y[k] for k in b1]))
+
+        (diffx, diffy) = (b0x - b1x, b0y - b1y)
+        (normx, normy) = (np.abs(np.linalg.norm(diffx)), np.abs(np.linalg.norm(diffy)))
+
+        if normx < tol and normy < tol:
+            # b0 and b1 match
+            match_in_n = True
+            if n_matches == 0:
+                b0_matched = (b0,)  # eliminate empty placeholder
+                b1_matched = (b1,)  # eliminate empty placeholder
+            else:
+                b0_matched = b0_matched + (b0,)
+                b1_matched = b1_matched + (b1,)
+            n_matches += 1
+            # remove these matches from the unmatched buckets
+            b0_unmatched = boundary_substraction(
+                boundary=b0_unmatched, subtracted=(b0,)
+            )
+            b1_unmatched = boundary_substraction(
+                boundary=b1_unmatched, subtracted=(b1,)
+            )
+            break  # stop further evaluation of this loop
+
+        # no match yet, so flip order of the second boundary
+        b1_r = b1[::-1]
+
+        (b1x_r, b1y_r) = (
+            np.array([c1x[k] for k in b1_r]),
+            np.array([c1y[k] for k in b1_r]),
+        )
+
+        (diffx_r, diffy_r) = (b0x - b1x_r, b0y - b1y_r)
+
+        (normx_r, normy_r) = (
+            np.abs(np.linalg.norm(diffx_r)),
+            np.abs(np.linalg.norm(diffy_r)),
+        )
+
+        if normx_r < tol and normy_r < tol:
+            # b0 and b1_r match
+            match_in_n = True
+            if n_matches == 0:
+                b0_matched = (b0,)  # eliminate empty placeholder
+                b1_matched = (b1_r,)  # eliminate empty placeholder
+            else:
+                b0_matched = b0_matched + (b0,)
+                b1_matched = b1_matched + (b1_r,)  # retain original ordering
+            n_matches += 1
+            # remove these matches from the unmatched buckets
+            b0_unmatched = boundary_substraction(
+                boundary=b0_unmatched, subtracted=(b0,)
+            )
+            b1_unmatched = boundary_substraction(
+                boundary=b1_unmatched, subtracted=(b1,)
+            )  # retain original ordering of b1 to match with b1_unmatched original
+            break  # stop further evaluation of this loop
+
+    if not match_in_n:
+        # a given segment b0 matched no b1 and no b1r
+        if n_unmatches == 0:
+            b0_unmatched = (b0,)
+        else:
+            b0_unmatched = b0_unmatched + (b0,)
+
+    """ old method
     for b0 in domain0.boundaries:
         for b1 in domain1.boundaries:
 
-            # only two boundaries of equal length can be a match
-            if len(b0) == len(b1):
+            # x and y coordinates in a domain0.boundary
+            b0x = np.array([c0x[k] for k in b0])
+            b0y = np.array([c0y[k] for k in b0])
 
-                # x and y coordinates in a domain0.boundary
-                b0x = np.array([c0x[k] for k in b0])
-                b0y = np.array([c0y[k] for k in b0])
+            # x and y coordinates in a domain1.boundary
+            b1x = np.array([c1x[k] for k in b1])
+            b1y = np.array([c1y[k] for k in b1])
 
-                # x and y coordinates in a domain1.boundary
-                b1x = np.array([c1x[k] for k in b1])
-                b1y = np.array([c1y[k] for k in b1])
+            diffx = b0x - b1x
+            diffy = b0y - b1y
 
-                diffx = b0x - b1x
-                diffy = b0y - b1y
-
-                normx = np.abs(np.linalg.norm(diffx))
-                normy = np.abs(np.linalg.norm(diffy))
-                if normx < tol and normy < tol:
-                    # b0_matched = b0
-                    # b1_matched = b1
-                    # if len(b0_matched) == 0 and len(b1_matched) == 0:
-                    if n_matches == 0:
-                        # b0_matched = b0_matched + b0  # eliminate empty placeholder
-                        # b1_matched = b1_matched + b1  # eliminate empty placeholder
-                        b0_matched = (b0,)  # eliminate empty placeholder
-                        b1_matched = (b1,)  # eliminate empty placeholder
-                        # b0_matched = b0  # eliminate empty placeholder
-                        # b1_matched = b1  # eliminate empty placeholder
-                    else:
-                        # b0_matched = (b0_matched, b0)
-                        # b1_matched = (b1_matched, b1)
-                        b0_matched = b0_matched + (b0,)
-                        b1_matched = b1_matched + (b1,)
-                    # match = true
-                    n_matches += 1
-                    break
-
+            normx = np.abs(np.linalg.norm(diffx))
+            normy = np.abs(np.linalg.norm(diffy))
+            if normx < tol and normy < tol:
+                if n_matches == 0:
+                    b0_matched = (b0,)  # eliminate empty placeholder
+                    b1_matched = (b1,)  # eliminate empty placeholder
+                else:
+                    b0_matched = b0_matched + (b0,)
+                    b1_matched = b1_matched + (b1,)
+                n_matches += 1
+            else:
                 # flip the ordering of the second boundary
                 b1_reversed = b1[::-1]
 
@@ -154,30 +291,31 @@ def domain_merge(
 
                 normx_reversed = np.abs(np.linalg.norm(diffx_reversed))
                 normy_reversed = np.abs(np.linalg.norm(diffy_reversed))
-                if normx_reversed < tol and normy_reversed < tol:
-                    # b0_matched = b0
-                    # b1_matched = b1_reversed
-                    # b0_matched = b0_matched + b0
-                    # b1_matched = b1_matched + b1_reversed
-                    # if len(b0_matched) == 0 and len(b1_matched) == 0:
-                    if n_matches == 0:
-                        # b0_matched = b0_matched + b0  # eliminate empty placeholder
-                        # b1_matched = b1_matched + b1  # eliminate empty placeholder
-                        b0_matched = (b0,)  # eliminate empty placeholder
-                        b1_matched = (b1,)  # eliminate empty placeholder
-                        # b0_matched = b0  # eliminate empty placeholder
-                        # b1_matched = b1  # eliminate empty placeholder
-                    else:
-                        # b0_matched = (b0_matched, b0)
-                        # b1_matched = (b1_matched, b1)  # retain original ordering
-                        b0_matched = b0_matched + (b0,)
-                        b1_matched = b1_matched + (b1,)  # retain original ordering
-                    # match = True
-                    n_matches += 1
-                    break
 
-            # else:
-            # go on to the next boundary pairs
+                if normx_reversed < tol and normy_reversed < tol:
+                    if n_matches == 0:
+                        b0_matched = (b0,)  # eliminate empty placeholder
+                        b1_matched = (b1_reversed,)  # eliminate empty placeholder
+                    else:
+                        b0_matched = b0_matched + (b0,)
+                        b1_matched = b1_matched + (
+                            b1_reversed,
+                        )  # retain original ordering
+                    n_matches += 1
+
+                else:
+                    # b1 boundary segment, forward and reversed, does
+                    # not match b0 boundary segment, so collect both
+                    # segments into the unmatched buckets
+                    a = 4
+                    if n_unmatches == 0:
+                        b0_unmatched = (b0,)  # eliminate empty placeholder
+                        b1_unmatched = (b1,)  # eliminate empty placeholder
+                    else:
+                        b0_unmatched = b0_unmatched + (b0,)
+                        b1_unmatched = b1_unmatched + (b1,)  # retain original ordering
+                    n_unmatches += 1
+    """
 
     # number of nodal points
     nnp0 = len(domain0.mesh.coordinates)  # number of nodal points in mesh0
