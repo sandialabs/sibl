@@ -6,9 +6,8 @@ To run
 > pytest geo/tests/test_domain_merge.py -v
 """
 
-import pytest
+# import pytest
 
-# from ptg.quadtree import Mesh, coordinates
 import ptg.quadtree as qt
 from ptg.domain_merge import boundary_match, boundary_substraction, domain_merge
 
@@ -114,8 +113,6 @@ def test_two_domains_non_union():
 
     assert match2 == ((0, 0), (0, 0))
 
-    return
-
     # domains
     d0 = qt.Domain(mesh=m0, boundaries=b0)
     d1 = qt.Domain(mesh=m1, boundaries=b1)
@@ -130,6 +127,107 @@ def test_two_domains_non_union():
 
     # assert b2 == ((5, 4), (2, 3), (6, 7), (11, 10))
     assert b2 == ((2, 3), (4, 5), (11, 10), (7, 6))
+
+
+def test_two_domains():
+    """Tests merging of two domains along a single boundary.
+
+     -2->4      1         3         1->7->3   3->9     -2->10
+      o---------+---------+    /    +---------+---------o   0.5
+      |         |         |    /    |         |         |       ^
+      |    1    |    0    |    /    |    0    |    1    |       |
+      |         |         |    /    |         |         |       |
+      o---------+---------+    /    +---------+---------o   0.0 y-axis
+     -1->5      0         2         0->6->2   2->8     -1->11
+
+    -1.0      -0.5       0.0   /   0.0       0.5       1.0  --> x-axis
+
+    where
+      "+" is a four-valenced node
+      "o" is a port, or formerly a "+" and now designated as a port
+    """
+
+    # vertices (aka points or coordinates)
+    v0 = qt.coordinates(
+        pairs=(
+            (-0.5, 0.0),  # 0
+            (-0.5, 0.5),  # 1
+            (0.0, 0.0),  # 2
+            (0.0, 0.5),  # 3
+            (-1.0, 0.5),  # -2
+            (-1.0, 0.0),  # -1
+        )
+    )
+
+    v1 = qt.coordinates(
+        pairs=(
+            (0.0, 0.0),  # 0
+            (0.0, 0.5),  # 1
+            (0.5, 0.0),  # 2
+            (0.5, 0.5),  # 3
+            (1.0, 0.5),  # -2
+            (1.0, 0.0),  # -1
+        )
+    )
+
+    # faces (aka elements or connectivity)
+    c0 = (
+        (0, 2, 3, 1),  # faces_dual
+        (-1, 0, 1, -2),  # faces_ports
+    )
+
+    c1 = (
+        (0, 2, 3, 1),  # faces_dual
+        (2, -1, -2, 3),  # faces_ports
+    )
+
+    # meshes
+    m0 = qt.Mesh(coordinates=v0, connectivity=c0)
+    m1 = qt.Mesh(coordinates=v1, connectivity=c1)
+
+    # boundaries, counterclockwise contour from lower left corner
+    b0 = (
+        (
+            2,
+            3,
+        ),
+        (
+            -2,
+            -1,
+        ),
+    )
+
+    b1 = (
+        (
+            -1,
+            -2,
+        ),
+        (
+            1,
+            0,
+        ),
+    )
+
+    match2 = boundary_match(
+        boundary0=b0, coordinates0=v0, boundary1=b1, coordinates1=v1, tolerance=1e-6
+    )
+
+    assert match2 == ((0, -1), (0, 0))
+
+    # domains
+    d0 = qt.Domain(mesh=m0, boundaries=b0)
+    d1 = qt.Domain(mesh=m1, boundaries=b1)
+
+    d2 = domain_merge(domain0=d0, domain1=d1, tolerance=1e-6)
+
+    m2 = d2.mesh
+    b2 = d2.boundaries
+    assert m2.coordinates == v0 + v1
+
+    assert m2.connectivity == ((0, 2, 3, 1), (5, 0, 1, 4), (2, 8, 9, 3), (8, 11, 10, 9))
+
+    # assert b2 == ((5, 4), (11, 10))
+    assert b2 == ((4, 5), (11, 10))
 
 
 def test_two_domains_six_boundary_segments():
@@ -247,8 +345,6 @@ def test_two_domains_six_boundary_segments():
 
     assert match2 == ((-1, 0, 0, 0), (0, 0, 0, -2))
 
-    return
-
     # domains
     d0 = qt.Domain(mesh=m0, boundaries=b0)
     d1 = qt.Domain(mesh=m1, boundaries=b1)
@@ -279,110 +375,69 @@ def test_two_domains_six_boundary_segments():
 
 
 # @pytest.mark.skip("work in progress")
-def test_two_domains():
-    """Tests merging of two domains along a single boundary.
-
-     -2->4      1         3         1->7->3   3->9     -2->10
-      o---------+---------+    /    +---------+---------o   0.5
-      |         |         |    /    |         |         |       ^
-      |    1    |    0    |    /    |    0    |    1    |       |
-      |         |         |    /    |         |         |       |
-      o---------+---------+    /    +---------+---------o   0.0 y-axis
-     -1->5      0         2         0->6->2   2->8     -1->11
-
-    -1.0      -0.5       0.0   /   0.0       0.5       1.0  --> x-axis
-
-    where
-      "+" is a four-valenced node
-      "o" is a port, or formerly a "+" and now designated as a port
-    """
-
-    # vertices (aka points or coordinates)
-    v0 = qt.coordinates(
-        pairs=(
-            (-0.5, 0.0),  # 0
-            (-0.5, 0.5),  # 1
-            (0.0, 0.0),  # 2
-            (0.0, 0.5),  # 3
-            (-1.0, 0.5),  # -2
-            (-1.0, 0.0),  # -1
-        )
-    )
-
-    v1 = qt.coordinates(
-        pairs=(
-            (0.0, 0.0),  # 0
-            (0.0, 0.5),  # 1
-            (0.5, 0.0),  # 2
-            (0.5, 0.5),  # 3
-            (1.0, 0.5),  # -2
-            (1.0, 0.0),  # -1
-        )
-    )
-
-    # faces (aka elements or connectivity)
-    c0 = (
-        (0, 2, 3, 1),  # faces_dual
-        (-1, 0, 1, -2),  # faces_ports
-    )
-
-    c1 = (
-        (0, 2, 3, 1),  # faces_dual
-        (2, -1, -2, 3),  # faces_ports
-    )
-
-    # meshes
-    m0 = qt.Mesh(coordinates=v0, connectivity=c0)
-    m1 = qt.Mesh(coordinates=v1, connectivity=c1)
-
-    # boundaries, counterclockwise contour from lower left corner
-    b0 = (
-        (
-            2,
-            3,
-        ),
-        (
-            -2,
-            -1,
-        ),
-    )
-
-    b1 = (
-        (
-            -1,
-            -2,
-        ),
-        (
-            1,
-            0,
-        ),
-    )
-
-    match2 = boundary_match(
-        boundary0=b0, coordinates0=v0, boundary1=b1, coordinates1=v1, tolerance=1e-6
-    )
-
-    assert match2 == ((0, -1), (0, 0))
-
-    return
-    # domains
-    d0 = qt.Domain(mesh=m0, boundaries=b0)
-    d1 = qt.Domain(mesh=m1, boundaries=b1)
-
-    d2 = domain_merge(domain0=d0, domain1=d1, tolerance=1e-6)
-
-    m2 = d2.mesh
-    b2 = d2.boundaries
-    assert m2.coordinates == v0 + v1
-
-    assert m2.connectivity == ((0, 2, 3, 1), (5, 0, 1, 4), (2, 8, 9, 3), (8, 11, 10, 9))
-
-    # assert b2 == ((5, 4), (11, 10))
-    assert b2 == ((4, 5), (11, 10))
-
-
-# @pytest.mark.skip("work in progress")
 def test_domain_merge_key_0001_r0_p1_and_key_0001_r1_p0():
+    """
+        nnp0 = 24
+
+        faces0 = ((0, 2, 3, 1), (0, 7, 4, 2), (2, 4, 5, 3), (3, 5, 6, 1), (4, 7, 8, 5),
+                  (23, 19, 0, 22), (22, 0, 1, 21), (21, 1, 18, 20), (19, 16, 7, 0),
+                  (1, 6, 17, 18), (16, 14, 13, 7), (7, 13, 12, 8))
+
+                   -6->18         -7->17    -9->15
+    -4->20 o---------o---------+----o         o    o -14->10    1.0
+           |                   |    .
+           |                   |    6         9    o -13->11    0.75
+           |                   |    .
+    -3->21 o         1         +----.    +         +            0.5
+           |                *  |    .                             ^
+           |              *    |    5. . . . .8. . o -12->12    0.25  |
+           |            *    3 |         |         |                  |
+           +---------*---------+---------*---------+            0.0   y-axis
+           |            *    2 | 4     *           |
+           |              *    |     *             |
+           |                *  |  *                |
+    -2->22 o         0         *         7         o -11->13   -0.5
+           |                   |                   |
+           |                   |                   |
+           |                   |                   |
+    -1->23 o---------o---------+---------o---------o        -1.0
+                   -5->19              -8->16   -10->14
+
+         -1.0      -0.5       0.0  0.25 0.5  0.75 1.0  --> x-axis
+
+        bounds0 = ((23, 19, 16, 14), (14, 13, 12), (12, 8, 5), (5, 6, 17), (17, 18, 20),
+                   (20, 21, 22, 23))
+
+        nnp1 = 24
+
+        faces1 = ((24, 26, 27, 25), (24, 31, 28, 26), (26, 28, 29, 27), (27, 29, 30, 25),
+                  (28, 31, 32, 29), (29, 32, 33, 30), (25, 30, 41, 42), (30, 33, 39, 41),
+                  (31, 37, 36, 32), (32, 36, 35, 33), (33, 35, 34, 39))
+
+                    -6->42->17    -7->41    -9->39
+    -4->44 o         o---------+----o----+----o----o -14->34    1.0
+                     .         |         |         |
+                     .         |    6->30|    9    o -13->35    0.75
+                     .         |         |   ->33  |
+    -3->45 o         1->25->6  +---------+---------+            0.5
+                     .      *  |         |         |                  ^
+                     .    *    |    5->29|    8    o -12->36    0.25  |
+                     .  *    3 |         |   ->32  |                  |
+           +         *------>27+---------*---------+            0.0   y-axis
+                     .  *    2 | 4->28  *          |
+                     .    *->26|     *             |
+                     .      *  |  *                |
+    -2->46 o         0. . . . .*. . . . .7. . . . .o -11       -0.5
+                     ->24->5             ->31->8     ->37->12
+
+
+    -1->47 o         o         +         o         o        -1.0
+                    -5->43             -8->40    -10->38
+
+         -1.0      -0.5       0.0  0.25 0.5  0.75 1.0  --> x-axis
+
+        bounds1 = ((24, 31, 37), (37, 36, 35, 34), (34, 39, 41, 42), (42, 25, 24))
+    """
     ctr = qt.Coordinate(x=0.0, y=0.0)
     cell = qt.Cell(center=ctr, size=2.0)
     points = tuple([qt.Coordinate(0.6, 0.6)])
@@ -440,81 +495,18 @@ def test_domain_merge_key_0001_r0_p1_and_key_0001_r1_p0():
         (0, 0, 0, 0),
     )
 
-    return
     d2 = domain_merge(domain0=d0, domain1=d1, tolerance=1e-6)
 
     m2 = d2.mesh
     b2 = d2.boundaries
 
-    """
-    nnp0 = 24
-
-    faces0 = ((0, 2, 3, 1), (0, 7, 4, 2), (2, 4, 5, 3), (3, 5, 6, 1), (4, 7, 8, 5),
-              (23, 19, 0, 22), (22, 0, 1, 21), (21, 1, 18, 20), (19, 16, 7, 0),
-              (1, 6, 17, 18), (16, 14, 13, 7), (7, 13, 12, 8))
-
-               -6->18         -7->17    -9->15
--4->20 o---------o---------+----o         o    o -14->10    1.0
-       |                   |    .
-       |                   |    6         9    o -13->11    0.75
-       |                   |    .
--3->21 o         1         +----.    +         +            0.5
-       |                *  |    .                             ^
-       |              *    |    5. . . . .8. . o -12->12    0.25  |
-       |            *    3 |         |         |                  |
-       +---------*---------+---------*---------+            0.0   y-axis
-       |            *    2 | 4     *           |
-       |              *    |     *             |
-       |                *  |  *                |
--2->22 o         0         *         7         o -11->13   -0.5
-       |                   |                   |
-       |                   |                   |
-       |                   |                   |
--1->23 o---------o---------+---------o---------o        -1.0
-               -5->19              -8->16   -10->14
-
-     -1.0      -0.5       0.0  0.25 0.5  0.75 1.0  --> x-axis
-
-    bounds0 = ((23, 19, 16, 14), (14, 13, 12), (12, 8, 5), (5, 6, 17), (17, 18, 20),
-               (20, 21, 22, 23))
-
-    nnp1 = 24
-
-    faces1 = ((24, 26, 27, 25), (24, 31, 28, 26), (26, 28, 29, 27), (27, 29, 30, 25),
-              (28, 31, 32, 29), (29, 32, 33, 30), (25, 30, 41, 42), (30, 33, 39, 41),
-              (31, 37, 36, 32), (32, 36, 35, 33), (33, 35, 34, 39))
-
-                -6->42->17    -7->41    -9->39
--4->44 o         o---------+----o----+----o----o -14->34    1.0
-                 .         |         |         |
-                 .         |    6->30|    9    o -13->35    0.75
-                 .         |         |   ->33  |
--3->45 o         1->25->6  +---------+---------+            0.5
-                 .      *  |         |         |                  ^
-                 .    *    |    5->29|    8    o -12->36    0.25  |
-                 .  *    3 |         |   ->32  |                  |
-       +         *------>27+---------*---------+            0.0   y-axis
-                 .  *    2 | 4->28  *          |
-                 .    *->26|     *             |
-                 .      *  |  *                |
--2->46 o         0. . . . .*. . . . .7. . . . .o -11       -0.5
-                 ->24->5             ->31->8     ->37->12
-
-
--1->47 o         o         +         o         o        -1.0
-                -5->43             -8->40    -10->38
-
-     -1.0      -0.5       0.0  0.25 0.5  0.75 1.0  --> x-axis
-
-    bounds1 = ((24, 31, 37), (37, 36, 35, 34), (34, 39, 41, 42), (42, 25, 24))
-    """
     faces0 = (
-        (0, 2, 3, 1),
+        (0, 2, 3, 1),  # faces_dual
         (0, 7, 4, 2),
         (2, 4, 5, 3),
         (3, 5, 6, 1),
         (4, 7, 8, 5),
-        (23, 19, 0, 22),
+        (23, 19, 0, 22),  # faces_ports
         (22, 0, 1, 21),
         (21, 1, 18, 20),
         (19, 16, 7, 0),
@@ -524,13 +516,13 @@ def test_domain_merge_key_0001_r0_p1_and_key_0001_r1_p0():
     )
 
     faces1 = (
-        (5, 26, 27, 6),
+        (5, 26, 27, 6),  # faces_dual
         (5, 8, 28, 26),
         (26, 28, 29, 27),
         (27, 29, 30, 6),
         (28, 8, 32, 29),
         (29, 32, 33, 30),
-        (6, 30, 41, 17),
+        (6, 30, 41, 17),  # faces_ports
         (30, 33, 39, 41),
         (8, 12, 36, 32),
         (32, 36, 35, 33),
@@ -554,5 +546,3 @@ def test_domain_merge_key_0001_r0_p1_and_key_0001_r1_p0():
     bounds2 = bounds0[0:2] + bounds0[4:] + bounds1[1:3]
 
     assert bounds2 == b2
-
-    assert True
