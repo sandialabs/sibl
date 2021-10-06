@@ -36,6 +36,18 @@ def refine(domain: 2Dsquare, level: int = 1):
 ## References:
 
 ```bash
+@article{liang2010guaranteed,
+  title={Guaranteed-quality all-quadrilateral mesh generation with feature preservation},
+  author={Liang, Xinghua and Ebeida, Mohamed S and Zhang, Yongjie},
+  journal={Computer Methods in Applied Mechanics and Engineering},
+  volume={199},
+  number={29-32},
+  pages={2072--2083},
+  year={2010},
+  publisher={Elsevier},
+  note={\url{https://scholar.archive.org/work/low5zpwnnjbaznempizlbey2mi/access/wayback/http://www.imr.sandia.gov/papers/imr18/Liang.pdf}},
+}
+
 @article{rushdi2017all,
   title={All-quad meshing without cleanup},
   author={Rushdi, Ahmad A and Mitchell, Scott A and Mahmoud, Ahmed H and Bajaj, Chandrajit C and Ebeida, Mohamed S},
@@ -44,7 +56,7 @@ def refine(domain: 2Dsquare, level: int = 1):
   pages={83--98},
   year={2017},
   publisher={Elsevier},
-  note={\url{https://doi.org/10.1016/j.cad.2016.07.009}},
+  note={\url{https://doi.org/10.1016/j.cad.2016.07.009},\url{https://www.sciencedirect.com/science/article/am/pii/S001044851630080X}},
 }
 
 @phdthesis{shimada1993physically,

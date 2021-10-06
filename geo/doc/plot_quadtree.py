@@ -14,7 +14,7 @@ def main():
     serialize: Final = True
     color_fill: Final = True
 
-    latex: Final = True
+    latex: Final = False
     if latex:
         rc("font", **{"family": "serif", "serif": ["Computer Modern Roman"]})
         rc("text", usetex=True)
@@ -155,14 +155,18 @@ def main():
     ax.scatter(xs, ys, linestyle="solid", edgecolor="black", color="tab:red")
 
     if test_case == "nested_0001" or test_case == "wall_0011":
-        mesh_dual = tree.mesh_dual()
+        # mesh_dual = tree.mesh_dual()
+        domain_dual = tree.domain_dual()
 
         # meshes = tuple(filter(lambda x: x is not None, mesh_dual))
 
-        for mesh in mesh_dual:
+        # for mesh in mesh_dual:
+        for domain in domain_dual:
 
-            coordinates = mesh.coordinates
-            faces = mesh.connectivity
+            # coordinates = mesh.coordinates
+            # faces = mesh.connectivity
+            coordinates = domain.mesh.coordinates
+            faces = domain.mesh.connectivity
             xs = tuple(map(lambda item: item.x, coordinates))
             ys = tuple(map(lambda item: item.y, coordinates))
 
