@@ -51,6 +51,8 @@ Created with [dual_quad.py](../src/ptg/dual_quad.py) and [plot_dual_quad.py](plo
 
 ## Assembly
 
+Created with [plot_quadtree.py](plot_quadtree.py) and ` test_case = "nested_0001"`:
+
 | `key_0001_r0_p0` | `key_0001_r0_p1` | `key_0001_r1_p0` | `key_0001_r1_p1` |
 |:------:|:------:|:------:|:------:|
 | ![plot_dual_quad_0001_r0_p0](fig/plot_dual_quad_0001_r0_p0.png) | ![plot_dual_quad_0001_r0_p1](fig/plot_dual_quad_0001_r0_p1.png) | ![plot_dual_quad_0001_r1_p0](fig/plot_dual_quad_0001_r1_p0.png) | ![plot_dual_quad_0001_r1_p1](fig/plot_dual_quad_0001_r1_p1.png) | 
