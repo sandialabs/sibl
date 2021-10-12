@@ -493,8 +493,8 @@ class QuadTree:
         return _quads
 
     def domain_dual(self) -> tuple[Domain, ...]:
-        """Maps the quadtree to a collection of dualized Domains
-        Returns the (mesh=(vertices, faces), boundaries) for all
+        """Maps the quadtree to a collection of dualized domains.
+        Returns the domains = ((mesh=(vertices, faces), boundaries),...) for all
         templates embedded in the quadtree.
         """
         _quad_levels_recursive = self.quad_levels_recursive()

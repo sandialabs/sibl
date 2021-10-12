@@ -278,3 +278,53 @@ def domain_merge(
 
         new_domain = Domain(mesh=new_mesh, boundaries=new_boundaries)
         return new_domain
+
+
+def winding_number(
+    *,
+    x_center: float,
+    y_center: float,
+    xs_boundary: tuple[float, ...],
+    ys_boundary: tuple[float, ...],
+) -> int:
+    """
+    Computes the winding number.
+    The boundary, composed of paired x and y cooredinates as `xs_boundary` and
+    `ys_boundary` is assume to be closed.  Thus, the first and the last number for each
+    of the x and y coordinates is repeated, thus x[0] = x[-1] and y[0] = y[-1],
+    where x is `xs_boundary` and y is `ys_boundary`, respectively.
+
+    Arguments:
+        x_center (float): The x-coordinate of the observer, typically 0.0.
+        y_center (float): The y-coordinate of the observer, typically 0.0.
+        xs_boundary (tuple[float, ...]): A tuple sequential x-coordinates along the
+            boundary path.
+        ys_boundary (tuple[float, ...]): A tuple sequential y-coordinates along the
+            boundary path.
+
+
+    Returns:
+        The integer winding number, defined here:
+        https://en.wikipedia.org/wiki/Winding_number
+
+    Raises:
+        ValueError: If the two boundary arrays are not equal length.
+        ValueError: If the boundary is not closed.
+    """
+
+    if len(xs_boundary) != len(ys_boundary):
+        raise ValueError("x_boundary and y_boundary must be of equal length")
+
+    if xs_boundary[0] != xs_boundary[-1]:
+        raise ValueError("x_boundary is open; it must be closed")
+
+    if ys_boundary[0] != ys_boundary[-1]:
+        raise ValueError("y_boundary is open; it must be closed")
+
+    x = [item - x_center for item in xs_boundary]
+    y = [item - y_center for item in ys_boundary]
+
+    # a=>a.map(([x,y])=>r+=Math.atan2(y*b-x*c,y*c+x*b,b=x,c=y),b=c=r=0)&&r/Math.PI/2
+    # a=>a.map(([x,y])=>r+=Math.atan2(y*b-x*c, y*c+x*b, b=x, c=y), b=c=r=0) && r/math.pi/2
+
+    return 0

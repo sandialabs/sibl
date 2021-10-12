@@ -6,7 +6,7 @@ To run
 > pytest geo/tests/test_domain_merge.py -v
 """
 
-# import pytest
+import pytest
 
 import ptg.quadtree as qt
 from ptg.domain_merge import boundary_match, boundary_substraction, domain_merge
@@ -546,3 +546,65 @@ def test_domain_merge_key_0001_r0_p1_and_key_0001_r1_p0():
     bounds2 = bounds0[0:2] + bounds0[4:] + bounds1[1:3]
 
     assert bounds2 == b2
+
+
+@pytest.mark.skip("work in progress")
+def test_winding_number():
+    """
+    Reference:
+    https://codegolf.stackexchange.com/questions/70600/compute-the-winding-number
+    """
+
+    # basic test
+    input = ((1, 0), (1, 1), (-1, 1), (-1, -1), (1, -1), (1, 0))
+    output = 1
+
+    # repeated point test
+    input = (
+        (1, 0),
+        (1, 0),
+        (1, 1),
+        (1, 1),
+        (-1, 1),
+        (-1, 1),
+        (-1, -1),
+        (-1, -1),
+        (1, -1),
+        (1, -1),
+        (1, 0),
+    )
+    output = 1
+
+    # clockwise test
+    input = ((1, 0), (1, -1), (-1, -1), (-1, 1), (1, 1), (1, 0))
+    output = -1
+
+    # outside test
+    input = ((1, 0), (1, 1), (2, 1), (1, 0))
+    output = 0
+
+    # mixed winding
+    input = (
+        (1, 0),
+        (1, 1),
+        (-1, 1),
+        (-1, -1),
+        (1, -1),
+        (1, 0),
+        (1, -1),
+        (-1, -1),
+        (-1, 1),
+        (1, 1),
+        (1, 0),
+        (1, 1),
+        (-1, 1),
+        (-1, -1),
+        (1, -1),
+        (1, 0),
+        (1, 1),
+        (-1, 1),
+        (-1, -1),
+        (1, -1),
+        (1, 0),
+    )
+    output = 2
