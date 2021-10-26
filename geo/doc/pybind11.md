@@ -1,12 +1,25 @@
 # pybind11 example
 
+## Motivation
+
+* Reuse: Leverage existing C and C++ libraries in Python
+* Performance: make Python faster by using C and C++
+* Test: Verify C and C++ libraries with Python testing framework, e.g., `pytest`
+
 ## Introduction
 
 * We focus on pybind11 because it focuses on C++ (not C), and is restricted to C++11.
-* pybind11 allows C++ to be used in Python 
-  * (and it also allows Python to be used in C++, a use case not covered here).
+* pybind11 enables:
+  * binding: C++ to be used in Python 
+    * (embedding: Python used in C++, which is not covered here)
 * pybind11 uses C++ as the wrapper to the C++ code to be exposed in Python.
 * pybind11 can expose date types that Python likes to use, such as tuples.
+
+## Background
+
+* A CPython extension module is a Python module *not* written in Python
+  * Rather, it is typically written in C or C++
+  * CPython provides an API to C
 
 ## Workflow
 
@@ -109,5 +122,20 @@ Type "help", "copyright", "credits" or "license" for more information.
 
 ## References
 
+* C++ in Python the Easy Way! #pybind11 [video](https://youtu.be/_5T70cAXDJ0)
 * [Real Python](https://realpython.com/python-bindings-overview/#pybind11)
 * [Real Python GitHub repo](https://github.com/realpython/materials/tree/master/python-bindings)
+* Smallshire, Robert. Integrate Python and C++ with pybind11, 25 Sep 2018, NDC Conferences. [video](https://youtu.be/YReJ3pSnNDo)
+  * Example is wrap of C++ library Computational Geometry Algorithms Library (CGAL) https://www.cgal.org
+  * *"Even the author of SWIG recommends not to use SWIG anymore."*
+  * Exposes Conforming and Constrained Triangulations from CGAL.
+  * Source: https://github.com/rob-smallshire/mesher
+* Smirnov, Ivan.  pybind11 - seamless operability between C++11 and Python, 28 Oct 2017, EuroPython Conference. [video](https://youtu.be/jQedHfF1Jfw)
+  * [code](https://github.com/pybind/python_example/blob/master/setup.py)
+  * Problems with Cython (4:21 of 37:58)
+    * Debugging is a huge **pain**
+    * It is neither C nor Python
+    * Two-line Cython translates into 2000 lines of C
+    * Two build steps (.pyx -> .c -> .so)
+    * Bad IDE support
+    * Limited C++ support
