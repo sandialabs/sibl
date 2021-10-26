@@ -26,6 +26,8 @@ graph TD
   C -. use as module library in Python .-> D[my_python.py]
 ```
 
+![mermaid_2021_10_26](fig/mermaid_2021_10_26.png)
+
 ```Python
 #!/usr/bin/env python
 # my_python.py
