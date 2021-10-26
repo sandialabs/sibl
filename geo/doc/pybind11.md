@@ -8,6 +8,30 @@
 * pybind11 uses C++ as the wrapper to the C++ code to be exposed in Python.
 * pybind11 can expose date types that Python likes to use, such as tuples.
 
+## Workflow
+
+*See [Mermaid cheat sheet](https://jojozhuang.github.io/tutorial/mermaid-cheat-sheet/) for flow diagram examples.*
+
+```mermaid
+graph TD
+  subgraph Create Python binding
+    subgraph Create C++ library
+      A1[my_library.hpp] -->B
+      A2[my_library.cpp] -->B
+      A3[tasks.py] -->|$ invoke build-cppmult| B(libcppmult.so)
+    end
+    B --> B2[pybind11_wrapper.cpp]
+  end
+  B2 -->|$ invoke build-pybind11| C(my_module.cpython-39-darwin.so)
+  C -. use as module library in Python .-> D[my_python.py]
+```
+
+```Python
+#!/usr/bin/env python
+# my_python.py
+from . import my_module as mm
+```
+
 ## Configuration
 
 ```bash
