@@ -1,5 +1,8 @@
 #!/usr/bin/env python
-from . import pybind11_example as pb
+# from .pybind11_example import cpp_function as pbcppj
+# import .pybind11_example as pb
+# from import pybind11_example as pb
+import pybind11_example as pb
 
 if __name__ == "__main__":
     # Sample data for our call:
