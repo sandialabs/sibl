@@ -50,12 +50,14 @@ created `libcppmult.so` and
 
 created `pybind11_example.cpython-39-darwin.so`.
 
-## Test File
+## Testing File
 
-* [`pybind11_test.py`](../src/ptg/pybind11_test.py)
+*Dot not use the original name, `pybind11_test.py`, since this interferes with the `pytest -v` auto discovery used with continuous integration on this repository.*
+
+* [`pybind11_testing.py`](../src/ptg/pybind11_testing.py)
 
 ```bash
-⋊> ~/s/g/s/ptg on master ◦ python pybind11_test.py                (siblenv)  Mon Oct 25 18:56:39 2021
+⋊> ~/s/g/s/ptg on master ◦ python pybind11_testing.py                (siblenv)  Mon Oct 25 18:56:39 2021
     In cppmult: int 6 float 2.3 returning 13.8
     In Python: int: 6 float 2.3 return val 13.8
 ⋊> ~/s/g/s/ptg on master ◦
