@@ -4,12 +4,13 @@ on: [push]
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
     strategy:
       max-parallel: 2
       matrix:
-        python-version: [3.9]
+        platform: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: [3.9, 3.10]
+
+    runs-on: ${{ matrix.platform }}
 
     steps:
     - uses: actions/checkout@v2
@@ -34,6 +35,9 @@ jobs:
         cd geo/
         pip install -e .
         cd ../
+        cd geo/src/bind/
+        pip install -e .
+        cd ../../../
     # - name: Test with unittest
     - name: Test with pytest
       run: |
