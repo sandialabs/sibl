@@ -1,3 +1,12 @@
+"""This module is a unit test of the xybind module.
+
+To run
+> conda activate siblenv
+> cd ~/sibl/geo/src/bind
+> pytest test_main.py -v
+"""
+
+
 # from myadd import add
 # from xybind import myadd
 
