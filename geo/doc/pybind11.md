@@ -26,7 +26,7 @@ graph TD
   C -. use as module library in Python .-> D[my_python.py]
 ```
 
-![mermaid_2021_10_26](fig/mermaid_2021_10_26.png)
+<img src="fig/mermaid_2021_10_26.png" alt="mermaid_2021_10_26" width="400px">
 
 ```Python
 #!/usr/bin/env python
