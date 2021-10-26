@@ -340,7 +340,6 @@ class ViewBSplineBasis(ViewBSplineBase):
             ax.plot(
                 self.evaluation_times,
                 self.evaluated_bases[i],
-                "-",
                 lw=2,
                 label="$N_{" + _CPTXT + "}^{" + _DEGTXT + "}$",
                 linestyle=self.linestyles[np.remainder(i, len(self.linestyles))],

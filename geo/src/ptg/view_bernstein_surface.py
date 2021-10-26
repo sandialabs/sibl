@@ -80,7 +80,12 @@ class ViewBernsteinSurface:
                 # fig = plt.figure()
                 fig = plt.figure(figsize=plt.figaspect(1.0), dpi=DPI)
                 # fig = plt.figure(figsize=(6.5, 3.25), dpi=DPI)
-                ax = fig.gca(projection="3d")
+                #
+                # Deprecation warning: keywords no longer allowed with gca() since
+                # matplotlib 3.4
+                # ax = fig.gca(projection="3d")
+                ax = fig.add_subplot(projection="3d")
+                #
                 # ax.view_init(elevation, azimuth)
                 ax.view_init(ELEVATION, AZIMUTH)
                 plt.subplots_adjust(

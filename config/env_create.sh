@@ -14,6 +14,7 @@ echo "This shell script (re)creates the conda environment"
 echo "for use with the Sandia Injury Biomechanics Library (SIBL)"
 echo "modules:"
 echo "  - xyfigure"
+echo "  - xybind"
 echo "  - ptg"
 echo "The name of the conda environment to be (re)created is:"
 echo $y
@@ -54,6 +55,7 @@ conda install --yes -c anaconda flake8
 conda install --yes -c anaconda ipykernel
 conda install --yes -c anaconda matplotlib
 conda install --yes -c anaconda notebook
+conda install --yes -c anaconda pybind11
 conda install --yes -c anaconda pytest
 conda install --yes -c anaconda pytest-cov
 conda install --yes -c anaconda seaborn
@@ -75,6 +77,10 @@ echo "Installing the ptg module in developer mode..."
 cd ~/sibl/geo
 pip install -e .
 #
+echo "Installing the xybind module in developer mode..."
+cd ~/sibl/geo/src/bind
+pip install -e .
+# 
 echo "Installing the xyfigure module in developer mode..."
 cd ~/sibl/cli
 pip install -e .

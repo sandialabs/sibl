@@ -230,11 +230,11 @@ class ViewBezier:
 
         fig = plt.figure(figsize=plt.figaspect(1.0), dpi=100)
         # fig = plt.figure(figsize=(6.5, 3.25), dpi=DPI)
-        ax = fig.gca(projection="3d")
-        # ax = plt.axes(projection="3d")
-        # ax.plot3D(cp_x, cp_y, cp_z)
-        # ax.scatter3D(cp_x, cp_y, cp_z, edgecolor="blue",
-        #              facecolor=(0, 0, 0, 0), s=10)
+        # Deprecation warning: keywords no longer allowed with gca() since
+        # matplotlib 3.4
+        # ax = fig.gca(projection="3d")
+        ax = fig.add_subplot(projection="3d")
+        #
 
         # example for control_nets_shown
         # [0]: show the first control net
