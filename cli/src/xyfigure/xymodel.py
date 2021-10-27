@@ -131,11 +131,18 @@ class XYModel(XYBase):
         self._xcolumn = kwargs.get("xcolumn", 0)  # default to the 1st column
         self._ycolumn = kwargs.get("ycolumn", 1)  # default to the 2nd column
 
-        rel_path_and_file = os.path.join(
-            self._folder, self._file
-        )  # relative to current run location
+        # relative to current run location
+        # rel_path_and_file = os.path.join(self._folder, self._file)
+        # self._data = np.genfromtxt(
+        #     rel_path_and_file,
+        #     dtype="float",
+        #     delimiter=",",
+        #     skip_header=self._skip_rows,
+        #     skip_footer=self._skip_rows_footer,
+        #     usecols=(self._xcolumn, self._ycolumn),
+        # )
         self._data = np.genfromtxt(
-            rel_path_and_file,
+            self._path_file_input,
             dtype="float",
             delimiter=",",
             skip_header=self._skip_rows,

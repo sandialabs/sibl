@@ -17,6 +17,7 @@ import xybind as xyb
 # help(xyb.add)
 
 
+@pytest.mark.skip("not yet deployed")
 def test_version():
     assert xyb.__version__ == "0.0.2"
 

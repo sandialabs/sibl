@@ -32,7 +32,8 @@ class XYView(XYBase):
         self._xticks = kwargs.get("xticks", None)
         self._yticks = kwargs.get("yticks", None)
 
-        self._x_log_scale = kwargs.get("x_log_scale", None)
+        self._xaxislog = kwargs.get("xaxis_log", False)
+        self._yaxislog = kwargs.get("yaxis_log", False)
 
         # default = {'scale': 1, 'label': 'ylabel_rhs', 'verification': 0}
         self._yaxis_rhs = kwargs.get("yaxis_rhs", None)
@@ -108,8 +109,12 @@ class XYView(XYBase):
 
             for model in self._models:
                 # needs rearchitecting, a logview descends from a view
-                if self._x_log_scale:  # needs rearchitecting
+                if self._xaxislog and not self._yaxislog:  # needs rearchitecting
                     ax.semilogx(model.x, model.y, **model.plot_kwargs)
+                elif not self._xaxislog and self._yaxislog:
+                    ax.semilogy(model.x, model.y, **model.plot_kwargs)
+                elif self._xaxislog and self._yaxislog:
+                    ax.loglog(model.x, model.y, **model.plot_kwargs)
                 else:
                     ax.plot(model.x, model.y, **model.plot_kwargs)
 

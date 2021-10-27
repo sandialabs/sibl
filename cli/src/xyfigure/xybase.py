@@ -1,6 +1,7 @@
 # https://www.python.org/dev/peps/pep-0008/#imports
 # standard library imports
 import os
+from pathlib import Path
 import sys
 from abc import ABC
 
@@ -17,7 +18,9 @@ def absolute_path(folder):
     Print the full path to the command line.
     Returns the absolute path, possibly for pending serialization.
     """
-    abs_path = os.path.join(os.getcwd(), folder)
+    run_path = Path.cwd()
+    abs_path = run_path.joinpath(folder)
+    # abs_path = os.path.join(os.getcwd(), folder)
     if not os.path.isdir(abs_path):
         print(f'Folder needed but not found: "{abs_path}"')
         val = input("Create folder? [y]es or [n]o : ")

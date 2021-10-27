@@ -163,14 +163,17 @@ The view dictionary contains items that describe how the main figure is construc
 | `"ylabel":`           | string      | *optional*<br>The label for the left-hand y-axis.  Default is `default y axis label`.
 | `"xticks":`           | float array | *optional*<br>Contains an array of ascending real numbers, indicating tick placement.  Example: `[0.0, 0.5, 1.0, 1.5, 2.0]`.  Default is matplotlib's choice for tick marks.
 | `"yticks":`           | float array | *optional*<br>Same as documentation for `xticks`.
+| `"xaxis_log":`      | Boolean     | *optional*<br>`0` (default) plots x-axis in a linear scale.<br>`1` plots x-axis in a log scale.
+| `"yaxis_log":`      | Boolean     | *optional*<br>`0` (default) plots y-axis in a linear scale.<br>`1` plots y-axis in a log scale.
 | `"yaxis_rhs":`        | dict        | *optional*<br>Singleton that contains the [yaxis_rhs dictionary](#yaxis_rhs-dictionary).
 | `"background_image":` | dict        | *optional*<br>Singleton that contains the [background_image dictionary](#background_image-dictionary).
-| `"display":`          | Boolean     | *optional*<br>`0` to suppress showing figure in GUI, useful when serializing multiple figures during a parameter search loop.<br>`1` (default value) to show figure interactively, and to pause script execution.
+| `"display":`          | Boolean     | *optional*<br>`0` to suppress showing figure in GUI, useful when serializing multiple figures during a parameter search loop.<br>`1` (default) to show figure interactively, and to pause script execution.
 | `"latex":`            | string      | *optional*<br>`0` (default) uses matplotlib default fonts, results in fast generation of figures.<br>`1` uses LaTeX fonts, can be slow to generate, but produces production-quality results.
 | `"details"`:          | Boolean     | *optional*<br>`0` do **not** show plot details.<br>`1` (default) shows plot details of figure file name, date (`yyyy-mm-dd` format), and time (`hh:mm:ss` format) the figure was generated, and username.
 | `"serialize":`        | string      | *optional*<br>`0` (default) does **not** save figure to the file system.<br>`1` saves figure to the file system.  Tested on local drives, but not on network drives.
 
 #### yaxis_rhs Dictionary
+
 |     |     |     |
 | --- | --- | --- |
 | `"scale":`  | string      | *optional*<br>The factor that multiplies the left-hand y-axis to produce the right-hand y-axis.  For example, if the left-hand y-axis is in `meters`, and the right-hand y-axis is in `centimeters`, the value of `scale` should be set to `100`.  Default value is `1`.
