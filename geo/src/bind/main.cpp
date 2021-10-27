@@ -1,4 +1,3 @@
-// myadd.cpp
 #include <pybind11/pybind11.h>
 
 #define STRINGIFY(x) #x
