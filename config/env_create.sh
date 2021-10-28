@@ -56,6 +56,7 @@ conda install --yes -c anaconda ipykernel
 conda install --yes -c anaconda matplotlib
 conda install --yes -c anaconda notebook
 conda install --yes -c anaconda pybind11
+conda install --yes -c anaconda pygments
 conda install --yes -c anaconda pytest
 conda install --yes -c anaconda pytest-cov
 conda install --yes -c anaconda seaborn
