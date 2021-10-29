@@ -183,8 +183,16 @@ class XYView(XYBase):
             self._figure = None
 
     def serialize(self, folder, filename):  # extend base class
-        super().serialize(folder, filename)
+        # deprecated
+        # super().serialize(folder, filename)
+        # self._figure.savefig(
+        #     self._path_file_output, dpi=self._dpi, bbox_inches="tight"
+        # )  # avoid cutoff of labels
+        # print(f"  Serialized view to: {self._path_file_output}")
+
+        # New for XYView class, the so-called input file (input by the user) is the
+        # output file to which the figure should be serialized.
         self._figure.savefig(
-            self._path_file_output, dpi=self._dpi, bbox_inches="tight"
+            self._path_file_input, dpi=self._dpi, bbox_inches="tight"
         )  # avoid cutoff of labels
-        print(f"  Serialized view to: {self._path_file_output}")
+        print(f"  Serialized view to: {self._path_file_input}")

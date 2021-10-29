@@ -126,6 +126,14 @@ class XYModel(XYBase):
     def __init__(self, guid, **kwargs):
         super().__init__(guid, **kwargs)
 
+        # make sure models have an input file that exists
+        if not self._file_pathlib.is_file():
+            print('Error: keyword "file" has a value (e.g., a file name):')
+            print(self._file)
+            print("with full path specification:")
+            print(self._file_pathlib)
+            raise KeyError("file not found")
+
         self._skip_rows = kwargs.get("skip_rows", 0)
         self._skip_rows_footer = kwargs.get("skip_rows_footer", 0)
         self._xcolumn = kwargs.get("xcolumn", 0)  # default to the 1st column

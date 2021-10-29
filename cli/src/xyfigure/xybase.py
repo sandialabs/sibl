@@ -51,6 +51,12 @@ class XYBase(ABC):
 
         default_folder = "."
         self._folder = kwargs.get("folder", default_folder)
+        self._folder_pathlib = Path(self._folder).expanduser()
+        if not self._folder_pathlib.is_dir():
+            print('Error: keyword "folder" has a value (e.g., a folder path)')
+            print("that cannot be found as specified:")
+            print(self._folder_pathlib)
+            raise KeyError("folder not found")
 
         self._file = kwargs.get("file", None)
 
@@ -58,9 +64,11 @@ class XYBase(ABC):
             print('Error: keyword "file" not found.')
             sys.exit("Abnormal termination.")
 
-        abs_path = absolute_path(self._folder)
+        # abs_path = absolute_path(self._folder)
 
-        self._path_file_input = os.path.join(abs_path, self._file)
+        # self._path_file_input = os.path.join(abs_path, self._file)
+        self._file_pathlib = self._folder_pathlib.joinpath(self._file)
+        self._path_file_input = str(self._file_pathlib)
         self._path_file_output = None
 
     @property
