@@ -57,13 +57,14 @@ The model dictionary contains items that describe how each `(x,y)` data set is c
 |     |     |     |
 | --- | --- | --- |
 | `"class":`            | `"model"` | Specific string to generate the XYModel Python class.  In the model dictionary, the `"class"` key  must have a value of `"model"`.
-| `"folder":`           | string    | Value *relative to the current working directory* of the path and folder that contains the input data.  For the current working directory, use `"."`.
+| ~~`"folder":`~~           | string    | **DEPRECATED 2021-10-29**<br>Value *relative to the current working directory* of the path and folder that contains the input data.  For the current working directory, use `"."`.
+| `"folder":`           | string    | **NEW**<br>Value of the absolute file path to the `file`.  Supports `~` for user home constructs `~/my_project/input_files` as equilvalent to, for example, `/Users/chovey/my_project/input_files`.
 | `"file":`             | string    | Value of the comma separated value input file in `.csv` (comma separated value) format.  The first column is the `x` values, the second column is the `y` values.  The `.csv` file can use any number of header rows.  Do not attempt to plot header rows; skip header rows with the `skip_rows` key.
 | `"skip_rows":`        | integer   | *optional*<br>The number of header rows to skip at the *beginning* of the `.csv` file.  Default value is `0`.
 | `"skip_rows_footer":` | integer   | *optional*<br>The number of footer rows to skip at the *end* of the `.csv` file.  Default value is `0`.
 | `"xcolumn":`          | integer   | *optional*<br>The *zero-based index* of the data column to plotted on the x-axis.  Default is `0`, which is the **first column** of the `.csv` file.
 | `"ycolumn":`          | integer   | *optional*<br>The *zero-based index* of the data column to be plotted on the y-axis.  Default is `1`, which is the **second column** of the `.csv` file.
-| ~~`"inverted":`~~     | ~~Boolean~~ | **deprecated**<br>use `"yscale": -1.0` instead<br>~~*optional*~~<br>~~`0` (default), which does **not** invert the `y` values.<br>`1` to invert the `y` data.  Multiplies all `y` data values by `-1`.~~
+| ~~`"inverted":`~~     | ~~Boolean~~ | **DEPRECATED**<br>use `"yscale": -1.0` instead<br>~~*optional*~~<br>~~`0` (default), which does **not** invert the `y` values.<br>`1` to invert the `y` data.  Multiplies all `y` data values by `-1`.~~
 | `"xscale":`           | float     |*optional*<br>Scales all values of the `x` data `xscale` factor.  Default value is `1.0` (no scaling).  `xscale` is applied to the data prior to `xoffset`.
 | `"xoffset":`          | float     | *optional*<br>Shifts all values of the `x` data to the left or the right by the `xoffset` value.  Default value is `0.0`.  `xoffset` is applied to the data after `xscale`.
 | `"yscale":`           | float     | *optional*<br>Scales all values of the `y` data `yscale` factor.  Default value is `1.0` (no scaling).  `yscale` is applied to the data prior to `yoffset`.
@@ -138,8 +139,8 @@ All processes support serialization, via
             "process_guid": {
                 "process_key_string": {
                     "serialize": 1,
-                    "folder": ".",
-                    "file": "processed_output_file.csv"                
+                    "folder": "~/sibl/cli/io/example",
+                    "file": "processed_output_file.csv"
                 }
             }
 ```
@@ -152,7 +153,8 @@ The view dictionary contains items that describe how the main figure is construc
 | --- | --- | --- |
 | `"class":`            | `"view"`    | Specific string to generate the XYView Python class. In the view dictionary, the `"class"` key must have a value of `"view"`.
 | `"model_keys"`:       | string array | *optional*<br>`["model_guid_0", "model_guid_1", model_guid_2"]` (for example), an array of `1..m` strings that identifies the model `guid` to be plotted in this particular view.  If `"model_keys"` is not specified in a particular view, then all models will be plotted to the view, which is the default behavior.
-| `"folder":`           | string      | Value *relative to the current working directory* of the path and folder that contains the output figure data (if `"serialize"` is set to `"1"`).  For the current working directory, use `"."`.  If the folder does not exist at run time, the script will attempt to create the directory, pending the user's approval.
+| ~~`"folder":`~~           | string      | **DEPRECATED 2021-10-29**<br>Value *relative to the current working directory* of the path and folder that contains the output figure data (if `"serialize"` is set to `"1"`).  For the current working directory, use `"."`.  If the folder does not exist at run time, the script will attempt to create the directory, pending the user's approval.
+| `"folder":`           | string    | **NEW**<br>Value of the absolute file path to the `file`.  Supports `~` for user home constructs `~/my_project/output_files` as equilvalent to, for example, `/Users/chovey/my_project/output_files`.
 | `"file":`             | string      | Value of the figure output file (e.g., `my_output_file.png`) in `.xxx` format, where `xxx` is an image file format, typically `pdf`, `png`, or `svg`.  
 | `"size":`             | float array | *optional*<br>Array of floats containing the `[width, height]` of the output figure in units of inches.  Default is `[11.0, 8.5]`, U.S. paper, landscape.  [Example](test/README_dpi_size.md)
 | `"dpi":`              | integer     | *optional*<br>Dots per inch used for the output figure.  Default is `300`. [Example](test/README_dpi_size.md)

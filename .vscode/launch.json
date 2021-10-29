@@ -32,7 +32,7 @@
             "request": "launch",
             "program": "~/sibl/cli/src/xyfigure/client.py",
             "args": [
-                "~/sibl/cli/io/mil_spec_paper/h1-master-acc.json"
+                "~/geometry/dual/sim/fig/convergence.json"
             ],
             "console": "integratedTerminal"
         },
