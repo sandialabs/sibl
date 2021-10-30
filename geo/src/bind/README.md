@@ -47,9 +47,11 @@ Type "help", "copyright", "credits" or "license" for more information
 * C++ in Python the Easy Way! #pybind11 [video](https://youtu.be/_5T70cAXDJ0)
 * Smallshire, Robert. *Integrate Python and C++ with pybind11*, 25 Sep 2018, NDC Conferences. [video](https://youtu.be/YReJ3pSnNDo)
   * Example is wrap of C++ library Computational Geometry Algorithms Library (CGAL) https://www.cgal.org
-  * *"Even the author of SWIG recommends not to use SWIG anymore."*
+  * [Tutorial](mesher/README.md)
+  * *"Even the author of SWIG recommends that you don't use SWIG anymore."* (3:40/48:19)
   * Exposes Conforming and Constrained Triangulations from CGAL.
   * Source: https://github.com/rob-smallshire/mesher
+  * His books: https://leanpub.com/b/python-craftsman, with Austin Bingham and Sixty North
 * Smirnov, Ivan.  *pybind11 - seamless operability between C++11 and Python*, 28 Oct 2017, EuroPython Conference. [video](https://youtu.be/jQedHfF1Jfw)
   * [code](https://github.com/pybind/python_example/blob/master/setup.py)
   * Problems with Cython (4:21 of 37:58)
