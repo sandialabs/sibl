@@ -1,4 +1,5 @@
 #include <pybind11/pybind11.h>
+#include <math.h>
 
 #define STRINGIFY(x) #x
 #define MACRO_STRINGIFY(x) STRINGIFY(x)
@@ -7,6 +8,20 @@ int add(int a, int b)
 {
     return a + b;
 }
+
+float raise_me(float base, float exponent)
+{
+    return pow(base, exponent);
+}
+
+struct Pet
+{
+    Pet(const std::string &name) : my_name(name) {}
+    void setName(const std::string &name_) { my_name = name_; }
+    const std::string &getName() const { return my_name; }
+
+    std::string my_name;
+};
 
 namespace py = pybind11;
 
@@ -25,6 +40,20 @@ PYBIND11_MODULE(xybind, m)
         "subtract", [](int a, int b)
         { return a - b; },
         "Subtract two integers.");
+
+    // attributes
+    m.attr("the_answer") = 42;
+    m.attr("zero") = 0;
+    py::object world = py::cast("World");
+    m.attr("what") = world;
+
+    // keyword only arguments
+    m.def("exponent", &raise_me, py::kw_only(), py::arg("base"), py::arg("exponent"), "Returns base to a power.");
+
+    // struct
+    py::class_<Pet>(m, "Pet")
+        .def(py::init<const std::string &>())
+        .def_property("name", &Pet::getName, &Pet::setName);
 
 #ifdef VERSION_INFO
     m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);

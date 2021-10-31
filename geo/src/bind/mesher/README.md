@@ -75,7 +75,7 @@ mesher  # project
         * gnu g++ 8.3 or later
         * Apple clang compiler versions 10.0.1 and 12.0.0
       * Windows
-        * gnu b++ 8.3 or later
+        * gnu g++ 8.3 or later
         * MS Visual C++ 14.0, 15.9, 16.10 (Visual Studio 2015, 2017, 2019)
  * CMake
  * Boost
@@ -259,4 +259,106 @@ Following the [quickstart](https://doc.cgal.org/latest/Manual/usage.html#secgett
 [100%] Linking CXX executable colored_face
 [100%] Built target colored_face
 ⋊> ~/C/e/Triangulation_2
+```
+
+```bash
+⋊> ~/C/e/Triangulation_2 pwd                                      (siblenv)  Sun Oct 31 07:36:17 2021
+/Users/sparta/CGAL-5.3/examples/Triangulation_2
+⋊> ~/C/e/Triangulation_2 cmake-gui .
+```
+
+![cmake_gui_triangulation_2](fig/cmake_gui_triangulation_2.png)
+
+### Download CGAL for macOS
+
+* reference: https://github.com/CGAL/cgal/
+* package manager (tried that above, but not finding GMP)
+* with source archive
+* wth CGAL GitHub [repo](https://github.com/CGAL/cgal/)
+
+
+#### Source Archive
+
+* ref: https://github.com/CGAL/cgal/releases
+* CGAL-5.3 released 2021-06-06
+* installation ref: https://doc.cgal.org/latest/Manual/usage.html
+  * tried 1: quick start with 2: prerequisites
+    * `>cd ~; rm -rf CGAL-5.3` and start fresh
+  * now try 3: "Using CGAL Source Archive"
+    * download `CGAL-5.3.tar.xz` (22.2 MB) from [here](https://www.cgal.org/download.html) and unpack `>tar xf CGAL-5.3.tar.xz`
+    * move the `CGAL-5.3` folder from `Downloads` to `~`
+    * creates a `CGAL-5.3` directory as follows:
+
+|Directory | Contents |
+|---|---|
+| auxiliary (Windows only) | precompiled GMP and MPFR for Windows
+| cmake/modules | modules for finding and using libraries
+| demo |demo programs (most of them need Qt, geomview or other third-party products)
+| doc_html | documentation (HTML)
+| examples | example programs
+| include | header files
+| scripts | some useful scripts (e.g. for creating CMakeLists.txt files)
+| src | source files auxiliary (Windows only) | precompiled GMP and MPFR for Windows
+| cmake/modules | modules for finding and using libraries
+| demo | demo programs (most of them need Qt, geomview or other third-party products)
+| doc_html | documentation (HTML)
+| examples | example programs
+| include | header files
+| scripts | some useful scripts (e.g. for creating CMakeLists.txt files)
+| src | source files 
+
+```bash
+> cd ~/CGAL-5.3/
+> cmake .
+
+⋊> ~/CGAL-5.3 cmake .                                      (siblenv) 26.8s  Sun Oct 31 08:23:59 2021
+== Setting paths ==
+-- Build CGAL from release in directory CGAL-5.3
+-- Packagenames: CGAL-5.3
+== Setting paths (DONE) ==
+
+== Generate version files ==
+-- CGAL_MAJOR_VERSION=5
+-- CGAL_MINOR_VERSION=3
+-- CGAL_BUGFIX_VERSION=0
+-- Targetting Unix Makefiles
+-- Using /Library/Developer/CommandLineTools/usr/bin/c++ compiler.
+-- DARWIN_VERSION=20
+-- Mac Leopard detected
+-- USING CMake version: 3.21.4
+-- System: Darwin
+== Generate version files (DONE) ==
+
+-- Build type:
+-- USING CXXFLAGS = ' '
+-- USING EXEFLAGS = ' '
+== Detect external libraries ==
+== Detect external libraries (DONE) ==
+
+== Generating build files ==
+== Generating build files (DONE) ==
+
+CMake Warning at cmake/modules/CGAL_enable_end_of_configuration_hook.cmake:99 (message):
+  =======================================================================
+
+  CGAL performance notice:
+
+  The variable CMAKE_BUILD_TYPE is set to "".  For performance reasons, you
+  should set CMAKE_BUILD_TYPE to "Release".
+
+  Set CGAL_DO_NOT_WARN_ABOUT_CMAKE_BUILD_TYPE to TRUE if you want to disable
+  this warning.
+
+  =======================================================================
+Call Stack (most recent call first):
+  CMakeLists.txt:9223372036854775807 (CGAL_run_at_the_end_of_configuration)
+
+
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Users/sparta/CGAL-5.3
+```
+
+```bash
+> make install
 ```

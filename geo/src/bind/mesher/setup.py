@@ -113,9 +113,21 @@ class CMakeBuild(build_ext):
         )
         if not os.path.exists(self.build_temp):
             os.makedirs(self.build_temp)
+
+        # 2021-10-31: CBH debug start
+        print(f"cmake_args: {cmake_args}\n")
+        print(f"self.build_temp: {self.build_temp}\n")
+        print("env dictionary contains:")
+        for key, value in env.items():
+            print(f"'{key}:' {value}")
+        # 2021-10-31: CBH debug stop
+
+        print("\ncheck call extensions")
         subprocess.check_call(
             ["cmake", ext.sourcedir] + cmake_args, cwd=self.build_temp, env=env
         )
+
+        print("check call build")
         subprocess.check_call(
             ["cmake", "--build", "."] + build_args, cwd=self.build_temp
         )
