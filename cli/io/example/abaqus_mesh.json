@@ -3,15 +3,19 @@
         "class": "model_abaqus",
         "folder": "~/sibl/cli/io/example",
         "_file": "abaqus_QT0.5_small.inp",
-        "file": "abaqus_QT0.5.inp",
-        "__file": "abaqus_SCBF0.5.inp",
-        "___file": "abaqus_SCSS0.5.inp",
+        "Afile": "abaqus_QT0.5.inp",
+        "Bfile": "abaqus_SCBF0.5.inp",
+        "Cfile": "abaqus_SCSS0.5.inp",
+        "Dfile": "HughesQT0.25.inp",
+        "Efile": "HughesQT0.125.inp",
+        "file": "HughesQT0.0078125.inp",
         "plot_kwargs": {
+            "alpha": 1.0,
+            "edgecolor": "black",
+            "facecolor": "lightgray",
             "label": "quad tree h=0.5",
-            "color": "darkorange",
-            "linestyle": "-",
-            "linewidth": 1,
-            "alpha": 0.8
+            "linestyle": "solid",
+            "linewidth": 0.05
         }
     },
     "figure": {

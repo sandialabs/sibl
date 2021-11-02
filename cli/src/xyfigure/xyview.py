@@ -338,13 +338,12 @@ class XYViewAbaqus(XYViewBase):
                     plt.fill(
                         xf,
                         yf,
-                        linestyle=model._linestyle,
-                        edgecolor=model._edgecolor,
                         alpha=model._alpha,
+                        edgecolor=model._edgecolor,
                         facecolor=model._facecolor,
+                        linestyle=model._linestyle,
+                        linewidth=model._linewidth,
                     )
-
-            aa = 4
 
             if self._xticks:
                 ax.set_xticks(self._xticks)

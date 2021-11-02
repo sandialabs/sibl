@@ -461,16 +461,16 @@ class XYModelAbaqus(XYBase):
 
         # default value if plot_kwargs not client-supplied
         # default = {"linewidth": 2.0, "linestyle": "solid", "color": "black", }
-        default = {
-            "linestyle": "dotted",
-            "edgecolor": "magenta",
+        _default = {
             "alpha": 0.8,
+            "edgecolor": "navy",
             "facecolor": "gray",
+            "linestyle": "solid",
+            "linewidth": 1.0,
         }
-        self._plot_kwargs = kwargs.get("plot_kwargs", default)
-        self._linestyle = self._plot_kwargs.get("linestyle", "solid")
-        self._edgecolor = self._plot_kwargs.get("edgecolor", "magenta")
-        self._alpha = self._plot_kwargs.get("alpha", 0.8)
-        self._facecolor = self._plot_kwargs.get("facecolor", "gray")
-
-        aa = 4
+        self._plot_kwargs = kwargs.get("plot_kwargs", _default)
+        self._alpha = self._plot_kwargs.get("alpha", _default["alpha"])
+        self._edgecolor = self._plot_kwargs.get("edgecolor", _default["edgecolor"])
+        self._facecolor = self._plot_kwargs.get("facecolor", _default["facecolor"])
+        self._linestyle = self._plot_kwargs.get("linestyle", _default["linestyle"])
+        self._linewidth = self._plot_kwargs.get("linewidth", _default["linewidth"])
