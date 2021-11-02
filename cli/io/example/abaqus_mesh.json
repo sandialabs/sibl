@@ -1,0 +1,42 @@
+{
+    "mesh": {
+        "class": "model_abaqus",
+        "folder": "~/sibl/cli/io/example",
+        "_file": "abaqus_QT0.5_small.inp",
+        "file": "abaqus_QT0.5.inp",
+        "__file": "abaqus_SCBF0.5.inp",
+        "___file": "abaqus_SCSS0.5.inp",
+        "plot_kwargs": {
+            "label": "quad tree h=0.5",
+            "color": "darkorange",
+            "linestyle": "-",
+            "linewidth": 1,
+            "alpha": 0.8
+        }
+    },
+    "figure": {
+        "class": "view_abaqus",
+        "folder": "~/sibl/cli/io/example",
+        "file": "abaqus_mesh.png",
+        "size": [
+            4.0,
+            4.0
+        ],
+        "tite": "Example using xyfigure for ABAQUS mesh file",
+        "xlabel": "",
+        "ylabel": "",
+        "_xlim": [
+            -1,
+            10
+        ],
+        "_ylim": [
+            -1,
+            10
+        ],
+        "details": 0,
+        "display": 0,
+        "dpi": 300,
+        "latex": 1,
+        "serialize": 1
+    }
+}

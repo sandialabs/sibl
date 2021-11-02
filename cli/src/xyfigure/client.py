@@ -13,11 +13,11 @@ from xyfigure.factory import XYFactory
 
 # from xyfigure.xymodel import XYModel
 # from xyfigure.code.xymodel import XYModel
-from xyfigure.xymodel import XYModel
+from xyfigure.xymodel import XYModel, XYModelAbaqus
 
 # from xyfigure.xyview import XYView
 # from xyfigure.code.xyview import XYView
-from xyfigure.xyview import XYView
+from xyfigure.xyview import XYView, XYViewAbaqus
 
 
 def main(argv):
@@ -33,7 +33,8 @@ def main(argv):
     """
 
     # to do, add argparse with verbose flag, for now, hard code
-    verbose = False
+    # verbose = False
+    verbose = True
 
     help_string = "$ python ~/sibl/cli/src/xyfigure/client.py input_file.json"
     try:
@@ -58,8 +59,8 @@ def main(argv):
         else:
             print("Item is None from factory, nothing added to Client items.")
 
-    models = [i for i in items if isinstance(i, XYModel)]
-    views = [i for i in items if isinstance(i, XYView)]
+    models = [i for i in items if isinstance(i, (XYModel, XYModelAbaqus))]
+    views = [i for i in items if isinstance(i, (XYView, XYViewAbaqus))]
 
     for view in views:
         if verbose:

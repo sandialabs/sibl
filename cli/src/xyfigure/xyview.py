@@ -13,8 +13,8 @@ from PIL import Image
 from xyfigure.xybase import XYBase
 
 
-class XYView(XYBase):
-    """Creates a view that sees models."""
+class XYViewBase(XYBase):
+    """The base class used by all XYViews."""
 
     def __init__(self, guid, **kwargs):
         super().__init__(guid, **kwargs)
@@ -24,7 +24,6 @@ class XYView(XYBase):
         # self._folder = kwargs.get('folder', None)
         self._file_base = self._file.split(".")[0]
 
-        # default value if figure_kwargs not client-supplied
         self._title = kwargs.get("title", "default title")
         self._xlabel = kwargs.get("xlabel", "default x axis label")
         self._ylabel = kwargs.get("ylabel", "default y axis label")
@@ -32,19 +31,10 @@ class XYView(XYBase):
         self._xticks = kwargs.get("xticks", None)
         self._yticks = kwargs.get("yticks", None)
 
-        self._xaxislog = kwargs.get("xaxis_log", False)
-        self._yaxislog = kwargs.get("yaxis_log", False)
-
-        # default = {'scale': 1, 'label': 'ylabel_rhs', 'verification': 0}
-        self._yaxis_rhs = kwargs.get("yaxis_rhs", None)
-
-        # inches, U.S. paper, landscape
         self._size = kwargs.get("size", [11.0, 8.5])
         self._dpi = kwargs.get("dpi", 100)
         self._xlim = kwargs.get("xlim", None)
         self._ylim = kwargs.get("ylim", None)
-
-        self._background_image = kwargs.get("background_image", None)
 
         self._display = kwargs.get("display", True)
         self._details = kwargs.get("details", True)
@@ -67,6 +57,80 @@ class XYView(XYBase):
     @property
     def model_keys(self):
         return self._model_keys
+
+    def figure(self):
+        pass
+
+    def serialize(self, folder, filename):  # extend base class
+        # deprecated
+        # super().serialize(folder, filename)
+        # self._figure.savefig(
+        #     self._path_file_output, dpi=self._dpi, bbox_inches="tight"
+        # )  # avoid cutoff of labels
+        # print(f"  Serialized view to: {self._path_file_output}")
+
+        # New for XYView class, the so-called input file (input by the user) is the
+        # output file to which the figure should be serialized.
+        self._figure.savefig(
+            self._path_file_input, dpi=self._dpi, bbox_inches="tight"
+        )  # avoid cutoff of labels
+        print(f"  Serialized view to: {self._path_file_input}")
+
+
+class XYView(XYViewBase):
+    """Creates a view that sees models."""
+
+    def __init__(self, guid, **kwargs):
+        super().__init__(guid, **kwargs)
+        # self._models = []
+        # self._model_keys = kwargs.get("model_keys", None)
+        # self._figure = None
+        # # self._folder = kwargs.get('folder', None)
+        # self._file_base = self._file.split(".")[0]
+
+        # default value if figure_kwargs not client-supplied
+        # self._title = kwargs.get("title", "default title")
+        # self._xlabel = kwargs.get("xlabel", "default x axis label")
+        # self._ylabel = kwargs.get("ylabel", "default y axis label")
+
+        # self._xticks = kwargs.get("xticks", None)
+        # self._yticks = kwargs.get("yticks", None)
+
+        self._xaxislog = kwargs.get("xaxis_log", False)
+        self._yaxislog = kwargs.get("yaxis_log", False)
+
+        # default = {'scale': 1, 'label': 'ylabel_rhs', 'verification': 0}
+        self._yaxis_rhs = kwargs.get("yaxis_rhs", None)
+
+        # inches, U.S. paper, landscape
+        # self._size = kwargs.get("size", [11.0, 8.5])
+        # self._dpi = kwargs.get("dpi", 100)
+        # self._xlim = kwargs.get("xlim", None)
+        # self._ylim = kwargs.get("ylim", None)
+
+        self._background_image = kwargs.get("background_image", None)
+
+        # self._display = kwargs.get("display", True)
+        # self._details = kwargs.get("details", True)
+        # # self._serialize = kwargs.get('serialize', False) # moved up to XYBase
+        # self._latex = kwargs.get("latex", False)
+        # if self._latex:
+        #     from matplotlib import rc
+
+        #     rc("text", usetex=True)
+        #     rc("font", family="serif")
+
+    # @property
+    # def models(self):
+    #     return self._models
+
+    # @models.setter
+    # def models(self, value):
+    #     self._models = value
+
+    # @property
+    # def model_keys(self):
+    #     return self._model_keys
 
     def figure(self):
         """Create a figure (view) of the registered models to the screen."""
@@ -182,53 +246,129 @@ class XYView(XYBase):
             plt.close("all")
             self._figure = None
 
-    def serialize(self, folder, filename):  # extend base class
-        # deprecated
-        # super().serialize(folder, filename)
-        # self._figure.savefig(
-        #     self._path_file_output, dpi=self._dpi, bbox_inches="tight"
-        # )  # avoid cutoff of labels
-        # print(f"  Serialized view to: {self._path_file_output}")
+    # def serialize(self, folder, filename):  # extend base class
+    #     # deprecated
+    #     # super().serialize(folder, filename)
+    #     # self._figure.savefig(
+    #     #     self._path_file_output, dpi=self._dpi, bbox_inches="tight"
+    #     # )  # avoid cutoff of labels
+    #     # print(f"  Serialized view to: {self._path_file_output}")
 
-        # New for XYView class, the so-called input file (input by the user) is the
-        # output file to which the figure should be serialized.
-        self._figure.savefig(
-            self._path_file_input, dpi=self._dpi, bbox_inches="tight"
-        )  # avoid cutoff of labels
-        print(f"  Serialized view to: {self._path_file_input}")
+    #     # New for XYView class, the so-called input file (input by the user) is the
+    #     # output file to which the figure should be serialized.
+    #     self._figure.savefig(
+    #         self._path_file_input, dpi=self._dpi, bbox_inches="tight"
+    #     )  # avoid cutoff of labels
+    #     print(f"  Serialized view to: {self._path_file_input}")
 
 
-class XYViewAbaqus(XYBase):
-    """Creates an ABAUS view that sees ABAQUS models."""
+class XYViewAbaqus(XYViewBase):
+    """Creates an ABAQUS view that sees ABAQUS models."""
 
     def __init__(self, guid, **kwargs):
         super().__init__(guid, **kwargs)
-        self._models = []
-        self._model_keys = kwargs.get("model_keys", None)
-        self._figure = None
-        # self._folder = kwargs.get('folder', None)
-        self._file_base = self._file.split(".")[0]
+        # self._models = []
+        # self._model_keys = kwargs.get("model_keys", None)
+        # self._figure = None
+        # # self._folder = kwargs.get('folder', None)
+        # self._file_base = self._file.split(".")[0]
 
         # default value if figure_kwargs not client-supplied
-        self._title = kwargs.get("title", "default title")
-        self._xlabel = kwargs.get("xlabel", "default x axis label")
-        self._ylabel = kwargs.get("ylabel", "default y axis label")
+        # self._title = kwargs.get("title", "default title")
+        # self._xlabel = kwargs.get("xlabel", "default x axis label")
+        # self._ylabel = kwargs.get("ylabel", "default y axis label")
 
-        self._xticks = kwargs.get("xticks", None)
-        self._yticks = kwargs.get("yticks", None)
+        # self._xticks = kwargs.get("xticks", None)
+        # self._yticks = kwargs.get("yticks", None)
 
         # inches, U.S. paper, landscape
-        self._size = kwargs.get("size", [11.0, 8.5])
-        self._dpi = kwargs.get("dpi", 100)
-        self._xlim = kwargs.get("xlim", None)
-        self._ylim = kwargs.get("ylim", None)
+        # self._size = kwargs.get("size", [11.0, 8.5])
+        # self._dpi = kwargs.get("dpi", 100)
+        # self._xlim = kwargs.get("xlim", None)
+        # self._ylim = kwargs.get("ylim", None)
 
-        self._display = kwargs.get("display", True)
-        self._details = kwargs.get("details", True)
-        # self._serialize = kwargs.get('serialize', False) # moved up to XYBase
-        self._latex = kwargs.get("latex", False)
-        if self._latex:
-            from matplotlib import rc
+        # self._display = kwargs.get("display", True)
+        # self._details = kwargs.get("details", True)
+        # # self._serialize = kwargs.get('serialize', False) # moved up to XYBase
+        # self._latex = kwargs.get("latex", False)
+        # if self._latex:
+        #     from matplotlib import rc
 
-            rc("text", usetex=True)
-            rc("font", family="serif")
+        #     rc("text", usetex=True)
+        #     rc("font", family="serif")
+
+    @property
+    def models(self):
+        return self._models
+
+    @models.setter
+    def models(self, value):
+        self._models = value
+
+    @property
+    def model_keys(self):
+        return self._model_keys
+
+    def figure(self):
+        """Create a figure (view) of the registered models to the screen."""
+        if self._figure is None:
+
+            self._figure, ax = plt.subplots(nrows=1, dpi=self._dpi)
+            if self._verbose:
+                print(f"  Figure dpi set to {self._dpi}")
+
+            self._figure.set_size_inches(self._size)
+            if self._verbose:
+                print("  Figure size set to " + str(self._size) + " inches.")
+
+            for model in self._models:
+                xs, ys, _ = zip(*model._nodes)
+
+                for face in model._elements:
+                    xf = tuple(xs[k - 1] for k in face)  # 1-base index to 0-base index
+                    yf = tuple(ys[k - 1] for k in face)
+                    # plt.fill(
+                    #     xf,
+                    #     yf,
+                    #     linestyle="dotted",
+                    #     edgecolor="magenta",
+                    #     alpha=0.5,
+                    #     facecolor="gray",
+                    # )
+                    plt.fill(
+                        xf,
+                        yf,
+                        linestyle=model._linestyle,
+                        edgecolor=model._edgecolor,
+                        alpha=model._alpha,
+                        facecolor=model._facecolor,
+                    )
+
+            aa = 4
+
+            if self._xticks:
+                ax.set_xticks(self._xticks)
+
+            if self._yticks:
+                ax.set_yticks(self._yticks)
+
+            if self._xlim:
+                ax.set_xlim(self._xlim)
+
+            if self._ylim:
+                ax.set_ylim(self._ylim)
+
+            if self._xlabel:
+                ax.set_xlabel(self._xlabel)
+
+            if self._ylabel:
+                ax.set_ylabel(self._ylabel)
+
+            if self._display:
+                plt.show()
+
+            if self._serialize:
+                self.serialize(self._folder, self._file)
+
+            plt.close("all")
+            self._figure = None

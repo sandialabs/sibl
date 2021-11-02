@@ -430,10 +430,9 @@ class XYModelAbaqus(XYBase):
                                 tuple([float(line[1]), float(line[2]), float(line[3])]),
                             )
                             self._nodes = self._nodes + new_nodes
-                            print(self._nodes)
+                            # print(self._nodes)
                             line = f.readline()
-
-                        print(line)
+                        # print(line)
                     elif "*ELEMENT, " in line:
                         # collect all elements
                         line = f.readline()  # get the next line
@@ -450,7 +449,7 @@ class XYModelAbaqus(XYBase):
                                 ),
                             )
                             self._elements = self._elements + new_element
-                            print(self._elements)
+                            # print(self._elements)
                             line = f.readline()
                     else:
                         line = f.readline()
@@ -459,3 +458,19 @@ class XYModelAbaqus(XYBase):
 
             except OSError:
                 print(f"Cannot read file: {self._file_pathlib}")
+
+        # default value if plot_kwargs not client-supplied
+        # default = {"linewidth": 2.0, "linestyle": "solid", "color": "black", }
+        default = {
+            "linestyle": "dotted",
+            "edgecolor": "magenta",
+            "alpha": 0.8,
+            "facecolor": "gray",
+        }
+        self._plot_kwargs = kwargs.get("plot_kwargs", default)
+        self._linestyle = self._plot_kwargs.get("linestyle", "solid")
+        self._edgecolor = self._plot_kwargs.get("edgecolor", "magenta")
+        self._alpha = self._plot_kwargs.get("alpha", 0.8)
+        self._facecolor = self._plot_kwargs.get("facecolor", "gray")
+
+        aa = 4
