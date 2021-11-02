@@ -196,3 +196,39 @@ class XYView(XYBase):
             self._path_file_input, dpi=self._dpi, bbox_inches="tight"
         )  # avoid cutoff of labels
         print(f"  Serialized view to: {self._path_file_input}")
+
+
+class XYViewAbaqus(XYBase):
+    """Creates an ABAUS view that sees ABAQUS models."""
+
+    def __init__(self, guid, **kwargs):
+        super().__init__(guid, **kwargs)
+        self._models = []
+        self._model_keys = kwargs.get("model_keys", None)
+        self._figure = None
+        # self._folder = kwargs.get('folder', None)
+        self._file_base = self._file.split(".")[0]
+
+        # default value if figure_kwargs not client-supplied
+        self._title = kwargs.get("title", "default title")
+        self._xlabel = kwargs.get("xlabel", "default x axis label")
+        self._ylabel = kwargs.get("ylabel", "default y axis label")
+
+        self._xticks = kwargs.get("xticks", None)
+        self._yticks = kwargs.get("yticks", None)
+
+        # inches, U.S. paper, landscape
+        self._size = kwargs.get("size", [11.0, 8.5])
+        self._dpi = kwargs.get("dpi", 100)
+        self._xlim = kwargs.get("xlim", None)
+        self._ylim = kwargs.get("ylim", None)
+
+        self._display = kwargs.get("display", True)
+        self._details = kwargs.get("details", True)
+        # self._serialize = kwargs.get('serialize', False) # moved up to XYBase
+        self._latex = kwargs.get("latex", False)
+        if self._latex:
+            from matplotlib import rc
+
+            rc("text", usetex=True)
+            rc("font", family="serif")
