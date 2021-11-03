@@ -1,5 +1,12 @@
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 #include <math.h>
+
+// pybind11 STL containers
+// https: //pybind11.readthedocs.io/en/stable/advanced/cast/stl.html
+
+// pybind11 casting between C++ and Python types
+// https://pybind11.readthedocs.io/en/stable/advanced/cast/overview.html
 
 #define STRINGIFY(x) #x
 #define MACRO_STRINGIFY(x) STRINGIFY(x)
@@ -23,9 +30,9 @@ struct Pet
     std::string my_name;
 };
 
-struct PetParade
+struct Parade
 {
-    PetParade(const std::vector<float> &boundary_x, const std::vector<float> &boundary_y) : my_boundary_x(boundary_x), my_boundary_y(boundary_y) {}
+    Parade(const std::vector<float> &boundary_x, const std::vector<float> &boundary_y) : my_boundary_x(boundary_x), my_boundary_y(boundary_y) {}
 
     std::vector<bool> contains(const std::vector<float> &probe_x, const std::vector<float> &probe_y)
     {
