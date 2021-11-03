@@ -72,3 +72,46 @@ def test_pet():
     p.name = "Bob"
     found = p.name
     assert new_known == found
+
+
+def test_unit_square_contains():
+    """Tests if simple points are in the unit square via the xybind library."""
+
+    # boundary coordinates
+    bx = [0.0, 1.0, 1.0, 0.0]
+    by = [0.0, 0.0, 1.0, 1.0]
+
+    boundary = xyb.Parade(bx, by)
+
+    # probe coordinates
+    # TODO: need to investigate edge cases on boundary, since (1, 1) is known True
+    # but tests as False.
+    px = [-0.5, 0.0, 0.5, 0.9, 1.5]
+    py = px
+
+    known = [False, True, True, True, False]
+
+    found = boundary.contains(probe_x=px, probe_y=py)
+
+    assert known == found
+
+    # # pairs = ((0.0, 0.0), (1.0, 0.0), (1.0, 1.0), (0.0, 1.0))  # closed boundary in 2D counter-clockwise
+    # pairs = (
+    #     (0.0, 0.0),
+    #     (0.0, 1.0),
+    #     (1.0, 1.0),
+    #     (1.0, 0.0),
+    # )  # closed boundary in 2D but clockwise
+    # coords = pg.coordinates(pairs=pairs)
+
+    # pgon = pg.Polygon2D(boundary=coords)
+    # assert len(pgon._boundary) == 4
+
+    # # test points that are either contained in the boundary or not
+    # # points = pg.coordinates(pairs=((0.5, 0.5), (1.5, 1.5)))
+    # points = pg.coordinates(pairs=((0.0, 0.0), (1.0, 1.0)))
+
+    # known = (True, False)
+    # found = pgon.contains(points=points)
+
+    # assert known == found
