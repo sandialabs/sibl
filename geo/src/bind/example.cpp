@@ -15,7 +15,7 @@ void print_dict(const py::dict &dict)
         std::cout << "key=" << std::string(py::str(item.first)) << ", "
                   << "value=" << std::string(py::str(item.second))
                   << std::endl;
-};
+}
 */
 
 struct Pet
@@ -25,13 +25,13 @@ struct Pet
     const std::string &getName() const { return my_name; }
 
     std::string my_name;
-};
+}
 
 struct Dog : Pet
 {
     Dog(const std::string &name) : Pet(name) {}
     std::string bark() const { return "woof!"; }
-};
+}
 
 //PYBIND11_MODULE(xybind, m)
 PYBIND11_MODULE(example, m)

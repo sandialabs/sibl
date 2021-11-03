@@ -9,3 +9,4 @@
 c++ -O3 -Wall -Werror -shared -std=c++11 -fPIC -undefined dynamic_lookup $(python3 -m pybind11 --includes) main.cpp -o xybind$(python3-config --extension-suffix)
 
 # Windows - to be determined
+# TODO: copy/paste what Adam discovered.

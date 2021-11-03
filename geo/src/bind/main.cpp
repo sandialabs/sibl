@@ -23,6 +23,21 @@ struct Pet
     std::string my_name;
 };
 
+struct PetParade
+{
+    PetParade(const std::vector<float> &boundary_x, const std::vector<float> &boundary_y) : my_boundary_x(boundary_x), my_boundary_y(boundary_y) {}
+
+    std::vector<bool> contains(const std::vector<float> &probe_x, const std::vector<float> &probe_y)
+    {
+        std::vector<bool> test;
+        test.resize(probe_x.size(), true);
+        return test;
+    }
+
+    std::vector<float> my_boundary_x;
+    std::vector<float> my_boundary_y;
+};
+
 namespace py = pybind11;
 
 // PYBIND11_MODULE(module_name, module_handle)

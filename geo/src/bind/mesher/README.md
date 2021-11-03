@@ -271,11 +271,9 @@ Following the [quickstart](https://doc.cgal.org/latest/Manual/usage.html#secgett
 
 ### Download CGAL for macOS
 
-* reference: https://github.com/CGAL/cgal/
+* CGAL GitHub reference: https://github.com/CGAL/cgal/
 * package manager (tried that above, but not finding GMP)
 * with source archive
-* wth CGAL GitHub [repo](https://github.com/CGAL/cgal/)
-
 
 #### Source Archive
 
