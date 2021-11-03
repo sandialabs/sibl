@@ -5,21 +5,16 @@ To run
 > cd ~/sibl/geo/src/bind
 # > python setup.py develop  # no longer used
 # > pip install -e .  # assumes already pip installed
+#
+> cd ~/sibl/geo/tests
 > pytest test_xybind.py -v
 """
 
-
-# from myadd import add
-# from xybind import myadd
-
-import pytest
+# import pytest
 
 import xybind as xyb
 
-# help(xyb.add)
-
-
-@pytest.mark.skip("not yet deployed")
+# @pytest.mark.skip("not yet deployed")
 def test_version():
     assert xyb.__version__ == "0.0.2"
 
@@ -32,12 +27,6 @@ def test_add():
 
 def test_subtract():
     assert xyb.subtract(1, 2) == -1
-
-
-@pytest.mark.skip("work in progress")
-def test_multiply():
-    # test not yet written
-    pass
 
 
 def test_attributes():
@@ -81,7 +70,8 @@ def test_unit_square_contains():
     bx = [0.0, 1.0, 1.0, 0.0]
     by = [0.0, 0.0, 1.0, 1.0]
 
-    boundary = xyb.Parade(bx, by)
+    # boundary = xyb.Parade(bx, by)
+    poly = xyb.Polygon(bx, by)
 
     # probe coordinates
     # TODO: need to investigate edge cases on boundary, since (1, 1) is known True
@@ -91,7 +81,7 @@ def test_unit_square_contains():
 
     known = [False, True, True, True, False]
 
-    found = boundary.contains(probe_x=px, probe_y=py)
+    found = poly.contains(probe_x=px, probe_y=py)
 
     assert known == found
 

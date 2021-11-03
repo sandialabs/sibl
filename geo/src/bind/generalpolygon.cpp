@@ -2,59 +2,60 @@
 #include "intersectionprimitives.h"
 #include <iostream>
 #include <cmath>
-GeneralizedPolygon::GeneralizedPolygon(std::pair<std::vector<float>, std::vector<float>> const& nanSepPoly)
+
+GeneralizedPolygon::GeneralizedPolygon(std::pair<std::vector<float>, std::vector<float> > const &nanSepPoly)
 {
 	using namespace IntersectionPrimitives;
-	if(nanSepPoly.first.empty() || nanSepPoly.second.empty() || (nanSepPoly.first.size() != nanSepPoly.second.size()))
+	if (nanSepPoly.first.empty() || nanSepPoly.second.empty() || (nanSepPoly.first.size() != nanSepPoly.second.size()))
 		return; // Invalid input
 	std::vector<PolygonSegment> segs;
 	segs.reserve(nanSepPoly.first.size());
 	std::size_t firstk = 0;
-	for(std::size_t k = 1; k < nanSepPoly.first.size(); ++k)
+	for (std::size_t k = 1; k < nanSepPoly.first.size(); ++k)
 	{
-		if(std::isnan(nanSepPoly.first[k]))
+		if (std::isnan(nanSepPoly.first[k]))
 		{
 			segs.push_back(PolygonSegment(nanSepPoly.first[k - 1], nanSepPoly.second[k - 1],
-																		nanSepPoly.first[firstk], nanSepPoly.second[firstk]));
+										  nanSepPoly.first[firstk], nanSepPoly.second[firstk]));
 			firstk = k + 1; // Reset the first point
-			++k; // Need to pass the NAN for next iteration
+			++k;			// Need to pass the NAN for next iteration
 		}
 		else
 			segs.push_back(PolygonSegment(nanSepPoly.first[k - 1], nanSepPoly.second[k - 1],
-                                    nanSepPoly.first[k], nanSepPoly.second[k]));
+										  nanSepPoly.first[k], nanSepPoly.second[k]));
 	}
 	// Add last segment
 	segs.push_back(PolygonSegment(nanSepPoly.first.back(), nanSepPoly.second.back(),
-																nanSepPoly.first[firstk], nanSepPoly.second[firstk]));
+								  nanSepPoly.first[firstk], nanSepPoly.second[firstk]));
 	// Compute area
 	m_area = polygonArea(segs);
 	// Set up tree
 	m_kdtree = std::unique_ptr<KDTree>(new KDTree(std::move(segs)));
 }
-GeneralizedPolygon::GeneralizedPolygon(std::pair<std::vector<double>, std::vector<double>> const& nanSepPoly)
+GeneralizedPolygon::GeneralizedPolygon(std::pair<std::vector<double>, std::vector<double> > const &nanSepPoly)
 {
 	using namespace IntersectionPrimitives;
-	if(nanSepPoly.first.empty() || nanSepPoly.second.empty() || (nanSepPoly.first.size() != nanSepPoly.second.size()))
+	if (nanSepPoly.first.empty() || nanSepPoly.second.empty() || (nanSepPoly.first.size() != nanSepPoly.second.size()))
 		return; // Invalid input
 	std::vector<PolygonSegment> segs;
 	segs.reserve(nanSepPoly.first.size());
 	std::size_t firstk = 0;
-	for(std::size_t k = 1; k < nanSepPoly.first.size(); ++k)
+	for (std::size_t k = 1; k < nanSepPoly.first.size(); ++k)
 	{
-		if(std::isnan(nanSepPoly.first[k]))
+		if (std::isnan(nanSepPoly.first[k]))
 		{
 			segs.push_back(PolygonSegment(nanSepPoly.first[k - 1], nanSepPoly.second[k - 1],
-																		nanSepPoly.first[firstk], nanSepPoly.second[firstk]));
+										  nanSepPoly.first[firstk], nanSepPoly.second[firstk]));
 			firstk = k + 1; // Reset the first point
-			++k; // Need to pass the NAN for next iteration
+			++k;			// Need to pass the NAN for next iteration
 		}
 		else
 			segs.push_back(PolygonSegment(nanSepPoly.first[k - 1], nanSepPoly.second[k - 1],
-                                    nanSepPoly.first[k], nanSepPoly.second[k]));
+										  nanSepPoly.first[k], nanSepPoly.second[k]));
 	}
 	// Add last segment
 	segs.push_back(PolygonSegment(nanSepPoly.first.back(), nanSepPoly.second.back(),
-																nanSepPoly.first[firstk], nanSepPoly.second[firstk]));
+								  nanSepPoly.first[firstk], nanSepPoly.second[firstk]));
 	// Compute area
 	m_area = polygonArea(segs);
 	// Set up tree
@@ -77,30 +78,29 @@ GeneralizedPolygon::GeneralizedPolygon(std::vector<Topologies::Mesh_Segment_2> c
 	m_kdtree = std::unique_ptr<KDTree>(new KDTree(std::move(segs)));
 }
 */
-bool GeneralizedPolygon::inpoly(float x,float y) const
+bool GeneralizedPolygon::inpoly(float x, float y) const
 {
-    return inpoly(std::pair<double,double>(x,y));
+	return inpoly(std::pair<double, double>(x, y));
 }
-bool GeneralizedPolygon::inpoly(std::pair<double,double> const& pairPt) const
+bool GeneralizedPolygon::inpoly(std::pair<double, double> const &pairPt) const
 {
 	using namespace IntersectionPrimitives;
 	Point pt(pairPt);
 	IntersectionCounter numIntersections = m_kdtree->numIntersections(CartesianRay(pt, CartesianDirection::x));
-	if(numIntersections.badIntersections())
+	if (numIntersections.badIntersections())
 	{
 		// An ambiguous result was found, so try with a y-directed ray
 		numIntersections = m_kdtree->numIntersections(CartesianRay(pt, CartesianDirection::y));
-		if(numIntersections.badIntersections())
+		if (numIntersections.badIntersections())
 		{
 			// Still found an ambiguous result
 			// The best solution to this issue is probably to use a ray with an arbitrary slope.
 			// Using a more general ray introduces additional complications (dealing with infinite slope)
 			// and makes the ray/bbox intersection more difficult.  So for now, perturb the point slightly and check again
-			double tol = sqrt(m_area)*1e-12;
+			double tol = sqrt(m_area) * 1e-12;
 			Point perturbPt(pt.x() + tol, pt.y() + tol);
 			numIntersections = m_kdtree->numIntersections(CartesianRay(perturbPt, CartesianDirection::x));
 		}
 	}
 	return (numIntersections[IntersectionType::interior] % 2) == 1;
 }
-

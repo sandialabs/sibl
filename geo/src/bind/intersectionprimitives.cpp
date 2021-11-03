@@ -6,14 +6,14 @@ namespace IntersectionPrimitives
 	namespace
 	{
 		// Helper functions for constructing a bounding box
-		void replaceIfLesser(double& cmin, double c)
+		void replaceIfLesser(double &cmin, double c)
 		{
-			if(c < cmin)
+			if (c < cmin)
 				cmin = c;
 		}
-		void replaceIfGreater(double& cmax, double c)
+		void replaceIfGreater(double &cmax, double c)
 		{
-			if(c > cmax)
+			if (c > cmax)
 				cmax = c;
 		}
 	}
@@ -27,42 +27,39 @@ namespace IntersectionPrimitives
 
 	bool IntersectionCounter::any() const
 	{
-		return nintersections.at(IntersectionType::interior) > 0 
-				|| nintersections.at(IntersectionType::vertex) > 0
-				|| nintersections.at(IntersectionType::collinear) > 0;
+		return nintersections.at(IntersectionType::interior) > 0 || nintersections.at(IntersectionType::vertex) > 0 || nintersections.at(IntersectionType::collinear) > 0;
 	}
-	
+
 	bool IntersectionCounter::badIntersections() const
 	{
 		return nintersections.at(IntersectionType::vertex) != 0 || nintersections.at(IntersectionType::collinear) != 0;
 	}
 
-	IntersectionCounter& IntersectionCounter::operator+=(IntersectionCounter const& rhs)
+	IntersectionCounter &IntersectionCounter::operator+=(IntersectionCounter const &rhs)
 	{
 		nintersections[IntersectionType::interior] += rhs[IntersectionType::interior];
 		nintersections[IntersectionType::vertex] += rhs[IntersectionType::vertex];
 		nintersections[IntersectionType::collinear] += rhs[IntersectionType::collinear];
 		return *this;
 	}
-	
-	IntersectionCounter& IntersectionCounter::operator+=(IntersectionType const& rhs)
+
+	IntersectionCounter &IntersectionCounter::operator+=(IntersectionType const &rhs)
 	{
-		if(rhs != IntersectionType::none)
+		if (rhs != IntersectionType::none)
 			nintersections[rhs] += 1;
 		return *this;
 	}
 
-	BoundingBox::BoundingBox(std::vector<PolygonSegment const*> const& polySegs) :
-		m_bottomLeft(0., 0.),
-		m_topRight(0., 0.)
+	BoundingBox::BoundingBox(std::vector<PolygonSegment const *> const &polySegs) : m_bottomLeft(0., 0.),
+																					m_topRight(0., 0.)
 	{
-		if(polySegs.empty())
+		if (polySegs.empty())
 			return;
 		double xmin = polySegs[0]->p0().x();
 		double ymin = polySegs[0]->p0().y();
 		double xmax = polySegs[0]->p0().x();
 		double ymax = polySegs[0]->p0().y();
-		for(auto pcurseg : polySegs)
+		for (auto pcurseg : polySegs)
 		{
 			// First point in segment
 			replaceIfLesser(xmin, pcurseg->p0().x());
@@ -81,14 +78,14 @@ namespace IntersectionPrimitives
 		m_topRight.y() = ymax;
 	}
 
-	bool BoundingBox::intersects(CartesianRay const& ray) const
+	bool BoundingBox::intersects(CartesianRay const &ray) const
 	{
 		bool res = false;
 		// Get coordinate accessors
 		std::unique_ptr<coordAccessor> upU = coordAccessor::parallelToDirection(ray.direction());
 		std::unique_ptr<coordAccessor> upV = coordAccessor::perpToDirection(ray.direction());
-		coordAccessor const& u = *upU;
-		coordAccessor const& v = *upV;
+		coordAccessor const &u = *upU;
+		coordAccessor const &v = *upV;
 		// Do checks
 		res = v(ray.origin()) >= v(m_bottomLeft);
 		res &= v(ray.origin()) <= v(m_topRight);
@@ -96,7 +93,7 @@ namespace IntersectionPrimitives
 		return res;
 	}
 
-	bool BoundingBox::has(PolygonSegment const& seg) const
+	bool BoundingBox::has(PolygonSegment const &seg) const
 	{
 		Point const mp = seg.midpoint();
 		bool res = mp.x() > m_bottomLeft.x();
@@ -106,36 +103,36 @@ namespace IntersectionPrimitives
 		return res;
 	}
 
-	IntersectionType PolygonSegment::intersects(CartesianRay const& ray) const
+	IntersectionType PolygonSegment::intersects(CartesianRay const &ray) const
 	{
-		double tol = 1e-13*sqrt(len2());
+		double tol = 1e-13 * sqrt(len2());
 		// Get coordinate accessors
 		std::unique_ptr<coordAccessor> upU = coordAccessor::parallelToDirection(ray.direction());
 		std::unique_ptr<coordAccessor> upV = coordAccessor::perpToDirection(ray.direction());
-		coordAccessor const& u = *upU;
-		coordAccessor const& v = *upV; 
+		coordAccessor const &u = *upU;
+		coordAccessor const &v = *upV;
 		// First check for axis-aligned segment
 		double td = v(m_p1) - v(m_p0);
-		if(fabs(td) < tol)
+		if (fabs(td) < tol)
 		{
-			if(fabs(v(m_p0) - v(ray.origin())) < tol && (u(ray.origin()) < u(m_p0) || u(ray.origin()) < u(m_p1)))
+			if (fabs(v(m_p0) - v(ray.origin())) < tol && (u(ray.origin()) < u(m_p0) || u(ray.origin()) < u(m_p1)))
 				return IntersectionType::collinear;
 			return IntersectionType::none;
 		}
 		// Check t* and xi*
-		double tstar = (v(ray.origin()) - v(m_p0))/td;
-		double xistar = tstar*(u(m_p1) - u(m_p0)) + u(m_p0) - u(ray.origin());
-		if(xistar > 0.)
+		double tstar = (v(ray.origin()) - v(m_p0)) / td;
+		double xistar = tstar * (u(m_p1) - u(m_p0)) + u(m_p0) - u(ray.origin());
+		if (xistar > 0.)
 		{
-			if(tstar == 0. || tstar == 1.)
+			if (tstar == 0. || tstar == 1.)
 				return IntersectionType::vertex;
-			else if(tstar > 0. && tstar < 1.)
+			else if (tstar > 0. && tstar < 1.)
 				return IntersectionType::interior;
 		}
 		return IntersectionType::none;
 	}
 
-	Point& Point::operator+=(Point const& p)
+	Point &Point::operator+=(Point const &p)
 	{
 		m_x += p.x();
 		m_y += p.y();
@@ -148,7 +145,7 @@ namespace IntersectionPrimitives
 		return p;
 	}
 
-	Point& Point::operator/=(double s)
+	Point &Point::operator/=(double s)
 	{
 		m_x /= s;
 		m_y /= s;
@@ -157,24 +154,23 @@ namespace IntersectionPrimitives
 
 	std::unique_ptr<coordAccessor> coordAccessor::parallelToDirection(CartesianDirection dir)
 	{
-		if(dir == CartesianDirection::x)
+		if (dir == CartesianDirection::x)
 			return std::unique_ptr<coordAccessor>(new xAccessor());
 		return std::unique_ptr<coordAccessor>(new yAccessor());
 	}
 
 	std::unique_ptr<coordAccessor> coordAccessor::perpToDirection(CartesianDirection dir)
 	{
-		if(dir == CartesianDirection::y)
+		if (dir == CartesianDirection::y)
 			return std::unique_ptr<coordAccessor>(new xAccessor());
 		return std::unique_ptr<coordAccessor>(new yAccessor());
 	}
 
-	double polygonArea(std::vector<PolygonSegment> const& segs)
+	double polygonArea(std::vector<PolygonSegment> const &segs)
 	{
 		double area = 0.;
-		for(auto curSeg : segs)
-			area += curSeg.p0().x()*curSeg.p1().y() - curSeg.p1().x()*curSeg.p0().y();
-		return area*0.5;
+		for (auto curSeg : segs)
+			area += curSeg.p0().x() * curSeg.p1().y() - curSeg.p1().x() * curSeg.p0().y();
+		return area * 0.5;
 	}
 }
-
