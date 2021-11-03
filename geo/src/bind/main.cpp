@@ -38,6 +38,8 @@ struct Parade
     {
         std::vector<bool> test;
         test.resize(probe_x.size(), true);
+        for (unsigned int i = 0; i < my_boundary_x.size(); ++i)
+            std::cout << my_boundary_x[i] << " , " << my_boundary_y[i] << std::endl;
         return test;
     }
 
@@ -76,6 +78,10 @@ PYBIND11_MODULE(xybind, m)
     py::class_<Pet>(m, "Pet")
         .def(py::init<const std::string &>())
         .def_property("name", &Pet::getName, &Pet::setName);
+
+    py::class_<Parade>(m, "Parade")
+        .def(py::init<const std::vector<float> &, const std::vector<float> &>())
+        .def("contains", &Parade::contains, py::kw_only(), py::arg("probe_x"), py::kw_only(), py::arg("probe_y"), "Returns a vector with True or False for each element with coordinates probe_x, probe_y.");
 
 #ifdef VERSION_INFO
     m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);
