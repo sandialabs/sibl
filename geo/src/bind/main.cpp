@@ -1,6 +1,10 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 #include <math.h>
+#include "generalpolygon.h"
+#include <pair>
+#include <vector>
+
 
 // pybind11 STL containers
 // https: //pybind11.readthedocs.io/en/stable/advanced/cast/stl.html
@@ -29,7 +33,7 @@ struct Pet
 
     std::string my_name;
 };
-
+/*
 struct Parade
 {
     Parade(const std::vector<float> &boundary_x, const std::vector<float> &boundary_y) : my_boundary_x(boundary_x), my_boundary_y(boundary_y) {}
@@ -46,6 +50,23 @@ struct Parade
     std::vector<float> my_boundary_x;
     std::vector<float> my_boundary_y;
 };
+*/
+struct Parade
+{
+    Parade(const std::vector<float> &boundary_x, const std::vector<float> &boundary_y) : GP(std::pair<std::vector<float> , std::vector<float> > (boundary_x,boundary_y) ) {}
+
+    std::vector<bool> contains(const std::vector<float> &probe_x, const std::vector<float> &probe_y)
+    {
+        std::vector<bool> test(probe_x.size(),false);
+        for (unsigned int i = 0; i <test.size(); ++i)
+             test[i] = GP.inpoly(probe_x[i],probe_y[i]);
+        return test;
+    }
+    GeneralizedPolygon GP;
+
+};
+
+
 
 namespace py = pybind11;
 
@@ -94,7 +115,7 @@ PYBIND11_MODULE(xybind, m)
 // Building pybind11 manually
 // https://pybind11.readthedocs.io/en/stable/compiling.html#building-manually
 
-/* 
+/*
 From: https://github.com/pybind/pybind11/blob/1376eb0e518ff2b7b412c84a907dd1cd3f7f2dcd/include/pybind11/detail/common.h#L267
 
     This macro creates the entry point that will be invoked when the Python interpreter
