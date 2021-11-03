@@ -12,7 +12,7 @@ class GeneralizedPolygon //: public std::enable_shared_from_this<GeneralizedPoly
 		GeneralizedPolygon(std::pair<std::vector<double>, std::vector<double>> const& nanSepPoly);
 		GeneralizedPolygon(std::pair<std::vector<float>, std::vector<float>> const& nanSepPoly);
 
-		GeneralizedPolygon(int len, float x[],float y[]);///Ugly for Python binding
+
 		//GeneralizedPolygon(std::vector<Topologies::Mesh_Segment_2> const& CGALSegmentSoup); // For CGAL data types
 		bool inpoly(std::pair<double,double> const& pt) const;
 		bool inpoly(float x,float y) const; ///Ugly for Python binding

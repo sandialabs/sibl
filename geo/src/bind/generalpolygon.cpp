@@ -31,49 +31,6 @@ GeneralizedPolygon::GeneralizedPolygon(std::pair<std::vector<float>, std::vector
 	// Set up tree
 	m_kdtree = std::unique_ptr<KDTree>(new KDTree(std::move(segs)));
 }
-
-GeneralizedPolygon::GeneralizedPolygon(int len, float x[],float y[])
-{
-    std::vector<double> xv(len,0);
-    std::vector<double> yv(len,0);
-    for(unsigned int lcv = 0; lcv < len; ++lcv)
-    {
-        xv[lcv]=x[lcv];
-        yv[lcv]=y[lcv];
-		std::cout<<"(X,Y) "<<x[lcv]<<","<<y[lcv]<<std::endl;
-    }
-    std::pair<std::vector<double>, std::vector<double>> nanSepPoly;
-    nanSepPoly.first=xv;
-    nanSepPoly.second=yv;
-	using namespace IntersectionPrimitives;
-	if(nanSepPoly.first.empty() || nanSepPoly.second.empty() || (nanSepPoly.first.size() != nanSepPoly.second.size()))
-		return; // Invalid input
-	std::vector<PolygonSegment> segs;
-	segs.reserve(nanSepPoly.first.size());
-	std::size_t firstk = 0;
-	for(std::size_t k = 1; k < nanSepPoly.first.size(); ++k)
-	{
-		if(std::isnan(nanSepPoly.first[k]))
-		{
-			segs.push_back(PolygonSegment(nanSepPoly.first[k - 1], nanSepPoly.second[k - 1],
-																		nanSepPoly.first[firstk], nanSepPoly.second[firstk]));
-			firstk = k + 1; // Reset the first point
-			++k; // Need to pass the NAN for next iteration
-		}
-		else
-			segs.push_back(PolygonSegment(nanSepPoly.first[k - 1], nanSepPoly.second[k - 1],
-                                    nanSepPoly.first[k], nanSepPoly.second[k]));
-	}
-	// Add last segment
-	segs.push_back(PolygonSegment(nanSepPoly.first.back(), nanSepPoly.second.back(),
-																nanSepPoly.first[firstk], nanSepPoly.second[firstk]));
-	// Compute area
-	m_area = polygonArea(segs);
-	// Set up tree
-	m_kdtree = std::unique_ptr<KDTree>(new KDTree(std::move(segs)));
-
-
-}
 GeneralizedPolygon::GeneralizedPolygon(std::pair<std::vector<double>, std::vector<double>> const& nanSepPoly)
 {
 	using namespace IntersectionPrimitives;
