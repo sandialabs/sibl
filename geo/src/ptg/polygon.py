@@ -64,12 +64,12 @@ class Polygon2D(Polygon):
 
         self._boundary = boundary
 
-    def contains(self, *, points: tuple[Coordinate2D, ...]) -> tuple[bool, ...]:
+    def contains(self, *, probes: tuple[Coordinate2D, ...]) -> tuple[bool, ...]:
         """Determines if a tuple of Coordinate2D lie within the boundary of the
         Polygon2D.
 
         Arguments:
-            points (tuple[Coordinate2D, ...]): A tuple of pairs of points,
+            probes (tuple[Coordinate2D, ...]): A tuple of pairs of probe points,
                 ((x0, y0), (x1, y1), ... (xn, yn)), that may lie inside or outside
                 of the boundary.  If the point lies identically on the boundary, then
                 it is considered to be contained by (equivalent to inside) the boundary.
@@ -84,12 +84,14 @@ class Polygon2D(Polygon):
 
         contained = tuple()
 
-        for pt in points:
+        for pt in probes:
 
             ans = False
 
             for i in range(len(self._boundary)):
 
+                # wrap around the boundary, segment by segment, and join the last
+                # point to the first point as the final segment
                 x0 = self._boundary[i].x
                 y0 = self._boundary[i].y
                 x1 = self._boundary[(i + 1) % len(self._boundary)].x
