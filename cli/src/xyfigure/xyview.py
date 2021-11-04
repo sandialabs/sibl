@@ -46,6 +46,20 @@ class XYViewBase(XYBase):
             rc("text", usetex=True)
             rc("font", family="serif")
 
+        # default value if axes_kwargs not client-supplied
+        # https://matplotlib.org/stable/api/axes_api.html
+        # https://matplotlib.org/stable/api/axes_api.html#appearance
+        # whether frame (rectangle outline) appears on all axes
+        self._frame = kwargs.get("frame", True)
+
+        # https://matplotlib.org/stable/gallery/subplots_axes_and_figures/axes_props.html#sphx-glr-gallery-subplots-axes-and-figures-axes-props-py
+        #
+        # https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.tick_params.html#matplotlib.axes.Axes.tick_params
+        # default to empty dictionary
+        self._tick_params = kwargs.get("tick_params", {})
+
+        print("Finished XYViewBase constructor.")
+
     @property
     def models(self):
         return self._models
@@ -224,6 +238,10 @@ class XYView(XYViewBase):
             self._figure.suptitle(self._title)
             ax.set_xlabel(self._xlabel)
             ax.set_ylabel(self._ylabel)
+            # set frame on or off based on the Bool "frame" in .json input
+            ax.set_frame_on(b=self._frame)
+            if len(self._tick_params) > 0:
+                ax.tick_params(**self._tick_params)
             ax.grid()
             ax.legend()
 
@@ -362,6 +380,11 @@ class XYViewAbaqus(XYViewBase):
 
             if self._ylabel:
                 ax.set_ylabel(self._ylabel)
+
+            # set frame on or off based on the Bool "frame" in .json input
+            ax.set_frame_on(b=self._frame)
+            if len(self._tick_params) > 0:
+                ax.tick_params(**self._tick_params)
 
             if self._display:
                 plt.show()

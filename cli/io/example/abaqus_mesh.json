@@ -1,27 +1,27 @@
 {
     "mesh": {
         "class": "model_abaqus",
-        "folder": "~/sibl/cli/io/example",
-        "_file": "abaqus_QT0.5_small.inp",
-        "Afile": "abaqus_QT0.5.inp",
+        "_folder": "~/sibl/cli/io/example",
+        "folder": "~/geometry/dual/code/bin/Release/2021-10-21",
+        "file": "HughesQT0.25.inp",
         "Bfile": "abaqus_SCBF0.5.inp",
         "Cfile": "abaqus_SCSS0.5.inp",
         "Dfile": "HughesQT0.25.inp",
         "Efile": "HughesQT0.125.inp",
-        "file": "HughesQT0.0078125.inp",
+        "Ffile": "HughesQT0.0078125.inp",
         "plot_kwargs": {
             "alpha": 1.0,
             "edgecolor": "black",
-            "facecolor": "lightgray",
+            "facecolor": "white",
             "label": "quad tree h=0.5",
             "linestyle": "solid",
-            "linewidth": 0.05
+            "linewidth": 0.1
         }
     },
     "figure": {
         "class": "view_abaqus",
         "folder": "~/sibl/cli/io/example",
-        "file": "abaqus_mesh.png",
+        "file": "HughesQT0.25.png",
         "size": [
             4.0,
             4.0
@@ -38,9 +38,9 @@
             10
         ],
         "details": 0,
-        "display": 0,
+        "display": 1,
         "dpi": 300,
-        "latex": 1,
+        "latex": 0,
         "serialize": 1
     }
 }

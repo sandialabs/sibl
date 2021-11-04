@@ -163,6 +163,8 @@ The view dictionary contains items that describe how the main figure is construc
 | `"title":`            | string      | *optional*<br>Figure label, top and centered.  Default is `default title`. 
 | `"xlabel":`           | string      | *optional*<br>The label for the x-axis.  Default is `default x axis label`.
 | `"ylabel":`           | string      | *optional*<br>The label for the left-hand y-axis.  Default is `default y axis label`.
+| `"frame":`            | Boolean     | *optional*<br>Visibility of the rectangular frame draw around an axis.<br>`0` The frame is hidden.<br>`1` (default) The frame is shown.
+| `"tick_kwargs":`      | dict        | *optional*<br>Singleton that controls ticks, tick labels, and gridlines per [Matplotlib's `tick_params` dictionary](https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.tick_params.html#matplotlib.axes.Axes.tick_params).<br>Example:<br>`"tick_params": {"colors": "darkgray", "labelsize": 8, "width": 0.1}`
 | `"xticks":`           | float array | *optional*<br>Contains an array of ascending real numbers, indicating tick placement.  Example: `[0.0, 0.5, 1.0, 1.5, 2.0]`.  Default is matplotlib's choice for tick marks.
 | `"yticks":`           | float array | *optional*<br>Same as documentation for `xticks`.
 | `"xaxis_log":`      | Boolean     | *optional*<br>`0` (default) plots x-axis in a linear scale.<br>`1` plots x-axis in a log scale.
