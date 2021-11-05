@@ -421,22 +421,28 @@ class XYModelAbaqus(XYBase):
                 line = f.readline()
 
                 while line:
-                    if "*NODE, " in line:
+                    if "*NODE" in line or "*Node" in line:
                         # collect all nodes
                         line = f.readline()  # get the next line
-                        while "***" not in line:
+                        while "*" not in line:
                             line = line.split(",")
                             new_nodes = (
-                                tuple([float(line[1]), float(line[2]), float(line[3])]),
+                                tuple(
+                                    [
+                                        float(eval(line[1])),
+                                        float(eval(line[2])),
+                                        float(eval(line[3])),
+                                    ]
+                                ),
                             )
                             self._nodes = self._nodes + new_nodes
                             # print(self._nodes)
                             line = f.readline()
                         # print(line)
-                    elif "*ELEMENT, " in line:
+                    elif "*ELEMENT" in line or "*Element" in line:
                         # collect all elements
                         line = f.readline()  # get the next line
-                        while len(line) > 0:
+                        while "*" not in line and len(line) > 0:
                             line = line.split(",")
                             new_element = (
                                 tuple(
