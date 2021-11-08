@@ -16,7 +16,6 @@ def coordinates(*, pairs: tuple[tuple[float, float], ...]) -> tuple[Coordinate2D
         pairs (tuple of tuple of floats), e.g.,
             ((x0, y0), (x1, y1), ... (xn, yn))
 
-
     Returns:
         tuple of Coordinates:
             A tuple of Coordinates, which is a NamedTuple
@@ -26,6 +25,52 @@ def coordinates(*, pairs: tuple[tuple[float, float], ...]) -> tuple[Coordinate2D
     xs, ys = zip(*pairs)
     cs = tuple(map(Coordinate2D, xs, ys))  # coordinates
     return cs
+
+
+def is_left(P2: Coordinate2D, *, P0: Coordinate2D, P1: Coordinate2D) -> int:
+    """Determines if the probe point P2 is to the left, on, or to the right of
+    an infinite line through the line segment from point P0 to P1.  This is
+    equivalent to taking the cross product between vector a = (P1 - P0) and
+    vector b = (P2 - P0), and determining if that cross product is
+        positive (point P2 is to the to the left of the line),
+        zero (point P2 is on the line), or
+        negative (point P2 is to the right of the line).
+
+    Arguments:
+        P2 (Coordinate2D): The points with coordinates (x2, y2) that is probed
+            relative to an infinite line going through the directed line segment
+            from P0 to P1.
+
+    Keyword Arguments:
+        P0 (Coordinate2D): The beginning point of the line segment with coordinates
+            (x0, y0).
+        P1 (Coordinate2D): The ending point of the line segment with coordinates
+            (x1, y2).
+
+    Returns:
+        int in [-1, 0, 1] where
+            1: Point P2 is to the left of the line from P0 to P1.
+            0: Point P2 is on the line from P0 to P1.
+           -1: Point P2 is to the right of the line from P0 to P1.
+    """
+    cross_product = (P1.x - P0.x) * (P2.y - P0.y) - (P2.x - P0.x) * (P1.y - P0.y)
+
+    if cross_product > 0:
+        return 1
+    elif cross_product < 0:
+        return -1
+    else:
+        return 0
+
+    """Copyright notice:
+    This function is an adaption of the 'isLeft()' function by Daniel Sunday.
+    Copyright 2001, 2012, 2021 Dan Sunday
+    This code may be freely used at modified for any purpose
+    provided that this copyright notice is included with it.
+    There is no warranty for this code, and the author of it cannot
+    be held liable for any real or imagined damage from its use.
+    Users of this code must verify correctness for their application.
+    """
 
 
 # TODO: future development
@@ -52,11 +97,11 @@ class Polygon2D(Polygon):
                 ((x0, y0), (x1, y1), ... (xn, yn)), that describe the path sequence
                 of the boundary.  The boundary is closed, so the final boundary
                 sgement connects from (xn, yn) to (x0, y0).  There are thus (n+1)
-                line segements that compose the boundary.
+                line segments that compose the boundary.
 
         Raises:
-            ValueError if len(boundary) < 3. A minimum of three points must be used to
-                specify a boundary.
+            ValueError if len(boundary) < 3. A minimum of three points must be used
+                to specify a boundary.
         """
 
         if len(boundary) < 3:

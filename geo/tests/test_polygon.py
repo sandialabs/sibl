@@ -7,7 +7,9 @@ To run
 """
 
 from itertools import repeat
-import itertools
+
+# import itertools
+from functools import partial
 
 import pytest
 
@@ -26,6 +28,38 @@ def test_too_few_coordinates():
     coords = pg.coordinates(pairs=pairs)
     with pytest.raises(ValueError):
         _ = pg.Polygon2D(boundary=coords)
+
+
+def test_is_left():
+    """Test that the is_left() function properly reports +1 for a point to the
+    left of a line, 0, for a point on the line, and -1 for a point to the right
+    of a line.
+    """
+    # Create a point directed toward the positive y-axis, intersecting p0 and p1.
+    p0 = pg.Coordinate2D(x=2.0, y=10.0)
+    p1 = pg.Coordinate2D(x=2.0, y=40.0)
+
+    # Use map() with function that uses keyword arguments.
+    # https://stackoverflow.com/questions/13499824/using-map-function-with-keyword-arguments
+    mapfunc = partial(pg.is_left, P0=p0, P1=p1)
+
+    # Create several test points, all to the left of the above-created line.
+    pairs_left = ((0, 0), (1, 0), (1, 1), (-1, 1), (-1, -1), (1, -1))
+    lefts = pg.coordinates(pairs=pairs_left)
+    found = tuple(map(mapfunc, lefts))
+    assert all([a == 1 for a in found])
+
+    # Create several test points, all to the right of the above-created line.
+    pairs_right = ((4, 0), (5, 0), (5, 1), (3, 1), (3, -1), (3, -1))
+    rights = pg.coordinates(pairs=pairs_right)
+    found = tuple(map(mapfunc, rights))
+    assert all([a == -1 for a in found])
+
+    # Create several test points, all on the above-created line.
+    pairs_zero = ((2, 0), (2, 10), (2, 1), (2, -10), (2, -1), (2, -20))
+    zeros = pg.coordinates(pairs=pairs_zero)
+    found = tuple(map(mapfunc, zeros))
+    assert all([a == 0 for a in found])
 
 
 @pytest.mark.skip(reason="Work in progress.")
