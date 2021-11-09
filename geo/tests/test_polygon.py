@@ -4,6 +4,9 @@ To run
 > conda activate siblenv
 > cd ~/sibl
 > pytest geo/tests/test_polygon.py -v
+
+to run just a single text, for example
+pytest geo/tests/test_polygon.py::test_is_left -v
 """
 
 from itertools import repeat
@@ -60,6 +63,99 @@ def test_is_left():
     zeros = pg.coordinates(pairs=pairs_zero)
     found = tuple(map(mapfunc, zeros))
     assert all([a == 0 for a in found])
+
+
+def test_winding_number():
+    """Test the winding number method implementation."""
+
+    # create a square polygon as a closed boundary in 2D, oriented counter-clockwise
+    pairs = ((0.0, 0.0), (1.0, 0.0), (1.0, 1.0), (0.0, 1.0))
+    coords = pg.coordinates(pairs=pairs)
+    pgon = pg.Polygon2D(boundary=coords)
+    assert len(pgon._boundary) == 4
+
+    # A point with a winding number of 1
+    p = pg.Coordinate2D(x=0.5, y=0.5)
+    result = pgon.winding_number(probe=p)
+    assert result == 1
+
+    # A point with a winding number of 0
+    p = pg.Coordinate2D(x=7, y=5)
+    result = pgon.winding_number(probe=p)
+    assert result == 0
+
+    # Test four edge cases
+    # A bottom edge is considered in
+    p = pg.Coordinate2D(x=0.5, y=0.0)
+    result = pgon.winding_number(probe=p)
+    assert result == 1
+
+    # A right edge is considered out
+    p = pg.Coordinate2D(x=1.0, y=0.5)
+    result = pgon.winding_number(probe=p)
+    assert result == 0
+
+    # A top edge is considered out
+    p = pg.Coordinate2D(x=0.5, y=1.0)
+    result = pgon.winding_number(probe=p)
+    assert result == 0
+
+    # A left edge is considered in
+    p = pg.Coordinate2D(x=0.0, y=0.5)
+    result = pgon.winding_number(probe=p)
+    assert result == 1
+
+    # create a square polygon as a closed boundary in 2D, oriented counter-clockwise
+    # that wraps around a probe point twice
+    pairs = (
+        (0.0, 0.0),
+        (1.0, 0.0),
+        (1.0, 1.0),
+        (0.0, 1.0),
+        (0.0, 0.0),
+        (1.0, 0.0),
+        (1.0, 1.0),
+        (0.0, 1.0),
+    )
+    coords = pg.coordinates(pairs=pairs)
+    pgon = pg.Polygon2D(boundary=coords)
+    assert len(pgon._boundary) == 8
+
+    # A point with a winding number of 1
+    p = pg.Coordinate2D(x=0.5, y=0.5)
+    result = pgon.winding_number(probe=p)
+    assert result == 2
+
+    # A point with a winding number of 0
+    p = pg.Coordinate2D(x=7, y=5)
+    result = pgon.winding_number(probe=p)
+    assert result == 0
+
+    # create a square polygon as a closed boundary in 2D, oriented clockwise
+    # that wraps around a probe point twice
+    pairs = (
+        (1.0, 1.0),
+        (1.0, 3.0),
+        (3.0, 3.0),
+        (3.0, 1.0),
+        (1.0, 1.0),
+        (1.0, 3.0),
+        (3.0, 3.0),
+        (3.0, 1.0),
+    )
+    coords = pg.coordinates(pairs=pairs)
+    pgon = pg.Polygon2D(boundary=coords)
+    assert len(pgon._boundary) == 8
+
+    # A point with a winding number of 1
+    p = pg.Coordinate2D(x=2.1, y=2.2)
+    result = pgon.winding_number(probe=p)
+    assert result == -2
+
+    # A point with a winding number of 0
+    p = pg.Coordinate2D(x=7, y=5)
+    result = pgon.winding_number(probe=p)
+    assert result == 0
 
 
 @pytest.mark.skip(reason="Work in progress.")

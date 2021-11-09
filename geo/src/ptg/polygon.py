@@ -37,9 +37,9 @@ def is_left(P2: Coordinate2D, *, P0: Coordinate2D, P1: Coordinate2D) -> int:
         negative (point P2 is to the right of the line).
 
     Arguments:
-        P2 (Coordinate2D): The points with coordinates (x2, y2) that is probed
-            relative to an infinite line going through the directed line segment
-            from P0 to P1.
+        P2 (Coordinate2D): The probe point with coordinates (x2, y2) that is found
+            to be to the left, on, or to the right of the infinite line going through
+            the directed line segment from P0 to P1.
 
     Keyword Arguments:
         P0 (Coordinate2D): The beginning point of the line segment with coordinates
@@ -153,6 +153,87 @@ class Polygon2D(Polygon):
 
         # return (False,)
         return contained
+
+    def winding_number(self, probe: Coordinate2D) -> int:
+        """Calculates the winding number, which is the number of times a polygon wraps,
+        in a counter-clockwise direction taken as a positive result, around the probe
+        point.
+
+        Arguments:
+            probe (Coordinate2D): The probe point with coordinates (P.x, P.y) that
+                is used to determine the winding number of the polygon.
+
+        Returns:
+            int: A integer number of times the polygon has wrapped around the probe
+                point as follows:
+                A value of zero indicates the probe point is outside of the polygon.
+                A positive number indicates the number of times the polygon wraps
+                    around the probe point in a counter-clockwise direction.
+                A negative number indicates the number of times the polygon wraps
+                    around the probe point in a clockwise direction.
+
+        References:
+            For additional reading, see https://en.wikipedia.org/wiki/Winding_number
+            or Anirudh Topiwala (https://anirudhtopiwala.com/) page on Medium
+            https://towardsdatascience.com/tagged/winding-number 09 Sep 2020.
+        """
+
+        wn = 0  # The winding number counter, defaults to zero, outside of the polygon
+
+        """
+        The algorithm in Sunday [sunday2021practical], page 49,
+        uses a W.E.T. boundary vertex description with the first vertex repeated
+        as the last vertex in the collection of vertices.
+        Sunday defines a polygon with V[n+1] vertices as explicitly closed, such
+        that V[n] = V[0].  For example, a square polygon is an n-gon where n=4, thus
+        five points are used {V0, V1, V2, V3, V4}.
+
+        In contrast, we have defined all polygons in this class to be closed, a priori.
+        We thus prefer a D.R.Y. boundary vertex description.  For example, a square
+        polygon is sufficiently described with four points {V0, V1, V2, V3} where
+        the four edges are V0-V1, V1-V2, V2-V3, and V3-V0.
+
+        @book{sunday2021practical,
+          title     = {Practical Geometry Algorithms with {C++} Code},
+          author    = {Sunday, Daniel},
+          year      = {2021},
+          publisher = {Amazon KDP},
+          note      = {https://www.geomalgorithms.com/}
+        }
+        """
+
+        # Use Sunday convention to repeat the first vertex as the last vertex.
+        # V = self._boundary + (self._boundary[0].x, self._boundary[0].y)
+        # V = self._boundary + self._boundary[0]
+        V = self._boundary + (
+            Coordinate2D(x=self._boundary[0].x, y=self._boundary[0].y),
+        )
+
+        # Match Sunday's probe point notation
+        P = probe
+
+        # loop over each edge segment composing the polygon
+        for i in range(len(V) - 1):
+            if V[i].y <= P.y:  # start y <= P.y
+                if V[i + 1].y > P.y:  # an upward crossing
+                    if is_left(P2=P, P0=V[i], P1=V[i + 1]) > 0:
+                        wn += 1  # have a valid up intersect
+            else:  # start y > P.y (no test needed)
+                if V[i + 1].y <= P.y:  # a downward crossing
+                    if is_left(P2=P, P0=V[i], P1=V[i + 1]) < 0:  # P right of edge
+                        wn -= 1  # have a valid down intersect
+
+        return wn
+
+        """Copyright notice:
+        This function is an adaption of the 'wn_PnPoly()' function by Daniel Sunday.
+        Copyright 2001, 2012, 2021 Dan Sunday
+        This code may be freely used at modified for any purpose
+        provided that this copyright notice is included with it.
+        There is no warranty for this code, and the author of it cannot
+        be held liable for any real or imagined damage from its use.
+        Users of this code must verify correctness for their application.
+        """
 
 
 # TODO: future development
