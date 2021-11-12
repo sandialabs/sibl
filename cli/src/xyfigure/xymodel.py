@@ -426,15 +426,29 @@ class XYModelAbaqus(XYBase):
                         line = f.readline()  # get the next line
                         while "*" not in line:
                             line = line.split(",")
-                            new_nodes = (
-                                tuple(
-                                    [
-                                        float(eval(line[1])),
-                                        float(eval(line[2])),
-                                        float(eval(line[3])),
-                                    ]
-                                ),
-                            )
+                            # assume a 3D format even for planar problems, and catch
+                            # exceptions as needed
+                            try:
+                                new_nodes = (
+                                    tuple(
+                                        [
+                                            float(eval(line[1])),
+                                            float(eval(line[2])),
+                                            float(eval(line[3])),
+                                        ]
+                                    ),
+                                )
+                            except IndexError:  # handle 2D input files, append 0.0 as z coordinate
+                                new_nodes = (
+                                    tuple(
+                                        [
+                                            float(eval(line[1])),
+                                            float(eval(line[2])),
+                                            0.0,
+                                        ]
+                                    ),
+                                )
+
                             self._nodes = self._nodes + new_nodes
                             # print(self._nodes)
                             line = f.readline()

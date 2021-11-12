@@ -32,7 +32,7 @@
             "request": "launch",
             "program": "~/sibl/cli/src/xyfigure/client.py",
             "args": [
-                "~/geometry/dual/sim/fig/convergence.json"
+                "~/sand/fig/dual/plot_mesh.json"
             ],
             "console": "integratedTerminal"
         },
