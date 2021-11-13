@@ -17,6 +17,7 @@ from functools import partial
 import pytest
 
 import ptg.polygon as pg
+from ptg.point import Point2D, Points
 import xybind as xyb
 
 
@@ -26,21 +27,27 @@ def test_using_xybind_version():
 
 def test_too_few_coordinates():
     """Tests that a ValueError is raised if the number of points composing the boundary
-    is less than three."""
+    is less than three.
+    """
     pairs = ((0.0, 0.0), (1.0, 0.0))  # two 2D points
-    coords = pg.coordinates(pairs=pairs)
+    # coords = pg.coordinates(pairs=pairs)
+    # with pytest.raises(ValueError):
+    #     _ = pg.Polygon2D(boundary=coords)
+
+    pts = Points(pairs=pairs)
     with pytest.raises(ValueError):
-        _ = pg.Polygon2D(boundary=coords)
+        _ = pg.Polygon2D(boundary=pts)
 
 
 def test_is_left():
-    """Test that the is_left() function properly reports +1 for a point to the
-    left of a line, 0, for a point on the line, and -1 for a point to the right
-    of a line.
+    """Test that the is_left() function properly reports
+    +1 for a point to the left of a line,
+    0 for a point on the line, and
+    -1 for a point to the right of a line.
     """
     # Create a point directed toward the positive y-axis, intersecting p0 and p1.
-    p0 = pg.Coordinate2D(x=2.0, y=10.0)
-    p1 = pg.Coordinate2D(x=2.0, y=40.0)
+    p0 = Point2D(x=2.0, y=10.0)
+    p1 = Point2D(x=2.0, y=40.0)
 
     # Use map() with function that uses keyword arguments.
     # https://stackoverflow.com/questions/13499824/using-map-function-with-keyword-arguments
@@ -48,20 +55,20 @@ def test_is_left():
 
     # Create several test points, all to the left of the above-created line.
     pairs_left = ((0, 0), (1, 0), (1, 1), (-1, 1), (-1, -1), (1, -1))
-    lefts = pg.coordinates(pairs=pairs_left)
-    found = tuple(map(mapfunc, lefts))
+    lefts = Points(pairs=pairs_left)
+    found = tuple(map(mapfunc, lefts.points2D))
     assert all([a == 1 for a in found])
 
     # Create several test points, all to the right of the above-created line.
     pairs_right = ((4, 0), (5, 0), (5, 1), (3, 1), (3, -1), (3, -1))
-    rights = pg.coordinates(pairs=pairs_right)
-    found = tuple(map(mapfunc, rights))
+    rights = Points(pairs=pairs_right)
+    found = tuple(map(mapfunc, rights.points2D))
     assert all([a == -1 for a in found])
 
     # Create several test points, all on the above-created line.
     pairs_zero = ((2, 0), (2, 10), (2, 1), (2, -10), (2, -1), (2, -20))
-    zeros = pg.coordinates(pairs=pairs_zero)
-    found = tuple(map(mapfunc, zeros))
+    zeros = Points(pairs=pairs_zero)
+    found = tuple(map(mapfunc, zeros.points2D))
     assert all([a == 0 for a in found])
 
 
@@ -70,38 +77,38 @@ def test_winding_number():
 
     # create a square polygon as a closed boundary in 2D, oriented counter-clockwise
     pairs = ((0.0, 0.0), (1.0, 0.0), (1.0, 1.0), (0.0, 1.0))
-    coords = pg.coordinates(pairs=pairs)
-    pgon = pg.Polygon2D(boundary=coords)
-    assert len(pgon._boundary) == 4
+    pts = Points(pairs=pairs)
+    pgon = pg.Polygon2D(boundary=pts)
+    assert pgon.length == 4
 
     # A point with a winding number of 1
-    p = pg.Coordinate2D(x=0.5, y=0.5)
+    p = Point2D(x=0.5, y=0.5)
     result = pgon.winding_number(probe=p)
     assert result == 1
 
     # A point with a winding number of 0
-    p = pg.Coordinate2D(x=7, y=5)
+    p = Point2D(x=7, y=5)
     result = pgon.winding_number(probe=p)
     assert result == 0
 
     # Test four edge cases
-    # A bottom edge is considered in
-    p = pg.Coordinate2D(x=0.5, y=0.0)
+    # A bottom edge is considered to be "in"
+    p = Point2D(x=0.5, y=0.0)
     result = pgon.winding_number(probe=p)
     assert result == 1
 
-    # A right edge is considered out
-    p = pg.Coordinate2D(x=1.0, y=0.5)
+    # A right edge is considered to be "out"
+    p = Point2D(x=1.0, y=0.5)
     result = pgon.winding_number(probe=p)
     assert result == 0
 
-    # A top edge is considered out
-    p = pg.Coordinate2D(x=0.5, y=1.0)
+    # A top edge is considered to be "out"
+    p = Point2D(x=0.5, y=1.0)
     result = pgon.winding_number(probe=p)
     assert result == 0
 
-    # A left edge is considered in
-    p = pg.Coordinate2D(x=0.0, y=0.5)
+    # A left edge is considered to be "in"
+    p = Point2D(x=0.0, y=0.5)
     result = pgon.winding_number(probe=p)
     assert result == 1
 
@@ -117,17 +124,17 @@ def test_winding_number():
         (1.0, 1.0),
         (0.0, 1.0),
     )
-    coords = pg.coordinates(pairs=pairs)
-    pgon = pg.Polygon2D(boundary=coords)
-    assert len(pgon._boundary) == 8
+    pts = Points(pairs=pairs)
+    pgon = pg.Polygon2D(boundary=pts)
+    assert pgon.length == 8
 
     # A point with a winding number of 1
-    p = pg.Coordinate2D(x=0.5, y=0.5)
+    p = Point2D(x=0.5, y=0.5)
     result = pgon.winding_number(probe=p)
     assert result == 2
 
     # A point with a winding number of 0
-    p = pg.Coordinate2D(x=7, y=5)
+    p = Point2D(x=7, y=5)
     result = pgon.winding_number(probe=p)
     assert result == 0
 
@@ -143,17 +150,17 @@ def test_winding_number():
         (3.0, 3.0),
         (3.0, 1.0),
     )
-    coords = pg.coordinates(pairs=pairs)
-    pgon = pg.Polygon2D(boundary=coords)
-    assert len(pgon._boundary) == 8
+    pts = Points(pairs=pairs)
+    pgon = pg.Polygon2D(boundary=pts)
+    assert pgon.length == 8
 
     # A point with a winding number of 1
-    p = pg.Coordinate2D(x=2.1, y=2.2)
+    p = Point2D(x=2.1, y=2.2)
     result = pgon.winding_number(probe=p)
     assert result == -2
 
     # A point with a winding number of 0
-    p = pg.Coordinate2D(x=7, y=5)
+    p = Point2D(x=7, y=5)
     result = pgon.winding_number(probe=p)
     assert result == 0
 
@@ -242,21 +249,21 @@ def test_unit_square():
 
 
 @pytest.mark.skip(reason="Work in progress.")
-def test_pentagon():
+def test_pentagon_contains():
     """Tests the pentagon shape described in
     https://www.tutorialspoint.com/program-to-check-given-point-in-inside-or-boundary-of-given-polygon-or-not-in-python
     """
     # do counter-clockwise ordering, whereas the example page did a clockwise ordering
     pairs = ((0.0, 0.0), (4.0, 0.0), (6.0, 2.0), (4.0, 4.0), (1.0, 3.0))
-    coords = pg.coordinates(pairs=pairs)
+    pts = Points(pairs=pairs)
 
-    pgon = pg.Polygon2D(boundary=coords)
-    assert len(pgon._boundary) == 5  # a pentagon
-    points = pg.coordinates(
+    pgon = pg.Polygon2D(boundary=pts)
+    assert pgon.length == 5  # a pentagon
+    pbs = Points(
         pairs=((0.0, 0.0), (1.0, -1.0), (3.0, 1.0), (5.0, 0.0), (5.0, 1.0), (6.0, 1.0))
     )
 
     known = (True, False, True, False, True, False)
-    found = pgon.contains(probes=points)
+    found = pgon.contains(probes=pbs)
 
     assert known == found
