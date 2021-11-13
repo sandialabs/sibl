@@ -77,53 +77,6 @@ class Polygon2D:
         """Returns the number of points composing the Polygon2D."""
         return self._boundary.length
 
-    def contains(self, *, probes: Points) -> tuple[bool, ...]:
-        """Determines if probe Points lie within the boundary of the Polygon2D.
-
-        Arguments:
-            probes (Points): A tuple of pairs of probe points,
-                ((x0, y0), (x1, y1), ... (xn, yn)), that may lie inside or outside
-                of the boundary.  If the point lies identically on the boundary, then
-                it is considered to be contained by (equivalent to inside) the boundary.
-
-        Returns:
-            tuple(bool, ...): A boolean for each point pair in the points tuple, with
-                a True if the point is contained by the boundary and False otherwise.
-        """
-
-        # Ref:
-        # https://www.tutorialspoint.com/program-to-check-given-point-in-inside-or-boundary-of-given-polygon-or-not-in-python
-
-        contained = tuple()
-
-        for P in probes.points2D:
-
-            ans = False
-
-            for i in range(self._boundary.length):
-
-                # wrap around the boundary, segment by segment, and join the last
-                # point to the first point as the final segment
-
-                x0 = self._boundary.xs[i]
-                y0 = self._boundary.ys[i]
-
-                x1 = self._boundary.xs[(i + 1) % self._boundary.length]
-                y1 = self._boundary.ys[(i + 1) % self._boundary.length]
-
-                if not min(y0, y1) < P.y <= max(y0, y1):
-                    continue
-                if P.x < min(x0, x1):
-                    continue
-                cur_x = x0 if x0 == x1 else x0 + (P.y - y0) * (x1 - x0)
-                ans ^= P.x > cur_x
-
-            contained = contained + (ans,)
-
-        # return (False,)
-        return contained
-
-    # def winding_number(self, probe: Coordinate2D) -> int:
     def winding_number(self, probe: Point2D) -> int:
         """Calculates the winding number, which is the number of times a polygon wraps,
         in a counter-clockwise direction taken as a positive result, around the probe
@@ -200,3 +153,23 @@ class Polygon2D:
         be held liable for any real or imagined damage from its use.
         Users of this code must verify correctness for their application.
         """
+
+    def contains(self, *, probe: Point2D) -> bool:
+        """Determines if a probe Point lies within the boundary of the Polygon2D.
+
+        Arguments:
+            probe (Point2D): The probe point with coordinates (P.x, P.y) that is
+                determined to be contained or not contained in hte Polygon2D.
+                For a square Polygon2D, a point:
+                    on the bottom or left boundary is considered "in" (contained),
+                    on the top or right boundary is considered "out" (not contained),
+                        bottom-left corner is considered "in"
+                        top-left, bottom-right, top-right coners are considered "out"
+
+        Returns:
+            bool: True if the point is contained in the boundary, False otherwise.
+        """
+        if self.winding_number(probe=probe) == 0:
+            return False
+        else:
+            return True
