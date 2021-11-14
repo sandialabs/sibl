@@ -8,16 +8,17 @@ To run
 
 import pytest
 
+from ptg.point import Point2D, Points
 import ptg.quadtree as qt
 
 
-def test_coordinates():
-
-    pairs = ((0.0, 0.0), (1.0, 1.0), (2.0, 4.0), (3.0, 9.0))
-    points = qt.coordinates(pairs=pairs)
-
-    for k, point in enumerate(points):
-        assert point == qt.Coordinate(pairs[k][0], pairs[k][1])
+# def test_coordinates():
+#
+#     pairs = ((0.0, 0.0), (1.0, 1.0), (2.0, 4.0), (3.0, 9.0))
+#     points = qt.coordinates(pairs=pairs)
+#
+#     for k, point in enumerate(points):
+#         assert point == Point2D(pairs[k][0], pairs[k][1])
 
 
 def test_levels_flatten_pairs():
@@ -54,7 +55,8 @@ def test_levels_flatten_recursion_pattern():
 
 
 def test_cell():
-    ctr = qt.Coordinate(x=3.0, y=4.0)
+    # ctr = Point2D(x=3.0, y=4.0)
+    ctr = Point2D(x=3.0, y=4.0)
     cell = qt.Cell(center=ctr, size=12.0)
 
     assert cell.center == ctr
@@ -76,34 +78,35 @@ def test_cell_contains():
     |     |           |
     |     *-----------*
     """
-    ctr = qt.Coordinate(x=2.0, y=0.0)
+    # ctr = Point2D(x=2.0, y=0.0)
+    ctr = Point2D(x=2.0, y=0.0)
     cell = qt.Cell(center=ctr, size=2.0)
 
     assert cell.vertices == ((1.0, -1.0), (3.0, -1.0), (3.0, 1.0), (1.0, 1.0))
 
     # y constant, delta x
-    assert cell.contains(qt.Coordinate(x=0.9, y=0.0)) is False
-    assert cell.contains(qt.Coordinate(x=1.0, y=0.0))
-    assert cell.contains(qt.Coordinate(x=1.1, y=0.0))
+    assert cell.contains(Point2D(x=0.9, y=0.0)) is False
+    assert cell.contains(Point2D(x=1.0, y=0.0))
+    assert cell.contains(Point2D(x=1.1, y=0.0))
 
-    assert cell.contains(qt.Coordinate(x=2.9, y=0.0))
-    assert cell.contains(qt.Coordinate(x=3.0, y=0.0))
-    assert cell.contains(qt.Coordinate(x=3.1, y=0.0)) is False
+    assert cell.contains(Point2D(x=2.9, y=0.0))
+    assert cell.contains(Point2D(x=3.0, y=0.0))
+    assert cell.contains(Point2D(x=3.1, y=0.0)) is False
 
-    # x constant, delta y
-    assert cell.contains(qt.Coordinate(x=2.0, y=-1.1)) is False
-    assert cell.contains(qt.Coordinate(x=2.0, y=-1.0))
-    assert cell.contains(qt.Coordinate(x=2.0, y=-0.9))
+    # x constant, delta yPoint2D
+    assert cell.contains(Point2D(x=2.0, y=-1.1)) is False
+    assert cell.contains(Point2D(x=2.0, y=-1.0))
+    assert cell.contains(Point2D(x=2.0, y=-0.9))
 
-    assert cell.contains(qt.Coordinate(x=2.0, y=0.9))
-    assert cell.contains(qt.Coordinate(x=2.0, y=1.0))
-    assert cell.contains(qt.Coordinate(x=2.1, y=1.01)) is False
+    assert cell.contains(Point2D(x=2.0, y=0.9))
+    assert cell.contains(Point2D(x=2.0, y=1.0))
+    assert cell.contains(Point2D(x=2.1, y=1.01)) is False
 
     # four corners
-    assert cell.contains(qt.Coordinate(x=1.0, y=-1.0))
-    assert cell.contains(qt.Coordinate(x=3.0, y=-1.0))
-    assert cell.contains(qt.Coordinate(x=3.0, y=1.0))
-    assert cell.contains(qt.Coordinate(x=1.0, y=1.0))
+    assert cell.contains(Point2D(x=1.0, y=-1.0))
+    assert cell.contains(Point2D(x=3.0, y=-1.0))
+    assert cell.contains(Point2D(x=3.0, y=1.0))
+    assert cell.contains(Point2D(x=1.0, y=1.0))
 
 
 def test_cell_divide():
@@ -115,32 +118,32 @@ def test_cell_divide():
     |     |           |
     |     *-----------*
     """
-    ctr = qt.Coordinate(x=2.0, y=0.0)
+    ctr = Point2D(x=2.0, y=0.0)
     cell = qt.Cell(center=ctr, size=2.0)
 
     assert cell.has_children is False
     cell.divide()  # cell division into four children
     assert cell.has_children is True
 
-    assert cell.sw.center == qt.Coordinate(x=1.5, y=-0.5)
+    assert cell.sw.center == Point2D(x=1.5, y=-0.5)
     assert cell.sw.west == 1.0
     assert cell.sw.east == 2.0
     assert cell.sw.south == -1.0
     assert cell.sw.north == 0.0
 
-    assert cell.nw.center == qt.Coordinate(x=1.5, y=0.5)
+    assert cell.nw.center == Point2D(x=1.5, y=0.5)
     assert cell.nw.west == 1.0
     assert cell.nw.east == 2.0
     assert cell.nw.south == 0.0
     assert cell.nw.north == 1.0
 
-    assert cell.se.center == qt.Coordinate(x=2.5, y=-0.5)
+    assert cell.se.center == Point2D(x=2.5, y=-0.5)
     assert cell.se.west == 2.0
     assert cell.se.east == 3.0
     assert cell.se.south == -1.0
     assert cell.se.north == 0.0
 
-    assert cell.ne.center == qt.Coordinate(x=2.5, y=0.5)
+    assert cell.ne.center == Point2D(x=2.5, y=0.5)
     assert cell.ne.west == 2.0
     assert cell.ne.east == 3.0
     assert cell.ne.south == 0.0
@@ -156,28 +159,29 @@ def test_quadtree():
     |     |           |
     |     *-----------*
     """
-    ctr = qt.Coordinate(x=2.0, y=0.0)
+    ctr = Point2D(x=2.0, y=0.0)
     cell = qt.Cell(center=ctr, size=2.0)
-    points = tuple([qt.Coordinate(2.1, 0.1), qt.Coordinate(2.6, 0.6)])
+    # points = tuple([Point2D(2.1, 0.1), Point2D(2.6, 0.6)])
+    points = Points(pairs=((2.1, 0.1), (2.6, 0.6)))
 
     tree = qt.QuadTree(cell=cell, level=0, level_max=2, points=points)
 
-    assert tree.cell.center == qt.Coordinate(2.0, 0.0)
+    assert tree.cell.center == Point2D(2.0, 0.0)
 
-    assert tree.cell.sw.center == qt.Coordinate(1.5, -0.5)
-    assert tree.cell.nw.center == qt.Coordinate(1.5, 0.5)
-    assert tree.cell.se.center == qt.Coordinate(2.5, -0.5)
-    assert tree.cell.ne.center == qt.Coordinate(2.5, 0.5)
+    assert tree.cell.sw.center == Point2D(1.5, -0.5)
+    assert tree.cell.nw.center == Point2D(1.5, 0.5)
+    assert tree.cell.se.center == Point2D(2.5, -0.5)
+    assert tree.cell.ne.center == Point2D(2.5, 0.5)
 
     assert tree.cell.sw.has_children is False
     assert tree.cell.nw.has_children is False
     assert tree.cell.se.has_children is False
     assert tree.cell.ne.has_children is True
 
-    assert tree.cell.ne.sw.center == qt.Coordinate(2.25, 0.25)
-    assert tree.cell.ne.nw.center == qt.Coordinate(2.25, 0.75)
-    assert tree.cell.ne.se.center == qt.Coordinate(2.75, 0.25)
-    assert tree.cell.ne.ne.center == qt.Coordinate(2.75, 0.75)
+    assert tree.cell.ne.sw.center == Point2D(2.25, 0.25)
+    assert tree.cell.ne.nw.center == Point2D(2.25, 0.75)
+    assert tree.cell.ne.se.center == Point2D(2.75, 0.25)
+    assert tree.cell.ne.ne.center == Point2D(2.75, 0.75)
 
     assert tree.cell.ne.sw.has_children is False
     assert tree.cell.ne.nw.has_children is False
@@ -186,9 +190,9 @@ def test_quadtree():
 
 
 def test_quadtree_bad_level_max():
-    ctr = qt.Coordinate(x=2.0, y=0.0)
+    ctr = Point2D(x=2.0, y=0.0)
     cell = qt.Cell(center=ctr, size=2.0)
-    points = tuple([qt.Coordinate(2.1, 0.1), qt.Coordinate(2.6, 0.6)])
+    points = Points(pairs=((2.1, 0.1), (2.6, 0.6)))
 
     bad_max = 0  # must have at least Level 1
     with pytest.raises(ValueError):
@@ -204,9 +208,9 @@ def test_quads_and_levels():
     |     |           |
     |     *-----------*
     """
-    ctr = qt.Coordinate(x=2.0, y=0.0)
+    ctr = Point2D(x=2.0, y=0.0)
     cell = qt.Cell(center=ctr, size=2.0)
-    points = tuple([qt.Coordinate(2.1, 0.1), qt.Coordinate(2.6, 0.6)])
+    points = Points(pairs=((2.1, 0.1), (2.6, 0.6)))
 
     tree = qt.QuadTree(cell=cell, level=0, level_max=2, points=points)
 
@@ -226,46 +230,46 @@ def test_quads_and_levels():
     # verbose version
     assert quads == (
         qt.Quad(
-            sw=qt.Coordinate(1.0, -1.0),
-            se=qt.Coordinate(2.0, -1.0),
-            ne=qt.Coordinate(2.0, 0.0),
-            nw=qt.Coordinate(1.0, 0.0),
+            sw=Point2D(1.0, -1.0),
+            se=Point2D(2.0, -1.0),
+            ne=Point2D(2.0, 0.0),
+            nw=Point2D(1.0, 0.0),
         ),
         qt.Quad(
-            sw=qt.Coordinate(1.0, 0.0),
-            se=qt.Coordinate(2.0, 0.0),
-            ne=qt.Coordinate(2.0, 1.0),
-            nw=qt.Coordinate(1.0, 1.0),
+            sw=Point2D(1.0, 0.0),
+            se=Point2D(2.0, 0.0),
+            ne=Point2D(2.0, 1.0),
+            nw=Point2D(1.0, 1.0),
         ),
         qt.Quad(
-            sw=qt.Coordinate(2.0, -1.0),
-            se=qt.Coordinate(3.0, -1.0),
-            ne=qt.Coordinate(3.0, 0.0),
-            nw=qt.Coordinate(2.0, 0.0),
+            sw=Point2D(2.0, -1.0),
+            se=Point2D(3.0, -1.0),
+            ne=Point2D(3.0, 0.0),
+            nw=Point2D(2.0, 0.0),
         ),
         qt.Quad(
-            sw=qt.Coordinate(2.0, 0.0),
-            se=qt.Coordinate(2.5, 0.0),
-            ne=qt.Coordinate(2.5, 0.5),
-            nw=qt.Coordinate(2.0, 0.5),
+            sw=Point2D(2.0, 0.0),
+            se=Point2D(2.5, 0.0),
+            ne=Point2D(2.5, 0.5),
+            nw=Point2D(2.0, 0.5),
         ),
         qt.Quad(
-            sw=qt.Coordinate(2.0, 0.5),
-            se=qt.Coordinate(2.5, 0.5),
-            ne=qt.Coordinate(2.5, 1.0),
-            nw=qt.Coordinate(2.0, 1.0),
+            sw=Point2D(2.0, 0.5),
+            se=Point2D(2.5, 0.5),
+            ne=Point2D(2.5, 1.0),
+            nw=Point2D(2.0, 1.0),
         ),
         qt.Quad(
-            sw=qt.Coordinate(2.5, 0.0),
-            se=qt.Coordinate(3.0, 0.0),
-            ne=qt.Coordinate(3.0, 0.5),
-            nw=qt.Coordinate(2.5, 0.5),
+            sw=Point2D(2.5, 0.0),
+            se=Point2D(3.0, 0.0),
+            ne=Point2D(3.0, 0.5),
+            nw=Point2D(2.5, 0.5),
         ),
         qt.Quad(
-            sw=qt.Coordinate(2.5, 0.5),
-            se=qt.Coordinate(3.0, 0.5),
-            ne=qt.Coordinate(3.0, 1.0),
-            nw=qt.Coordinate(2.5, 1.0),
+            sw=Point2D(2.5, 0.5),
+            se=Point2D(3.0, 0.5),
+            ne=Point2D(3.0, 1.0),
+            nw=Point2D(2.5, 1.0),
         ),
     )
 
@@ -382,20 +386,23 @@ def test_manual_0112():
 
 
 def test_scale_then_translate():
-    ref = qt.coordinates(pairs=((-1.0, -1.0), (1.0, -1.0), (1.0, 1.0), (-1.0, 1.0)))
+    ref = Points(pairs=((-1.0, -1.0), (1.0, -1.0), (1.0, 1.0), (-1.0, 1.0)))
 
     bad_scale = 0
     scale = 100
-    translate = qt.Coordinate(x=10.0, y=20.0)
+    translate = Point2D(x=10.0, y=20.0)
 
     with pytest.raises(ValueError):
         _ = qt.scale_then_translate(ref=ref, scale=bad_scale, translate=translate)
 
-    known = ((-90.0, -80.0), (110.0, -80.0), (110.0, 120.0), (-90.0, 120.0))
+    known = Points(
+        pairs=((-90.0, -80.0), (110.0, -80.0), (110.0, 120.0), (-90.0, 120.0))
+    )
 
     found = qt.scale_then_translate(ref=ref, scale=scale, translate=translate)
 
-    assert known == found
+    assert known.xs == found.xs
+    assert known.ys == found.ys
 
 
 def test_known_quad_corners():
@@ -436,21 +443,25 @@ def test_known_quad_corners():
 
 
 def test_static_domain_dual_key_0000():
-    ctr = qt.Coordinate(x=0.0, y=0.0)
+    ctr = Point2D(x=0.0, y=0.0)
     cell = qt.Cell(center=ctr, size=2.0)
-    points = tuple([qt.Coordinate(0.6, 0.6)])
+    # points = tuple([Point2D(0.6, 0.6)])
+    points = Points(pairs=((0.6, 0.6),))
 
     # test key_0000 dual mesh construction
     tree = qt.QuadTree(cell=cell, level=0, level_max=1, points=points)
     domain_dual = tree.domain_dual()
 
-    known_coordinates = ((-0.5, -0.5), (-0.5, 0.5), (0.5, -0.5), (0.5, 0.5))
+    known_coordinates = Points(
+        pairs=((-0.5, -0.5), (-0.5, 0.5), (0.5, -0.5), (0.5, 0.5))
+    )
     known_connectivity = ((0, 2, 3, 1),)
 
     found_coordinates = domain_dual[0].mesh.coordinates
     found_connectivity = domain_dual[0].mesh.connectivity
 
-    assert known_coordinates == found_coordinates
+    assert known_coordinates.xs == found_coordinates.xs
+    assert known_coordinates.ys == found_coordinates.ys
     assert known_connectivity == found_connectivity
 
     known_boundaries_dual = (
@@ -466,39 +477,41 @@ def test_static_domain_dual_key_0000():
 
 
 def test_static_domain_dual_key_0001_r0_p0():
-    ctr = qt.Coordinate(x=0.0, y=0.0)
+    ctr = Point2D(x=0.0, y=0.0)
     cell = qt.Cell(center=ctr, size=2.0)
-    points = tuple([qt.Coordinate(0.6, 0.6)])
+    points = Points(pairs=((0.6, 0.6),))
 
     # test key_0001
     tree = qt.QuadTree(cell=cell, level=0, level_max=2, points=points)
     domain_dual = tree.domain_dual()
 
-    known_coordinates = (
-        (-0.5, -0.5),  # 0
-        (-0.5, 0.5),  # 1
-        (-0.1665, -0.1665),  # 2
-        (-0.1665, 0.1665),  # 3
-        (0.1665, -0.1665),  # 4
-        (0.25, 0.25),  # 5
-        (0.25, 0.75),  # 6
-        (0.5, -0.5),  # 7
-        (0.75, 0.25),  # 8
-        (0.75, 0.75),  # 9
-        (1.0, 1.0),  # -14
-        (1.0, 0.75),  # -13
-        (1.0, 0.25),  # -12
-        (1.0, -0.5),  # -11
-        (1.0, -1.0),  # -10
-        (0.75, 1.0),  # -9
-        (0.5, -1.0),  # -8
-        (0.25, 1.0),  # -7
-        (-0.5, 1.0),  # -6
-        (-0.5, -1.0),  # -5
-        (-1.0, 1.0),  # -4
-        (-1.0, 0.5),  # -3
-        (-1.0, -0.5),  # -2
-        (-1.0, -1.0),  # -1
+    known_coordinates = Points(
+        pairs=(
+            (-0.5, -0.5),  # 0
+            (-0.5, 0.5),  # 1
+            (-0.1665, -0.1665),  # 2
+            (-0.1665, 0.1665),  # 3
+            (0.1665, -0.1665),  # 4
+            (0.25, 0.25),  # 5
+            (0.25, 0.75),  # 6
+            (0.5, -0.5),  # 7
+            (0.75, 0.25),  # 8
+            (0.75, 0.75),  # 9
+            (1.0, 1.0),  # -14
+            (1.0, 0.75),  # -13
+            (1.0, 0.25),  # -12
+            (1.0, -0.5),  # -11
+            (1.0, -1.0),  # -10
+            (0.75, 1.0),  # -9
+            (0.5, -1.0),  # -8
+            (0.25, 1.0),  # -7
+            (-0.5, 1.0),  # -6
+            (-0.5, -1.0),  # -5
+            (-1.0, 1.0),  # -4
+            (-1.0, 0.5),  # -3
+            (-1.0, -0.5),  # -2
+            (-1.0, -1.0),  # -1
+        )
     )
 
     known_connectivity = (
@@ -523,7 +536,8 @@ def test_static_domain_dual_key_0001_r0_p0():
     found_coordinates = domain_dual[0].mesh.coordinates
     found_connectivity = domain_dual[0].mesh.connectivity
 
-    assert known_coordinates == found_coordinates
+    assert known_coordinates.xs == found_coordinates.xs
+    assert known_coordinates.ys == found_coordinates.ys
     assert known_connectivity == found_connectivity
 
     known_boundaries_dual = (
@@ -539,9 +553,9 @@ def test_static_domain_dual_key_0001_r0_p0():
 
 
 def test_static_domain_dual_key_0001_r0_p1_and_key_0001_r1_p0():
-    ctr = qt.Coordinate(x=0.0, y=0.0)
+    ctr = Point2D(x=0.0, y=0.0)
     cell = qt.Cell(center=ctr, size=2.0)
-    points = tuple([qt.Coordinate(0.6, 0.6)])
+    points = Points(pairs=((0.6, 0.6),))
 
     # test key_0001 nested once with self
     tree = qt.QuadTree(cell=cell, level=0, level_max=3, points=points)
@@ -556,33 +570,34 @@ def test_static_domain_dual_key_0001_r0_p1_and_key_0001_r1_p0():
 
     domain_dual = tree.domain_dual()
 
-    known_coordinates_parent = (
-        (-0.5, -0.5),  # 0
-        (-0.5, 0.5),  # 1
-        (-0.1665, -0.1665),  # 2
-        (-0.1665, 0.1665),  # 3
-        (0.1665, -0.1665),  # 4
-        (0.25, 0.25),  # 5
-        (0.25, 0.75),  # 6
-        (0.5, -0.5),  # 7
-        (0.75, 0.25),  # 8
-        (0.75, 0.75),  # 9
-        (1.0, 1.0),  # -14
-        (1.0, 0.75),  # -13
-        (1.0, 0.25),  # -12
-        (1.0, -0.5),  # -11
-        (1.0, -1.0),  # -10
-        (0.75, 1.0),  # -9
-        (0.5, -1.0),  # -8
-        (0.25, 1.0),  # -7
-        (-0.5, 1.0),  # -6
-        (-0.5, -1.0),  # -5
-        (-1.0, 1.0),  # -4
-        (-1.0, 0.5),  # -3
-        (-1.0, -0.5),  # -2
-        (-1.0, -1.0),  # -1
+    known_coordinates_parent = Points(
+        pairs=(
+            (-0.5, -0.5),  # 0
+            (-0.5, 0.5),  # 1
+            (-0.1665, -0.1665),  # 2
+            (-0.1665, 0.1665),  # 3
+            (0.1665, -0.1665),  # 4
+            (0.25, 0.25),  # 5
+            (0.25, 0.75),  # 6
+            (0.5, -0.5),  # 7
+            (0.75, 0.25),  # 8
+            (0.75, 0.75),  # 9
+            (1.0, 1.0),  # -14
+            (1.0, 0.75),  # -13
+            (1.0, 0.25),  # -12
+            (1.0, -0.5),  # -11
+            (1.0, -1.0),  # -10
+            (0.75, 1.0),  # -9
+            (0.5, -1.0),  # -8
+            (0.25, 1.0),  # -7
+            (-0.5, 1.0),  # -6
+            (-0.5, -1.0),  # -5
+            (-1.0, 1.0),  # -4
+            (-1.0, 0.5),  # -3
+            (-1.0, -0.5),  # -2
+            (-1.0, -1.0),  # -1
+        )
     )
-
     known_connectivity_parent = (
         (0, 2, 3, 1),  # faces_dual
         (0, 7, 4, 2),
@@ -611,33 +626,34 @@ def test_static_domain_dual_key_0001_r0_p1_and_key_0001_r1_p0():
         (-4, -3, -2, -1),
     )
 
-    known_coordinates_child = (
-        (0.25, 0.25),  # 0
-        (0.25, 0.75),  # 1
-        (0.41675, 0.41675),  # 2
-        (0.41675, 0.58325),  # 3
-        (0.58325, 0.41675),  # 4
-        (0.625, 0.625),  # 5
-        (0.625, 0.875),  # 6
-        (0.75, 0.25),  # 7
-        (0.875, 0.625),  # 8
-        (0.875, 0.875),  # 9
-        (1.0, 1.0),  # -14
-        (1.0, 0.875),  # -13
-        (1.0, 0.625),  # -12
-        (1.0, 0.25),  # -11
-        (1.0, 0.0),  # -10
-        (0.875, 1.0),  # -9
-        (0.75, 0.0),  # -8
-        (0.625, 1.0),  # -7
-        (0.25, 1.0),  # -6
-        (0.25, 0.0),  # -5
-        (0.0, 1.0),  # -4
-        (0.0, 0.75),  # -3
-        (0.0, 0.25),  # -2
-        (0.0, 0.0),  # -1
+    known_coordinates_child = Points(
+        pairs=(
+            (0.25, 0.25),  # 0
+            (0.25, 0.75),  # 1
+            (0.41675, 0.41675),  # 2
+            (0.41675, 0.58325),  # 3
+            (0.58325, 0.41675),  # 4
+            (0.625, 0.625),  # 5
+            (0.625, 0.875),  # 6
+            (0.75, 0.25),  # 7
+            (0.875, 0.625),  # 8
+            (0.875, 0.875),  # 9
+            (1.0, 1.0),  # -14
+            (1.0, 0.875),  # -13
+            (1.0, 0.625),  # -12
+            (1.0, 0.25),  # -11
+            (1.0, 0.0),  # -10
+            (0.875, 1.0),  # -9
+            (0.75, 0.0),  # -8
+            (0.625, 1.0),  # -7
+            (0.25, 1.0),  # -6
+            (0.25, 0.0),  # -5
+            (0.0, 1.0),  # -4
+            (0.0, 0.75),  # -3
+            (0.0, 0.25),  # -2
+            (0.0, 0.0),  # -1
+        )
     )
-
     known_connectivity_child = (
         (0, 2, 3, 1),  # faces_dual
         (0, 7, 4, 2),
@@ -667,13 +683,82 @@ def test_static_domain_dual_key_0001_r0_p1_and_key_0001_r1_p0():
     found_coordinates_parent = domain_dual[0].mesh.coordinates
     found_connectivity_parent = domain_dual[0].mesh.connectivity
     found_boundaries_dual_parent = domain_dual[0].boundaries
-    assert known_coordinates_parent == found_coordinates_parent
+    assert known_coordinates_parent.xs == found_coordinates_parent.xs
+    assert known_coordinates_parent.ys == found_coordinates_parent.ys
     assert known_connectivity_parent == found_connectivity_parent
     assert known_boundaries_dual_parent == found_boundaries_dual_parent
 
     found_coordinates_child = domain_dual[1].mesh.coordinates
     found_connectivity_child = domain_dual[1].mesh.connectivity
     found_boundaries_dual_child = domain_dual[1].boundaries
-    assert known_coordinates_child == found_coordinates_child
+    assert known_coordinates_child.xs == found_coordinates_child.xs
+    assert known_coordinates_child.ys == found_coordinates_child.ys
     assert known_connectivity_child == found_connectivity_child
     assert known_boundaries_dual_child == found_boundaries_dual_child
+
+
+def test_centroid():
+    """Tests that the centroid of various polygons is correctly calculated."""
+
+    # tall rectangle with counter-clockwise boundary order
+    ps0 = Points(pairs=((0.0, 0.0), (1.0, 0.0), (1.0, 10.0), (0.0, 10.0)))
+    known = Point2D(x=0.5, y=5.0)
+    found = qt.centroid(coordinates=ps0)
+    assert known == found
+
+    # tall rectangle with clockwise boundary order
+    ps1 = Points(pairs=((0.0, 0.0), (0.0, 10.0), (1.0, 10.0), (1.0, 0.0)))
+    known = Point2D(x=0.5, y=5.0)
+    found = qt.centroid(coordinates=ps1)
+    assert known == found
+
+    # tall rectangle twisted into bow-tie shape
+    ps3 = Points(pairs=((0.0, 0.0), (1.0, 10.0), (0.0, 10.0), (1.0, 0.0)))
+    known = Point2D(x=0.5, y=5.0)
+    found = qt.centroid(coordinates=ps3)
+    assert known == found
+
+    # right triangle
+    ps4 = Points(pairs=((0.0, 0.0), (9.0, 0.0), (9.0, 9.0)))
+    known = Point2D(x=6.0, y=3.0)
+    found = qt.centroid(coordinates=ps4)
+    assert known == found
+
+
+@pytest.mark.skip("work in progress")
+def test_trim():
+    """Tests the 'trim' function under the edge case when a boundary
+    does not contain any of the elements in the mesh.  Returns an emtpy tuple mesh.
+    """
+
+    # two-element tall mesh unit square mesh tall mesh
+    """
+    2----5
+    |    |
+    1----4    b4---b3
+    |    |    |    |
+    0----3    b0---b1
+
+    0    1    2    3
+    """
+
+    ps = Points(
+        pairs=(
+            (0.0, 0.0),
+            (0.0, 1.0),
+            (0.0, 2.0),
+            (1.0, 0.0),
+            (1.0, 1.0),
+            (1.0, 2.0),
+        )
+    )
+    cs = (
+        (0, 3, 4, 1),
+        (1, 4, 5, 2),
+    )
+    m0 = qt.Mesh(coordinates=ps, connectivity=cs)
+
+    # boundary that doesn't contain this mesh
+    b0 = Points(pairs=((2.0, 0.0), (3.0, 0.0), (3.0, 1.0), (2.0, 1.0)))
+
+    m1 = qt.trim(mesh=m0, boundary=b0)

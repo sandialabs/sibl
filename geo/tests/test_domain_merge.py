@@ -8,6 +8,7 @@ To run
 
 import pytest
 
+from ptg.point import Point2D, Points
 import ptg.quadtree as qt
 from ptg.domain_merge import boundary_match, boundary_substraction, domain_merge
 
@@ -47,7 +48,7 @@ def test_two_domains_non_union():
     """
 
     # vertices (aka points or coordinates)
-    v0 = qt.coordinates(
+    v0 = Points(
         pairs=(
             (-0.5, 0.0),  # 0
             (-0.5, 0.5),  # 1
@@ -58,7 +59,7 @@ def test_two_domains_non_union():
         )
     )
 
-    v1 = qt.coordinates(
+    v1 = Points(
         pairs=(
             (0.1, 0.0),  # 0
             (0.1, 0.5),  # 1
@@ -121,7 +122,7 @@ def test_two_domains_non_union():
 
     m2 = d2.mesh
     b2 = d2.boundaries
-    assert m2.coordinates == v0 + v1
+    assert m2.coordinates.pairs == v0.pairs + v1.pairs
 
     assert m2.connectivity == ((0, 2, 3, 1), (5, 0, 1, 4), (6, 8, 9, 7), (8, 11, 10, 9))
 
@@ -148,7 +149,7 @@ def test_two_domains():
     """
 
     # vertices (aka points or coordinates)
-    v0 = qt.coordinates(
+    v0 = Points(
         pairs=(
             (-0.5, 0.0),  # 0
             (-0.5, 0.5),  # 1
@@ -159,7 +160,7 @@ def test_two_domains():
         )
     )
 
-    v1 = qt.coordinates(
+    v1 = Points(
         pairs=(
             (0.0, 0.0),  # 0
             (0.0, 0.5),  # 1
@@ -222,7 +223,7 @@ def test_two_domains():
 
     m2 = d2.mesh
     b2 = d2.boundaries
-    assert m2.coordinates == v0 + v1
+    assert m2.coordinates.pairs == v0.pairs + v1.pairs
 
     assert m2.connectivity == ((0, 2, 3, 1), (5, 0, 1, 4), (2, 8, 9, 3), (8, 11, 10, 9))
 
@@ -266,7 +267,7 @@ def test_two_domains_six_boundary_segments():
     """
 
     # vertices (aka points or coordinates)
-    v0 = qt.coordinates(
+    v0 = Points(
         pairs=(
             (-0.5, 0.5),  # 0
             (-0.5, 1.0),  # 1
@@ -287,7 +288,7 @@ def test_two_domains_six_boundary_segments():
         )
     )
 
-    v1 = qt.coordinates(
+    v1 = Points(
         pairs=(
             (-0.5, 0.5),  # 0
             (-0.5, 1.0),  # 1
@@ -353,7 +354,7 @@ def test_two_domains_six_boundary_segments():
 
     m2 = d2.mesh
     b2 = d2.boundaries
-    assert m2.coordinates == v0 + v1
+    assert m2.coordinates.pairs == v0.pairs + v1.pairs
 
     assert m2.connectivity == (
         (15, 10, 0, 14),  # 0
@@ -438,9 +439,9 @@ def test_domain_merge_key_0001_r0_p1_and_key_0001_r1_p0():
 
         bounds1 = ((24, 31, 37), (37, 36, 35, 34), (34, 39, 41, 42), (42, 25, 24))
     """
-    ctr = qt.Coordinate(x=0.0, y=0.0)
+    ctr = Point2D(x=0.0, y=0.0)
     cell = qt.Cell(center=ctr, size=2.0)
-    points = tuple([qt.Coordinate(0.6, 0.6)])
+    points = Points(pairs=((0.6, 0.6),))
 
     # test key_0001 nested once with self
     tree = qt.QuadTree(cell=cell, level=0, level_max=3, points=points)
@@ -546,65 +547,3 @@ def test_domain_merge_key_0001_r0_p1_and_key_0001_r1_p0():
     bounds2 = bounds0[0:2] + bounds0[4:] + bounds1[1:3]
 
     assert bounds2 == b2
-
-
-@pytest.mark.skip("work in progress")
-def test_winding_number():
-    """
-    Reference:
-    https://codegolf.stackexchange.com/questions/70600/compute-the-winding-number
-    """
-
-    # basic test
-    input = ((1, 0), (1, 1), (-1, 1), (-1, -1), (1, -1), (1, 0))
-    output = 1
-
-    # repeated point test
-    input = (
-        (1, 0),
-        (1, 0),
-        (1, 1),
-        (1, 1),
-        (-1, 1),
-        (-1, 1),
-        (-1, -1),
-        (-1, -1),
-        (1, -1),
-        (1, -1),
-        (1, 0),
-    )
-    output = 1
-
-    # clockwise test
-    input = ((1, 0), (1, -1), (-1, -1), (-1, 1), (1, 1), (1, 0))
-    output = -1
-
-    # outside test
-    input = ((1, 0), (1, 1), (2, 1), (1, 0))
-    output = 0
-
-    # mixed winding
-    input = (
-        (1, 0),
-        (1, 1),
-        (-1, 1),
-        (-1, -1),
-        (1, -1),
-        (1, 0),
-        (1, -1),
-        (-1, -1),
-        (-1, 1),
-        (1, 1),
-        (1, 0),
-        (1, 1),
-        (-1, 1),
-        (-1, -1),
-        (1, -1),
-        (1, 0),
-        (1, 1),
-        (-1, 1),
-        (-1, -1),
-        (1, -1),
-        (1, 0),
-    )
-    output = 2

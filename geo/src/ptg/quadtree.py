@@ -2,43 +2,47 @@ from typing import Final, Iterable, NamedTuple, Union
 from functools import reduce
 import math
 from itertools import permutations, repeat
+from statistics import mean
 
 import ptg.dual_quad as dual_quad
+from ptg.point import Point2D, Points
+
+# import ptg.polygon as poly
 
 
-class Coordinate(NamedTuple):
-    """Creates a coordinate as a (x, y) pair of floats."""
-
-    x: float  # x-coordinate
-    y: float  # y-coordinate
-
-
-def coordinates(*, pairs: tuple[tuple[float, float], ...]) -> tuple[Coordinate, ...]:
-    """Creates a tuple of Coordinates from a tuple of (x, y) pairs.
-
-    Argments:
-        pairs (tuple of tuple of floats), e.g.,
-            ((x0, y0), (x1, y1), ... (xn, yn))
+# class Coordinate(NamedTuple):
+#     """Creates a coordinate as a (x, y) pair of floats."""
+#
+#     x: float  # x-coordinate
+#     y: float  # y-coordinate
 
 
-    Returns:
-        tuple of Coordinates:
-            A tuple of Coordinates, which is a NamedTuple
-            representation of the pairs.
-    """
+# def coordinates(*, pairs: tuple[tuple[float, float], ...]) -> tuple[Coordinate, ...]:
+#     """Creates a tuple of Coordinates from a tuple of (x, y) pairs.
+#
+#     Argments:
+#         pairs (tuple of tuple of floats), e.g.,
+#             ((x0, y0), (x1, y1), ... (xn, yn))
+#
+#
+#     Returns:
+#         tuple of Coordinates:
+#             A tuple of Coordinates, which is a NamedTuple
+#             representation of the pairs.
+#     """
+#
+#     # xs = tuple(pairs[k][0] for k in range(len(pairs)))
+#     # ys = tuple(pairs[k][1] for k in range(len(pairs)))
+#     xs, ys = zip(*pairs)
+#     # cs = tuple(Coordinate(x=pairs[i][0], y=pairs[i][1]) for i in range(len(pairs)))
+#     cs = tuple(map(Coordinate, xs, ys))  # coordinates
+#     return cs
 
-    # xs = tuple(pairs[k][0] for k in range(len(pairs)))
-    # ys = tuple(pairs[k][1] for k in range(len(pairs)))
-    xs, ys = zip(*pairs)
-    # cs = tuple(Coordinate(x=pairs[i][0], y=pairs[i][1]) for i in range(len(pairs)))
-    cs = tuple(map(Coordinate, xs, ys))  # coordinates
-    return cs
 
-
-Vertex = Coordinate  # a vertex belongs to a quad
-# A vertex and a coordinate have the same data type, but different
-# semantic.  A quad is composed of four vertices.  A quad is not
-# composed of four coordinates.
+# Vertex = Coordinate  # a vertex belongs to a quad
+# # A vertex and a coordinate have the same data type, but different
+# # semantic.  A quad is composed of four vertices.  A quad is not
+# # composed of four coordinates.
 
 
 class Quad(NamedTuple):
@@ -46,10 +50,10 @@ class Quad(NamedTuple):
     starting from (0, 0) as the southwest corner.
     """
 
-    sw: Vertex  # southwest corner
-    se: Vertex  # southeast corner
-    ne: Vertex  # northeast corner
-    nw: Vertex  # northwest corner
+    sw: Point2D  # southwest corner
+    se: Point2D  # southeast corner
+    ne: Point2D  # northeast corner
+    nw: Point2D  # northwest corner
 
 
 class Mesh(NamedTuple):
@@ -61,9 +65,55 @@ class Mesh(NamedTuple):
         nel = number of elements = len(connectivity)
     """
 
-    coordinates: tuple[Coordinate, ...]
+    # coordinates: tuple[Coordinate, ...]
+    coordinates: Points
     # connectivity: tuple[tuple[int, int, int, int], ...]
     connectivity: tuple[tuple[int, ...], ...]
+
+
+# def centroid(*, coordinates: tuple[Coordinate, ...]) -> Coordinate:
+def centroid(*, coordinates: Points) -> Point2D:
+    """Given a tuple of Coordinates, returns the centroid of those
+    coordinates as a Coordinate.
+
+    Arguments:
+        coordinates (tuple[Coordinate, ...]): The tuple of coordinates
+            that define the 2D shape, typically a quadrilateral.
+
+    Returns:
+        Coordinate: the (x_cg, y_cg) coordinate locating the centroid
+            of the 2D shape.
+
+    """
+    return Point2D(x=mean(coordinates.xs), y=mean(coordinates.ys))
+
+
+# def trim(*, mesh: Mesh, boundary: tuple[Coordinate, ...]):
+#     """Given a finite element mesh and a boundary, returns the subset mesh
+#     connectivity of elements who have a geometric center contained by the
+#     boundary.
+#
+#     The returned mesh connectivity may be the empty set, indicating no element
+#     in the mesh is contained in the boundary.
+#
+#     Arguments:
+#         mesh (Mesh): A data structure containing a tuple of coordinates and a tuple
+#             of connectivity.
+#         boundary (tuple[tuple[float, float], ...]): A tuple of tuple of float pairs,
+#             e.g., ((x0, y0), (x1, y1), ... (xn, yn)).
+#
+#     Returns:
+#         Mesh.connectivity:  The subset of mesh elements, possibly the empty set, that
+#             is contained in the boundary.
+#     """
+#     _polygon = poly.Polygon2D(boundary=boundary)
+#     _subset = ((),)
+#
+#     for element in mesh.connectivity:
+#         cg = centroid(coordinates=mesh.coordinates[i] for i in element])
+#
+#
+#     return _subset
 
 
 class Domain(NamedTuple):
@@ -210,13 +260,14 @@ def template_key(*, quad_corners: tuple[int, ...], level: int, partial: bool) ->
     return _template_key
 
 
-def scale_then_translate(
-    *, ref: tuple[Coordinate, ...], scale: float, translate: Coordinate
-) -> tuple[Coordinate, ...]:
+# def scale_then_translate(
+#     *, ref: tuple[Coordinate, ...], scale: float, translate: Coordinate
+# ) -> tuple[Coordinate, ...]:
+def scale_then_translate(*, ref: Points, scale: float, translate: Point2D) -> Points:
     """Scales about the origin and then translates a tuple of Coordinates
     in the reference position to a new position.
 
-    Attributes:
+    Arguments:
         ref (tuple[Coordinate, ...]): The tuple of (x, y) coordinates in the
             reference configurations, e.g., ((x0, y0), (x1, y1), ... (xn, yn)).
         scale (float): The magnitude of scale up (scale > 1) or
@@ -233,18 +284,22 @@ def scale_then_translate(
     if scale <= 0.0:
         raise ValueError("Error: scale must be positive.")
 
-    xs, ys = zip(*ref)
+    # xs, ys = zip(*ref)
 
     # xnew = tuple(xs[k] * scale + translate.x for k in range(len(xs)))
     # ynew = tuple(ys[k] * scale + translate.y for k in range(len(ys)))
     # xnew = tuple(map(lambda x: x * scale + translate.x, xs))
     # ynew = tuple(map(lambda y: y * scale + translate.y, ys))
-    xnew = tuple([xi * scale + translate.x for xi in xs])
-    ynew = tuple([yi * scale + translate.y for yi in ys])
+    # xnew = tuple([xi * scale + translate.x for xi in xs])
+    # ynew = tuple([yi * scale + translate.y for yi in ys])
+
+    xnew = tuple([xi * scale + translate.x for xi in ref.xs])
+    ynew = tuple([yi * scale + translate.y for yi in ref.ys])
 
     # new = tuple((xnew[k], ynew[k]) for k in range(len(ref)))
     # new = tuple(zip(xnew, ynew))
-    new = coordinates(pairs=tuple(zip(xnew, ynew)))
+    # new = coordinates(pairs=tuple(zip(xnew, ynew)))
+    new = Points(pairs=tuple(zip(xnew, ynew)))
     return new
 
 
@@ -290,7 +345,8 @@ class TemplateFactory(NamedTuple):
 
 
 class Cell:
-    def __init__(self, *, center: Coordinate, size: float):
+    # def __init__(self, *, center: Coordinate, size: float):
+    def __init__(self, *, center: Point2D, size: float):
         """A square shape centered at (cx, cy) with
             size = width = height.
 
@@ -321,13 +377,13 @@ class Cell:
 
         # A cell has a Quad scheme collection of Vertices.
         self.vertices = Quad(
-            sw=Vertex(self.west, self.south),
-            se=Vertex(self.east, self.south),
-            ne=Vertex(self.east, self.north),
-            nw=Vertex(self.west, self.north),
+            sw=Point2D(self.west, self.south),
+            se=Point2D(self.east, self.south),
+            ne=Point2D(self.east, self.north),
+            nw=Point2D(self.west, self.north),
         )
 
-    def contains(self, point: Coordinate) -> bool:
+    def contains(self, point: Point2D) -> bool:
         """Determines if the coordinates of a point lie within the boundary of a cell.
 
         Arguments:
@@ -340,26 +396,13 @@ class Cell:
                 True if the point is on the interior or boundary of the cell.
                 False if the point is on the exterior of the cell.
         """
+        # TODO: determine if we want this to be consistent with winding number conventions
         return (
             point.x >= self.west
             and point.x <= self.east
             and point.y >= self.south
             and point.y <= self.north
         )
-
-    # getter property
-    # @property
-    # def sw(self):
-    #     # raise error if self._sw is None, indicate Cell.divide has not yet been called
-    #     if self._sw is None:
-    #         raise
-
-    # Do not implement the setter, on purpose, to prohibit client from setting
-    # self.sw, self.nw, self.se, and self.ne except by calling self.divide() method.
-    # setter property
-    # @sw.setter
-    # def sw(self, val):
-    #     pass
 
     def divide(self):
         """Divides the Cell into four children Cells:
@@ -378,16 +421,16 @@ class Cell:
         divided_size = self.size / 2.0
 
         self.sw = Cell(
-            center=Coordinate(x=center_west_x, y=center_south_y), size=divided_size
+            center=Point2D(x=center_west_x, y=center_south_y), size=divided_size
         )
         self.nw = Cell(
-            center=Coordinate(x=center_west_x, y=center_north_y), size=divided_size
+            center=Point2D(x=center_west_x, y=center_north_y), size=divided_size
         )
         self.se = Cell(
-            center=Coordinate(x=center_east_x, y=center_south_y), size=divided_size
+            center=Point2D(x=center_east_x, y=center_south_y), size=divided_size
         )
         self.ne = Cell(
-            center=Coordinate(x=center_east_x, y=center_north_y), size=divided_size
+            center=Point2D(x=center_east_x, y=center_north_y), size=divided_size
         )
 
         self.has_children = True  # overwrite from False in __init__
@@ -395,10 +438,12 @@ class Cell:
         print("Finished cell division.")
 
 
+# class QuadTree:
+#     def __init__(
+#         self, *, cell: Cell, level: int, level_max: int, points: tuple[Coordinate, ...]
+#     ):
 class QuadTree:
-    def __init__(
-        self, *, cell: Cell, level: int, level_max: int, points: tuple[Coordinate, ...]
-    ):
+    def __init__(self, *, cell: Cell, level: int, level_max: int, points: Points):
         """A QuadTree is a specific instance of a cell with zero ore more recursive cell
         subdivisions.  Points passed into the QuadTree trigger cell division.  If points
         lie within a cell, then a cell will divide, otherwise a cell will not divide.
@@ -436,10 +481,15 @@ class QuadTree:
         # self.points = points  # <-- avoid this original implementation
         #
         # Instead, filter to make sure points lie only within the cell boundary.
-        self.points = tuple(filter(self.cell.contains, points))
+        # self.points = Points(pairs=tuple(filter(self.cell.contains, points.points2D)))
+        _contained_points = tuple(filter(self.cell.contains, points.points2D))
 
         # If there is one or more point(s) inside of this parent cell, then subdivide.
-        if len(self.points) > 0:
+        # if len(self.points) > 0:
+        # if self.points.length > 0:
+        if len(_contained_points) > 0:
+            self.points = Points(pairs=_contained_points)
+
             self.cell.divide()
             self.level += 1
 
@@ -659,13 +709,20 @@ class QuadTree:
             _template = getattr(_factory, _template_key, None)
             assert _template  # _template should never be None at this point
 
-            _scaled_translated_vertices_dual = scale_then_translate(
-                ref=_template.vertices_dual,
+            # _scaled_translated_vertices_dual = scale_then_translate(
+            #     ref=_template.vertices_dual,
+            #     scale=cell.size / 2.0,
+            #     translate=cell.center,
+            # )
+
+            # _new_coordinates = coordinates(pairs=_scaled_translated_vertices_dual)
+            # _new_coordinates = Points(pairs=_scaled_translated_vertices_dual)
+
+            _new_coordinates = scale_then_translate(
+                ref=Points(pairs=_template.vertices_dual),
                 scale=cell.size / 2.0,
                 translate=cell.center,
             )
-
-            _new_coordinates = coordinates(pairs=_scaled_translated_vertices_dual)
 
             # temporary hard code to test key_0001
             # if _template_key == "key_0001":
