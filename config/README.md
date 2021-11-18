@@ -9,6 +9,7 @@
 
 ### Updates
 
+* 2021-11-18: Update from Python 3.9 to 3.10
 * 2021-07-18: Update from Python 3.8.5 to 3.9.
   * Update Miniconda
   * Update `env_create.sh` and then
@@ -33,7 +34,6 @@
 If using VS Code, make sure the environment points to `/Users/sparta/opt/miniconda3/envs/siblenv/bin/python`.
 
 All other configuration note have been [deprecated](deprecated.md).
-
 
 ## Trusted Host
 
