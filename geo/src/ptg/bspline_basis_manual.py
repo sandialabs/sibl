@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def bspline_basis_manual(
     knot_vector_t: list | tuple,
     knot_i: int = 0,
