@@ -14,12 +14,12 @@ from setuptools import setup
 
 from pybind11.setup_helpers import Pybind11Extension, build_ext
 
-__version__ = "0.0.2"
+__version__ = "0.0.3"
 
 ext_modules = [
     Pybind11Extension(
         "xybind",
-        ["main.cpp", "generalpolygon.cpp", "intersectionprimitives.cpp", "kdtree.cpp"],
+        ["main.cpp", "generalpolygon.cpp", "intersectionprimitives.cpp", "kdtree.cpp","../dual/Curve.cpp"],
         # Example: passing in the version to the compiled code
         define_macros=[("VERSION_INFO", __version__)],
     ),
