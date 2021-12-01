@@ -1,11 +1,11 @@
-#codeblocks layout dep, etc
+# codeblocks layout dep, etc
 *.cbp
 *.layout
 *.depend
 bin/
 obj/
 
-#matlab temporary files
+# matlab temporary files
 *.tmp
 
 *.swp
