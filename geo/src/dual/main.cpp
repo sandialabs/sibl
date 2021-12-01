@@ -22,13 +22,15 @@ int main(int argc, char *argv[])
     minsize = atof(argv[1]);
     int bnds = atoi(argv[3]);
 
-
+    cout<<"Filename : "<<filename<<endl;
+    cout<<"Resolution: "<<minsize<<endl;
 
     Curve* myCurve;
     myCurve = new Curve(filename);
     myCurve->write("line");
     if(bnds == 1)
     {
+        cout<<"Using unit bounds"<<endl;
         myCurve->lowerLeft(std::tuple<double,double>(-1,-1));
         myCurve->upperRight(std::tuple<double,double>(1,1));
     }
@@ -44,7 +46,7 @@ int main(int argc, char *argv[])
     cout<<"Nodes size: "<<myNodes->size()<<endl;
     //myQuadTree->write("qt");
 
-    myQuadTree->balancedRefineCurve(myQuadTree->head(),false);
+    myQuadTree->balancedRefineCurve(myQuadTree->head(),true);
     cout<<"Nodes size: "<<myNodes->size()<<endl;
     myQuadTree->write("qt1");
 

@@ -1,3 +1,13 @@
+#codeblocks layout dep, etc
+*.cbp
+*.layout
+*.depend
+bin/
+obj/
+
+#matlab temporary files
+*.tmp
+
 *.swp
 
 # compiled code

@@ -2,12 +2,15 @@
 clear all
 close all
 
+binpath = 'C:\Users\acsokol\sibl\geo\src\dual\bin\';
 resFolder = datestr(date,'yyyy-mm-dd');
 mkdir(resFolder);
 
 delete *nodes
 delete *polys
 delete *quads
+delete *tmp
+
 %delete *.inp
 
 %testCase = 4
@@ -56,13 +59,13 @@ fignum = testCase*4*2+aa*2+res;
 pts = [(xp)' (yp)']';
 baseName=[baseName ,'+', num2str(rot)];
 
-fid = fopen([baseName],'w');
+fid = fopen([baseName,'.tmp'],'w');
 fprintf(fid,'%12.16f  %12.16f\n',pts);
 fclose(fid);
 
 
 tic
-dos(['quad.exe  ',num2str(resolution),' ',baseName,' 1']);
+dos([binpath,'dual.exe  ',num2str(resolution),' ',baseName,'.tmp',' 1']);
 toc
 
 ddd = dir('*quads');    
@@ -121,6 +124,10 @@ print(gcf,'-dpng',[resFolder,'\\',baseName,'DP','date',datestr(date,'yyyy-mm-dd'
 end %%res
 end %%angles
 end %%test cases
+delete *nodes
+delete *polys
+delete *quads
+delete *tmp
 
 % 
 % figure;
