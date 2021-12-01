@@ -67,7 +67,7 @@ struct Parade
 
 };
 */
-struct Polygon
+/*struct Polygon
 {
     Polygon(const std::vector<float> &boundary_x, const std::vector<float> &boundary_y) : GP(std::pair<std::vector<float>, std::vector<float> >(boundary_x, boundary_y)) {}
 
@@ -79,11 +79,11 @@ struct Polygon
         return test;
     }
     GeneralizedPolygon GP;
-};
+};*/
 
-struct WindingPolygon
+struct Polygon
 {
-    WindingPolygon(const std::vector<float> &boundary_x, const std::vector<float> &boundary_y) : Curve(boundary_x, boundary_y) {}
+    Polygon(const std::vector<float> &boundary_x, const std::vector<float> &boundary_y) : Curve(boundary_x, boundary_y) {}
 
     std::vector<bool> contains(const std::vector<float> &probe_x, const std::vector<float> &probe_y)
     {
@@ -138,9 +138,6 @@ PYBIND11_MODULE(xybind, m)
         .def(py::init<const std::vector<float> &, const std::vector<float> &>())
         .def("contains", &Polygon::contains, py::kw_only(), py::arg("probe_x"), py::kw_only(), py::arg("probe_y"), "Returns a vector with True or False for each element with coordinates probe_x, probe_y.");
 
-    py::class_<WindingPolygon>(m, "WindingPolygon")
-        .def(py::init<const std::vector<float> &, const std::vector<float> &>())
-        .def("contains", &WindingPolygon::contains, py::kw_only(), py::arg("probe_x"), py::kw_only(), py::arg("probe_y"), "Returns a vector with True or False for each element with coordinates probe_x, probe_y.");
 
 #ifdef VERSION_INFO
     m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);
