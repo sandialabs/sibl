@@ -95,6 +95,34 @@ Curve::Curve(std::string filename)
 
 
 }
+Curve::Curve(const std::vector<float> &boundary_x, const std::vector<float> &boundary_y) ///Single curve constructor
+{
+    std::vector<CurvePoint> tmpVec;
+    for(unsigned int lcv =0; lcv < boundary_x.size();++lcv)
+        tmpVec.push_back(CurvePoint(boundary_x[lcv],boundary_y[lcv]));
+
+    checkDirectionAndFlip(tmpVec);
+    inOrOut.push_back(true);
+
+    myCurvePoints.push_back(tmpVec);
+
+     for(unsigned int lcv = 0;lcv < myCurvePoints.size();++lcv)
+    std::cout<<(inOrOut[lcv]?"in":"out")<<"Curve with "<<myCurvePoints[lcv].size()<<" points"<<std::endl;
+
+    for(unsigned int lcv = 0;lcv < myCurvePoints.size();++lcv)
+        fillDerivative(myCurvePoints[lcv]);
+
+    for(unsigned int lcv = 0;lcv < myCurvePoints.size();++lcv)
+        setTangentAngle(myCurvePoints[lcv]);
+
+    for(unsigned int lcv = 0;lcv < myCurvePoints.size();++lcv)
+        findCorners(myCurvePoints[lcv]);
+
+    for(unsigned int lcv = 0;lcv < myCurvePoints.size();++lcv)
+        findFeatures(myCurvePoints[lcv]);
+
+}
+
 bool Curve::featureInBoundingBox(std::tuple<double,double> ll,std::tuple<double,double> ur)
 {
      ///Check whether any points of the feature are within the bounding box

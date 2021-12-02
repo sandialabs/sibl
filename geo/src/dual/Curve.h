@@ -43,7 +43,8 @@ class Curve
 {
     public:
         Curve(std::string filename);
-        ///TODO: Add reading in NAN separated loops CCW and CW to assign +/-1 sign to the inCurve result.
+        Curve(const std::vector<float> &boundary_x, const std::vector<float> &boundary_y); ///Single curve constructor
+
         std::tuple<double,double> upperRight(){return ur;}
         std::tuple<double,double> lowerLeft(){return ll;}
         void upperRight(std::tuple<double,double> tp){ur=tp;}
