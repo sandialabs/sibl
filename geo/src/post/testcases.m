@@ -15,10 +15,10 @@ delete *tmp
 resolutions = [0.5 0.25 .125];
  angles = [0 90 180 270];
  
-for testCase = 1:5
+for testCase = 3:3
    
-for aa = 1:4
-for res=1:2
+for aa = 4:4
+for res=2:2
     
     rot = angles(aa);
 

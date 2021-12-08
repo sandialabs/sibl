@@ -18,7 +18,7 @@
 class Node
 {
  public:
-    Node(){isFringe=false;isActive=false;x=0;y=0;z=0;myID=UNSET;}
+    Node(){isFringe=false;isActive=false;x=0;y=0;z=0;myID=UNSET;fx=0;fy=0;fz=0;}
     Node(std::tuple<double,double,double> pt,bool fringe){x=std::get<XIND>(pt);y=std::get<YIND>(pt);z=std::get<ZIND>(pt);isFringe=fringe;isActive=true;myID=UNSET;}
     Node(std::tuple<double,double,double> pt,bool fringe,int id){x=std::get<XIND>(pt);y=std::get<YIND>(pt);z=std::get<ZIND>(pt);isFringe=fringe;isActive=true;myID=id;}
 
@@ -30,6 +30,10 @@ class Node
     void active(bool a){isActive=a;}
     bool active(){return isActive;}
 
+
+    double dist(const Node &A){return std::pow((x-A.x)*(x-A.x)+(y-A.y)*(y-A.y)+(z-A.z)*(z-A.z),0.5);}
+    double magnitude(){return std::pow(x*x+y*y+z*z,0.5);}
+    Node direction(const Node &A){Node N; N.x = x-A.x;N.y = y-A.y;N.z = z-A.z; double m = N.magnitude(); N.x/=m;N.y/=m; N.z/=m;return N; }
     double X(){return x;}
     double Y(){return y;}
     double Z(){return z;}
@@ -44,7 +48,7 @@ class Node
 
     std::string print();
 
-
+    double fx,fy,fz;
     Node operator + ( const Node& A ) const;
     Node operator / ( const double A ) const;
     Node& operator=(const Node& other);
@@ -54,6 +58,7 @@ class Node
 
  private:
      double x,y,z;
+
      bool isFringe,isActive;
      int myID;
      friend class NodeList;
@@ -76,6 +81,8 @@ class NodeList
         Node* near(double x,double y);
         void fringe(int id,bool f);
         void resetFringe();
+        void resetForce();
+        void moveByForce();
         void print();
         void write(std::string filename);
         void writeCSVAppend(std::string filename);

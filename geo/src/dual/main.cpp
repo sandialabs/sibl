@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
     {
     double minsize;
     const std::string compilation_date = __DATE__;
-    cout<<"Version : "<<compilation_date<<endl;
+    cout<<"Build Date : "<<compilation_date<<endl;
     string filename = argv[2];
     minsize = atof(argv[1]);
     int bnds = atoi(argv[3]);
@@ -81,6 +81,10 @@ if(bnds == 0)
    // myDual->write("projected2dual","");
     myDual->snap();
     myDual->write("snapped2dual","");
+
+    myDual->smooth();myDual->smooth();myDual->smooth();myDual->smooth();
+    myDual->write("smoothdual","");
+
     ///    TODO ADD SMOOTHING function
    /// TODO ADD ABAQUS output
     myDual->write(filename,"inp");

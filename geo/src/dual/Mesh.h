@@ -87,11 +87,15 @@ class Dual: public Mesh
     void trim();
     void project();
     void snap();
+    void smooth();
+
     void subdivide(Poly* p);
     void subdivide();
     bool split3(Poly* p);
+
    private:
        int count;
+
        void detangleNodes(Node &A,Node &B, Node &C, Node &D);
        double sumSignAreaNodes(Node A,Node B, Node C, Node D);
         void swap(Node &A, Node &B){Node tmp = A; A= B; B=tmp;}

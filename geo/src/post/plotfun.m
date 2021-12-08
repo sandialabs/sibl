@@ -11,7 +11,7 @@ delete *quads
 delete *tmp
 
 
-testCase = 13
+testCase = 8
 resolution = 1;
 
   switch testCase

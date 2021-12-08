@@ -832,6 +832,66 @@ void Dual::subdivide()
     }
     edgeUpToDate=false;
 }
+void Dual::smooth()
+{
+    std::list<Poly>::iterator it;
+    myNodes->resetForce();
+
+    double k = 0.1;
+    double kdiag = 0.1;
+
+    for(it=myPolys.begin();it!=myPolys.end();++it)
+    {
+     /*  for(int a = 0; a < 4;++a)
+       {
+            int b = a+1;
+            if(b ==4)
+                b=0;
+
+       double dist  = it->myNodes[a]->dist(*(it->myNodes[b]));
+       Node direction = it->myNodes[a]->direction(*(it->myNodes[b]));
+
+       double nx = direction.X();
+       double ny = direction.Y();
+        it->myNodes[a]->fx-=nx*dist*k;
+        it->myNodes[a]->fy-=ny*dist*k;
+        it->myNodes[b]->fx+=nx*dist*k;
+        it->myNodes[b]->fy+=ny*dist*k;
+       }
+*/
+        int a = 0;
+        int b = 2;
+       double distAC  = it->myNodes[a]->dist(*(it->myNodes[b]));
+       Node directionAC = it->myNodes[a]->direction(*(it->myNodes[b]));
+         a = 1;
+         b = 3;
+       double distBD  = it->myNodes[a]->dist(*(it->myNodes[b]));
+       Node directionBD = it->myNodes[a]->direction(*(it->myNodes[b]));
+        Node direction;
+        double dist;
+       if(distAC > distBD)
+       {
+          direction = directionAC;
+         a=0;b=2;dist = distAC-distBD;
+       }
+       else
+        { direction = directionBD;
+        a=1;b=3;
+        dist = distBD-distAC;
+        }
+
+        double nx = direction.X();
+        double ny = direction.Y();
+        it->myNodes[a]->fx-=nx*dist*kdiag;
+        it->myNodes[a]->fy-=ny*dist*kdiag;
+        it->myNodes[b]->fx+=nx*dist*kdiag;
+        it->myNodes[b]->fy+=ny*dist*kdiag;
+
+
+    }
+    myNodes->moveByForce();
+}
+
 void Dual::walkB(Node A,Node &B, Node C)
 {
    double AB = dist(A,B);

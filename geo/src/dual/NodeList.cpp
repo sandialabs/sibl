@@ -139,6 +139,32 @@ void NodeList::resetFringe()
     for(it = nodes.begin();it!=nodes.end();++it)
             it->fringe(false);
 }
+void NodeList::resetForce()
+{
+    std::list<Node>::iterator it;
+    for(it = nodes.begin();it!=nodes.end();++it)
+            {
+                it->fx = 0;
+                it->fy = 0;
+                it->fz = 0;
+            }
+}
+void NodeList::moveByForce()
+{
+    std::list<Node>::iterator it;
+    for(it = nodes.begin();it!=nodes.end();++it)
+            {
+                if(!it->fringe())
+                {
+                it->x+=it->fx;
+                it->fx = 0;
+                it->y+=it->fy;
+                it->fy = 0;
+                it->z+=it->fz;
+                it->fz = 0;
+                }
+            }
+}
 Node* NodeList::near(double x,double y)
 {
     double dist=1e9;
