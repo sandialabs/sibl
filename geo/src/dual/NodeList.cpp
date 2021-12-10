@@ -106,14 +106,16 @@ void NodeList::write(std::string filename)
 {
     std::ofstream out_file(filename.c_str());
     for(auto x : nodes)
-        out_file<<x<<std::endl;
+        if(x.active())
+            out_file<<x<<std::endl;
     out_file.close();
 }
 void NodeList::writeCSVAppend(std::string filename)
 {
     std::ofstream out_file(filename.c_str(),std::ios::app);
     for(auto n : nodes)
-        out_file<<n.id()<<",\t"<<n.x<<",\t"<<n.y<<",\t"<<n.z<<std::endl;
+    if(n.active())
+            out_file<<n.id()<<",\t"<<n.x<<",\t"<<n.y<<",\t"<<n.z<<std::endl;
     out_file.close();
 
     //out_file<<x.id()<<',\t'<<x.X()<<',\t'<<x.Y()<<',\t'<<x.Z()<<std::endl;
@@ -138,6 +140,12 @@ void NodeList::resetFringe()
     std::list<Node>::iterator it;
     for(it = nodes.begin();it!=nodes.end();++it)
             it->fringe(false);
+}
+void NodeList::resetActive()
+{
+    std::list<Node>::iterator it;
+    for(it = nodes.begin();it!=nodes.end();++it)
+            it->active(false);
 }
 void NodeList::resetForce()
 {

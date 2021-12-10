@@ -184,17 +184,7 @@ bool Curve::checkDirectionAndFlip(std::vector<CurvePoint> &CurvePoints)
     std::vector<CurvePoint> tmp = CurvePoints;
 
     bool in = true;
-   /* if(CurvePoints.size()>=3)
-    {
-        double crp = cross(CurvePoints[0],CurvePoints[1],CurvePoints[2]);
-        std::cout<<crp<<std::endl;
-        if(crp > 0)
-        { ///Need to reverse points
-            in=false;
-            for(unsigned int lcv =0; lcv < CurvePoints.size();++lcv)
-                CurvePoints[lcv]=tmp[CurvePoints.size()-1-lcv];
-        }
-    }*/
+
     if(area(CurvePoints)<0)
         in=false;
 

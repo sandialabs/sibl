@@ -10,8 +10,8 @@ delete *polys
 delete *quads
 delete *tmp
 
-
-testCase = 8
+plotall = 1;
+testCase = 14
 resolution = 1;
 
   switch testCase
@@ -293,6 +293,32 @@ resolution = 1;
          yp =[yp NaN reverse(yp2)];
           
           resolution = .25;
+          
+      case 14 %australia
+          
+          aus = shaperead('landareas.shp', 'UseGeoCoords', true,...
+            'Selector',{@(name) strcmp(name,'Australia'), 'Name'});
+            xp = reverse(aus.Lon);
+            yp = reverse(aus.Lat);
+            xp=xp(2:end-1);
+            yp = yp(2:end-1);
+           % plot(xp,yp,'o');hold on;
+           
+            step = 0.001; 
+           
+            skip = find(diff(yp)==0) ;
+            inds = [1:length(yp)];
+            inds = setdiff(inds,skip);
+             xp = xp(inds);
+            yp = yp(inds);
+             arclen =cumsum([0 sqrt( diff((xp)).^2+diff((yp)).^2)]);
+            xp = interp1(arclen,xp,[0:step:max(arclen)]);
+            yp = interp1(arclen,yp,[0:step:max(arclen)]);
+                
+           % plot(xp,yp,'.');
+            baseName = 'Australia'
+            resolution = 0.125/2/2;
+            plotall= 0;
       otherwise
           
             disp('Unknown method.')
@@ -312,7 +338,7 @@ tic
 dos([binpath,'dual.exe  ',num2str(resolution),' ',baseName,'.tmp', ' 0']);
 toc
 
-
+if plotall == 1
 
 ddd = dir('*quads');    
 for ff = 1:length(ddd)
@@ -402,3 +428,5 @@ print(gcf,'-dpng',[resFolder,'\\',baseName,'DP','date',datestr(date,'yyyy-mm-dd'
 % n=load('sph');
 % plot3(n(:,1),n(:,2),n(:,3),'o');
 % axis equal
+
+end %%plot all

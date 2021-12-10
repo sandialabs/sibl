@@ -19,6 +19,7 @@ class Poly
     void active(bool a){myActive = a;}
     void good(){std::cout<<"ID "<<myID<<std::endl;}
     Node center();
+
     private:
         std::vector<Node* > myNodes;
         int myID;
@@ -42,7 +43,7 @@ class Mesh
 
     protected:
           void out(std::ofstream &of);
-
+void updateActiveNodes();
     bool edgeUpToDate;
     NodeList* myNodes;
     Curve* myCurve;

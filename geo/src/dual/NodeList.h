@@ -82,6 +82,7 @@ class NodeList
         void fringe(int id,bool f);
         void resetFringe();
         void resetForce();
+        void resetActive();
         void moveByForce();
         void print();
         void write(std::string filename);

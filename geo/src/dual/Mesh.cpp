@@ -178,6 +178,19 @@ void Mesh::fringeNodes()
         }*/
 
 }
+void Mesh::updateActiveNodes()
+{
+    myNodes->resetActive();
+    std::list<Poly>::iterator it;
+    for(it = myPolys.begin();it!=myPolys.end();++it)
+    {
+        if(it->active())
+        for(unsigned int nn = 0; nn< it->myNodes.size();++nn)
+        (it->myNodes[nn])->active(true);
+
+    }
+
+}
 Primal::Primal(QuadTree* QT)
 {
     myCurve=QT->myCurve;
@@ -608,6 +621,8 @@ void Dual::trim()
 
 
         }
+
+//FIX THIS FUNCTION        updateActiveNodes();
 }
 void Dual::project()
 {
