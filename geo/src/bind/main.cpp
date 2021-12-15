@@ -83,20 +83,21 @@ struct Parade
 
 struct Polygon
 {
-    Polygon(const std::vector<float> &boundary_x, const std::vector<float> &boundary_y) : Curve(boundary_x, boundary_y) {}
+    // Polygon(const std::vector<float> &boundary_x, const std::vector<float> &boundary_y) : Curve(boundary_x, boundary_y) {}
+    Polygon(const std::vector<float> &boundary_x, const std::vector<float> &boundary_y)
+    {
+        C = new Curve(boundary_x, boundary_y);
+    }
 
     std::vector<bool> contains(const std::vector<float> &probe_x, const std::vector<float> &probe_y)
     {
         std::vector<bool> test(probe_x.size(), false);
         for (unsigned int i = 0; i < test.size(); ++i)
-            test[i] = C.inCurve(probe_x[i], probe_y[i]);
+            test[i] = C->inCurve(probe_x[i], probe_y[i]);
         return test;
     }
-    Curve C;
+    Curve *C;
 };
-
-
-
 
 namespace py = pybind11;
 
@@ -137,7 +138,6 @@ PYBIND11_MODULE(xybind, m)
     py::class_<Polygon>(m, "Polygon")
         .def(py::init<const std::vector<float> &, const std::vector<float> &>())
         .def("contains", &Polygon::contains, py::kw_only(), py::arg("probe_x"), py::kw_only(), py::arg("probe_y"), "Returns a vector with True or False for each element with coordinates probe_x, probe_y.");
-
 
 #ifdef VERSION_INFO
     m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);

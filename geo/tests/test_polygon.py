@@ -19,11 +19,11 @@ import pytest
 import ptg.polygon as pg
 from ptg.point import Point2D, Points
 
-# import xybind as xyb
+import xybind as xyb
 
 
-# def test_using_xybind_version():
-#     assert xyb.__version__ == "0.0.2"
+def test_using_xybind_version():
+    assert xyb.__version__ == "0.0.3"
 
 
 def test_too_few_coordinates():
