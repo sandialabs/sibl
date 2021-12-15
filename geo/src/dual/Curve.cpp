@@ -1,6 +1,6 @@
 #include "Curve.h"
 
-#define CORNERANGLE 30
+#define CORNERANGLE 20
 
 #define XIND 0
 #define YIND 1
@@ -176,6 +176,14 @@ void Curve::write(std::string filename)
             out_file<<"NaN\tNaN"<<std::endl;
     }
     out_file.close();
+      out_file.open((filename+"corners").c_str());
+    for(unsigned int lcv = 0; lcv < myCorners.size();++lcv)
+    {
+
+            out_file<<myCorners[lcv].X()<<"\t"<<myCorners[lcv].Y()<<std::endl;
+
+    }
+    out_file.close();
 
 }
 
@@ -258,6 +266,9 @@ void Curve::setTangentAngle(std::vector<CurvePoint> &CurvePoints)
 }
 void Curve::findCorners(std::vector<CurvePoint> &CurvePoints)
 {
+    bool firstcorneriszero =false;
+    unsigned int lastCorner = CurvePoints.size();
+    std::ofstream out_file("delangles");
     std::cout<<"Finding corners... "<<std::endl;
     for(unsigned int lcv = 0;lcv < CurvePoints.size();++lcv)
     {
@@ -277,12 +288,25 @@ void Curve::findCorners(std::vector<CurvePoint> &CurvePoints)
         if(delAngle > 170 && delAngle < 190) ///180 flip error??? noise in derivative???
             delAngle = 0;
 
-
+        out_file<<delAngle<<std::endl;
         ///ANGLE is in Degrees
         if(delAngle > CORNERANGLE )
         {
-          myCorners.push_back(CurvePoints[lcv]);
-          std::cout<<" Adding corner point at "<<CurvePoints[lcv]<<" delAngle "<<delAngle<<" lcv: "<<lcv<<std::endl;
+            if(lcv == 0)
+                firstcorneriszero=true;
+            unsigned int lp1 = lastCorner+1;
+            if(lp1 > CurvePoints.size())
+                lp1 = lp1-CurvePoints.size();
+            if(lp1!=lcv )
+            {
+                if( !(lcv == CurvePoints.size()-1 && firstcorneriszero ))
+                {
+              myCorners.push_back(CurvePoints[lcv]);
+              std::cout<<" Adding corner point at "<<CurvePoints[lcv]<<" delAngle "<<delAngle<<" lcv: "<<lcv<<std::endl;
+              lastCorner=lcv;
+              }
+            }
+
         }
          }
          else
@@ -290,6 +314,7 @@ void Curve::findCorners(std::vector<CurvePoint> &CurvePoints)
 
 
     }
+    out_file.close();
 }
 void Curve::findFeatures(std::vector<CurvePoint> &CurvePoints)
 {

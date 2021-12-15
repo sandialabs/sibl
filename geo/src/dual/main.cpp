@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
 
     cout<<"Filename : "<<filename<<endl;
     cout<<"Resolution: "<<minsize<<endl;
-
+    cout<<"Bnds: "<<bnds<<endl;
     Curve* myCurve;
     myCurve = new Curve(filename);
     myCurve->write("line");
@@ -66,19 +66,19 @@ int main(int argc, char *argv[])
 if(bnds == 0)
 {
     myDual->trim();
-   // myDual->write("trimmeddual","");
+    myDual->write("trimmeddual","");
     myDual->project();
     myDual->write("projecteddual","");
       cout<<"projection done"<<endl;
       myDual->snap();
 
-   // myDual->write("snappeddual","");
+   myDual->write("snappeddual","");
      cout<<"snap done"<<endl;
      myDual->subdivide();
-  //  myDual->write("subdivideddual","");
+    myDual->write("subdivideddual","");
     cout<<"subdivide done"<<endl;
     myDual->project();
-   // myDual->write("projected2dual","");
+   myDual->write("projected2dual","");
     myDual->snap();
     myDual->write("snapped2dual","");
 
