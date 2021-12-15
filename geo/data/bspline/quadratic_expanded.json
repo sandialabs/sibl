@@ -2,7 +2,7 @@
     "class": "basis",
     "degree_t": 2,
     "display": false,
-    "latex": true,
+    "latex": false,
     "name": "quadratic_expanded",
     "nbi": 8,
     "ncp": 9

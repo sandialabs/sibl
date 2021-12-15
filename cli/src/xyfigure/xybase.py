@@ -1,6 +1,7 @@
 # https://www.python.org/dev/peps/pep-0008/#imports
 # standard library imports
 import os
+from pathlib import Path
 import sys
 from abc import ABC
 
@@ -17,7 +18,9 @@ def absolute_path(folder):
     Print the full path to the command line.
     Returns the absolute path, possibly for pending serialization.
     """
-    abs_path = os.path.join(os.getcwd(), folder)
+    run_path = Path.cwd()
+    abs_path = run_path.joinpath(folder)
+    # abs_path = os.path.join(os.getcwd(), folder)
     if not os.path.isdir(abs_path):
         print(f'Folder needed but not found: "{abs_path}"')
         val = input("Create folder? [y]es or [n]o : ")
@@ -48,6 +51,12 @@ class XYBase(ABC):
 
         default_folder = "."
         self._folder = kwargs.get("folder", default_folder)
+        self._folder_pathlib = Path(self._folder).expanduser()
+        if not self._folder_pathlib.is_dir():
+            print('Error: keyword "folder" has a value (e.g., a folder path)')
+            print("that cannot be found as specified:")
+            print(self._folder_pathlib)
+            raise KeyError("folder not found")
 
         self._file = kwargs.get("file", None)
 
@@ -55,9 +64,11 @@ class XYBase(ABC):
             print('Error: keyword "file" not found.')
             sys.exit("Abnormal termination.")
 
-        abs_path = absolute_path(self._folder)
+        # abs_path = absolute_path(self._folder)
 
-        self._path_file_input = os.path.join(abs_path, self._file)
+        # self._path_file_input = os.path.join(abs_path, self._file)
+        self._file_pathlib = self._folder_pathlib.joinpath(self._file)
+        self._path_file_input = str(self._file_pathlib)
         self._path_file_output = None
 
     @property

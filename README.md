@@ -10,7 +10,10 @@ For more information, see our [website](https://www.sandia.gov/biomechanics/).
 
 ### Information
 
-[![python](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/) [![license](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/sandialabs/sibl#license) [![pypi](https://img.shields.io/badge/pypi-v0.0.6-brightgreen.svg)](https://pypi.org/project/xyfigure/) [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![python](https://img.shields.io/badge/python-3.10.0-blue.svg)](https://www.python.org/) 
+![os](https://img.shields.io/badge/os-ubuntu%20|%20macos%20|%20windows-blue.svg)
+[![license](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/sandialabs/sibl#license) 
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 ### Testing
 
@@ -23,10 +26,9 @@ For more information, see our [website](https://www.sandia.gov/biomechanics/).
 The *SIBL Geometry Engine* is Python library that creates Bézier and B-spline curves, surfaces, and volumes.  
 
 The mathematical development used in the library is contained in two documents:
-| [Bézier Geometry](geo/doc/bezier/Bezier-Geometry-2021-04-02.pdf) | [B-Spline Geometry](geo/doc/bspline/B-Spline-Geometry-2021-04-10.pdf) |
-|:-------------:|:------:|
-| ![geo/doc/gezier/bezier_cover_page.png](geo/doc/bezier/bezier_cover_page.png) | ![geo/doc/bspline_cover_page.png](geo/doc/bspline/bspline_cover_page.png) |
-| 69 pages, 2.8 MB | 88 pages, 823 kB |
+
+* [Bézier Geometry](geo/doc/bezier/Bezier-Geometry-2021-12-15.pdf), and
+* [B-Spline Geometry](geo/doc/bspline/B-Spline-Geometry-2021-12-15.pdf).
 
 The examples and validations presented in the documents are all created with the *SIBL Geometry Engine*, connecting theory with implementation.  The *Geometry Engine* is a fundamental part of the Pixel to Mesh and Pixel to Geometry (PTM/PTG) [workflows](geo/doc/unit-test-ptm.md).
 

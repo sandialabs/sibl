@@ -3,15 +3,16 @@ from functools import reduce
 
 import numpy as np
 
-from ptg.quadtree import Domain, Mesh, Coordinate
+from ptg.point import Points
+from ptg.quadtree import Domain, Mesh
 
 
 def boundary_match(
     *,
     boundary0: tuple[tuple[int, ...], ...],
-    coordinates0: tuple[Coordinate, ...],
+    coordinates0: Points,
     boundary1: tuple[tuple[int, ...], ...],
-    coordinates1: tuple[Coordinate, ...],
+    coordinates1: Points,
     tolerance: float,
 ) -> tuple[tuple[int, ...], ...]:
     tol = tolerance  # typical is 1e-6
@@ -20,12 +21,14 @@ def boundary_match(
     n_seg1 = len(boundary1)
 
     # x and y coordinates in boundary zero
-    c0x = tuple([c.x for c in coordinates0])
-    c0y = tuple([c.y for c in coordinates0])
+    # c0x = tuple([c.x for c in coordinates0])
+    # c0y = tuple([c.y for c in coordinates0])
+    c0x, c0y = coordinates0.xs, coordinates0.ys
 
     # x and y coordinates in boundary one
-    c1x = tuple([c.x for c in coordinates1])
-    c1y = tuple([c.y for c in coordinates1])
+    # c1x = tuple([c.x for c in coordinates1])
+    # c1y = tuple([c.y for c in coordinates1])
+    c1x, c1y = coordinates1.xs, coordinates1.ys
 
     matches = [[0 for j in range(0, n_seg1)] for i in range(0, n_seg0)]
     n_matches = 0
@@ -160,8 +163,10 @@ def domain_merge(
     n_matches = max(map(abs, reduce(lambda x, y: x + y, match_matrix)))
 
     # number of nodal points
-    nnp0 = len(domain0.mesh.coordinates)  # number of nodal points in mesh0
-    nnp1 = len(domain1.mesh.coordinates)  # number of nodal points in mesh1
+    # nnp0 = len(domain0.mesh.coordinates)  # number of nodal points in mesh0
+    # nnp1 = len(domain1.mesh.coordinates)  # number of nodal points in mesh1
+    nnp0 = domain0.mesh.coordinates.length  # number of nodal points in mesh0
+    nnp1 = domain1.mesh.coordinates.length  # number of nodal points in mesh1
 
     # number of faces
     n_faces0 = len(domain0.mesh.connectivity)
@@ -222,7 +227,9 @@ def domain_merge(
         for i in range(0, n_bound1)
     )
 
-    vertices = domain0.mesh.coordinates + domain1.mesh.coordinates
+    vertices = Points(
+        pairs=(domain0.mesh.coordinates.pairs + domain1.mesh.coordinates.pairs)
+    )
 
     if n_matches == 0:
         # just return the two domains, without merged boudaries,
@@ -278,53 +285,3 @@ def domain_merge(
 
         new_domain = Domain(mesh=new_mesh, boundaries=new_boundaries)
         return new_domain
-
-
-def winding_number(
-    *,
-    x_center: float,
-    y_center: float,
-    xs_boundary: tuple[float, ...],
-    ys_boundary: tuple[float, ...],
-) -> int:
-    """
-    Computes the winding number.
-    The boundary, composed of paired x and y cooredinates as `xs_boundary` and
-    `ys_boundary` is assume to be closed.  Thus, the first and the last number for each
-    of the x and y coordinates is repeated, thus x[0] = x[-1] and y[0] = y[-1],
-    where x is `xs_boundary` and y is `ys_boundary`, respectively.
-
-    Arguments:
-        x_center (float): The x-coordinate of the observer, typically 0.0.
-        y_center (float): The y-coordinate of the observer, typically 0.0.
-        xs_boundary (tuple[float, ...]): A tuple sequential x-coordinates along the
-            boundary path.
-        ys_boundary (tuple[float, ...]): A tuple sequential y-coordinates along the
-            boundary path.
-
-
-    Returns:
-        The integer winding number, defined here:
-        https://en.wikipedia.org/wiki/Winding_number
-
-    Raises:
-        ValueError: If the two boundary arrays are not equal length.
-        ValueError: If the boundary is not closed.
-    """
-
-    if len(xs_boundary) != len(ys_boundary):
-        raise ValueError("x_boundary and y_boundary must be of equal length")
-
-    if xs_boundary[0] != xs_boundary[-1]:
-        raise ValueError("x_boundary is open; it must be closed")
-
-    if ys_boundary[0] != ys_boundary[-1]:
-        raise ValueError("y_boundary is open; it must be closed")
-
-    x = [item - x_center for item in xs_boundary]
-    y = [item - y_center for item in ys_boundary]
-
-    # a=>a.map(([x,y])=>r+=Math.atan2(y*b-x*c,y*c+x*b,b=x,c=y),b=c=r=0)&&r/Math.PI/2
-    # a=>a.map(([x,y])=>r+=Math.atan2(y*b-x*c, y*c+x*b, b=x, c=y), b=c=r=0) && r/math.pi/2
-
-    return 0

@@ -126,16 +126,32 @@ class XYModel(XYBase):
     def __init__(self, guid, **kwargs):
         super().__init__(guid, **kwargs)
 
+        # TODO: rearchitect into single parent for both XYModel and XYModelAbaqus
+        # make sure models have an input file that exists
+        if not self._file_pathlib.is_file():
+            print('Error: keyword "file" has a value (e.g., a file name):')
+            print(self._file)
+            print("with full path specification:")
+            print(self._file_pathlib)
+            raise KeyError("file not found")
+
         self._skip_rows = kwargs.get("skip_rows", 0)
         self._skip_rows_footer = kwargs.get("skip_rows_footer", 0)
         self._xcolumn = kwargs.get("xcolumn", 0)  # default to the 1st column
         self._ycolumn = kwargs.get("ycolumn", 1)  # default to the 2nd column
 
-        rel_path_and_file = os.path.join(
-            self._folder, self._file
-        )  # relative to current run location
+        # relative to current run location
+        # rel_path_and_file = os.path.join(self._folder, self._file)
+        # self._data = np.genfromtxt(
+        #     rel_path_and_file,
+        #     dtype="float",
+        #     delimiter=",",
+        #     skip_header=self._skip_rows,
+        #     skip_footer=self._skip_rows_footer,
+        #     usecols=(self._xcolumn, self._ycolumn),
+        # )
         self._data = np.genfromtxt(
-            rel_path_and_file,
+            self._path_file_input,
             dtype="float",
             delimiter=",",
             skip_header=self._skip_rows,
@@ -377,3 +393,104 @@ class XYModel(XYBase):
                 sys.exit("Abnormal termination.")
             else:
                 self.serialize(folder, file_output)
+
+
+class XYModelAbaqus(XYBase):
+    """The ABAQUS mesh data to be plotted in XY format."""
+
+    def __init__(self, guid, **kwargs):
+        super().__init__(guid, **kwargs)
+
+        # TODO: rearchitect into single parent for both XYModel and XYModelAbaqus
+        # make sure models have an input file that exists
+        if not self._file_pathlib.is_file():
+            print('Error: keyword "file" has a value (e.g., a file name):')
+            print(self._file)
+            print("with full path specification:")
+            print(self._file_pathlib)
+            raise KeyError("file not found")
+
+        with open(str(self._file_pathlib), "rt") as f:
+            self._nodes = tuple()
+            self._elements = tuple()
+            # nice ref: https://www.pythontutorial.net/python-basics/python-read-text-file/
+            try:
+                # lines = f.readlines()
+
+                # for line in f:
+                line = f.readline()
+
+                while line:
+                    if "*NODE" in line or "*Node" in line:
+                        # collect all nodes
+                        line = f.readline()  # get the next line
+                        while "*" not in line:
+                            line = line.split(",")
+                            # assume a 3D format even for planar problems, and catch
+                            # exceptions as needed
+                            try:
+                                new_nodes = (
+                                    tuple(
+                                        [
+                                            float(eval(line[1])),
+                                            float(eval(line[2])),
+                                            float(eval(line[3])),
+                                        ]
+                                    ),
+                                )
+                            except IndexError:  # handle 2D input files, append 0.0 as z coordinate
+                                new_nodes = (
+                                    tuple(
+                                        [
+                                            float(eval(line[1])),
+                                            float(eval(line[2])),
+                                            0.0,
+                                        ]
+                                    ),
+                                )
+
+                            self._nodes = self._nodes + new_nodes
+                            # print(self._nodes)
+                            line = f.readline()
+                        # print(line)
+                    elif "*ELEMENT" in line or "*Element" in line:
+                        # collect all elements
+                        line = f.readline()  # get the next line
+                        while "*" not in line and len(line) > 0:
+                            line = line.split(",")
+                            new_element = (
+                                tuple(
+                                    [
+                                        int(line[1]),
+                                        int(line[2]),
+                                        int(line[3]),
+                                        int(line[4]),
+                                    ]
+                                ),
+                            )
+                            self._elements = self._elements + new_element
+                            # print(self._elements)
+                            line = f.readline()
+                    else:
+                        line = f.readline()
+
+                print(f"Finished reading file: {self._file_pathlib}")
+
+            except OSError:
+                print(f"Cannot read file: {self._file_pathlib}")
+
+        # default value if plot_kwargs not client-supplied
+        # default = {"linewidth": 2.0, "linestyle": "solid", "color": "black", }
+        _default = {
+            "alpha": 0.8,
+            "edgecolor": "navy",
+            "facecolor": "gray",
+            "linestyle": "solid",
+            "linewidth": 1.0,
+        }
+        self._plot_kwargs = kwargs.get("plot_kwargs", _default)
+        self._alpha = self._plot_kwargs.get("alpha", _default["alpha"])
+        self._edgecolor = self._plot_kwargs.get("edgecolor", _default["edgecolor"])
+        self._facecolor = self._plot_kwargs.get("facecolor", _default["facecolor"])
+        self._linestyle = self._plot_kwargs.get("linestyle", _default["linestyle"])
+        self._linewidth = self._plot_kwargs.get("linewidth", _default["linewidth"])

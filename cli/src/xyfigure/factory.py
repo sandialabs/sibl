@@ -11,14 +11,19 @@
 # local application/library specific imports
 # from xyfigure.xymodel import XYModel
 # from xyfigure.code.xymodel import XYModel
-from xyfigure.xymodel import XYModel
+from xyfigure.xymodel import XYModel, XYModelAbaqus
 
 # from xyfigure.xyview import XYView
 # from xyfigure.code.xyview import XYView
-from xyfigure.xyview import XYView
+from xyfigure.xyview import XYView, XYViewAbaqus
 
 # Figure Factory
-FACTORY_ITEMS = {"model": XYModel, "view": XYView}
+FACTORY_ITEMS = {
+    "model": XYModel,
+    "view": XYView,
+    "model_abaqus": XYModelAbaqus,
+    "view_abaqus": XYViewAbaqus,
+}
 
 
 class XYFactory:
