@@ -837,7 +837,7 @@ void Dual::subdivide()
     int maxcount = count;
     for(it=myPolys.begin();it!=myPolys.end();++it)
     {
-       std::cout<<"subidividing poly: "<<current<<std::endl;
+     //  std::cout<<"subidividing poly: "<<current<<std::endl;
 
         if(!split3(&(*it)))
         subdivide(&(*it));

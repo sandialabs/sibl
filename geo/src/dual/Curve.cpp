@@ -506,19 +506,19 @@ inline int windingNumber(CurvePoint P,  std::vector<CurvePoint> &V)
 //**********************************************************************************//
 bool Curve::inCurve(double x, double y)
 {
- bool in=false;
+    int count=0;
      CurvePoint p(x,y);
      for(unsigned int lcv = 0; lcv < myCurvePoints.size();++lcv)
      {
             if(windingNumber(p,myCurvePoints[lcv])!=0) ///Inside the loop
             {
-                 if(inOrOut[lcv])
-                    in = true;
+                 if(inOrOut[lcv]) ///this loops says it's in
+                    count+=1;
                  else
-                    in=false;
+                    count= count-1;
             }
      }
 
 
-     return in;
+     return (count>0);
 }

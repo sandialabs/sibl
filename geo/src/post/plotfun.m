@@ -11,7 +11,7 @@ delete *quads
 delete *tmp
 
 plotall = 1;
-testCase = 14
+testCase = 15
 resolution = 1;
 
   switch testCase
@@ -319,6 +319,53 @@ resolution = 1;
             baseName = 'Australia'
             resolution = 0.125/2/2;
             plotall= 0;
+            
+              case 15 %lake superior
+                   baseName = 'LakeSuperior';
+                   m = load('LakeSuperiorCoords');
+                   xp = m(:,1);
+                   yp = m(:,2);
+                   
+                   inds = find(isnan(xp));
+                   tinds = [0 inds' length(xp)+1]
+                   nx = [];ny=[];
+                   for ii=2:length(tinds)
+                   step = 0.1; 
+                   tx = xp(tinds(ii-1)+1:tinds(ii)-1)';
+                   ty = yp(tinds(ii-1)+1:tinds(ii)-1)';
+                   arclen =cumsum([0 sqrt( diff((tx)).^2+diff((ty)).^2)]);
+                   tx = interp1(arclen,tx,[0:step:max(arclen)]);
+                   ty = interp1(arclen,ty,[0:step:max(arclen)]);
+                %   plot(tx,ty);hold on;
+                   if length(nx)>0
+                    if(ii ==length(tinds))
+                    nx= [nx NaN reverse(tx)];
+                        ny = [ny NaN reverse(ty)];
+                    else
+                       nx= [nx NaN tx];
+                        ny = [ny NaN ty];
+                    end
+                   else
+                   nx = tx;
+                   ny = ty;
+                   end
+                    
+                   end
+                   
+                   dists = sqrt( diff((xp)).^2+diff((yp)).^2)';
+                    xp = nx;
+                    yp = ny;
+                   
+                   inds = find(dists>100);
+                    
+                    %xp(inds)=NaN;
+                    %yp(inds)=NaN;
+                 %   plot(xp,yp);
+                    
+                  
+                    
+            resolution = 5;
+            plotall= 1;
       otherwise
           
             disp('Unknown method.')
@@ -420,6 +467,7 @@ delete *nodes
 delete *polys
 delete *quads
 delete *tmp
+delete line*
 
 figure(100);
 print(gcf,'-dpng',[resFolder,'\\',baseName,'DP','date',datestr(date,'yyyy-mm-dd'),'.png']);

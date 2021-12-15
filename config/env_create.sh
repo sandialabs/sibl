@@ -40,8 +40,8 @@ echo $y
 # pip install black==21.7b0 get the new blac, but conda default channel does not
 # conda create --yes --name $y python=3.9 black=21.7b0 flake8 ipykernel matplotlib notebook pytest pytest-cov seaborn scikit-image scipy
 # 2021-07-24 Install other libraries, e.g., black, from other channels, not conda
-# conda create --yes --name $y python=3.9
-conda create --yes --name $y python=3.10
+ conda create --yes --name $y python=3.9
+#conda create --yes --name $y python=3.10
 
 # echo Activating the new $y environment...
 conda init bash
