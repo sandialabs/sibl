@@ -13,7 +13,7 @@ jobs:
         platform: [macos-latest, ubuntu-latest, windows-latest]
         # platform: [windows-latest, macos-latest]
         # platform: [ubuntu-latest, macos-latest]
-        python-version: [3.10.0]
+        python-version: [3.9.5, 3.10.0]
         #python-version: [3.9, 3.10]
 
     runs-on: ${{ matrix.platform }}

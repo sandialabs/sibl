@@ -10,6 +10,11 @@
 ### Updates
 
 * 2021-11-18: Update from Python 3.9 to 3.10
+  * Windows: from [Python.org](https://www.python.org/downloads/release/python-3100/), download the Windows installer (64-bit), MD5 `c3917c08a7fe85db7203da6dcaa99a70`, which downloads `python-3.10.0-amd64.exe` as 27,653kB.  
+    * Check hash: `$ certutil -hashfile python-3.10.0-amd64.exe MD5`
+    * Checks as `c3917c08a7fe85db7203da6dcaa99a70`
+    * Installs to `Titan$ C:\Users\chadh\AppData\Local\Programs\Python\Python310`
+    * Stop using `Titan$ C:\Users\chadh\miniconda3\python` (Python 3.9).  As of 2021-12-15, there is no Miniconda installer for Windows for Python 3.10.
 * 2021-07-18: Update from Python 3.8.5 to 3.9.
   * Update Miniconda
   * Update `env_create.sh` and then
