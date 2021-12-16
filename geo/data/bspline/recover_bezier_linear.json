@@ -1,7 +1,6 @@
 {
     "class": "basis",
     "degree_t": 1,
-    "display": false,
     "name": "recover_bezier_linear",
     "ncp": 2
 }

@@ -9,7 +9,11 @@
 
 ### Updates
 
-* 2021-11-18: Update from Python 3.9 to 3.10
+* 2021-12-15: Windows an Python 3.9 with `xybind`
+  * [Download](https://visualstudio.microsoft.com/visual-cpp-build-tools/) Microsoft C++ Build Tools, downloads `vs_buildtools__c6a4b5ec79d2436b97e7ac254ee30591.exe` (1,431 kB).
+    * Individual components: Compilers, build tools, runtimes: C++/CLI support for v142 build tools (Latest) (1.26 GB).
+  * [Download](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) C/C++ for Visual Studio Code
+* 2021-11-18: Update from Python 3.9 to 3.10 (optional)
   * Windows: from [Python.org](https://www.python.org/downloads/release/python-3100/), download the Windows installer (64-bit), MD5 `c3917c08a7fe85db7203da6dcaa99a70`, which downloads `python-3.10.0-amd64.exe` as 27,653kB.  
     * Check hash: `$ certutil -hashfile python-3.10.0-amd64.exe MD5`
     * Checks as `c3917c08a7fe85db7203da6dcaa99a70`
