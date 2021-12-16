@@ -340,63 +340,64 @@ def test_sphere_non_positive_pixels_per_len():
 @pytest.mark.skip(reason="test not yet completed")
 def test_sphere_one_len_radius_high_resolution():
     sphere = pixel_sphere(diameter=1, pixels_per_len=5)
-    _mask = sphere.mask
+    # _mask = sphere.mask
+    _ = sphere.mask
     pass
 
 
-@pytest.mark.skip(reason="test not yet completed")
-def test_small_mesh_1x_1y_2z():
+# @pytest.mark.skip(reason="test not yet completed")
+# def test_small_mesh_1x_1y_2z():
 
-    #            Two-element finite element mesh
-    #
-    #             Node (x, y, z) positions       Node Numbers
-    #
-    #             y-axis    x-axis
-    #               ^      /
-    #               |     /
-    #       /       | *---*---* 3                10--11--12
-    #      /        |/|  /|  /| 2                /|  /|  /|
-    #     /       3 *---*---* | 1               4---5---6 |
-    #    1        2 | *-|-*-|-* 0               | 7 | 8 | 9
-    #   x         1 |/  |/  |/                  |/  |/  |/
-    #  0 -------  0 *---*---*------> z-axis     1---2---3
-    # /             012345678
-    #
-    # To match the Exodus II format for a hexahedral finite elment (see reference:
-    # https://prod-ng.sandia.gov/techlib-noauth/access-control.cgi/1992/922137.pdf)
-    # page 10, the first face proceeeds with counter-clockwise node enumeration with
-    # normal vector pointing into hex element; the second face, parallel to the first,
-    # proceeds with counter-clockwise node enumeration with normal vector pointing
-    # out of the hex element.
-    #
-    #              8 *-----* 7
-    #               /|    /|
-    #              / |   / |
-    #           5 *-----*6 |         assumed as z for now for Exodus II
-    #             | 4*--|--* 3        ^
-    #             | /   | /           | / assumed as y for now for Exodus II
-    #             |/    |/            |/
-    #           1 *-----* 2           +--> assumed as x for now for Exodus II
-    #
-    # See also for splines: https://gsjaardema.github.io/seacas-docs/gen3d-updates.pdf
-    #
+#            Two-element finite element mesh
+#
+#             Node (x, y, z) positions       Node Numbers
+#
+#             y-axis    x-axis
+#               ^      /
+#               |     /
+#       /       | *---*---* 3                10--11--12
+#      /        |/|  /|  /| 2                /|  /|  /|
+#     /       3 *---*---* | 1               4---5---6 |
+#    1        2 | *-|-*-|-* 0               | 7 | 8 | 9
+#   x         1 |/  |/  |/                  |/  |/  |/
+#  0 -------  0 *---*---*------> z-axis     1---2---3
+# /             012345678
+#
+# To match the Exodus II format for a hexahedral finite elment (see reference:
+# https://prod-ng.sandia.gov/techlib-noauth/access-control.cgi/1992/922137.pdf)
+# page 10, the first face proceeeds with counter-clockwise node enumeration with
+# normal vector pointing into hex element; the second face, parallel to the first,
+# proceeds with counter-clockwise node enumeration with normal vector pointing
+# out of the hex element.
+#
+#              8 *-----* 7
+#               /|    /|
+#              / |   / |
+#           5 *-----*6 |         assumed as z for now for Exodus II
+#             | 4*--|--* 3        ^
+#             | /   | /           | / assumed as y for now for Exodus II
+#             |/    |/            |/
+#           1 *-----* 2           +--> assumed as x for now for Exodus II
+#
+# See also for splines: https://gsjaardema.github.io/seacas-docs/gen3d-updates.pdf
+#
 
-    expected_node_list = [
-        [0.0, 0.0, 0.0],
-        [0.0, 0.0, 4.0],
-        [0.0, 0.0, 8.0],
-        [0.0, 3.0, 0.0],
-        [0.0, 3.0, 4.0],
-        [0.0, 3.0, 8.0],
-        [1.0, 0.0, 0.0],
-        [1.0, 0.0, 4.0],
-        [1.0, 0.0, 8.0],
-        [1.0, 3.0, 0.0],
-        [1.0, 3.0, 4.0],
-        [1.0, 3.0, 8.0],
-    ]
+# expected_node_list = [
+#     [0.0, 0.0, 0.0],
+#     [0.0, 0.0, 4.0],
+#     [0.0, 0.0, 8.0],
+#     [0.0, 3.0, 0.0],
+#     [0.0, 3.0, 4.0],
+#     [0.0, 3.0, 8.0],
+#     [1.0, 0.0, 0.0],
+#     [1.0, 0.0, 4.0],
+#     [1.0, 0.0, 8.0],
+#     [1.0, 3.0, 0.0],
+#     [1.0, 3.0, 4.0],
+#     [1.0, 3.0, 8.0],
+# ]
 
-    expected_element_list = [
-        [1, 7, 10, 4, 2, 8, 11, 5],
-        [2, 8, 11, 5, 3, 9, 12, 6],
-    ]
+# expected_element_list = [
+#     [1, 7, 10, 4, 2, 8, 11, 5],
+#     [2, 8, 11, 5, 3, 9, 12, 6],
+# ]

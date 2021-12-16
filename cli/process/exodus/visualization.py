@@ -92,7 +92,8 @@ if EXEMPLAR:
     # _ = g.ax_joint.legend(prop=legend_properties, loc='upper left')
     _ = g.ax_joint.text(20, 10, "hello", ha="left", va="bottom", bbox=bbox_props)
 
-    axis_txt = f"exemplar"
+    # axis_txt = f"exemplar"
+    axis_txt = "exemplar"
 
     plt.xlabel("total bill")
     plt.ylabel("tip")

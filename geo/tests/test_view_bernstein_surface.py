@@ -35,7 +35,7 @@ class Test(TestCase):
         self.assertTrue(result)
 
     def test_001_selftest_main(self):
-        result = bs_main = bsurf.main(None)
+        result = bsurf.main(None)
         self.assertTrue(result)
 
 

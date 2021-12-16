@@ -171,43 +171,46 @@ def main():
 
         # merge domains if there are two or more domains
         if len(domain_dual) >= 2:
-            aa = 4
 
-        # plot boundary, and only include dual finite elements with cg inside of that
-        # boundary
-        xs_seeds = points.xs
-        ys_seeds = points.ys
-        xs_corners = (0.0, 0.0, 4.0)  # the other three corners
-        ys_corners = (4.0, 0.0, 0.0)
-        xs_boundary = xs_seeds + xs_corners
-        ys_boundary = ys_seeds + ys_corners
-        ax.plot(
-            xs_boundary, ys_boundary, marker="+", linestyle="dashed", color="tab:orange"
-        )
+            # plot boundary, and only include dual finite elements with cg inside of that
+            # boundary
+            xs_seeds = points.xs
+            ys_seeds = points.ys
+            xs_corners = (0.0, 0.0, 4.0)  # the other three corners
+            ys_corners = (4.0, 0.0, 0.0)
+            xs_boundary = xs_seeds + xs_corners
+            ys_boundary = ys_seeds + ys_corners
+            ax.plot(
+                xs_boundary,
+                ys_boundary,
+                marker="+",
+                linestyle="dashed",
+                color="tab:orange",
+            )
 
-        for domain in domain_dual:
-            coordinates = domain.mesh.coordinates
-            faces = domain.mesh.connectivity
-            xs = coordinates.xs
-            ys = coordinates.ys
+            for domain in domain_dual:
+                coordinates = domain.mesh.coordinates
+                faces = domain.mesh.connectivity
+                xs = coordinates.xs
+                ys = coordinates.ys
 
-            for face in faces:
-                xf = [xs[k] for k in face]
-                yf = [ys[k] for k in face]
-                xcg = np.mean(xf)
-                ycg = np.mean(yf)
+                for face in faces:
+                    xf = [xs[k] for k in face]
+                    yf = [ys[k] for k in face]
+                    # xcg = np.mean(xf)
+                    # ycg = np.mean(yf)
 
-                # if all([xcg < xi for xi in xs_boundary]) and all(
-                #     [ycg < yi for yi in ys_boundary]
-                # ):
-                plt.fill(
-                    xf,
-                    yf,
-                    linestyle="solid",
-                    edgecolor="black",
-                    facecolor=colors[0],
-                    alpha=0.5,
-                )
+                    # if all([xcg < xi for xi in xs_boundary]) and all(
+                    #     [ycg < yi for yi in ys_boundary]
+                    # ):
+                    plt.fill(
+                        xf,
+                        yf,
+                        linestyle="solid",
+                        edgecolor="black",
+                        facecolor=colors[0],
+                        alpha=0.5,
+                    )
 
     if shown:
         plt.show()

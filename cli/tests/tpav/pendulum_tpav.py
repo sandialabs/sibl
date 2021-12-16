@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 import os
-import sys
+
+# import sys
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.ticker import MultipleLocator
-from scipy.integrate import odeint
-import csv  # comma separated value
+
+# from matplotlib.ticker import MultipleLocator
+# from scipy.integrate import odeint
+# import csv  # comma separated value
 
 # sys.path.append(os.path.abspath('../'))  # look in parent directory for three_point_angular_velocity server
 import three_points_angular_velocity as tpav

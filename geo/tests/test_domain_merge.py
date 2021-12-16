@@ -6,7 +6,7 @@ To run
 > pytest geo/tests/test_domain_merge.py -v
 """
 
-import pytest
+# import pytest
 
 from ptg.point import Point2D, Points
 import ptg.quadtree as qt

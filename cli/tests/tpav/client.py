@@ -2,7 +2,8 @@
 # https://www.python.org/dev/peps/pep-0008/#imports
 # standard library imports
 import os
-import sys
+
+# import sys
 import argparse
 import json
 

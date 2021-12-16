@@ -756,9 +756,11 @@ def test_trim():
         (0, 3, 4, 1),
         (1, 4, 5, 2),
     )
-    m0 = qt.Mesh(coordinates=ps, connectivity=cs)
+    # m0 = qt.Mesh(coordinates=ps, connectivity=cs)
+    _ = qt.Mesh(coordinates=ps, connectivity=cs)
 
     # boundary that doesn't contain this mesh
-    b0 = Points(pairs=((2.0, 0.0), (3.0, 0.0), (3.0, 1.0), (2.0, 1.0)))
+    # b0 = Points(pairs=((2.0, 0.0), (3.0, 0.0), (3.0, 1.0), (2.0, 1.0)))
+    _ = Points(pairs=((2.0, 0.0), (3.0, 0.0), (3.0, 1.0), (2.0, 1.0)))
 
-    m1 = qt.trim(mesh=m0, boundary=b0)
+    # _ = qt.trim(mesh=m0, boundary=b0)
