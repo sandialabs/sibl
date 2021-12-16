@@ -19,7 +19,13 @@ __version__ = "0.0.3"
 ext_modules = [
     Pybind11Extension(
         "xybind",
-        ["main.cpp", "generalpolygon.cpp", "intersectionprimitives.cpp", "kdtree.cpp", "../dual/Curve.cpp"],
+        [
+            "main.cpp",
+            "generalpolygon.cpp",
+            "intersectionprimitives.cpp",
+            "kdtree.cpp",
+            "../dual/Curve.cpp",
+        ],
         # Example: passing in the version to the compiled code
         define_macros=[("VERSION_INFO", __version__)],
     ),
