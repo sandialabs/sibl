@@ -1,8 +1,10 @@
+from typing import Union
+
 import numpy as np
 
 
 def bspline_basis_manual(
-    knot_vector_t: list | tuple,
+    knot_vector_t: Union[list, tuple],
     knot_i: int = 0,
     p: int = 0,
     nti: int = 1,

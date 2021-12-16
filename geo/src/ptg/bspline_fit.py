@@ -1,4 +1,5 @@
-from typing import List, Tuple
+from typing import List, Tuple, Union
+
 import numpy as np
 from numpy import ndarray
 
@@ -10,7 +11,7 @@ import ptg.bspline as bsp
 class BSplineFit:
     def __init__(
         self,
-        sample_points: List[float] | Tuple[float] | ndarray,
+        sample_points: Union[List[float], Tuple[float], ndarray],
         degree: int = 0,
         verbose: bool = False,
         sample_time_method: str = "chord",

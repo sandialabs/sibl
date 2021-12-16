@@ -1,4 +1,4 @@
-from typing import NamedTuple
+from typing import NamedTuple, Union
 
 import numpy as np
 
@@ -7,7 +7,7 @@ from scipy.interpolate import BSpline as scipy_bspline
 
 def evaluation_times(
     *,
-    knot_vector: list | tuple,
+    knot_vector: Union[list, tuple],
     degree: int = 0,
     n_bisections: int = 1,
 ) -> list:
@@ -122,8 +122,8 @@ class Curve:
 
     def __init__(
         self,
-        knot_vector_t: list | tuple,
-        coefficients: list | tuple,
+        knot_vector_t: Union[list, tuple],
+        coefficients: Union[list, tuple],
         degree_t: int = 0,
         verbose: bool = False,
     ):
@@ -195,9 +195,9 @@ class SurfaceClientData(NamedTuple):
         color (str): Any string acceptable to Matplotlib.  Defaults to "blue".
     """
 
-    knot_vector_t: list | tuple
-    knot_vector_u: list | tuple
-    coefficients: list | tuple
+    knot_vector_t: Union[list, tuple]
+    knot_vector_u: Union[list, tuple]
+    coefficients: Union[list, tuple]
     degree_t: int = 0
     degree_u: int = 0
     n_bisections: int = 1
@@ -207,9 +207,9 @@ class SurfaceClientData(NamedTuple):
 class Surface:
     def __init__(
         self,
-        knot_vector_t: list | tuple,
-        knot_vector_u: list | tuple,
-        coefficients: list | tuple,
+        knot_vector_t: Union[list, tuple],
+        knot_vector_u: Union[list, tuple],
+        coefficients: Union[list, tuple],
         degree_t: int = 0,
         degree_u: int = 0,
         n_bisections: int = 1,
@@ -377,10 +377,10 @@ class Volume:
     def __init__(
         self,
         *,
-        knot_vector_t: list | tuple,
-        knot_vector_u: list | tuple,
-        knot_vector_v: list | tuple,
-        coefficients: list | tuple,
+        knot_vector_t: Union[list, tuple],
+        knot_vector_u: Union[list, tuple],
+        knot_vector_v: Union[list, tuple],
+        coefficients: Union[list, tuple],
         degree_t: int = 0,
         degree_u: int = 0,
         degree_v: int = 0,

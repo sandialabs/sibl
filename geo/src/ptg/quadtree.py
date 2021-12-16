@@ -1,4 +1,4 @@
-from typing import Final, Iterable, NamedTuple
+from typing import Final, Iterable, NamedTuple, Union
 from functools import reduce
 import math
 from itertools import permutations, repeat
@@ -139,10 +139,10 @@ class Domain(NamedTuple):
 # and
 # Forward references:
 # https://www.python.org/dev/peps/pep-0484/#forward-references
-# Quads = Union[Iterable["Quads"], tuple[Quad, ...]]  # support for recursive type hint
-Quads = Iterable["Quads"] | tuple[Quad, ...]  # support for recursive type hint
-# Meshes = Union[Iterable["Meshes"], tuple[Mesh, ...]]
-Meshes = Iterable["Meshes"] | tuple[Mesh, ...]
+Quads = Union[Iterable["Quads"], tuple[Quad, ...]]  # support for recursive type hint
+# Quads = Iterable["Quads"] | tuple[Quad, ...]  # support for recursive type hint  # python 3.10
+Meshes = Union[Iterable["Meshes"], tuple[Mesh, ...]]
+# Meshes = Iterable["Meshes"] | tuple[Mesh, ...]  # python 3.10
 # Ints = Union[Iterable["Ints"], tuple[int, ...]]
 # NestedInts = Union[Tuple[int], Iterable["NestedInts"]]
 
