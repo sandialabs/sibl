@@ -23,7 +23,7 @@ For more information, see our [website](https://www.sandia.gov/biomechanics/).
 
 ![geo_doc_fig](geo/doc/fig/N_p=2_NCP=8.png)
 
-The *SIBL Geometry Engine* is Python library that creates Bézier and B-spline curves, surfaces, and volumes.  
+The *SIBL Geometry Engine* is Python library that creates Bézier and B-spline curves, surfaces, and volumes.
 
 The mathematical development used in the library is contained in two documents:
 
