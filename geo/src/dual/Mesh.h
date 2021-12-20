@@ -19,6 +19,8 @@ class Poly
     void active(bool a){myActive = a;}
     void good(){std::cout<<"ID "<<myID<<std::endl;}
     Node center();
+    double shortestSide();
+    double longestSide();
 
     private:
         std::vector<Node* > myNodes;
@@ -39,11 +41,11 @@ class Mesh
     Poly* getPoly(int id);
     void write(std::string filename,std::string extension);
     void fringeNodes();
-
+    void updateActiveNodes();
 
     protected:
           void out(std::ofstream &of);
-void updateActiveNodes();
+
     bool edgeUpToDate;
     NodeList* myNodes;
     Curve* myCurve;
@@ -97,6 +99,7 @@ class Dual: public Mesh
    private:
        int count;
 
+       void fixCornerPolys();
        void detangleNodes(Node &A,Node &B, Node &C, Node &D);
        double sumSignAreaNodes(Node A,Node B, Node C, Node D);
         void swap(Node &A, Node &B){Node tmp = A; A= B; B=tmp;}

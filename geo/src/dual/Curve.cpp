@@ -201,11 +201,13 @@ bool Curve::checkDirectionAndFlip(std::vector<CurvePoint> &CurvePoints)
 }
 double Curve::area(std::vector<CurvePoint> &CurvePoints)
 {
+   #warning "This is not an actual area calculation"
+    ///just for sign not actual area
     double area = 0;
     for(unsigned int lcv = 0; lcv < CurvePoints.size();++lcv)
     {
         int lp1 = lcv+1;
-        if(lp1 == CurvePoints.size())
+        if(lp1 == (int)CurvePoints.size())
             lp1 = 0;
         double crs = CurvePoints[lp1].Y()*CurvePoints[lcv].X()-CurvePoints[lcv].Y()*CurvePoints[lp1].X();
         area+=crs;
@@ -325,13 +327,15 @@ void Curve::findFeatures(std::vector<CurvePoint> &CurvePoints)
          {
 
             double kurv = CurvePoints[lcv].curvature();
+
+
             if(kurv < 0)
                 kurv =kurv *-1;
 
         if(kurv <= 2.75 && kurv > 0.1250 )//&& notACorner(CurvePoints[lcv]))
         {
           myFeatures.push_back(CurvePoints[lcv]);
-          std::cout<<" Adding feature point at "<<CurvePoints[lcv]<<" kurvature  "<<kurv<<" lcv: "<<lcv<<std::endl;
+          //std::cout<<" Adding feature point at "<<CurvePoints[lcv]<<" kurvature  "<<kurv<<" lcv: "<<lcv<<std::endl;
         }
          } //if
          else
@@ -349,9 +353,11 @@ return true;
 }
 std::tuple<double,double> Curve::nearestPt(double x, double y)
 {
+    #warning "This function depends on the curve resolution"
     double nx,ny;
     double dist=1e9;
-    int lind,pind;
+    int lind=0;
+    int pind=0;
     for(unsigned int lcv = 0; lcv < myCurvePoints.size();++lcv)
     {
         for(unsigned int pt=0; pt < myCurvePoints[lcv].size();++pt)
@@ -379,59 +385,6 @@ std::tuple<double,double> Curve::nearestPt(double x, double y)
         }
     }
 
-    return std::tuple<double,double> (nx,ny);
-}
-std::tuple<double,double> Curve::nextNearestPt(double x, double y,int direction)
-{
-
-    double nx,ny;
-    double dist=1e9;
-    int lind,pind;
-    for(unsigned int lcv = 0; lcv < myCurvePoints.size();++lcv)
-    {
-        for(unsigned int pt=0; pt < myCurvePoints[lcv].size();++pt)
-        {
-            double tdist = ( myCurvePoints[lcv][pt].X()-x)*( myCurvePoints[lcv][pt].X()-x)+( myCurvePoints[lcv][pt].Y()-y)*( myCurvePoints[lcv][pt].Y()-y);
-            if(lcv == 0 && pt == 0)
-            {
-                nx = myCurvePoints[lcv][pt].X();
-                ny = myCurvePoints[lcv][pt].Y();
-                dist = (nx-x)*(nx-x)+(ny-y)*(ny-y);
-                lind = 0;pind=0;
-            }
-            else
-            {
-                if(tdist < dist)
-            {
-                 nx = myCurvePoints[lcv][pt].X();
-                ny = myCurvePoints[lcv][pt].Y();
-                dist = tdist;
-                lind = lcv;
-                pind = pt;
-            }
-            }
-
-        }
-    }
-//std::cout<<"pind before: "<<pind<<std::endl;
-  //  if(inOrOut[lind]==false )
-    //    direction = -1*direction;
-    if(direction > 0)
-    { ///CCW // pt+1
-
-        pind++;
-        if(pind == myCurvePoints[lind].size())
-            pind = 0;
-    }
-    else
-    {
-        pind--;
-        if(pind<0)
-            pind = myCurvePoints[lind].size()-1;
-    }
-    nx = myCurvePoints[lind][pind].X();
-    ny = myCurvePoints[lind][pind].Y();
-//    std::cout<<"pind after: "<<pind<<std::endl;
     return std::tuple<double,double> (nx,ny);
 }
 //**********************************************************************************//

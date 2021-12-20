@@ -1,6 +1,6 @@
 #include "OctTree.h"
 #include <bitset>
-#define MAXLEVEL 23
+#define MAXLEVEL 28
 
 OctTreeNode::OctTreeNode(NodeList* nodes,std::vector<std::tuple<double,double,double> > &N,
                           bool fringe,OctTreeNode* parent,std::string code)

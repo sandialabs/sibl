@@ -55,6 +55,7 @@ class Curve
 {
 public:
     Curve(std::string filename);
+    Curve(){};
     Curve(const std::vector<float> &boundary_x, const std::vector<float> &boundary_y); ///Single curve constructor
 
     std::tuple<double, double> upperRight() { return ur; }
@@ -67,7 +68,6 @@ public:
     bool featureInBoundingBox(std::tuple<double, double> ll, std::tuple<double, double> ur);
     bool inCurve(double x, double y);
     std::tuple<double, double> nearestPt(double x, double y);
-    std::tuple<double, double> nextNearestPt(double x, double y, int direction);
 
     std::vector<CurvePoint> corners() { return myCorners; };
     void write(std::string filename);

@@ -383,7 +383,7 @@ void QuadTree::splitCodeStarter(QuadTreeNode_ptr qt)
         case 4: qt->splitcode+="NW";break;
     }
 
-   /// TODO GENERATE NEIGHBOR LIST FOR THE QUAD NODE TO KEEP AND PASS TO THE PRIMAL TO USE WHEN WE DUALIZE
+
 }
 bool QuadTree::parentExists(std::string locCode)
 {

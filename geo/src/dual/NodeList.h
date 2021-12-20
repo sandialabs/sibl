@@ -33,7 +33,7 @@ class Node
 
     double dist(const Node &A){return std::pow((x-A.x)*(x-A.x)+(y-A.y)*(y-A.y)+(z-A.z)*(z-A.z),0.5);}
     double magnitude(){return std::pow(x*x+y*y+z*z,0.5);}
-    Node direction(const Node &A){Node N; N.x = x-A.x;N.y = y-A.y;N.z = z-A.z; double m = N.magnitude(); N.x/=m;N.y/=m; N.z/=m;return N; }
+    Node direction(const Node &A){Node N; N.x = A.x-x;N.y = A.y-y;N.z = A.z-z; double m = N.magnitude(); N.x/=m;N.y/=m; N.z/=m;return N; }
     double X(){return x;}
     double Y(){return y;}
     double Z(){return z;}

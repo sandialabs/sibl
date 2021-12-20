@@ -21,12 +21,17 @@ int main(int argc, char *argv[])
     string filename = argv[2];
     minsize = atof(argv[1]);
     int bnds = atoi(argv[3]);
+    int featureRefine = atoi(argv[4]);
 
     cout<<"Filename : "<<filename<<endl;
     cout<<"Resolution: "<<minsize<<endl;
     cout<<"Bnds: "<<bnds<<endl;
+    cout<<"Refine on the feature only: "<<featureRefine<<endl;
+
+
     Curve* myCurve;
     myCurve = new Curve(filename);
+    filename = filename.substr(0,filename.length()-4);
     myCurve->write("line");
     if(bnds == 1)
     {
@@ -36,19 +41,18 @@ int main(int argc, char *argv[])
     }
     NodeList* myNodes;
     myNodes = new NodeList();
-    cout<<"Nodes size: "<<myNodes->size()<<endl;
+    //cout<<"Nodes size: "<<myNodes->size()<<endl;
     QuadTree* myQuadTree;
     myQuadTree=new QuadTree(myCurve,myNodes,minsize);
     myQuadTree->subdivide(myQuadTree->head());
 
 
 
-    cout<<"Nodes size: "<<myNodes->size()<<endl;
+    //cout<<"Nodes size: "<<myNodes->size()<<endl;
     //myQuadTree->write("qt");
 
-    myQuadTree->balancedRefineCurve(myQuadTree->head(),true);
+    myQuadTree->balancedRefineCurve(myQuadTree->head(),(featureRefine!=1));
     cout<<"Nodes size: "<<myNodes->size()<<endl;
-    myQuadTree->write("qt1");
 
     myQuadTree->assignSplitCode(myQuadTree->head());
 
@@ -75,18 +79,13 @@ if(bnds == 0)
    myDual->write("snappeddual","");
      cout<<"snap done"<<endl;
      myDual->subdivide();
-    myDual->write("subdivideddual","");
+    //myDual->write("subdivideddual","");
     cout<<"subdivide done"<<endl;
     myDual->project();
-   myDual->write("projected2dual","");
+   //myDual->write("projected2dual","");
     myDual->snap();
     myDual->write("snapped2dual","");
-
-    myDual->smooth();myDual->smooth();myDual->smooth();myDual->smooth();
-    myDual->write("smoothdual","");
-
-    ///    TODO ADD SMOOTHING function
-   /// TODO ADD ABAQUS output
+    myDual->updateActiveNodes();
     myDual->write(filename,"inp");
 }
 
@@ -110,6 +109,45 @@ if(bnds == 0)
     //myNodes3->print();
 
 */
+    }
+    else
+    { ///Run some tests:
+        Node A,B;
+        B.X(1);
+        B.Y(1);
+
+        Node direction = A.direction(B);
+        double dist = A.dist(B);
+        cout<<direction<<endl;
+        cout<<dist<<endl;
+
+         Curve* myCurve = new Curve();
+
+        myCurve->lowerLeft(std::tuple<double,double>(-1,-1));
+        myCurve->upperRight(std::tuple<double,double>(1,1));
+
+        NodeList* myNodes;
+        myNodes = new NodeList();
+
+        QuadTree* myQuadTree;
+        myQuadTree=new QuadTree(myCurve,myNodes,1);
+        myQuadTree->subdivide(myQuadTree->head());
+        myQuadTree->assignSplitCode(myQuadTree->head());
+        Primal* myPrimal = new Primal(myQuadTree);
+        myPrimal->write("primal","");
+        Dual* myDual = new Dual(myPrimal);
+        myDual->write("dual","");
+        myDual->smooth();
+        myDual->write("smoothdual1","");
+        myDual->smooth();
+        myDual->write("smoothdual2","");
+        myDual->smooth();
+        myDual->write("smoothdual3","");
+        myDual->smooth();
+        myDual->write("smoothdual4","");
+
+
+
     }
     return 0;
 }

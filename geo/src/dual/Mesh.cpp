@@ -29,6 +29,46 @@ Node Poly::center()
         tmp = tmp + *(myNodes[lcv]);
     return  (tmp)/myNodes.size();
 }
+double Poly::shortestSide()
+{
+    if(myNodes.size()<2)
+        return 0;
+    else
+    {
+        double shortSide = myNodes[0]->dist(*(myNodes[1]));
+        for(unsigned int lcv = 0; lcv < myNodes.size();++lcv)
+        {
+            unsigned int lp1 = lcv + 1;
+            if(lp1==myNodes.size())
+                lp1 = 0;
+
+            double td = myNodes[lcv]->dist(*(myNodes[lp1]));
+            if(td < shortSide)
+                shortSide=td;
+        }
+        return shortSide;
+    }
+}
+double Poly::longestSide()
+{
+    if(myNodes.size()<2)
+        return 0;
+    else
+    {
+        double longSide = myNodes[0]->dist(*(myNodes[1]));
+        for(unsigned int lcv = 0; lcv < myNodes.size();++lcv)
+        {
+            unsigned int lp1 = lcv + 1;
+            if(lp1==myNodes.size())
+                lp1 = 0;
+
+            double td = myNodes[lcv]->dist(*(myNodes[lp1]));
+            if(td > longSide)
+                longSide=td;
+        }
+        return longSide;
+    }
+}
 void Mesh::write(std::string filename,std::string extension)
 {
         if(extension == "")
@@ -553,24 +593,24 @@ void Dual::detangleNodes(Node &A,Node &B, Node &C, Node &D)
 double sum = sumSignAreaNodes(A,B,C,D);
 if(sum == 0 )
 {
-     if(sumSignAreaNodes(A,B,D,C) ==4 )
-        swap(C,D);
-     else if(sumSignAreaNodes(A,C,B,D)==4)
-         swap(B,C);
-         else if(sumSignAreaNodes(A,C,D,B)==4)
-         {
-             swap(B,D);
-             swap(B,C);
-         }
+    if(sumSignAreaNodes(A,B,D,C) ==4 )
+    swap(C,D);
+    else if(sumSignAreaNodes(A,C,B,D)==4)
+    swap(B,C);
+    else if(sumSignAreaNodes(A,C,D,B)==4)
+    {
+     swap(B,D);
+     swap(B,C);
+    }
     else if(sumSignAreaNodes(A,D,B,C)==4)
     {
-        swap(B,D);
-        swap(C,D);
+    swap(B,D);
+    swap(C,D);
     }
     else if (sumSignAreaNodes(A,D,C,B)==4)
-        swap(B,D);
-        else
-            std::cout<<"WhAT"<<std::endl;
+    swap(B,D);
+    else
+    std::cout<<"WARNING -- Dual Detangle Nodes, this is a case that I hadn't thought of."<<'\n'<<A<<'\n'<<B<<'\n'<<C<<'\n'<<D<<'\n'<<std::endl;
 }
 else if(sum == -4 )
 {
@@ -615,19 +655,68 @@ void Dual::trim()
     for(it = myPolys.begin();it!=myPolys.end();++it)
         {
             Node temp = it->center();
+             if(!myCurve->inCurve(temp.X(),temp.Y()))
+                it->active(false);
 
-         if(!myCurve->inCurve(temp.X(),temp.Y()))
-            it->active(false);
-
+           /* double sum = 0;
+            for(auto x : it->myNodes)
+                if(myCurve->inCurve(x->X(),x->Y()))
+                    sum++;
+            if(sum != it->myNodes.size())
+            it->active(false);*/
 
         }
 
-//FIX THIS FUNCTION        updateActiveNodes();
+}
+void Dual::fixCornerPolys()
+{ ///THIS FUNCTION DOES NOT WORK
+    std::list<Poly>::iterator it;
+    for(it = myPolys.begin();it!=myPolys.end();++it)
+    {
+        int sum =0;
+        std::vector<Node*> nds;
+        for(auto n : it->myNodes)
+            if(n->fringe())
+               {
+                 sum++;
+                 nds.push_back(n);
+               }
+
+        if(sum == 3) ///Three fringe nodes
+        {///THIS DOES NOT WORK
+            std::cout<<"Sum of 3"<<std::endl;
+            Node *a,*b,*c;
+            if(nds[0]->id()!=-1)
+            {
+                b = nds[0];
+                a = nds[1];
+                c = nds[2];
+            }
+             else if(nds[1]->id()!=-1)
+            {
+                b = nds[1];
+                a = nds[2];
+                c = nds[0];
+            }
+             else //if(nds[2]->id()!=-1)
+            {
+                b = nds[2];
+                a = nds[1];
+                c = nds[0];
+            }
+            b->X((a->X()+c->X())/2.0);
+            b->Y((a->Y()+c->Y())/2.0);
+
+        }
+    }
+
 }
 void Dual::project()
 {
     if(!edgeUpToDate)
         fringeNodes(); ///UPDATE ACTIVE AND FRINGE NODES
+
+   //fixCornerPolys();
 
     std::list<Node>::iterator it;
     for(it = myNodes->nodes.begin();it!=myNodes->nodes.end();++it)
@@ -709,9 +798,9 @@ bool Dual::split3(Poly* p)
     p->active(false);
     p->okToSubdivide=false;
     std::vector<Node> nds;
-   //  std::cout<<angABC<<" "<<angBCD<<" "<<angCDA<<" "<<angDAB<<std::endl;
+
      int badAngIndex =  badAngleInd(angABC,angBCD,angCDA,angDAB);
-    // std::cout<<"bad index: "<<badAngIndex<<std::endl;
+
     switch(badAngIndex)
     {
         case 1:{ ///angle ABC is bad meaning B is the oblique point
@@ -719,15 +808,18 @@ bool Dual::split3(Poly* p)
              walkB(A,B,C);
             count++;
             nds.resize(0);
+            detangleNodes(B,C,CD,M);
             nds.push_back(B);nds.push_back(C);nds.push_back(CD);nds.push_back(M);
             addPoly(myNodes,nds,count);
             getPoly(count)->okToSubdivide=false;
             count++;
             nds.resize(0);
+            detangleNodes(B,M,DA,A);
             nds.push_back(B);nds.push_back(M);nds.push_back(DA);nds.push_back(A);
             addPoly(myNodes,nds,count);getPoly(count)->okToSubdivide=false;
             count++;
             nds.resize(0);
+            detangleNodes(M,CD,D,DA);
             nds.push_back(M);nds.push_back(CD);nds.push_back(D);nds.push_back(DA);
             addPoly(myNodes,nds,count);getPoly(count)->okToSubdivide=false;
              break;
@@ -737,14 +829,17 @@ bool Dual::split3(Poly* p)
              walkB(B,C,D);
             count++;
             nds.resize(0);
+            detangleNodes(C,M,AB,B);
             nds.push_back(C);nds.push_back(M);nds.push_back(AB);nds.push_back(B);
             addPoly(myNodes,nds,count);getPoly(count)->okToSubdivide=false;
             count++;
             nds.resize(0);
+            detangleNodes(C,D,DA,M);
             nds.push_back(C);nds.push_back(D);nds.push_back(DA);nds.push_back(M);
             addPoly(myNodes,nds,count);getPoly(count)->okToSubdivide=false;
             count++;
             nds.resize(0);
+            detangleNodes(M,DA,A,AB);
             nds.push_back(M);nds.push_back(DA);nds.push_back(A);nds.push_back(AB);
             addPoly(myNodes,nds,count);getPoly(count)->okToSubdivide=false;
              break;
@@ -754,14 +849,17 @@ bool Dual::split3(Poly* p)
              walkB(C,D,A);
             count++;
             nds.resize(0);
+            detangleNodes(D,A,AB,M);
             nds.push_back(D);nds.push_back(A);nds.push_back(AB);nds.push_back(M);
             addPoly(myNodes,nds,count);getPoly(count)->okToSubdivide=false;
             count++;
             nds.resize(0);
+            detangleNodes(D,M,BC,C);
             nds.push_back(D);nds.push_back(M);nds.push_back(BC);nds.push_back(C);
             addPoly(myNodes,nds,count);getPoly(count)->okToSubdivide=false;
             count++;
             nds.resize(0);
+            detangleNodes(M,AB,B,BC);
             nds.push_back(M);nds.push_back(AB);nds.push_back(B);nds.push_back(BC);
             addPoly(myNodes,nds,count);getPoly(count)->okToSubdivide=false;
              break;
@@ -771,14 +869,17 @@ bool Dual::split3(Poly* p)
              walkB(D,A,B);
             count++;
             nds.resize(0);
+            detangleNodes(A,B,BC,M);
             nds.push_back(A);nds.push_back(B);nds.push_back(BC);nds.push_back(M);
             addPoly(myNodes,nds,count);getPoly(count)->okToSubdivide=false;
             count++;
             nds.resize(0);
+            detangleNodes(A,M,CD,D);
             nds.push_back(A);nds.push_back(M);nds.push_back(CD);nds.push_back(D);
             addPoly(myNodes,nds,count);getPoly(count)->okToSubdivide=false;
             count++;
             nds.resize(0);
+            detangleNodes(M,BC,C,CD);
             nds.push_back(M);nds.push_back(BC);nds.push_back(C);nds.push_back(CD);
             addPoly(myNodes,nds,count);getPoly(count)->okToSubdivide=false;
              break;
@@ -813,19 +914,24 @@ void Dual::subdivide(Poly* p)
     std::vector<Node> nds;
     count++;
     nds.resize(0);
+
+    detangleNodes(A,AB,M,DA);
     nds.push_back(A);nds.push_back(AB);nds.push_back(M);nds.push_back(DA);
     addPoly(myNodes,nds,count);
     count++;
     nds.resize(0);
+    detangleNodes(AB,B,BC,M);
     nds.push_back(AB);nds.push_back(B);nds.push_back(BC);nds.push_back(M);
     addPoly(myNodes,nds,count);
     count++;
     nds.resize(0);
+    detangleNodes(BC,C,CD,M);
     nds.push_back(BC);nds.push_back(C);nds.push_back(CD);nds.push_back(M);
     addPoly(myNodes,nds,count);
 
     count++;
     nds.resize(0);
+    detangleNodes(CD,D,DA,M);
     nds.push_back(CD);nds.push_back(D);nds.push_back(DA);nds.push_back(M);
     addPoly(myNodes,nds,count);
     }
@@ -849,37 +955,61 @@ void Dual::subdivide()
 }
 void Dual::smooth()
 {
+/*
+This function still doesn't work as intended
+need to really figure out a robust method for smoothing.
+        */
+
+/*
     std::list<Poly>::iterator it;
     myNodes->resetForce();
 
-    double k = 0.1;
+    double k = 0.05;
     double kdiag = 0.1;
+
+    double shortLen=1e9;
+    double longLen = 0;
+    for(it=myPolys.begin();it!=myPolys.end();++it)
+    {
+        double ss = it->shortestSide();
+        double ls = it->longestSide();
+        if(ss<shortLen)
+            shortLen=ss;
+        if(ls>longLen)
+            longLen = ls;
+    }
 
     for(it=myPolys.begin();it!=myPolys.end();++it)
     {
-     /*  for(int a = 0; a < 4;++a)
+        //double ss = (it->longestSide()+it->shortestSide())/2.0;
+       for(int a = 0; a <4;++a)
        {
             int b = a+1;
             if(b ==4)
                 b=0;
 
        double dist  = it->myNodes[a]->dist(*(it->myNodes[b]));
+       double scl = 1-(dist-shortLen)/(longLen-shortLen);
+
+       double func = (dist*(scl+1.0));
+
        Node direction = it->myNodes[a]->direction(*(it->myNodes[b]));
 
        double nx = direction.X();
        double ny = direction.Y();
-        it->myNodes[a]->fx-=nx*dist*k;
-        it->myNodes[a]->fy-=ny*dist*k;
-        it->myNodes[b]->fx+=nx*dist*k;
-        it->myNodes[b]->fy+=ny*dist*k;
+        it->myNodes[a]->fx+=nx*func*k;
+        it->myNodes[a]->fy+=ny*func*k;
+        it->myNodes[b]->fx-=nx*func*k;
+        it->myNodes[b]->fy-=ny*func*k;
        }
-*/
+
+
         int a = 0;
         int b = 2;
        double distAC  = it->myNodes[a]->dist(*(it->myNodes[b]));
        Node directionAC = it->myNodes[a]->direction(*(it->myNodes[b]));
-         a = 1;
-         b = 3;
+         a = 3;
+         b = 1;
        double distBD  = it->myNodes[a]->dist(*(it->myNodes[b]));
        Node directionBD = it->myNodes[a]->direction(*(it->myNodes[b]));
         Node direction;
@@ -891,57 +1021,26 @@ void Dual::smooth()
        }
        else
         { direction = directionBD;
-        a=1;b=3;
+        a=3;b=1;
         dist = distBD-distAC;
         }
 
         double nx = direction.X();
         double ny = direction.Y();
-        it->myNodes[a]->fx-=nx*dist*kdiag;
-        it->myNodes[a]->fy-=ny*dist*kdiag;
-        it->myNodes[b]->fx+=nx*dist*kdiag;
-        it->myNodes[b]->fy+=ny*dist*kdiag;
+        it->myNodes[a]->fx+=nx*dist*kdiag;
+        it->myNodes[a]->fy+=ny*dist*kdiag;
+        it->myNodes[b]->fx-=nx*dist*kdiag;
+        it->myNodes[b]->fy-=ny*dist*kdiag;
 
 
     }
-    myNodes->moveByForce();
+    myNodes->moveByForce();*/
 }
 
 void Dual::walkB(Node A,Node &B, Node C)
 {
-   double AB = dist(A,B);
-   double BC = dist(B,C);
-/*
-   //std::cout<<"STARTING POINT AB : "<<AB<<" BC : "<<BC<<std::endl;
-   int direction = 1;
-   if(AB > BC)
-   {
-     direction = 1;
-   while(AB>BC)
-   {
-       std::tuple<double,double> nn = myCurve->nextNearestPt(B.X(),B.Y(),direction);
-       B.X(std::get<XIND>(nn));
-       B.Y(std::get<YIND>(nn));
-       AB = dist(A,B);
-       BC = dist(B,C);
-  //    std::cout<<"AB : "<<AB<<">? BC : "<<BC<<std::endl;
-   }
-   }
-   else
-    {
-     direction = -1;
-   while(AB<BC)
-   {
-       std::tuple<double,double> nn = myCurve->nextNearestPt(B.X(),B.Y(),direction);
-       B.X(std::get<XIND>(nn));
-       B.Y(std::get<YIND>(nn));
-       AB = dist(A,B);
-       BC = dist(B,C);
-  //     std::cout<<"AB : "<<AB<<"<? BC : "<<BC<<std::endl;
-   }
-   }
-
-
-*/
-
+    B = (A+C)/2.0;
+    std::tuple<double,double> nn =myCurve->nearestPt(B.X(),B.Y());
+    B.X(std::get<XIND>(nn));
+    B.Y(std::get<YIND>(nn));
 }

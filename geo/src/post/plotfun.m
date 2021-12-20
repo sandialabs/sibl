@@ -11,9 +11,9 @@ delete *quads
 delete *tmp
 
 plotall = 1;
-testCase = 15
+testCase = 13
 resolution = 1;
-
+featureFlag = 0;
   switch testCase
         case -4  %Matryoshka
           step = (360/2);        
@@ -244,8 +244,8 @@ resolution = 1;
           edge20 = [0:0.01:aside]*0;
           edge2a = [0:0.01:aside]*0+aside;
           
-          xp = [arcx edge1 edge2a reverse(edge2) edge10 ];
-          yp = [arcy edge10 edge2 edge2a reverse(edge1) ];
+          xp = [arcx edge1(2:end-1) edge2a reverse(edge2(2:end-1)) edge10(2:end-1) ];
+          yp = [arcy edge10(2:end-1) edge2 edge2a(2:end-1) reverse(edge1(2:end-1)) ];
           
 %           xp =[ edge2 edge2a reverse(edge2) edge20];
 %           yp = [edge20 edge2 edge2a reverse(edge2)];
@@ -258,9 +258,12 @@ resolution = 1;
             thp = atan2d(yp,xp)+90;
             xp = cosd(thp).*rp;
             yp = sind(thp).*rp;
-            
-          
+            step =0.001;
+            arclen =cumsum([0 sqrt( diff((xp)).^2+diff((yp)).^2)]);
+            xp = interp1(arclen,xp,[0:step:max(arclen)]);
+            yp = interp1(arclen,yp,[0:step:max(arclen)]);
           resolution = .125;
+          featureFlag = 1;
          baseName = 'Hughes' ;%['Hughes',num2str(resolution)];
            case -9
           step = (.01);        
@@ -382,7 +385,7 @@ fclose(fid);
 
 
 tic
-dos([binpath,'dual.exe  ',num2str(resolution),' ',baseName,'.tmp', ' 0']);
+dos([binpath,'dual.exe  ',num2str(resolution),' ',baseName,'.tmp', ' 0 ',num2str(featureFlag)]);
 toc
 
 if plotall == 1
