@@ -9,6 +9,26 @@
 
 ### Updates
 
+* 2021-12-20: `xybind` and Windows:
+  * Upon running `env_create.sh`, the `xybind` module will error out on Windows because of a lacking standalone MSVC compiler.  Following are the steps to fix on Windows.
+  * Download the [Microsoft C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/)
+  * Install (as a list of boxes to check):
+    * Development with C++
+    * Optional
+      * MSVC v142...
+      * Windows 10 SDK...
+      * C++ CMake tools...
+      * Testing tools...
+      * C++ AddressSanitizer
+    * 6.86 GB download
+    * Select the Install button
+  * Install (screenshot):
+  ![standalone_msvc_compiler](fig/standalone_msvc_compiler.png)
+  * Success when VisualStudio Build Tools 2019 (16.11.8) installation completes.
+  * Restart the Windows computer.
+  * Relaunch the `env_create.sh` scipt.
+  * Test the install with
+    * `$ conda activate siblenv; cd ~/sibl; pytest -v`
 * 2021-12-15: Windows an Python 3.9 with `xybind`
   * [Download](https://visualstudio.microsoft.com/visual-cpp-build-tools/) Microsoft C++ Build Tools, downloads `vs_buildtools__c6a4b5ec79d2436b97e7ac254ee30591.exe` (1,431 kB).
     * Individual components: Compilers, build tools, runtimes: C++/CLI support for v142 build tools (Latest) (1.26 GB).
