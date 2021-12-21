@@ -21,10 +21,9 @@ ext_modules = [
         "xybind",
         [
             "main.cpp",
-            "generalpolygon.cpp",
-            "intersectionprimitives.cpp",
-            "kdtree.cpp",
             "../dual/Curve.cpp",
+            "../dual/QuadTree.cpp",
+            "../dual/NodeList.cpp",
         ],
         # Example: passing in the version to the compiled code
         define_macros=[("VERSION_INFO", __version__)],

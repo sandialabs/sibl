@@ -65,6 +65,9 @@ QuadTree::QuadTree(Curve* c,NodeList* n,double m)
     myNodes=n;
     minimumSize = m;
 
+    if(m<=0)
+        std::cout<<"Error -- Minimum size has to be positive and not zero."<<std::endl;
+
     std::tuple<double,double> ur = myCurve->upperRight();
     std::tuple<double,double> ll = myCurve->lowerLeft();
 

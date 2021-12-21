@@ -68,7 +68,11 @@ public:
     bool featureInBoundingBox(std::tuple<double, double> ll, std::tuple<double, double> ur);
     bool inCurve(double x, double y);
     std::tuple<double, double> nearestPt(double x, double y);
-
+    bool in(unsigned int ind){if(ind > inOrOut.size())
+                                    return false;
+                                    else
+                                        return inOrOut[ind];
+                                    }
     std::vector<CurvePoint> corners() { return myCorners; };
     void write(std::string filename);
 

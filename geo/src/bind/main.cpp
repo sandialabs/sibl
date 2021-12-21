@@ -1,8 +1,9 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 #include <math.h>
-#include "generalpolygon.h"
 #include "../dual/Curve.h"
+#include "../dual/QuadTree.h"
+#include "../dual/NodeList.h"
 
 #include <vector>
 
@@ -33,53 +34,6 @@ struct Pet
 
     std::string my_name;
 };
-/*
-struct Parade
-{
-    Parade(const std::vector<float> &boundary_x, const std::vector<float> &boundary_y) : my_boundary_x(boundary_x), my_boundary_y(boundary_y) {}
-
-    std::vector<bool> contains(const std::vector<float> &probe_x, const std::vector<float> &probe_y)
-    {
-        std::vector<bool> test;
-        test.resize(probe_x.size(), true);
-        for (unsigned int i = 0; i < my_boundary_x.size(); ++i)
-            std::cout << my_boundary_x[i] << " , " << my_boundary_y[i] << std::endl;
-        return test;
-    }
-
-    std::vector<float> my_boundary_x;
-    std::vector<float> my_boundary_y;
-};
-*/
-/*
-struct Parade
-{
-    Parade(const std::vector<float> &boundary_x, const std::vector<float> &boundary_y) : GP(std::pair<std::vector<float> , std::vector<float> > (boundary_x,boundary_y) ) {}
-
-    std::vector<bool> contains(const std::vector<float> &probe_x, const std::vector<float> &probe_y)
-    {
-        std::vector<bool> test(probe_x.size(),false);
-        for (unsigned int i = 0; i <test.size(); ++i)
-             test[i] = GP.inpoly(probe_x[i],probe_y[i]);
-        return test;
-    }
-    GeneralizedPolygon GP;
-
-};
-*/
-/*struct Polygon
-{
-    Polygon(const std::vector<float> &boundary_x, const std::vector<float> &boundary_y) : GP(std::pair<std::vector<float>, std::vector<float> >(boundary_x, boundary_y)) {}
-
-    std::vector<bool> contains(const std::vector<float> &probe_x, const std::vector<float> &probe_y)
-    {
-        std::vector<bool> test(probe_x.size(), false);
-        for (unsigned int i = 0; i < test.size(); ++i)
-            test[i] = GP.inpoly(probe_x[i], probe_y[i]);
-        return test;
-    }
-    GeneralizedPolygon GP;
-};*/
 
 struct Polygon
 {
@@ -96,8 +50,52 @@ struct Polygon
             test[i] = C->inCurve(probe_x[i], probe_y[i]);
         return test;
     }
+    std::vector<bool> inType(const std::vector<int> &probe)
+    {
+        std::vector<bool> test(probe.size(), false);
+        for (unsigned int i = 0; i < test.size(); ++i)
+            test[i] = C->in(probe[i]);
+        return test;
+    }
+
     Curve *C;
 };
+
+struct QT
+{
+    QT(const std::vector<float> &boundary_x, const std::vector<float> &boundary_y)
+    {
+        C = new Curve(boundary_x, boundary_y);
+        C->lowerLeft(std::tuple<double,double>(-1,-1));
+        C->upperRight(std::tuple<double,double>(1,1));
+        std::cout<<"Constructor complete"<<std::endl;
+    }
+
+    std::vector<int> nodeSize(const std::vector<float> &probe)
+    {
+        std::cout<<"Testing sizes"<<std::endl;
+        std::vector<int> test(probe.size(), 0);
+
+        for (unsigned int i = 0; i < test.size(); ++i)
+          {
+              std::cout<<"Test resolution: "<<probe[i]<<std::endl;
+              N = new NodeList();
+              Q = new QuadTree(C,N,probe[i]);
+              Q->subdivide(Q->head());
+              Q->balancedRefineCurve(Q->head(),true);
+              test[i] = N->size();
+              delete Q;
+              delete N;
+          }
+        return test;
+    }
+
+    Curve *C;
+    QuadTree *Q;
+    NodeList *N;
+
+};
+
 
 namespace py = pybind11;
 
@@ -137,7 +135,12 @@ PYBIND11_MODULE(xybind, m)
 
     py::class_<Polygon>(m, "Polygon")
         .def(py::init<const std::vector<float> &, const std::vector<float> &>())
-        .def("contains", &Polygon::contains, py::kw_only(), py::arg("probe_x"), py::kw_only(), py::arg("probe_y"), "Returns a vector with True or False for each element with coordinates probe_x, probe_y.");
+        .def("contains", &Polygon::contains, py::kw_only(), py::arg("probe_x"), py::kw_only(), py::arg("probe_y"), "Returns a vector with True or False for each element with coordinates probe_x, probe_y.")
+        .def("inType", &Polygon::inType, py::kw_only(), py::arg("probe"), "Return True or False if curve at index probe is CCW(TRUE) or CCW(FALSE).");
+
+     py::class_<QT>(m, "QT")
+        .def(py::init<const std::vector<float> &, const std::vector<float> &>())
+        .def("nodeSize", &QT::nodeSize,  py::kw_only(),py::arg("probe"),"Returns a vector of ints with the node count as  a result of probe resolution.");
 
 #ifdef VERSION_INFO
     m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);

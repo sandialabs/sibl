@@ -97,14 +97,23 @@ Curve::Curve(std::string filename)
 }
 Curve::Curve(const std::vector<float> &boundary_x, const std::vector<float> &boundary_y) ///Single curve constructor
 {
+    CurvePoint cp(0,0);
     std::vector<CurvePoint> tmpVec;
     for(unsigned int lcv =0; lcv < boundary_x.size();++lcv)
-        tmpVec.push_back(CurvePoint(boundary_x[lcv],boundary_y[lcv]));
+    {
+        if(!std::isnan(boundary_x[lcv]))
+         tmpVec.push_back(CurvePoint(boundary_x[lcv],boundary_y[lcv]));
+         else
+         {
+            inOrOut.push_back(checkDirectionAndFlip(tmpVec));
+            myCurvePoints.push_back(tmpVec);
+            tmpVec.resize(0,cp);
+         }
 
-    checkDirectionAndFlip(tmpVec);
-    inOrOut.push_back(true);
+    }
 
-    myCurvePoints.push_back(tmpVec);
+        inOrOut.push_back(checkDirectionAndFlip(tmpVec));
+            myCurvePoints.push_back(tmpVec);
 
      for(unsigned int lcv = 0;lcv < myCurvePoints.size();++lcv)
     std::cout<<(inOrOut[lcv]?"in":"out")<<"Curve with "<<myCurvePoints[lcv].size()<<" points"<<std::endl;
@@ -201,7 +210,7 @@ bool Curve::checkDirectionAndFlip(std::vector<CurvePoint> &CurvePoints)
 }
 double Curve::area(std::vector<CurvePoint> &CurvePoints)
 {
-   #warning "This is not an actual area calculation"
+  /// #warning "This is not an actual area calculation"
     ///just for sign not actual area
     double area = 0;
     for(unsigned int lcv = 0; lcv < CurvePoints.size();++lcv)
@@ -353,7 +362,7 @@ return true;
 }
 std::tuple<double,double> Curve::nearestPt(double x, double y)
 {
-    #warning "This function depends on the curve resolution"
+  /// #warning "This function depends on the curve resolution"
     double nx,ny;
     double dist=1e9;
     int lind=0;
