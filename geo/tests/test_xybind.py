@@ -111,15 +111,45 @@ def test_unit_squares_inType():
     """Tests if simple points define an IN or OUT loop via the xybind library."""
 
     # boundary coordinates nan separated squares CCW, CW, CCW
-    bx = [0.0, 1.0, 1.0, 0.0 , float("nan"), 0.0 , 0.0 , 1.0, 1.0, float("nan"),0.0, 1.0, 1.0, 0.0]
-    by = [0.0, 0.0, 1.0, 1.0, float("nan"),  0.0, 1.0, 1.0, 0.0 , float("nan"),0.0, 0.0, 1.0, 1.0]
+    bx = [
+        0.0,
+        1.0,
+        1.0,
+        0.0,
+        float("nan"),
+        0.0,
+        0.0,
+        1.0,
+        1.0,
+        float("nan"),
+        0.0,
+        1.0,
+        1.0,
+        0.0,
+    ]
+    by = [
+        0.0,
+        0.0,
+        1.0,
+        1.0,
+        float("nan"),
+        0.0,
+        1.0,
+        1.0,
+        0.0,
+        float("nan"),
+        0.0,
+        0.0,
+        1.0,
+        1.0,
+    ]
 
     poly = xyb.Polygon(bx, by)
-    
-    px = [-1,0,1,2,3]
-   
-    #out of index, CCW, CW, CCW, out of index
-    known = [False,True,False,True,False]
+
+    px = [-1, 0, 1, 2, 3]
+
+    # out of index, CCW, CW, CCW, out of index
+    known = [False, True, False, True, False]
 
     found = poly.inType(probe=px)
 
@@ -133,11 +163,11 @@ def test_qt_node_counts():
     by = [0.5]
 
     qt = xyb.QT(bx, by)
-    
-    px = [2,1,0.5,0.25]
-   
+
+    px = [2, 1, 0.5, 0.25]
+
     #
-    known = [9,14,41,74]
+    known = [9, 14, 41, 74]
 
     found = qt.nodeSize(probe=px)
 
