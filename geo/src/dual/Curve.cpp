@@ -21,16 +21,16 @@ Curve::Curve(std::string filename)
     std::ifstream in_file(filename.c_str());
 
     std::vector<CurvePoint> tmpVec;
-     std::string cx,cy;
-     double tx,ty;
+    std::string cx,cy;
+    double tx,ty;
 
-     bool unset = true;
-     in_file>>cx>>cy;
-     tx = atof(cx.c_str());
-     ty = atof(cy.c_str());
+    bool unset = true;
+    in_file>>cx>>cy;
+    tx = atof(cx.c_str());
+    ty = atof(cy.c_str());
 
-     while(!in_file.fail() && !in_file.eof())
-     {
+    while(!in_file.fail() && !in_file.eof())
+    {
         if(cx != "NaN")
         {
             tmpVec.push_back(CurvePoint(tx,ty));
@@ -43,13 +43,13 @@ Curve::Curve(std::string filename)
                 unset=false;
             }
             if(tx < std::get<XIND>(ll))
-                 std::get<XIND>(ll)=tx;
+                std::get<XIND>(ll)=tx;
             if(tx > std::get<XIND>(ur))
-                 std::get<XIND>(ur)=tx;
+                std::get<XIND>(ur)=tx;
             if(ty < std::get<YIND>(ll))
-                 std::get<YIND>(ll)=ty;
+                std::get<YIND>(ll)=ty;
             if(ty > std::get<YIND>(ur))
-                 std::get<YIND>(ur)=ty;
+                std::get<YIND>(ur)=ty;
 
 
         } ///NAN CHECK
@@ -66,10 +66,10 @@ Curve::Curve(std::string filename)
         in_file>>cx>>cy;
         tx = atof(cx.c_str());
         ty = atof(cy.c_str());
-     }
+    }
 
-     inOrOut.push_back(checkDirectionAndFlip(tmpVec));
-     myCurvePoints.push_back(tmpVec);
+    inOrOut.push_back(checkDirectionAndFlip(tmpVec));
+    myCurvePoints.push_back(tmpVec);
     in_file.close();
 
 
@@ -78,19 +78,19 @@ Curve::Curve(std::string filename)
     ///NEED TO CHECK FOR +/- CCW OR CW and store that too.
     ///IF CW , need to reverse points
     ///
-    for(unsigned int lcv = 0;lcv < myCurvePoints.size();++lcv)
-    std::cout<<(inOrOut[lcv]?"in":"out")<<"Curve with "<<myCurvePoints[lcv].size()<<" points"<<std::endl;
+    for(unsigned int lcv = 0; lcv < myCurvePoints.size(); ++lcv)
+        std::cout<<(inOrOut[lcv]?"in":"out")<<"Curve with "<<myCurvePoints[lcv].size()<<" points"<<std::endl;
 
-    for(unsigned int lcv = 0;lcv < myCurvePoints.size();++lcv)
+    for(unsigned int lcv = 0; lcv < myCurvePoints.size(); ++lcv)
         fillDerivative(myCurvePoints[lcv]);
 
-    for(unsigned int lcv = 0;lcv < myCurvePoints.size();++lcv)
+    for(unsigned int lcv = 0; lcv < myCurvePoints.size(); ++lcv)
         setTangentAngle(myCurvePoints[lcv]);
 
-    for(unsigned int lcv = 0;lcv < myCurvePoints.size();++lcv)
+    for(unsigned int lcv = 0; lcv < myCurvePoints.size(); ++lcv)
         findCorners(myCurvePoints[lcv]);
 
-    for(unsigned int lcv = 0;lcv < myCurvePoints.size();++lcv)
+    for(unsigned int lcv = 0; lcv < myCurvePoints.size(); ++lcv)
         findFeatures(myCurvePoints[lcv]);
 
 
@@ -99,67 +99,67 @@ Curve::Curve(const std::vector<float> &boundary_x, const std::vector<float> &bou
 {
     CurvePoint cp(0,0);
     std::vector<CurvePoint> tmpVec;
-    for(unsigned int lcv =0; lcv < boundary_x.size();++lcv)
+    for(unsigned int lcv =0; lcv < boundary_x.size(); ++lcv)
     {
         if(!std::isnan(boundary_x[lcv]))
-         tmpVec.push_back(CurvePoint(boundary_x[lcv],boundary_y[lcv]));
-         else
-         {
+            tmpVec.push_back(CurvePoint(boundary_x[lcv],boundary_y[lcv]));
+        else
+        {
             inOrOut.push_back(checkDirectionAndFlip(tmpVec));
             myCurvePoints.push_back(tmpVec);
             tmpVec.resize(0,cp);
-         }
+        }
 
     }
 
-        inOrOut.push_back(checkDirectionAndFlip(tmpVec));
-            myCurvePoints.push_back(tmpVec);
+    inOrOut.push_back(checkDirectionAndFlip(tmpVec));
+    myCurvePoints.push_back(tmpVec);
 
-     for(unsigned int lcv = 0;lcv < myCurvePoints.size();++lcv)
-    std::cout<<(inOrOut[lcv]?"in":"out")<<"Curve with "<<myCurvePoints[lcv].size()<<" points"<<std::endl;
+    for(unsigned int lcv = 0; lcv < myCurvePoints.size(); ++lcv)
+        std::cout<<(inOrOut[lcv]?"in":"out")<<"Curve with "<<myCurvePoints[lcv].size()<<" points"<<std::endl;
 
-    for(unsigned int lcv = 0;lcv < myCurvePoints.size();++lcv)
+    for(unsigned int lcv = 0; lcv < myCurvePoints.size(); ++lcv)
         fillDerivative(myCurvePoints[lcv]);
 
-    for(unsigned int lcv = 0;lcv < myCurvePoints.size();++lcv)
+    for(unsigned int lcv = 0; lcv < myCurvePoints.size(); ++lcv)
         setTangentAngle(myCurvePoints[lcv]);
 
-    for(unsigned int lcv = 0;lcv < myCurvePoints.size();++lcv)
+    for(unsigned int lcv = 0; lcv < myCurvePoints.size(); ++lcv)
         findCorners(myCurvePoints[lcv]);
 
-    for(unsigned int lcv = 0;lcv < myCurvePoints.size();++lcv)
+    for(unsigned int lcv = 0; lcv < myCurvePoints.size(); ++lcv)
         findFeatures(myCurvePoints[lcv]);
 
 }
 
 bool Curve::featureInBoundingBox(std::tuple<double,double> ll,std::tuple<double,double> ur)
 {
-     ///Check whether any points of the feature are within the bounding box
+    ///Check whether any points of the feature are within the bounding box
 
-   for(auto x : myFeatures)
-   {
-       if (x.X() <= std::get<XIND>(ur) && x.X() >= std::get<XIND>(ll) && x.Y() <= std::get<YIND>(ur) && x.Y() >= std::get<YIND>(ll) )
-        return true;
-   }
-   return false;
+    for(auto x : myFeatures)
+    {
+        if (x.X() <= std::get<XIND>(ur) && x.X() >= std::get<XIND>(ll) && x.Y() <= std::get<YIND>(ur) && x.Y() >= std::get<YIND>(ll) )
+            return true;
+    }
+    return false;
 }
 bool Curve::inBoundingBox(std::tuple<double,double> ll,std::tuple<double,double> ur)
 {
 
     ///Check whether any points of the curve are within the bounding box
-   for(unsigned int lcv = 0; lcv < myCurvePoints.size();++lcv)
-   for(auto x : myCurvePoints[lcv])
-   {
-       if (x.X() <= std::get<XIND>(ur) && x.X() >= std::get<XIND>(ll) && x.Y() <= std::get<YIND>(ur) && x.Y() >= std::get<YIND>(ll) )
-        return true;
-   }
-   return false;
+    for(unsigned int lcv = 0; lcv < myCurvePoints.size(); ++lcv)
+        for(auto x : myCurvePoints[lcv])
+        {
+            if (x.X() <= std::get<XIND>(ur) && x.X() >= std::get<XIND>(ll) && x.Y() <= std::get<YIND>(ur) && x.Y() >= std::get<YIND>(ll) )
+                return true;
+        }
+    return false;
 }
 void Curve::write(std::string filename)
 {
 
     std::ofstream out_file(filename.c_str());
-    for(unsigned int lcv = 0; lcv < myCurvePoints.size();++lcv)
+    for(unsigned int lcv = 0; lcv < myCurvePoints.size(); ++lcv)
     {
         for(auto x: myCurvePoints[lcv])
             out_file<<x<<std::endl;
@@ -170,26 +170,26 @@ void Curve::write(std::string filename)
     out_file.close();
 
     out_file.open((filename+"features").c_str());
-    for(unsigned int lcv = 0; lcv < myFeatures.size();++lcv)
+    for(unsigned int lcv = 0; lcv < myFeatures.size(); ++lcv)
     {
-            out_file<<myFeatures[lcv]<<std::endl;
+        out_file<<myFeatures[lcv]<<std::endl;
     }
     out_file.close();
 
     out_file.open((filename+"curvature").c_str());
-    for(unsigned int lcv = 0; lcv < myCurvePoints.size();++lcv)
+    for(unsigned int lcv = 0; lcv < myCurvePoints.size(); ++lcv)
     {
-         for(auto x: myCurvePoints[lcv])
+        for(auto x: myCurvePoints[lcv])
             out_file<<x.X()<<"\t"<<x.Y()<<"\t"<<x.DX()<<"\t"<<x.DY()<<"\t"<<x.D2X()<<"\t"<<x.D2Y()<<"\t"<<x.curvature()<<std::endl;
-            if(lcv != myCurvePoints.size()-1)
+        if(lcv != myCurvePoints.size()-1)
             out_file<<"NaN\tNaN"<<std::endl;
     }
     out_file.close();
-      out_file.open((filename+"corners").c_str());
-    for(unsigned int lcv = 0; lcv < myCorners.size();++lcv)
+    out_file.open((filename+"corners").c_str());
+    for(unsigned int lcv = 0; lcv < myCorners.size(); ++lcv)
     {
 
-            out_file<<myCorners[lcv].X()<<"\t"<<myCorners[lcv].Y()<<std::endl;
+        out_file<<myCorners[lcv].X()<<"\t"<<myCorners[lcv].Y()<<std::endl;
 
     }
     out_file.close();
@@ -210,10 +210,10 @@ bool Curve::checkDirectionAndFlip(std::vector<CurvePoint> &CurvePoints)
 }
 double Curve::area(std::vector<CurvePoint> &CurvePoints)
 {
-  /// #warning "This is not an actual area calculation"
+    /// #warning "This is not an actual area calculation"
     ///just for sign not actual area
     double area = 0;
-    for(unsigned int lcv = 0; lcv < CurvePoints.size();++lcv)
+    for(unsigned int lcv = 0; lcv < CurvePoints.size(); ++lcv)
     {
         int lp1 = lcv+1;
         if(lp1 == (int)CurvePoints.size())
@@ -225,18 +225,18 @@ double Curve::area(std::vector<CurvePoint> &CurvePoints)
 }
 double Curve::cross(CurvePoint &A, CurvePoint &B, CurvePoint &C)
 {
-double fx = B.X()-A.X();
-double fy = B.Y()-A.Y();
-double tx = C.X()-B.X();
-double ty = C.Y()-B.Y();
+    double fx = B.X()-A.X();
+    double fy = B.Y()-A.Y();
+    double tx = C.X()-B.X();
+    double ty = C.Y()-B.Y();
 
-return fy*tx-fx*ty;
+    return fy*tx-fx*ty;
 
 }
 void Curve::fillDerivative(std::vector<CurvePoint> &CurvePoints)
 {
-     std::cout<<"Determining derivative... "<<std::endl;
-    for(unsigned int lcv = 0;lcv < CurvePoints.size();++lcv)
+    std::cout<<"Determining derivative... "<<std::endl;
+    for(unsigned int lcv = 0; lcv < CurvePoints.size(); ++lcv)
     {
         int lp1 = lcv+1;
         int lm1 = lcv-1;
@@ -252,18 +252,18 @@ void Curve::fillDerivative(std::vector<CurvePoint> &CurvePoints)
 
         //std::cout<<"D2X : "<<CurvePoints[lcv].D2X()<<" D2Y: "<<CurvePoints[lcv].D2Y()<<std::endl;
 
-            //if( (CurvePoints[lcv].D2X() < 1e-15 && CurvePoints[lcv].D2X() > -1e-15 ) || ( CurvePoints[lcv].D2Y() < 1e-15 && CurvePoints[lcv].D2Y() > -1e-15 )  )
-              //  CurvePoints[lcv].curvature(std::infinity);
-            //else
-                CurvePoints[lcv].curvature(pow(CurvePoints[lcv].DX()*CurvePoints[lcv].DX()+CurvePoints[lcv].DY()*CurvePoints[lcv].DY(),3.0/2.0)/pow(pow(CurvePoints[lcv].DX()*CurvePoints[lcv].D2Y()-CurvePoints[lcv].DY()*CurvePoints[lcv].D2X(),2),.50));
+        //if( (CurvePoints[lcv].D2X() < 1e-15 && CurvePoints[lcv].D2X() > -1e-15 ) || ( CurvePoints[lcv].D2Y() < 1e-15 && CurvePoints[lcv].D2Y() > -1e-15 )  )
+        //  CurvePoints[lcv].curvature(std::infinity);
+        //else
+        CurvePoints[lcv].curvature(pow(CurvePoints[lcv].DX()*CurvePoints[lcv].DX()+CurvePoints[lcv].DY()*CurvePoints[lcv].DY(),3.0/2.0)/pow(pow(CurvePoints[lcv].DX()*CurvePoints[lcv].D2Y()-CurvePoints[lcv].DY()*CurvePoints[lcv].D2X(),2),.50));
     }
 }
 void Curve::setTangentAngle(std::vector<CurvePoint> &CurvePoints)
 {
- std::cout<<"Setting tangent and angle... "<<std::endl;
-    for(unsigned int lcv = 0;lcv < CurvePoints.size();++lcv)
+    std::cout<<"Setting tangent and angle... "<<std::endl;
+    for(unsigned int lcv = 0; lcv < CurvePoints.size(); ++lcv)
     {
-         if(!std::isnan(CurvePoints[lcv].DX())&&!std::isnan(CurvePoints[lcv].DY()) )
+        if(!std::isnan(CurvePoints[lcv].DX())&&!std::isnan(CurvePoints[lcv].DY()) )
         {
             double magval = sqrt(CurvePoints[lcv].DX()*CurvePoints[lcv].DX()+CurvePoints[lcv].DY()*CurvePoints[lcv].DY());
             CurvePoints[lcv].tangent(CurvePoints[lcv].DY()/magval,CurvePoints[lcv].DX()/magval);
@@ -281,46 +281,46 @@ void Curve::findCorners(std::vector<CurvePoint> &CurvePoints)
     unsigned int lastCorner = CurvePoints.size();
     std::ofstream out_file("delangles");
     std::cout<<"Finding corners... "<<std::endl;
-    for(unsigned int lcv = 0;lcv < CurvePoints.size();++lcv)
+    for(unsigned int lcv = 0; lcv < CurvePoints.size(); ++lcv)
     {
-         if(!std::isnan(CurvePoints[lcv].DX())&&!std::isnan(CurvePoints[lcv].DY()) )
-         {
-
-
-        unsigned int p1 = lcv+1;
-        if(p1==CurvePoints.size())
-            p1 = 0;
-        double delAngle = (CurvePoints[p1].angle()-CurvePoints[lcv].angle())*180/3.14159;
-        if(delAngle<0)
-            delAngle=delAngle*-1;
-        if(delAngle > 180 ) ///180 flip error??? noise in derivative???
-            delAngle = delAngle-180;
-
-        if(delAngle > 170 && delAngle < 190) ///180 flip error??? noise in derivative???
-            delAngle = 0;
-
-        out_file<<delAngle<<std::endl;
-        ///ANGLE is in Degrees
-        if(delAngle > CORNERANGLE )
+        if(!std::isnan(CurvePoints[lcv].DX())&&!std::isnan(CurvePoints[lcv].DY()) )
         {
-            if(lcv == 0)
-                firstcorneriszero=true;
-            unsigned int lp1 = lastCorner+1;
-            if(lp1 > CurvePoints.size())
-                lp1 = lp1-CurvePoints.size();
-            if(lp1!=lcv )
-            {
-                if( !(lcv == CurvePoints.size()-1 && firstcorneriszero ))
-                {
-              myCorners.push_back(CurvePoints[lcv]);
-              std::cout<<" Adding corner point at "<<CurvePoints[lcv]<<" delAngle "<<delAngle<<" lcv: "<<lcv<<std::endl;
-              lastCorner=lcv;
-              }
-            }
 
+
+            unsigned int p1 = lcv+1;
+            if(p1==CurvePoints.size())
+                p1 = 0;
+            double delAngle = (CurvePoints[p1].angle()-CurvePoints[lcv].angle())*180/3.14159;
+            if(delAngle<0)
+                delAngle=delAngle*-1;
+            if(delAngle > 180 ) ///180 flip error??? noise in derivative???
+                delAngle = delAngle-180;
+
+            if(delAngle > 170 && delAngle < 190) ///180 flip error??? noise in derivative???
+                delAngle = 0;
+
+            out_file<<delAngle<<std::endl;
+            ///ANGLE is in Degrees
+            if(delAngle > CORNERANGLE )
+            {
+                if(lcv == 0)
+                    firstcorneriszero=true;
+                unsigned int lp1 = lastCorner+1;
+                if(lp1 > CurvePoints.size())
+                    lp1 = lp1-CurvePoints.size();
+                if(lp1!=lcv )
+                {
+                    if( !(lcv == CurvePoints.size()-1 && firstcorneriszero ))
+                    {
+                        myCorners.push_back(CurvePoints[lcv]);
+                        std::cout<<" Adding corner point at "<<CurvePoints[lcv]<<" delAngle "<<delAngle<<" lcv: "<<lcv<<std::endl;
+                        lastCorner=lcv;
+                    }
+                }
+
+            }
         }
-         }
-         else
+        else
             std::cout<<"How did a nan slip in?"<<std::endl;
 
 
@@ -329,11 +329,11 @@ void Curve::findCorners(std::vector<CurvePoint> &CurvePoints)
 }
 void Curve::findFeatures(std::vector<CurvePoint> &CurvePoints)
 {
-      std::cout<<"Finding features... "<<std::endl;
-    for(unsigned int lcv = 0;lcv < CurvePoints.size();++lcv)
+    std::cout<<"Finding features... "<<std::endl;
+    for(unsigned int lcv = 0; lcv < CurvePoints.size(); ++lcv)
     {
-         if(!std::isnan(CurvePoints[lcv].DX())&&!std::isnan(CurvePoints[lcv].DY()) )
-         {
+        if(!std::isnan(CurvePoints[lcv].DX())&&!std::isnan(CurvePoints[lcv].DY()) )
+        {
 
             double kurv = CurvePoints[lcv].curvature();
 
@@ -341,13 +341,13 @@ void Curve::findFeatures(std::vector<CurvePoint> &CurvePoints)
             if(kurv < 0)
                 kurv =kurv *-1;
 
-        if(kurv <= 2.75 && kurv > 0.1250 )//&& notACorner(CurvePoints[lcv]))
-        {
-          myFeatures.push_back(CurvePoints[lcv]);
-          //std::cout<<" Adding feature point at "<<CurvePoints[lcv]<<" kurvature  "<<kurv<<" lcv: "<<lcv<<std::endl;
-        }
-         } //if
-         else
+            if(kurv <= 2.75 && kurv > 0.1250 )//&& notACorner(CurvePoints[lcv]))
+            {
+                myFeatures.push_back(CurvePoints[lcv]);
+                //std::cout<<" Adding feature point at "<<CurvePoints[lcv]<<" kurvature  "<<kurv<<" lcv: "<<lcv<<std::endl;
+            }
+        } //if
+        else
             std::cout<<"How did a nan slip in?"<<std::endl;
 
 
@@ -355,21 +355,21 @@ void Curve::findFeatures(std::vector<CurvePoint> &CurvePoints)
 }
 bool Curve::notACorner(CurvePoint &cp)
 {
-    for(unsigned int lcv =0; lcv < myCorners.size();++lcv)
+    for(unsigned int lcv =0; lcv < myCorners.size(); ++lcv)
         if(cp.X() == myCorners[lcv].X() && cp.Y() == myCorners[lcv].Y() )
-        return false;
-return true;
+            return false;
+    return true;
 }
 std::tuple<double,double> Curve::nearestPt(double x, double y)
 {
-  /// #warning "This function depends on the curve resolution"
+    /// #warning "This function depends on the curve resolution"
     double nx,ny;
     double dist=1e9;
     int lind=0;
     int pind=0;
-    for(unsigned int lcv = 0; lcv < myCurvePoints.size();++lcv)
+    for(unsigned int lcv = 0; lcv < myCurvePoints.size(); ++lcv)
     {
-        for(unsigned int pt=0; pt < myCurvePoints[lcv].size();++pt)
+        for(unsigned int pt=0; pt < myCurvePoints[lcv].size(); ++pt)
         {
             double tdist = ( myCurvePoints[lcv][pt].X()-x)*( myCurvePoints[lcv][pt].X()-x)+( myCurvePoints[lcv][pt].Y()-y)*( myCurvePoints[lcv][pt].Y()-y);
             if(lcv == 0 && pt == 0)
@@ -377,18 +377,19 @@ std::tuple<double,double> Curve::nearestPt(double x, double y)
                 nx = myCurvePoints[lcv][pt].X();
                 ny = myCurvePoints[lcv][pt].Y();
                 dist = (nx-x)*(nx-x)+(ny-y)*(ny-y);
-                lind = 0;pind=0;
+                lind = 0;
+                pind=0;
             }
             else
             {
                 if(tdist < dist)
-            {
-                 nx = myCurvePoints[lcv][pt].X();
-                ny = myCurvePoints[lcv][pt].Y();
-                dist = tdist;
-                lind = lcv;
-                pind = pt;
-            }
+                {
+                    nx = myCurvePoints[lcv][pt].X();
+                    ny = myCurvePoints[lcv][pt].Y();
+                    dist = tdist;
+                    lind = lcv;
+                    pind = pt;
+                }
             }
 
         }
@@ -421,20 +422,20 @@ inline double isLeft(CurvePoint &P0,CurvePoint &P1,CurvePoint &P2)
 //This code is patterned after [Wm Randolph Franklin, "PNPOLY - Point Inclusion in Polygon Test" Web Page 2000
 inline int crossingNumber(CurvePoint P,std::vector<CurvePoint> V)
 {
-int cn= 0;
+    int cn= 0;
 //loop through edges of polygon
-for(unsigned int i=0; i<V.size()-1;++i)
-{
-    if(  (( V[i].Y()<=P.Y()) && (V[i+1].Y() > P.Y() ))
-         || ( ((V[i].Y()>P.Y()) && (V[i+1].Y()<=P.Y()))    ))
+    for(unsigned int i=0; i<V.size()-1; ++i)
     {
-        float vt = (float)(P.Y()-V[i].Y())/(V[i+1].Y()-V[i].Y());
-        float x_intersect = V[i].X()+vt*(V[i+1].X()-V[i].X());
-        if(P.X() < x_intersect)
-            ++cn;
+        if(  (( V[i].Y()<=P.Y()) && (V[i+1].Y() > P.Y() ))
+                || ( ((V[i].Y()>P.Y()) && (V[i+1].Y()<=P.Y()))    ))
+        {
+            float vt = (float)(P.Y()-V[i].Y())/(V[i+1].Y()-V[i].Y());
+            float x_intersect = V[i].X()+vt*(V[i+1].X()-V[i].X());
+            if(P.X() < x_intersect)
+                ++cn;
+        }
     }
-}
-return (cn&1); // 0 if even (out), 1 if odd (in)
+    return (cn&1); // 0 if even (out), 1 if odd (in)
 }
 
 //windingNumber
@@ -445,7 +446,7 @@ inline int windingNumber(CurvePoint P,  std::vector<CurvePoint> &V)
 {
     int wn=0;
     //loop through edges of polygon
-    for(unsigned int i=0; i<V.size();++i)
+    for(unsigned int i=0; i<V.size(); ++i)
     {
         unsigned int ip1 = i+1;
         if(ip1==V.size())
@@ -453,14 +454,14 @@ inline int windingNumber(CurvePoint P,  std::vector<CurvePoint> &V)
         if(V[i].Y()<=P.Y())
         {
             if(V[ip1].Y() > P.Y())
-            if(isLeft(V[i],V[ip1],P)>0)
-                ++wn;
+                if(isLeft(V[i],V[ip1],P)>0)
+                    ++wn;
         }
         else
         {
             if(V[ip1].Y()<=P.Y())
                 if(isLeft(V[i],V[ip1],P)<0)
-                --wn;
+                    --wn;
         }
     }
     return wn;
@@ -469,18 +470,18 @@ inline int windingNumber(CurvePoint P,  std::vector<CurvePoint> &V)
 bool Curve::inCurve(double x, double y)
 {
     int count=0;
-     CurvePoint p(x,y);
-     for(unsigned int lcv = 0; lcv < myCurvePoints.size();++lcv)
-     {
-            if(windingNumber(p,myCurvePoints[lcv])!=0) ///Inside the loop
-            {
-                 if(inOrOut[lcv]) ///this loops says it's in
-                    count+=1;
-                 else
-                    count= count-1;
-            }
-     }
+    CurvePoint p(x,y);
+    for(unsigned int lcv = 0; lcv < myCurvePoints.size(); ++lcv)
+    {
+        if(windingNumber(p,myCurvePoints[lcv])!=0) ///Inside the loop
+        {
+            if(inOrOut[lcv]) ///this loops says it's in
+                count+=1;
+            else
+                count= count-1;
+        }
+    }
 
 
-     return (count>0);
+    return (count>0);
 }

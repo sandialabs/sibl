@@ -21,17 +21,47 @@ public:
         myD2Y = 0;
     }
 
-    double Y() { return myY; }
-    double X() { return myX; }
-    void DX(double d) { myDX = d; }
-    double DX() { return myDX; }
-    void DY(double d) { myDY = d; }
-    double DY() { return myDY; }
+    double Y()
+    {
+        return myY;
+    }
+    double X()
+    {
+        return myX;
+    }
+    void DX(double d)
+    {
+        myDX = d;
+    }
+    double DX()
+    {
+        return myDX;
+    }
+    void DY(double d)
+    {
+        myDY = d;
+    }
+    double DY()
+    {
+        return myDY;
+    }
 
-    void D2X(double d) { myD2X = d; }
-    double D2X() { return myD2X; }
-    void D2Y(double d) { myD2Y = d; }
-    double D2Y() { return myD2Y; }
+    void D2X(double d)
+    {
+        myD2X = d;
+    }
+    double D2X()
+    {
+        return myD2X;
+    }
+    void D2Y(double d)
+    {
+        myD2Y = d;
+    }
+    double D2Y()
+    {
+        return myD2Y;
+    }
 
     void tangent(double tx, double ty)
     {
@@ -39,9 +69,18 @@ public:
         myTanY = ty;
         myAngle = std::atan2(ty, tx);
     }
-    double angle() { return myAngle; }
-    double curvature() { return myCurvature; }
-    void curvature(double c) { myCurvature = c; }
+    double angle()
+    {
+        return myAngle;
+    }
+    double curvature()
+    {
+        return myCurvature;
+    }
+    void curvature(double c)
+    {
+        myCurvature = c;
+    }
     friend std::ostream &operator<<(std::ostream &stream, const CurvePoint &cp);
 
 private:
@@ -55,25 +94,42 @@ class Curve
 {
 public:
     Curve(std::string filename);
-    Curve(){};
+    Curve() {};
     Curve(const std::vector<float> &boundary_x, const std::vector<float> &boundary_y); ///Single curve constructor
 
-    std::tuple<double, double> upperRight() { return ur; }
-    std::tuple<double, double> lowerLeft() { return ll; }
-    void upperRight(std::tuple<double, double> tp) { ur = tp; }
-    void lowerLeft(std::tuple<double, double> tp) { ll = tp; }
+    std::tuple<double, double> upperRight()
+    {
+        return ur;
+    }
+    std::tuple<double, double> lowerLeft()
+    {
+        return ll;
+    }
+    void upperRight(std::tuple<double, double> tp)
+    {
+        ur = tp;
+    }
+    void lowerLeft(std::tuple<double, double> tp)
+    {
+        ll = tp;
+    }
 
     ///TODO: Add check for line segment within a bounding box, not just the point cloud
     bool inBoundingBox(std::tuple<double, double> ll, std::tuple<double, double> ur);
     bool featureInBoundingBox(std::tuple<double, double> ll, std::tuple<double, double> ur);
     bool inCurve(double x, double y);
     std::tuple<double, double> nearestPt(double x, double y);
-    bool in(unsigned int ind){if(ind > inOrOut.size())
-                                    return false;
-                                    else
-                                        return inOrOut[ind];
-                                    }
-    std::vector<CurvePoint> corners() { return myCorners; };
+    bool in(unsigned int ind)
+    {
+        if(ind > inOrOut.size())
+            return false;
+        else
+            return inOrOut[ind];
+    }
+    std::vector<CurvePoint> corners()
+    {
+        return myCorners;
+    };
     void write(std::string filename);
 
 private:

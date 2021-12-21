@@ -15,103 +15,104 @@ int main(int argc, char *argv[])
 {
     if(argc > 1)
     {
-    double minsize;
-    const std::string compilation_date = __DATE__;
-    cout<<"Build Date : "<<compilation_date<<endl;
-    string filename = argv[2];
-    minsize = atof(argv[1]);
-    int bnds = atoi(argv[3]);
-    int featureRefine = atoi(argv[4]);
+        double minsize;
+        const std::string compilation_date = __DATE__;
+        cout<<"Build Date : "<<compilation_date<<endl;
+        string filename = argv[2];
+        minsize = atof(argv[1]);
+        int bnds = atoi(argv[3]);
+        int featureRefine = atoi(argv[4]);
 
-    cout<<"Filename : "<<filename<<endl;
-    cout<<"Resolution: "<<minsize<<endl;
-    cout<<"Bnds: "<<bnds<<endl;
-    cout<<"Refine on the feature only: "<<featureRefine<<endl;
-
-
-    Curve* myCurve;
-    myCurve = new Curve(filename);
-    filename = filename.substr(0,filename.length()-4);
-    myCurve->write("line");
-    if(bnds == 1)
-    {
-        cout<<"Using unit bounds"<<endl;
-        myCurve->lowerLeft(std::tuple<double,double>(-1,-1));
-        myCurve->upperRight(std::tuple<double,double>(1,1));
-    }
-    NodeList* myNodes;
-    myNodes = new NodeList();
-    //cout<<"Nodes size: "<<myNodes->size()<<endl;
-    QuadTree* myQuadTree;
-    myQuadTree=new QuadTree(myCurve,myNodes,minsize);
-    myQuadTree->subdivide(myQuadTree->head());
+        cout<<"Filename : "<<filename<<endl;
+        cout<<"Resolution: "<<minsize<<endl;
+        cout<<"Bnds: "<<bnds<<endl;
+        cout<<"Refine on the feature only: "<<featureRefine<<endl;
 
 
-
-    //cout<<"Nodes size: "<<myNodes->size()<<endl;
-    //myQuadTree->write("qt");
-
-    myQuadTree->balancedRefineCurve(myQuadTree->head(),(featureRefine!=1));
-    cout<<"Nodes size: "<<myNodes->size()<<endl;
-
-    myQuadTree->assignSplitCode(myQuadTree->head());
-
-    Primal* myPrimal = new Primal(myQuadTree);
-
-    myPrimal->write("primal","");
-
-
-    //std::cout<<"00 :" <<myPrimal->str2ID("00",false)<<std::endl;
-    //std::cout<<"00 00 :" <<myPrimal->str2ID("0000",false)<<std::endl;
-    cout<<"Dual"<<endl;
-    Dual* myDual = new Dual(myPrimal);
-    cout<<"traverse done"<<endl;
-    myDual->write("dual","");
-if(bnds == 0)
-{
-    myDual->trim();
-    myDual->write("trimmeddual","");
-    myDual->project();
-    myDual->write("projecteddual","");
-      cout<<"projection done"<<endl;
-      myDual->snap();
-
-   myDual->write("snappeddual","");
-     cout<<"snap done"<<endl;
-     myDual->subdivide();
-    //myDual->write("subdivideddual","");
-    cout<<"subdivide done"<<endl;
-    myDual->project();
-   //myDual->write("projected2dual","");
-    myDual->snap();
-    myDual->write("snapped2dual","");
-    myDual->updateActiveNodes();
-    myDual->write(filename,"inp");
-}
+        Curve* myCurve;
+        myCurve = new Curve(filename);
+        filename = filename.substr(0,filename.length()-4);
+        myCurve->write("line");
+        if(bnds == 1)
+        {
+            cout<<"Using unit bounds"<<endl;
+            myCurve->lowerLeft(std::tuple<double,double>(-1,-1));
+            myCurve->upperRight(std::tuple<double,double>(1,1));
+        }
+        NodeList* myNodes;
+        myNodes = new NodeList();
+        //cout<<"Nodes size: "<<myNodes->size()<<endl;
+        QuadTree* myQuadTree;
+        myQuadTree=new QuadTree(myCurve,myNodes,minsize);
+        myQuadTree->subdivide(myQuadTree->head());
 
 
-    cout<<"execution done"<<endl;
-    /*
-    Surface* mySurface;
-    mySurface = new Surface("sphere.inp");
-    mySurface->write("sph");
 
-    NodeList* myNodes3;
-    myNodes3 = new NodeList();
+        //cout<<"Nodes size: "<<myNodes->size()<<endl;
+        //myQuadTree->write("qt");
 
-    OctTree* myOctTree;
-    myOctTree= new OctTree(mySurface,myNodes3,.5);
-    myOctTree->balancedRefineSurface(myOctTree->head());
-    //myOctTree->refineSurface(myOctTree->head());
-    myOctTree->write("test.inp","inp");
-    myOctTree->write("test.vtk","vtk");
-    cout<<"Nodes size: "<<myNodes3->size()<<endl;
-    //myNodes3->print();
+        myQuadTree->balancedRefineCurve(myQuadTree->head(),(featureRefine!=1));
+        cout<<"Nodes size: "<<myNodes->size()<<endl;
 
-*/
+        myQuadTree->assignSplitCode(myQuadTree->head());
+
+        Primal* myPrimal = new Primal(myQuadTree);
+
+        myPrimal->write("primal","");
+
+
+        //std::cout<<"00 :" <<myPrimal->str2ID("00",false)<<std::endl;
+        //std::cout<<"00 00 :" <<myPrimal->str2ID("0000",false)<<std::endl;
+        cout<<"Dual"<<endl;
+        Dual* myDual = new Dual(myPrimal);
+        cout<<"traverse done"<<endl;
+        myDual->write("dual","");
+        if(bnds == 0)
+        {
+            myDual->trim();
+            myDual->write("trimmeddual","");
+            myDual->project();
+            myDual->write("projecteddual","");
+            cout<<"projection done"<<endl;
+            myDual->snap();
+
+            myDual->write("snappeddual","");
+            cout<<"snap done"<<endl;
+            myDual->subdivide();
+            //myDual->write("subdivideddual","");
+            cout<<"subdivide done"<<endl;
+            myDual->project();
+            //myDual->write("projected2dual","");
+            myDual->snap();
+            myDual->write("snapped2dual","");
+            myDual->updateActiveNodes();
+            myDual->write(filename,"inp");
+        }
+
+
+        cout<<"execution done"<<endl;
+        /*
+        Surface* mySurface;
+        mySurface = new Surface("sphere.inp");
+        mySurface->write("sph");
+
+        NodeList* myNodes3;
+        myNodes3 = new NodeList();
+
+        OctTree* myOctTree;
+        myOctTree= new OctTree(mySurface,myNodes3,.5);
+        myOctTree->balancedRefineSurface(myOctTree->head());
+        //myOctTree->refineSurface(myOctTree->head());
+        myOctTree->write("test.inp","inp");
+        myOctTree->write("test.vtk","vtk");
+        cout<<"Nodes size: "<<myNodes3->size()<<endl;
+        //myNodes3->print();
+
+        */
     }
     else
-    { ///Run some tests:
+    {
+        ///Run some tests:
         Node A,B;
         B.X(1);
         B.Y(1);
@@ -121,7 +122,7 @@ if(bnds == 0)
         cout<<direction<<endl;
         cout<<dist<<endl;
 
-         Curve* myCurve = new Curve();
+        Curve* myCurve = new Curve();
 
         myCurve->lowerLeft(std::tuple<double,double>(-1,-1));
         myCurve->upperRight(std::tuple<double,double>(1,1));

@@ -13,7 +13,9 @@ Node& Node::operator=(const Node& rhs)
 {
     if (this == &rhs) return *this; // handle self assignment
     //assignment operator
-    x=rhs.x;y=rhs.y;z=rhs.z;
+    x=rhs.x;
+    y=rhs.y;
+    z=rhs.z;
     isActive=rhs.isActive;
     isFringe=rhs.isFringe;
     myID = rhs.myID;
@@ -53,9 +55,9 @@ Node* NodeList::addNode(Node N)
     bool fringe = N.fringe();
 
     std::list<Node>::iterator it;
-    for (it=nodes.begin(); it!=nodes.end();++it)
+    for (it=nodes.begin(); it!=nodes.end(); ++it)
         if(areEqual(it->xyz(),pt))
-        return &(*it);
+            return &(*it);
 
     count++;
     nodes.push_back(Node(pt,fringe,count));
@@ -67,11 +69,11 @@ Node* NodeList::addNode(Node N)
 Node* NodeList::addNode(std::tuple<double,double,double> pt,bool fringe)
 {
     std::list<Node>::iterator it;
-    for (it=nodes.begin(); it!=nodes.end();++it)
+    for (it=nodes.begin(); it!=nodes.end(); ++it)
         if(areEqual(it->xyz(),pt))
-        return &(*it);
+            return &(*it);
 
-        ++count;
+    ++count;
     nodes.push_back(Node(pt,fringe,count));
 
     return &(nodes.back());
@@ -79,12 +81,12 @@ Node* NodeList::addNode(std::tuple<double,double,double> pt,bool fringe)
 }
 Node* NodeList::addNode(std::tuple<double,double> pt,bool fringe)
 {
- std::list<Node>::iterator it;
-    for (it=nodes.begin(); it!=nodes.end();++it)
+    std::list<Node>::iterator it;
+    for (it=nodes.begin(); it!=nodes.end(); ++it)
         if(areEqual(it->xy(),pt))
-        return &(*it);
+            return &(*it);
 
-++count;
+    ++count;
     nodes.push_back(Node(pt,fringe,count));
 
     return &(nodes.back());
@@ -114,7 +116,7 @@ void NodeList::writeCSVAppend(std::string filename)
 {
     std::ofstream out_file(filename.c_str(),std::ios::app);
     for(auto n : nodes)
-    if(n.active())
+        if(n.active())
             out_file<<n.id()<<",\t"<<n.x<<",\t"<<n.y<<",\t"<<n.z<<std::endl;
     out_file.close();
 
@@ -122,7 +124,7 @@ void NodeList::writeCSVAppend(std::string filename)
 }
 void NodeList::writeTABAppend(std::string filename)
 {
- std::ofstream out_file(filename.c_str(),std::ios::app);
+    std::ofstream out_file(filename.c_str(),std::ios::app);
     for(auto n : nodes)
         out_file<<"\t"<<n.x<<"\t"<<n.y<<"\t"<<n.z<<std::endl;
     out_file.close();
@@ -130,48 +132,48 @@ void NodeList::writeTABAppend(std::string filename)
 void NodeList::fringe(int id,bool f)
 {
     ///set node that has given id, fringe status f
-     std::list<Node>::iterator it;
-    for(it = nodes.begin();it!=nodes.end();++it)
+    std::list<Node>::iterator it;
+    for(it = nodes.begin(); it!=nodes.end(); ++it)
         if(it->id()==id)
             it->fringe(f);
 }
 void NodeList::resetFringe()
 {
     std::list<Node>::iterator it;
-    for(it = nodes.begin();it!=nodes.end();++it)
-            it->fringe(false);
+    for(it = nodes.begin(); it!=nodes.end(); ++it)
+        it->fringe(false);
 }
 void NodeList::resetActive()
 {
     std::list<Node>::iterator it;
-    for(it = nodes.begin();it!=nodes.end();++it)
-            it->active(false);
+    for(it = nodes.begin(); it!=nodes.end(); ++it)
+        it->active(false);
 }
 void NodeList::resetForce()
 {
     std::list<Node>::iterator it;
-    for(it = nodes.begin();it!=nodes.end();++it)
-            {
-                it->fx = 0;
-                it->fy = 0;
-                it->fz = 0;
-            }
+    for(it = nodes.begin(); it!=nodes.end(); ++it)
+    {
+        it->fx = 0;
+        it->fy = 0;
+        it->fz = 0;
+    }
 }
 void NodeList::moveByForce()
 {
     std::list<Node>::iterator it;
-    for(it = nodes.begin();it!=nodes.end();++it)
-            {
-                if(!it->fringe())
-                {
-                it->x+=it->fx;
-                it->fx = 0;
-                it->y+=it->fy;
-                it->fy = 0;
-                it->z+=it->fz;
-                it->fz = 0;
-                }
-            }
+    for(it = nodes.begin(); it!=nodes.end(); ++it)
+    {
+        if(!it->fringe())
+        {
+            it->x+=it->fx;
+            it->fx = 0;
+            it->y+=it->fy;
+            it->fy = 0;
+            it->z+=it->fz;
+            it->fz = 0;
+        }
+    }
 }
 Node* NodeList::near(double x,double y)
 {
@@ -179,8 +181,8 @@ Node* NodeList::near(double x,double y)
 
     Node* closep=NULL;
 
-     std::list<Node>::iterator it;
-    for(it = nodes.begin();it!=nodes.end();++it)
+    std::list<Node>::iterator it;
+    for(it = nodes.begin(); it!=nodes.end(); ++it)
     {
         double tdist = (it->X()-x)*(it->X()-x)+(it->Y()-y)*(it->Y()-y);
         if(it==nodes.begin())
@@ -189,10 +191,10 @@ Node* NodeList::near(double x,double y)
             dist = (it->X()-x)*(it->X()-x)+(it->Y()-y)*(it->Y()-y);
         }
         else if(tdist < dist)
-            {
-                closep=&(*it);
-                dist = tdist;
-            }
+        {
+            closep=&(*it);
+            dist = tdist;
+        }
     }
     return closep;
 }
