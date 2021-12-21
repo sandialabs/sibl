@@ -106,6 +106,7 @@ def test_unit_square_contains():
 
     # assert known == found
 
+
 def test_unit_squares_inType():
     """Tests if simple points define an IN or OUT loop via the xybind library."""
 
