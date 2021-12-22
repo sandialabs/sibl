@@ -13,6 +13,7 @@ To run
 # import pytest
 
 import xybind as xyb
+import math
 
 
 def test_version():
@@ -149,7 +150,7 @@ def test_unit_squares_inType():
     px = [-1, 0, 1, 2, 3]
 
     # out of index, CCW, CW, CCW, out of index
-    known = [False, True, False, True, False]
+    known = [0, 1, -1, 1, 0]
 
     found = poly.inType(probe=px)
 
@@ -170,5 +171,28 @@ def test_qt_node_counts():
     known = [9, 14, 41, 74]
 
     found = qt.nodeSize(probe=px)
+
+    assert known == found
+
+
+def test_unit_circle_quad_mesh():
+    """Tests if quad mesh is generated on unit circle via the xybind library."""
+
+    bx = [0] * 360
+    by = [0] * 360
+    for th in range(360):
+        bx[th] = math.cos(th * math.pi / 180.0)
+        by[th] = math.sin(th * math.pi / 180.0)
+
+    mesh = xyb.QuadMesh(bx, by)
+    mesh.compute(resolution=1)
+
+    nds = mesh.nodes()
+    con = mesh.connectivity()
+
+    # out of index, CCW, CW, CCW, out of index
+    known = [93, 36]
+
+    found = [len(nds), len(con)]
 
     assert known == found

@@ -119,12 +119,14 @@ public:
     bool featureInBoundingBox(std::tuple<double, double> ll, std::tuple<double, double> ur);
     bool inCurve(double x, double y);
     std::tuple<double, double> nearestPt(double x, double y);
-    bool in(unsigned int ind)
+    int in(unsigned int ind)
     {
-        if(ind > inOrOut.size())
-            return false;
+        if(ind >= inOrOut.size())
+            return 0;
+        else if(ind < 0)
+            return 0;
         else
-            return inOrOut[ind];
+            return (inOrOut[ind]?1:-1);
     }
     std::vector<CurvePoint> corners()
     {

@@ -1217,9 +1217,9 @@ void Dual::walkB(Node A,Node &B, Node C)
 }
 std::vector<std::vector<int> > Dual::getConnectivity()
 {
-    std::vector<std::vector<int> > con;
-    std::list<Poly>::iterator it;
-    for(it=myPolys.begin(); it!=myPolys.end(); ++it)
+std::vector<std::vector<int> > con;
+ std::list<Poly>::iterator it;
+ for(it=myPolys.begin(); it!=myPolys.end(); ++it)
     {
         if(it->active())
         {
@@ -1231,5 +1231,4 @@ std::vector<std::vector<int> > Dual::getConnectivity()
             con.push_back(tmp);
         }
     }
-    return con;
 }

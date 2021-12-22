@@ -24,6 +24,7 @@ ext_modules = [
             "../dual/Curve.cpp",
             "../dual/QuadTree.cpp",
             "../dual/NodeList.cpp",
+            "../dual/Mesh.cpp",
         ],
         # Example: passing in the version to the compiled code
         define_macros=[("VERSION_INFO", __version__)],

@@ -138,14 +138,7 @@ int main(int argc, char *argv[])
         myPrimal->write("primal","");
         Dual* myDual = new Dual(myPrimal);
         myDual->write("dual","");
-        myDual->smooth();
-        myDual->write("smoothdual1","");
-        myDual->smooth();
-        myDual->write("smoothdual2","");
-        myDual->smooth();
-        myDual->write("smoothdual3","");
-        myDual->smooth();
-        myDual->write("smoothdual4","");
+
 
 
 
