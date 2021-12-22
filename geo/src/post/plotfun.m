@@ -11,7 +11,7 @@ delete *quads
 delete *tmp
 
 plotall = 1;
-testCase = 13
+testCase = 4
 resolution = 1;
 featureFlag = 0;
   switch testCase
@@ -91,10 +91,11 @@ featureFlag = 0;
           step = (.1);        
           th = [0:step:360-step];
           baseName = 'PerfectCircle';
-         xp = 10*cosd(th);
-         yp = 10*sind(th);
+         xp = 5*cosd(th);
+         yp = 5*sind(th);
           resolution = 10*sqrt(2)*0.1%;
           resolution =.2
+          resolution =1
            case 5
           step = (.1);        
           th = [0:step:360-step];

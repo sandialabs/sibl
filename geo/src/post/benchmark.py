@@ -19,7 +19,7 @@ from matplotlib import rc
 
 
 def main():
-    shown: Final = False
+    shown: Final = True
     serialize: Final = True
 
     latex: Final = False

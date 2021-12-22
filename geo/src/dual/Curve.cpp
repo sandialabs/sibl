@@ -99,10 +99,28 @@ Curve::Curve(const std::vector<float> &boundary_x, const std::vector<float> &bou
 {
     CurvePoint cp(0,0);
     std::vector<CurvePoint> tmpVec;
+     bool unset = true;
     for(unsigned int lcv =0; lcv < boundary_x.size(); ++lcv)
     {
         if(!std::isnan(boundary_x[lcv]))
-            tmpVec.push_back(CurvePoint(boundary_x[lcv],boundary_y[lcv]));
+        {    tmpVec.push_back(CurvePoint(boundary_x[lcv],boundary_y[lcv]));
+            if(unset)
+            {
+                std::get<XIND>(ll)=boundary_x[lcv];
+                std::get<YIND>(ll)=boundary_y[lcv];
+                std::get<XIND>(ur)=boundary_x[lcv];
+                std::get<YIND>(ur)=boundary_y[lcv];
+                unset=false;
+            }
+            if(boundary_x[lcv] < std::get<XIND>(ll))
+                std::get<XIND>(ll)=boundary_x[lcv];
+            if(boundary_x[lcv] > std::get<XIND>(ur))
+                std::get<XIND>(ur)=boundary_x[lcv];
+            if(boundary_y[lcv] < std::get<YIND>(ll))
+                std::get<YIND>(ll)=boundary_y[lcv];
+            if(boundary_y[lcv] > std::get<YIND>(ur))
+                std::get<YIND>(ur)=boundary_y[lcv];
+        }
         else
         {
             inOrOut.push_back(checkDirectionAndFlip(tmpVec));
