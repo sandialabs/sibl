@@ -80,11 +80,14 @@ echo "Installing the ptg module in developer mode..."
 cd ~/sibl/geo
 pip install -e .
 #
-echo "Installing the xybind module in developer mode..."
+echo "Removing old object files for xybind, if they already exist."
 cd ~/sibl/geo/src/bind
+rm -rf build
+echo "Installing the xybind module in developer mode..."
+# still in ~/sibl/geo/src/bind folder
 pip install -e .
 # 
-echo "Installing the xyfigure module in developer mode..."
+echo "...Installing the xyfigure module in developer mode..."
 cd ~/sibl/cli
 pip install -e .
 # 
