@@ -196,7 +196,7 @@ public:
     void write(std::string filename);
     void writeCSVAppend(std::string filename);
     void writeTABAppend(std::string filename);
-    std::vector<std::vector<float> > getNodes();
+
 
 private:
     std::list<Node> nodes;

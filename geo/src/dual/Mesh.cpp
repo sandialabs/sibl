@@ -1233,3 +1233,22 @@ std::vector<std::vector<int> > Dual::getConnectivity()
     }
     return con;
 }
+std::vector<std::vector<float> > Dual::getNodes()
+{
+    std::vector<std::vector<float> > nds;
+    std::list<Node>::iterator it;
+    for(it = myNodes->nodes.begin(); it!=myNodes->nodes.end(); ++it)
+    {
+        if(it->active())
+        {
+            std::vector<float> tmp(4,0);
+            tmp[0] = it->id();
+            tmp[1] = it->X();
+            tmp[2] = it->Y();
+            tmp[3] = it->Z();
+            nds.push_back(tmp);
+        }
+    }
+    return nds;
+
+}

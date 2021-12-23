@@ -111,7 +111,7 @@ public:
     void subdivide();
     bool split3(Poly* p);
     std::vector<std::vector<int> > getConnectivity();
-
+    std::vector<std::vector<float> > getNodes();
 private:
     int count;
 

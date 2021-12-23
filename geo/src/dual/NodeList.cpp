@@ -159,25 +159,7 @@ void NodeList::resetForce()
         it->fz = 0;
     }
 }
-std::vector<std::vector<float> > NodeList::getNodes()
-{
-    std::vector<std::vector<float> > nds;
-    std::list<Node>::iterator it;
-    for(it = nodes.begin(); it!=nodes.end(); ++it)
-    {
-        if(it->active())
-        {
-            std::vector<float> tmp(4,0);
-            tmp[0] = it->myID;
-            tmp[1] = it->x;
-            tmp[2] = it->y;
-            tmp[3] = it->z;
-            nds.push_back(tmp);
-        }
-    }
-    return nds;
 
-}
 void NodeList::moveByForce()
 {
     std::list<Node>::iterator it;

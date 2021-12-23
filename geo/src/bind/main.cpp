@@ -141,7 +141,7 @@ struct QuadMesh
 
     std::vector<std::vector<float> > nodes()
     {
-        return N->getNodes();
+        return D->getNodes();
     }
     std::vector<std::vector<int> > connectivity()
     {
