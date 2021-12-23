@@ -1224,10 +1224,10 @@ std::vector<std::vector<int> > Dual::getConnectivity()
         if(it->active())
         {
             std::vector<int> tmp;
-            tmp.push_back(it->myNodes[0]->id());
-            tmp.push_back(it->myNodes[1]->id());
-            tmp.push_back(it->myNodes[2]->id());
-            tmp.push_back(it->myNodes[3]->id());
+            tmp.push_back((it->myNodes[0])->id());
+            tmp.push_back((it->myNodes[1])->id());
+            tmp.push_back((it->myNodes[2])->id());
+            tmp.push_back((it->myNodes[3])->id());
             con.push_back(tmp);
         }
     }
