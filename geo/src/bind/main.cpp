@@ -135,6 +135,7 @@ struct QuadMesh
         D->snap();
         D->updateActiveNodes();
         D->write(filename,"inp");
+        D->write(filename,"");
 
     }
 
