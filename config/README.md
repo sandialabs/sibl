@@ -2,10 +2,12 @@
 
 ## Developer configuration
 
-* [Miniconda](https://docs.conda.io/en/latest/miniconda.html) (or [Anaconda](https://docs.anaconda.com/), as an alternative, as both support [conda](https://docs.conda.io/en/latest/) package manager)
+* [Miniconda](https://docs.conda.io/en/latest/miniconda.html) (or [Anaconda](https://docs.anaconda.com/), as an alternative, as both support [conda](https://docs.conda.io/en/latest/) package manager).
 * Version control: [Git](https://git-scm.com/)
   * macOS: May require installation of [Xcode command line tools](https://developer.apple.com/xcode/features/) prior to installation of Git.
-* (Optional) IDE: [VS Code](https://code.visualstudio.com/), with [settings](https://dev.to/adamlombard/how-to-use-the-black-python-code-formatter-in-vscode-3lo0) for using Black to automatically format Python
+* (Optional) IDE: [VS Code](https://code.visualstudio.com/), with [settings](https://dev.to/adamlombard/how-to-use-the-black-python-code-formatter-in-vscode-3lo0) for using Black to automatically format Python.
+* (Windows only): Microsoft C++ Build Tools (see [Updates](#updates) dated 2021-12-20 below).
+* `> cd ~/sibl/config; ./env_create.sh` to create the conda enivironment.
 
 ### Updates
 
@@ -33,12 +35,12 @@
   * [Download](https://visualstudio.microsoft.com/visual-cpp-build-tools/) Microsoft C++ Build Tools, downloads `vs_buildtools__c6a4b5ec79d2436b97e7ac254ee30591.exe` (1,431 kB).
     * Individual components: Compilers, build tools, runtimes: C++/CLI support for v142 build tools (Latest) (1.26 GB).
   * [Download](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) C/C++ for Visual Studio Code
-* 2021-11-18: Update from Python 3.9 to 3.10 (optional)
-  * Windows: from [Python.org](https://www.python.org/downloads/release/python-3100/), download the Windows installer (64-bit), MD5 `c3917c08a7fe85db7203da6dcaa99a70`, which downloads `python-3.10.0-amd64.exe` as 27,653kB.  
-    * Check hash: `$ certutil -hashfile python-3.10.0-amd64.exe MD5`
-    * Checks as `c3917c08a7fe85db7203da6dcaa99a70`
-    * Installs to `Titan$ C:\Users\chadh\AppData\Local\Programs\Python\Python310`
-    * Stop using `Titan$ C:\Users\chadh\miniconda3\python` (Python 3.9).  As of 2021-12-15, there is no Miniconda installer for Windows for Python 3.10.
+* ~~2021-11-18: Update from Python 3.9 to 3.10 (optional)~~
+  * ~~Windows: from [Python.org](https://www.python.org/downloads/release/python-3100/), download the Windows installer (64-bit), MD5 `c3917c08a7fe85db7203da6dcaa99a70`, which downloads `python-3.10.0-amd64.exe` as 27,653kB.~~
+    * ~~Check hash: `$ certutil -hashfile python-3.10.0-amd64.exe MD5`~~
+    * ~~Checks as `c3917c08a7fe85db7203da6dcaa99a70`~~
+    * ~~Installs to `Titan$ C:\Users\chadh\AppData\Local\Programs\Python\Python310`~~
+    * ~~Stop using `Titan$ C:\Users\chadh\miniconda3\python` (Python 3.9).  As of 2021-12-15, there is no Miniconda installer for Windows for Python 3.10.~~
 * 2021-07-18: Update from Python 3.8.5 to 3.9.
   * Update Miniconda
   * Update `env_create.sh` and then
@@ -104,10 +106,10 @@ $ git config user.name "James Bond"  # your first and last name in quotations
 $ git config user.email "jb007@company.com"  # your email address in quotations
 ```
 
-## Gitflow
+## ~~Gitflow~~
 
-* macOS `> brew install git-flow`
-* Windows [download and install](https://git-scm.com/download/win) `git-flow`
+* ~~macOS `> brew install git-flow`~~
+* ~~Windows [download and install](https://git-scm.com/download/win) `git-flow`~~
 
 ## References
 

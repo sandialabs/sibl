@@ -4,7 +4,7 @@
 
 The Sandia Injury Biomechanics Laboratory analyzes injury due to blast, ballistics, and blunt trauma to help the nation protect the U.S. warfighter. Our contributions to the science of injury causation and prevention aim to significantly reduce the U.S. warfighter's exposure to serious, severe, and fatal injuries.
 
-For more information, see our [website](https://www.sandia.gov/biomechanics/).
+For more information &mdash; including publications, presentations, and reports &mdash; see our [website](https://www.sandia.gov/biomechanics/).
 
 ## Library
 

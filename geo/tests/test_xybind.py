@@ -17,7 +17,7 @@ import math
 
 
 def test_version():
-    assert xyb.__version__ == "0.0.4"
+    assert xyb.__version__ == "0.0.6"
 
 
 def test_add():
@@ -178,21 +178,30 @@ def test_qt_node_counts():
 def test_unit_circle_quad_mesh():
     """Tests if quad mesh is generated on unit circle via the xybind library."""
 
-    bx = [0] * 360
-    by = [0] * 360
-    for th in range(360):
-        bx[th] = math.cos(th * math.pi / 180.0)
-        by[th] = math.sin(th * math.pi / 180.0)
+    # bx = [0] * 360
+    # by = [0] * 360
+    # for th in range(360):
+    #    bx[th] = math.cos(th * math.pi / 180.0)
+    #    by[th] = math.sin(th * math.pi / 180.0)
 
-    mesh = xyb.QuadMesh(bx, by)
+    n_samples = 360  # number of discrete sample points
+    radius = 1.0
+    ts = tuple(range(n_samples))  # pseudo-time parameter
+    # create a boundary with x and y points
+    xs = [radius * math.cos(2.0 * math.pi * t / n_samples) for t in ts]
+    ys = [radius * math.sin(2.0 * math.pi * t / n_samples) for t in ts]
+
+    # mesh = xyb.QuadMesh(bx, by)
+    mesh = xyb.QuadMesh(xs, ys)
     mesh.compute(resolution=1)
 
     nds = mesh.nodes()
     con = mesh.connectivity()
 
     # out of index, CCW, CW, CCW, out of index
-    known = [93, 36]
+    nnp, nel = 49, 36  # number of nodal points, number of elements
+    known = (nnp, nel)
 
-    found = [len(nds), len(con)]
+    found = (len(nds), len(con))
 
     assert known == found
