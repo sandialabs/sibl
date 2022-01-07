@@ -10,8 +10,8 @@ jobs:
     strategy:
       max-parallel: 2
       matrix:
-        # platform: [macos-latest, ubuntu-latest, windows-latest]
-        platform: [macos-latest]
+        platform: [macos-latest, ubuntu-latest, windows-latest]
+        # platform: [macos-latest]
         # platform: [windows-latest, macos-latest]
         # platform: [ubuntu-latest, macos-latest]
         # python-version: [3.9.5, 3.10.0]
