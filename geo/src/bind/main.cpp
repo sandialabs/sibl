@@ -43,19 +43,29 @@ struct Pet
 
 struct Polygon
 {
-    // Polygon(const std::vector<float> &boundary_x, const std::vector<float> &boundary_y) : Curve(boundary_x, boundary_y) {}
-    Polygon(const std::vector<float> &boundary_x, const std::vector<float> &boundary_y)
+    /* 
+    Polygon(
+        const std::vector<float> &boundary_x,
+        const std::vector<float> &boundary_y)
+        : Curve(boundary_x, boundary_y) {}
+    */
+    Polygon(
+        const std::vector<float> &boundary_x,
+        const std::vector<float> &boundary_y)
     {
         C = new Curve(boundary_x, boundary_y);
     }
 
-    std::vector<bool> contains(const std::vector<float> &probe_x, const std::vector<float> &probe_y)
+    std::vector<bool> contains(
+        const std::vector<float> &probe_x,
+        const std::vector<float> &probe_y)
     {
         std::vector<bool> test(probe_x.size(), false);
         for (unsigned int i = 0; i < test.size(); ++i)
             test[i] = C->inCurve(probe_x[i], probe_y[i]);
         return test;
     }
+
     std::vector<int> inType(const std::vector<int> &probe)
     {
         std::vector<int> test(probe.size(), 0);
@@ -69,26 +79,28 @@ struct Polygon
 
 struct QT
 {
-    QT(const std::vector<float> &boundary_x, const std::vector<float> &boundary_y)
+    QT(
+        const std::vector<float> &boundary_x,
+        const std::vector<float> &boundary_y)
     {
         C = new Curve(boundary_x, boundary_y);
-        C->lowerLeft(std::tuple<double,double>(-1,-1));
-        C->upperRight(std::tuple<double,double>(1,1));
-        std::cout<<"Constructor complete"<<std::endl;
+        C->lowerLeft(std::tuple<double, double>(-1, -1));
+        C->upperRight(std::tuple<double, double>(1, 1));
+        std::cout << "Constructor complete" << std::endl;
     }
 
     std::vector<int> nodeSize(const std::vector<float> &probe)
     {
-        std::cout<<"Testing sizes"<<std::endl;
+        std::cout << "Testing sizes" << std::endl;
         std::vector<int> test(probe.size(), 0);
 
         for (unsigned int i = 0; i < test.size(); ++i)
         {
-            std::cout<<"Test resolution: "<<probe[i]<<std::endl;
+            std::cout << "Test resolution: " << probe[i] << std::endl;
             N = new NodeList();
-            Q = new QuadTree(C,N,probe[i]);
+            Q = new QuadTree(C, N, probe[i]);
             Q->subdivide(Q->head());
-            Q->balancedRefineCurve(Q->head(),true);
+            Q->balancedRefineCurve(Q->head(), true);
             test[i] = N->size();
             delete Q;
             delete N;
@@ -99,28 +111,30 @@ struct QT
     Curve *C;
     QuadTree *Q;
     NodeList *N;
-
 };
+
 struct QuadMesh
 {
     ///Provides the basic interface between the C++ engine and python
-    QuadMesh(const std::vector<float> &boundary_x, const std::vector<float> &boundary_y)
+    QuadMesh(
+        const std::vector<float> &boundary_x,
+        const std::vector<float> &boundary_y)
     {
         C = new Curve(boundary_x, boundary_y);
-        std::cout<<"Constructor complete"<<std::endl;
+        std::cout << "QuadMesh constructor complete" << std::endl;
         featureRefine = false;
         filename = "mesh";
     }
 
     void compute(double resolution)
     {
-        std::cout<<"Computing Mesh"<<std::endl;
+        std::cout << "Computing Mesh" << std::endl;
 
         N = new NodeList();
-        Q = new QuadTree(C,N,resolution);
+        Q = new QuadTree(C, N, resolution);
 
         Q->subdivide(Q->head());
-        Q->balancedRefineCurve(Q->head(),!featureRefine);
+        Q->balancedRefineCurve(Q->head(), !featureRefine);
         Q->assignSplitCode(Q->head());
 
         P = new Primal(Q);
@@ -129,20 +143,19 @@ struct QuadMesh
         D->project();
         D->snap();
 
-
         D->subdivide();
         D->project();
         D->snap();
         D->updateActiveNodes();
-        D->write(filename,"inp");
-        D->write(filename,"");
-
+        D->write(filename, "inp");
+        D->write(filename, "");
     }
 
     std::vector<std::vector<float> > nodes()
     {
         return D->getNodes();
     }
+
     std::vector<std::vector<int> > connectivity()
     {
         return D->getConnectivity();
@@ -155,9 +168,7 @@ struct QuadMesh
     Dual *D;
     std::string filename;
     bool featureRefine;
-
 };
-
 
 namespace py = pybind11;
 
@@ -174,10 +185,8 @@ PYBIND11_MODULE(xybind, m)
     // example with inline lambda c++ function
     m.def(
         "subtract", [](int a, int b)
-    {
-        return a - b;
-    },
-    "Subtract two integers.");
+        { return a - b; },
+        "Subtract two integers.");
 
     // attributes
     m.attr("the_answer") = 42;
@@ -190,27 +199,27 @@ PYBIND11_MODULE(xybind, m)
 
     // struct
     py::class_<Pet>(m, "Pet")
-    .def(py::init<const std::string &>())
-    .def_property("name", &Pet::getName, &Pet::setName);
+        .def(py::init<const std::string &>())
+        .def_property("name", &Pet::getName, &Pet::setName);
 
     // py::class_<Parade>(m, "Parade")
     //     .def(py::init<const std::vector<float> &, const std::vector<float> &>())
     //     .def("contains", &Parade::contains, py::kw_only(), py::arg("probe_x"), py::kw_only(), py::arg("probe_y"), "Returns a vector with True or False for each element with coordinates probe_x, probe_y.");
 
     py::class_<Polygon>(m, "Polygon")
-    .def(py::init<const std::vector<float> &, const std::vector<float> &>())
-    .def("contains", &Polygon::contains, py::kw_only(), py::arg("probe_x"), py::kw_only(), py::arg("probe_y"), "Returns a vector with True or False for each element with coordinates probe_x, probe_y.")
-    .def("inType", &Polygon::inType, py::kw_only(), py::arg("probe"), "Return 1 or -1 if curve at index probe is CCW(1) or CCW(-1) or 0 if out of bounds.");
+        .def(py::init<const std::vector<float> &, const std::vector<float> &>())
+        .def("contains", &Polygon::contains, py::kw_only(), py::arg("probe_x"), py::arg("probe_y"), "Returns a vector with True or False for each element with coordinates probe_x, probe_y.")
+        .def("inType", &Polygon::inType, py::kw_only(), py::arg("probe"), "Return 1 or -1 if curve at index probe is CCW(1) or CCW(-1) or 0 if out of bounds.");
 
     py::class_<QT>(m, "QT")
-    .def(py::init<const std::vector<float> &, const std::vector<float> &>())
-    .def("nodeSize", &QT::nodeSize,  py::kw_only(),py::arg("probe"),"Returns a vector of ints with the node count as  a result of probe resolution.");
+        .def(py::init<const std::vector<float> &, const std::vector<float> &>())
+        .def("nodeSize", &QT::nodeSize, py::kw_only(), py::arg("probe"), "Returns a vector of ints with the node count as  a result of probe resolution.");
 
     py::class_<QuadMesh>(m, "QuadMesh")
-    .def(py::init<const std::vector<float> &, const std::vector<float> &>())
-    .def("compute", &QuadMesh::compute,  py::kw_only(),py::arg("resolution"),"Calculates the quad/dual mesh at resolution.")
-    .def("nodes", &QuadMesh::nodes,"Returns a matrix of nodes in columns [node number, x, y, z].")
-    .def("connectivity", &QuadMesh::connectivity,"Returns a matrix of ints in columns [node number 1, node number 2, node number 3, node number 4].");
+        .def(py::init<const std::vector<float> &, const std::vector<float> &>())
+        .def("compute", &QuadMesh::compute, py::kw_only(), py::arg("resolution"), "Calculates the quad/dual mesh at resolution.")
+        .def("nodes", &QuadMesh::nodes, "Returns a matrix of nodes in columns [node number, x, y, z].")
+        .def("connectivity", &QuadMesh::connectivity, "Returns a matrix of ints in columns [node number 1, node number 2, node number 3, node number 4].");
 
 #ifdef VERSION_INFO
     m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);
