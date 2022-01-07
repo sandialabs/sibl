@@ -1,6 +1,8 @@
 #ifndef CURVE_H
 #define CURVE_H
 
+
+
 #include <string>
 #include <tuple>
 #include <vector>
@@ -90,6 +92,17 @@ private:
     double myTanX, myTanY, myAngle, myCurvature;
 };
 
+inline int sign(const double &d)
+{
+        if(d > 0)
+            return 1;
+        else if(d<0)
+            return -1;
+        else
+            return 0; ///Does 0 have a sign? What is a good convention?
+}
+
+
 class Curve
 {
 public:
@@ -115,6 +128,7 @@ public:
     }
 
     ///TODO: Add check for line segment within a bounding box, not just the point cloud
+    bool intersects(const std::tuple<double,double,double> &T1,const std::tuple<double,double,double> &T2,const std::tuple<double,double,double> &T3,const std::tuple<double,double,double> &P1,const std::tuple<double,double,double> &P2);
     bool inBoundingBox(std::tuple<double, double> ll, std::tuple<double, double> ur);
     bool featureInBoundingBox(std::tuple<double, double> ll, std::tuple<double, double> ur);
     bool inCurve(double x, double y);
@@ -143,11 +157,15 @@ private:
     bool checkDirectionAndFlip(std::vector<CurvePoint> &CurvePoints);
     double cross(CurvePoint &A, CurvePoint &B, CurvePoint &C);
     double area(std::vector<CurvePoint> &CurvePoints);
+
     std::vector<std::vector<CurvePoint> > myCurvePoints;
     std::vector<bool> inOrOut;
     std::vector<CurvePoint> myCorners;
     std::vector<CurvePoint> myFeatures; ///TODO MAKE FEATURES a vector of vector, eventually we will use analytical line segment in quad test
     std::tuple<double, double> ur, ll;
+
+
+
 };
 
 #endif

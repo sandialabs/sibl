@@ -127,6 +127,32 @@ int main(int argc, char *argv[])
         myCurve->lowerLeft(std::tuple<double,double>(-1,-1));
         myCurve->upperRight(std::tuple<double,double>(1,1));
 
+        std::tuple<double,double,double> T1(0,0,0);
+        std::tuple<double,double,double> T2(1,0,0);
+        std::tuple<double,double,double> T3(1,1,0);
+        std::tuple<double,double,double> T4(0,1,0);
+        std::tuple<double,double,double> P1(0,.5,0);
+        std::tuple<double,double,double> P2(1,.5,0);
+        std::tuple<double,double,double> P3(0,1.5,0);
+        std::tuple<double,double,double> P4(1,1.5,0);
+        std::tuple<double,double,double> P5(0,0,0);
+        std::tuple<double,double,double> P6(1,0,0);
+        std::tuple<double,double,double> P7(1,1,0);
+        std::tuple<double,double,double> P8(0,1,0);
+        std::tuple<double,double,double> P9(1,2,0);
+        std::tuple<double,double,double> P10(0,-1,0);
+        std::tuple<double,double,double> P11(1,0,0);
+
+
+        cout<<"intersection (true): "<<myCurve->intersects(T1,T2,T3,P1,P2)<<endl;
+        cout<<"intersection (false): "<<myCurve->intersects(T1,T2,T3,P3,P4)<<endl;
+        cout<<"intersection (true): "<<myCurve->intersects(T1,T2,T3,P5,P6)<<endl;
+        cout<<"intersection (true): "<<myCurve->intersects(T1,T2,T3,P5,P7)<<endl;
+        cout<<"intersection (false): "<<myCurve->intersects(T1,T2,T3,P8,P9)<<endl;
+        cout<<"intersection (true): "<<myCurve->intersects(T1,T2,T3,P10,P11)<<endl;
+
+
+
         NodeList* myNodes;
         myNodes = new NodeList();
 

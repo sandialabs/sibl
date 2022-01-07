@@ -11,7 +11,7 @@ delete *quads
 delete *tmp
 
 plotall = 1;
-testCase = 4
+testCase = 5
 resolution = 1;
 featureFlag = 0;
   switch testCase
@@ -88,7 +88,7 @@ featureFlag = 0;
           resolution = 2;
          
        case 4
-          step = (.1);        
+          step = (5);        
           th = [0:step:360-step];
           baseName = 'PerfectCircle';
          xp = 5*cosd(th);
@@ -97,7 +97,7 @@ featureFlag = 0;
           resolution =.2
           resolution =1
            case 5
-          step = (.1);        
+          step = (5);        
           th = [0:step:360-step];
           baseName = 'HigherResolutionPerfectCircle';
          xp = 10*cosd(th);
@@ -370,6 +370,16 @@ featureFlag = 0;
                     
             resolution = 5;
             plotall= 1;
+        case 16
+          
+          baseName = 'Four-Square';
+            
+         
+          xp = [0 0.5  1   1     1   0.5  0   0 ];
+          yp = [0 0    0  0.5    1    1   1  0.5 ];
+     
+          resolution = .1;
+         
       otherwise
           
             disp('Unknown method.')
