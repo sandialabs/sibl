@@ -17,7 +17,7 @@ import math
 
 
 def test_version():
-    assert xyb.__version__ == "0.0.6"
+    assert xyb.__version__ == "0.0.7"
 
 
 def test_add():

@@ -38,7 +38,7 @@ The examples and validations presented in the documents are all created with the
 
 ![circle_boundary_mesh](geo/doc/dual/fig/circle_boundary_mesh.png)
 
-The *SIBL Mesh Engine* is a C++ library with Python bindings that creates 2D dualized quadrilateral meshes.  Follow the [Lessons](geo/doc/dual/lesson_01.md) to get started.
+The *SIBL Mesh Engine* is a C++ library with Python bindings that creates 2D dualized quadrilateral meshes.  Follow the [Lessons](geo/doc/dual/README.md) to get started.
 
 ### Additional Documentation
 

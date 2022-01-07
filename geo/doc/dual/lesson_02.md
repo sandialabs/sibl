@@ -39,4 +39,5 @@ The same figure created in Lesson 01 should appear again for this lesson:
 
 ![circle_boundary](fig/circle_boundary.png)
 
-Next: [Lesson 03](lesson_03.md)
+[ [Index](README.md) ]
+[ Next: [Lesson 03](lesson_03.md) ]

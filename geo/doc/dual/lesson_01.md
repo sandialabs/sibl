@@ -46,4 +46,5 @@ plt.show()
 
 ![circle_boundary](fig/circle_boundary.png)
 
-Next: [Lesson 02](lesson_02.md)
+[ [Index](README.md) ]
+[ Next: [Lesson 02](lesson_02.md) ]
