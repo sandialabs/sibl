@@ -8,6 +8,8 @@ For more information &mdash; including publications, presentations, and reports 
 
 ## Library
 
+The `xyfigure` library is an open-source geometry and mesh engine written in Python and C++.
+
 ### Information
 
 [![python](https://img.shields.io/badge/python-3.9.5-blue.svg)](https://www.python.org/) 
@@ -19,7 +21,7 @@ For more information &mdash; including publications, presentations, and reports 
 
 [![pytest](https://github.com/sandialabs/sibl/workflows/pytest/badge.svg)](https://github.com/sandialabs/sibl/actions) [![blacktest](https://github.com/sandialabs/sibl/workflows/blacktest/badge.svg)](https://github.com/sandialabs/sibl/actions) [![covertest](https://github.com/sandialabs/sibl/workflows/covertest/badge.svg)](https://github.com/sandialabs/sibl/actions) [![codecov](https://codecov.io/gh/sandialabs/sibl/branch/master/graph/badge.svg)](https://codecov.io/gh/sandialabs/sibl)
 
-### Documentation
+### Geometry Engine
 
 ![geo_doc_fig](geo/doc/fig/N_p=2_NCP=8.png)
 
@@ -32,12 +34,21 @@ The mathematical development used in the library is contained in two documents:
 
 The examples and validations presented in the documents are all created with the *SIBL Geometry Engine*, connecting theory with implementation.  The *Geometry Engine* is a fundamental part of the Pixel to Mesh and Pixel to Geometry (PTM/PTG) [workflows](geo/doc/unit-test-ptm.md).
 
-This repository also contains documentation for the [xyfigure](cli/doc/README.md) and [tpav](cli/tests/tpav/README.md) implementations.
+### Mesh Engine
 
-### Getting Started
+![circle_boundary_mesh](geo/doc/dual/fig/circle_boundary_mesh.png)
+
+The *SIBL Mesh Engine* is a C++ library with Python bindings that creates 2D dualized quadrilateral meshes.  Follow the [Lessons](geo/doc/dual/lesson_01.md) to get started.
+
+### Additional Documentation
+
+* Also see the [xyfigure](cli/doc/README.md) and [tpav](cli/tests/tpav/README.md) documentation.
+
+### Contributing
 
 * To get started, developers should [configure](config/README.md) their development environment.
 * Then, developers should follow the developer [workflow](config/workflow.md).
+* To contribute, developers should submit a merge request.
 
 ## Contact
 
