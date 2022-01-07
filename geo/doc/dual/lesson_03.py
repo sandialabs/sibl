@@ -94,7 +94,6 @@ def main():
         element_points = [key_value_dict[ii] for ii in map(str, e)]
         exs = [pt[ix] for pt in element_points]
         eys = [pt[iy] for pt in element_points]
-        aa = 4
         plt.fill(
             exs,
             eys,
