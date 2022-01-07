@@ -112,7 +112,8 @@ def main():
     plt.axis("on")
 
     plt.show()
-    aa = 4
+
+    # TODO: saving the plot, and writing to a .mesh file
 
 
 if __name__ == "__main__":
