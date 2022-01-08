@@ -2,7 +2,7 @@
 
 The **goal** of this lesson is to verify that the local `siblenv` environment has been [configured](../../../config/README.md) and is ready for use.
 
-From the command line, activate the `siblenv` environment, then start python.
+From the command line, run the following commands:
 
 ```bash
 > cd ~/sibl
