@@ -41,3 +41,4 @@ The same figure created in Lesson 01 should appear again for this lesson:
 
 [ [Index](README.md) ]
 [ Next: [Lesson 03](lesson_03.md) ]
+

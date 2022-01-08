@@ -1,5 +1,7 @@
 # Lesson 01: Plot a boundary interactively
 
+Prerequisite: [Lesson 00](lesson_00.md)
+
 The **goal** of this lesson is to use the `siblenv` environment to plot a discrete, 2D boundary.
 
 From the command line, activate the `siblenv` environment, then start python.
@@ -48,3 +50,4 @@ plt.show()
 
 [ [Index](README.md) ]
 [ Next: [Lesson 02](lesson_02.md) ]
+
