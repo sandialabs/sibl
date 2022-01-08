@@ -12,7 +12,6 @@ Run this python script, [`lesson_21.py`](lesson_21.py) from the command line:
 
 | Rushdi Fig. 15 | SHT method |
 |:---:|:---:|
-|  | ![](fig/lesson_21_boundary.png) |
 | ![](fig/rushdi_2017_fig_15.png) | ![](fig/lesson_21_res=0.2_.png) |
 
 [ [Index](README.md) ]
@@ -22,3 +21,7 @@ Run this python script, [`lesson_21.py`](lesson_21.py) from the command line:
 ### Rushdi 2017
 
 * Rushdi AA, Mitchell SA, Mahmoud AH, Bajaj CC, Ebeida MS. All-quad meshing without cleanup. Computer-Aided Design. 2017 Apr 1;85:83-98.
+
+| | boundary for SHT method |
+|:---:|:---:|
+| ![](fig/rushdi_2017_fig_15.png) | ![](fig/lesson_21_boundary.png) |
