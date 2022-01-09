@@ -79,8 +79,8 @@ def edges(*, mesh: Mesh) -> tuple[tuple[int, int], ...]:
         mesh (Mesh): The mesh object, composed of coordinates and connectivity.
 
     Returns:
-        tuple[tuple[Point2D, Point2D], ...]: A tuple of edges defined by a start
-            and stop point.
+        tuple[tuple[int, int], ...]: A tuple of edges defined by a start node number
+            and stop node number.
             e.g.,
                 (
                     (x0_start, y0_start), (x0_stop, y0_stop),
