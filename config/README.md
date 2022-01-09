@@ -2,12 +2,17 @@
 
 ## Developer configuration
 
-* [Miniconda](https://docs.conda.io/en/latest/miniconda.html) (or [Anaconda](https://docs.anaconda.com/), as an alternative, as both support [conda](https://docs.conda.io/en/latest/) package manager).
-* Version control: [Git](https://git-scm.com/)
-  * macOS: May require installation of [Xcode command line tools](https://developer.apple.com/xcode/features/) prior to installation of Git.
-* (Optional) IDE: [VS Code](https://code.visualstudio.com/), with [settings](https://dev.to/adamlombard/how-to-use-the-black-python-code-formatter-in-vscode-3lo0) for using Black to automatically format Python.
-* (Windows only): Microsoft C++ Build Tools (see [Updates](#updates) dated 2021-12-20 below).
-* `> cd ~/sibl/config; ./env_create.sh` to create the conda enivironment.
+* Required
+  * [Miniconda](https://docs.conda.io/en/latest/miniconda.html) (or [Anaconda](https://docs.anaconda.com/), as an alternative, as both support [conda](https://docs.conda.io/en/latest/) package manager).
+  * Version control: [Git](https://git-scm.com/)
+  * macOS only
+    * May require installation of [Xcode command line tools](https://developer.apple.com/xcode/features/) prior to installation of Git.
+  * Windows only
+    * May require Microsoft C++ Build Tools (see [Updates](#updates) dated 2021-12-20 below).
+  * `> cd ~/sibl/config; ./env_create.sh` to create the conda enivironment.
+* Optional
+  * [Neovim](https://neovim.io/) (version 0.5.0) for compatibility with the vscode-neovim [plugin](https://github.com/asvetliakov/vscode-neovim).
+  * IDE: [VS Code](https://code.visualstudio.com/), with [settings](https://dev.to/adamlombard/how-to-use-the-black-python-code-formatter-in-vscode-3lo0) for using Black to automatically format Python.
 
 ### Updates
 
