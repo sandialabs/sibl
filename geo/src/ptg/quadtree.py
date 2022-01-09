@@ -71,6 +71,36 @@ class Mesh(NamedTuple):
     connectivity: tuple[tuple[int, ...], ...]
 
 
+def edges(*, mesh: Mesh) -> tuple[tuple[int, int], ...]:
+    """Given a Mesh, return a tuple of edges, where each edge consisting of a
+    start point node number and stop point node number.
+
+    Arguments:
+        mesh (Mesh): The mesh object, composed of coordinates and connectivity.
+
+    Returns:
+        tuple[tuple[Point2D, Point2D], ...]: A tuple of edges defined by a start
+            and stop point.
+            e.g.,
+                (
+                    (x0_start, y0_start), (x0_stop, y0_stop),
+                    (x1_start, y1_start), (x1_stop, y1_stop),
+                    ...
+                    (xn_start, yn_start), (xn_stop, yn_stop),
+                )
+    """
+
+    cs = mesh.connectivity
+
+    # extend the connectivity to repeat the first node number after the last
+    cs_ext = tuple(c + (c[0],) for c in cs)
+
+    # group the items as pairs ((x0, y0), (x1, y1), ... (xn, yn))
+    cs_ext_pairs = tuple((c[i], c[i + 1]) for c in cs_ext for i in range(len(c) - 1))
+    edges = tuple(set(tuple(frozenset(i)) for i in set(cs_ext_pairs)))
+    return edges
+
+
 # def centroid(*, coordinates: tuple[Coordinate, ...]) -> Coordinate:
 def centroid(*, coordinates: Points) -> Point2D:
     """Given a tuple of Coordinates, returns the centroid of those

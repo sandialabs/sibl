@@ -697,6 +697,122 @@ def test_static_domain_dual_key_0001_r0_p1_and_key_0001_r1_p0():
     assert known_boundaries_dual_child == found_boundaries_dual_child
 
 
+def test_edges():
+    """Tests that the edges of of a mesh are returned correctly."""
+
+    """
+    two-element mesh
+
+    ^ y-axis
+    |
+    |
+    2    1----4----5
+         |    |    |
+    1    3----8----2
+
+    0    1    2    3 --> x-axis
+    """
+
+    p0 = Points(
+        pairs=(
+            (1.0, 1.0),
+            (2.0, 1.0),
+            (3.0, 1.0),
+            (1.0, 2.0),
+            (2.0, 2.0),
+            (3.0, 2.0),
+        )
+    )
+    c0 = (
+        (4, 1, 3, 8),
+        (2, 5, 4, 8),
+    )
+
+    m0 = qt.Mesh(coordinates=p0, connectivity=c0)
+
+    # found edges
+    f0 = qt.edges(mesh=m0)
+
+    # known edges
+    k0 = ((3, 8), (8, 2), (1, 4), (4, 5), (3, 1), (8, 4), (2, 5))
+    assert len(f0) == len(k0)
+
+    # assert that each tuple in the found set is contained somewhere in the known set
+    # the as-found f1
+    forward_match0 = tuple(f in k0 for f in f0)
+
+    # the reversed-found f1
+    reversed_match0 = tuple(tuple(reversed(f)) in k0 for f in f0)
+
+    assert all([a or b for a, b in zip(forward_match0, reversed_match0)])
+
+    """
+    four-element mesh
+
+    ^ y-axis
+    |
+    |
+    3    8----7---10
+         |    |    |
+    2    9----2----5
+         |    |    |
+    1    3----6----1
+
+    0    1    2    3 --> x-axis
+    """
+
+    p1 = Points(
+        pairs=(
+            (1.0, 1.0),
+            (2.0, 1.0),
+            (3.0, 1.0),
+            (1.0, 2.0),
+            (2.0, 2.0),
+            (3.0, 2.0),
+            (1.0, 3.0),
+            (2.0, 3.0),
+            (3.0, 3.0),
+        )
+    )
+    c1 = (
+        (2, 9, 3, 6),
+        (2, 6, 1, 5),
+        (2, 5, 10, 7),
+        (2, 7, 8, 9),
+    )
+
+    m1 = qt.Mesh(coordinates=p1, connectivity=c1)
+
+    # found edges
+    f1 = qt.edges(mesh=m1)
+
+    # known edges
+    k1 = (
+        (3, 6),
+        (6, 1),
+        (9, 2),
+        (2, 5),
+        (8, 7),
+        (7, 10),
+        (3, 9),
+        (6, 2),
+        (1, 5),
+        (9, 8),
+        (2, 7),
+        (5, 10),
+    )
+    assert len(f1) == len(k1)
+
+    # assert that each tuple in the found set is contained somewhere in the known set
+    # the as-found f1
+    forward_match1 = tuple(f in k1 for f in f1)
+
+    # the reversed-found f1
+    reversed_match1 = tuple(tuple(reversed(f)) in k1 for f in f1)
+
+    assert all([a or b for a, b in zip(forward_match1, reversed_match1)])
+
+
 def test_centroid():
     """Tests that the centroid of various polygons is correctly calculated."""
 
