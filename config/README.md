@@ -11,8 +11,8 @@
     * May require Microsoft C++ Build Tools (see [Updates](#updates) dated 2021-12-20 below).
   * `> cd ~/sibl/config; ./env_create.sh` to create the conda enivironment.
 * Optional
-  * [Neovim](https://neovim.io/) (version 0.5.0) for compatibility with the vscode-neovim [plugin](https://github.com/asvetliakov/vscode-neovim).
   * IDE: [VS Code](https://code.visualstudio.com/), with [settings](https://dev.to/adamlombard/how-to-use-the-black-python-code-formatter-in-vscode-3lo0) for using Black to automatically format Python.
+  * [Neovim](https://neovim.io/) (version 0.5.0 or greater) for compatibility with the vscode-neovim [plugin](https://github.com/asvetliakov/vscode-neovim).
 
 ### Updates
 
