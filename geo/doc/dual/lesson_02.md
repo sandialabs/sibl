@@ -1,11 +1,13 @@
 # Lesson 02: Run Lesson 01 from python script
 
-Prerequisite: [Lesson 01](lesson_01.md)
-
-It is often easier to interact with the `xybind` library through the use of a 
+It is often easier to interact with *SIBL Mesh Engine* through the use of a 
 Python script, instead of using Python interactively.
 
-The **goal** of this lesson is to move the interactive content from [Lesson 01](lesson_01.md) into a script and then obtain the same output as in the previous lesson.
+## Goal
+
+Move the interactive content from [Lesson 01](lesson_01.md) into a script and then obtain the same output as in the previous lesson.
+
+## Steps
 
 The interactive steps from the procedural approach are wrapped into a python script as follows:
 
@@ -39,6 +41,8 @@ The same figure created in Lesson 01 should appear again for this lesson:
 
 ![circle_boundary](fig/circle_boundary.png)
 
-[ [Index](README.md) ]
-[ Next: [Lesson 03](lesson_03.md) ]
+[Index](README.md)
 
+Previous: [Lesson 01](lesson_01.md)
+
+Next: [Lesson 03](lesson_03.md)

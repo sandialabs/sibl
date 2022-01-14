@@ -1,8 +1,12 @@
 # Lesson 01: Plot a boundary interactively
 
-Prerequisite: [Lesson 00](lesson_00.md)
+The *SIBL Mesh Engine* can be used interactively through a Python terminal.
 
-The **goal** of this lesson is to use the `siblenv` environment to plot a discrete, 2D boundary.
+## Goal
+
+Use the `siblenv` environment to plot a discrete, 2D boundary.
+
+## Steps
 
 From the command line, activate the `siblenv` environment, then start python.
 
@@ -48,6 +52,8 @@ plt.show()
 
 ![circle_boundary](fig/circle_boundary.png)
 
-[ [Index](README.md) ]
-[ Next: [Lesson 02](lesson_02.md) ]
+[Index](README.md)
 
+Previous: [Lesson 00](lesson_00.md)
+
+Next: [Lesson 02](lesson_02.md)

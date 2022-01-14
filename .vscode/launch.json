@@ -12,6 +12,17 @@
             "console": "integratedTerminal"
         },
         {
+            "name": "dual/main.py lesson_04",
+            "type": "python",
+            "request": "launch",
+            "program": "~/sibl/geo/src/ptg/main.py",
+            "args": [
+                "--input_file",
+                "~/sibl/geo/data/mesh/lesson_04.yml"
+            ],
+            "console": "integratedTerminal"
+        },
+        {
             "name": "modified bezier",
             "type": "python",
             "request": "launch",

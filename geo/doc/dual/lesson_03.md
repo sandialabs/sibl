@@ -1,9 +1,12 @@
 # Lesson 03: Plot a boundary and the dual mesh
 
-Prerequisite: [Lesson 02](lesson_02.md)
+Building on the previous lesson, we now plot a mesh based on the boundary.
 
-The **goal** of this less is to extend the python script from the previous lesson to 
-generate and plot a 2D dualized mesh generated from the `xybind` library.
+## Goal
+
+Extend the python script from the previous lesson to generate and plot a 2D dualized mesh generated from the `xybind` library.
+
+## Steps
 
 From the command line:
 
@@ -19,4 +22,8 @@ The same boundary from the previous lessons should appear, but now with a 2D qua
 
 Review [`lesson_03.py`](lesson_03.py) and modify as necessary.
 
-[ [Index](README.md) ]
+[Index](README.md)
+
+Previous: [Lesson 02](lesson_02.md)
+
+Next: [Lesson 04](lesson_04.md)
