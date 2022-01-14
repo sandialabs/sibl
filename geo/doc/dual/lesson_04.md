@@ -6,6 +6,8 @@ To create meshes that can be built through parameterization, the use of an input
 
 Using an input file, demonsrate how to reproduce the result from the previous lesson.
 
+## Steps
+
 Verify the following files exist:
 
 * [circle_radius_2.csv](../../data/boundary/circle_radius_2.csv) - the boundary `(x, y)` discrete point definition
