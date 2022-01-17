@@ -1,6 +1,10 @@
 # Lesson 21: Mesh the `flower` domain
 
-The **goal** of this lesson is to mesh the `flower` domain using dualization, and compare the result to an alternative method and result published in [Rushdi 2017](#rushdi-2017), Figure 15.
+## Goals
+
+Mesh the `flower` domain using dualization, and compare the result to an alternative method and result published in [Rushdi 2017](#rushdi-2017), Figure 15.
+
+## Steps
 
 Run this python script, [`lesson_21.py`](lesson_21.py) from the command line:
 
@@ -10,11 +14,11 @@ Run this python script, [`lesson_21.py`](lesson_21.py) from the command line:
 > python lesson_21.py
 ```
 
-| Rushdi Fig. 15 | SHT method |
+| Rushdi Fig. 15 | Dual method |
 |:---:|:---:|
 | ![](fig/rushdi_2017_fig_15.png) | ![](fig/lesson_21_res=0.2_.png) |
 
-[ [Index](README.md) ]
+[Index](README.md)
 
 ## References
 

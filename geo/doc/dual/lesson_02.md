@@ -3,7 +3,7 @@
 It is often easier to interact with *SIBL Mesh Engine* through the use of a 
 Python script, instead of using Python interactively.
 
-## Goal
+## Goals
 
 Move the interactive content from [Lesson 01](lesson_01.md) into a script and then obtain the same output as in the previous lesson.
 

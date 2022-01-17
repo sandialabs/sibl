@@ -1,6 +1,6 @@
 --- # (optional) denotes beginning of document
 version: 1.0  # float, the yml file input version
-boundary: "~/sibl/geo/data/boundary/circle_radius_2.csv"
+boundary: "~/sibl/geo/data/boundary/circle_radius_2.txt"
 mesh:
   # bounding_box: [[lower_left_x, lower_left_y], [upper_right_x, upper_right_y]]
   bounding_box: [[0.0, 1.0], [3.0, 4.0]]  # [[float, float], [float, float]]

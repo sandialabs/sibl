@@ -4,13 +4,13 @@ To create meshes that can be built through parameterization, the use of an input
 
 ## Goal
 
-Using an input file, demonsrate how to reproduce the result from the previous lesson.
+Using an input file, demonstrate how to reproduce the result from the previous lesson.
 
 ## Steps
 
 Verify the following files exist:
 
-* [circle_radius_2.csv](../../data/boundary/circle_radius_2.csv) - the boundary `(x, y)` discrete point definition
+* [circle_radius_2.txt](../../data/boundary/circle_radius_2.txt) - the boundary `x y` discrete point definition
 * [lesson_04.yml](../../data/mesh/lesson_04.yml) - the YAML input file specification
 
 From the command line:

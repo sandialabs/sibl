@@ -61,6 +61,7 @@ conda install --yes -c anaconda pybind11
 conda install --yes -c anaconda pygments
 conda install --yes -c anaconda pytest
 conda install --yes -c anaconda pytest-cov
+conda install --yes -c anaconda pyyaml
 conda install --yes -c anaconda seaborn
 conda install --yes -c anaconda scikit-image
 conda install --yes -c anaconda scipy
