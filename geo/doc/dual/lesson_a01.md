@@ -8,11 +8,62 @@ Memorialize the the directions for C++ compilation of macOS, Linus, and Windows.
 
 ### macOS
 
+* Install the `xybind` library:
+
 ```bash
 > conda activate siblenv
-> cd ~/sibl/geo/src/dual
-> 
+> cd ~/sibl/geo/src/bind
+> pip install -e .
+Obtaining file:///Users/chovey/sibl/geo/src/bind
+  Preparing metadata (setup.py) ... done
+Installing collected packages: xybind
+  Attempting uninstall: xybind
+    Found existing installation: xybind 0.0.7
+    Uninstalling xybind-0.0.7:
+      Successfully uninstalled xybind-0.0.7
+  Running setup.py develop for xybind
+Successfully installed xybind-0.0.7
 ```
+
+* Test the `xybind` library:
+
+```bash
+> cd ~/sibl/geo/tests
+> pytest test_xybind.py -v                                                     (siblenv)
+===================================================== test session starts ======================================================
+platform darwin -- Python 3.9.7, pytest-6.2.5, py-1.9.0, pluggy-0.12.0 -- /Users/chovey/opt/miniconda3/envs/siblenv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/chovey/sibl/geo
+plugins: cov-2.10.1
+collected 10 items
+
+test_xybind.py::test_version PASSED                                               [ 10%]
+test_xybind.py::test_add PASSED                                                   [ 20%]
+test_xybind.py::test_subtract PASSED                                              [ 30%]
+test_xybind.py::test_attributes PASSED                                            [ 40%]
+test_xybind.py::test_power PASSED                                                 [ 50%]
+test_xybind.py::test_pet PASSED                                                   [ 60%]
+test_xybind.py::test_unit_square_contains PASSED                                  [ 70%]
+test_xybind.py::test_unit_squares_inType PASSED                                   [ 80%]
+test_xybind.py::test_qt_node_counts PASSED                                        [ 90%]
+test_xybind.py::test_unit_circle_quad_mesh PASSED                                 [100%]
+
+============================= 10 passed in 0.63s =======================================
+```
+
+* Run two methods from `xybind` interactively with Python:
+
+```
+> pythPython 3.9.7 (default, Sep 16 2021, 08:50:36)
+[Clang 10.0.0 ] :: Anaconda, Inc. on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import xybind as xyb
+>>> xyb.add(3, 4)
+7
+>>> xyb.subtract(3, 4)
+-1
+```
+
 
 ### Linux
 
