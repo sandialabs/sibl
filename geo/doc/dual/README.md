@@ -17,4 +17,4 @@ Below are lessons that demonstrate how to use the *SIBL Mesh Engine*.
 * Appendix
   * [a00](lesson_a00.md). Run the engine directly from C++ and the command line, without Python.
   * [a01](lesson_a01.md). Compile the C++ engine and Python bindings manually.
-  * [a02](lesson_a02.md). Using MATLAB to run the C++ engine and post-process the result via text file iterop.
+  * [a02](lesson_a02.md). Use MATLAB and text file interop to run the C++ engine and post-process results.
