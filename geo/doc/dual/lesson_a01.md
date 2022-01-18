@@ -2,7 +2,7 @@
 
 ## Goals
 
-Memorialize the the directions for C++ compilation of macOS, Linus, and Windows.
+Memorialize the the directions for C++ compilation running macOS, Linux, and Windows.
 
 ## Steps
 
@@ -67,7 +67,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 
 ### Linux
 
-*To come.*
+Same as [macOS](#macos).
 
 ### Windows
 
@@ -104,3 +104,5 @@ This line gets filled in by `python-config` which didn't work either on windows,
 This was the hangup for a long time, telling it where the `python39.dll` file was located and getting the correct syntax to link it. The capital `L` tells the compiler what folder to look in and the lower case `l` tells it the file with some assumed platform dependent extension.
 
 * `-LC:/Users/acsokol/Miniconda3 -lpython39`
+
+[Index](README.md)
