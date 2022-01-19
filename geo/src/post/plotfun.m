@@ -11,7 +11,7 @@ delete *quads
 delete *tmp
 
 plotall = 1;
-testCase = 5
+testCase = 14
 resolution = 1;
 featureFlag = 0;
   switch testCase
@@ -308,7 +308,7 @@ featureFlag = 0;
             yp = yp(2:end-1);
            % plot(xp,yp,'o');hold on;
            
-            step = 0.001; 
+            step = 0.01; 
            
             skip = find(diff(yp)==0) ;
             inds = [1:length(yp)];
@@ -321,7 +321,7 @@ featureFlag = 0;
                 
            % plot(xp,yp,'.');
             baseName = 'Australia'
-            resolution = 0.125/2/2;
+            resolution = 0.125;
             plotall= 0;
             
               case 15 %lake superior
@@ -477,11 +477,6 @@ axis off
 end %dual
 
 end %file loop
-delete *nodes
-delete *polys
-delete *quads
-delete *tmp
-delete line*
 
 figure(100);
 print(gcf,'-dpng',[resFolder,'\\',baseName,'DP','date',datestr(date,'yyyy-mm-dd'),'.png']);
@@ -492,3 +487,9 @@ print(gcf,'-dpng',[resFolder,'\\',baseName,'DP','date',datestr(date,'yyyy-mm-dd'
 % axis equal
 
 end %%plot all
+
+delete *nodes
+delete *polys
+delete *quads
+delete *tmp
+delete line*

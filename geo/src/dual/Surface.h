@@ -235,11 +235,15 @@ public:
 
     bool inBoundingBox(std::tuple<double,double,double> lb,std::tuple<double,double,double> ub);
     void write(std::string filename);
+    std::tuple<double,double,double> triCent(unsigned int t);
 private:
     std::vector<SurfacePoint> mySurfacePoints;
+
     std::vector<SurfacePoint> myCorners;
     std::tuple<double,double,double> mins,maxs;
     std::vector<std::tuple<unsigned int,unsigned int,unsigned int> > myTris;
+    std::vector<std::tuple<double,double,double> > myTriOutwardNormals;
+
     void stringSplit(std::string s,double &x,double &y, double &z);
 
 };

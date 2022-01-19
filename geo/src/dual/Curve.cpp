@@ -467,6 +467,7 @@ void Curve::findFeatures(std::vector<CurvePoint> &CurvePoints)
 
 
     }
+    std::cout<<"Done with features."<<std::endl;
 }
 bool Curve::notACorner(CurvePoint &cp)
 {
@@ -533,7 +534,7 @@ std::tuple<double,double> Curve::nearestPt(double x, double y)
     {
         double sum = dist+distp1;
 
-        std::cout<<"Sum : "<<sum<<" dist "<<dist<<" distp1 "<<distp1<<" ratio "<<dist/sum<<" ratio "<<distp1/sum<<std::endl;
+       // std::cout<<"Sum : "<<sum<<" dist "<<dist<<" distp1 "<<distp1<<" ratio "<<dist/sum<<" ratio "<<distp1/sum<<std::endl;
 
         nx = distp1/sum*(myCurvePoints[lind][pind].X())+dist/sum*(myCurvePoints[lind][pindp1].X());
         ny = distp1/sum*(myCurvePoints[lind][pind].Y())+dist/sum*(myCurvePoints[lind][pindp1].Y());
@@ -542,7 +543,7 @@ std::tuple<double,double> Curve::nearestPt(double x, double y)
     {
      double sum = dist+distm1;
 
-     std::cout<<"Sum : "<<sum<<" dist "<<dist<<" distm1 "<<distm1<<" ratio "<<dist/sum<<" ratio "<<distm1/sum<<std::endl;
+     //std::cout<<"Sum : "<<sum<<" dist "<<dist<<" distm1 "<<distm1<<" ratio "<<dist/sum<<" ratio "<<distm1/sum<<std::endl;
         nx = distm1/sum*(myCurvePoints[lind][pind].X())+dist/sum*(myCurvePoints[lind][pindm1].X());
         ny = distm1/sum*(myCurvePoints[lind][pind].Y())+dist/sum*(myCurvePoints[lind][pindm1].Y());
 

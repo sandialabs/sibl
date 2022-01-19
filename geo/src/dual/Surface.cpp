@@ -161,16 +161,41 @@ void Surface::stringSplit(std::string s,double &x,double &y, double &z)
 bool Surface::inBoundingBox(std::tuple<double,double,double> lb,std::tuple<double,double,double> ub)
 {
     ///Check whether any points of the Surface are within the bounding box
-    for(auto x : mySurfacePoints)
-    {
-        if (x.X() <= std::get<XIND>(ub) && x.X() >= std::get<XIND>(lb) &&
-                x.Y() <= std::get<YIND>(ub) && x.Y() >= std::get<YIND>(lb) &&
-                x.Z() <= std::get<ZIND>(ub) && x.Z() >= std::get<ZIND>(lb) )
-            return true;
 
+    unsigned int shortPt = 0;
+    double cx = 0.5*(std::get<0>(lb)+std::get<0>(ub));
+    double cy = 0.5*(std::get<1>(lb)+std::get<1>(ub));
+    double cz = 0.5*(std::get<2>(lb)+std::get<2>(ub));
+
+    double shortestDist = (mySurfacePoints[0].X()-cx)*(mySurfacePoints[0].X()-cx)+(mySurfacePoints[0].Y()-cy)*(mySurfacePoints[0].Y()-cy)+(mySurfacePoints[0].Z()-cz)*(mySurfacePoints[0].Z()-cz);
+
+    for(unsigned int  lcv =0; lcv < mySurfacePoints.size();++lcv)
+    {
+        if (mySurfacePoints[lcv].X() <= std::get<XIND>(ub) && mySurfacePoints[lcv].X() >= std::get<XIND>(lb) &&
+                mySurfacePoints[lcv].Y() <= std::get<YIND>(ub) && mySurfacePoints[lcv].Y() >= std::get<YIND>(lb) &&
+                mySurfacePoints[lcv].Z() <= std::get<ZIND>(ub) && mySurfacePoints[lcv].Z() >= std::get<ZIND>(lb) )
+            return true;
+        double tdist = (mySurfacePoints[lcv].X()-cx)*(mySurfacePoints[lcv].Y()-cy)+(mySurfacePoints[lcv].Y()-cy)*(mySurfacePoints[lcv].Z()-cz)+(mySurfacePoints[lcv].Z()-cz)*(mySurfacePoints[lcv].Z()-cz);
+        if(tdist < shortestDist)
+        {
+            shortestDist=tdist;
+            shortPt = lcv;
+        }
     }
+
+
+
     return false;
 }
+std::tuple<double,double,double> Surface::triCent(unsigned int t)
+{
+    std::tuple<double,double,double> c,t1;
+    std::tuple<unsigned int, unsigned int , unsigned int> mt = myTris[t];
+
+
+
+}
+
 void Surface::write(std::string filename)
 {
     std::ofstream out_file(filename.c_str());

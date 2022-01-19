@@ -451,7 +451,7 @@ void OctTree::testAndSubdivide(OctTreeNode_ptr qt,  int cardinal)
 
         bool sameParents = (parent(test) == parent(qt->locationcode));
 
-        if( (sameParents && diff>=4) || (!sameParents && diff>=2))
+        if( (sameParents && diff>=1) || (!sameParents && diff>=2))
         {
             subdivide(neighborhood[test]);
             fullSetTestAndSubdivide(neighborhood[test]);

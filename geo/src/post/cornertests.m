@@ -17,7 +17,7 @@ resolutions = [.5 ];
  
 for testCase = 1:1
    
-for aa = 1:1
+for aa = 1:3
 for res=1:1
     
     rot = angles(aa);
@@ -30,7 +30,7 @@ fignum = testCase*4*2+aa*2+res;
   switch testCase
        case 1  %Legacy Line Case 
           baseName = 'Corner';
-          step = 0.001;
+          step = 0.01;
           lnd = [0:step:1.5]
           xp = [ reverse(lnd) lnd(2:end)*cosd(rot) ];
           yp = [ 0*lnd  lnd(2:end)*sind(rot) ];
