@@ -27,10 +27,9 @@ FindGUROBI.cmake  README.md         external/         teaser_HD.png
 * CinoLib already has the schemes to suprress hanging nodes.
 * In the future, refactoring will allow the entire hexmeshing pipeline to be moved completely into CinoLib.  As of today, it remains a work in progress.
 * The `external/` folder contains the `Cinolib/` subfolder, which is empty.
-  * As shown below in Figure 2, the `Gen-Adapt-Ref-for-Hexmeshing` repository points to `CinoLib` as a submodule, based on the [Cinolib @ 384e6a8](https://github.com/mlivesu/cinolib/tree/384e6a8fd45fa3a2a5e52cd22ade154f6f0b8d10)
-  * Ask Marco:  Is this submodule link to be ignored, since we will clone the `cinolib` repository directly?
-
-![submodule](fig/Pitzalis_2021_cinolib_submodule.png)
-> *Figure 2:  GitLab showing submodule link to CinoLib*
+  * As shown below in the figure below, the `Gen-Adapt-Ref-for-Hexmeshing` repository points to `CinoLib` as a submodule, based on the [Cinolib @ 384e6a8](https://github.com/mlivesu/cinolib/tree/384e6a8fd45fa3a2a5e52cd22ade154f6f0b8d10)
+  * ![submodule](fig/Pitzalis_2021_cinolib_submodule.png)
+  * > *Figure 1.0:  GitLab showing submodule link to CinoLib*
+  * Ask Marco:  Is/Can this submodule link to be ignored, since we will clone the `cinolib` repository directly?
 
 Next: [Step 2](step_02.md)
