@@ -4,7 +4,12 @@
 
 Generate an executable from compiling the Dualization code. This procedure does not use Python nor the Sibl environment. In this example, we use MATLAB and text file interop to run the C++ engine and post-process results. Matlab is not required and is only used to generate the boundary file and plot the results.
 
-## Prerequisites
+## Obtain Source Files
+
+If you're choosing not to clone the whole repo, all you will need is the \*.h and \*.cpp files from:
+sibl/geo/src/dual/
+
+## Compile Dualization Code
 
 Compile the C++ code to generate an executable. 
 
@@ -52,7 +57,7 @@ fprintf(fid,'%12.16f  %12.16f\n',pts);
 fclose(fid);
 
 %Run executable through Matlab dos command / Can also just drag YML file onto executable or run from command prompt
-dos([binpath,'dual.exe circle.yml']);
+dos([binpath,'dual.exe circle.yml']); %%%<<<< windows executable extension .exe , modify as needed
 
 n = load('dualnodes');
 q = load('dualquads');
