@@ -1,5 +1,7 @@
 # cinolib
 
+*Note:  On 2022-01-18, this page was deprecated in favor of [cinolib](cinolib/README.md)*.
+
   * [Install](#install)
   * [Run](#run)
 
