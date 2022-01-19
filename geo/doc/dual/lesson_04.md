@@ -4,7 +4,7 @@ To create meshes that can be built through parameterization, the use of an input
 
 ## Goal
 
-Using an input file, demonstrate how to reproduce the result from the previous lesson.
+Using an input file, demonstrate how to reproduce the result from the [previous lesson](lesson_03.md).
 
 ## Steps
 

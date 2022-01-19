@@ -4,7 +4,7 @@ version: 1.1  # float, the yml file input version
 boundary: "~/sibl/geo/data/boundary/circle_radius_2.txt"
 # bounding box:
 # [[lower_left_x, lower_left_y], [upper_right_x, upper_right_y]]
-bounding_box: [[0.0, 1.0], [3.0, 4.0]]  # [[float, float], [float, float]]
+bounding_box: [[-2.0, -2.0], [2.0, 2.0]]  # [[float, float], [float, float]]
 # resolution:
 # the smallest edge length target for the resultant refined mesh in the length scale
 # of the bounding box
