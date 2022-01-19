@@ -63,8 +63,8 @@ int main(int argc, char *argv[])
         cout<<"Done loading and processing curve."<<endl;
         filename = filename.substr(0,filename.length()-4);
 
-        if(developerOutput)
-        myCurve->write("line");
+        //if(developerOutput)
+        //myCurve->write("line");
         if(bnds == 1)
         {
             cout<<"Using unit bounds"<<endl;
@@ -105,20 +105,20 @@ int main(int argc, char *argv[])
         cout<<"Dual"<<endl;
         Dual* myDual = new Dual(myPrimal);
         cout<<"traverse done"<<endl;
-        if(developerOutput)
-            myDual->write("dual","");
+        //if(developerOutput)
+         //   myDual->write("dual","");
         if(bnds == 0)
         {
             myDual->trim();
-            if(developerOutput)
-                myDual->write("trimmeddual","");
+            //if(developerOutput)
+            //    myDual->write("trimmeddual","");
             myDual->project();
-            if(developerOutput)
-                myDual->write("projecteddual","");
+            //if(developerOutput)
+            //    myDual->write("projecteddual","");
             cout<<"projection done"<<endl;
             myDual->snap();
-            if(developerOutput)
-                myDual->write("snappeddual","");
+            //if(developerOutput)
+            //    myDual->write("snappeddual","");
             cout<<"snap done"<<endl;
             myDual->subdivide();
             //myDual->write("subdivideddual","");
@@ -127,7 +127,7 @@ int main(int argc, char *argv[])
             //myDual->write("projected2dual","");
             myDual->snap();
             if(developerOutput)
-                myDual->write("snapped2dual","");
+                myDual->write("dual","");
             myDual->updateActiveNodes();
             myDual->write(outputfile,"inp");
         }

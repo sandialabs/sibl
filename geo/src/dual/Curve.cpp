@@ -394,7 +394,7 @@ void Curve::findCorners(std::vector<CurvePoint> &CurvePoints)
 {
     bool firstcorneriszero =false;
     unsigned int lastCorner = CurvePoints.size();
-    std::ofstream out_file("delangles");
+    //std::ofstream out_file("delangles");
     std::cout<<"Finding corners... "<<std::endl;
     for(unsigned int lcv = 0; lcv < CurvePoints.size(); ++lcv)
     {
@@ -414,7 +414,7 @@ void Curve::findCorners(std::vector<CurvePoint> &CurvePoints)
             if(delAngle > 170 && delAngle < 190) ///180 flip error??? noise in derivative???
                 delAngle = 0;
 
-            out_file<<delAngle<<std::endl;
+            //out_file<<delAngle<<std::endl;
             ///ANGLE is in Degrees
             if(delAngle > CORNERANGLE )
             {
@@ -440,7 +440,7 @@ void Curve::findCorners(std::vector<CurvePoint> &CurvePoints)
 
 
     }
-    out_file.close();
+    //out_file.close();
 }
 void Curve::findFeatures(std::vector<CurvePoint> &CurvePoints)
 {

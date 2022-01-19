@@ -19,10 +19,10 @@ void Parser::initialize()
     inputs["version:"]="1.1";
     inputs["boundary_refine:"]="true";
     inputs["developer_output:"]="true";
-    inputs["boundary:"]="filename.txt";
-    inputs["bounding_box:"]= "{(0,0),(0, 0)}"; //"{(lower_x,lower_y),(upper_x, upper_y)}";
+    inputs["boundary:"]="filename.txt # space delimited xy-pairs, 1 line for each ";
+    inputs["bounding_box:"]= "{(0,0),(0, 0)} # equal points or left off will default to tight bounding box"; //"{(lower_x,lower_y),(upper_x, upper_y)}";
     inputs["resolution:"] = "0.5";
-    inputs["output_file:"] = "mesh";
+    inputs["output_file:"] = "mesh  # extension will be added automatically" ;
 
 }
 void Parser::read()
@@ -76,7 +76,7 @@ void Parser::splitAssign(std::string s)
     if(val_record)
     {
         inputs[key]=val;
-        std::cout<<"Key: "<<key<<" value: "<<val<<std::endl;
+        //std::cout<<"Key: "<<key<<" value: "<<val<<std::endl;
     }
 }
 std::string Parser::stringVal(std::string key)
