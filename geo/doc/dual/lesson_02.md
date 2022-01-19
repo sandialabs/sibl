@@ -5,11 +5,11 @@ Python script, instead of using Python interactively.
 
 ## Goals
 
-Move the interactive content from [Lesson 01](lesson_01.md) into a script and then obtain the same output as in the previous lesson.
+Move the interactive content from [Lesson 01](lesson_01.md) into a Python script and then obtain the same output as in the [previous lesson](lesson_01.md).
 
 ## Steps
 
-The interactive steps from the procedural approach are wrapped into a python script as follows:
+The interactive steps from the procedural approach are wrapped into a Python script as follows:
 
 ```python
 # This is the concept of modifying lesson_01 to obtain lesson_02.py;

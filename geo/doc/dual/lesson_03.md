@@ -1,10 +1,10 @@
 # Lesson 03: Plot a boundary and the dual mesh
 
-Building on the previous lesson, we now plot a mesh based on the boundary.
+Building on the [previous lesson](lesson_02.md), we now plot a mesh inside the boundary.
 
 ## Goal
 
-Extend the python script from the previous lesson to generate and plot a 2D dualized mesh generated from the `xybind` library.
+Extend the Python script from the previous lesson to generate and plot a 2D dualized mesh generated from the `xybind` library.
 
 ## Steps
 
