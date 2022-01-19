@@ -66,7 +66,7 @@ axis off
 print(gcf,'-dpng',['circle.png']);
 ```
 
-Running the Matlab sript will generate this figure:
+Running the Matlab script will generate this figure:
 
 ![circle_boundary](fig/circle.png)
 
