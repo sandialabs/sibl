@@ -13,10 +13,9 @@ sibl/geo/src/dual/
 
 Compile the C++ code to generate an executable. 
 
-On a Mac or Linux machine, compile at the command line and renaming the a.out executable.
+On a Mac or Linux machine, compile at the command line.
 ```bash 
->g++ -O3 -std=c++11 *.cpp
->mv a.out dual.out
+>g++ -O3 -std=c++11 *.cpp -o dual.out
 ```  
 
 On a Windows machine you'll need to install a C++ compiler. Use your favorite IDE and have g++ follow the C++11 ISO standard. 
