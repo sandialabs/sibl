@@ -20,6 +20,23 @@
 > git push
 ```
 
+## Frequently Asked Questions
+
+### Q: How do I rebase my branch with develop?
+
+```bash
+> git checkout develop  # check out the develop branch on your local
+
+# Fetch the remote version of the develop branch and merge it
+# (or rebase it, depending on your pull strategy) into/onto your local branch.
+# This assures that the remote version and the local version of develop are the same
+> git pull origin develop
+
+> git checkout feature-branch  # check out the local feature branch
+
+> git rebase develop
+```
+
 ### Notes
 
 * 2022-01-06:
