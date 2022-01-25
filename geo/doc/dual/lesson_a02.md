@@ -33,7 +33,7 @@ Verify it compiled properly by running the executable with no inputs. On a Windo
 
 ## Steps without Matlab
 
-Generate an input YML file which will specify to the engine what procedures to do. For this example, use [`circle.yml`](../../data/mesh/circle.yml). Running the executable without any arguments will automatically generate a template YML file that you can modify.
+Generate an input YML file which will specify to the engine what procedures to do. For this example, use [`circle.yml`](circle.yml). Running the executable without any arguments will automatically generate a template YML file that you can modify.
 
 ```yml
 boundary: circle.txt
