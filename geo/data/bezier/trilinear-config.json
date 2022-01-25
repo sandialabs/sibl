@@ -16,6 +16,7 @@
     "control-points-path": true,
     "control-points-shown": true,
     "data-path": ".",
+    "interactive": false,
     "nti_divisions": 1,
     "surface-t0-uv-triangulation": true,
     "surface-t1-uv-triangulation": false,

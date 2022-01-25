@@ -5,8 +5,8 @@ To run
 $ conda load siblenv
 $ cd ~/sibl
 $ black --check geo/tests/test_view_bspline.py
-$ pytest geo/tests/test_view_bspline.py -v
-$ pytest geo/tests/test_view_bspline.py -v --cov=geo/src/ptg --cov-report term-missing
+$ pytest geo/tests/test_view_bezier.py -v
+$ pytest geo/tests/test_view_bezier.py -v --cov=geo/src/ptg --cov-report term-missing
 """
 # import runpy
 # import sys
