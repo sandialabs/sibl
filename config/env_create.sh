@@ -27,7 +27,7 @@ echo "Current conda environments:"
 conda env list
 
 # remove existing environment, if it exists
-echo "Should it already exist, this environment will be removed:" 
+echo "Should it already exist, this environment will be removed:"
 echo $y
 conda env remove --name $y
 
