@@ -9,7 +9,10 @@ Example:
 import argparse
 from pathlib import Path
 import sys
-from types import SimpleNamespace
+
+# from types import SimpleNamespace
+# from typing import NamedTuple
+from collections import namedtuple
 
 import numpy as np
 
@@ -19,6 +22,8 @@ from ptg import reader as reader
 def main(argv):
 
     print("SIBL Mesh Engine initialized.")
+    print(f"driver: {__file__}")
+
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--input_file",
@@ -39,7 +44,13 @@ def main(argv):
     # for key, value in db.items():
     #     print(f"key: {key}, value: {value} of value type: {type(value)}")
 
-    yml = SimpleNamespace(**db)
+    c = {"r": 50, "g": 205, "b": 50, "alpha": 0.5}
+    Color = namedtuple("Color", c)
+    Color(**c)
+
+    # yml = SimpleNamespace(**db)
+    tuple_database = namedtuple("tuple_database", db)
+    yml = tuple_database(**db)
 
     assert yml.version == 1.1
 
@@ -50,7 +61,8 @@ def main(argv):
 
     n_header_rows_skipped, n_footer_rows_skipped = 1, 0
     ix, iy = 0, 1
-    boundary = np.genfromtxt(
+    # boundary = np.genfromtxt(
+    _ = np.genfromtxt(
         path_file_in,
         dtype="float",
         delimiter="    ",

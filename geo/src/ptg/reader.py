@@ -81,7 +81,7 @@ class Reader:
         # determine if self.database is monolithic dict or contains pointers to subfiles
         # self.database = aggregate(database=self.database)
 
-        print(f"Input: {path_file_in}")
+        print(f"input: {path_file_in}")
         self.initialized = True
 
     def extract(self, *, key: str) -> dict:

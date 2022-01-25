@@ -19,7 +19,6 @@ From the command line:
 > conda activate siblenv
 > cd ~/sibl
 > python geo/src/ptg/main.py -i geo/data/mesh/lesson_04.yml
-
 ```
 
 *More to come.*

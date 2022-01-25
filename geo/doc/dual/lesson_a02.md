@@ -2,12 +2,16 @@
 
 ## Goals
 
-Generate an executable from compiling the Dualization code. This procedure does not use Python nor the Sibl environment. In this example, we compile the code and then present two approaches for running the C++ engine with a yaml file.
+* Create an executable by compiling the the dualization code.
+  * This procedure does not use Python nor the `sibl` conda environment.
+  * In this example, we compile the code and then present two approaches for running the C++ engine with a `yaml` input file.
 
 ## Obtain Source Files
 
-If you're choosing not to clone the whole repo, all you will need is the \*.h and \*.cpp files from:
-sibl/geo/src/dual/
+The C++ source code resides at `~/sible/geo/src/dual/`.  For this workflow:
+
+* Only `*.h` and `*.cpp` files in this directory are required;
+* The entire repository is not needed.
 
 ## Compile Dualization Code
 
@@ -29,16 +33,16 @@ Verify it compiled properly by running the executable with no inputs. On a Windo
 
 ## Steps without Matlab
 
-Generate an input YML file which will specify to the engine what procedures to do. For this example, use [`circle.yml`](circle.yml). Running the executable without any arguments will automatically generate a template YML file that you can modify.
+Generate an input YML file which will specify to the engine what procedures to do. For this example, use [`circle.yml`](../../data/mesh/circle.yml). Running the executable without any arguments will automatically generate a template YML file that you can modify.
 
 ```yml
-boundary:circle.txt
-boundary_refine:true
-bounding_box:0,0,0,0
-developer_output:true #false if you just want an .inp file.
-output_file:circle
-resolution:0.5
-version:1.1
+boundary: circle.txt
+boundary_refine: true
+bounding_box: 0,0,0,0
+developer_output: true # false if you just want an .inp file.
+output_file: circle
+resolution: 0.5
+version: 1.1
 ```
 
 On a Windows machine, drag the YML file on top of the executable - make sure your boundary file has the path specified or exits in the same folder as the executable. This will generate an INP file which can be imported into many meshing and FEA software.
@@ -47,7 +51,7 @@ On a Windows machine, drag the YML file on top of the executable - make sure you
 
 We are using Matlab as a wrapper to generate the boundary file and then run the dualization. However, you can simply use the YML file and the executable to generate the output mesh file. We are also assuming a Windows machine in the following example. If you're on a Mac or Linux, update the paths and executable call.
 
-Open [`plotCircleEx.m`](plotCircleEx.m)In Matlab editor to see the steps. Run from the editor or command line.
+Open [`plotCircleEx.m`](plotCircleEx.m) in the Matlab editor to see the steps.  Update the `binpath` as necessary for your local folder configuration.  Run from the editor or command line.
 
 ```Matlab
 clear all
