@@ -1,4 +1,4 @@
-# (x    y) data points for a circular boundary with radius 2.0
+# (x y) data points for a circular boundary with radius 2.0
 2.0    0.0
 1.9753766811902755    0.31286893008046174
 1.902113032590307    0.6180339887498948
