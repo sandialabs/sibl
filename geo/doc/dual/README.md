@@ -10,7 +10,8 @@ Learn how to use the *SIBL Mesh Engine* with the lessons below:
   * [03](lesson_03.md). Use the 2D boundary as an input to the mesher, to create a single domain composed of 2D quadrilateral finite elements.
   * [04](lesson_04.md). Use of a `.yml` input file to create the mesh in Lesson 03.
 * Unit tests
-  * [10](lesson_10.md) Donut
+  * [10](lesson_10.md). Donut
+  * [11](lesson_11.md). Quarter Plate
 * Comparison to examples in the literature
   * [21](lesson_21.md). Flower
   * [22](lesson_22.md). Lake Superior
