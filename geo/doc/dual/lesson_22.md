@@ -6,11 +6,35 @@ The **goal** of this lesson is to mesh the `Lake Superior` domain using dualizat
 
 ## Steps
 
-*To come.*
+### Quad Tree
+
+![quadtree](fig/LakeSuperior5date2021-12-15.png)
+
+### Primal
+
+![](fig/LakeSuperior2date2021-12-15.png)
+
+### Dual
+
+![](fig/LakeSuperiorDPdate2021-12-15.png)
+
+### Dual + Trim + Project
+
+![](fig/LakeSuperior4date2021-12-15.png)
+
+### Dual + Trim + Project + Snap
+
+![](fig/LakeSuperior7date2021-12-15.png)
+
+### Dual + Trim + Project + Snap + Smooth
+
+![](fig/LakeSuperior6date2021-12-15.png)
+
+### Comparison
 
 | Rushdi Fig. 15 | Dual method |
 |:---:|:---:|
-| ![](fig/liang_2010_fig_10.png) | To come. |
+| ![](fig/liang_2010_fig_10.png) | ![](fig/LakeSuperior6date2021-12-15.png) | 
 
 [Index](README.md)
 

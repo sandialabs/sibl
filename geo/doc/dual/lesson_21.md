@@ -1,4 +1,4 @@
-# Lesson 21: Mesh the `flower` domain
+# Lesson 21: Flower
 
 ## Goals
 
