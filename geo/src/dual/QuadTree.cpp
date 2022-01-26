@@ -153,11 +153,11 @@ void QuadTree::balancedRefineCurve(QuadTreeNode_ptr qt,bool boundaryOrFeature)
 
 void QuadTree::write(std::string filename)
 {
-    std::ofstream out_file((filename+"quads").c_str());
+    std::ofstream out_file((filename+"quads.dev").c_str());
     out(myHead,out_file);
     out_file.close();
 
-    myNodes->write(filename+"nodes");
+    myNodes->write(filename+"nodes.dev");
 }
 void QuadTree::out(QuadTreeNode_ptr qt,std::ofstream &of)
 {

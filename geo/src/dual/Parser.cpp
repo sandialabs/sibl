@@ -20,7 +20,7 @@ void Parser::initialize()
     inputs["boundary_refine:"]="true # developer flag, keep as true ";
     inputs["developer_output:"]="true # simple mesh and node text files for plotting without parsing ";
     inputs["boundary:"]="filename.txt # space delimited xy-pairs, 1 line for each. No spaces in file name. ";
-    inputs["bounding_box:"]= "{(0,0),(0, 0)} # equal points will default to tight bounding box"; //"{(lower_x,lower_y),(upper_x, upper_y)}";
+    inputs["bounding_box:"]= "[[-1,-1],[1, 1]] # equal points will default to tight bounding box"; //"{(lower_x,lower_y),(upper_x, upper_y)}";
     inputs["resolution:"] = "0.5 # smallest targeted mesh edge length";
     inputs["output_file:"] = "mesh  #file name, extension will be added automatically" ;
 

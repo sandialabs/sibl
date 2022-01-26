@@ -27,7 +27,8 @@ int main(int argc, char *argv[])
     if(argc >= 2)
     {
         double minsize;
-        string filename, outputfile ;
+        string filename;
+        string outputfile = "mesh";
         int bnds;
         int featureRefine;
         bool developerOutput = true;
@@ -126,7 +127,9 @@ int main(int argc, char *argv[])
 
 
         //cout<<"Nodes size: "<<myNodes->size()<<endl;
-        //myQuadTree->write("qt");
+
+        if(developerOutput)
+            myQuadTree->write(outputfile+"_01_quad_tree_");
 
         myQuadTree->balancedRefineCurve(myQuadTree->head(),(featureRefine!=1));
         cout<<"Nodes size: "<<myNodes->size()<<endl;
@@ -136,7 +139,7 @@ int main(int argc, char *argv[])
         Primal* myPrimal = new Primal(myQuadTree);
 
         if(developerOutput)
-            myPrimal->write("primal","");
+            myPrimal->write(outputfile+"_02_primal_","");
 
         cout<<"Dual"<<endl;
         Dual* myDual;
@@ -151,29 +154,35 @@ int main(int argc, char *argv[])
         }
 
         cout<<"traverse done"<<endl;
-        //if(developerOutput)
-        //   myDual->write("dual","");
+        if(developerOutput)
+            myDual->write(outputfile+"_03_dual_","");
         if(bnds == 0)
         {
             myDual->trim();
-            //if(developerOutput)
-            //    myDual->write("trimmeddual","");
+            if(developerOutput)
+                myDual->write(outputfile+"_04_d_trim_","");
             myDual->project();
-            //if(developerOutput)
-            //    myDual->write("projecteddual","");
+            if(developerOutput)
+                myDual->write(outputfile+"_05_dt_project_","");
             cout<<"projection done"<<endl;
             myDual->snap();
-            //if(developerOutput)
-            //    myDual->write("snappeddual","");
+            if(developerOutput)
+                myDual->write(outputfile+"_06_dtp_snap_","");
             cout<<"snap done"<<endl;
             myDual->subdivide();
-            //myDual->write("subdivideddual","");
+            if(developerOutput)
+                myDual->write(outputfile+"_07_dtps_subdivide_","");
             cout<<"subdivide done"<<endl;
             myDual->project();
-            //myDual->write("projected2dual","");
+            if(developerOutput)
+                myDual->write(outputfile+"_08_dtpss_project_","");
             myDual->snap();
             if(developerOutput)
-                myDual->write("dual","");
+                myDual->write(outputfile+"_09_dtpssp_snap_","");
+
+            if(developerOutput)
+                myDual->write(outputfile+"_10_mesh_","");
+
             myDual->updateActiveNodes();
             myDual->write(outputfile,"inp");
         }

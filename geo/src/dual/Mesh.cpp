@@ -73,11 +73,11 @@ void Mesh::write(std::string filename,std::string extension)
 {
     if(extension == "")
     {
-        std::ofstream out_file((filename+"quads").c_str());
+        std::ofstream out_file((filename+"quads.dev").c_str());
         out(out_file);
         out_file.close();
 
-        myNodes->write(filename+"nodes");
+        myNodes->write(filename+"nodes.dev");
     }
     else if(extension == "inp")
     {
