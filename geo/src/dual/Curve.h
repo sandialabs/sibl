@@ -1,8 +1,6 @@
 #ifndef CURVE_H
 #define CURVE_H
 
-
-
 #include <string>
 #include <tuple>
 #include <vector>
@@ -94,12 +92,12 @@ private:
 
 inline int sign(const double &d)
 {
-        if(d > 0)
-            return 1;
-        else if(d<0)
-            return -1;
-        else
-            return 0; ///Does 0 have a sign? What is a good convention?
+    if(d > 0)
+        return 1;
+    else if(d<0)
+        return -1;
+    else
+        return 0; ///Does 0 have a sign? What is a good convention?
 }
 
 
