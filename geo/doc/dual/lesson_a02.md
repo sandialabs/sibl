@@ -39,7 +39,7 @@ Generate an input YML file which will specify to the engine what procedures to d
 ```yml
 boundary: circle.txt
 boundary_refine: true
-bounding_box: 0,0,0,0
+bounding_box: [[0,0],[0,0]]
 developer_output: true # false if you just want an .inp file.
 output_file: circle
 resolution: 0.5
