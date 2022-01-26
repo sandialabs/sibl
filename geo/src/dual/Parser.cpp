@@ -47,7 +47,7 @@ void Parser::templateFile()
 
     for( std::map<std::string, std::string>::iterator it = inputs.begin(); it!=inputs.end(); ++it)
     {
-        out_file<<it->first<<it->second<<std::endl;
+        out_file<<it->first<<" "<<it->second<<std::endl;
     }
     out_file.close();
 }
@@ -63,11 +63,13 @@ void Parser::splitAssign(std::string s)
     {
         if(s[lcv]=='#')
             break;
-        if(val_record)
+        if(s[lcv]!=' ')
+        {
+        if(val_record )
             val = val+s[lcv];
         else
             key = key+s[lcv];
-
+        }
         if(s[lcv]==':')
             val_record = true;
 
