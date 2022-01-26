@@ -6,7 +6,7 @@ Building on the [previous lesson](lesson_02.md), we now plot a mesh inside the b
 
 Extend the Python script from the previous lesson to generate and plot a 2D dualized mesh generated from the `xybind` library.
 
-## Steps
+## Step
 
 From the command line:
 

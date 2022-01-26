@@ -15,6 +15,6 @@ Learn how to use the *SIBL Mesh Engine* with the lessons below:
   * [21](lesson_21.md). The `flower` domain.
   * [22](lesson_22.md). Lake Superior.
 * Appendix
-  * [a00](lesson_a00.md). Run the engine directly from C++ and the command line, without Python.
-  * [a01](lesson_a01.md). Compile the C++ engine and Python bindings manually.
+  * [a00](lesson_a00.md). Run the engine directly from C++ and the command line, without Python.  (CBH to delete this item and move existing Less a02 to its place.)
+  * [a01](lesson_a01.md). Bind C++ for use with Python.
   * [a02](lesson_a02.md). Use MATLAB and text file interop to run the C++ engine and post-process results.

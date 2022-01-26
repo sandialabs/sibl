@@ -1,14 +1,14 @@
-# Compile C++ for binding with Python
+# Bind C++ for use with Python
 
 ## Goals
 
-Memorialize the the directions for C++ compilation running macOS, Linux, and Windows.
+With the *SIBL Mesh Engine* C++ source code, compile C++ **binding code** on macOS, Linux, and Windows to the `xybind` library for use with Python.
 
 ## Steps
 
 ### macOS
 
-* Install the `xybind` library:
+* Create the `xybind` library:
 
 ```bash
 > conda activate siblenv
@@ -70,6 +70,8 @@ Type "help", "copyright", "credits" or "license" for more information.
 Same as [macOS](#macos).
 
 ### Windows
+
+* Replace the `acsokol` user name in the example with the user name and path as appropriate for your local environment.
 
 ```bash
 > cd ~/sibl/geo/src/dual
