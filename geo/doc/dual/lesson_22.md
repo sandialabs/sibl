@@ -14,7 +14,7 @@ The **goal** of this lesson is to mesh the `Lake Superior` domain using dualizat
 
 ![](fig/LakeSuperior2date2021-12-15.png)
 
-### Dual
+### Primal + Dual
 
 ![](fig/LakeSuperiorDPdate2021-12-15.png)
 

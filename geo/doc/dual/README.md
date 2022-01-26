@@ -12,10 +12,14 @@ Learn how to use the *SIBL Mesh Engine* with the lessons below:
 * Unit tests
   * [10](lesson_10.md). Donut
   * [11](lesson_11.md). Quarter Plate
-* Comparison to examples in the literature
+  * [12](lesson_12.md). Swiss Cheese - *to come*
+* Literature Examples
   * [21](lesson_21.md). Flower
   * [22](lesson_22.md). Lake Superior
   * [23](lesson_23.md). Australia
+* Applications
+  * [40](lesson_40.md). Binary blobs - *to come*
+  * [41](lesson_41.md). Shepp-Logan phantom - *to come*
 * Appendix
   * [a00](lesson_a00.md). Run the engine directly from C++ and the command line, without Python.  (CBH to delete this item and move existing Less a02 to its place.)
   * [a01](lesson_a01.md). Bind C++ for use with Python.
