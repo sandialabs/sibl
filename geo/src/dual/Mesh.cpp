@@ -140,7 +140,7 @@ void Mesh::addPoly(NodeList* nodes,const std::vector<Node> &nds,int id)
     if(mapit==idMap.end())
         idMap[id]=&(myPolys.back());
     else
-        std::cout<<"ERROR - duplicate ID "<<id<<std::endl;
+       throw std::runtime_error("Add poly error from duplicate ID "+id);
 
 }
 

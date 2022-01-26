@@ -17,12 +17,12 @@ Parser::Parser(std::string yfile)
 void Parser::initialize()
 {
     inputs["version:"]="1.1";
-    inputs["boundary_refine:"]="true";
-    inputs["developer_output:"]="true";
-    inputs["boundary:"]="filename.txt # space delimited xy-pairs, 1 line for each ";
-    inputs["bounding_box:"]= "{(0,0),(0, 0)} # equal points or left off will default to tight bounding box"; //"{(lower_x,lower_y),(upper_x, upper_y)}";
-    inputs["resolution:"] = "0.5";
-    inputs["output_file:"] = "mesh  # extension will be added automatically" ;
+    inputs["boundary_refine:"]="true # developer flag, keep as true ";
+    inputs["developer_output:"]="true # simple mesh and node text files for plotting without parsing ";
+    inputs["boundary:"]="filename.txt # space delimited xy-pairs, 1 line for each. No spaces in file name. ";
+    inputs["bounding_box:"]= "{(0,0),(0, 0)} # equal points will default to tight bounding box"; //"{(lower_x,lower_y),(upper_x, upper_y)}";
+    inputs["resolution:"] = "0.5 # smallest targeted mesh edge length";
+    inputs["output_file:"] = "mesh  #file name, extension will be added automatically" ;
 
 }
 void Parser::read()
@@ -46,9 +46,8 @@ void Parser::templateFile()
     std::ofstream out_file("example.yml");
 
     for( std::map<std::string, std::string>::iterator it = inputs.begin(); it!=inputs.end(); ++it)
-    {
         out_file<<it->first<<" "<<it->second<<std::endl;
-    }
+
     out_file.close();
 }
 void Parser::splitAssign(std::string s)
@@ -57,7 +56,9 @@ void Parser::splitAssign(std::string s)
     std::string val="";
     bool val_record = false;
 
-    if(s.length()>1 && s[0]=='#')
+    removeWhiteSpaceAndComments(s);
+
+    if(s.length()==0)
         return;
     for(unsigned int lcv = 0; lcv < s.length(); ++lcv)
     {
@@ -65,10 +66,10 @@ void Parser::splitAssign(std::string s)
             break;
         if(s[lcv]!=' ')
         {
-        if(val_record )
-            val = val+s[lcv];
-        else
-            key = key+s[lcv];
+            if(val_record )
+                val = val+s[lcv];
+            else
+                key = key+s[lcv];
         }
         if(s[lcv]==':')
             val_record = true;
@@ -77,7 +78,10 @@ void Parser::splitAssign(std::string s)
     }
     if(val_record)
     {
-        inputs[key]=val;
+        if(inputs.find(key)==inputs.end())
+            throw std::runtime_error("Key not found.");
+        else
+            inputs[key]=val;
         //std::cout<<"Key: "<<key<<" value: "<<val<<std::endl;
     }
 }
@@ -168,4 +172,18 @@ std::vector<std::string> Parser::splitByCommaIgnore(std::string s)
     }
     vals.push_back(tmp);
     return vals;
+}
+void Parser::removeWhiteSpaceAndComments(std::string &s)
+{
+    std::string tmp = "";
+    for(unsigned int lcv = 0; lcv < s.length(); ++lcv)
+    {
+        if(s[lcv]=='#')
+            break;
+        if(s[lcv]!=' ' && s[lcv] != '\t' && s[lcv] != '\n')
+            tmp=tmp+s[lcv];
+
+    }
+
+    s=tmp;
 }

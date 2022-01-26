@@ -20,6 +20,12 @@ Curve::Curve(std::string filename)
     std::cout<<"Reading in curve from file "<<filename<<std::endl;
     std::ifstream in_file(filename.c_str());
 
+    if(in_file.eof() || in_file.fail())
+    {
+        throw std::runtime_error("Error - empty or invalid file name.");
+        return ;
+    }
+
     std::vector<CurvePoint> tmpVec;
     std::string cx,cy;
     double tx,ty;
@@ -31,7 +37,7 @@ Curve::Curve(std::string filename)
 
     while(!in_file.fail() && !in_file.eof())
     {
-        if(cx != "NaN")
+        if(cx != "NaN" && cx != "nan" && cy != "nan" && cy != "NaN")
         {
             tmpVec.push_back(CurvePoint(tx,ty));
             if(unset)
@@ -242,7 +248,7 @@ bool Curve::intersects(const std::tuple<double,double,double> &T1,const std::tup
     /*std::cout<<"nt1y : "<<nt1y<<std::endl;
     std::cout<<"nt2y : "<<nt2y<<std::endl;
     std::cout<<"nt3y : "<<nt3y<<std::endl;
-*/
+    */
 
     int sum = 0;
     sum= sign(nt1y)+sign(nt2y)+sign(nt3y);
@@ -251,7 +257,7 @@ bool Curve::intersects(const std::tuple<double,double,double> &T1,const std::tup
     if(nt1y == 0 || nt2y == 0 || nt3y == 0)
         return true;
     if(sum == 1 || sum == -1)
-    return true;
+        return true;
 
     return false;
 }
@@ -385,7 +391,7 @@ void Curve::setTangentAngle(std::vector<CurvePoint> &CurvePoints)
         }
         else
         {
-            std::cout<<"?"<<std::endl;
+            throw std::runtime_error("Parsing error, NaN where it shouldn't be.");//std::cout<<"?"<<std::endl;
             CurvePoints[lcv].tangent(1,0);
         }
     }
@@ -436,7 +442,7 @@ void Curve::findCorners(std::vector<CurvePoint> &CurvePoints)
             }
         }
         else
-            std::cout<<"How did a nan slip in?"<<std::endl;
+            throw std::runtime_error("Parsing error, NaN where it shouldn't be.");// std::cout<<"How did a nan slip in?"<<std::endl;
 
 
     }
@@ -463,7 +469,7 @@ void Curve::findFeatures(std::vector<CurvePoint> &CurvePoints)
             }
         } //if
         else
-            std::cout<<"How did a nan slip in?"<<std::endl;
+            throw std::runtime_error("Parsing error, NaN where it shouldn't be.");//  std::cout<<"How did a nan slip in?"<<std::endl;
 
 
     }
@@ -522,28 +528,28 @@ std::tuple<double,double> Curve::nearestPt(double x, double y)
         pindm1 = pind-1;
 
     double distp1 = sqrt(( x-myCurvePoints[lind][pindp1].X())*( x-myCurvePoints[lind][pindp1].X())
-                    +( y-myCurvePoints[lind][pindp1].Y())*( y-myCurvePoints[lind][pindp1].Y()));
+                         +( y-myCurvePoints[lind][pindp1].Y())*( y-myCurvePoints[lind][pindp1].Y()));
 
     double distm1 = sqrt(( x-myCurvePoints[lind][pindm1].X())*( x-myCurvePoints[lind][pindm1].X())
-                    +( y-myCurvePoints[lind][pindm1].Y())*( y-myCurvePoints[lind][pindm1].Y()));
+                         +( y-myCurvePoints[lind][pindm1].Y())*( y-myCurvePoints[lind][pindm1].Y()));
 
 
-     dist = sqrt(dist);
+    dist = sqrt(dist);
 
     if(distp1 < distm1)
     {
         double sum = dist+distp1;
 
-       // std::cout<<"Sum : "<<sum<<" dist "<<dist<<" distp1 "<<distp1<<" ratio "<<dist/sum<<" ratio "<<distp1/sum<<std::endl;
+        // std::cout<<"Sum : "<<sum<<" dist "<<dist<<" distp1 "<<distp1<<" ratio "<<dist/sum<<" ratio "<<distp1/sum<<std::endl;
 
         nx = distp1/sum*(myCurvePoints[lind][pind].X())+dist/sum*(myCurvePoints[lind][pindp1].X());
         ny = distp1/sum*(myCurvePoints[lind][pind].Y())+dist/sum*(myCurvePoints[lind][pindp1].Y());
     }
     else
     {
-     double sum = dist+distm1;
+        double sum = dist+distm1;
 
-     //std::cout<<"Sum : "<<sum<<" dist "<<dist<<" distm1 "<<distm1<<" ratio "<<dist/sum<<" ratio "<<distm1/sum<<std::endl;
+        //std::cout<<"Sum : "<<sum<<" dist "<<dist<<" distm1 "<<distm1<<" ratio "<<dist/sum<<" ratio "<<distm1/sum<<std::endl;
         nx = distm1/sum*(myCurvePoints[lind][pind].X())+dist/sum*(myCurvePoints[lind][pindm1].X());
         ny = distm1/sum*(myCurvePoints[lind][pind].Y())+dist/sum*(myCurvePoints[lind][pindm1].Y());
 

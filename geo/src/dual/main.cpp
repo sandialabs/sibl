@@ -39,7 +39,17 @@ int main(int argc, char *argv[])
         if(argc ==2)
         {
             myParser.file(argv[1]);
-            myParser.read();
+
+            try
+            {
+                myParser.read();
+            }
+            catch (runtime_error e)
+            {
+                cout << "Runtime error: " << e.what();
+                return -1;
+            }
+
             filename = myParser.stringVal("boundary:");
             minsize = myParser.doubleVal("resolution:");
             featureRefine = !myParser.boolVal("boundary_refine:");
@@ -65,7 +75,15 @@ int main(int argc, char *argv[])
 
 
         Curve* myCurve;
-        myCurve = new Curve(filename);
+        try
+        {
+            myCurve = new Curve(filename);
+        }
+        catch (runtime_error e)
+        {
+            cout << "Runtime error: " << e.what();
+            return -1;
+        }
         cout<<"Done loading and processing curve."<<endl;
         filename = filename.substr(0,filename.length()-4);
 
@@ -86,11 +104,23 @@ int main(int argc, char *argv[])
         }
         else
             cout<<"Using tight bounding box"<<endl;
+
+        cout<<"Lower bounds: "<<get<0>(ll)<<", "<<get<1>(ll)<<endl;
+        cout<<"Upper bounds: "<<get<0>(ur)<<", "<<get<1>(ur)<<endl;
         NodeList* myNodes;
         myNodes = new NodeList();
         //cout<<"Nodes size: "<<myNodes->size()<<endl;
         QuadTree* myQuadTree;
-        myQuadTree=new QuadTree(myCurve,myNodes,minsize);
+        try
+        {
+            myQuadTree=new QuadTree(myCurve,myNodes,minsize);
+        }
+        catch (std::runtime_error e)
+        {
+            std::cout << "Runtime error: " << e.what();
+            return -1;
+        }
+
         myQuadTree->subdivide(myQuadTree->head());
 
 
@@ -109,10 +139,20 @@ int main(int argc, char *argv[])
             myPrimal->write("primal","");
 
         cout<<"Dual"<<endl;
-        Dual* myDual = new Dual(myPrimal);
+        Dual* myDual;
+        try
+        {
+            myDual = new Dual(myPrimal);
+        }
+        catch(std::runtime_error e)
+        {
+            std::cout << "Runtime error: " << e.what();
+            return -1;
+        }
+
         cout<<"traverse done"<<endl;
         //if(developerOutput)
-         //   myDual->write("dual","");
+        //   myDual->write("dual","");
         if(bnds == 0)
         {
             myDual->trim();
@@ -145,6 +185,7 @@ int main(int argc, char *argv[])
     else
     {
         myParser.templateFile();
+
         /* myParser.file("example.yml");
          myParser.read();
          cout<< myParser.stringVal("boundary_file:")<<endl;

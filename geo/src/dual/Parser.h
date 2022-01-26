@@ -32,6 +32,7 @@ private:
     void initialize();
     void splitAssign(std::string s);
     std::vector<std::string> splitByCommaIgnore(std::string s);
+    void removeWhiteSpaceAndComments(std::string &s);
     std::string ymlFile;
     std::map<std::string, std::string> inputs;
 

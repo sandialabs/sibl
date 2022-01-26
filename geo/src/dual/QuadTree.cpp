@@ -66,7 +66,7 @@ QuadTree::QuadTree(Curve* c,NodeList* n,double m)
     minimumSize = m;
 
     if(m<=0)
-        std::cout<<"Error -- Minimum size has to be positive and not zero."<<std::endl;
+        throw std::runtime_error("Error -- Minimum size has to be positive and not zero.");
 
     std::tuple<double,double> ur = myCurve->upperRight();
     std::tuple<double,double> ll = myCurve->lowerLeft();
@@ -92,6 +92,7 @@ QuadTree::QuadTree(Curve* c,NodeList* n,double m)
 
     myHead = new QuadTreeNode(myNodes,NE,NW,SW,SE,true,NULL,"");
     //neighborhood["00"]=myHead;
+
 }
 void QuadTree::subdivide(QuadTreeNode_ptr qt)
 {
