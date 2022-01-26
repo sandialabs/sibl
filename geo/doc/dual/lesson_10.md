@@ -16,7 +16,7 @@ Demonstrate mesh creation for a domain with an outer boundary and an inner bound
 
 ![](fig/NestedCircle2date2021-12-08.png)
 
-### Dual
+### Primal + Dual
 
 ![](fig/NestedCircleDPdate2021-12-08.png)
 
@@ -33,7 +33,3 @@ Demonstrate mesh creation for a domain with an outer boundary and an inner bound
 ![](fig/NestedCircle5date2021-12-08.png)
 
 [Index](README.md)
-
-Previous: [Lesson ##-1](lesson_##-1.md)
-
-Next: [Lesson ##+1](lesson_##+1.md)

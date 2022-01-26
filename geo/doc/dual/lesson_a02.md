@@ -2,9 +2,10 @@
 
 ## Goals
 
-* Create an executable by compiling the the dualization code.
-  * This procedure does not use Python nor the `sibl` conda environment.
-  * In this example, we compile the code and then present two approaches for running the C++ engine with a `yaml` input file.
+* Compile the *SIBL Mesh Engine* source code to an executable. This procedure uses neither Python nor the `sibl` conda environment.
+* Run the executable with a `yaml` input file
+  * without MATLAB, and
+  * with MATLAB.
 
 ## Obtain Source Files
 
@@ -21,17 +22,17 @@ On a Windows machine you'll need to install a C++ compiler. The minimilist appro
 
 On a Windows machine, compile at the command prompt.
 ```bash 
->g++ -O3 -std=c++11 *.cpp -o dual.exe
+> g++ -O3 -std=c++11 *.cpp -o dual.exe
 ```  
 
 On a Mac or Linux machine, compile at the command line.
 ```bash 
->g++ -O3 -std=c++11 *.cpp -o dual.out
+> g++ -O3 -std=c++11 *.cpp -o dual.out
 ```  
 
-Verify it compiled properly by running the executable with no inputs. On a Windows machine, double click the executable file or run at the command prompt by typing "dual.exe". It should generate an example yml file with the inputs you'll need to specify to mesh a surface.
+Verify it compiled properly by running the executable with no inputs. On a Windows machine, double click the executable file or run at the command prompt by typing `dual.exe`. It should generate an example yml file with the inputs you'll need to specify to mesh a surface.
 
-## Steps without Matlab
+## Steps without MATLAB
 
 Generate an input YML file which will specify to the engine what procedures to do. For this example, use [`circle.yml`](circle.yml). Running the executable without any arguments will automatically generate a template YML file that you can modify.
 
@@ -45,9 +46,9 @@ resolution: 0.5
 version: 1.1
 ```
 
-On a Windows machine, drag the YML file on top of the executable - make sure your boundary file has the path specified or exits in the same folder as the executable. This will generate an INP file which can be imported into many meshing and FEA software.
+On a Windows machine, drag the `.YML` input file on top of the executable - make sure the boundary file has the path specified or exits in the same folder as the executable. This will generate an `.INP` file which can be imported into many meshing and FEA applications, such as [Cubit](https://cubit.sandia.gov/) or Abaqus.
 
-## Steps with Matlab
+## Steps with MATLAB
 
 We are using Matlab as a wrapper to generate the boundary file and then run the dualization. However, you can simply use the YML file and the executable to generate the output mesh file. We are also assuming a Windows machine in the following example. If you're on a Mac or Linux, update the paths and executable call.
 
@@ -85,7 +86,7 @@ axis off
 print(gcf,'-dpng',['circle.png']);
 ```
 
-Running the Matlab script will generate this figure:
+Running the MATLAB script will generate this figure:
 
 ![circle_boundary](fig/circle.png)
 

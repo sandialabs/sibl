@@ -16,7 +16,7 @@ Demonstrate mesh creation for a domain with the boundary of Australia.
 
 ![](fig/Australia2date2021-12-10.png)
 
-### Dual
+### Primal + Dual
 
 ![](fig/AustraliaDPdate2021-12-10.png)
 
@@ -33,7 +33,3 @@ Demonstrate mesh creation for a domain with the boundary of Australia.
 ![](fig/Australia5date2021-12-10.png)
 
 [Index](README.md)
-
-Previous: [Lesson ##-1](lesson_##-1.md)
-
-Next: [Lesson ##+1](lesson_##+1.md)
