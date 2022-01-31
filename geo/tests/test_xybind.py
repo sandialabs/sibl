@@ -6,7 +6,6 @@ To run
 > pip install -e .  # assumes already pip installed
 
 > cd ~/sibl/geo/tests
-> pytest test_xybin.py::test_version()
 
 To run a single test, for example, the `test_version` test:
 > pytest test_xybind.py::test_version -v  # to run a single test
