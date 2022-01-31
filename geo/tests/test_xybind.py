@@ -17,7 +17,6 @@ To run all tests in this module:
 
 # import pytest
 
-from tkinter import W
 import xybind as xyb
 import math
 

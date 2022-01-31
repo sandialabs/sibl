@@ -23,7 +23,7 @@ import xybind as xyb
 
 
 def test_using_xybind_version():
-    assert xyb.__version__ == "0.0.7"
+    assert xyb.__version__ == "0.0.8"
 
 
 def test_too_few_coordinates():
