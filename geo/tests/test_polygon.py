@@ -5,7 +5,7 @@ To run
 > cd ~/sibl
 > pytest geo/tests/test_polygon.py -v
 
-to run just a single text, for example
+to run just a single test, for example
 pytest geo/tests/test_polygon.py::test_is_left -v
 """
 

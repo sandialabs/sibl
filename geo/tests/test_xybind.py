@@ -3,21 +3,27 @@
 To run
 > conda activate siblenv
 > cd ~/sibl/geo/src/bind
-# > python setup.py develop  # no longer used
-# > pip install -e .  # assumes already pip installed
-#
+> pip install -e .  # assumes already pip installed
+
 > cd ~/sibl/geo/tests
-> pytest test_xybind.py -v
+> pytest test_xybin.py::test_version()
+
+To run a single test, for example, the `test_version` test:
+> pytest test_xybind.py::test_version -v  # to run a single test
+
+To run all tests in this module:
+> pytest test_xybind.py -v  # to run all tests
 """
 
 # import pytest
 
+from tkinter import W
 import xybind as xyb
 import math
 
 
 def test_version():
-    assert xyb.__version__ == "0.0.7"
+    assert xyb.__version__ == "0.0.8"
 
 
 def test_add():
@@ -41,9 +47,11 @@ def test_attributes():
 
 
 def test_power():
-    a = 2.0
-    b = 3.0
-    known = a ** b
+    """This tests an example where keyword only arguments 'base' and 'exponent' are
+    required by the `xyb.exponent` method.
+    """
+    a, b = 2.0, 3.0
+    known = a ** b  # 2 ** 3 = 8
 
     found = xyb.exponent(base=a, exponent=b)
     assert known == found
@@ -52,6 +60,10 @@ def test_power():
 
 
 def test_pet():
+    """This tests and example of a class with
+    a constructor that takes a string as name,
+    and a property used to recalled the name.
+    """
     known = "Alice"
     p = xyb.Pet("Alice")
     found = p.name
@@ -192,14 +204,29 @@ def test_unit_circle_quad_mesh():
     ys = [radius * math.sin(2.0 * math.pi * t / n_samples) for t in ts]
 
     # mesh = xyb.QuadMesh(bx, by)
-    mesh = xyb.QuadMesh(xs, ys)
-    mesh.compute(resolution=1)
+    # mesh = xyb.QuadMesh(xs, ys)  # xybind version 0.0.7 API
+    # mesh.compute(resolution=1)  # xybind version 0.0.7 API
+    mesh = xyb.QuadMesh()
+    mesh.initialize(
+        boundary_xs=xs,
+        boundary_ys=ys,
+        boundary_refine=False,
+        resolution=1.0,
+        lower_bound_x=-1.5,
+        lower_bound_y=-1.5,
+        upper_bound_x=1.5,
+        upper_bound_y=1.5,
+        developer_output=True,
+        output_file="test_unit_circle",
+    )
+
+    mesh.compute()
 
     nds = mesh.nodes()
     con = mesh.connectivity()
 
     # out of index, CCW, CW, CCW, out of index
-    nnp, nel = 49, 36  # number of nodal points, number of elements
+    nnp, nel = 33, 20  # number of nodal points, number of elements
     known = (nnp, nel)
 
     found = (len(nds), len(con))

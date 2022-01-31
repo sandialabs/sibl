@@ -1,3 +1,7 @@
+# ignore .dev file extension, these are developer outputs
+# from the dualization that should not be automatically checked in
+*.dev
+
 # codeblocks layout dep, etc
 *.cbp
 *.layout
