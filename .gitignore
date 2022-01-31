@@ -2,6 +2,9 @@
 # from the dualization that should not be automatically checked in
 *.dev
 
+# input files containing meshes in ABAQUS format
+*.inp
+
 # codeblocks layout dep, etc
 *.cbp
 *.layout

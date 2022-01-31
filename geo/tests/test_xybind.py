@@ -214,7 +214,7 @@ def test_unit_circle_quad_mesh():
         lower_bound_y=-1.5,
         upper_bound_x=1.5,
         upper_bound_y=1.5,
-        developer_output=True,
+        developer_output=False,
         output_file="test_unit_circle",
     )
 
