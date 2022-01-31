@@ -22,7 +22,7 @@ Curve::Curve(std::string filename)
 
     if(in_file.eof() || in_file.fail())
     {
-        throw std::runtime_error("Error - empty or invalid file name.");
+        throw std::runtime_error("Empty or invalid file name.");
         return ;
     }
 

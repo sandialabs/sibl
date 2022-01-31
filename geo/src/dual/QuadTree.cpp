@@ -66,10 +66,14 @@ QuadTree::QuadTree(Curve* c,NodeList* n,double m)
     minimumSize = m;
 
     if(m<=0)
-        throw std::runtime_error("Error -- Minimum size has to be positive and not zero.");
+        throw std::runtime_error("Minimum size has to be positive and not zero.");
+
 
     std::tuple<double,double> ur = myCurve->upperRight();
     std::tuple<double,double> ll = myCurve->lowerLeft();
+
+
+
 
     if(std::get<XIND>(ur)==std::get<XIND>(ll) && std::get<YIND>(ur)==std::get<YIND>(ll) )
     {
@@ -85,6 +89,12 @@ QuadTree::QuadTree(Curve* c,NodeList* n,double m)
         std::get<YIND>(ur)+=.01;
         std::get<YIND>(ll)-=.01;
     }
+
+    double area = (std::get<XIND>(ur)-std::get<XIND>(ll))*(std::get<YIND>(ur)-std::get<YIND>(ll));
+    if(area <= 0 )
+        throw std::runtime_error("Bounding box specified incorrectly.");
+
+
     std::tuple<double,double> NE = ur;
     std::tuple<double,double> SW = ll;
     std::tuple<double,double> NW =  std::tuple<double,double>(std::get<XIND>(ll),std::get<YIND>(ur));
