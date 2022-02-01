@@ -1,19 +1,3 @@
-# Lesson 12: Swiss cheese
-
-The *SIBL Mesh Engine* ...
-
-## Goals
-
-Demonstrate mesh creation for a domain with an inner and outer boundary definitions.
-
-## Steps
-
-SIBL Mesh engine can import boundary files with multiple loops specified. It assumes that distinct loops are separted by NaN values for x and y. It also uses the convention that a counter clockwise loop defines a region that is "IN" and should be meshed, while a clockwise loop specifies a region that is "OUT" and should not be meshed. 
-
-## Boundary File Generation
-
-This boundary specification is done in Matlab (plotSwissCheeseEx.m). The important distinction for this file vs other plot commands is that this handles the tris and pents that appear in the Primal mesh. The dev files just pad the poly specification with -1s. So there is a line in the Matlab code that strips out the -1 indices before plotting.
-```Matlab
 clear all
 close all
 
@@ -81,47 +65,3 @@ for ff=1:length(plotNames)
     title(char(plotNames{ff}))
     print(gcf,'-dpng',['swiss',char(plotNames{ff}),'.png']);
 end
-```
-
-
-### Quad Tree
-
-![Quadtree](fig/swiss_01_quad_tree_.png)
-
-### Primal
-
-![Primal](fig/swiss_02_primal_.png)
-
-### Primal + Dual
-
-![Dual](fig/swiss_03_dual_.png)
-
-### Dual + Trim + Project
-
-![Trimmed Dual](fig/swiss_04_d_trim_.png)
-
-### Dual + Trim + Project 
-
-![Projected Dual](fig/swiss_05_dt_project_.png)
-
-### Dual + Trim + Project + Snap 
-
-![Snapped Dual](fig/swiss_06_dtp_snap_.png)
-
-### Dual + Trim + Project + Snap + Subdivide 
-
-![Subdivided Dual](fig/swiss_07_dtps_subdivide_.png)
-
-### Dual + Trim + Project + Snap + Subdivide + Project
-
-![Subdivided-Projected Dual](fig/swiss_08_dtpss_project_.png)
-
-### Dual + Trim + Project + Snap + Subdivide + Project + Snap
-
-![Subdivided-Snapped Dual](fig/swiss_09_dtpssp_snap_.png)
-
-### Final Mesh
-
-![Final Mesh](fig/swiss_10_mesh_.png)
-
-[Index](README.md)

@@ -128,11 +128,11 @@ int main(int argc, char *argv[])
 
         //cout<<"Nodes size: "<<myNodes->size()<<endl;
 
-        if(developerOutput)
-            myQuadTree->write(outputfile+"_01_quad_tree_");
 
         myQuadTree->balancedRefineCurve(myQuadTree->head(),(featureRefine!=1));
         cout<<"Nodes size: "<<myNodes->size()<<endl;
+        if(developerOutput)
+            myQuadTree->write(outputfile+"_01_quad_tree_");
 
         myQuadTree->assignSplitCode(myQuadTree->head());
 

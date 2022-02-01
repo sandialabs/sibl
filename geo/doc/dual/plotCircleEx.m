@@ -24,8 +24,8 @@ fclose(fid);
 %Run executable through Matlab dos command / Can also just drag YML file onto executable or run from command prompt
 dos([binpath,'dual.exe circle.yml']);
 
-n = load('dualnodes');
-q = load('dualquads');
+n = load('circle_10_mesh_nodes.dev');
+q = load('circle_10_mesh_quads.dev');
 
 figure;
 plot(pts(1,:),pts(2,:),'k-','LineWidth',2);hold on;
