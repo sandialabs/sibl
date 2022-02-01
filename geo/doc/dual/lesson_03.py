@@ -97,9 +97,7 @@ def main():
 
     plt.show()
 
-    aa = 4
-
-    # TODO: saving the plot, and writing to a .mesh file
+    # TODO: saving the plot, and writing to a .mesh file, use the .yml input file
 
 
 if __name__ == "__main__":
