@@ -1,6 +1,6 @@
 # Lesson 12: Swiss cheese
 
-The *SIBL Mesh Engine* ...
+The *SIBL Mesh Engine* can be used with multiple curve definitions.
 
 ## Goals
 
@@ -8,11 +8,18 @@ Demonstrate mesh creation for a domain with an inner and outer boundary definiti
 
 ## Steps
 
-SIBL Mesh engine can import boundary files with multiple loops specified. It assumes that distinct loops are separted by NaN values for x and y. It also uses the convention that a counter clockwise loop defines a region that is "IN" and should be meshed, while a clockwise loop specifies a region that is "OUT" and should not be meshed. 
+SIBL Mesh engine can import boundary files with *multiple* loops specified. 
+
+* It assumes that distinct loops are separted by `NaN` values for `x` and `y` values. 
+* It also uses the convention that a counter clockwise loop defines a region that is "IN" and should be meshed, while a clockwise loop specifies a region that is "OUT" and should not be meshed.  For example, the `NaN` appears in line `85` of [`swisscheese.txt`](swisscheese.txt), used in the example below, as shown in this screenshot:
+
+![swiss_nan_exmaple](fig/swiss_nan_exmaple.png)
+> *Figure 12.1: Illustration of the use of `NaN` to incidate termination of a curve and start of a new curve.*
 
 ## Boundary File Generation
 
-This boundary specification is done in Matlab (plotSwissCheeseEx.m). The important distinction for this file vs other plot commands is that this handles the tris and pents that appear in the Primal mesh. The dev files just pad the poly specification with -1s. So there is a line in the Matlab code that strips out the -1 indices before plotting.
+This boundary specification is create with the MATLAB [`plotSwissCheeseEx.m`](plotSwissCheeseEx.m) file. The important distinction for this file versus other plot commands is that this handles the tris and pents that appear in the Primal mesh. The dev files just pad the poly specification with -1s. So there is a line in the Matlab code that strips out the -1 indices before plotting.
+
 ```Matlab
 clear all
 close all

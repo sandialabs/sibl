@@ -21,4 +21,6 @@ LICENSE                TODO.md                cinolib_rep_image.pdf  examples/  
 README.md              cinolib-config.cmake   cinolib_rep_image.png  external/              scripts/
 ```
 
-Next: [Step 3](step_03.md)
+`<-` Previous: [Step 1](step_01.md)
+
+`->` Next: [Step 3](step_03.md)
