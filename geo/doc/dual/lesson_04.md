@@ -19,16 +19,11 @@ From the command line:
 > conda activate siblenv
 > cd ~/sibl
 > python geo/src/ptg/main.py -i geo/data/mesh/lesson_04.yml
-```
-
-The command line output follows:
-
-```bash
-> python geo/src/ptg/main.py -i geo/data/mesh/lesson_04.yml            (siblenv)
 SIBL Mesh Engine initialized.
 driver: /Users/chovey/sibl/geo/src/ptg/main.py
+Dualization initiated.
 input: /Users/chovey/sibl/geo/data/mesh/lesson_04.yml
-The database is {'version': 1.1, 'boundary': '~/sibl/geo/data/boundary/circle_radius_2.txt', 'bounding_box': [[-2.0, -2.0], [2.0, 2.0]], 'resolution': 1.0, 'output_file': '~/sibl/geo/data/mesh/lesson_04.inp', 'boundary_refine': True, 'developer_output': True, 'figure': {'boundary_shown': True, 'dpi': 200, 'elements_shown': True, 'filename': 'lesson_04', 'format': 'png', 'frame': True, 'grid': False, 'label_x': '$x$', 'label_y': '$y$', 'latex': False, 'save': True, 'show': False, 'size': [8.0, 6.0], 'title': 'Lesson 04'}}
+The database is {'version': 1.2, 'boundary': '~/sibl/geo/data/boundary/circle_radius_2.txt', 'bounding_box': [[-2.0, -2.0], [2.0, 2.0]], 'resolution': 1.0, 'output_file': '~/sibl/geo/data/mesh/lesson_04.inp', 'boundary_refine': True, 'developer_output': True, 'figure': {'boundary_shown': True, 'dpi': 200, 'elements_shown': True, 'filename': 'lesson_04', 'format': 'png', 'frame': True, 'grid': False, 'label_x': '$x$', 'label_y': '$y$', 'latex': False, 'save': True, 'show': False, 'size': [8.0, 6.0], 'title': 'Lesson 04'}}
 Reading in boundary file: ~/sibl/geo/data/boundary/circle_radius_2.txt
 deciding this loop is : in
 inCurve with 40 points
@@ -44,6 +39,8 @@ Size of my Primal nodes: 73
 Size of my Primal Polys: 56
 Unique loop size: 41
   Saved figure to lesson_04.png
+SIBL Mesh Engine completed.
+Dualization is complete.
 SIBL Mesh Engine completed.
 >
 ```

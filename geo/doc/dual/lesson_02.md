@@ -1,4 +1,4 @@
-# Lesson 02: Run Lesson 01 from python script
+# Lesson 02: Run Lesson 01 from Python script
 
 It is often easier to interact with *SIBL Mesh Engine* through the use of a 
 Python script, instead of using Python interactively.

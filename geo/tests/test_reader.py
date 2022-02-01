@@ -26,7 +26,7 @@ def test_lesson_04():
 
     r = reader.Reader(input_file=argv)
     found = r.extract(key="version")
-    known = 1.1  # version 1.0 of the input file
+    known = 1.2  # version of the input file
     assert found == known
 
 

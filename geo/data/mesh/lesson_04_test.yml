@@ -37,7 +37,9 @@ figure:  # for Python MATPLOTLIB
   label_x: "$x$"
   label_y: "$y$"
   latex: False
-  save: True  # True saves the figure to the local directory
+  # suppress output when running pytest
+  # save: True  # True saves the figure to the local directory
+  save: False # True saves the figure to the local directory
   show: False  # shows or hides the figure
   size: [8.0, 6.0]  # [width, height] in inches
   title: "Lesson 04"

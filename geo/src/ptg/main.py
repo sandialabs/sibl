@@ -8,8 +8,8 @@ Example:
 
 import argparse
 from pathlib import Path
-import sys
 from types import SimpleNamespace
+from typing import Final
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -18,32 +18,36 @@ from ptg import reader as reader
 import xybind as xyb
 
 
-def main(argv):
+# def dualize(argv) -> bool:
+# def dualize(database: dict):
+def dualize(*, input_path_file: str) -> bool:
+    """This wrapper method supports command line use and test."""
+    # engine_completed = False
 
-    print("SIBL Mesh Engine initialized.")
-    print(f"driver: {__file__}")
+    # print("SIBL Mesh Engine initialized.")
+    # print(f"driver: {__file__}")
 
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--input_file",
-        "-i",
-        action="store",
-        required=True,
-        help="input file in yml format",
-    )
+    # parser = argparse.ArgumentParser()
+    # parser.add_argument(
+    #     "--input_file",
+    #     "-i",
+    #     action="store",
+    #     required=True,
+    #     help="input file in yml format",
+    # )
 
-    args = parser.parse_args()
+    # args = parser.parse_args()
 
-    input_path = args.input_file
+    # input_path = args.input_file
 
-    r = reader.Reader(input_file=input_path)
+    r = reader.Reader(input_file=input_path_file)
     database = r.database
     print(f"The database is {database}")
 
-    db = SimpleNamespace(**database)
-    figure = SimpleNamespace(**db.figure)
+    db: Final = SimpleNamespace(**database)
+    figure: Final = SimpleNamespace(**db.figure)
 
-    assert db.version == 1.1
+    assert db.version == 1.2
 
     print(f"Reading in boundary file: {db.boundary}")
     path_file_in = Path(db.boundary).expanduser()
@@ -148,7 +152,37 @@ def main(argv):
         plt.close("all")  # close all figures if they are still open
 
     print("SIBL Mesh Engine completed.")
+    engine_completed = True
+    return engine_completed
 
 
 if __name__ == "__main__":
-    main(sys.argv[1:])
+
+    engine_completed = False
+
+    print("SIBL Mesh Engine initialized.")
+    print(f"driver: {__file__}")
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--input_file",
+        "-i",
+        action="store",
+        required=True,
+        help="input file in yml format",
+    )
+
+    args = parser.parse_args()
+
+    args_path_file = args.input_file
+
+    # io_main(sys.argv[1:])
+    # io_main(input_file=ii)
+    print("Dualization initiated.")
+    success = dualize(input_path_file=args_path_file)
+    if success:
+        print("Dualization is complete.")
+    else:
+        print("Dualization is incomplete.")
+
+    print("SIBL Mesh Engine completed.")
