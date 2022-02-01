@@ -1,4 +1,6 @@
 import math
+from pathlib import Path
+
 import matplotlib.pyplot as plt
 
 import xybind as xyb
@@ -16,40 +18,36 @@ def main():
     xs = [radius * math.cos(2.0 * math.pi * t / n_samples) for t in ts]
     ys = [radius * math.sin(2.0 * math.pi * t / n_samples) for t in ts]
 
-    # mesh
-    mesh = xyb.QuadMesh(xs, ys)
-    # deciding this loop is : in
-    # inCurve with 40 points
-    # Determining derivative...
-    # Setting tangent and angle...
-    # Finding corners...
-    # Finding features...
-    # Constructor complete
+    # other user-defined parameters
+    refine = True  # don't refine at the boundary
+    res = 1.0  # the first resolution attempt
+    # res = 0.5  # the second resolution attempt
+    res = 0.25  # the third resolution attempt
+    ll_x, ll_y = -2.1, -2.1  # ll = lower left
+    ur_x, ur_y = 2.1, 2.1  # ur = upper right
+    dev_out = False
+    ofile = Path(__file__).stem  # automatically get the 'lesson_03' string
 
-    # compute mesh
-    mesh.compute(resolution=1)
-    # Computing Mesh
-    # Size of my nodes: 0
-    # Size of my Primal nodes: 73
-    # Size of my Primal Polys: 56
-    # Unique loop size: 41
+    # mesh
+    mesh = xyb.QuadMesh()
+    mesh.initialize(
+        boundary_xs=xs,
+        boundary_ys=ys,
+        boundary_refine=refine,
+        resolution=res,
+        lower_bound_x=ll_x,
+        lower_bound_y=ll_y,
+        upper_bound_x=ur_x,
+        upper_bound_y=ur_y,
+        developer_output=dev_out,
+        output_file=ofile,
+    )
+
+    mesh.compute()
 
     # get the nodes
     nodes = mesh.nodes()
-    # nnp = len(nodes)  # number of nodal points = 161
-
-    # example nodes:
-    # the first node:
-    # > nodes[0]
-    # [1.0, 0.5024999976158142, 0.5024999976158142, 0.0]
-
-    # the second node
-    # > nodes[1]
-    # [2.0, 0.5024999976158142, -0.5024999976158142, 0.0]
-
-    # the last node
-    # > nodes[-1]
-    # [165.0, 1.4841588735580444, 1.0253148078918457, 0.0]
+    # nnp = len(nodes)  # number of nodal points
 
     # create a dictionary lookup table from the index to the nodal (x, y, z)
     # coordinates
@@ -60,23 +58,7 @@ def main():
 
     # get the elements
     elements = mesh.connectivity()
-    # nel = len(elements)  # number of elements = 140
-
-    # work with only three elements for debug purposes
-    # elements = elements[0:3]
-
-    # example elements:
-    # the first element
-    # > elements[0]
-    # [1, 57, 58, 59]
-
-    # the second element
-    # > elements[1]
-    # [57, 2, 60, 58]
-
-    # the last element
-    # > elements[-1]
-    # [165, 164, 24, 161]
+    # nel = len(elements)  # number of elements
 
     # visualization
     s = 6.0  # 6.0 inches
@@ -108,9 +90,14 @@ def main():
     ax.set_xlabel(r"$x$")
     ax.set_ylabel(r"$y$")
 
+    ax.set_xlim([ll_x, ur_x])
+    ax.set_ylim([ll_y, ur_y])
+
     plt.axis("on")
 
     plt.show()
+
+    aa = 4
 
     # TODO: saving the plot, and writing to a .mesh file
 

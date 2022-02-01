@@ -20,7 +20,16 @@ The same boundary from the previous lessons should appear, but now with a 2D qua
 
 ![circle_boundary_mesh](fig/circle_boundary_mesh.png)
 
-Review [`lesson_03.py`](lesson_03.py) and modify as necessary.
+Review [`lesson_03.py`](lesson_03.py) and modify as necessary, such as changing the `resolution` parameter by uncommenting lines for `res` to get refined variations:
+
+```python
+res = 1.0  # the first resolution attempt
+# res = 0.5  # the second resolution attempt
+# res = 0.2  # the third resolution attemp
+```
+
+![circle_boundary_mesh_res_0p5](fig/circle_boundary_mesh_res_0p5.png)
+![circle_boundary_mesh_res_0p25](fig/circle_boundary_mesh_res_0p25.png)
 
 [Index](README.md)
 
