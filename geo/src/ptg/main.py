@@ -18,27 +18,8 @@ from ptg import reader as reader
 import xybind as xyb
 
 
-# def dualize(argv) -> bool:
-# def dualize(database: dict):
 def dualize(*, input_path_file: str) -> bool:
     """This wrapper method supports command line use and test."""
-    # engine_completed = False
-
-    # print("SIBL Mesh Engine initialized.")
-    # print(f"driver: {__file__}")
-
-    # parser = argparse.ArgumentParser()
-    # parser.add_argument(
-    #     "--input_file",
-    #     "-i",
-    #     action="store",
-    #     required=True,
-    #     help="input file in yml format",
-    # )
-
-    # args = parser.parse_args()
-
-    # input_path = args.input_file
 
     r = reader.Reader(input_file=input_path_file)
     database = r.database
@@ -47,7 +28,7 @@ def dualize(*, input_path_file: str) -> bool:
     db: Final = SimpleNamespace(**database)
     figure: Final = SimpleNamespace(**db.figure)
 
-    assert db.version == 1.2
+    assert db.version == 1.3
 
     print(f"Reading in boundary file: {db.boundary}")
     path_file_in = Path(db.boundary).expanduser()
