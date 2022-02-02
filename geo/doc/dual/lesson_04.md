@@ -1,4 +1,4 @@
-# Lesson 04: Use with an Input File
+# Lesson 04: Use Input Files
 
 To create meshes that can be built through parameterization, the use of an input file will be required.
 
@@ -45,11 +45,9 @@ SIBL Mesh Engine completed.
 >
 ```
 
-
 and the image `lesson_04.png`, shown here, should appear in the local `~/sibl` folder.
 
 ![lesson_04](fig/lesson_04.png)
-
 
 [Index](README.md)
 

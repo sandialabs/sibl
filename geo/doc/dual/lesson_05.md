@@ -1,4 +1,4 @@
-# Dualization Code-Only Workflow
+# Lesson 05: Dualization Code-Only Workflow
 
 ## Goals
 

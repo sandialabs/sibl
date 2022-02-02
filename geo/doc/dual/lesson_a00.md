@@ -1,4 +1,4 @@
-# Bind C++ for use with Python
+# Lesson a00: Bind C++ for use with Python
 
 ## Goals
 
