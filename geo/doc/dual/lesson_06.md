@@ -1,4 +1,4 @@
-# Lesson 12: Swiss cheese
+# Lesson 06: Swiss cheese
 
 The *SIBL Mesh Engine* can be used with multiple curve definitions.
 
@@ -132,3 +132,5 @@ end
 ![Final Mesh](fig/swiss_10_mesh_.png)
 
 [Index](README.md)
+
+Previous: [Lesson 05](lesson_05.md)

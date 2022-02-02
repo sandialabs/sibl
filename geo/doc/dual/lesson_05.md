@@ -93,3 +93,7 @@ Running the MATLAB script will generate this figure:
 ![circle_boundary](fig/circle.png)
 
 [Index](README.md)
+
+Previous: [Lesson 04](lesson_04.md)
+
+Next: [Lesson 06](lesson_06.md)
