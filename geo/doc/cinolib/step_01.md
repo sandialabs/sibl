@@ -1,4 +1,4 @@
-# Step 1: Install [Gen-Adapt-Ref-for-Hexmeshing](https://github.com/cg3hci/Gen-Adapt-Ref-for-Hexmeshing)
+# Step 01: Install [Gen-Adapt-Ref-for-Hexmeshing](https://github.com/cg3hci/Gen-Adapt-Ref-for-Hexmeshing)
 
 Clone the `Gen-Adapt-Ref-for-Hexmeshing` repository as follows:
 
@@ -32,6 +32,9 @@ FindGUROBI.cmake  README.md         external/         teaser_HD.png
   * > *Figure 1.0:  GitLab showing submodule link to CinoLib*
   * Ask Marco:  Is/Can this submodule link to be ignored, since we will clone the `cinolib` repository directly?
 
+
 [Index](README.md)
 
-Next: [Step 2](step_02.md)
+Previous: [Step 00](step_00.md)
+
+Next: [Step 03](step_03.md)

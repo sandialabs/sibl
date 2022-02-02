@@ -1,4 +1,4 @@
-# Step 2: Install [CinoLib](https://github.com/mlivesu/cinolib)
+# Step 02: Install [CinoLib](https://github.com/mlivesu/cinolib)
 
 Clone the `CinoLib` repository as follows:
 
@@ -23,6 +23,6 @@ README.md              cinolib-config.cmake   cinolib_rep_image.png  external/  
 
 [Index](README.md)
 
-Previous: [Step 1](step_01.md)
+Previous: [Step 01](step_01.md)
 
-Next: [Step 3](step_03.md)
+Next: [Step 03](step_03.md)

@@ -1,4 +1,4 @@
-# Step 4: Install [CGAL](https://www.cgal.org/)
+# Step 04: Install [CGAL](https://www.cgal.org/)
 
 To come.
 
@@ -140,6 +140,6 @@ chovey@s1060600 ~/c/e/01_trimesh_viewer (master) [1]>
 
 [Index](README.md)
 
-Previous: [Step 3](step_03.md)
+Previous: [Step 03](step_03.md)
 
 Next: [Step nn](step_nn.md)
