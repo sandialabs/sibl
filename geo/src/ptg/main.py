@@ -90,6 +90,13 @@ def dualize(*, input_path_file: str) -> bool:
         fig = plt.figure(figsize=(fig_size_x, fig_size_y))
 
         ax = fig.gca()
+        xmin = db.bounding_box[0][ix]
+        xmax = db.bounding_box[1][ix]
+        ymin = db.bounding_box[0][iy]
+        ymax = db.bounding_box[1][iy]
+
+        ax.set_xlim([xmin, xmax])
+        ax.set_ylim([ymin, ymax])
 
         if figure.grid:
             ax.grid()

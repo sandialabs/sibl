@@ -1,4 +1,4 @@
-# Lesson 04: Use Input Files
+# Lesson 04: Using Input Files
 
 To create meshes that can be built through parameterization, the use of an input file will be required.
 
@@ -23,7 +23,7 @@ SIBL Mesh Engine initialized.
 driver: /Users/chovey/sibl/geo/src/ptg/main.py
 Dualization initiated.
 input: /Users/chovey/sibl/geo/data/mesh/lesson_04.yml
-The database is {'version': 1.3, 'boundary': 'geo/data/boundary/circle_radius_2.txt', 'bounding_box': [[-2.0, -2.0], [2.0, 2.0]], 'resolution': 1.0, 'output_file': '~/sibl/geo/data/mesh/lesson_04.inp', 'boundary_refine': True, 'developer_output': True, 'figure': {'boundary_shown': True, 'dpi': 200, 'elements_shown': True, 'filename': 'lesson_04', 'format': 'png', 'frame': True, 'grid': False, 'label_x': '$x$', 'label_y': '$y$', 'latex': False, 'save': True, 'show': False, 'size': [8.0, 6.0], 'title': 'Lesson 04'}}
+The database is {'version': 1.3, 'boundary': 'geo/data/boundary/circle_radius_2.txt', 'bounding_box': [[-2.0, -2.0], [2.0, 2.0]], 'resolution': 1.0, 'output_file': 'geo/data/mesh/lesson_04', 'boundary_refine': True, 'developer_output': False, 'figure': {'boundary_shown': True, 'dpi': 200, 'elements_shown': True, 'filename': 'lesson_04', 'format': 'png', 'frame': True, 'grid': False, 'label_x': '$x$', 'label_y': '$y$', 'latex': False, 'save': True, 'show': False, 'size': [8.0, 6.0], 'title': 'Lesson 04'}}
 Reading in boundary file: geo/data/boundary/circle_radius_2.txt
 deciding this loop is : in
 inCurve with 40 points
@@ -45,7 +45,10 @@ SIBL Mesh Engine completed.
 >
 ```
 
-and the image `lesson_04.png`, shown here, should appear in the local `~/sibl` folder.
+### Outputs
+
+* Mesh file [`lesson_04.inp`](../../data/mesh/lesson_04.inp) will appear in the `~/sibl/geo/data/mesh` folder.
+* Image `lesson_04.png`, shown here, should appear in the local `~/sibl` folder. 
 
 ![lesson_04](fig/lesson_04.png)
 

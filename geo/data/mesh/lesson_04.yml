@@ -15,7 +15,7 @@ bounding_box: [[-2.0, -2.0], [2.0, 2.0]]  # [[float, float], [float, float]]
 # of the bounding box
 resolution: 1.0 # float
 #
-output_file: "~/sibl/geo/data/mesh/lesson_04.inp"
+output_file: "geo/data/mesh/lesson_04"  # creates lesson_04.inp
 #
 # boundary_refine:
 # either based on boundary refinement (discretization of the boundary), e.g., boundary
@@ -27,7 +27,7 @@ boundary_refine: True  # bool, if False, then does a feature refine
 # always one or the other, boundary_refine has quad tree refine to parameteric 
 # representation of curve, and feature_refine is based on curvature.
 # 
-developer_output: True  # for primal, dual, projection, snapping (to corners),
+developer_output: False  # for primal, dual, projection, snapping (to corners),
 # refinement (subdivide surface tri into a quad and then refine), (no current smoothing)
 # writes out the nodes in a separate file and a connectivity
 # Cubit checkbox: smooth boundary nodes
