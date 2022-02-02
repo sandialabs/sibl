@@ -54,3 +54,5 @@ and the image `lesson_04.png`, shown here, should appear in the local `~/sibl` f
 [Index](README.md)
 
 Previous: [Lesson 03](lesson_03.md)
+
+Next: [Lesson 05](lesson_05.md)
