@@ -3,7 +3,7 @@
 *.dev
 
 # input files containing meshes in ABAQUS format
-*.inp
+# *.inp  # decide sometimes we want to check .inp files into the repo
 
 # codeblocks layout dep, etc
 *.cbp
