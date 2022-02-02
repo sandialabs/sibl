@@ -112,7 +112,6 @@ CINOLIB OPTIONAL MODULES: OpenGL, GLFW, ImGui
 >
 ```
 
-
 # Example 01: Trimesh Viewer
 
 ```bash
@@ -139,7 +138,8 @@ chovey@s1060600 ~/c/e/01_trimesh_viewer (master) [1]>
 ![](fig/cmake_toy_problem.png)
 > *Figure: CMake configuration for toy problem.*
 
+[Index](README.md)
 
-`<-` Previous: [Step 3](step_03.md)
+Previous: [Step 3](step_03.md)
 
-`->` Next: [Step #](step_0#.md)
+Next: [Step #](step_0#.md)
