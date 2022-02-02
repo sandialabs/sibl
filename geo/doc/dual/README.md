@@ -15,7 +15,7 @@ Learn how to use the *SIBL Mesh Engine* with the lessons below:
   * *To come.* [10](lesson_10.md). Donut - to Chad (Python)
   * *To come.* [11](lesson_11.md). Quarter Plate - to Ryan (Python)
 * Literature Examples
-  * *To come.* [21](lesson_21.md). Flower - *pending* to Adam
+  * *To come.* [21](lesson_21.md). Flower - *pending* to Chad
   * *To come.* [22](lesson_22.md). Lake Superior
   * *To come.* [23](lesson_23.md). Australia
 * Applications
