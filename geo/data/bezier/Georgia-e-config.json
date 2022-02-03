@@ -28,6 +28,7 @@
     "control-points-path": true,
     "control-points-shown": true,
     "data-path": ".",
+    "interactive": false,
     "latex": true,
     "nti_divisions": 7,
     "serialize": false,

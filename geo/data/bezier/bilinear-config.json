@@ -18,6 +18,7 @@
     "data-path": ".",
     "interactive": false,
     "nti_divisions": 1,
+    "serialize": false,
     "surface-triangulation": true,
     "triangulation-alpha": 0.5,
     "xlim": [
