@@ -20,6 +20,7 @@
     ],
     "control_points_shown": true,
     "degree_t": 3,
+    "display": false,
     "name": "Piegl_Fig3p1",
     "nbi": 8,
     "ncp": 4,

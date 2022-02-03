@@ -2,6 +2,7 @@
     "class": "curvefit",
     "control_points_shown": true,
     "degree_t": 3,
+    "display": false,
     "knots_shown": true,
     "latex": false,
     "name": "Piegl_Ex9p1",
