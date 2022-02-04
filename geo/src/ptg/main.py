@@ -26,9 +26,13 @@ def dualize(*, input_path_file: str) -> bool:
     print(f"The database is {database}")
 
     db: Final = SimpleNamespace(**database)
+    print(f"This input file has version {db.version}")
+    version_required: Final = 1.3
+    if db.version != version_required:
+        raise ValueError(
+            f"yml input file version error: version {db.version} was used, version {version_required} is required."
+        )
     figure: Final = SimpleNamespace(**db.figure)
-
-    assert db.version == 1.3
 
     print(f"Reading in boundary file: {db.boundary}")
     path_file_in = Path(db.boundary).expanduser()
@@ -164,8 +168,6 @@ if __name__ == "__main__":
 
     args_path_file = args.input_file
 
-    # io_main(sys.argv[1:])
-    # io_main(input_file=ii)
     print("Dualization initiated.")
     success = dualize(input_path_file=args_path_file)
     if success:
