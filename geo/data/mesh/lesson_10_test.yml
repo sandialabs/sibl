@@ -8,7 +8,7 @@ boundary: "geo/data/boundary/donut.txt"
 # bounding box:
 # [[lower_left_x, lower_left_y], [upper_right_x, upper_right_y]]
 # bounding_box: [[-2.0, -2.0], [2.0, 2.0]]  # [[float, float], [float, float]]
-bounding_box: [[-8.1, -8.1], [8.1, 8.1]]  # [[float, float], [float, float]]
+bounding_box: [[-8.0, -8.0], [8.0, 8.0]]  # [[float, float], [float, float]]
 #
 # resolution:
 # the smallest edge length target for the resultant refined mesh in the length scale
