@@ -30,3 +30,14 @@ def test_lesson_04():
     io = "geo/data/mesh/lesson_04_test.yml"  # does not produce "lesson_04.png"
     completed = ptg_main.dualize(input_path_file=io)
     assert completed
+
+
+def test_lesson_10():
+    """Tests that Lesson 10can be run from the command line
+    to completion.
+    """
+    # argv = ["--input-file", "geo/data/mesh/lesson_10.yml"]
+
+    io = "geo/data/mesh/lesson_10_test.yml"  # does not produce "lesson_10.png"
+    completed = ptg_main.dualize(input_path_file=io)
+    assert completed

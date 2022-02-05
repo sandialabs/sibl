@@ -39,13 +39,12 @@ def dualize(*, input_path_file: str) -> bool:
     if not path_file_in.is_file():
         raise OSError(f"File not found: {path_file_in}")
 
-    n_header_rows_skipped, n_footer_rows_skipped = 1, 0
+    # np.genfromtxt will automatically ignore comment lines starting with "#" character
+    # https://numpy.org/devdocs/reference/generated/numpy.genfromtxt.html
     ix, iy = 0, 1
     boundary = np.genfromtxt(
         path_file_in,
         dtype="float",
-        skip_header=n_header_rows_skipped,
-        skip_footer=n_footer_rows_skipped,
         usecols=(ix, iy),
     )
 

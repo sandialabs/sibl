@@ -1,0 +1,49 @@
+version: 1.3  # float, the yml file input version
+#
+# boundary:
+# Relative to the ~/sibl directory, the full path and file name of the boundary 
+# input file.  E.g., ~/sibl/geo/data/boundary/some_file.txt
+boundary: "geo/data/boundary/donut.txt"
+#
+# bounding box:
+# [[lower_left_x, lower_left_y], [upper_right_x, upper_right_y]]
+# bounding_box: [[-2.0, -2.0], [2.0, 2.0]]  # [[float, float], [float, float]]
+bounding_box: [[-8.1, -8.1], [8.1, 8.1]]  # [[float, float], [float, float]]
+#
+# resolution:
+# the smallest edge length target for the resultant refined mesh in the length scale
+# of the bounding box
+resolution: 1.0 # float
+#
+output_file: "geo/data/mesh/lesson_10"  # creates lesson_10.inp
+#
+# boundary_refine:
+# either based on boundary refinement (discretization of the boundary), e.g., boundary
+# point density in the `boundary` file; or,
+# based on local boundary curvature.
+# In development: there is no current parametric representation of the boundary curvature
+# if boundary_refine is True, then curvature_refine is false, and vice-versa.
+boundary_refine: True  # bool, if False, then does a feature refine
+# always one or the other, boundary_refine has quad tree refine to parameteric 
+# representation of curve, and feature_refine is based on curvature.
+# 
+developer_output: True  # for primal, dual, projection, snapping (to corners),
+# refinement (subdivide surface tri into a quad and then refine), (no current smoothing)
+# writes out the nodes in a separate file and a connectivity
+# Cubit checkbox: smooth boundary nodes
+# in a separate file
+figure:  # for Python MATPLOTLIB
+  boundary_shown: True
+  dpi: 200  # dots per inch
+  elements_shown: True
+  filename: "lesson_10"
+  format: pdf  # png | pdf | svg
+  frame: True  # True shows the rectangular frame of the axis
+  grid: False
+  label_x: "$x$"
+  label_y: "$y$"
+  latex: False
+  save: True  # True saves the figure to the local directory
+  show: False  # shows or hides the figure
+  size: [6.0, 6.0]  # [width, height] in inches
+  title: "Lesson 10"
