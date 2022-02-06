@@ -1,22 +1,22 @@
 version: 1.3  # float, the yml file input version
-#
+
 # boundary:
 # Relative to the ~/sibl directory, the full path and file name of the boundary 
 # input file.  E.g., ~/sibl/geo/data/boundary/circle_radius_2.txt is specified as:
-boundary: "geo/data/boundary/circle_radius_2.txt"
-#
+boundary: geo/data/boundary/circle_radius_2.txt
+
 # bounding box:
 # [[lower_left_x, lower_left_y], [upper_right_x, upper_right_y]]
 # bounding_box: [[-2.0, -2.0], [2.0, 2.0]]  # [[float, float], [float, float]]
 bounding_box: [[-2.0, -2.0], [2.0, 2.0]]  # [[float, float], [float, float]]
-#
+
 # resolution:
 # the smallest edge length target for the resultant refined mesh in the length scale
 # of the bounding box
 resolution: 1.0 # float
-#
-output_file: "geo/data/mesh/lesson_04"  # creates lesson_04.inp
-#
+
+output_file: geo/data/mesh/lesson_04_mesh  # creates lesson_04.inp
+
 # boundary_refine:
 # either based on boundary refinement (discretization of the boundary), e.g., boundary
 # point density in the `boundary` file; or,
@@ -26,24 +26,24 @@ output_file: "geo/data/mesh/lesson_04"  # creates lesson_04.inp
 boundary_refine: True  # bool, if False, then does a feature refine
 # always one or the other, boundary_refine has quad tree refine to parameteric 
 # representation of curve, and feature_refine is based on curvature.
-# 
+
 developer_output: False  # for primal, dual, projection, snapping (to corners),
 # refinement (subdivide surface tri into a quad and then refine), (no current smoothing)
 # writes out the nodes in a separate file and a connectivity
 # Cubit checkbox: smooth boundary nodes
 # in a separate file
 figure:  # for Python MATPLOTLIB
-  boundary_shown: True
+  boundary_shown: False
   dpi: 200  # dots per inch
   elements_shown: True
-  filename: "lesson_04"
+  filename: lesson_04_figure
   format: png  # png | pdf | svg
-  frame: True  # True shows the rectangular frame of the axis
+  frame: True # True shows the rectangular frame of the axis
   grid: False
-  label_x: "$x$"
-  label_y: "$y$"
+  label_x: ""
+  label_y: ""
   latex: False
   save: True  # True saves the figure to the local directory
   show: False  # shows or hides the figure
   size: [8.0, 6.0]  # [width, height] in inches
-  title: "Lesson 04"
+  title: ""

@@ -127,10 +127,14 @@ def dualize(*, input_path_file: str) -> bool:
                 )
 
         ax.set_aspect("equal")
-        ax.set_title(figure.title)
-        ax.set_xlabel(figure.label_x)
-        ax.set_ylabel(figure.label_y)
         ax.set_frame_on(b=figure.frame)
+        if figure.frame:
+            ax.set_title(figure.title)
+            ax.set_xlabel(figure.label_x)
+            ax.set_ylabel(figure.label_y)
+            ax.set_axis_on()
+        else:
+            ax.set_axis_off()
 
         if figure.show:
             plt.show()

@@ -27,7 +27,7 @@ close all
 %Set path to executable if not working in the same directory
 binpath = 'C:\Users\acsokol\sibl\geo\src\dual\bin\';
 
-%Create the geometry for this example    
+%Create the geometry for this example
 %Make a box 
 edge1 = [-10:1:10];
 edge2 = edge1*0+1;

@@ -8,9 +8,12 @@ Learn how to use the *SIBL Mesh Engine* with the lessons below:
   * [02](lesson_02.md). Next, plot the same 2D boundary using a Python script.
   * [03](lesson_03.md). Use the 2D boundary as an input to the mesher, to create a single domain composed of 2D quadrilateral finite elements.
   * [04](lesson_04.md). Use of a `.yml` input file to create the mesh in Lesson 03.
+  * [05](lesson_05.md). The `.yml` configuration file options
+  * [06](README.md). *To come.*
 * Introduction - C++ executable with and without MATLAB
   * [07](lesson_07.md). Compile the C++ source into an executable, use it with and without MATLAB.
   * [08](lesson_08.md). Swiss cheese - use C++ and MATLAB with multiple curves to form a complex boundary.
+  * [09](README.md). *To come.*
 * Unit tests
   * [10](lesson_10.md). Donut - demonstrate mesh creation for a domain with a circular outer and inner boundaries.
   * *To come.* [11](lesson_11.md). Quarter Plate - to Ryan (Python)
