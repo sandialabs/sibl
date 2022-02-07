@@ -4,47 +4,7 @@ To come.
 
 * CGAL is used for the computation of the Shape Diameter Function (SDF).
 
-
-
-# Step #: Install `cmake`
-
-From the CMake [installation site](https://cmake.org/install/), install `cmake` for 
-your special local operating system:  macOS, Linux, or Windows.
-
-* For example, for macOS, [download](https://cmake.org/download/) the binary distribution for macOS 10.13 or later, titled `cmake-3.22.2-macos-universal.dmg`.
-  * Double-click the `.dmg` file.
-  * Move the `CMake.app` to the `Applications` folder, as shown in the image below.
-
-![](fig/cmake_macos_install.png) 
-> *Figure: Installation of CMake on macOS.*
-
-* Double-click the `Applications/CMake.app` file.
-* From the `Tools` menu, select the "How to Install For Command Line Use" menu item for instructions to make the command line tools (e.g., `cmake`) available in the `PATH`. 
-  * Alternatively, manually add the install directory `/Applications/CMake.app/Contents/bin` to the `PATH`.
-
-![](fig/cmake_macos_install_002.png)
-
-![](fig/cmake_macos_install_003.png)
-
-* We recommend the installation of symlinks to `/usr/local/bin` option.
-
-```bash
-> sudo "/Applications/CMake.app/Contents/bin/cmake-gui" --install
-Password:
-Linked: '/usr/local/bin/cmake' -> '/Applications/CMake.app/Contents/bin/cmake'
-Linked: '/usr/local/bin/ctest' -> '/Applications/CMake.app/Contents/bin/ctest'
-Linked: '/usr/local/bin/cpack' -> '/Applications/CMake.app/Contents/bin/cpack'
-Linked: '/usr/local/bin/cmake-gui' -> '/Applications/CMake.app/Contents/bin/cmake-gui'
-Linked: '/usr/local/bin/ccmake' -> '/Applications/CMake.app/Contents/bin/ccmake'
->
-```
-
-Verify `cmake` is shown in `/usr/local/bin`
-
-```bash
-> which cmake
-/usr/local/bin/cmake
-```
+* Install `cmake`, following the [Getting Started with CMake](../cmake/README.md) document as needed.
 
 Copy the `bunny.obj` to the local directory.
 

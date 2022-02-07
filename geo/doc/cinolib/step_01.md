@@ -37,4 +37,4 @@ FindGUROBI.cmake  README.md         external/         teaser_HD.png
 
 Previous: [Step 00](step_00.md)
 
-Next: [Step 03](step_03.md)
+Next: [Step 02](step_02.md)
