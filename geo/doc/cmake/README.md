@@ -2,7 +2,7 @@
 
 ## Goal
 
-The goal of this document is to introduce CMake assist the reader gain proficiency.
+The goal of this document is to introduce CMake and assist the reader to gain proficiency.
 
 ## Installation
 
@@ -54,8 +54,7 @@ cmake version 3.21.4
 We begin with a `Hello World!` C++ example, compiled on the command line *without* CMake to give context. 
 
 ```bash
-> mkdir ~/temp
-# or `cd ~/temp` if the folder already exists
+> mkdir ~/temp  # or `cd ~/temp` if the folder already exists
 ```
 
 Create a `main.cpp` as follows:
@@ -87,6 +86,8 @@ As applications get larger, with more and more source files, a more comprehensiv
 
 ## Minimum Working Example
 
+### Configure
+
 Within the `~/temp` folder, create a file called `CMakeLists.txt` with the following contents:
 
 ```cmake
@@ -96,7 +97,7 @@ project(hello VERSION 1.0)
 add_executable(hello main.cpp)
 ```
 
-Next, make a `~/temp/build` target folder to hold our binary.  The use of a `build` (or simililarly a `release` or `debug`) subdirectory is considered a best practice to separate it from code source files.
+Next, make a `~/temp/build` target folder to hold our binary.  The use of a `build` (or simililarly a `Release` or `Debug`) subdirectory is considered a best practice to separate the binary from code source files.
 
 ```bash
 > cd ~/temp/build
@@ -120,7 +121,9 @@ Next, make a `~/temp/build` target folder to hold our binary.  The use of a `bui
 CMakeCache.txt      CMakeFiles          Makefile            cmake_install.cmake
 ```
 
-Now that `CMake` has configured make, make can be run to build the binary:
+### Build
+
+Now that `CMake` has configured make (hence `c` and `make` for `cmake`), make can be run to build the binary:
 
 ```bash
 > make
@@ -128,6 +131,8 @@ Now that `CMake` has configured make, make can be run to build the binary:
 [100%] Linking CXX executable hello
 [100%] Built target hello
 ```
+
+### Run
 
 After the binary is built, it can be run:
 
@@ -171,6 +176,8 @@ int main()
 }
 ```
 
+### Configure
+
 Modify the `CMakeLists.txt` as follows (note there are three additional lines compared to the previous version):
 
 ```cmake
@@ -211,6 +218,8 @@ Now **configure** make as follows:
 -- Build files have been written to: /Users/sparta/temp/Debug
 ```
 
+### Build
+
 Now **build** the binary:
 
 ```bash
@@ -220,6 +229,8 @@ Consolidate compiler generated dependencies of target hello
 [100%] Linking CXX executable hello
 [100%] Built target hello
 ```
+
+### Run
 
 Finally, **run** the binary:
 
