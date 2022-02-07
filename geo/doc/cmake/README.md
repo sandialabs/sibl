@@ -231,3 +231,7 @@ CMakeCache.txt        CMakeFiles            Makefile              cmake_install.
 Hello World!
 Boo!
 ```
+
+## References
+
+* [Simplified CMake Tutorial](https://www.youtube.com/watch?v=mKZ-i-UfGgQ) by `codevion` 2021-02-07.
