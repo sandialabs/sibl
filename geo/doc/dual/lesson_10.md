@@ -27,7 +27,7 @@ The right image shows a zoomed in view of the beginning and end of each boundary
 
 ### Create the `.yml` input file
 
-The [lesson_10.yml](../../data/mesh/lesson_10.yml) is used to run the *SIBL Mesh Engine* as follows:
+The [`lesson_10.yml`](../../data/mesh/lesson_10.yml) is used to run the *SIBL Mesh Engine* as follows:
 
 ```bash
 > cd ~/sibl
