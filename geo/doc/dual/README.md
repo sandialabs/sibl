@@ -16,11 +16,11 @@ Learn how to use the *SIBL Mesh Engine* with the lessons below:
   * [09](README.md). *To come.*
 * Unit tests
   * [10](lesson_10.md). Donut - demonstrate mesh creation for a domain with a circular outer and inner boundaries.
-  * *To come.* [11](lesson_11.md). Quarter Plate - to Ryan (Python)
+  * [11](lesson_11.md). Quarter Plate - (work in progress)
 * Literature Examples
-  * *To come.* [21](lesson_21.md). Flower - *pending* to Chad
-  * *To come.* [22](lesson_22.md). Lake Superior
-  * *To come.* [23](lesson_23.md). Australia
+  * *To come.* [21](lesson_21.md). Flower - *to come* - to Chad
+  * *To come.* [22](lesson_22.md). Lake Superior - to Chad
+  * *To come.* [23](lesson_23.md). Australia - to Chad
 * Applications
   * *To come.* [40](lesson_40.md). Binary blobs - *to come* - to Chad
   * *To come.* [41](lesson_41.md). Shepp-Logan phantom - *to come* - to Chad
