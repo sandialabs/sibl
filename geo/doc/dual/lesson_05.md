@@ -74,4 +74,5 @@ Following are the keys in alphabetical order.  Any order may be used for the act
 
 Previous: [Lesson 04](lesson_04.md)
 
-Next: [Lesson 06](lesson_06.md)
+Next: [Lesson 06](README.md) *(To come.)*
+

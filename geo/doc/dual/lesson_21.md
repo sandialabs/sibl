@@ -62,12 +62,9 @@ SIBL Mesh Engine completed.
 
 [Index](README.md)
 
-Previous: [Lesson 03](lesson_03.md)
-
-Next: [Lesson 05](lesson_05.md)
-
 ## References
 
 ### Rushdi 2017
 
 * Rushdi AA, Mitchell SA, Mahmoud AH, Bajaj CC, Ebeida MS. All-quad meshing without cleanup. Computer-Aided Design. 2017 Apr 1;85:83-98.
+
