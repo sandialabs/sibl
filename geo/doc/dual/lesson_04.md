@@ -11,7 +11,7 @@ Using an input file, demonstrate how to reproduce the result from the [previous 
 Verify the following files exist:
 
 * [circle_radius_2.txt](../../data/boundary/circle_radius_2.txt) - the boundary `x y` discrete point definition
-* [lesson_04.yml](../../data/mesh/lesson_04.yml) - the YAML input file specification
+* [lesson_04.yml](../../data/mesh/lesson_04.yml) - the input file specification
 
 From the command line:
 
