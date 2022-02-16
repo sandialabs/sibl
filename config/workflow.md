@@ -37,8 +37,13 @@
 > git rebase develop
 ```
 
+### Q: How do I fix the `HEAD detached at <commit_hash>` state?
+
+A: See https://www.cloudbees.com/blog/git-detached-head, Git Detached Head: What This Means and How to Recover, G Patru, 2020-07-15.
+
 ### Notes
 
 * 2022-01-06:
   * [Use of Gitflow was deprecated](deprecated.md#deprecated-use-of-gitflow).
   * [Manual test and coverage was deprecated](deprecated.md#manual-test-and-coverage).
+
