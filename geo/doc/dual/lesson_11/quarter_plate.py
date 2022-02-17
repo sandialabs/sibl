@@ -6,7 +6,7 @@ To run:
 
 # it is useful to navigate to the location of the quarter_plate.py file so that the
 # output quarter_plate.txt file is written to the same location:
-> ~/sibl/geo/data/boundary
+> ~/sibl/geo/doc/dual/lesson_11
 
 > conda activate siblenv
 > python quarter_plate.py

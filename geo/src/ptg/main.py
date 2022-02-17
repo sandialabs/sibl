@@ -7,6 +7,7 @@ Example:
 """
 
 import argparse
+import os
 from pathlib import Path
 from types import SimpleNamespace
 from typing import Final
@@ -23,23 +24,38 @@ def dualize(*, input_path_file: str) -> bool:
 
     r = reader.Reader(input_file=input_path_file)
     database = r.database
+
     print(f"The database is {database}")
 
     db: Final = SimpleNamespace(**database)
     print(f"This input file has version {db.version}")
-    version_required: Final = 1.3
+    version_required: Final = 1.4
     if db.version != version_required:
-        raise ValueError(
-            f"yml input file version error: version {db.version} was used, version {version_required} is required."
-        )
+        _used = f"yml input file version error: version {db.version} was used,"
+        _required = f" and version {version_required} is required."
+        raise ValueError(_used + _required)
+
+    working_path = Path(db.io_path).expanduser()
+    if working_path.is_dir():
+        print(f"Working path specified: {working_path}")
+        try:
+            os.chdir(working_path)
+            print(f"Current working directory changed to {working_path}")
+        except PermissionError:
+            print(f"Permission denied to change into directory {working_path}")
+
     figure: Final = SimpleNamespace(**db.figure)
 
-    print(f"Reading in boundary file: {db.boundary}")
+    print(f"yml specified boundary file: {db.boundary}")
     path_file_in = Path(db.boundary).expanduser()
-    if not path_file_in.is_file():
+    if path_file_in.is_file():
+        print("  located boundary file at:")
+        print(f"  {path_file_in}")
+    else:
         raise OSError(f"File not found: {path_file_in}")
 
-    # np.genfromtxt will automatically ignore comment lines starting with "#" character
+    # np.genfromtxt will automatically ignore comment lines starting with
+    # the "#" character
     # https://numpy.org/devdocs/reference/generated/numpy.genfromtxt.html
     ix, iy = 0, 1
     boundary = np.genfromtxt(

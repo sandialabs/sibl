@@ -14,16 +14,17 @@ Learn the options available for the `.yml` configuration file.
 #     are optional for strings, and
 #     sometimes useful for clarity
 
-version: 1.3
+version: 1.4
+io_path: ~/sibl/geo/doc/dual/lesson_04
 
-boundary: geo/data/boundary/circle_radius_2.txt
+boundary: circle_radius_2.txt
 boundary_refine: True 
 
 resolution: 1.0
 bounding_box: [[-2.0, -2.0], [2.0, 2.0]] 
 
 developer_output: False 
-output_file: geo/data/mesh/lesson_04_mesh
+output_file: lesson_04_mesh
 
 figure:
   boundary_shown: True
@@ -48,15 +49,15 @@ Following are the keys in alphabetical order.  Any order may be used for the act
 
 | key | type | value and description |
 |:--|:--:|:--|
-| `boundary` | `(string)` | Relative to the `~/sibl` directory, the full path and file name of the boundary file definition.</br>Example: `~/sibl/geo/data/boundary/circle_radius_2.txt` is specified as</br>` boundary: "geo/data/boundary/circle_radius_2.txt"`|
+| `boundary` | `(string)` | Relative to the `io_path` directory, the file name of the boundary file definition.</br>Example: `boundary: "circle_radius_2.txt"`|
 | `boundary_refine` | `(bool)` | `True` does boundary refinement, which is based on the quad tree density.</br>`False` does a feature refinement, is based on the local boundary curvature and not the quad tree density.|
 | `bounding_box` | `[[float, float], [float, float]]` | The `[[lower_left_x, lower_left_y], [upper_right_x, upper_right_y]]` of the quad tree domain.
-| `developer_output` | `(bool)` | `True` writes the intermediate entities (such as quad tree, primal mesh, projected dual mesh) used to create the final mesh.  Files are written with a `.dev` file extension.
+| `developer_output` | `(bool)` | `True` writes the intermediate entities (such as quad tree, primal mesh, projected dual mesh) used to create the final mesh.  Files are written with a `.dev` file extension into the `io_path` directory.
 | `figure` | `(dict)` | *currently used for Python but not MATLAB* |
 | | | `boundary_shown: (bool)`</br>`True` shows the boundary or boundaries used to define the mesh, for example:</br><img src="fig/boundary_shown_true.png" alt="boundary_shown_true" width="200"/></br>`False` hides the boundary or boundaries used to define the mesh, for example:</br><img src="fig/boundary_shown_false.png" alt="boundary_shown_false" width="200"/> |
 | | | `dpi: (int)`</br>The dots per inch resolution on figure.|
 | | | `elements_shown: (bool)`</br>`False` hides the elements, useful to highlight the boundary with `boundary_shown: True`, for example:</br><img src="fig/elements_shown_false.png" alt="elements_shown_false" width="200"/>
-| | | `filename: (string)`</br>The name for the resultant figure output file. |
+| | | `filename: (string)`</br>The name for the resultant figure output file, written to the `io_path` directory. |
 | | | `format: (string)`</br>The figure output file type: `png` or `pdf` or `svg` |
 | | | `frame: (bool)`</br>`False` hides the figure frame, useful for figures when the axes are unwanted, with `frame: False` for example:</br><img src="fig/frame_shown_false.png" alt="frame_shown_false" width="180"/>
 | | | `grid: (bool)`</br>`True` shows the grid, `False` hides the grid.  With `grid: True` for example:</br><img src="fig/grid_shown_true.png" alt="grid_shown_true" width="200"/></br>*Note:* `frame: True` must be set for the grid to show.
@@ -66,9 +67,9 @@ Following are the keys in alphabetical order.  Any order may be used for the act
 | | | `show: (bool)` Use `True` for interactive viewing of the figure.  Use `False` to suppress showing of the figure window, often useful for creating large numbers of figures written to disk without the need to show the figures while they are being created.
 | | | `size: [float, float]`</br>The `[width, height]` of the figure, in inches.
 | | | `title: (str)`</br>The figure title string.  For no title, use an empty string: `""`.
-| `output_file` | `(string)` | The path and filename (without extension) of the generated mesh file, e.g.,  `output_file: geo/data/mesh/lesson_04` will create the `lesson_04.inp` mesh file.
+| `output_file` | `(string)` | The filename (without extension) of the generated mesh file, e.g.,  `output_file: lesson_04` will create the `lesson_04.inp` mesh file in the `io_path` directory.
 | `resolution` | `(float)` | The smallest edge length target for the resultant refined mesh in the length scale of the `bounding_box`.
-| `version` | `(float)` | The version of the `.yml` input file.  This value is checked when running</br>`> python geo/src/ptg/main.py -i geo/data/mesh/some_file.yml` to assure all the necessary key value pairs are present in the input configuration file.</br>Example:</br>`version: 1.3`|
+| `version` | `(float)` | The version of the `.yml` input file.  This value is checked when running</br>`> python geo/src/ptg/main.py -i geo/data/mesh/some_file.yml` to assure all the necessary key value pairs are present in the input configuration file.</br>Example:</br>`version: 1.4`|
 
 [Index](README.md)
 

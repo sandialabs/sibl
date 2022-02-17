@@ -8,8 +8,8 @@ Demonstrate mesh creation for a domain with a circular outer and inner boundarie
 
 ### Create the boundaries
 
-The [`donut.py`](../../data/boundary/donut.py) file is used to create the `x y` 
-boundary pair file [`donut.txt`](../../data/boundary/donut.txt).
+The [`donut.py`](lesson_10/donut.py) file is used to create the `x y` boundary
+pair file [`donut.txt`](lesson_10/donut.txt).
 
 * The the outer boundary:
   * is shown in orange discrete points connected with a light blue line, and
@@ -27,20 +27,23 @@ The right image shows a zoomed in view of the beginning and end of each boundary
 
 ### Create the `.yml` input file
 
-The [`lesson_10.yml`](../../data/mesh/lesson_10.yml) is used to run the *SIBL Mesh Engine* as follows:
+The [`lesson_10.yml`](lesson_10/lesson_10.yml) is used to run the *SIBL Mesh Engine* as follows:
 
 ```bash
 > cd ~/sibl
 > conda activate siblenv
-> python geo/src/ptg/main.py -i geo/data/mesh/lesson_10.yml
-
+> python geo/src/ptg/main.py -i geo/doc/dual/lesson_10/lesson_10.yml
 SIBL Mesh Engine initialized.
-driver: /Users/sparta/sibl/geo/src/ptg/main.py
+driver: /Users/chovey/sibl/geo/src/ptg/main.py
 Dualization initiated.
-input: /Users/sparta/sibl/geo/data/mesh/lesson_10.yml
-The database is {'version': 1.3, 'boundary': 'geo/data/boundary/donut.txt', 'bounding_box': [[-8.1, -8.1], [8.1, 8.1]], 'resolution': 1.0, 'output_file': 'geo/data/mesh/lesson_10', 'boundary_refine': True, 'developer_output': True, 'figure': {'boundary_shown': True, 'dpi': 200, 'elements_shown': True, 'filename': 'lesson_10', 'format': 'pdf', 'frame': True, 'grid': False, 'label_x': '$x$', 'label_y': '$y$', 'latex': False, 'save': True, 'show': False, 'size': [6.0, 6.0], 'title': 'Lesson 10'}}
-This input file has version 1.3
-Reading in boundary file: geo/data/boundary/donut.txt
+input: /Users/chovey/sibl/geo/doc/dual/lesson_10/lesson_10.yml
+The database is {'version': 1.4, 'io_path': '~/sibl/geo/doc/dual/lesson_10/', 'boundary': 'donut.txt', 'bounding_box': [[-8.0, -8.0], [8.0, 8.0]], 'resolution': 1.0, 'output_file': 'lesson_10_mesh', 'boundary_refine': True, 'developer_output': False, 'figure': {'boundary_shown': True, 'dpi': 200, 'elements_shown': True, 'filename': 'lesson_10_figure', 'format': 'pdf', 'frame': True, 'grid': False, 'label_x': '$x$', 'label_y': '$y$', 'latex': False, 'save': True, 'show': False, 'size': [6.0, 6.0], 'title': 'Lesson 10'}}
+This input file has version 1.4
+Working path specified: /Users/chovey/sibl/geo/doc/dual/lesson_10
+Current working directory changed to /Users/chovey/sibl/geo/doc/dual/lesson_10
+yml specified boundary file: donut.txt
+  located boundary file at:
+  donut.txt
 deciding this loop is : in
 deciding this loop is : out
 inCurve with 72 points
@@ -61,15 +64,18 @@ Size of my nodes: 0
 Size of my Primal nodes: 869
 Size of my Primal Polys: 816
 Unique loop size: 765
-  Saved figure to lesson_10.pdf
+  Saved figure to lesson_10_figure.pdf
 SIBL Mesh Engine completed.
 Dualization is complete.
 SIBL Mesh Engine completed.
 ```
 
-Image `lesson_10.png`, shown here, should appear in the local `~/sibl` folder.   Also, we have output a [`lesson_1.pdf`](fig/lesson_10.pdf).
+### Outputs
 
-![lesson_10](fig/lesson_10.png)
+The following will appear in the specified `io_path` folder:
+
+* Mesh file [`lesson_10.inp`](lesson_10/lesson_10_mesh.inp)
+* Image file [`lesson_10.pdf`](lesson_10/lesson_10_figure.pdf)
 
 ## Developer Output
 

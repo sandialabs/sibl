@@ -6,7 +6,7 @@ To run:
 
 # it is useful to navigate to the location of the donut.py file so that the
 # output donut.txt file is written to the same location:
-> cd ~/sibl/geo/data/boundary
+> cd ~/sibl/geo/doc/dual/lesson_10/
 
 > conda activate siblenv
 > python donut.py

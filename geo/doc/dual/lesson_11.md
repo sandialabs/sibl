@@ -8,9 +8,9 @@ Demonstrate mesh creation for an infinite plate with hole, quarter symmetry mode
 
 ### Create the boundary
 
-The [`quarter_plate.py`](../../data/boundary/quarter_plate.py) file is used to create
+The [`quarter_plate.py`](lesson_11/quarter_plate.py) file is used to create
 the `x y` boundary pair 
-file [`quarter_plate.txt`](../../data/boundary/quarter_plate.txt).
+file [`quarter_plate.txt`](lesson_11/quarter_plate.txt).
 
 The boundary starts at `(-1, 0)`, and proceeds in a counter-clockwise fashion
 through `(0, 1), (0, 4), (-4, 4), (-4, 0)` until
@@ -25,12 +25,12 @@ view of the circular arc section.
 
 ### Create the `.yml` input file
 
-The [`lesson_11.yml`](../../data/mesh/lesson_11.yml) is used as follows:
+The [`lesson_11.yml`](lesson_11/lesson_11.yml) is used as follows:
 
 ```bash
 > cd ~/sibl
 > conda activate siblenv
-> python geo/src/ptg/main.py -i geo/data/mesh/lesson_11.yml
+> python geo/src/ptg/main.py -i geo/doc/dual/lesson_11/lesson_11.yml
 ```
 
 With `resolution: 0.125`, and with `boundary_refine` as either `True` or `False`:

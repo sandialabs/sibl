@@ -18,15 +18,16 @@ To run
 from ptg import reader as reader
 
 
-def test_lesson_04():
+def test_lesson_04_and_version_number():
     """
     Tests the ability to read lesson_04.yml.
     """
-    argv = "geo/data/mesh/lesson_04.yml"
+    # argv = "geo/data/mesh/lesson_04.yml"
+    argv = "~/sibl/geo/doc/dual/lesson_04/lesson_04.yml"
 
     r = reader.Reader(input_file=argv)
     found = r.extract(key="version")
-    known = 1.3  # version of the input file
+    known = 1.4  # version of the input file
     assert found == known
 
 

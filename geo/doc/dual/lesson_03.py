@@ -22,7 +22,7 @@ def main():
     refine = True  # don't refine at the boundary
     res = 1.0  # the first resolution attempt
     # res = 0.5  # the second resolution attempt
-    res = 0.25  # the third resolution attempt
+    # res = 0.25  # the third resolution attempt
     ll_x, ll_y = -2.1, -2.1  # ll = lower left
     ur_x, ur_y = 2.1, 2.1  # ur = upper right
     dev_out = False

@@ -32,7 +32,8 @@ class Reader:
 
         # path_file_in = Path(argv[0]).resolve()
         # self.path_file_in = Path(input_file).resolve()
-        path_file_in = Path(input_file).resolve()
+        # path_file_in = Path(input_file).resolve()
+        path_file_in = Path(input_file).expanduser()
 
         # self.file_type = (
         #     self.path_file_in.suffix
