@@ -16,11 +16,17 @@ To run all tests in this module:
 
 # import pytest
 
+from ptg import command_line
 import xybind as xyb
 import math
 
 
-def test_version():
+def test_ptg_version():
+    ptg_version = command_line.version()
+    assert ptg_version == "0.0.4"
+
+
+def test_xyb_version():
     assert xyb.__version__ == "0.0.8"
 
 

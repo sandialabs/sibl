@@ -18,7 +18,7 @@
             "program": "~/sibl/geo/src/ptg/main.py",
             "args": [
                 "--input_file",
-                "~/sibl/geo/data/mesh/lesson_04.yml"
+                "~/sibl/geo/doc/dual/lesson_04/lesson_04.yml"
             ],
             "console": "integratedTerminal"
         },

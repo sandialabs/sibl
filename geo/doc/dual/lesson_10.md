@@ -30,16 +30,16 @@ The right image shows a zoomed in view of the beginning and end of each boundary
 The [`lesson_10.yml`](lesson_10/lesson_10.yml) is used to run the *SIBL Mesh Engine* as follows:
 
 ```bash
-> cd ~/sibl
 > conda activate siblenv
-> python geo/src/ptg/main.py -i geo/doc/dual/lesson_10/lesson_10.yml
+> cd ~/sibl/geo/doc/dual/lesson_10
+> pydual -i lesson_10.yml
 SIBL Mesh Engine initialized.
 driver: /Users/chovey/sibl/geo/src/ptg/main.py
 Dualization initiated.
-input: /Users/chovey/sibl/geo/doc/dual/lesson_10/lesson_10.yml
+input: lesson_10.yml
 The database is {'version': 1.4, 'io_path': '~/sibl/geo/doc/dual/lesson_10/', 'boundary': 'donut.txt', 'bounding_box': [[-8.0, -8.0], [8.0, 8.0]], 'resolution': 1.0, 'output_file': 'lesson_10_mesh', 'boundary_refine': True, 'developer_output': False, 'figure': {'boundary_shown': True, 'dpi': 200, 'elements_shown': True, 'filename': 'lesson_10_figure', 'format': 'pdf', 'frame': True, 'grid': False, 'label_x': '$x$', 'label_y': '$y$', 'latex': False, 'save': True, 'show': False, 'size': [6.0, 6.0], 'title': 'Lesson 10'}}
 This input file has version 1.4
-Working path specified: /Users/chovey/sibl/geo/doc/dual/lesson_10
+io_path: /Users/chovey/sibl/geo/doc/dual/lesson_10
 Current working directory changed to /Users/chovey/sibl/geo/doc/dual/lesson_10
 yml specified boundary file: donut.txt
   located boundary file at:
@@ -74,8 +74,8 @@ SIBL Mesh Engine completed.
 
 The following will appear in the specified `io_path` folder:
 
-* Mesh file [`lesson_10.inp`](lesson_10/lesson_10_mesh.inp)
-* Image file [`lesson_10.pdf`](lesson_10/lesson_10_figure.pdf)
+* Mesh file [`lesson_10_mesh.inp`](lesson_10/lesson_10_mesh.inp)
+* Image file [`lesson_10_figure.pdf`](lesson_10/lesson_10_figure.pdf)
 
 ## Developer Output
 

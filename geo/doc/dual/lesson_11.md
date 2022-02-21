@@ -28,9 +28,9 @@ view of the circular arc section.
 The [`lesson_11.yml`](lesson_11/lesson_11.yml) is used as follows:
 
 ```bash
-> cd ~/sibl
 > conda activate siblenv
-> python geo/src/ptg/main.py -i geo/doc/dual/lesson_11/lesson_11.yml
+> cd ~/sibl/geo/doc/dual/lesson_11
+> pydual -i lesson_11.yml
 ```
 
 With `resolution: 0.125`, and with `boundary_refine` as either `True` or `False`:
