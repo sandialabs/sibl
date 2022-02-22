@@ -2,17 +2,21 @@
 
 ## Goals
 
-With the *SIBL Mesh Engine* C++ source code, compile C++ **binding code** on macOS, Linux, and Windows to the `xybind` library for use with Python.
+With the *SIBL Mesh Engine* C++ source code, compile C++ **binding code** on 
+macOS, Linux, and Windows to the `xybind` library for use with Python.
 
 ## Steps
 
 ### macOS
 
-* Create the `xybind` library:
+* Create the `xybind` library.  Also, assure any old versions of the `xybind`
+packages are deleted prior to creating the new `xybind`. 
 
 ```bash
 > conda activate siblenv
 > cd ~/sibl/geo/src/bind
+> rm xybind.cypthon-39-darwin.so  # delete the old binary if it exists
+> rm -rf xybind.egg-info/  # delete the old binary folder if it exists
 > pip install -e .
 Obtaining file:///Users/chovey/sibl/geo/src/bind
   Preparing metadata (setup.py) ... done
@@ -54,7 +58,8 @@ test_xybind.py::test_unit_circle_quad_mesh PASSED                               
 * Run two methods from `xybind` interactively with Python:
 
 ```
-> pythPython 3.9.7 (default, Sep 16 2021, 08:50:36)
+> python
+Python 3.9.7 (default, Sep 16 2021, 08:50:36)
 [Clang 10.0.0 ] :: Anaconda, Inc. on darwin
 Type "help", "copyright", "credits" or "license" for more information.
 >>> import xybind as xyb
@@ -63,7 +68,6 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> xyb.subtract(3, 4)
 -1
 ```
-
 
 ### Linux
 
