@@ -171,6 +171,7 @@ def dualize(*, input_path_file: str) -> bool:
 
 def main():
 
+    print("....")
     print("SIBL Mesh Engine initialized.")
     print(f"driver: {__file__}")
 
