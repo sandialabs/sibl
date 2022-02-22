@@ -1,0 +1,7 @@
+boundary: circle.txt
+boundary_refine: true
+bounding_box: [[0,0],[0,0]]
+developer_output: true
+output_file: circle
+resolution: 0.5
+version: 1.1

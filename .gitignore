@@ -3,7 +3,7 @@
 *.dev
 
 # input files containing meshes in ABAQUS format
-# *.inp  # decide sometimes we want to check .inp files into the repo
+*.inp  # decide sometimes we want to check .inp files into the repo
 
 # codeblocks layout dep, etc
 *.cbp
@@ -22,7 +22,7 @@ obj/
 *.dll
 *.exe  # ignore, for example, dual.exe
 *.out  # ignore, for example, dual.out
-*.dSYM  # ignore degugging symbols
+*dSYM/  # ignore degugging symbols
 *.plist
 
 # byte-compiled / optimized / DLL files

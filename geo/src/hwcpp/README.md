@@ -33,7 +33,15 @@ Assure the binaries are in the `$PATH`:
 
 ```bash
 > echo $PATH
-/Users/chovey/opt/miniconda3/envs/siblenv/bin /Users/chovey/opt/miniconda3/condabin /Users/sparta/tools/nvim-osx64/bin /usr/local/bin /usr/bin /bin /usr/sbin /sbin /Library/Apple/usr/bin /Library/TeX/texbin
+/Users/chovey/opt/miniconda3/envs/siblenv/bin /Users/chovey/opt/miniconda3/condabin 
+/Users/sparta/tools/nvim-osx64/bin 
+/usr/local/bin 
+/usr/bin 
+/bin 
+/usr/sbin 
+/sbin 
+/Library/Apple/usr/bin 
+/Library/TeX/texbin
 
 > pwd
 /usr/bin
@@ -65,3 +73,4 @@ for C/C++ debugging.
 * [VS Code docs](https://code.visualstudio.com/docs/languages/cpp)
 * [VS Code debugger](https://code.visualstudio.com/docs/cpp/cpp-debug)
 * [Debug a C++ project in VS Code](https://youtu.be/G9gnSGKYIg4)
+* [Config `clang` on Mac](https://code.visualstudio.com/docs/cpp/config-clang-mac)

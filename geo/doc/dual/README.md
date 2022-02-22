@@ -13,7 +13,7 @@ Learn how to use the *SIBL Mesh Engine* with the lessons below:
 * Introduction - C++ executable with and without MATLAB
   * [07](lesson_07.md). Compile the C++ source into an executable, use it with and without MATLAB.
   * [08](lesson_08.md). Swiss cheese - use C++ and MATLAB with multiple curves to form a complex boundary.
-  * [09](README.md). *To come.*
+  * [09](lesson_09.md). Build and Debug `dual.out` on macOS
 * Unit tests
   * [10](lesson_10.md). Donut - demonstrate mesh creation for a domain with a circular outer and inner boundaries.
   * [11](lesson_11.md). Quarter Plate - (work in progress)

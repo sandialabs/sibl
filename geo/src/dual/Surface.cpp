@@ -6,91 +6,88 @@
 #define YIND 1
 #define ZIND 2
 
-
 #include <fstream>
 #include <iostream>
 #include <sstream>
 
-std::ostream& operator<< (std::ostream& stream, const SurfacePoint& cp)
+std::ostream &operator<<(std::ostream &stream, const SurfacePoint &cp)
 {
-    stream<<cp.myX<<'\t'<<cp.myY<<'\t'<<cp.myZ;
+    stream << cp.myX << '\t' << cp.myY << '\t' << cp.myZ;
     return stream;
 }
 Surface::Surface(std::string filename)
 {
-    std::cout<<"Reading in TRIS from file "<<filename<<std::endl;
+    std::cout << "Reading in TRIS from file " << filename << std::endl;
     std::ifstream in_file(filename.c_str());
 
     std::string tmp;
-    getline(in_file,tmp);
-    while(!in_file.fail() && !in_file.eof()&& tmp.find("*NODE,")==std::string::npos) //tmp != "*NODE,")
+    getline(in_file, tmp);
+    while (!in_file.fail() && !in_file.eof() && tmp.find("*NODE,") == std::string::npos) // tmp != "*NODE,")
     {
         // std::cout<<"tmp: "<<tmp<<std::endl;
-        getline(in_file,tmp);
+        getline(in_file, tmp);
     }
 
-
-    std::string cx,cy,cz,n;
-    double tx,ty,tz;
+    std::string cx, cy, cz, n;
+    double tx, ty, tz;
 
     bool unset = true;
-    getline(in_file,tmp);
+    getline(in_file, tmp);
 
-    while(!in_file.fail() && !in_file.eof() && tmp.find("*")==std::string::npos)
+    while (!in_file.fail() && !in_file.eof() && tmp.find("*") == std::string::npos)
     {
-        stringSplit(tmp,tx,ty,tz);
+        stringSplit(tmp, tx, ty, tz);
 
         // std::cout<<"PTS: "<<tx<<","<<ty<<","<<tz<<std::endl;
-        mySurfacePoints.push_back(SurfacePoint(tx,ty,tz));
-        if(unset)
+        mySurfacePoints.push_back(SurfacePoint(tx, ty, tz));
+        if (unset)
         {
-            std::get<XIND>(mins)=tx;
-            std::get<YIND>(mins)=ty;
-            std::get<ZIND>(mins)=tz;
-            std::get<XIND>(maxs)=tx;
-            std::get<YIND>(maxs)=ty;
-            std::get<ZIND>(maxs)=tz;
-            unset=false;
+            std::get<XIND>(mins) = tx;
+            std::get<YIND>(mins) = ty;
+            std::get<ZIND>(mins) = tz;
+            std::get<XIND>(maxs) = tx;
+            std::get<YIND>(maxs) = ty;
+            std::get<ZIND>(maxs) = tz;
+            unset = false;
         }
-        if(tx < std::get<XIND>(mins))
-            std::get<XIND>(mins)=tx;
-        if(tx > std::get<XIND>(maxs))
-            std::get<XIND>(maxs)=tx;
+        if (tx < std::get<XIND>(mins))
+            std::get<XIND>(mins) = tx;
+        if (tx > std::get<XIND>(maxs))
+            std::get<XIND>(maxs) = tx;
 
-        if(ty < std::get<YIND>(mins))
-            std::get<YIND>(mins)=ty;
-        if(ty > std::get<YIND>(maxs))
-            std::get<YIND>(maxs)=ty;
+        if (ty < std::get<YIND>(mins))
+            std::get<YIND>(mins) = ty;
+        if (ty > std::get<YIND>(maxs))
+            std::get<YIND>(maxs) = ty;
 
-        if(tz < std::get<ZIND>(mins))
-            std::get<ZIND>(mins)=tz;
-        if(tz > std::get<ZIND>(maxs))
-            std::get<ZIND>(maxs)=tz;
+        if (tz < std::get<ZIND>(mins))
+            std::get<ZIND>(mins) = tz;
+        if (tz > std::get<ZIND>(maxs))
+            std::get<ZIND>(maxs) = tz;
 
-        getline(in_file,tmp);
+        getline(in_file, tmp);
     }
     in_file.close();
-    std::cout<<"Surface with "<<mySurfacePoints.size()<<" points"<<std::endl;
-    std::cout<<"Going through second pass for tris..."<<std::endl;
+    std::cout << "Surface with " << mySurfacePoints.size() << " points" << std::endl;
+    std::cout << "Going through second pass for tris..." << std::endl;
 
     in_file.open(filename.c_str());
-    getline(in_file,tmp);
-    while(!in_file.fail() && !in_file.eof() &&  tmp.find("*ELEMENT,")==std::string::npos )
-        getline(in_file,tmp);
+    getline(in_file, tmp);
+    while (!in_file.fail() && !in_file.eof() && tmp.find("*ELEMENT,") == std::string::npos)
+        getline(in_file, tmp);
 
-    double a,b,c;
-    getline(in_file,tmp);
-    while(!in_file.fail() && !in_file.eof() && tmp.find("*")==std::string::npos)
+    double a, b, c;
+    getline(in_file, tmp);
+    while (!in_file.fail() && !in_file.eof() && tmp.find("*") == std::string::npos)
     {
-        stringSplit(tmp,a,b,c);
+        stringSplit(tmp, a, b, c);
 
-        //std::cout<<"Tri: "<<a<<","<<b<<","<<c<<std::endl;
+        // std::cout<<"Tri: "<<a<<","<<b<<","<<c<<std::endl;
 
-        myTris.push_back(std::tuple<unsigned int, unsigned int, unsigned int>(a,b,c));
+        myTris.push_back(std::tuple<unsigned int, unsigned int, unsigned int>(a, b, c));
 
-        getline(in_file,tmp);
+        getline(in_file, tmp);
     }
-
 
     /*
     std::cout<<"Determining derivative... "<<std::endl;
@@ -143,63 +140,58 @@ Surface::Surface(std::string filename)
 
     }*/
 }
-void Surface::stringSplit(std::string s,double &x,double &y, double &z)
+void Surface::stringSplit(std::string s, double &x, double &y, double &z)
 {
     std::stringstream ss;
-    for(unsigned int lcv = 0; lcv < s.size(); ++lcv)
-        if(s[lcv]==',')
-            s[lcv]=' ';
+    for (unsigned int lcv = 0; lcv < s.size(); ++lcv)
+        if (s[lcv] == ',')
+            s[lcv] = ' ';
 
-    ss<<s;
+    ss << s;
 
     int n;
-    ss>>n;
-    ss>>x;
-    ss>>y;
-    ss>>z;
+    ss >> n;
+    ss >> x;
+    ss >> y;
+    ss >> z;
 }
-bool Surface::inBoundingBox(std::tuple<double,double,double> lb,std::tuple<double,double,double> ub)
+bool Surface::inBoundingBox(std::tuple<double, double, double> lb, std::tuple<double, double, double> ub)
 {
-    ///Check whether any points of the Surface are within the bounding box
+    /// Check whether any points of the Surface are within the bounding box
 
     unsigned int shortPt = 0;
-    double cx = 0.5*(std::get<0>(lb)+std::get<0>(ub));
-    double cy = 0.5*(std::get<1>(lb)+std::get<1>(ub));
-    double cz = 0.5*(std::get<2>(lb)+std::get<2>(ub));
+    double cx = 0.5 * (std::get<0>(lb) + std::get<0>(ub));
+    double cy = 0.5 * (std::get<1>(lb) + std::get<1>(ub));
+    double cz = 0.5 * (std::get<2>(lb) + std::get<2>(ub));
 
-    double shortestDist = (mySurfacePoints[0].X()-cx)*(mySurfacePoints[0].X()-cx)+(mySurfacePoints[0].Y()-cy)*(mySurfacePoints[0].Y()-cy)+(mySurfacePoints[0].Z()-cz)*(mySurfacePoints[0].Z()-cz);
+    double shortestDist = (mySurfacePoints[0].X() - cx) * (mySurfacePoints[0].X() - cx) + (mySurfacePoints[0].Y() - cy) * (mySurfacePoints[0].Y() - cy) + (mySurfacePoints[0].Z() - cz) * (mySurfacePoints[0].Z() - cz);
 
-    for(unsigned int  lcv =0; lcv < mySurfacePoints.size();++lcv)
+    for (unsigned int lcv = 0; lcv < mySurfacePoints.size(); ++lcv)
     {
         if (mySurfacePoints[lcv].X() <= std::get<XIND>(ub) && mySurfacePoints[lcv].X() >= std::get<XIND>(lb) &&
-                mySurfacePoints[lcv].Y() <= std::get<YIND>(ub) && mySurfacePoints[lcv].Y() >= std::get<YIND>(lb) &&
-                mySurfacePoints[lcv].Z() <= std::get<ZIND>(ub) && mySurfacePoints[lcv].Z() >= std::get<ZIND>(lb) )
+            mySurfacePoints[lcv].Y() <= std::get<YIND>(ub) && mySurfacePoints[lcv].Y() >= std::get<YIND>(lb) &&
+            mySurfacePoints[lcv].Z() <= std::get<ZIND>(ub) && mySurfacePoints[lcv].Z() >= std::get<ZIND>(lb))
             return true;
-        double tdist = (mySurfacePoints[lcv].X()-cx)*(mySurfacePoints[lcv].Y()-cy)+(mySurfacePoints[lcv].Y()-cy)*(mySurfacePoints[lcv].Z()-cz)+(mySurfacePoints[lcv].Z()-cz)*(mySurfacePoints[lcv].Z()-cz);
-        if(tdist < shortestDist)
+        double tdist = (mySurfacePoints[lcv].X() - cx) * (mySurfacePoints[lcv].Y() - cy) + (mySurfacePoints[lcv].Y() - cy) * (mySurfacePoints[lcv].Z() - cz) + (mySurfacePoints[lcv].Z() - cz) * (mySurfacePoints[lcv].Z() - cz);
+        if (tdist < shortestDist)
         {
-            shortestDist=tdist;
+            shortestDist = tdist;
             shortPt = lcv;
         }
     }
-
-
-
     return false;
 }
-std::tuple<double,double,double> Surface::triCent(unsigned int t)
+
+std::tuple<double, double, double> Surface::triCent(unsigned int t)
 {
-    std::tuple<double,double,double> c,t1;
-    std::tuple<unsigned int, unsigned int , unsigned int> mt = myTris[t];
-
-
-
+    std::tuple<double, double, double> c, t1;
+    std::tuple<unsigned int, unsigned int, unsigned int> mt = myTris[t];
 }
 
 void Surface::write(std::string filename)
 {
     std::ofstream out_file(filename.c_str());
-    for(auto x: mySurfacePoints)
-        out_file<<x<<std::endl;
+    for (auto x : mySurfacePoints)
+        out_file << x << std::endl;
     out_file.close();
 }
