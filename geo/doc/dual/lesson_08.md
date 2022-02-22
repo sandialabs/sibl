@@ -18,7 +18,15 @@ SIBL Mesh engine can import boundary files with *multiple* loops specified.
 
 ## Boundary File Generation
 
-This boundary specification is create with the MATLAB [`plotSwissCheeseEx.m`](plotSwissCheeseEx.m) file. The important distinction for this file versus other plot commands is that this handles the tris and pents that appear in the Primal mesh. The dev files just pad the poly specification with -1s. So there is a line in the Matlab code that strips out the -1 indices before plotting.
+This boundary specification is create with the MATLAB 
+[`plotSwissCheeseEx.m`](lesson_08/plotSwissCheeseEx.m) file. The important 
+distinction for this file versus other plot commands is that this handles the 
+tris and pents that appear in the Primal mesh. The `.dev` files just pad the 
+poly specification with -1s. So there is a line in the MATLAB code that strips 
+out the -1 indices before plotting.
+
+The [`swisscheese.yml`](lesson_08/swisscheese.yml) configuration file is also 
+used as an input to `dual.exe`.
 
 ```Matlab
 clear all

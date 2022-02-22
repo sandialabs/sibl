@@ -34,7 +34,7 @@ developer_output: False  # for primal, dual, projection, snapping (to corners),
 # Cubit checkbox: smooth boundary nodes
 # in a separate file
 figure:  # for Python MATPLOTLIB
-  boundary_shown: False
+  boundary_shown: True
   dpi: 200  # dots per inch
   elements_shown: True
   filename: lesson_04_figure
@@ -46,5 +46,5 @@ figure:  # for Python MATPLOTLIB
   latex: False
   save: True  # True saves the figure to the local directory
   show: False  # shows or hides the figure
-  size: [8.0, 6.0]  # [width, height] in inches
+  size: [6.0, 6.0]  # [width, height] in inches
   title: ""

@@ -33,6 +33,7 @@ The [`lesson_10.yml`](lesson_10/lesson_10.yml) is used to run the *SIBL Mesh Eng
 > conda activate siblenv
 > cd ~/sibl/geo/doc/dual/lesson_10
 > pydual -i lesson_10.yml
+....
 SIBL Mesh Engine initialized.
 driver: /Users/chovey/sibl/geo/src/ptg/main.py
 Dualization initiated.
