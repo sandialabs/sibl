@@ -11,7 +11,11 @@ Demonstrate mesh creation for a domain with an inner and outer boundary definiti
 SIBL Mesh engine can import boundary files with *multiple* loops specified. 
 
 * It assumes that distinct loops are separted by `NaN` values for `x` and `y` values. 
-* It also uses the convention that a counter clockwise loop defines a region that is "IN" and should be meshed, while a clockwise loop specifies a region that is "OUT" and should not be meshed.  For example, the `NaN` appears in line `85` of [`swisscheese.txt`](swisscheese.txt), used in the example below, as shown in this screenshot:
+* It also uses the convention that a counter clockwise loop defines a region 
+that is "IN" and should be meshed, while a clockwise loop specifies a region 
+that is "OUT" and should not be meshed.  For example, the `NaN` appears in 
+line `85` of [`swisscheese.txt`](lesson_08/swisscheese.txt), used in the 
+example below, as shown in this screenshot:
 
 ![swiss_nan_exmaple](fig/swiss_nan_exmaple.png)
 > *Figure 12.1: Illustration of the use of `NaN` to incidate termination of a curve and start of a new curve.*
