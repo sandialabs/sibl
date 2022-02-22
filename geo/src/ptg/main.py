@@ -8,6 +8,8 @@ Example:
 
 import argparse
 import os
+
+# import sys
 from pathlib import Path
 from types import SimpleNamespace
 from typing import Final
@@ -37,7 +39,7 @@ def dualize(*, input_path_file: str) -> bool:
 
     working_path = Path(db.io_path).expanduser()
     if working_path.is_dir():
-        print(f"Working path specified: {working_path}")
+        print(f"io_path: {working_path}")
         try:
             os.chdir(working_path)
             print(f"Current working directory changed to {working_path}")
@@ -167,9 +169,7 @@ def dualize(*, input_path_file: str) -> bool:
     return engine_completed
 
 
-if __name__ == "__main__":
-
-    engine_completed = False
+def main():
 
     print("SIBL Mesh Engine initialized.")
     print(f"driver: {__file__}")
@@ -195,3 +195,7 @@ if __name__ == "__main__":
         print("Dualization is incomplete.")
 
     print("SIBL Mesh Engine completed.")
+
+
+if __name__ == "__main__":
+    main()
