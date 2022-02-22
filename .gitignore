@@ -20,7 +20,10 @@ obj/
 # compiled code
 *.so
 *.dll
-*.exe
+*.exe  # ignore, for example, dual.exe
+*.out  # ignore, for example, dual.out
+*.dSYM  # ignore degugging symbols
+*.plist
 
 # byte-compiled / optimized / DLL files
 __pycache__/
