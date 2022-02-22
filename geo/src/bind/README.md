@@ -25,9 +25,9 @@
 
 * [main.cpp](main.cpp)
 * [setup.py](setup.py)
-* **DEPRECATED(?)**:  [command_line_compile.sh](command_line_compile.sh) produces a file, for example, on macOS, as `xybind.cpython-39-darwin.so`, which can be now used in Python as
 
-The balance of this workflow---install, test, interactive---is contained in [Lesson a01](../../doc/dual/lesson_a01.md).
+The balance of this workflow, to include install, test, and interactive, is 
+contained in [Lesson a00](../../doc/dual/lesson_a00.md).
 
 ## References
 
