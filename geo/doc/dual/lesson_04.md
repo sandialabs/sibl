@@ -27,6 +27,7 @@ Then run `pydual` from the command line on the `lesson_04.yml` configuration fil
 ```bash
 > cd ~/sibl/geo/doc/dual/lesson_04
 > pydual -i lesson_04.yml
+
 SIBL Mesh Engine initialized.
 driver: /Users/chovey/sibl/geo/src/ptg/main.py
 Dualization initiated.
