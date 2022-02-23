@@ -15,9 +15,11 @@ The following steps are based on the VS Code [instructions](https://code.visuals
 * Open the file `main.cpp` and keep it in focus.
 * From the `Terminal` menu, select the item `Configure Default Build Task...` and the `clang++ build active file`
   * select `C/C++: clang++ build active file` from the list
-  * ![clang_build_active_file](fig/clang_build_active_file.png)
 
-Assure that the file `~/sibl/geo/src/dual/.vscode` appears as follows:
+![clang_build_active_file](fig/clang_build_active_file.png)
+> *Figure 1: Menu showing `Configure Default Build Task...` options.*
+
+Assure that the `~/sibl/geo/src/dual/.vscode/tasks.json` file appears as follows:
 
 ```json
 {
@@ -136,8 +138,9 @@ The following output files will be created:
 
 ### Debug
 
-In VS Code, from the `Run` menu, select `Open Configurations` and assure the file 
-`~/sibl/geo/src/dual/.vscode/launch.json` has the `"clang++ - Build and debug active file"` listing as follows:
+In VS Code, from the `Run` menu, select `Open Configurations` and assure the
+`~/sibl/geo/src/dual/.vscode/launch.json` file
+has the `"clang++ - Build and debug active file"` listing as follows:
 
 ```json
 {
@@ -161,7 +164,9 @@ In VS Code, from the `Run` menu, select `Open Configurations` and assure the fil
 
 * Put the `main.cpp` file into focus, and set a breakpoint, then
 * From the `Run` menu, select `Start Debugging` and you should hit the breakpoint, similar to what is shown below:
-  * ![start_debugging_main_cpp](fig/start_debugging_main_cpp.png)
+
+![start_debugging_main_cpp](fig/start_debugging_main_cpp.png)
+> *Figure 2: Start of the debug session in VS Code.*
 
 [Index](README.md)
 
