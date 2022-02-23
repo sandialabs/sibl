@@ -23,6 +23,7 @@ class Reader:
                 Defaults to an empty dictionary.
             initialized (bool): Convenience attribute for clients to know if the
                 input_file has been successfully read into the Reader's database.
+            path_file_in (Path):  The input `.yml` file resolved as a Path object.
 
         Raises:
             OSError: If the input_file is not found.
@@ -30,26 +31,18 @@ class Reader:
         """
         self.initialized = False  # default, the database has not yet been populated
 
-        # path_file_in = Path(argv[0]).resolve()
+        # self.path_file_in = Path(argv[0]).resolve()
         # self.path_file_in = Path(input_file).resolve()
-        # path_file_in = Path(input_file).resolve()
-        path_file_in = Path(input_file).expanduser()
+        self.path_file_in = Path(input_file).expanduser()
 
-        # self.file_type = (
-        #     self.path_file_in.suffix
-        # )  # returns "json" from "input_example.json"
-        # file_type = path_file_in.suffix  # returns "json" from "input_example.json"
-
-        # if not self.path_file_in.is_file():
-        #     raise OSError(f"File not found: {self.path_file_in}")
-        if not path_file_in.is_file():
-            raise OSError(f"File not found: {path_file_in}")
+        if not self.path_file_in.is_file():
+            raise OSError(f"File not found: {self.path_file_in}")
 
         # Compared to the lower() method, the casefold() method is stronger.
         # It will convert more characters into lower case, and will find more matches
         # on comparison of two strings that are both are converted
         # using the casefold() method.
-        file_type = path_file_in.suffix.casefold()
+        file_type = self.path_file_in.suffix.casefold()
 
         supported_types = (".yaml", ".yml")
 
@@ -57,8 +50,8 @@ class Reader:
             raise TypeError("Only file types .yaml, and .yml are supported.")
 
         try:
-            # with open(self.path_file_in, "r") as stream:
-            with open(path_file_in, "r") as stream:
+            # with open(self.self.path_file_in, "r") as stream:
+            with open(self.path_file_in, "r") as stream:
                 # self.database = yaml.safe_load(stream)
                 # self.database = yaml.load(stream)
                 # See deprecation warning for plain yaml.load(input) at
@@ -66,8 +59,8 @@ class Reader:
                 self.database = yaml.load(stream, Loader=yaml.SafeLoader)
         except yaml.YAMLError as error:
             print(f"Error with YAML file: {error}")
-            # print(f"Could not open: {self.path_file_in}")
-            int(f"Could not open or decode: {path_file_in}")
+            # print(f"Could not open: {self.self.path_file_in}")
+            int(f"Could not open or decode: {self.path_file_in}")
             # raise yaml.YAMLError
             raise OSError
 
@@ -82,7 +75,7 @@ class Reader:
         # determine if self.database is monolithic dict or contains pointers to subfiles
         # self.database = aggregate(database=self.database)
 
-        print(f"input: {path_file_in}")
+        print(f"input: {self.path_file_in}")
         self.initialized = True
 
     def extract(self, *, key: str) -> dict:

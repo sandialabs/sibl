@@ -56,10 +56,12 @@ def dualize(*, input_path_file: str) -> bool:
     else:
         raise OSError(f"File not found: {path_file_in}")
 
+    ix: Final = 0  # the x-coordinate index
+    iy: Final = 1  # the y-coordinate index
+
     # np.genfromtxt will automatically ignore comment lines starting with
     # the "#" character
     # https://numpy.org/devdocs/reference/generated/numpy.genfromtxt.html
-    ix, iy = 0, 1
     boundary = np.genfromtxt(
         path_file_in,
         dtype="float",
@@ -129,7 +131,6 @@ def dualize(*, input_path_file: str) -> bool:
 
         if figure.elements_shown:
             # plot the mesh
-            ix, iy = 0, 1  # the x- and y-coordinate indices
             for e in elements:
                 element_points = [key_value_dict[ii] for ii in map(str, e)]
                 exs = [pt[ix] for pt in element_points]
@@ -161,6 +162,38 @@ def dualize(*, input_path_file: str) -> bool:
             ofile = figure.filename + "." + figure.format
             fig.savefig(ofile, dpi=figure.dpi, bbox_inches="tight")
             print(f"  Saved figure to {ofile}")
+
+        if db.developer_output:
+            # create and (show | save) the .dev developer outputs
+            dev_file_names: Final = (
+                "_01_quad_tree_",
+                "_02_primal_",
+                "_03_dual_",
+                "_04_d_trim_",
+                "_05_dt_project_",
+                "_06_dtp_snap_",
+                "_07_dtps_subdivide_",
+                "_08_dtpss_project_",
+                "_09_dtpssp_snap_",
+                "_10_mesh_",
+            )
+
+            for dev_plot_str in dev_file_names:
+                nodes_file_in = db.output_file + dev_plot_str + "nodes.dev"
+
+                if Path(nodes_file_in).is_file():
+                    print(f"  located nodes file: {nodes_file_in}:")
+                else:
+                    raise OSError(f"File not found: {nodes_file_in}")
+
+                quads_file_in = db.output_file + dev_plot_str + "quads.dev"
+
+                if Path(quads_file_in).is_file():
+                    print(f"  located quads file: {quads_file_in}")
+                else:
+                    raise OSError(f"File not found: {quads_file_in}")
+
+                # nodes = np.genfromtxt(nodes_file_in, )
 
         plt.close("all")  # close all figures if they are still open
 

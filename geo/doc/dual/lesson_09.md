@@ -1,6 +1,5 @@
 # Lesson 09: Build and Debug `dual.out` on macOS
 
-
 ## Goals
 
 Using VS Code
@@ -75,7 +74,7 @@ and creates the following:
 
 On the command line, confirm the executable runs with an exemplar configuration file 
 called `circle.yml`.  
-Note: both `circle.yml` and `circle.txt` must be present in the same folder as `dual.out`.
+Note: both [`circle.yml`](../../src/dual/circle.yml) and [`circle.txt`](../../src/dual/circle.txt) must be present in the same folder, `~/sibl/geo/src/dual/`, as `dual.out`.
 
 ```bash
 > ./dual.out circle.yml                                                         (siblenv)
@@ -108,6 +107,32 @@ snap done
 subdivide done
 execution done
 ```
+
+The following output files will be created:
+
+* `circle.inp`
+* `circle.txt`
+* `circle.yml`
+* `circle_01_quad_tree_nodes.dev`
+* `circle_01_quad_tree_quads.dev`
+* `circle_02_primal_nodes.dev`
+* `circle_02_primal_quads.dev`
+* `circle_03_dual_nodes.dev`
+* `circle_03_dual_quads.dev`
+* `circle_04_d_trim_nodes.dev`
+* `circle_04_d_trim_quads.dev`
+* `circle_05_dt_project_nodes.dev`
+* `circle_05_dt_project_quads.dev`
+* `circle_06_dtp_snap_nodes.dev`
+* `circle_06_dtp_snap_quads.dev`
+* `circle_07_dtps_subdivide_nodes.dev`
+* `circle_07_dtps_subdivide_quads.dev`
+* `circle_08_dtpss_project_nodes.dev`
+* `circle_08_dtpss_project_quads.dev`
+* `circle_09_dtpssp_snap_nodes.dev`
+* `circle_09_dtpssp_snap_quads.dev`
+* `circle_10_mesh_nodes.dev`
+* `circle_10_mesh_quads.dev`
 
 ### Debug
 

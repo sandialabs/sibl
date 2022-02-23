@@ -1,7 +1,24 @@
 boundary: swisscheese.txt # space delimited xy-pairs, 1 line for each. No spaces in file name. 
 boundary_refine: true # developer flag, keep as true 
-bounding_box: {(-10,-10),(10, 10)} # equal points will default to tight bounding box
+# bounding_box: {(-10,-10),(10, 10)} # equal points will default to tight bounding box
+bounding_box: [[-10,-10], [10, 10]] # equal points will default to tight bounding box
 developer_output: true # simple mesh and node text files for plotting without parsing 
+figure:  # for Python MATPLOTLIB
+  boundary_shown: True
+  dpi: 200  # dots per inch
+  elements_shown: True
+  filename: swisscheese_figure
+  format: png  # png | pdf | svg
+  frame: True # True shows the rectangular frame of the axis
+  grid: False
+  label_x: ""
+  label_y: ""
+  latex: False
+  save: True  # True saves the figure to the local directory
+  show: False  # shows or hides the figure
+  size: [6.0, 6.0]  # [width, height] in inches
+  title: ""
+io_path: ~/sibl/geo/doc/dual/lesson_08/
 output_file: swisscheese  #file name, extension will be added automatically
 resolution: 1 # smallest targeted mesh edge length
-version: 1.1
+version: 1.4

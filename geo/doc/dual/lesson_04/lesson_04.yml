@@ -28,7 +28,7 @@ boundary_refine: True  # bool, if False, then does a feature refine
 # always one or the other, boundary_refine has quad tree refine to parameteric 
 # representation of curve, and feature_refine is based on curvature.
 
-developer_output: False  # for primal, dual, projection, snapping (to corners),
+developer_output: True # for primal, dual, projection, snapping (to corners),
 # refinement (subdivide surface tri into a quad and then refine), (no current smoothing)
 # writes out the nodes in a separate file and a connectivity
 # Cubit checkbox: smooth boundary nodes
