@@ -84,6 +84,8 @@ pip install -e .
 echo "Removing old object files for xybind, if they already exist."
 cd ~/sibl/geo/src/bind
 rm -rf build
+rm -rf xybind.egg-info
+rm xybind.cypthon-39-darwin.so
 echo "Installing the xybind module in developer mode..."
 # still in ~/sibl/geo/src/bind folder
 pip install -e .

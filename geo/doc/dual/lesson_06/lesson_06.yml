@@ -1,5 +1,5 @@
 version: 1.4  # float, the yml file input version
-io_path: ~/sibl/geo/doc/dual/lesson_04/
+io_path: ~/sibl/geo/doc/dual/lesson_06/
 
 # boundary:
 # Relative to the ~/sibl directory, the full path and file name of the boundary 
@@ -16,7 +16,7 @@ bounding_box: [[-2.0, -2.0], [2.0, 2.0]]  # [[float, float], [float, float]]
 # of the bounding box
 resolution: 1.0 # float
 
-output_file: lesson_04_mesh  # creates lesson_04_mesh.inp
+output_file: lesson_06_mesh  # creates lesson_04_mesh.inp
 
 # boundary_refine:
 # either based on boundary refinement (discretization of the boundary), e.g., boundary
@@ -28,7 +28,7 @@ boundary_refine: True  # bool, if False, then does a feature refine
 # always one or the other, boundary_refine has quad tree refine to parameteric 
 # representation of curve, and feature_refine is based on curvature.
 
-developer_output: False # for primal, dual, projection, snapping (to corners),
+developer_output: True # for primal, dual, projection, snapping (to corners),
 # refinement (subdivide surface tri into a quad and then refine), (no current smoothing)
 # writes out the nodes in a separate file and a connectivity
 # Cubit checkbox: smooth boundary nodes
@@ -37,7 +37,7 @@ figure:  # for Python MATPLOTLIB
   boundary_shown: True
   dpi: 200  # dots per inch
   elements_shown: True
-  filename: lesson_04_figure
+  filename: lesson_06_figure
   format: png  # png | pdf | svg
   frame: True # True shows the rectangular frame of the axis
   grid: False

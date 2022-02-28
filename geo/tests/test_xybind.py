@@ -8,7 +8,7 @@ To run
 > cd ~/sibl/geo/tests
 
 To run a single test, for example, the `test_version` test:
-> pytest test_xybind.py::test_version -v  # to run a single test
+> pytest test_xybind.py::test_ptg_version -v  # to run a single test
 
 To run all tests in this module:
 > pytest test_xybind.py -v  # to run all tests
