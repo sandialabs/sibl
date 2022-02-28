@@ -73,7 +73,7 @@ The figures are shown below:
 
 ![Primal](lesson_06/lesson_06_figure_02_primal_.png)
 
-### Primal + Dual
+### Dual
 
 ![Dual](lesson_06/lesson_06_figure_03_dual_.png)
 
