@@ -114,4 +114,6 @@ Running the MATLAB script will generate this figure:
 
 [Index](README.md)
 
+Previous: [Lesson 06](lesson_06.md)
+
 Next: [Lesson 08](lesson_08.md)

@@ -104,6 +104,6 @@ The figures are shown below:
 
 [Index](README.md)
 
-Previous: [Lesson 06](lesson_05.md)
+Previous: [Lesson 05](lesson_05.md)
 
 Next: [Lesson 07](lesson_07.md)
