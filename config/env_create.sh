@@ -56,6 +56,7 @@ conda install --yes -c conda-forge black=21.10b0
 conda install --yes -c anaconda flake8
 conda install --yes -c anaconda ipykernel  # 2021-12-15 suppress, no Python 3.10.0 support yet
 conda install --yes -c anaconda matplotlib
+# conda install --yes -c anaconda mypy  # to be considered later
 conda install --yes -c anaconda notebook
 conda install --yes -c anaconda pybind11
 conda install --yes -c anaconda pygments

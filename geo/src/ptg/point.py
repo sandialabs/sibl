@@ -33,7 +33,7 @@ class Points:
 
     @property
     def length(self) -> int:
-        """Returns the length of the Points collecdtion."""
+        """Returns the length of the Points collection."""
         return len(self._xs)
 
     @property
@@ -43,5 +43,7 @@ class Points:
 
     @property
     def points2D(self) -> tuple[Point2D, ...]:
-        """Returns the original pairs with each pair cast as a Point2D object."""
+        """Returns the original pairs with each pair cast as
+        a Point2D object.
+        """
         return tuple(map(Point2D, self._xs, self._ys))

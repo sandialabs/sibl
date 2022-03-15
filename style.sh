@@ -1,7 +1,13 @@
 #!/bin/bash
 
+# -----
+# Black
+# -----
 black --check . --diff
 
+# ------
+# flake8
+# ------
 # flake8 errors:
 # E501 line too long (## > 79 characters)
 # E203 whitespace before ':'
@@ -11,4 +17,9 @@ black --check . --diff
 #
 # flake8 . --statistics
 flake8 --ignore E203,E501,W503 . --statistics
+
+# ----
+# mypi
+# ----
+# https://github.com/python/mypy
 
