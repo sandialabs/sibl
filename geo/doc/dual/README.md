@@ -16,15 +16,15 @@ Learn how to use the *SIBL Mesh Engine* with the lessons below:
   * [09](lesson_09.md). Build and Debug `dual.out` on macOS
 * Unit tests
   * [10](lesson_10.md). Donut - demonstrate mesh creation for a domain with a circular outer and inner boundaries.
-  * [11](lesson_11.md). Quarter Plate - (work in progress)
+  * [11](lesson_11.md). Quarter Plate
 * Literature Examples
-  * *To come.* [21](lesson_21.md). Flower - *to come* - to Chad
-  * *To come.* [22](lesson_22.md). Lake Superior - to Chad
-  * *To come.* [23](lesson_23.md). Australia - to Chad
+  * *To come.* [21](lesson_21.md). Flower
+  * *To come.* [22](lesson_22.md). Lake Superior
+  * *To come.* [23](lesson_23.md). Australia
 * Applications
-  * *To come.* [40](lesson_40.md). Binary blobs - *to come* - to Chad
-  * *To come.* [41](lesson_41.md). Shepp-Logan phantom - *to come* - to Chad
-  * *To come.* [42](lesson_42.md). Miller phantom - *to come* - to Adam
-  * *To come.* [43](lesson_43.md). MATLAB 3D MRI data set - *to come* - to Chad
+  * *To come.* [40](lesson_40.md). Binary blobs
+  * *To come.* [41](lesson_41.md). Shepp-Logan phantom
+  * *To come.* [42](lesson_42.md). Miller phantom
+  * *To come.* [43](lesson_43.md). MATLAB 3D MRI data set
 * Appendix
   * [a00](lesson_a00.md). Bind C++ for use with Python.
