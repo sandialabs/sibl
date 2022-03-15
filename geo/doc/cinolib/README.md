@@ -2,7 +2,9 @@
 
 ## Steps
 
-Learn how to use the CinoLib with the steps below:
+Learn how to use
+[CinoLib](https://github.com/mlivesu/cinolib)
+with the steps below:
 
 * Introduction
   * [00](step_00.md). Getting Started with CinoLib
