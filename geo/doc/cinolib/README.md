@@ -11,12 +11,6 @@ The specific example will be the duck model shown in the figure below (originall
 
 [References](references.md)
 
-Notes:
-
-* 2022-01-17, Livesu committed major update that removes cinolib dependency on Qt. 
-  * `cmake` is used as the build system.
-  * GLFW and ImGui handle the GUI.
-
 ## Getting Started
 
 In this example, we install and run `cinolib` for the user `sparta`, e.g.,
