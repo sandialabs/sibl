@@ -11,6 +11,24 @@ The specific example will be the duck model shown in the figure below (originall
 
 [References](references.md)
 
+## Preconditions
+
+The `cmake` application must already be present.
+Test for an existing installation:
+
+```bash
+~✔> which cmake
+
+```
+
+If the result from the above-stated command returns nothing, then
+install either with a [CMake installer](https://cmake.org/download/) 
+with [Homebrew](https://brew.sh/) as follows:
+
+```bash
+~✔> brew install cmake
+```
+
 ## Getting Started
 
 In this example, we install and run `cinolib` for the user `sparta`, e.g.,
