@@ -72,6 +72,108 @@ The above installation will install `grbgetkey`
 /usr/local/bin/grbgetkey
 ```
 
+Install the license key (specific details omitted here).
+
+For macOS, the installer will, by default, place the Gurobi 9.5.1 files in 
+`/Library/gurobi951/macos_universal2` (note that this is the 
+system `/Library` directory, not your 
+personal `~/Library directory`). Your `<installdir>` 
+(which we'll refer to throughout this document) will be 
+`/Library/gurobi951/macos_universal2`.
+
+```bash
+(base) cbh@atlas macos_universal2 % cd /Library/gurobi951/macos_universal2
+(base) cbh@atlas macos_universal2 % ll
+total 424
+drwxrwxr-x  13 root  admin     416 Feb 11 08:54 .
+drwxrwxr-x   3 root  admin      96 Feb 11 08:14 ..
+drwxrwxr-x  10 root  admin     320 Feb 11 08:55 bin
+drwxrwxr-x   5 root  admin     160 Feb 11 08:14 include
+drwxrwxr-x   4 root  admin     128 Feb 11 08:14 R
+drwxrwxr-x  16 root  admin     512 Mar 22 13:49 docs
+-rwxrwxr-x   1 root  admin    3054 Feb 11 08:14 setup.py
+drwxrwxr-x  19 root  admin     608 Feb 11 08:56 matlab
+drwxrwxr-x  12 root  admin     384 Feb 11 08:14 examples
+-rwxrwxr-x   1 root  admin  200641 Feb 11 08:54 EULA.pdf
+drwxrwxr-x  17 root  admin     544 Feb 11 08:56 lib
+-rwxrwxr-x   1 root  admin   11769 Feb 11 08:54 ReleaseNotes.html
+drwxrwxr-x   5 root  admin     160 Feb 11 08:14 src
+```
+
+From [Gurobi Installation Guide: macOS](https://youtu.be/ZcL-NmckTxQ) at
+3:20 / 4:03.  Test the installation by running the Python interactive shell:
+
+```bash
+(base) cbh@atlas ~ % gurobi.sh
+Python 3.9.2 (default, Mar 22 2021, 02:01:25)
+[Clang 12.0.0 (clang-1200.0.32.29)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+Set parameter Username
+Set parameter LogFile to value "gurobi.log"
+Academic license - for non-commercial use only - expires 2022-05-20
+
+Gurobi Interactive Shell (mac64), Version 9.5.1
+Copyright (c) 2022, Gurobi Optimization, LLC
+Type "help()" for help
+
+gurobi>
+```
+
+If the interactive shell opens as above, then installation of Gurobi was 
+successful.
+
+The Gurobi Optimizer `readme.txt` follows:
+
+```txt
+
+Your first step in using version 9.5.1 of the Gurobi Optimizer is to
+download the appropriate distribution for your platform:
+
+ Gurobi-9.5.1-win64.msi:           64-bit Windows installer
+ gurobi9.5.1_linux64.tar.gz:       64-bit Linux distribution
+ gurobi9.5.1_macos_universal2.pkg: 64-bit universal2 macOS distribution (M1 or Intel)
+ gurobi9.5.1_power64.tar.gz:       64-bit AIX distribution
+
+If you have installed a previous version of the Gurobi Optimizer, we
+recommend that you uninstall it before installing this version.
+
+For Windows and Mac users, you can simply double-click on the
+installer once you have downloaded it.  It will guide you through the
+installation process.
+
+For Linux and AIX users, you will first need to choose an install
+location (w recommend /opt for a shared installation).  You can then
+copy the Gurobi distribution to that location and do a 'tar xvfz
+gurobi9.5.1_linux64.tar.gz' (e.g.) to extract the Gurobi files.
+Please check our supported platform list (in the Release Notes or on
+our web site) to make sure that your operating system is supported.
+
+Once the Gurobi files have been installed, your next step is to
+consult the Release Notes and the Gurobi Quick Start guide.  The
+Release Notes are accessible from the following locations:
+
+Windows: c:\gurobi951\win64\ReleaseNotes.html
+Linux: /opt/gurobi951/linux64/ReleaseNotes.html
+Mac universal2: /Library/gurobi951/macos_universal2/ReleaseNotes.html
+AIX: /opt/gurobi951/power64/ReleaseNotes.html
+
+The Quick Start Guide provides instructions for obtaining and installing
+your Gurobi Optimizer license.  The Release Notes contain information about
+this release, as well as a link to the Quick Start Guide.
+
+If you already have a Gurobi Version 9 license (in file 'gurobi.lic'),
+and you would like to store it in the default location, you should
+copy the file to c:/gurobi951 on Windows, /opt/gurobi951 on Linux or
+AIX, or /Library/gurobi951 on Mac.
+
+Note that, due to limited Python support on AIX, our AIX port does not
+include the Interactive Shell or the Python interface.  We also don't
+provide an R interface on AIX.
+```
+
+[Release notes](https://cdn.gurobi.com/wp-content/uploads/2022/03/release-notes-9_5_1.html)
+
+
 ### CGAL for computation of the Shape Diameter Function (SDF)
 
 ```bash
@@ -194,6 +296,95 @@ Update the `FindGUROBI.cmake` file, as [indicated](https://github.com/cg3hci/Gen
 
 > WARNING: `FindGUROBI.cmake` is configured to search for gurobi 9.1.x versions. Please edit the "gurobi91" entry in `FindGUROBI.cmake` if you have a different gurobi version installed on your machine.
 
+```bash
+(base) cbh@atlas ~ % cd Gen-Adapt-Ref-for-Hexmeshing
+(base) cbh@atlas ~ % nvim FindGUROBI.cmake
+```
+
+The `FindGUROBI.cmake` line 7 update, from:
+
+```cmake
+    NAMES gurobi gurobi91
+```
+
+to
+
+```cmake
+    NAMES gurobi gurobi95
+```
+
+Compile
+
+```bash
+(base) cbh@atlas Gen-Adapt-Ref-for-Hexmeshing % mkdir build; cd build
+(base) cbh@atlas build % cmake -DCMAKE_BUILD_TYPE=Release ..
+CMake Warning (dev) at CMakeLists.txt:25:
+  Syntax Warning in cmake code at column 27
+
+  Argument not separated from preceding token by whitespace.
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at CMakeLists.txt:26:
+  Syntax Warning in cmake code at column 24
+
+  Argument not separated from preceding token by whitespace.
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+-- The C compiler identification is AppleClang 13.1.6.13160021
+-- The CXX compiler identification is AppleClang 13.1.6.13160021
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /Library/Developer/CommandLieTools/usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /Library/Developer/CommandLineTools/usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+CMake Warning at /opt/homebrew/lib/cmake/CGAL/CGALConfig.cmake:92 (message):
+  CGAL_DATA_DIR cannot be deduced, set the variable CGAL_DATA_DIR to set the
+  default value of CGAL::data_file_path()
+Call Stack (most recent call first):
+  CMakeLists.txt:20 (find_package)
 
 
+-- Using header-only CGAL
+-- Targetting Unix Makefiles
+-- Using /Library/Developer/CommandLineTools/usr/bin/c++ compiler.
+-- DARWIN_VERSION=21
+-- Mac Leopard detected
+-- Found GMP: /opt/homebrew/lib/libgmp.dylib
+-- Found MPFR: /opt/homebrew/lib/libmpfr.dylib
+-- Found Boost: /opt/homebrew/lib/cmake/Boost-1.78.0/BoostConfig.cmake (found suitable version "1.78.0", minimum required is "1.48")
+-- Boost include dirs: /opt/homebrew/include
+-- Boost libraries:
+-- Looking for pthread.h
+-- Looking for pthread.h - found
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE
+-- Found GUROBI: /usr/local/lib/libgurobi95.dylib
+BUILD_TYPE: Release
+GUROBI_HOME:
+GUROBI_INCLUDE: GUROBI_INCLUDE_DIRS-NOTFOUND
+GUROBI_LIBS: /usr/local/lib/libgurobi95.dylib GUROBI_CXX_LIBRARY-NOTFOUND
+-- Configuring done
+CMake Error: The following variables are used in this project, but they are set to NOTFOUND.
+Please set them or make sure they are set and tested correctly in the CMake files:
+/Users/cbh/Gen-Adapt-Ref-for-Hexmeshing/GUROBI_INCLUDE_DIRS
+   used as include directory in directory /Users/cbh/Gen-Adapt-Ref-for-Hexmeshing
+GUROBI_CXX_LIBRARY
+    linked by target "make_grid" in directory /Users/cbh/Gen-Adapt-Ref-for-Hexmeshing
 
+-- Generating done
+CMake Generate step failed.  Build files cannot be regenerated correctly.
+(base) cbh@atlas build %n
+```
+
+Try to specify the `/Library/gurobi951/macos_universal2` location:
+
+```bash
+(base) cbh@atlas build % cmake .. -DCMAKE_BUILD_TYPE=Release -DGUROBI_HOME=/Library/gurobi951/macos_universal2
+
+```
