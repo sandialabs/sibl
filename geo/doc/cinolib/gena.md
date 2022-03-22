@@ -386,5 +386,165 @@ Try to specify the `/Library/gurobi951/macos_universal2` location:
 
 ```bash
 (base) cbh@atlas build % cmake .. -DCMAKE_BUILD_TYPE=Release -DGUROBI_HOME=/Library/gurobi951/macos_universal2
+```
+
+didn't work either.  Needed to set an environment variable:
+
+```bash
+(base) cbh@atlas zsh % pwd
+/Users/cbh/.config/zsh
+(base) cbh@atlas zsh % nvim .zshrc_atlas
+```
+
+And add to the `.zsrch_atlas` file:
+
+```bash
+# set an environment variable for gurobi 2022-03-22
+export GUROBI_HOME=/Library/gurobi951/macos_universal2
+```
+
+Confirm `~/.zsrhc` sources the `atlas` machine local file:
+
+```bash
+# /bin/zsh $HOME/.config/zsh/.zshrc_atlas
+source $HOME/.config/zsh/.zshrc_atlas
+```
+
+Finally
+
+```bash
+(base) cbh@atlas ~ % cd ~
+(base) cbh@atlas ~ % source .zshrc
+--------------------
+This is .zshrc_atlas
+--------------------
+---------------------
+This is .zshrc_global
+---------------------
+Setting cbh command line interface shortcuts
 
 ```
+
+Confirm the environment variable:
+
+```bash
+(base) cbh@atlas ~ % env
+# ...
+GUROBI_HOME=/Library/gurobi951/macos_universal2
+_=/usr/bin/env
+(base) cbh@atlas ~ %
+```
+
+Now do `cmake` and `make`:
+
+```bash
+(base) cbh@atlas ~ % cd ~/Gen-Adapt-Ref-for-Hexmeshing/build
+
+(base) cbh@atlas build % cmake .. -DCMAKE_BUILD_TYPE=Release
+CMake Warning (dev) at CMakeLists.txt:25:
+  Syntax Warning in cmake code at column 27
+
+  Argument not separated from preceding token by whitespace.
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at CMakeLists.txt:26:
+  Syntax Warning in cmake code at column 24
+
+  Argument not separated from preceding token by whitespace.
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning at /opt/homebrew/lib/cmake/CGAL/CGALConfig.cmake:92 (message):
+  CGAL_DATA_DIR cannot be deduced, set the variable CGAL_DATA_DIR to set the
+  default value of CGAL::data_file_path()
+Call Stack (most recent call first):
+  CMakeLists.txt:20 (find_package)
+
+
+-- Using header-only CGAL
+-- Targetting Unix Makefiles
+-- Using /Library/Developer/CommandLineTools/usr/bin/c++ compiler.
+-- DARWIN_VERSION=21
+-- Mac Leopard detected
+-- Boost include dirs: /opt/homebrew/include
+-- Boost libraries:
+BUILD_TYPE: Release
+GUROBI_HOME: /Library/gurobi951/macos_universal2
+GUROBI_INCLUDE: /Library/gurobi951/macos_universal2/include
+GUROBI_LIBS: /usr/local/lib/libgurobi95.dylib /Library/gurobi951/macos_universal2/lib/libgurobi_c++.a
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Users/cbh/Gen-Adapt-Ref-for-Hexmeshing/build
+
+(base) cbh@atlas build % ll
+total 64
+drwxr-xr-x   6 cbh  staff    192 Mar 22 16:30 .
+drwxr-xr-x  14 cbh  staff    448 Mar 22 14:23 ..
+drwxr-xr-x  13 cbh  staff    416 Mar 22 16:30 CMakeFiles
+-rw-r--r--   1 cbh  staff   5322 Mar 22 16:30 Makefile
+-rw-r--r--   1 cbh  staff   1557 Mar 22 14:24 cmake_install.cmake
+-rw-r--r--   1 cbh  staff  17411 Mar 22 16:30 CMakeCache.txt
+
+(base) cbh@atlas build % make
+[ 50%] Building CXX object CMakeFiles/make_grid.dir/main.cpp.o
+In file included from /Users/cbh/Gen-Adapt-Ref-for-Hexmeshing/main.cpp:48:
+In file included from /Users/cbh/Gen-Adapt-Ref-for-Hexmeshing/code/mesh_projection/project.h:47:
+/Users/cbh/Gen-Adapt-Ref-for-Hexmeshing/external/Cinolib/include/cinolib/grid_projector.h:46:15: warning: anonymous non-C-compatible type given name for linkage purposes by typedef declaration; add a tag name here [-Wnon-c-typedef-for-linkage]
+typedef struct
+              ^
+               GridProjectorOptions
+/Users/cbh/Gen-Adapt-Ref-for-Hexmeshing/external/Cinolib/include/cinolib/grid_projector.h:48:26: note: type is not C-compatible due to this default member initializer
+    double conv_thresh = 1e-4;  // convergence threshold (either H or mean distance from target)
+                         ^~~~
+/Users/cbh/Gen-Adapt-Ref-for-Hexmeshing/external/Cinolib/include/cinolib/grid_projector.h:53:1: note: type is given name 'GridProjectorOptions' for linkage purposes by this typedef declaration
+GridProjectorOptions;
+^
+In file included from /Users/cbh/Gen-Adapt-Ref-for-Hexmeshing/main.cpp:48:
+In file included from /Users/cbh/Gen-Adapt-Ref-for-Hexmeshing/code/mesh_projection/project.h:48:
+/Users/cbh/Gen-Adapt-Ref-for-Hexmeshing/external/Cinolib/include/cinolib/feature_network.h:53:15: warning: anonymous non-C-compatible type given name for linkage purposes by typedef declaration; add a tag name here [-Wnon-c-typedef-for-linkage]
+typedef struct
+              ^
+               FeatureNetworkOptions
+/Users/cbh/Gen-Adapt-Ref-for-Hexmeshing/external/Cinolib/include/cinolib/feature_network.h:55:50: note: type is not C-compatible due to this default member initializer
+    bool  split_lines_at_high_curvature_points = true;
+                                                 ^~~~
+/Users/cbh/Gen-Adapt-Ref-for-Hexmeshing/external/Cinolib/include/cinolib/feature_network.h:58:1: note: type is given name 'FeatureNetworkOptions' for linkage purposes by this typedef declaration
+FeatureNetworkOptions;
+^
+In file included from /Users/cbh/Gen-Adapt-Ref-for-Hexmeshing/main.cpp:48:
+In file included from /Users/cbh/Gen-Adapt-Ref-for-Hexmeshing/code/mesh_projection/project.h:52:
+/Users/cbh/Gen-Adapt-Ref-for-Hexmeshing/external/Cinolib/include/cinolib/smoother.h:92:15: warning: anonymous non-C-compatible type given name for linkage purposes by typedef declaration; add a tag name here [-Wnon-c-typedef-for-linkage]
+typedef struct
+              ^
+               SmootherOptions
+/Users/cbh/Gen-Adapt-Ref-for-Hexmeshing/external/Cinolib/include/cinolib/smoother.h:94:34: note: type is not C-compatible due to this default member initializer
+    uint   n_iters             = 1;       // # of smoothing iterations
+                                 ^
+/Users/cbh/Gen-Adapt-Ref-for-Hexmeshing/external/Cinolib/include/cinolib/smoother.h:103:1: note: type is given name 'SmootherOptions' for linkage purposes by this typedef declaration
+SmootherOptions;
+^
+3 warnings generated.
+[100%] Linking CXX executable make_grid
+[100%] Built target make_grid
+(base) cbh@atlas build % ll
+total 3520
+drwxr-xr-x   7 cbh  staff      224 Mar 22 16:31 .
+drwxr-xr-x  14 cbh  staff      448 Mar 22 14:23 ..
+-rwxr-xr-x   1 cbh  staff  1768758 Mar 22 16:31 make_grid
+drwxr-xr-x  13 cbh  staff      416 Mar 22 16:31 CMakeFiles
+-rw-r--r--   1 cbh  staff     5322 Mar 22 16:30 Makefile
+-rw-r--r--   1 cbh  staff     1557 Mar 22 14:24 cmake_install.cmake
+-rw-r--r--   1 cbh  staff    17411 Mar 22 16:30 CMakeCache.txt
+(base) cbh@atlas build % ./make_grid --help
+usage: ./grid_maker (--surface | --polycube) --input_mesh_path=MESH_PATH --output_grid_path=GRID_PATH [Options]
+Options:
+--input_pc_mesh_path=PATH (required for polycube pipeline). Specify the path of the polycube map
+--min_refinement=VALUE (optional, default 0[5 for polycube])
+--max_refinement=VALUE (optional, default 8)
+--use_octree (optional). Use the algorithmic pairing process (for surface pipeline only)
+--weak_balancing | --strong_balancing (optional, default weak_balancing)
+--sanity_check=BOOL (optional, default true). Test if the final mesh is paired correctly
+--install_schemes=BOOL (optional, default false). Install the transition schemes to get a conforming all-hexa grid
+--project_mesh=BOOL (optional, default false). Project the grid on the target mesh
+(base) cbh@atlas build %
+```
+
