@@ -18,12 +18,12 @@ Test for an existing installation:
 
 ```bash
 ~✔> which cmake
-
+                      # <-- nothing is returned here
 ```
 
 If the result from the above-stated command returns nothing, then
-install either with a [CMake installer](https://cmake.org/download/) 
-with [Homebrew](https://brew.sh/) as follows:
+install `cmake` either with a [CMake installer](https://cmake.org/download/) 
+or with the [Homebrew](https://brew.sh/) package manager as follows:
 
 ```bash
 ~✔> brew install cmake
