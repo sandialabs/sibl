@@ -281,5 +281,5 @@ edge_collapse              iso_contours               polyharmonic_functions_srf
 
 ## see also
 
-See also the [Gen-Adapt-Ref-for-Hexmeshing repository](https://github.com/cg3hci/Gen-Adapt-Ref-for-Hexmeshing).
+See also the [Gen-Adapt-Ref-for-Hexmeshing repository](https://github.com/cg3hci/Gen-Adapt-Ref-for-Hexmeshing) and the [Gena](gena.md) notes.
 
