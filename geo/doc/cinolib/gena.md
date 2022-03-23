@@ -1,6 +1,6 @@
-# Gena
+# gena
 
-We will use `Gena` as a short name for *Generalized Adaptive Refinement for
+We will use `gena` as a short name for *Generalized Adaptive Refinement for
 Grid-based Hexahedral Meshing*, the title of the repository reviewed here.
 
 ## Overview
@@ -22,13 +22,17 @@ The specific example will be the duck model shown in the figure below
 
 ## Preconditions
 
+The following workflow uses the user `cbh` with the 
+user home directory of `/Users/cbh` (the `$HOME` variable) 
+and the machine `atlas`, which runs macOS Monterey version 12.3.
+
 ### cmake
 
-The `cmake` application must already be present.
-Test for an existing installation:
+The `cmake` application is required.
+Test for an existing installation with the `which cmake` command:
 
 ```bash
-(base) cbh@atlas ~ % which cmake
+which cmake
                       # <-- nothing is returned here
 ```
 
@@ -37,18 +41,18 @@ install `cmake` either with a [CMake installer](https://cmake.org/download/)
 or with the [Homebrew](https://brew.sh/) package manager as follows:
 
 ```bash
-(base) cbh@atlas ~ % brew install cmake
+brew install cmake
 ```
 
 After `cmake` is installed, the `which cmake` command will report something
 similar to
 
 ```bash
-(base) cbh@atlas ~ % which cmake
+which cmake
 /opt/homebrew/bin/cmake
 ```
 
-### Gurobi for (Integer Linear Programming) ILP resolution
+### Gurobi for Integer Linear Programming (ILP) resolution
 
 We will use *Gurobi for Academics and Researchers*, with a 
 named-user academic license.  Per 
@@ -59,7 +63,7 @@ named-user academic license.  Per
 * [Register](https://pages.gurobi.com/registration).
 * Log in.
 * From the [Gurobi Optimizer page](https://www.gurobi.com/downloads), download the version for the target machine OS, and review the README.txt.
-  * Download Gurobi Optimizer
+  * Download Gurobi Optimizer.  For this macOS installation, for example:
     * gurobi9.5.1_macos_universal2.pkg (84.2 MB)
     * `~ % md5 ~/Downloads/gurobi9.5.1_macos_universal2.pkg`
     * md5 checksum: a1786849ff3f14041af102a3fe3c8ad1
@@ -68,7 +72,7 @@ named-user academic license.  Per
 The above installation will install `grbgetkey`
 
 ```bash
-(base) cbh@atlas gurobi % which grbgetkey
+which grbgetkey
 /usr/local/bin/grbgetkey
 ```
 
@@ -125,7 +129,6 @@ successful.
 The Gurobi Optimizer `readme.txt` follows:
 
 ```txt
-
 Your first step in using version 9.5.1 of the Gurobi Optimizer is to
 download the appropriate distribution for your platform:
 
@@ -177,7 +180,8 @@ provide an R interface on AIX.
 ### CGAL for computation of the Shape Diameter Function (SDF)
 
 ```bash
-(base) cbh@atlas ~ % brew install cgal
+brew install cgal
+
 Running `brew update --preinstall`...
 ==> Auto-updated Homebrew!
 Updated 3 taps (homebrew/core, homebrew/cask and homebrew/cask-fonts).
@@ -256,7 +260,10 @@ too (using the `--recursive` flag; `cinolib` itself also
 uses submodules for `eigen` and `graph_cut`):
 
 ```bash
-(base) cbh@atlas ~ % git clone --recursive https://github.com/cg3hci/Gen-Adapt-Ref-for-Hexmeshing.git
+cd ~  # start from the user $HOME directory, /Users/cbh in the present example
+
+git clone --recursive https://github.com/cg3hci/Gen-Adapt-Ref-for-Hexmeshing.git
+
 Cloning into 'Gen-Adapt-Ref-for-Hexmeshing'...
 remote: Enumerating objects: 97, done.
 remote: Counting objects: 100% (97/97), done.
@@ -297,11 +304,11 @@ Update the `FindGUROBI.cmake` file, as [indicated](https://github.com/cg3hci/Gen
 > WARNING: `FindGUROBI.cmake` is configured to search for gurobi 9.1.x versions. Please edit the "gurobi91" entry in `FindGUROBI.cmake` if you have a different gurobi version installed on your machine.
 
 ```bash
-(base) cbh@atlas ~ % cd Gen-Adapt-Ref-for-Hexmeshing
-(base) cbh@atlas ~ % nvim FindGUROBI.cmake
+cd Gen-Adapt-Ref-for-Hexmeshing
+nvim FindGUROBI.cmake  # in nvim or some other editor, update FindGUROBI.cmake
 ```
 
-The `FindGUROBI.cmake` line 7 update, from:
+In `FindGUROBI.cmake` at line 7, change the gurobi version from:
 
 ```cmake
     NAMES gurobi gurobi91
@@ -313,11 +320,13 @@ to
     NAMES gurobi gurobi95
 ```
 
-Compile
+From within the `/Users/cbh/Gen-Adapt-Ref-for-Hexmeshing` directory, compile 
+as follows:
 
 ```bash
-(base) cbh@atlas Gen-Adapt-Ref-for-Hexmeshing % mkdir build; cd build
-(base) cbh@atlas build % cmake -DCMAKE_BUILD_TYPE=Release ..
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release ..
 CMake Warning (dev) at CMakeLists.txt:25:
   Syntax Warning in cmake code at column 27
 
@@ -385,36 +394,46 @@ CMake Generate step failed.  Build files cannot be regenerated correctly.
 Try to specify the `/Library/gurobi951/macos_universal2` location:
 
 ```bash
-(base) cbh@atlas build % cmake .. -DCMAKE_BUILD_TYPE=Release -DGUROBI_HOME=/Library/gurobi951/macos_universal2
+cmake .. -DCMAKE_BUILD_TYPE=Release -DGUROBI_HOME=/Library/gurobi951/macos_universal2
 ```
 
-didn't work either.  Needed to set an environment variable:
+The preceding didn't work either.  After some review of the make files, we discovered
+that we needed to set an environment variable.  Environment variables for this
+example are stored in a file called `/Users/cbh/.config/zsh/zshrc_atlas` and
+sourced by `/Users/cbh/.zshrc`, as shown below:
 
 ```bash
-(base) cbh@atlas zsh % pwd
+pwd
 /Users/cbh/.config/zsh
-(base) cbh@atlas zsh % nvim .zshrc_atlas
+nvm .zshrc_atlas
 ```
 
-And add to the `.zsrch_atlas` file:
+And add to the `.zshrc_atlas` file:
 
 ```bash
 # set an environment variable for gurobi 2022-03-22
 export GUROBI_HOME=/Library/gurobi951/macos_universal2
 ```
 
-Confirm `~/.zsrhc` sources the `atlas` machine local file:
+Update `Users/cbh/.zsrhc` source
+```bash
+cd ~
+pwd
+/Users/cbh
+nvm .zshrc
+```
+
+so that it references the `atlas` machine local file:
 
 ```bash
 # /bin/zsh $HOME/.config/zsh/.zshrc_atlas
 source $HOME/.config/zsh/.zshrc_atlas
 ```
 
-Finally
+Finally, source the `.zshrc` file to instate the updates for all current shells:
 
 ```bash
-(base) cbh@atlas ~ % cd ~
-(base) cbh@atlas ~ % source .zshrc
+source .zshrc
 --------------------
 This is .zshrc_atlas
 --------------------
@@ -422,23 +441,21 @@ This is .zshrc_atlas
 This is .zshrc_global
 ---------------------
 Setting cbh command line interface shortcuts
-
 ```
 
 Confirm the environment variable:
 
 ```bash
-(base) cbh@atlas ~ % env
+env
 # ...
 GUROBI_HOME=/Library/gurobi951/macos_universal2
-_=/usr/bin/env
-(base) cbh@atlas ~ %
+# ...
 ```
 
-Now do `cmake` and `make`:
+Now run `cmake` from the `/Users/cbh/Gen-Adapt-Ref-for-Hexmeshing/build` directory:
 
 ```bash
-(base) cbh@atlas ~ % cd ~/Gen-Adapt-Ref-for-Hexmeshing/build
+cd ~/Gen-Adapt-Ref-for-Hexmeshing/build
 
 (base) cbh@atlas build % cmake .. -DCMAKE_BUILD_TYPE=Release
 CMake Warning (dev) at CMakeLists.txt:25:
@@ -474,8 +491,13 @@ GUROBI_LIBS: /usr/local/lib/libgurobi95.dylib /Library/gurobi951/macos_universal
 -- Configuring done
 -- Generating done
 -- Build files have been written to: /Users/cbh/Gen-Adapt-Ref-for-Hexmeshing/build
+```
 
-(base) cbh@atlas build % ll
+A listing of the current files in 
+the `/Users/cbh/Gen-Adapt-Ref-for-Hexmeshing/build` directory:
+
+```bash
+ll
 total 64
 drwxr-xr-x   6 cbh  staff    192 Mar 22 16:30 .
 drwxr-xr-x  14 cbh  staff    448 Mar 22 14:23 ..
@@ -483,8 +505,12 @@ drwxr-xr-x  13 cbh  staff    416 Mar 22 16:30 CMakeFiles
 -rw-r--r--   1 cbh  staff   5322 Mar 22 16:30 Makefile
 -rw-r--r--   1 cbh  staff   1557 Mar 22 14:24 cmake_install.cmake
 -rw-r--r--   1 cbh  staff  17411 Mar 22 16:30 CMakeCache.txt
+```
 
-(base) cbh@atlas build % make
+Now run `make` from the `/Users/cbh/Gen-Adapt-Ref-for-Hexmeshing/build` directory:
+
+```bash
+make
 [ 50%] Building CXX object CMakeFiles/make_grid.dir/main.cpp.o
 In file included from /Users/cbh/Gen-Adapt-Ref-for-Hexmeshing/main.cpp:48:
 In file included from /Users/cbh/Gen-Adapt-Ref-for-Hexmeshing/code/mesh_projection/project.h:47:
@@ -525,7 +551,13 @@ SmootherOptions;
 3 warnings generated.
 [100%] Linking CXX executable make_grid
 [100%] Built target make_grid
-(base) cbh@atlas build % ll
+```
+
+A listing of the current files in 
+the `/Users/cbh/Gen-Adapt-Ref-for-Hexmeshing/build` directory:
+
+```bash
+ll
 total 3520
 drwxr-xr-x   7 cbh  staff      224 Mar 22 16:31 .
 drwxr-xr-x  14 cbh  staff      448 Mar 22 14:23 ..
@@ -534,7 +566,13 @@ drwxr-xr-x  13 cbh  staff      416 Mar 22 16:31 CMakeFiles
 -rw-r--r--   1 cbh  staff     5322 Mar 22 16:30 Makefile
 -rw-r--r--   1 cbh  staff     1557 Mar 22 14:24 cmake_install.cmake
 -rw-r--r--   1 cbh  staff    17411 Mar 22 16:30 CMakeCache.txt
-(base) cbh@atlas build % ./make_grid --help
+```
+
+Echo the help available from the `make_grid` executable:
+
+```
+./make_grid --help
+
 usage: ./grid_maker (--surface | --polycube) --input_mesh_path=MESH_PATH --output_grid_path=GRID_PATH [Options]
 Options:
 --input_pc_mesh_path=PATH (required for polycube pipeline). Specify the path of the polycube map
@@ -545,6 +583,5 @@ Options:
 --sanity_check=BOOL (optional, default true). Test if the final mesh is paired correctly
 --install_schemes=BOOL (optional, default false). Install the transition schemes to get a conforming all-hexa grid
 --project_mesh=BOOL (optional, default false). Project the grid on the target mesh
-(base) cbh@atlas build %
 ```
 
