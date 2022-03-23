@@ -86,8 +86,8 @@ personal `~/Library directory`). Your `<installdir>`
 `/Library/gurobi951/macos_universal2`.
 
 ```bash
-(base) cbh@atlas macos_universal2 % cd /Library/gurobi951/macos_universal2
-(base) cbh@atlas macos_universal2 % ll
+cd /Library/gurobi951/macos_universal2
+ll
 total 424
 drwxrwxr-x  13 root  admin     416 Feb 11 08:54 .
 drwxrwxr-x   3 root  admin      96 Feb 11 08:14 ..
@@ -108,7 +108,7 @@ From [Gurobi Installation Guide: macOS](https://youtu.be/ZcL-NmckTxQ) at
 3:20 / 4:03.  Test the installation by running the Python interactive shell:
 
 ```bash
-(base) cbh@atlas ~ % gurobi.sh
+gurobi.sh
 Python 3.9.2 (default, Mar 22 2021, 02:01:25)
 [Clang 12.0.0 (clang-1200.0.32.29)] on darwin
 Type "help", "copyright", "credits" or "license" for more information.
@@ -250,7 +250,6 @@ finereader
 ==> Running `brew cleanup cgal`...
 Disable this behaviour by setting HOMEBREW_NO_INSTALL_CLEANUP.
 Hide these hints with HOMEBREW_NO_ENV_HINTS (see `man brew`).
-(base) cbh@atlas ~ %
 ```
 
 ## Getting Started
@@ -296,7 +295,6 @@ Receiving objects: 100% (31/31), 49.39 KiB | 754.00 KiB/s, done.
 Resolving deltas: 100% (10/10), done.
 Submodule path 'external/Cinolib/external/eigen': checked out '1fd5ce1002a6f30e1169b529b291216a18be2f7e'
 Submodule path 'external/Cinolib/external/graph_cut': checked out '66376566852b704a0e57bf49dcac74ee5210ff18'
-(base) cbh@atlas ~ %
 ```
 
 Update the `FindGUROBI.cmake` file, as [indicated](https://github.com/cg3hci/Gen-Adapt-Ref-for-Hexmeshing#dependencies):
@@ -388,7 +386,6 @@ GUROBI_CXX_LIBRARY
 
 -- Generating done
 CMake Generate step failed.  Build files cannot be regenerated correctly.
-(base) cbh@atlas build %n
 ```
 
 Try to specify the `/Library/gurobi951/macos_universal2` location:
@@ -456,8 +453,8 @@ Now run `cmake` from the `/Users/cbh/Gen-Adapt-Ref-for-Hexmeshing/build` directo
 
 ```bash
 cd ~/Gen-Adapt-Ref-for-Hexmeshing/build
+cmake .. -DCMAKE_BUILD_TYPE=Release
 
-(base) cbh@atlas build % cmake .. -DCMAKE_BUILD_TYPE=Release
 CMake Warning (dev) at CMakeLists.txt:25:
   Syntax Warning in cmake code at column 27
 
