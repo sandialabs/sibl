@@ -388,14 +388,14 @@ GUROBI_CXX_LIBRARY
 CMake Generate step failed.  Build files cannot be regenerated correctly.
 ```
 
-Try to specify the `/Library/gurobi951/macos_universal2` location:
+~~Try to specify the `/Library/gurobi951/macos_universal2` location:~~
 
 ```bash
 cmake .. -DCMAKE_BUILD_TYPE=Release -DGUROBI_HOME=/Library/gurobi951/macos_universal2
 ```
 
 The preceding didn't work either.  After some review of the make files, we discovered
-that we needed to set an environment variable.  Environment variables for this
+that we needed to set an **environment variable**.  Environment variables for this
 example are stored in a file called `/Users/cbh/.config/zsh/zshrc_atlas` and
 sourced by `/Users/cbh/.zshrc`, as shown below:
 
