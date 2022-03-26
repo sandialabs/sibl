@@ -254,6 +254,8 @@ Hide these hints with HOMEBREW_NO_ENV_HINTS (see `man brew`).
 
 ## Getting Started
 
+### Clone Recursive
+
 Clone the main repository with the `cinolib` submodule 
 too (using the `--recursive` flag; `cinolib` itself also 
 uses submodules for `eigen` and `graph_cut`):
@@ -297,6 +299,8 @@ Submodule path 'external/Cinolib/external/eigen': checked out '1fd5ce1002a6f30e1
 Submodule path 'external/Cinolib/external/graph_cut': checked out '66376566852b704a0e57bf49dcac74ee5210ff18'
 ```
 
+### Configure
+
 Update the `FindGUROBI.cmake` file, as [indicated](https://github.com/cg3hci/Gen-Adapt-Ref-for-Hexmeshing#dependencies):
 
 > WARNING: `FindGUROBI.cmake` is configured to search for gurobi 9.1.x versions. Please edit the "gurobi91" entry in `FindGUROBI.cmake` if you have a different gurobi version installed on your machine.
@@ -317,6 +321,8 @@ to
 ```cmake
     NAMES gurobi gurobi95
 ```
+
+### Compile
 
 ~~From within the `/Users/cbh/Gen-Adapt-Ref-for-Hexmeshing` directory, compile 
 as follows:~~
@@ -582,7 +588,9 @@ Options:
 --project_mesh=BOOL (optional, default false). Project the grid on the target mesh
 ```
 
-Test the `make_grid` application:
+### Test
+
+Test the `make_grid` application on the `bunny.obj` example input:
 
 ```bash
 (base) cbh@atlas build % ./make_grid --surface --input_mesh_path=/Users/cbh/Gen-Adapt-Ref-for-Hexmeshing/external/Cinolib/examples/data/bunny.obj --output_grid_path=/Users/cbh/Gen-Adapt-Ref-for-Hexmeshing/external/Cinolib/examples/data/bunny.mesh
@@ -619,3 +627,8 @@ load mesh	20921V / 14E / 5P  [0.000609708s]
 sanity check PASSED :)
 (base) cbh@atlas build %
 ```
+
+With the [HexaLab.net](https://www.hexalab.net) online viewer for hexahedral meshes, GitHub 
+repository https://github.com/cnr-isti-vclab/HexaLab, ...
+
+
