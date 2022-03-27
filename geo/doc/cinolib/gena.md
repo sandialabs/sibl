@@ -601,6 +601,8 @@ Options:
 
 ### Test
 
+#### No Options
+
 Test the `make_grid` application on the `bunny.obj` example input:
 
 ```bash
@@ -754,9 +756,8 @@ And with alternative view `camera` settings (saved to then
         "distance": 2.2
 ```
 
-| Default | Alternative |
-|:--:|:--:|
-| ![bunny-mesh-default](fig/bunny-mesh-default.png) | ![bunny-mesh-alt](fig/bunny-mesh-alt.png) |
+#### Install Schemes True
+
 
 ```bash
 bash-3.2$ ./make_grid --surface --input_mesh_path=/Users/cbh/Gen-Adapt-Ref-for-Hexmeshing/external/Cinolib/examples/data/bunny.obj --output_grid_path=/Users/cbh/Gen-Adapt-Ref-for-Hexmeshing/external/Cinolib/examples/data/bunny_install.mesh --install_schemes=true
@@ -816,7 +817,10 @@ load mesh	26747V / 78467E / 76920F / 25199P  [0.22734s]
 load mesh	26747V / 78467E / 76920F / 25199P  [0.274228s]
 ```
 
-| Install Default | Install Alternative |
+| Default View | Alternative View |
 |:--:|:--:|
+| No Options | No Options |
+| ![bunny-mesh-default](fig/bunny-mesh-default.png) | ![bunny-mesh-alt](fig/bunny-mesh-alt.png) |
+| Install Schemes True | Install Schemes True|
 | ![bunny-mesh-default-install](fig/bunny-mesh-default-install.png) | ![bunny-mesh-alt-install](fig/bunny-mesh-alt-install.png) |
 
