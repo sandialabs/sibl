@@ -263,7 +263,10 @@ uses submodules for `eigen` and `graph_cut`):
 ```bash
 cd ~  # start from the user $HOME directory, /Users/cbh in the present example
 
+# to clone the main repository directory (using http):
 git clone --recursive https://github.com/cg3hci/Gen-Adapt-Ref-for-Hexmeshing.git
+# or to clone a fork of the main repository (using ssh):
+git clone --recursive git@github.com:hovey/Gen-Adapt-Ref-for-Hexmeshing.git
 
 Cloning into 'Gen-Adapt-Ref-for-Hexmeshing'...
 remote: Enumerating objects: 97, done.
@@ -322,7 +325,7 @@ to
     NAMES gurobi gurobi95
 ```
 
-### Compile
+### Compile - Attempt 1 of 3
 
 ~~From within the `/Users/cbh/Gen-Adapt-Ref-for-Hexmeshing` directory, compile 
 as follows:~~
@@ -394,11 +397,15 @@ GUROBI_CXX_LIBRARY
 CMake Generate step failed.  Build files cannot be regenerated correctly.
 ```
 
+### Compile - Attempt 2 of 3
+
 ~~Try to specify the `/Library/gurobi951/macos_universal2` location:~~
 
 ```bash
 cmake .. -DCMAKE_BUILD_TYPE=Release -DGUROBI_HOME=/Library/gurobi951/macos_universal2
 ```
+
+### Compile - Attempt 3 of 3
 
 The preceding didn't work either.  After some review of the make files, we discovered
 that we needed to set an **environment variable**.  Environment variables for this
@@ -455,9 +462,12 @@ GUROBI_HOME=/Library/gurobi951/macos_universal2
 # ...
 ```
 
-Now run `cmake` from the `/Users/cbh/Gen-Adapt-Ref-for-Hexmeshing/build` directory:
+Now from the `/Users/cbh/Gen-Adapt-Ref-for-Hexmeshing/build` directory,
+run `cmake` as follows:
 
 ```bash
+# cd ~/Gen-Adapt-Ref-for-Hexmeshing; mkdir build  # assumed already run
+# during the above now-deprecated attempt 1 of 3:
 cd ~/Gen-Adapt-Ref-for-Hexmeshing/build
 cmake .. -DCMAKE_BUILD_TYPE=Release
 
@@ -510,7 +520,8 @@ drwxr-xr-x  13 cbh  staff    416 Mar 22 16:30 CMakeFiles
 -rw-r--r--   1 cbh  staff  17411 Mar 22 16:30 CMakeCache.txt
 ```
 
-Now run `make` from the `/Users/cbh/Gen-Adapt-Ref-for-Hexmeshing/build` directory:
+Now from the `/Users/cbh/Gen-Adapt-Ref-for-Hexmeshing/build` directory, run
+`make` as follows:
 
 ```bash
 make
@@ -629,6 +640,122 @@ sanity check PASSED :)
 ```
 
 With the [HexaLab.net](https://www.hexalab.net) online viewer for hexahedral meshes, GitHub 
-repository https://github.com/cnr-isti-vclab/HexaLab, ...
+repository https://github.com/cnr-isti-vclab/HexaLab, view the 
+`bunny.mesh` results (with Rendering, Separation: Roundings):
 
+
+The HexaLab settings from the downloaded `HL settings.txt` file:
+
+```json
+{
+    "app": {},
+    "camera": {
+        "offset": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+        },
+        "direction": {
+            "x": 0,
+            "y": 0,
+            "z": -1
+        },
+        "up": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+        },
+        "distance": 1.5
+    },
+    "rendering": {
+        "background": "#ffffff",
+        "light_intensity": 1,
+        "lighting": "AO",
+        "antialiasing": "msaa",
+        "singularity_mode": 1,
+        "quality_measure": "ScaledJacobian",
+        "apply_color_map": false,
+        "color_map": "Parula",
+        "geometry_mode": "Smooth",
+        "crack_size": 0.06666666666666667,
+        "rounding_radius": 0.25,
+        "erode_dilate_level": 0
+    },
+    "materials": {
+        "visible_surface_default_inside_color": "#ffff00",
+        "visible_surface_default_outside_color": "#ffffff",
+        "is_quality_color_mapping_enabled": false,
+        "visible_wireframe_opacity": 0.15,
+        "filtered_surface_opacity": 1,
+        "filtered_wireframe_opacity": 0,
+        "filtered_surface_color": "#a8c2ea",
+        "filtered_wireframe_color": "#000000",
+        "silhouette_opacity": 0,
+        "silhouette_color": "#ffffff",
+        "singularity_mode": 1,
+        "singularity_simple_lines_opacity": 1,
+        "singularity_full_lines_opacity": 0,
+        "singularity_faces_opacity": 0,
+        "singularity_hidden_simple_lines_opacity": 0,
+        "singularity_hidden_full_lines_opacity": 0,
+        "singularity_hidden_faces_opacity": 0
+    },
+    "filters": {
+        "Plane": {
+            "enabled": true,
+            "normal": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+            },
+            "offset": 0,
+            "opacity": 0.05,
+            "color": "#56bbbb"
+        },
+        "Peeling": {
+            "enabled": true,
+            "depth": 0
+        },
+        "Quality": {
+            "enabled": true,
+            "min": 0,
+            "max": 1
+        },
+        "Pick": {
+            "enabled": true,
+            "filtered_hexas": [],
+            "filled_hexas": []
+        }
+    }
+}
+```
+
+And with alternative view `camera` settings:
+
+```json
+{
+...
+    "camera": {
+        "offset": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+        },
+        "direction": {
+            "x": -0.5,
+            "y": -0.5,
+            "z": -0.7
+        },
+        "up": {
+            "x": -0.3,
+            "y": 0.8,
+            "z": -0.4
+        },
+        "distance": 2.2
+...
+```
+
+| Default | Alternative |
+|:--:|:--:|
+| ![bunny-mesh-default](fig/2022-03-27-bunny-mesh-default.png) | ![bunny-mesh-alt](fig/bunny-mesh-alt.png) |
 
