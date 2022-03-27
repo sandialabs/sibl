@@ -263,9 +263,9 @@ uses submodules for `eigen` and `graph_cut`):
 ```bash
 cd ~  # start from the user $HOME directory, /Users/cbh in the present example
 
-# to clone the main repository directory (using http):
+# Option 1 of 2: clone the main repository directory (using http):
 git clone --recursive https://github.com/cg3hci/Gen-Adapt-Ref-for-Hexmeshing.git
-# or to clone a fork of the main repository (using ssh):
+# Option 2 of 2: clone a fork of the main repository (using ssh):
 git clone --recursive git@github.com:hovey/Gen-Adapt-Ref-for-Hexmeshing.git
 
 Cloning into 'Gen-Adapt-Ref-for-Hexmeshing'...
@@ -757,5 +757,5 @@ And with alternative view `camera` settings:
 
 | Default | Alternative |
 |:--:|:--:|
-| ![bunny-mesh-default](fig/2022-03-27-bunny-mesh-default.png) | ![bunny-mesh-alt](fig/bunny-mesh-alt.png) |
+| ![bunny-mesh-default](fig/bunny-mesh-default.png) | ![bunny-mesh-alt](fig/bunny-mesh-alt.png) |
 
