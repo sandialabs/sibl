@@ -817,10 +817,80 @@ load mesh	26747V / 78467E / 76920F / 25199P  [0.22734s]
 load mesh	26747V / 78467E / 76920F / 25199P  [0.274228s]
 ```
 
+#### Project Mesh True
+
+```bash
+bash-3.2$ fish
+Welcome to fish, the friendly interactive shell
+Type `help` for instructions on how to use fish
+~/Gen-Adapt-Ref-for-Hexmeshing/build(git:main)✔> ./make_grid --surface --input_mesh_path=/Users/cbh/Gen-Adapt-Ref-for-Hexmeshing/external/Cinolib/examples/data//bunny.obj --output_grid_path=/Users/cbh/Gen-Adapt-Ref-for-Hexmeshing/external/Cinolib/examples/data/bunny_project.mesh --project_mesh=true
+load mesh	14290V / 42864E / 28576P  [0.0444531s]
+load mesh	8V / 12E / 6F / 1P  [2.4292e-05s]
+minimum SDF: 0.0358958 maximum SDF: 1.25982
+2 7
+load mesh	11925V / 12438E / 10728F / 3072P  [0.0314336s]
+Set parameter Username
+Academic license - for non-commercial use only - expires 2022-05-20
+load mesh	14862V / 9028E / 7836F / 2256P  [0.0213447s]
+Set parameter Username
+Academic license - for non-commercial use only - expires 2022-05-20
+load mesh	18348V / 4958E / 4264F / 1216P  [0.0123749s]
+Set parameter Username
+Academic license - for non-commercial use only - expires 2022-05-20
+load mesh	20392V / 1824E / 1608F / 472P  [0.00483046s]
+Set parameter Username
+Academic license - for non-commercial use only - expires 2022-05-20
+load mesh	20921V / 300E / 240F / 64P  [0.00129867s]
+Set parameter Username
+Academic license - for non-commercial use only - expires 2022-05-20
+load mesh	20921V / 62606E / 55016F / 15968P  [0.166499s]
+7 2
+load mesh	20921V / 1652E / 820P  [0.00171458s]
+sanity check PASSED :)
+load mesh	20921V / 1924E / 928P  [0.00184717s]
+sanity check PASSED :)
+load mesh	20921V / 1128E / 538P  [0.0012305s]
+sanity check PASSED :)
+load mesh	20921V / 385E / 174P  [0.000952459s]
+sanity check PASSED :)
+load mesh	20921V / 14E / 5P  [0.000658375s]
+sanity check PASSED :)
+load mesh	20921V / 62606E / 55016F / 15968P  [0.182097s]
+set poly labels
+7 2
+load mesh	20921V / 1652E / 820P  [0.00182196s]
+Set parameter Username
+Academic license - for non-commercial use only - expires 2022-05-20
+load mesh	20921V / 1924E / 928P  [0.00191279s]
+Set parameter Username
+Academic license - for non-commercial use only - expires 2022-05-20
+load mesh	20921V / 1128E / 538P  [0.00141267s]
+Set parameter Username
+Academic license - for non-commercial use only - expires 2022-05-20
+load mesh	20921V / 385E / 174P  [0.000800833s]
+Set parameter Username
+Academic license - for non-commercial use only - expires 2022-05-20
+load mesh	20921V / 14E / 5P  [0.000517709s]
+Set parameter Username
+Academic license - for non-commercial use only - expires 2022-05-20
+load mesh	2494V / 4984E / 2492P  [0.00530175s]
+Schemes installed successfully :)
+Making dual mesh...
+load mesh	26747V / 78467E / 76920F / 25199P  [0.227658s]
+load mesh	26747V / 78467E / 76920F / 25199P  [0.26857s]
+Removing external polyhedra....
+load mesh	4472V / 8940E / 4470P  [0.00799892s]
+Projecting...
+~/Gen-Adapt-Ref-for-Hexmeshing/build(git:main)✔>
+```
+
+
 | Default View | Alternative View |
 |:--:|:--:|
 | No Options | No Options |
 | ![bunny-mesh-default](fig/bunny-mesh-default.png) | ![bunny-mesh-alt](fig/bunny-mesh-alt.png) |
 | Install Schemes True | Install Schemes True|
 | ![bunny-mesh-default-install](fig/bunny-mesh-default-install.png) | ![bunny-mesh-alt-install](fig/bunny-mesh-alt-install.png) |
+| Project Mesh True | Install Schemes True|
+| ![bunny-mesh-default-install](fig/bunny-mesh-default-project.png) | ![bunny-mesh-alt-install](fig/bunny-mesh-alt-project.png) |
 
