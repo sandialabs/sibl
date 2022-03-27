@@ -587,7 +587,7 @@ Echo the help available from the `make_grid` executable:
 ```
 ./make_grid --help
 
-usage: ./grid_maker (--surface | --polycube) --input_mesh_path=MESH_PATH --output_grid_path=GRID_PATH [Options]
+usage: ./make_grid (--surface | --polycube) --input_mesh_path=MESH_PATH --output_grid_path=GRID_PATH [Options]
 Options:
 --input_pc_mesh_path=PATH (required for polycube pipeline). Specify the path of the polycube map
 --min_refinement=VALUE (optional, default 0[5 for polycube])
@@ -644,7 +644,8 @@ repository https://github.com/cnr-isti-vclab/HexaLab, view the
 `bunny.mesh` results (with Rendering, Separation: Roundings):
 
 
-The HexaLab settings from the downloaded `HL settings.txt` file:
+The HexaLab settings from the 
+[`HLsettings-default.txt`](fig/HLsettings-default.txt) file:
 
 ```json
 {
@@ -730,11 +731,10 @@ The HexaLab settings from the downloaded `HL settings.txt` file:
 }
 ```
 
-And with alternative view `camera` settings:
+And with alternative view `camera` settings (saved to then
+[`HLsettings-alt.txt`](fig/HLsettings-alt.txt) file:
 
 ```json
-{
-...
     "camera": {
         "offset": {
             "x": 0,
@@ -752,10 +752,71 @@ And with alternative view `camera` settings:
             "z": -0.4
         },
         "distance": 2.2
-...
 ```
 
 | Default | Alternative |
 |:--:|:--:|
 | ![bunny-mesh-default](fig/bunny-mesh-default.png) | ![bunny-mesh-alt](fig/bunny-mesh-alt.png) |
+
+```bash
+bash-3.2$ ./make_grid --surface --input_mesh_path=/Users/cbh/Gen-Adapt-Ref-for-Hexmeshing/external/Cinolib/examples/data/bunny.obj --output_grid_path=/Users/cbh/Gen-Adapt-Ref-for-Hexmeshing/external/Cinolib/examples/data/bunny_install.mesh --install_schemes=true
+load mesh	14290V / 42864E / 28576P  [0.0441416s]
+load mesh	8V / 12E / 6F / 1P  [3.4041e-05s]
+minimum SDF: 0.0358958 maximum SDF: 1.25982
+2 7
+load mesh	11925V / 12438E / 10728F / 3072P  [0.0311808s]
+Set parameter Username
+Academic license - for non-commercial use only - expires 2022-05-20
+load mesh	14862V / 9028E / 7836F / 2256P  [0.0212675s]
+Set parameter Username
+Academic license - for non-commercial use only - expires 2022-05-20
+load mesh	18348V / 4958E / 4264F / 1216P  [0.0120115s]
+Set paraeter Username
+Academic license - for non-commercial use only - expires 2022-05-20
+load mesh	20392V / 1824E / 1608F / 472P  [0.0047985s]
+Set parameter Username
+Academic license - for non-commercial use only - expires 2022-05-20
+load mesh	20921V / 300E / 240F / 64P  [0.00118654s]
+Set parameter Username
+Academic license - for non-commercial use only - expires 2022-05-20
+load mesh	20921V / 62606E / 55016F / 15968P  [0.166021s]
+7 2
+load mesh	20921V / 1652E / 820P  [0.00174825s]
+sanity check PASSED :)
+load mesh	20921V / 1924E / 928P  [0.00188387s]
+sanity check PASSED :)
+load mesh	20921V / 1128E / 538P  [0.00122583s]
+sanity check PASSED :)
+load mesh	20921V / 385E / 174P  [0.000969917s]
+sanity check PASSED :)
+load mesh	20921V / 14E / 5P  [0.000620292s]
+sanity check PASSED :)
+load mesh	20921V / 62606E / 55016F / 15968P  [0.181014s]
+set poly labels
+7 2
+load mesh	20921V / 1652E / 820P  [0.00183537s]
+Set parameter Username
+Academic license - for non-commercial use only - expires 2022-05-20
+load mesh	20921V / 1924E / 928P  [0.00172892s]
+Set parameter Username
+Academic license - for non-commercial use only - expires 2022-05-20
+load mesh	20921V / 1128E / 538P  [0.00123567s]
+Set parameter Username
+Academic license - for non-commercial use only - expires 2022-05-20
+load mesh	20921V / 385E / 174P  [0.00070325s]
+Set parameter Username
+Academic license - for non-commercial use only - expires 2022-05-20
+load mesh	20921V / 14E / 5P  [0.000546167s]
+Set parameter Username
+Academic license - for non-commercial use only - expires 2022-05-20
+load mesh	2494V / 4984E / 2492P  [0.00396304s]
+Schemes installed successfully :)
+Making dual mesh...
+load mesh	26747V / 78467E / 76920F / 25199P  [0.22734s]
+load mesh	26747V / 78467E / 76920F / 25199P  [0.274228s]
+```
+
+| Install Default | Install Alternative |
+|:--:|:--:|
+| ![bunny-mesh-default-install](fig/bunny-mesh-default-install.png) | ![bunny-mesh-alt-install](fig/bunny-mesh-alt-install.png) |
 
