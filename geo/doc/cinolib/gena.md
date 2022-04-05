@@ -887,8 +887,7 @@ Projecting...
 
 | Default View | Alternative View |
 |:--:|:--:|
-| No Options | No Options |
-| ![bunny-mesh-default](fig/bunny-mesh-default.png) </br>`bunny.mesh` | ![bunny-mesh-alt](fig/bunny-mesh-alt.png) |
+| ![bunny-mesh-default](fig/bunny-mesh-default.png) </br>no options gives `bunny.mesh` | ![bunny-mesh-alt](fig/bunny-mesh-alt.png) </br>isometric view |
 | Install Schemes True | Install Schemes True|
 | ![bunny-mesh-default-install](fig/bunny-mesh-default-install.png) | ![bunny-mesh-alt-install](fig/bunny-mesh-alt-install.png) |
 | Project Mesh True | Project Mesh True|
