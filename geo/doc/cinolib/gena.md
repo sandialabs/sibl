@@ -19,6 +19,7 @@ The specific example will be the duck model shown in the figure below
 > *Figure 0.1:  Reproduction from Fig. 1 of [Livesu 2021b](references.md#livesu-2021b).*
 
 [References](references.md)
+[Question and Answer](question_answer.md)
 
 ## Preconditions
 
@@ -884,12 +885,9 @@ Projecting...
 ~/Gen-Adapt-Ref-for-Hexmeshing/build(git:main)✔>
 ```
 
-
 | Default View | Alternative View |
 |:--:|:--:|
-| ![bunny-mesh-default](fig/bunny-mesh-default.png) </br>no options gives `bunny.mesh` | ![bunny-mesh-alt](fig/bunny-mesh-alt.png) </br>isometric view |
-| Install Schemes True | Install Schemes True|
-| ![bunny-mesh-default-install](fig/bunny-mesh-default-install.png) | ![bunny-mesh-alt-install](fig/bunny-mesh-alt-install.png) |
-| Project Mesh True | Project Mesh True|
-| ![bunny-mesh-default-install](fig/bunny-mesh-default-project.png) | ![bunny-mesh-alt-install](fig/bunny-mesh-alt-project.png) |
+| ![bunny-mesh-default](fig/bunny-mesh-default.png) </br>no options | ![bunny-mesh-alt](fig/bunny-mesh-alt.png) </br>`bunny.mesh` |
+| ![bunny-mesh-default-install](fig/bunny-mesh-default-install.png) </br>`--install-schemes=true`| ![bunny-mesh-alt-install](fig/bunny-mesh-alt-install.png) </br>`bunny_install_conforming.mesh` |
+| ![bunny-mesh-default-install](fig/bunny-mesh-default-project.png) </br>`--project_mesh=true` | ![bunny-mesh-alt-install](fig/bunny-mesh-alt-project.png) </br>`bunny_project_projected.mesh` |
 
