@@ -823,7 +823,7 @@ load mesh	26747V / 78467E / 76920F / 25199P  [0.274228s]
 bash-3.2$ fish
 Welcome to fish, the friendly interactive shell
 Type `help` for instructions on how to use fish
-~/Gen-Adapt-Ref-for-Hexmeshing/build(git:main)✔> ./make_grid --surface --input_mesh_path=/Users/cbh/Gen-Adapt-Ref-for-Hexmeshing/external/Cinolib/examples/data//bunny.obj --output_grid_path=/Users/cbh/Gen-Adapt-Ref-for-Hexmeshing/external/Cinolib/examples/data/bunny_project.mesh --project_mesh=true
+~/Gen-Adapt-Ref-for-Hexmeshing/build(git:main)✔> ./make_grid --surface --input_mesh_path=/Users/cbh/Gen-Adapt-Ref-for-Hexmeshing/external/Cinolib/examples/data/bunny.obj --output_grid_path=/Users/cbh/Gen-Adapt-Ref-for-Hexmeshing/external/Cinolib/examples/data/bunny_project.mesh --project_mesh=true
 load mesh	14290V / 42864E / 28576P  [0.0444531s]
 load mesh	8V / 12E / 6F / 1P  [2.4292e-05s]
 minimum SDF: 0.0358958 maximum SDF: 1.25982
@@ -888,9 +888,9 @@ Projecting...
 | Default View | Alternative View |
 |:--:|:--:|
 | No Options | No Options |
-| ![bunny-mesh-default](fig/bunny-mesh-default.png) | ![bunny-mesh-alt](fig/bunny-mesh-alt.png) |
+| ![bunny-mesh-default](fig/bunny-mesh-default.png) </br>`bunny.mesh` | ![bunny-mesh-alt](fig/bunny-mesh-alt.png) |
 | Install Schemes True | Install Schemes True|
 | ![bunny-mesh-default-install](fig/bunny-mesh-default-install.png) | ![bunny-mesh-alt-install](fig/bunny-mesh-alt-install.png) |
-| Project Mesh True | Install Schemes True|
+| Project Mesh True | Project Mesh True|
 | ![bunny-mesh-default-install](fig/bunny-mesh-default-project.png) | ![bunny-mesh-alt-install](fig/bunny-mesh-alt-project.png) |
 
