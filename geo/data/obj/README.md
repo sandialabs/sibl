@@ -10,7 +10,7 @@
   * ![cube_minus_sphere](../../doc/fig/cube_minus_sphere.png)
 * `homer.obj` [^2]
   * 6002 vertices, 12000 faces (361k)
-  * ![homer](../../homer.png)
+  * ![homer](../../doc/fig/homer.png)
 * `sphere.obj` [^1]
   * 8447 vertices, 16890 faces (1.1M)
   * ![sphere](../../doc/fig/sphere.png)
