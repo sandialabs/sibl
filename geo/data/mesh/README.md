@@ -8,5 +8,5 @@
 
 ## References
 
-[^Frey2001]: Frey, P. MEDIT: An interactive mesh visualization software, Technical Report RT-0253, Institut National de Recherche en Informatique et en Automatique, 03 December 2001.
+[^Frey2001]: Frey, P. MEDIT: An interactive mesh visualization software, Technical Report RT-0253, Institut National de Recherche en Informatique et en Automatique, 03 December 2001. Report: https://hal.inria.fr/inria-00069921/document.  Download: http://www-rocq.inria.fr/gamma/medit/medit.html.
 [^Burkardt]: Burkardt, J. https://people.sc.fsu.edu/~jburkardt/data/mesh/mesh.html
