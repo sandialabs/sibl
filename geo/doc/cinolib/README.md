@@ -279,7 +279,8 @@ edge_collapse              iso_contours               polyharmonic_functions_srf
 
 ![01_trimesh_viewer](fig/01_trimesh_viewer.png)
 
-## see also
+## References
 
-See also the [Gen-Adapt-Ref-for-Hexmeshing repository](https://github.com/cg3hci/Gen-Adapt-Ref-for-Hexmeshing) and the [gena](gena.md) notes.
+* See the [Gen-Adapt-Ref-for-Hexmeshing repository](https://github.com/cg3hci/Gen-Adapt-Ref-for-Hexmeshing) and the [gena](gena.md) notes.
+* [Question and Answer](question_answer.md)
 

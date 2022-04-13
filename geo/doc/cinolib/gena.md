@@ -891,3 +891,7 @@ Projecting...
 | ![bunny-mesh-default-install](fig/bunny-mesh-default-install.png) </br>`--install-schemes=true`| ![bunny-mesh-alt-install](fig/bunny-mesh-alt-install.png) </br>`bunny_install_conforming.mesh` |
 | ![bunny-mesh-default-install](fig/bunny-mesh-default-project.png) </br>`--project_mesh=true` | ![bunny-mesh-alt-install](fig/bunny-mesh-alt-project.png) </br>`bunny_project_projected.mesh` |
 
+## Next Steps
+
+See [bunny](bunny.md) workflow.
+
