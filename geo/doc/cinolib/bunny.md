@@ -14,12 +14,9 @@ with file format of 16-bit integer (Mac byte order) with no header.
 ## Materials
 
 * [`bunny.obj`](../../data/obj/README.md)
-
-## Methods
-
+* [Gena](../../doc/cinolib/gena.md)
 * Sculpt [version to come]
-* CinoLib [version to come]
-* Population histogram of scaled Jacobian
+
 
 ## Workflow
 
@@ -55,11 +52,20 @@ with file format of 16-bit integer (Mac byte order) with no header.
     isosurface-- Gena --> hex
 ```
 
-| bunny.png | bunny.stl | 
-|:--:|:--:|
-| ![bunny](../../doc/fig/bunny.png) | to come |
+## Methods
+
+```bash
+cbh@atlas build % ./make_grid --surface
+```
 
 ## Results
+
+| bunny.obj | bunny.stl | 
+|:--:|:--:|
+| ![bunny](../../doc/fig/bunny.png) | to come |
+| 14290 vertices, 28576 faces | ... | 
+
+* Population histogram of scaled Jacobian (to come).
 
 ## References
 
