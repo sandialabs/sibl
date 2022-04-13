@@ -1,8 +1,5 @@
 MeshVersionFormatted 1
-
-Dimension
-3
-
+Dimension 3
 Vertices
 27
 0 0 0 5 
@@ -32,7 +29,6 @@ Vertices
 0 1 1 6 
 0.5 1 1 6 
 1 1 1 6 
-
 Quadrilaterals
 24
 1 4 5 2 1
@@ -59,7 +55,6 @@ Quadrilaterals
 20 21 24 23 6
 22 23 26 25 6
 23 24 27 26 6
-
 Hexahedra
 8
 1 2 5 4 10 11 14 13 1
@@ -70,3 +65,5 @@ Hexahedra
 11 12 15 14 20 21 24 23 1
 13 14 17 16 22 23 26 25 1
 14 15 18 17 23 24 27 26 1
+End
+
