@@ -44,7 +44,7 @@ with file format of 16-bit integer (Mac byte order) with no header.
     end
     subgraph hex
       direction TB
-      c1[bunny_octree.mesh]-->c2[bunny_dual.mesh]
+      c1[octree: bunny.mesh]-->c2[dual: bunny_confirming.mesh]
       c2-->c3[bunny_projected.mesh]
     end
     isosurface-- MeshLab --> isosurface'
