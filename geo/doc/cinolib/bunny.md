@@ -21,14 +21,30 @@ with file format of 16-bit integer (Mac byte order) with no header.
 * CinoLib [version to come]
 * Population histogram of scaled Jacobian
 
+## Workflow
+
 ```mermaid
-  graph TD;
-      A-->B;
-      A-->C;
-      B-->D;
-      C-->D;
+  graph LR;
+    isosurface-->isosurface'
+    isosurface-->hex
 ```
 
+```mermaid
+  flowchart LR
+    subgraph isosurface
+    a[bunny.obj]
+    end
+    subgraph isosurface'
+    b[bunny.stl]
+    end
+    subgraph hex
+    c1[bunny_octree.mesh]
+    c2[bunny_dual.mesh]
+    c3[bunny_projected.mesh]
+    end
+    isosurface-- Cubit --> isosurface'
+    isosurface-- Gena --> hex
+```
 
 ## Results
 
