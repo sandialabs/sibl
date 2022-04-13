@@ -2,7 +2,7 @@
 
 ## Introduction
 
-The Stanford bunny comes from a a CT scan of a terra-cotta bunny. [^stanford_volume_data]
+The Stanford bunny comes from a a CT scan of a terra-cotta bunny.[^stanford_volume_data]
 The CT scan contains 360 slices of 512 x 512 pixels, rectangular voxel grid, with
 X:Y:Z aspect ratio of each voxel at 1:1:1.  There are 360 binary files, one file per slide, 
 with file format of 16-bit integer (Mac byte order) with no header.  
@@ -16,6 +16,19 @@ with file format of 16-bit integer (Mac byte order) with no header.
 * [`bunny.obj`](../../data/obj/README.md)
 
 ## Methods
+
+* Sculpt [version to come]
+* CinoLib [version to come]
+* Population histogram of scaled Jacobian
+
+```mermaid
+  graph TD;
+      A-->B;
+      A-->C;
+      B-->D;
+      C-->D;
+```
+
 
 ## Results
 
