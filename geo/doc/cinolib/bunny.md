@@ -23,28 +23,41 @@ with file format of 16-bit integer (Mac byte order) with no header.
 
 ## Workflow
 
+### Overview
+
 ```mermaid
   graph LR;
     isosurface-->isosurface'
+    isosurface'-->hex'
     isosurface-->hex
 ```
 
+### Detail
+
 ```mermaid
-  flowchart LR
+  flowchart
     subgraph isosurface
-    a[bunny.obj]
+      a[bunny.obj]
     end
     subgraph isosurface'
-    b[bunny.stl]
+      b[bunny.stl]
+    end
+    subgraph hex'
+      bunny.g
     end
     subgraph hex
-    c1[bunny_octree.mesh]
-    c2[bunny_dual.mesh]
-    c3[bunny_projected.mesh]
+      direction TB
+      c1[bunny_octree.mesh]-->c2[bunny_dual.mesh]
+      c2-->c3[bunny_projected.mesh]
     end
-    isosurface-- Cubit --> isosurface'
+    isosurface-- MeshLab --> isosurface'
+    isosurface'-- Sculpt --> hex'
     isosurface-- Gena --> hex
 ```
+
+| bunny.png | bunny.stl | 
+|:--:|:--:|
+| ![bunny](../../doc/fig/bunny.png) | to come |
 
 ## Results
 
