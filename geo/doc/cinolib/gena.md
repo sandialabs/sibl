@@ -431,7 +431,7 @@ Update `Users/cbh/.zsrhc` source
 cd ~
 pwd
 /Users/cbh
-nvm .zshrc
+nvim .zshrc
 ```
 
 so that it references the `atlas` machine local file:

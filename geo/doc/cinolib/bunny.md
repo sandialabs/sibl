@@ -54,9 +54,18 @@ with file format of 16-bit integer (Mac byte order) with no header.
 
 ## Methods
 
+One the `[cbh@atlas]` machine:
+
 ```bash
-cbh@atlas build % ./make_grid --surface
+cd ~/Gen-Adapt-Ref-for-Hexmeshing/build
+./make_grid --surface --input_mesh_path=/Users/cbh/sibl/geo/data/obj/bunny.obj --output_grid_path=/Users/cbh/sibl/geo/data/mesh/bunny.mesh --use_octree --project_mesh=true
 ```
+
+In a web browser, open https://www.hexalab.net/, then open the following files:
+
+* `bunny.mesh`
+* `bunny_conforming.mesh`
+* `bunny_projected.mesh`
 
 ## Results
 
