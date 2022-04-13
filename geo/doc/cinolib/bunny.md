@@ -67,12 +67,18 @@ In a web browser, open https://www.hexalab.net/, then open the following files:
 * `bunny_conforming.mesh`
 * `bunny_projected.mesh`
 
+The view settings,
+[`HLsettings-default.txt`](fig/HLsettings-default.txt),
+are used with hexalab.
+
 ## Results
 
-| bunny.obj | bunny.stl | 
+| bunny.obj | bunny_projected.mesh | 
 |:--:|:--:|
-| ![bunny](../../doc/fig/bunny.png) | to come |
-| 14290 vertices, 28576 faces | ... | 
+| ![bunny](../../doc/fig/bunny.png) | ![bunny_projected](../../doc/fig/bunny_projected.mesh.png) |
+| 14290 vertices, 28576 faces | 12237 vertices, 9732 hexes | 
+
+* `bunny.stl` to come
 
 * Population histogram of scaled Jacobian (to come).
 
