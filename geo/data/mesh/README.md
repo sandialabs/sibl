@@ -2,7 +2,7 @@
 
 .mesh files
 
-* `HEXAHEXA_2x2x2` subdivides the unit 3D cube into a `2x2x2` mesh of 8 hexahedral elements, using 27 vertices, and 24 boundary quadrilaterals [^Burkhardt]
+* `HEXAHEXA_2x2x2` subdivides the unit 3D cube into a `2x2x2` mesh of 8 hexahedral elements, using 27 vertices, and 24 boundary quadrilaterals [^Burkardt][^Frey2002]
   * [hexahexa_2x2x2.mesh](hexahexa_2x2x2.mesh)
   * ![hexahexa_2x2x2](fig/hexahexa_2x2x2.png)
 
