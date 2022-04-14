@@ -13,7 +13,7 @@ from pathlib import Path  # stop using os.path, use pathlib instead
 
 import xyfigure.functional_architecture as fa
 
-#     f    g
+#  a=f(b) b=g(c)
 #  a --> b --> c
 #
 # b = f(a)
@@ -39,7 +39,7 @@ def test_Csv() -> fa.Csv:
 
     assert B.filename == test_file
     assert B.filetype == "csv"
-    assert B.filepath == test_path
+    assert B.filepath == str(test_path)
 
     return B
 

@@ -62,7 +62,7 @@ def csv_data_labels(x: Csv) -> PairedLabels:
 
 def csv_data(x: Csv) -> PairedSeries:
 
-    file_pathed = Path.joinpath(x.filepath, x.filename)
+    file_pathed = Path(x.filepath).joinpath(x.filename)
 
     data = np.genfromtxt(
         file_pathed, dtype="float", delimiter=",", skip_header=1, usecols=(0, 1)
