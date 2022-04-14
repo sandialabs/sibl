@@ -24,7 +24,8 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         # pip install black
-        pip install black==21.10b0  # specify version 21.10b0 exactly
+        # pip install black==21.10b0  # specify version 21.10b0 exactly
+        pip install black==22.3.0
         pip install flake8
     - name: Test with Black
       run: |
