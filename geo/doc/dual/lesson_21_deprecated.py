@@ -30,7 +30,7 @@ def main():
         rc("font", **{"family": "serif", "serif": ["Computer Modern Roman"]})
         rc("text", usetex=True)
 
-    n_samples: Final = 2 ** 8
+    n_samples: Final = 2**8
     radius: Final = 2.0
     mesh_resolution: Final = 0.09
     mesh_resolution_str = str("_res=" + str(mesh_resolution) + "_")

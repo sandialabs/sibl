@@ -35,7 +35,7 @@ def test_Csv() -> fa.Csv:
     assert test_file_pathed.exists()
     assert test_file_pathed.is_file()
 
-    B = fa.Csv(filename=test_file, filepath=test_path)
+    B = fa.Csv(filename=test_file, filepath=str(test_path))
 
     assert B.filename == test_file
     assert B.filetype == "csv"
@@ -53,7 +53,7 @@ def test_csv_data():
     # known_x = tuple(map(float, [x for x in range(n_samples)]))
     # known_y = tuple([0.5 * y ** 2 for y in range(n_samples)])
     known_x = tuple(map(float, range(n_samples)))
-    known_y = tuple(map(lambda x: 0.5 * x ** 2, range(n_samples)))
+    known_y = tuple(map(lambda x: 0.5 * x**2, range(n_samples)))
     assert C.x == known_x
     assert C.y == known_y
 
@@ -67,7 +67,7 @@ def test_Figure():
     test_file = "t-v-sines.csv"
     test_path = this_path.joinpath("differentiation").resolve()
 
-    C1 = fa.csv_data(fa.Csv(filename=test_file, filepath=test_path))
+    C1 = fa.csv_data(fa.Csv(filename=test_file, filepath=str(test_path)))
     D = fa.Figure(
         series=(C0, C1), xmax=10, ymin=-2, ymax=50, filename="test_figure.pdf"
     )

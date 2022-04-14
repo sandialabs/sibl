@@ -55,7 +55,7 @@ def evaluation_times(
     knots_lhs = knot_vector[0:-1]  # left-hand-side knot values
     knots_rhs = knot_vector[1:]  # right-hand-side knot values
     knot_spans = np.array(knots_rhs) - np.array(knots_lhs)
-    dt = knot_spans / (2.0 ** n_bisections)
+    dt = knot_spans / (2.0**n_bisections)
 
     # assert all([dti >= 0 for dti in dt]), "Error: knot vector is decreasing."
     if not all([dti >= 0 for dti in dt]):
@@ -65,7 +65,7 @@ def evaluation_times(
     _evaluation_times = [
         knots_lhs[k] + j * dt[k]
         for k in np.arange(num_knots - 1)
-        for j in np.arange(2 ** n_bisections)
+        for j in np.arange(2**n_bisections)
     ]
 
     # append the last knot
@@ -76,7 +76,7 @@ def evaluation_times(
 
     # retain only non-repeated evaluation points
     # at beginning and end
-    i_repeat = 2 ** n_bisections * degree
+    i_repeat = 2**n_bisections * degree
     _evaluation_times = _evaluation_times[i_repeat:-i_repeat]
     return _evaluation_times
 

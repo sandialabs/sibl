@@ -260,7 +260,7 @@ class PixelCylinder(PixelShapeBase):
             -_radius_outer_pixels : _radius_outer_pixels : _diameter_outer_pixels * 1j,
             -_radius_outer_pixels : _radius_outer_pixels : _diameter_outer_pixels * 1j,
         ]
-        _r_squared = _y ** 2 + _z ** 2
+        _r_squared = _y**2 + _z**2
 
         _b0 = 1  # pixels, allow for edge case with outside diameter
 
@@ -353,7 +353,7 @@ class PixelQuarterCylinder(PixelShapeBase):
             1 : _radius_outer_pixels + 1,
             1 : _radius_outer_pixels + 1,
         ]
-        _r_squared = _y ** 2 + _z ** 2
+        _r_squared = _y**2 + _z**2
 
         # accommodate radius, r, measurement as r^2 = a^2 + b^2, where
         # a = radius, in pixels, defined by user input, and
@@ -433,7 +433,7 @@ class PixelSphere(PixelShapeBase):
             -_radius_pixels : _radius_pixels : _diameter_pixels * 1j,
         ]
 
-        _r_squared = _x ** 2 + _y ** 2 + _z ** 2
+        _r_squared = _x**2 + _y**2 + _z**2
         self._mask = np.array(
             _r_squared <= _radius_pixels * _radius_pixels, dtype=dtype
         )

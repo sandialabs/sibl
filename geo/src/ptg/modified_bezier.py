@@ -128,7 +128,7 @@ def modified_bezier(
     )
 
     t_min, t_max = 0, 1
-    n_intervals = 2 ** n_bisections + 1
+    n_intervals = 2**n_bisections + 1
     t = np.linspace(t_min, t_max, n_intervals)
 
     if degree == 1:
@@ -164,11 +164,11 @@ def modified_bezier(
         N1 = np.array(
             tuple(
                 map(
-                    lambda t: 0.5 * (1.0 - t) ** 2 + 2 * (1.0 - t) * t + 0.5 * t ** 2, t
+                    lambda t: 0.5 * (1.0 - t) ** 2 + 2 * (1.0 - t) * t + 0.5 * t**2, t
                 )
             )
         )  # $\hat{N}_1$
-        N2 = np.array(tuple(map(lambda t: 0.5 * t ** 2, t)))  # $\hat{N}_2$
+        N2 = np.array(tuple(map(lambda t: 0.5 * t**2, t)))  # $\hat{N}_2$
 
         eval_x = tuple(
             map(

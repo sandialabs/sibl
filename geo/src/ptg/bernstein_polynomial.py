@@ -24,7 +24,7 @@ def bernstein_polynomial(i: int, p: int, nti: int = 2, verbose: bool = False):
         bp = (
             math.factorial(p)
             / (math.factorial(i) * math.factorial(p - i))
-            * t ** i
+            * t**i
             * (1 - t) ** (p - i)
         )
         if verbose:

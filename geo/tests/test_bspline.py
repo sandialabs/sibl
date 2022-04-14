@@ -111,14 +111,14 @@ class TestBSpline(TestCase):
         knots_lhs = KV[0:-1]  # left-hand-side knot values
         knots_rhs = KV[1:]  # right-hand-side knot values
         knot_spans = np.array(knots_rhs) - np.array(knots_lhs)
-        dt = knot_spans / (2 ** NBI)
+        dt = knot_spans / (2**NBI)
         assert all([dti >= 0 for dti in dt]), "Error: knot vector is decreasing."
 
         num_knots = len(KV)
         t = [
             knots_lhs[k] + j * dt[k]
             for k in np.arange(num_knots - 1)
-            for j in np.arange(2 ** NBI)
+            for j in np.arange(2**NBI)
         ]
         t.append(KV[-1])
         t = np.array(t)
@@ -145,21 +145,21 @@ class TestBSpline(TestCase):
 
         for j, t in enumerate(t):
             N0_p2 = (1 - t) ** 2 * (0 <= t < 1)
-            N1_p2 = (2 * t - 3 / 2 * t ** 2) * (0 <= t < 1) + (1 / 2 * (2 - t) ** 2) * (
+            N1_p2 = (2 * t - 3 / 2 * t**2) * (0 <= t < 1) + (1 / 2 * (2 - t) ** 2) * (
                 1 <= t < 2
             )
             N2_p2 = (
-                (1 / 2 * t ** 2) * (0 <= t < 1)
-                + (-3 / 2 + 3 * t - t ** 2) * (1 <= t < 2)
+                (1 / 2 * t**2) * (0 <= t < 1)
+                + (-3 / 2 + 3 * t - t**2) * (1 <= t < 2)
                 + (1 / 2 * (3 - t) ** 2) * (2 <= t < 3)
             )
             N3_p2 = (
                 (1 / 2 * (t - 1) ** 2) * (1 <= t < 2)
-                + (-11 / 2 + 5 * t - t ** 2) * (2 <= t < 3)
+                + (-11 / 2 + 5 * t - t**2) * (2 <= t < 3)
                 + (1 / 2 * (4 - t) ** 2) * (3 <= t < 4)
             )
             N4_p2 = (1 / 2 * (t - 2) ** 2) * (2 <= t < 3) + (
-                -16 + 10 * t - 3 / 2 * t ** 2
+                -16 + 10 * t - 3 / 2 * t**2
             ) * (3 <= t < 4)
             N5_p2 = (t - 3) ** 2 * (3 <= t < 4) + (5 - t) ** 2 * (4 <= t < 5)
             N6_p2 = (2 * (t - 4) * (5 - t)) * (4 <= t < 5)
@@ -182,14 +182,14 @@ class TestBSpline(TestCase):
         knots_lhs = KV[0:-1]  # left-hand-side knot values
         knots_rhs = KV[1:]  # right-hand-side knot values
         knot_spans = np.array(knots_rhs) - np.array(knots_lhs)
-        dt = knot_spans / (2 ** NBI)
+        dt = knot_spans / (2**NBI)
         assert all([dti >= 0 for dti in dt]), "Error: knot vector is decreasing."
 
         num_knots = len(KV)
         t = [
             knots_lhs[k] + j * dt[k]
             for k in np.arange(num_knots - 1)
-            for j in np.arange(2 ** NBI)
+            for j in np.arange(2**NBI)
         ]
         t.append(KV[-1])
         t = np.array(t)
@@ -213,7 +213,7 @@ class TestBSpline(TestCase):
         y = C.evaluate(t)
         # retain only non-repeated points at begnning and end
         # (which drops redundant points and beginning and end)
-        y = y[2 ** NBI * DEGREE : -(2 ** NBI * DEGREE)]
+        y = y[2**NBI * DEGREE : -(2**NBI * DEGREE)]
 
         P_known = (
             (5.0, 10.0),

@@ -56,7 +56,7 @@ class ViewBernsteinSurface:
         # e.g., 4 time intervals implies 5 evaluation points along an axis, t or u
         # nti = 2 ** 1  # for minimal interpolation
         # nti = 2 ** 1  # for LaTeX figures
-        nti = 2 ** NTI_BISECTIONS
+        nti = 2**NTI_BISECTIONS
         # azimuth, elevation = (-15, 15)  # degrees
         # azimuth, elevation = (15, 15)  # degrees
         # azimuth, elevation = (-75, 15)  # degrees

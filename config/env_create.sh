@@ -52,7 +52,10 @@ conda activate $y
 # conda install --yes numpy
 # conda install --yes -c conda-forge black
 # conda install --yes -c conda-forge black=21.7b0
-conda install --yes -c conda-forge black=21.10b0
+# conda install --yes -c conda-forge black=21.10b0
+# Error with black=21.10b0 and 'click'
+# https://stackoverflow.com/questions/71673404/importerror-cannot-import-name-unicodefun-from-click
+conda install --yes -c conda-forge black=22.3.0
 conda install --yes -c anaconda flake8
 conda install --yes -c anaconda ipykernel  # 2021-12-15 suppress, no Python 3.10.0 support yet
 conda install --yes -c anaconda matplotlib

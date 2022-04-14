@@ -61,7 +61,7 @@ for i in np.arange(len(degrees)):
     N0_p = bsp.Curve(knot_vector, coef, degree)
     result = N0_p.is_valid()
 
-    npts = int((knot_vector[-1] - knot_vector[0]) * (2 ** n_bisections) + 1)
+    npts = int((knot_vector[-1] - knot_vector[0]) * (2**n_bisections) + 1)
     # tmin, tmax, npts = knot_vector[0], knot_vector[-1], 13
     tmin, tmax, npts = knot_vector[0], knot_vector[-1], npts
 

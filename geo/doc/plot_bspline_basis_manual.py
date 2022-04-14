@@ -27,7 +27,7 @@ if LATEX:
 # number of time intervals per knot
 # nti = 2 ** 1  # for minimal interpolation
 # nti = 2 ** 2  # for quarter-unit interpolation
-nti = 2 ** 5  # for LaTeX figures
+nti = 2**5  # for LaTeX figures
 
 # knot_vector = [0, 1, 2]
 knot_vector = [0, 1, 2, 3, 4, 5, 6]

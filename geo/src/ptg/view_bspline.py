@@ -284,14 +284,14 @@ class ViewBSplineBase(ViewBase):
         _knots_lhs = self.knot_vector_t[0:-1]  # left-hand-side knot values
         _knots_rhs = self.knot_vector_t[1:]  # right-hand-side knot values
         _knot_spans = np.array(_knots_rhs) - np.array(_knots_lhs)
-        _dt = _knot_spans / (2 ** self.nbi)
+        _dt = _knot_spans / (2**self.nbi)
         assert all([dti >= 0 for dti in _dt]), "Error: knot vector is decreasing."
 
         _num_knots = len(self.knot_vector_t)
         _t = [
             _knots_lhs[k] + j * _dt[k]
             for k in np.arange(_num_knots - 1)
-            for j in np.arange(2 ** self.nbi)
+            for j in np.arange(2**self.nbi)
         ]
         _t.append(self.knot_vector_t[-1])  # evauation times
         # self.evaluation_times = np.array(_t)  # recast as numpy array

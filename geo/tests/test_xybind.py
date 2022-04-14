@@ -55,7 +55,7 @@ def test_power():
     required by the `xyb.exponent` method.
     """
     a, b = 2.0, 3.0
-    known = a ** b  # 2 ** 3 = 8
+    known = a**b  # 2 ** 3 = 8
 
     found = xyb.exponent(base=a, exponent=b)
     assert known == found

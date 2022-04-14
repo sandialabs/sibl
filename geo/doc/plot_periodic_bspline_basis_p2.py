@@ -28,7 +28,7 @@ if latex:
     rc("text", usetex=True)
 
 # bases = (0, 1, 2)  # three basis functions
-t = np.linspace(0, 1, 2 ** n_bisections + 1)
+t = np.linspace(0, 1, 2**n_bisections + 1)
 # b = tuple(t)
 # a = tuple(map(lambda x: 1.0 - x, b))
 # a = np.array(tuple(map(lambda t: 1.0 - t, t)))
@@ -40,9 +40,9 @@ t = np.linspace(0, 1, 2 ** n_bisections + 1)
 
 N0 = np.array(tuple(map(lambda t: 0.5 * (1.0 - t) ** 2, t)))
 N1 = np.array(
-    tuple(map(lambda t: 0.5 * (1.0 - t) ** 2 + 2 * t * (1.0 - t) + 0.5 * t ** 2, t))
+    tuple(map(lambda t: 0.5 * (1.0 - t) ** 2 + 2 * t * (1.0 - t) + 0.5 * t**2, t))
 )
-N2 = np.array(tuple(map(lambda t: 0.5 * t ** 2, t)))
+N2 = np.array(tuple(map(lambda t: 0.5 * t**2, t)))
 
 bases = (N0, N1, N2)
 labels = (r"$\hat{N}_0^2$", r"$\hat{N}_1^2$", r"$\hat{N}_2^2$")

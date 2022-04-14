@@ -302,7 +302,7 @@ class ViewBezier:
                 # nti = 2**4  # segment [0, 1] into nti intervals
 
                 # segment [0, 1] into nti intervals
-                nti = 2 ** nti_divisions
+                nti = 2**nti_divisions
 
                 # curve, surface, or solid
                 t = np.linspace(0, 1, num=nti + 1, endpoint=True)
