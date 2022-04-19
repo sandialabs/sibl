@@ -27,7 +27,7 @@
         "quality_measure": "ScaledJacobian",
         "apply_color_map": false,
         "color_map": "Parula",
-        "geometry_mode": "Lines",
+        "geometry_mode": "Smooth",
         "crack_size": 0.06666666666666667,
         "rounding_radius": 0.25,
         "erode_dilate_level": 0
