@@ -36,6 +36,7 @@ are used with hexalab.
 
 | Default View | Alternative View |
 |:--:|:--:|
+| cube_minus_sphere.obj</br> ![](../fig/cube_minus_sphere.png) | |
 | cube_minus_sphere.mesh</br> ![](fig/cube-minus-sphere-default.png) | ![](fig/cube-minus-sphere-alt.png) |
 | cube_minus_sphere_conforming.mesh</br> ![](fig/cube-minus-sphere-conforming-default.png) | ![](fig/cube-minus-sphere-conforming-alt.png) |
 | cube_minus_sphere_projected.mesh ![](fig/cube-minus-sphere-projected-default.png) | ![](fig/cube-minus-sphere-projected-alt.png) |
