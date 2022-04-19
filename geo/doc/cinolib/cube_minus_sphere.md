@@ -36,6 +36,13 @@ are used with hexalab.
 
 | Default View | Alternative View |
 |:--:|:--:|
+| cube_minus_sphere.obj</br> <img src="../../data/obj/cube_minus_sphere_default.png" width=200> | <img src="../../data/obj/cube_minus_sphere_alt.png" width=200> |
+| cube_minus_sphere.mesh</br> ![](fig/cube-minus-sphere-default.png) | ![](fig/cube-minus-sphere-alt.png) |
+| cube_minus_sphere_conforming.mesh</br> ![](fig/cube-minus-sphere-conforming-default.png) | ![](fig/cube-minus-sphere-conforming-alt.png) |
+| cube_minus_sphere_projected.mesh ![](fig/cube-minus-sphere-projected-default.png) | ![](fig/cube-minus-sphere-projected-alt.png) |
+
+| Default View | Alternative View |
+|:--:|:--:|
 | cube_minus_sphere.obj</br> ![](../../data/obj/cube_minus_sphere_default.png) | ![](../../data/obj/cube_minus_sphere_alt.png) |
 | cube_minus_sphere.mesh</br> ![](fig/cube-minus-sphere-default.png) | ![](fig/cube-minus-sphere-alt.png) |
 | cube_minus_sphere_conforming.mesh</br> ![](fig/cube-minus-sphere-conforming-default.png) | ![](fig/cube-minus-sphere-conforming-alt.png) |
