@@ -893,5 +893,6 @@ Projecting...
 
 ## Next Steps
 
-See [bunny](bunny.md) workflow.
+* [bunny](bunny.md)
+* [sphere](sphere.md)
 
