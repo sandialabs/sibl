@@ -36,7 +36,7 @@ are used with hexalab.
 
 | Default View | Alternative View |
 |:--:|:--:|
-| sphere.obj</br> ![../fig/sphere.png] | |
+| sphere.obj</br> ![](../fig/sphere.png) | |
 | sphere.mesh</br> ![](fig/sphere-default.png) | ![](fig/sphere-alt.png) |
 | sphere_conforming.mesh</br> ![](fig/sphere-conforming-default.png) | ![](fig/sphere-conforming-alt.png) |
 | sphere_projected.mesh ![](fig/sphere-projected-default.png) | ![](fig/sphere-projected-alt.png) |
