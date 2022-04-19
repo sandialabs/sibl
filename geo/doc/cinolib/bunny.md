@@ -13,7 +13,7 @@ with file format of 16-bit integer (Mac byte order) with no header.
 
 ## Materials
 
-* [bunny.obj](../../data/obj/README.md)
+* See bunny.obj on the [data/obj folder](../../data/obj/README.md)
 * [Gena](../../doc/cinolib/gena.md)
 * Sculpt (to come)
 
