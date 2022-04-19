@@ -894,5 +894,6 @@ Projecting...
 ## Next Steps
 
 * [bunny](bunny.md)
+* [cube_minus_sphere](cube_minus_sphere.md)
 * [sphere](sphere.md)
 
