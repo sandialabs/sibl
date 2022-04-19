@@ -7,7 +7,7 @@
 
 ## Materials
 
-* [cube_minus_sphere.obj file on [data page](../../data/obj/README.md)
+* cube_minus_sphere.obj file on [data page](../../data/obj/README.md)
 * [Gena](../../doc/cinolib/gena.md)
 * Sculpt (to come)
 
