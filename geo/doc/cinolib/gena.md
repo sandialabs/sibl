@@ -1,6 +1,6 @@
-# gena
+# Gena
 
-We will use `gena` as a short name for *Generalized Adaptive Refinement for
+We will use `Gena` as a short name for *Generalized Adaptive Refinement for
 Grid-based Hexahedral Meshing*, the title of the repository reviewed here.
 
 ## Overview
@@ -887,13 +887,12 @@ Projecting...
 
 | Default View | Alternative View |
 |:--:|:--:|
-| ![bunny-mesh-default](fig/bunny-mesh-default.png) </br>no options | ![bunny-mesh-alt](fig/bunny-mesh-alt.png) </br>`bunny.mesh` |
-| ![bunny-mesh-default-install](fig/bunny-mesh-default-install.png) </br>`--install-schemes=true`| ![bunny-mesh-alt-install](fig/bunny-mesh-alt-install.png) </br>`bunny_install_conforming.mesh` |
-| ![bunny-mesh-default-install](fig/bunny-mesh-default-project.png) </br>`--project_mesh=true` | ![bunny-mesh-alt-install](fig/bunny-mesh-alt-project.png) </br>`bunny_project_projected.mesh` |
+| ![bunny-mesh-default](fig/bunny-default.png) </br>no options | ![bunny-mesh-alt](fig/bunny-alt.png) </br>`bunny.mesh` |
+| ![bunny-mesh-default-install](fig/bunny-conforming-default.png) </br>`--install-schemes=true`| ![bunny-mesh-alt-install](fig/bunny-conforming-alt.png) </br>`bunny_install_conforming.mesh` |
+| ![bunny-mesh-default-install](fig/bunny-projected-default.png) </br>`--project_mesh=true` | ![bunny-mesh-alt-install](fig/bunny-projected-alt.png) </br>`bunny_project_projected.mesh` |
 
 ## Next Steps
 
 * [bunny](bunny.md)
 * [cube_minus_sphere](cube_minus_sphere.md)
 * [sphere](sphere.md)
-
