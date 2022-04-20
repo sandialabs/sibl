@@ -9,6 +9,7 @@
 
 * sphere.obj file on [data page](../../data/obj/README.md)
 * [Gena](../../doc/cinolib/gena.md)
+* [HexaLab](https://www.hexalab.net)
 * Sculpt (to come)
 
 ## Workflow
@@ -24,11 +25,13 @@ cd ~/Gen-Adapt-Ref-for-Hexmeshing/build
 ./make_grid --surface --input_mesh_path=/Users/cbh/sibl/geo/data/obj/sphere.obj --output_grid_path=/Users/cbh/sibl/geo/data/mesh/sphere.mesh --use_octree --project_mesh=true
 ```
 
+## Results
+
 In a web browser, open https://www.hexalab.net/, then open the following files:
 
-* `sphere.mesh`
-* `sphere_conforming.mesh`
-* `sphere_projected.mesh`
+* [`sphere.mesh`](../../data/mesh/sphere.mesh)
+* [`sphere_conforming.mesh`](../../data/mesh/sphere_conforming.mesh)
+* [`sphere_projected.mesh`](../../data/mesh/sphere_projected.mesh)
 
 The view settings,
 [`HLsettings-default.txt`](fig/HLsettings-default.txt),
@@ -40,3 +43,18 @@ are used with hexalab.
 | sphere.mesh</br> <img src="fig/sphere-default.png" width="300"> | <img src="fig/sphere-alt.png" width="300"> |
 | sphere_conforming.mesh</br> <img src="fig/sphere-conforming-default.png" width="300"> | <img src="fig/sphere-conforming-alt.png" width="300"> |
 | sphere_projected.mesh</br> <img src="fig/sphere-projected-default.png" width="300"> | <img src="fig/sphere-projected-alt.png" width="300"> |
+
+* Question 2022-04-20-a: With [`sphere_projected.mesh`](../../data/mesh/sphere_projected.mesh), with `Separation: Roundings` in figure (c) and (d), why to the spikes appear?
+
+| | Irregular nonzero | Irregular zero |
+|:--|:--:|:--:|
+| Separation: Flat Lines Separation | (a) ![](fig/sphere_projected_a.png) | (b) ![](fig/sphere_projected_b.png) | 
+| Separation: Roundings | (c) ![](fig/sphere_projected_c.png) | (d) ![](fig/sphere_projected_d.png) |
+
+### Metrics
+
+* Question 2022-04-20-b: With [`sphere.mesh`](../../data/mesh/sphere.mesh), why does the scaled Jacobian appear correct as 1.0 for all hexes in (a), but reports all zeros in the [`sphere_mesh.csv`](fig/sphere_mesh.csv) file (b).  Why doesn't line `101` report a count of `64` hex elements all with scaled Jacobian of 1.0?  And, why does the histogram in (a) not show a population bar?
+
+| GUI | Tail of the [`sphere_mesh.csv`](fig/sphere_mesh.csv) output |
+|:--:|:--:|
+| (a) ![](fig/sphere_mesh_scaled_jacobian.png)  | (b) ![](fig/sphere_mesh_csv_tail.png) |

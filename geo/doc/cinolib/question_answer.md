@@ -31,7 +31,9 @@ elements result with the ILP approach. [LP 2022-03-28]
 
 ### Q: Why do red lines appear as in the following?
 
-| ![bunny-mesh-default-install](fig/bunny-mesh-default-project.png) | ![bunny-mesh-alt-install](fig/bunny-mesh-alt-project.png) |
+| Irregular nonzero | Irregular zero |
+|:--:|:--:|
+| ![bunny-projected-default-irregular](fig/bunny-projected-default-irregular.png) | ![bunny-projected-alt-irregular](fig/bunny-projected-alt-irregular.png) |
 
 A: Red lines "...are internal irregular edges that remained outside of the shape
 because only boundary nodes have been projected on the target surface... you can
