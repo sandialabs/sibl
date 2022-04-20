@@ -1,5 +1,13 @@
 # Question and Answer
 
+## 2022-04-20
+
+### Q1: Roundings:
+
+### Q2: Histograms:
+
+### Q3: In the ![duck](fig/Livesu_2021_dual_fig_1.png) images, you have a primal domain and a dual domain.  Within each domain, the elements outside the object boundary are gray and the elements inside the object boundary are blue.  How did you create these two images, that is, making a half-space background in gray elements and an adjunct half-space object in blue elements?
+
 ## 2022-03-27 Gubrobi
 
 ### Q: Is there a workflow that does not require Gubroi?

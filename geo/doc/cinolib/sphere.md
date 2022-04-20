@@ -44,6 +44,8 @@ are used with hexalab.
 | sphere_conforming.mesh</br> <img src="fig/sphere-conforming-default.png" width="300"> | <img src="fig/sphere-conforming-alt.png" width="300"> |
 | sphere_projected.mesh</br> <img src="fig/sphere-projected-default.png" width="300"> | <img src="fig/sphere-projected-alt.png" width="300"> |
 
+### Roundings
+
 * Question 2022-04-20-a: With [`sphere_projected.mesh`](../../data/mesh/sphere_projected.mesh), with `Separation: Roundings` in figure (c) and (d), why to the spikes appear?
 
 | | Irregular nonzero | Irregular zero |
