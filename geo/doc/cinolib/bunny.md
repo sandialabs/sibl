@@ -74,10 +74,18 @@ are used with hexalab.
 
 | bunny.obj | bunny_projected.mesh | 
 |:--:|:--:|
-| ![bunny](../../doc/fig/bunny.png) | ![bunny_projected](fig/bunny_projected.mesh.png) |
+| ![bunny](../../data/obj/bunny.png) | ![bunny_projected](fig/bunny_projected.mesh.png) |
 | 14290 vertices, 28576 faces | 12237 vertices, 9732 hexes | 
 
-* `bunny.stl` to come
+
+| Default View | Alternative View |
+|:--:|:--:|
+| bunny.obj</br> <img src="../../data/obj/bunny.png" width="300"> | <img src="../../data/obj/bunny_alt.png" width="250"> |
+| bunny.mesh</br> <img src="fig/bunny-default.png" width="300"> | <img src="fig/bunny-alt.png" width="300"> |
+| bunny_conforming.mesh</br> <img src="fig/bunny-conforming-default.png" width="300"> | <img src="fig/bunny-conforming-alt.png" width="300"> |
+| bunny_projected.mesh</br> <img src="fig/bunny-projected-default.png" width="300"> | <img src="fig/bunny-projected-alt.png" width="300"> |
+
+* `bunny.stl`
 
 * Population histogram of scaled Jacobian (to come).
 

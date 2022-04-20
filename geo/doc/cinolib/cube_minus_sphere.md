@@ -36,16 +36,7 @@ are used with hexalab.
 
 | Default View | Alternative View |
 |:--:|:--:|
-| cube_minus_sphere.obj</br> <img src="../../data/obj/cube_minus_sphere_default.png" width="400"> | <img src="../../data/obj/cube_minus_sphere_alt.png" width="400"> |
-| cube_minus_sphere.mesh</br> <img src="fig/cube-minus-sphere-default.png" width="400"> | <img src="fig/cube-minus-sphere-alt.png" width="400"> |
-| cube_minus_sphere_conforming.mesh</br> ![](fig/cube-minus-sphere-conforming-default.png) | ![](fig/cube-minus-sphere-conforming-alt.png) |
-| cube_minus_sphere_projected.mesh ![](fig/cube-minus-sphere-projected-default.png) | ![](fig/cube-minus-sphere-projected-alt.png) |
-
-| Default View | Alternative View |
-|:--:|:--:|
-| cube_minus_sphere.obj</br> ![](../../data/obj/cube_minus_sphere_default.png) | ![](../../data/obj/cube_minus_sphere_alt.png) |
-| cube_minus_sphere.mesh</br> ![](fig/cube-minus-sphere-default.png) | ![](fig/cube-minus-sphere-alt.png) |
-| cube_minus_sphere_conforming.mesh</br> ![](fig/cube-minus-sphere-conforming-default.png) | ![](fig/cube-minus-sphere-conforming-alt.png) |
-| cube_minus_sphere_projected.mesh ![](fig/cube-minus-sphere-projected-default.png) | ![](fig/cube-minus-sphere-projected-alt.png) |
-
-
+| cube_minus_sphere.obj</br> <img src="../../data/obj/cube_minus_sphere_default.png" height="200"> | <img src="../../data/obj/cube_minus_sphere_alt.png" height="200"> |
+| cube_minus_sphere.mesh</br> <img src="fig/cube-minus-sphere-default.png" width="300"> | <img src="fig/cube-minus-sphere-alt.png" width="400"> |
+| cube_minus_sphere_conforming.mesh</br> <img src="fig/cube-minus-sphere-conforming-default.png" width="300"> | <img src="fig/cube-minus-sphere-conforming-alt.png" width="400"> |
+| cube_minus_sphere_projected.mesh <img src="fig/cube-minus-sphere-projected-default.png" width="300"> | <img src="fig/cube-minus-sphere-projected-alt.png" width="400"> |
