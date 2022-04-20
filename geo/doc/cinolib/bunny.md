@@ -74,7 +74,7 @@ are used with hexalab.
 
 | bunny.obj | bunny_projected.mesh | 
 |:--:|:--:|
-| ![bunny](../../data/obj/bunny.png) | ![bunny_projected](fig/bunny_projected.mesh.png) |
+| ![bunny](../../data/obj/bunny.png) | ![bunny_projected](fig/bunny-projected-default.png) |
 | 14290 vertices, 28576 faces | 12237 vertices, 9732 hexes | 
 
 

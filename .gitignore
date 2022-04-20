@@ -10,7 +10,7 @@
 *.layout
 *.depend
 bin/
-obj/
+# obj/  # acually use obj for .obj files
 
 # matlab temporary files
 *.tmp
