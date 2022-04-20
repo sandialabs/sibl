@@ -12,7 +12,12 @@ Please see https://github.com/sandialabs/sibl/blob/master/geo/doc/cinolib/sphere
 
 ### Q3: Half-space images:
 
-In the ![duck](fig/Livesu_2021_dual_fig_1.png) images, you have a primal domain and a dual domain.  Within each domain, the elements outside the object boundary are gray and the elements inside the object boundary are blue.  How did you create these two images, that is, making a half-space background in gray elements and an adjunct half-space object in blue elements?
+* In the ![duck](fig/Livesu_2021_dual_fig_1.png) images, you have a primal domain and a dual domain.  Within each domain, the elements outside the object boundary are gray and the elements inside the object boundary are blue.  How did you create these two images, that is, making a half-space background in gray elements and an adjunct half-space object in blue elements?  
+
+* The closest guess I have on how to do this would be to hand pick and dig with point-and-click (but I strongly feel there must be more robust way based on the `.obj` file scaffold).  
+
+![](fig/handpick_dig_strategy.png)
+> *Illustration of a hand pick and dig stragegy.*
 
 ## 2022-03-27 Gubrobi
 
