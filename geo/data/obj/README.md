@@ -4,7 +4,7 @@
 
 * `bunny.obj` [^cinolib]
   * 14290 vertices, 28576 faces (921k)
-  * ![bunny](../../doc/fig/bunny.png)
+  * ![bunny](bunny.png)
 * `cube_minus_sphere.obj` [^cinolib]
   * 2066 vertices, 4128 faces (124k) 
   * ![cube_minus_sphere](../../doc/fig/cube_minus_sphere.png)
