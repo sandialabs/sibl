@@ -18,11 +18,16 @@ See [Stanford bunny workflow](https://github.com/sandialabs/sibl/blob/master/geo
 
 ## Methods
 
-One the `[cbh@atlas]` machine:
+On the `[cbh@atlas]` machine:
 
 ```bash
 cd ~/Gen-Adapt-Ref-for-Hexmeshing/build
-./make_grid --surface --input_mesh_path=/Users/cbh/sibl/geo/data/obj/sphere.obj --output_grid_path=/Users/cbh/sibl/geo/data/mesh/sphere.mesh --use_octree --project_mesh=true
+./make_grid \
+  --surface \
+  --input_mesh_path=/Users/cbh/sibl/geo/data/obj/sphere.obj \
+  --output_grid_path=/Users/cbh/sibl/geo/data/mesh/sphere.mesh \
+  --use_octree \
+  --project_mesh=true
 ```
 
 ## Results
