@@ -122,4 +122,10 @@ Volume 1  Hex quality, 80 elements:
 ## TODO
 
 * Sculpt workflow
-  `sphere.stl` --> `sphere_exo.txt`
+  * `sphere.stl` --> `sphere_exo.txt`
+  * output scaled Jacobian data in a reliable way 
+    * HexaLab is not yet reliable, but it does output the underlying histogram data
+    * Cubit is reliable but not customizable, no output of histogram data
+    * Python to the rescue
+  * `_exo.e.txt` --> `.inp`
+  * `.mesh` --> `.inp`
