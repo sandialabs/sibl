@@ -43,14 +43,17 @@ Based on historical document, `/geometry/data/bob/fe/chama_test/`:
 On an HPC login node:
 
 ```bash
-HPC $ 
-$ module purge
-$ module load sierra
-$ module load sierra-mpi/openmpi/1.10
-$ module load seacas
+/projects/cubit/sculpt-alpha -j 16 -i chama_test.i  # single processor
+/projects/cubit/sculpt-alpha -i chama_test.i  # 16 processors
+/projects/cubit/sculpt64-16.04 -i sphere.i
+cp sphere_exo.e.1.0 sphere_exo.e
+exotxt sphere_exo.e.1.0 sphere_exo.txt
+scp sphere_exo.e.1.0 chovey@machine_name.srn.sandia.gov:~/sibl/geo/data/sculpt/.
 ```
 
 ## Results
+
+### Gena
 
 In a web browser, open https://www.hexalab.net/, then open the following files:
 
@@ -87,3 +90,36 @@ are used with hexalab.
 | GUI | Tail of the [`sphere_mesh.csv`](fig/sphere_mesh.csv) output |
 |:--:|:--:|
 | (a) ![](fig/sphere_mesh_scaled_jacobian.png)  | (b) ![](fig/sphere_mesh_csv_tail.png) |
+
+
+### Sculpt
+
+![](../../data/sculpt/sphere_sculpt_4x4x4.png)
+
+```bash
+Cubit>quality vol all scaled jacobian global draw histogram list
+
+ Hex quality, 80 elements:
+	Scaled Jacobian ranges from 6.036e-01 to 7.251e-01 (80 entities)
+	     Red ranges from 6.036e-01 to 6.209e-01 (20 entities)
+	 Magenta ranges from 6.209e-01 to 6.383e-01 (34 entities)
+	DkYellow ranges from 6.383e-01 to 6.556e-01 (18 entities)
+	  Yellow ranges from 6.556e-01 to 6.730e-01 (0 entities)
+	   Green ranges from 6.730e-01 to 6.903e-01 (0 entities)
+	    Cyan ranges from 6.903e-01 to 7.077e-01 (6 entities)
+	    Blue ranges from 7.077e-01 to 7.251e-01 (2 entities)
+
+Volume 1  Hex quality, 80 elements:
+------------------------------------
+   Function Name    Average      Std Dev      Minimum   (id)    Maximum   (id)
+ ---------------    ---------    ---------    --------------    --------------
+ Scaled Jacobian    6.376e-01    2.833e-02    6.036e-01 (11)    7.251e-01 (4)
+------------------------------------
+```
+
+![](../../data/sculpt/sphere_sculpt_4x4x4_sj.png)
+
+## TODO
+
+* Sculpt workflow
+  `sphere.stl` --> `sphere_exo.txt`
