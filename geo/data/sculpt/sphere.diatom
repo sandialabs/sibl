@@ -2,7 +2,7 @@ diatoms
   package 'sphere'
     material 1
     insert stl
-      FILE = 'sphere.stl'
+      FILE = '../stl/sphere.stl'
     endinsert
   endp
 enddia
