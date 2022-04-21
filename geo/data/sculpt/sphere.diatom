@@ -1,0 +1,8 @@
+diatoms
+  package 'sphere'
+    material 1
+    insert stl
+      FILE = 'sphere.stl'
+    endinsert
+  endp
+enddia

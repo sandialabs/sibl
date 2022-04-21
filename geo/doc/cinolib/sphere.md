@@ -8,6 +8,7 @@
 ## Materials
 
 * sphere.obj file on [data page](../../data/obj/README.md)
+* [sphere.stl](../../data/stl/sphere.stl)
 * [Gena](../../doc/cinolib/gena.md)
 * [HexaLab](https://www.hexalab.net)
 * Sculpt (to come)
@@ -17,6 +18,8 @@
 See [Stanford bunny workflow](https://github.com/sandialabs/sibl/blob/master/geo/doc/cinolib/bunny.md#workflow)
 
 ## Methods
+
+### Gena
 
 On the `[cbh@atlas]` machine:
 
@@ -28,6 +31,23 @@ cd ~/Gen-Adapt-Ref-for-Hexmeshing/build
   --output_grid_path=/Users/cbh/sibl/geo/data/mesh/sphere.mesh \
   --use_octree \
   --project_mesh=true
+```
+
+### Sculpt
+
+Based on historical document, `/geometry/data/bob/fe/chama_test/`:
+
+* Diatom input file [`sphere.diatom`](../../data/sculpt/sphere.diatom)
+* Sculpt input file [`sphere.i`](../../data/sculpt/sphere.i)
+
+On an HPC login node:
+
+```bash
+HPC $ 
+$ module purge
+$ module load sierra
+$ module load sierra-mpi/openmpi/1.10
+$ module load seacas
 ```
 
 ## Results
