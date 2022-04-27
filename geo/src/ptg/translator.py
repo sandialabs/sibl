@@ -24,8 +24,24 @@ class inp_file_node(NamedTuple):
     z: float  # z-coordinate
 
 
+class mesh_file_hexahedra(NamedTuple):
+    """Creates a hexahedral structure in a '.mesh' file style.
+    Example:  The structure appears three times in the snippet below
+    ...
+    Hexahedra
+    8
+    1 2 5 4 10 11 14 13 1
+    2 3 6 5 11 12 15 14 1
+    3 5 8 7 13 14 17 16 1
+    ...
+    """
+
+    nodes: tuple[int, int, int, int, int, int, int, int]
+    vol_id: int
+
+
 class mesh_file_vertex(NamedTuple):
-    """Creates a vertex structure in .mesh file style.
+    """Creates a vertex structure in a '.mesh' file style.
     Example:  The structure appears three times in the snippet below
     ...
     Vertices
@@ -48,6 +64,24 @@ def io_inp_file_node(node: inp_file_node) -> str:
     """
     items = (node.node_id, node.x, node.y, node.z)
     return ", ".join(map(str, items)) + "\n"
+
+
+def io_mesh_file_hexahedra(input: str) -> mesh_file_hexahedra:
+    """Given a string describing a hexahedra in '.mesh' format, e.g.,
+    'n1 n2 n3 n4 n5 n6 n7 n8 vol_id', returns an item of 'mesh_file_hexahedra'
+    type.
+    """
+    items = input.split()
+    nodes = tuple(map(int, items[0:8]))
+    vol = int(items[8])
+    return mesh_file_hexahedra(nodes=nodes, vol_id=vol)
+
+
+def io_mesh_file_hexahedra_to_inp_file_element(*, element_id: int, input: str) -> str:
+    a = str(element_id) + ", "
+    b = io_mesh_file_hexahedra(input)
+    c = a + ", ".join(map(str, b.nodes)) + "\n"
+    return c
 
 
 def io_mesh_file_vertex(input: str) -> mesh_file_vertex:

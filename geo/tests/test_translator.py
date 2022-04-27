@@ -39,15 +39,34 @@ def test_io_inp_file_node():
         assert y == fx
 
 
+def test_io_mesh_file_hexahedra():
+    """Given three strings, describing three hexahedra from a .mesh file,
+    returns three items of mesh_file_hexahedra type.
+    """
+    xs = (
+        "1 2 5 4 10 11 14 13 1\n",
+        "2 3 6 5 11 12 15 14 1\n",
+        "4 5 8 7 13 14 17 16 1\n",
+    )
+    ys = (
+        trans.mesh_file_hexahedra(nodes=(1, 2, 5, 4, 10, 11, 14, 13), vol_id=1),
+        trans.mesh_file_hexahedra(nodes=(2, 3, 6, 5, 11, 12, 15, 14), vol_id=1),
+        trans.mesh_file_hexahedra(nodes=(4, 5, 8, 7, 13, 14, 17, 16), vol_id=1),
+    )
+    for (x, y) in zip(xs, ys):
+        fx = trans.io_mesh_file_hexahedra(x)
+        assert y == fx
+
+
 def test_io_mesh_file_vertex():
-    """Given three strings, describing three vertices, from a .mesh file,
+    """Given three strings, describing three vertices from a .mesh file,
     returns three items of mesh_file_vertex type.
     """
-    xs = [
+    xs = (
         "-0.54 -0.86 -0.07 23\n",
         "-0.51 -0.87 -0.08 42\n",
         "-0.55 -0.88 -0.09 12\n",
-    ]
+    )
     ys = (
         trans.mesh_file_vertex(x=-0.54, y=-0.86, z=-0.07, face_id=23),
         trans.mesh_file_vertex(x=-0.51, y=-0.87, z=-0.08, face_id=42),
@@ -58,15 +77,34 @@ def test_io_mesh_file_vertex():
         assert y == fx
 
 
-def test_io_mesh_file_vertex_to_inp_file_node():
-    """Given three strings, describing three vertices, from a .mesh file,
-    returns three strings in .inp file format.
+def test_io_mesh_file_hexahedra_to_inp_file_element():
+    """Given three strings, describing three hexahedra from a '.mesh' file,
+    returns three strings in an '.inp' file format.
     """
-    xs = [
+    xs = (
+        "1 2 5 4 10 11 14 13 1\n",
+        "2 3 6 5 11 12 15 14 1\n",
+        "4 5 8 7 13 14 17 16 1\n",
+    )
+    ys = (
+        "1, 1, 2, 5, 4, 10, 11, 14, 13\n",
+        "2, 2, 3, 6, 5, 11, 12, 15, 14\n",
+        "3, 4, 5, 8, 7, 13, 14, 17, 16\n",
+    )
+    for i, (x, y) in enumerate(zip(xs, ys)):
+        fx = trans.io_mesh_file_hexahedra_to_inp_file_element(element_id=i + 1, input=x)
+        assert y == fx
+
+
+def test_io_mesh_file_vertex_to_inp_file_node():
+    """Given three strings, describing three vertices from a '.mesh' file,
+    returns three strings in '.inp' file format.
+    """
+    xs = (
         "-0.54 -0.86 -0.07 23\n",
         "-0.51 -0.87 -0.08 42\n",
         "-0.55 -0.88 -0.09 12\n",
-    ]
+    )
     ys = (
         "1, -0.54, -0.86, -0.07\n",
         "2, -0.51, -0.87, -0.08\n",
