@@ -13,7 +13,7 @@ class Points:
         """Given a tuple of (x, y) float pairs, creates a
         collection of Point2D object.
 
-        Argments:
+        Arguments:
             pairs (tuple of tuple of floats), e.g.,
                 ((x0, y0), (x1, y1), ... (xn, yn))
         """
@@ -47,27 +47,3 @@ class Points:
         a Point2D object.
         """
         return tuple(map(Point2D, self._xs, self._ys))
-
-
-def mesh_point_string_to_tuple(mesh_point: str) -> tuple[float, float, float]:
-    """Given a string in mesh format 'x y z faceid', returns a tuple of
-    floats in (x, y, z) format.
-    """
-    aa = mesh_point.split()
-    bb = aa[0:3]  # take only the first three items: x, y, z
-    cc = map(float, bb)
-    return tuple(cc)
-
-
-def enumerated_tuple_to_inp_mesh_point_string(
-    id: int, xyz: tuple[float, float, float]
-) -> str:
-    """Given a nodal point as an integer and a point coordinate as a xyz float
-    tuple, returns the concatenated data as a string, which is the inp mesh
-    point format.
-    """
-    return str(id) + ", " + ", ".join([str(i) for i in xyz]) + "\n"
-
-
-# def mesh_point_to_enmerated_inp_point(id: int, mesh_points: str) -> str:
-#     """Returns a string for a point in the .inp format."""
