@@ -39,7 +39,7 @@ def test_io_inp_file_node():
         assert y == fx
 
 
-def test_io_mesh_file_hexahedra():
+def test_io_mesh_file_hexahedron():
     """Given three strings, describing three hexahedra from a .mesh file,
     returns three items of mesh_file_hexahedra type.
     """
@@ -49,12 +49,12 @@ def test_io_mesh_file_hexahedra():
         "4 5 8 7 13 14 17 16 1\n",
     )
     ys = (
-        trans.mesh_file_hexahedra(nodes=(1, 2, 5, 4, 10, 11, 14, 13), vol_id=1),
-        trans.mesh_file_hexahedra(nodes=(2, 3, 6, 5, 11, 12, 15, 14), vol_id=1),
-        trans.mesh_file_hexahedra(nodes=(4, 5, 8, 7, 13, 14, 17, 16), vol_id=1),
+        trans.mesh_file_hexahedron(nodes=(1, 2, 5, 4, 10, 11, 14, 13), vol_id=1),
+        trans.mesh_file_hexahedron(nodes=(2, 3, 6, 5, 11, 12, 15, 14), vol_id=1),
+        trans.mesh_file_hexahedron(nodes=(4, 5, 8, 7, 13, 14, 17, 16), vol_id=1),
     )
     for (x, y) in zip(xs, ys):
-        fx = trans.io_mesh_file_hexahedra(x)
+        fx = trans.io_mesh_file_hexahedron(x)
         assert y == fx
 
 
@@ -92,7 +92,9 @@ def test_io_mesh_file_hexahedra_to_inp_file_element():
         "3, 4, 5, 8, 7, 13, 14, 17, 16\n",
     )
     for i, (x, y) in enumerate(zip(xs, ys)):
-        fx = trans.io_mesh_file_hexahedra_to_inp_file_element(element_id=i + 1, input=x)
+        fx = trans.io_mesh_file_hexahedron_to_inp_file_element(
+            element_id=i + 1, input=x
+        )
         assert y == fx
 
 
