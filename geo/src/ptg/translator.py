@@ -40,6 +40,23 @@ class mesh_file_hexahedron(NamedTuple):
     vol_id: int
 
 
+class mesh_file_hexahedra(NamedTuple):
+    """A collection of mesh file hexahedron types plus header data.
+    Example:
+    ...
+    Hexahedra
+    8
+    1 2 5 4 10 11 14 13 1
+    2 3 6 5 11 12 15 14 1
+    3 5 8 7 13 14 17 16 1
+    ...
+    """
+
+    n_hexahedra: int
+    hexahedra: tuple[mesh_file_hexahedron, ...]
+    label: str = "Hexahedra"
+
+
 class mesh_file_vertex(NamedTuple):
     """Creates a vertex structure in a '.mesh' file style.
     Example:  The structure appears three times in the snippet below
@@ -56,6 +73,34 @@ class mesh_file_vertex(NamedTuple):
     y: float  # y-coordinate
     z: float  # z-coordinate
     face_id: int  # an integer face number
+
+
+class mesh_file_vertices(NamedTuple):
+    """A collection of mesh file vertex types plus header data.
+    Example:
+    ...
+    Vertices
+    28056
+    -0.54657809374999999 -0.86812413750000006 -0.071433312500000054 0
+    -0.51534003125000005 -0.86604159999999997 -0.071433312500000054 0
+    -0.55048285156249999 -0.861876525 -0.092258687500000047 0
+    ...
+    """
+
+    n_vertices: int
+    vertices: tuple[mesh_file_vertex, ...]
+    label: str = "Vertices"
+
+
+class mesh_file(NamedTuple):
+    """A collection of mesh_file_hexahedra, mesh_file_vertices, and other
+    meta data to compose a complete '.mesh' file.
+    """
+
+    vertices_block: mesh_file_vertices
+    hexahedra_block: mesh_file_hexahedra
+    header: str = "MeshVersionFormatted 1\n Dimension 3\n"
+    footer: str = "End"
 
 
 def io_inp_file_node(node: inp_file_node) -> str:
