@@ -23,9 +23,11 @@ with file format of 16-bit integer (Mac byte order) with no header.
 
 ```mermaid
   graph LR;
-    isosurface-->isosurface'
-    isosurface'-->hex'
-    isosurface-->hex
+    isosurface --> isosurface'
+    isosurface' --> hex'
+    isosurface --> hex
+    hex --> hex''
+    hex' --> hex''
 ```
 
 ### Detail
@@ -48,6 +50,9 @@ with file format of 16-bit integer (Mac byte order) with no header.
       d1[bunny.diatom] --> d2[bunny.i]
       d2 --> d3[bunny_exo.e]
       d3 -- exotxt --> d4[bunny_exo.txt]
+    end
+    subgraph hex''
+      bunny.inp
     end
     isosurface -- MeshLab --> isosurface'
     isosurface' -- Sculpt + input files --> hex'
