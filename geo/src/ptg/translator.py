@@ -7,14 +7,15 @@ from typing import NamedTuple
 
 
 class inp_file_node(NamedTuple):
-    """Creates a node structure in .inp file style.
+    """A single node structure in .inp file style.
 
-    Example:  The structure appears three times in the snippet below
+    Example:  The structure appears, in context, three times in the
+    snippet below:
     ...
     *Node
-    1, -0.54657809374999999, -0.86812413750000006, -0.071433312500000054
-    2, -0.51534003125000005, -0.86604159999999997, -0.071433312500000054
-    3, -0.55048285156249999, -0.861876525, -0.092258687500000047
+    1, -0.546578, -0.868124, -0.0714333  <-- a single node
+    2, -0.515340, -0.866041, -0.0714333
+    3, -0.550482, -0.861876, -0.0922586
     ...
     """
 
@@ -25,8 +26,10 @@ class inp_file_node(NamedTuple):
 
 
 class mesh_file_hexahedron(NamedTuple):
-    """Creates a single hexahedron structure in a '.mesh' file style.
-    Example:  The structure appears three times in the snippet below
+    """A single hexahedron structure in a '.mesh' file style.
+
+    Example:  The structure appears, in context, three times in the
+    snippet below:
     ...
     Hexahedra
     8
@@ -36,16 +39,19 @@ class mesh_file_hexahedron(NamedTuple):
     ...
     """
 
+    # Eight nodes of int type describe a single hexahedron nodal indices.
     nodes: tuple[int, int, int, int, int, int, int, int]
     vol_id: int
 
 
 class mesh_file_hexahedra(NamedTuple):
-    """A collection of mesh file hexahedron types plus header data.
-    Example:
+    """A collection of mesh file hexahedron plus header data.
+
+    Example:  The structure appears as a header, an element count of 3, and
+    three hexahedra elements:
     ...
     Hexahedra
-    8
+    3
     1 2 5 4 10 11 14 13 1
     2 3 6 5 11 12 15 14 1
     3 5 8 7 13 14 17 16 1
@@ -58,8 +64,10 @@ class mesh_file_hexahedra(NamedTuple):
 
 
 class mesh_file_vertex(NamedTuple):
-    """Creates a vertex structure in a '.mesh' file style.
-    Example:  The structure appears three times in the snippet below
+    """A vertex structure in a '.mesh' file style.
+
+    Example:  The structure appears three times in the snippet below, where
+    only three of 28056 vertex items are shown:
     ...
     Vertices
     28056
@@ -135,7 +143,10 @@ def io_mesh_file_vertex(input: str) -> mesh_file_vertex:
     """
     items = input.split()
     return mesh_file_vertex(
-        x=float(items[0]), y=float(items[1]), z=float(items[2]), face_id=int(items[3])
+        x=float(items[0]),
+        y=float(items[1]),
+        z=float(items[2]),
+        face_id=int(items[3]),
     )
 
 
