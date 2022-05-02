@@ -5,7 +5,7 @@
 ## Install
 
 * [Download](https://cubit.sandia.gov/downloads/)
-* License](https://cubit.sandia.gov/licensing/)
+* [License](https://cubit.sandia.gov/licensing/)
 
 ## Learn
 
