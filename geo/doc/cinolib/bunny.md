@@ -38,22 +38,22 @@ with file format of 16-bit integer (Mac byte order) with no header.
     subgraph isosurface'
       b[bunny.stl]
     end
-    subgraph hex'
-      bunny_exo.e -- exotxt --> bunny_exe.txt
-    end
     subgraph hex
       direction TB
       c1[octree: bunny.mesh]-->c2[dual: bunny_confirming.mesh]
-      c2-->c3[bunny_projected.mesh]
+      c2 --> c3[bunny_projected.mesh]
     end
-    subgraph sculpt
+    subgraph hex'
       direction TB
       d1[bunny.diatom] --> d2[bunny.i]
+      d2 --> d3[bunny_exo.e]
+      d3 -- exotxt --> d4[bunny_exo.txt]
     end
-    isosurface-- MeshLab --> isosurface'
-    isosurface'-- + Sculpt input files --> sculpt
-    sculpt -- Sculpt --> hex'
-    isosurface-- Gena --> hex
+    isosurface -- MeshLab --> isosurface'
+    isosurface' -- Sculpt + input files --> hex'
+    isosurface -- Gena --> hex
+    hex -- ptg.translator --> bunny.inp
+    d4 -- ptg.translator --> bunny.inp
 ```
 
 ## Methods
