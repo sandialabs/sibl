@@ -32,7 +32,7 @@
 > *Linear patches with curvature transition*
 
 ![biquadratic-five-patch.png](fig/biquadratic-five-patch.png)
-> *Bisection and quadratic pathes with curvature transition*
+> *Bisection and quadratic patches with curvature transition*
 
 ![B(p=2)_1_2.png](fig/B(p=2)_1_2.png)
 > *Bézier biquadratic basis used for boundary fitting*

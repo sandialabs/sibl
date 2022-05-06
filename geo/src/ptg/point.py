@@ -1,4 +1,49 @@
-from typing import NamedTuple
+"""Creates a Point composite type composed of (x, y) float pairs."""
+from typing import NamedTuple, Iterable
+
+
+def pairs(
+    x_coordinates: Iterable[float], y_coordinates: Iterable[float]
+) -> tuple[tuple[float, float], ...]:
+    """Given a sequence of coordinates in x and y, returns those items as pairs.
+
+    This uses the zip() function and returns a zip object, which is an iterator
+    of tuples where the first item in each passed iterator is paired together,
+    and then the second item in each passed iterator are paired together etc.
+
+    If the passed iterators have different lengths, the iterator with the fewest
+    number of items decides the length of the new iterator.
+    """
+    pairs = tuple(zip(x_coordinates, y_coordinates))
+    return pairs
+
+
+def quadrant_one(
+    pairs: tuple[tuple[float, float], ...]
+) -> tuple[tuple[float, float], ...]:
+    """Given (x, y) pairs, returns a subset of those that live the first quadrant."""
+    return tuple(filter(lambda p: p[0] >= 0 and p[1] >= 0, pairs))
+
+
+def quadrant_two(
+    pairs: tuple[tuple[float, float], ...]
+) -> tuple[tuple[float, float], ...]:
+    """Given (x, y) pairs, returns a subset of those that live the second quadrant."""
+    return tuple(filter(lambda p: p[0] < 0 and p[1] >= 0, pairs))
+
+
+def quadrant_three(
+    pairs: tuple[tuple[float, float], ...]
+) -> tuple[tuple[float, float], ...]:
+    """Given (x, y) pairs, returns a subset of those that live the third quadrant."""
+    return tuple(filter(lambda p: p[0] < 0 and p[1] < 0, pairs))
+
+
+def quadrant_four(
+    pairs: tuple[tuple[float, float], ...]
+) -> tuple[tuple[float, float], ...]:
+    """Given (x, y) pairs, returns a subset of those that live the fourth quadrant."""
+    return tuple(filter(lambda p: p[0] >= 0 and p[1] < 0, pairs))
 
 
 class Point2D(NamedTuple):
@@ -9,6 +54,8 @@ class Point2D(NamedTuple):
 
 
 class Points:
+    """Constructs a collection of Point items."""
+
     def __init__(self, *, pairs: tuple[tuple[float, float], ...]):
         """Given a tuple of (x, y) float pairs, creates a
         collection of Point2D object.

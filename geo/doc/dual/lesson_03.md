@@ -25,7 +25,7 @@ Review [`lesson_03.py`](lesson_03.py) and modify as necessary, such as changing 
 ```python
 res = 1.0  # the first resolution attempt
 # res = 0.5  # the second resolution attempt
-# res = 0.2  # the third resolution attemp
+# res = 0.2  # the third resolution attempt
 ```
 
 ![circle_boundary_mesh_res_0p5](fig/circle_boundary_mesh_res_0p5.png)

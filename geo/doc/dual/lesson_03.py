@@ -20,6 +20,8 @@ def main():
 
     # other user-defined parameters
     refine = True  # don't refine at the boundary
+    # res = 2.2  # the zeroth attempt, 1 quadrilateral per quadrant
+    # res = 2.0  # the zeroth' attempt, 9 quadrilaterals per quadrant
     res = 1.0  # the first resolution attempt
     # res = 0.5  # the second resolution attempt
     # res = 0.25  # the third resolution attempt
