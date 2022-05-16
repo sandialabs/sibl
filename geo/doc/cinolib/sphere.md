@@ -138,6 +138,7 @@ Volume 1  Hex quality, 111 elements:
 ------------------------------------
 ```
 
+![](fig/sphere_projected_hexalab_scaled_jacobian.png)
 
 ### Sculpt
 
