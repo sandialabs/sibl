@@ -187,13 +187,43 @@ def translate_file(*, path_mesh_file: str) -> bool:
     output_path_file = input_path.joinpath(output_file)
 
     with open(str(input_path_file), "rt") as in_stream:
-        line = in_stream.readline()
+        # line = in_stream.readline()
 
         with open(str(output_path_file), "wt") as out_stream:
-            out_stream.write(line)
 
-        aa = 4
+            # out_stream.write(line)
 
+            for line in in_stream:
+                if "Vertices" in line:
+                    n_vertices = int(in_stream.readline().strip())
+                    out_stream.write(
+                        "********************************** N O D E S **********************************\n"
+                    )
+                    out_stream.write("*NODE, NSET=ALLNODES\n")
+                    for i in range(1, n_vertices + 1):
+                        line = in_stream.readline()
+                        out_line = io_mesh_file_vertex_to_inp_file_node(
+                            node_id=i, input=line
+                        )
+                        out_stream.write(out_line)
+                elif "Hexahedra" in line:
+                    n_hexes = int(in_stream.readline().strip())
+                    out_stream.write(
+                        "********************************** E L E M E N T S ****************************\n"
+                    )
+                    out_stream.write("*ELEMENT, TYPE=C3D8R\n")
+                    for i in range(1, n_hexes + 1):
+                        line = in_stream.readline()
+                        out_line = io_mesh_file_hexahedron_to_inp_file_element(
+                            element_id=i, input=line
+                        )
+                        out_stream.write(out_line)
+                # else:
+                # skip the current line and continue to the next line
+
+    # If we reach this point, the input and output buffers are not closed
+    # and the function was successful.
+    success = True  # overwrite
     return success
 
 

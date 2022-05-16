@@ -143,7 +143,8 @@ def test_cube_mesh_file_to_inp_file():
     self_path = self_path_file.resolve().parent
     data_path = self_path.joinpath("../", "data", "mesh").resolve()
     input_mesh_file = data_path.joinpath("hexahexa_2x2x2.mesh")
-    trans.translate_file(path_mesh_file=str(input_mesh_file))
+    translated = trans.translate_file(path_mesh_file=str(input_mesh_file))
+    assert translated
 
 
 @pytest.mark.skip("work in progress")
