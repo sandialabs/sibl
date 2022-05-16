@@ -142,9 +142,30 @@ def test_cube_mesh_file_to_inp_file():
     self_path_file = Path(__file__)
     self_path = self_path_file.resolve().parent
     data_path = self_path.joinpath("../", "data", "mesh").resolve()
-    input_mesh_file = data_path.joinpath("hexahexa_2x2x2.mesh")
+    basename = "hexahexa_2x2x2"
+    input_mesh_file = data_path.joinpath(basename + ".mesh")
+    output_inp_file = data_path.joinpath(basename + ".inp")
+
+    # assert, prior to translation, that
+    # (a) the input file exist and
+    assert input_mesh_file.is_file()
+    # (b) the output file does not exist
+    assert not output_inp_file.is_file()
+
+    # do the translation
     translated = trans.translate_file(path_mesh_file=str(input_mesh_file))
+
+    # assert the translation function was successful
     assert translated
+
+    # assert the output file now does exist
+    assert output_inp_file.is_file()
+
+    # clean up, delete the output file
+    output_inp_file.unlink()
+
+    # confirm the output file no longer exists
+    assert not output_inp_file.is_file()
 
 
 @pytest.mark.skip("work in progress")

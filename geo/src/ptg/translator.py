@@ -182,7 +182,7 @@ def translate_file(*, path_mesh_file: str) -> bool:
 
     input_path = input_path_file.parent
     input_file_no_ext = input_path_file.stem
-    output_file_ext: Final = ".inp"
+    output_file_ext: Final[str] = ".inp"
     output_file = input_file_no_ext + output_file_ext
     output_path_file = input_path.joinpath(output_file)
 
@@ -236,16 +236,14 @@ def main(argv):
         help="the .mesh file input",
     )
 
-    # parser.add_argument(
-    #     "--verbose", help="increased command line feedback", action="store_true"
-    # )
-
     args = parser.parse_args()
-
     mesh_file = args.mesh_file
 
-    # verbose = args.verbose
-    translate_file(path_mesh_file=mesh_file)
+    print(f"translator.py is translating {mesh_file}")
+    translated = translate_file(path_mesh_file=mesh_file)
+    success: Final[str] = "success: translation completed"
+    failure: Final[str] = "error: translation unsucessful"
+    print(success if translated else failure)
 
 
 if __name__ == "__main__":
