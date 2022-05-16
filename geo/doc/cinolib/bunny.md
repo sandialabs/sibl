@@ -97,7 +97,95 @@ are used with hexalab.
 
 * `bunny.stl`
 
-* Population histogram of scaled Jacobian (to come).
+### Convert `bunny.mesh -> bunny.inp`
+
+```python
+~/sibl/geo/data/mesh(git:master)✔> python ~/sibl/geo/src/ptg/translator.py bunny.mesh
+```
+
+![](fig/bunny_inp_cubit_scaled_jacobian.png)
+
+```bash
+Cubit>quality volume all scaled jacobian global draw histogram draw mesh
+
+ Hex quality, 17088 elements:
+	Scaled Jacobian ranges from 1.000e+00 to 1.000e+00 (17088 entities)
+	     Red ranges from 1.000e+00 to 1.000e+00 (17088 entities)
+	 Magenta ranges from 1.000e+00 to 1.000e+00 (0 entities)
+	DkYellow ranges from 1.000e+00 to 1.000e+00 (0 entities)
+	  Yellow ranges from 1.000e+00 to 1.000e+00 (0 entities)
+	   Green ranges from 1.000e+00 to 1.000e+00 (0 entities)
+	    Cyan ranges from 1.000e+00 to 1.000e+00 (0 entities)
+	    Blue ranges from 1.000e+00 to 1.000e+00 (0 entities)
+
+ Hex quality, 17088 elements:
+------------------------------------
+   Function Name    Average      Std Dev      Minimum   (id)     Maximum   (id) 
+ ---------------    ---------    ---------    ---------------    ---------------
+ Scaled Jacobian    1.000e+00    0.000e+00    1.000e+00 (369)    1.000e+00 (369)
+------------------------------------
+```
+
+### Convert `bunny_conforming.mesh -> bunny_conforming.inp`
+
+```python
+~/sibl/geo/data/mesh(git:master)✔> python ~/sibl/geo/src/ptg/translator.py bunny_conforming.mesh
+```
+
+![](fig/bunny_conforming_inp_cubit_scaled_jacobian.png)
+
+```bash
+Cubit>quality volume all scaled jacobian global draw histogram draw mesh
+
+ Hex quality, 26253 elements:
+	Scaled Jacobian ranges from 9.258e-02 to 1.000e+00 (26253 entities)
+	     Red ranges from 9.258e-02 to 2.222e-01 (52 entities)
+	 Magenta ranges from 2.222e-01 to 3.518e-01 (1872 entities)
+	DkYellow ranges from 3.518e-01 to 4.815e-01 (48 entities)
+	  Yellow ranges from 4.815e-01 to 6.111e-01 (1634 entities)
+	   Green ranges from 6.111e-01 to 7.407e-01 (2472 entities)
+	    Cyan ranges from 7.407e-01 to 8.704e-01 (5314 entities)
+	    Blue ranges from 8.704e-01 to 1.000e+00 (14861 entities)
+
+Volume 1  Hex quality, 26253 elements:
+------------------------------------
+   Function Name    Average      Std Dev      Minimum   (id)       Maximum   (id)   
+ ---------------    ---------    ---------    -----------------    -----------------
+ Scaled Jacobian    8.414e-01    2.121e-01    9.258e-02 (21858)    1.000e+00 (11950)
+------------------------------------
+```
+
+### Convert `bunny_projected.mesh -> bunny_projected.inp`
+
+```python
+~/sibl/geo/data/mesh(git:master)✔> python ~/sibl/geo/src/ptg/translator.py bunny_conforming.mesh
+```
+
+![](fig/bunny_projected_inp_cubit_scaled_jacobian.png)
+
+```bash
+Cubit>quality volume all scaled jacobian global draw histogram draw mesh list
+
+ERROR: Malformed element.
+
+
+ Hex quality, 9732 elements:
+	Scaled Jacobian ranges from -9.998e-01 to 1.000e+00 (9732 entities)
+	     Red ranges from -9.998e-01 to -7.498e-01 (1980 entities)
+	 Magenta ranges from -7.498e-01 to -4.999e-01 (1167 entities)
+	DkYellow ranges from -4.999e-01 to -2.499e-01 (807 entities)
+	  Yellow ranges from -2.499e-01 to 0.000e+00 (387 entities)
+	   Green ranges from 0.000e+00 to 3.333e-01 (527 entities)
+	    Cyan ranges from 3.333e-01 to 6.667e-01 (678 entities)
+	    Blue ranges from 6.667e-01 to 1.000e+00 (4186 entities)
+
+Volume 1  Hex quality, 9732 elements:
+------------------------------------
+   Function Name    Average      Std Dev      Minimum   (id)      Maximum   (id)
+ ---------------    ---------    ---------    ----------------    --------------
+ Scaled Jacobian    1.651e-01    7.795e-01    -9.998e-01 (8441)    1.000e+00 (2)
+------------------------------------
+```
 
 ## References
 

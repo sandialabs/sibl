@@ -91,6 +91,53 @@ are used with hexalab.
 |:--:|:--:|
 | (a) ![](fig/sphere_mesh_scaled_jacobian.png)  | (b) ![](fig/sphere_mesh_csv_tail.png) |
 
+### Convert to `.inp` file
+
+```python
+~/sibl/geo/data/mesh(git:master)✔> python ~/sibl/geo/src/ptg/translator.py sphere.mesh
+~/sibl/geo/data/mesh(git:master)✔> python ~/sibl/geo/src/ptg/translator.py sphere_projected.mesh
+```
+
+![](fig/sphere_inp_cubit_scaled_jacobian.png)
+
+```bash
+Cubit>quality vol all scaled jacobian global draw histogram list
+
+Volume 1  Hex quality, 64 elements:
+------------------------------------
+   Function Name    Average      Std Dev      Minimum   (id)    Maximum   (id)
+ ---------------    ---------    ---------    --------------    --------------
+ Scaled Jacobian    1.000e+00    0.000e+00    1.000e+00 (1)    1.000e+00 (1)
+------------------------------------
+
+```
+
+![](fig/sphere_projected_inp_cubit_scaled_jacobian.png)
+
+```bash
+Cubit>quality volume all scaled jacobian global draw histogram draw mesh
+
+ERROR: Malformed element.
+
+
+ Hex quality, 111 elements:
+	Scaled Jacobian ranges from -9.931e-01 to 1.000e+00 (111 entities)
+	     Red ranges from -9.931e-01 to -7.448e-01 (60 entities)
+	 Magenta ranges from -7.448e-01 to -4.966e-01 (13 entities)
+	DkYellow ranges from -4.966e-01 to -2.483e-01 (2 entities)
+	  Yellow ranges from -2.483e-01 to 0.000e+00 (1 entities)
+	   Green ranges from 0.000e+00 to 3.333e-01 (2 entities)
+	    Cyan ranges from 3.333e-01 to 6.667e-01 (0 entities)
+	    Blue ranges from 6.667e-01 to 1.000e+00 (33 entities)
+
+Volume 1  Hex quality, 111 elements:
+------------------------------------
+   Function Name    Average      Std Dev      Minimum   (id)    Maximum   (id)
+ ---------------    ---------    ---------    --------------    --------------
+ Scaled Jacobian    -2.863e-01    8.585e-01    -9.931e-01 (96)    1.000e+00 (1)
+------------------------------------
+```
+
 
 ### Sculpt
 

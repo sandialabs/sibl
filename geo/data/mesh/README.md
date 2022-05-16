@@ -1,10 +1,18 @@
 # README
 
-.mesh files
+## `.mesh` files
 
 * `HEXAHEXA_2x2x2` subdivides the unit 3D cube into a `2x2x2` mesh of 8 hexahedral elements, using 27 vertices, and 24 boundary quadrilaterals [^Burkardt][^Frey2001]
   * [hexahexa_2x2x2.mesh](hexahexa_2x2x2.mesh)
   * ![hexahexa_2x2x2](fig/hexahexa_2x2x2.png)
+
+## Convert to `.inp` files
+
+```python
+~/sibl/geo/data/mesh(git:master)✔> python ~/sibl/geo/src/ptg/translator.py hexahexa_2x2x2.mesh
+```
+
+  * ![hexahexa_2x2x2.inp](fig/hexahexa_2x2x2.inp.png) (as viewed in Cubit)
 
 ## References
 
