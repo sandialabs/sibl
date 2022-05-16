@@ -3,13 +3,10 @@ and '.inp' file types.
 """
 
 import argparse
-
-# from pathlib import Path
+from pathlib import Path
 import sys
 
-from typing import NamedTuple
-
-# from typing import Final, NamedTuple
+from typing import Final, NamedTuple
 
 
 class inp_file_node(NamedTuple):
@@ -178,11 +175,24 @@ def translate_file(*, path_mesh_file: str) -> bool:
     """
     success = False
 
-    # input_path_file = Path(path_mesh_file)
-    # input_path = input_path_file.parent
-    # input_file_no_ext = input_path_file.stem
-    # output_file_ext: Final = ".inp"
-    # output_file = input_file_no_ext + output_file_ext
+    input_path_file = Path(path_mesh_file)
+
+    if not input_path_file.is_file():
+        raise FileNotFoundError
+
+    input_path = input_path_file.parent
+    input_file_no_ext = input_path_file.stem
+    output_file_ext: Final = ".inp"
+    output_file = input_file_no_ext + output_file_ext
+    output_path_file = input_path.joinpath(output_file)
+
+    with open(str(input_path_file), "rt") as in_stream:
+        line = in_stream.readline()
+
+        with open(str(output_path_file), "wt") as out_stream:
+            out_stream.write(line)
+
+        aa = 4
 
     return success
 

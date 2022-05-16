@@ -121,6 +121,19 @@ def test_io_mesh_file_vertex_to_inp_file_node():
         assert y == fx
 
 
+def test_translate_file_bad_file():
+    """Given a file name or path that does not exist, checks that the
+    translate_file function raises a FileNotFoundError."""
+    self_path_file = Path(__file__)
+    self_path = self_path_file.resolve().parent
+    data_path = self_path.joinpath("../", "data", "mesh").resolve()
+    input_mesh_file = data_path.joinpath("this_file_does_not_exist.mesh")
+
+    with pytest.raises(FileNotFoundError) as error:
+        trans.translate_file(path_mesh_file=str(input_mesh_file))
+    assert error.typename == "FileNotFoundError"
+
+
 def test_cube_mesh_file_to_inp_file():
     """Given a small, exemplar .mesh file, the cube composed of two
     hex elements in each of the x, y, and z directions, confirm, a
