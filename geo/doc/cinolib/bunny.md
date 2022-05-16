@@ -187,6 +187,8 @@ Volume 1  Hex quality, 9732 elements:
 ------------------------------------
 ```
 
+![](fig/bunny_projected_hexalab_scaled_jacobian.png)
+
 ## References
 
 [^stanford_volume_data]: https://graphics.stanford.edu/data/voldata/, Terry Yoo of the National Library of Medicine, using a scanner provided by Sandy Napel and Geoff Rubin of Stanford Radiology, of the terra-cotta bunny provided by Marc Levoy of Stanford CS.
