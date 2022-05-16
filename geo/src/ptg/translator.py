@@ -2,8 +2,14 @@
 and '.inp' file types.
 """
 
+import argparse
+
+# from pathlib import Path
+import sys
 
 from typing import NamedTuple
+
+# from typing import Final, NamedTuple
 
 
 class inp_file_node(NamedTuple):
@@ -163,3 +169,52 @@ def translate(*, node_id: int, vertex: mesh_file_vertex) -> inp_file_node:
     """Given an item of 'mesh_file_vertex' type, returns an equivalent
     item in 'inp_file_node' type given a given node number 'node_id'."""
     return inp_file_node(node_id=node_id, x=vertex.x, y=vertex.y, z=vertex.z)
+
+
+def translate_file(*, path_mesh_file: str) -> bool:
+    """Given a string that contains a valid path and file name to
+    a .mesh file, creates a .inp file in the same path location.
+    Returns true if successful, false otherwise.
+    """
+    success = False
+
+    # input_path_file = Path(path_mesh_file)
+    # input_path = input_path_file.parent
+    # input_file_no_ext = input_path_file.stem
+    # output_file_ext: Final = ".inp"
+    # output_file = input_file_no_ext + output_file_ext
+
+    return success
+
+
+def main(argv):
+
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        "mesh_file",
+        help="the .mesh file input",
+    )
+
+    # parser.add_argument(
+    #     "--verbose", help="increased command line feedback", action="store_true"
+    # )
+
+    args = parser.parse_args()
+
+    mesh_file = args.mesh_file
+
+    # verbose = args.verbose
+    translate_file(path_mesh_file=mesh_file)
+
+
+if __name__ == "__main__":
+    """Runs the translator from the command line.
+    Example:
+    $ conda activate siblenv
+    $ cd ~/sibl/geo/src/ptg
+    $ python translate.py ../../data/mesh/hexa_2x2x2.mesh
+
+    produces hexa_2x2x2.inp
+    """
+    main(sys.argv[1:])

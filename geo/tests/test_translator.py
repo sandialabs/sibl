@@ -5,6 +5,9 @@ conda activate siblenv
 cd ~/sibl
 pytest geo/tests/test_translator.py -v
 
+For a specific test (e.g., the first test):
+pytest geo/tests/test_translator.py::test_io_inp_file_node
+
 For coverage:
 pytest geo/tests/test_translator.py -v --cov=geo/src/ptg --cov-report term-missing
 
@@ -14,6 +17,7 @@ black --check geo/tests/test_translator.py --diff
 For flake8:
 flake8 --ignore E203,E501,W503 geo/tests/test_translator.py --statistics
 """
+from pathlib import Path
 
 import pytest
 
@@ -22,7 +26,7 @@ import ptg.translator as trans
 
 def test_io_inp_file_node():
     """Given three items of inp_file_node type, tests they are converted
-    to three strings.
+    to three equivalent strings, suitable for serialization.
     """
     xs = (
         trans.inp_file_node(node_id=1, x=-0.54, y=-0.86, z=-0.07),
@@ -41,7 +45,7 @@ def test_io_inp_file_node():
 
 def test_io_mesh_file_hexahedron():
     """Given three strings, describing three hexahedra from a .mesh file,
-    returns three items of mesh_file_hexahedra type.
+    tests that three items of mesh_file_hexahedra type are returned.
     """
     xs = (
         "1 2 5 4 10 11 14 13 1\n",
@@ -115,6 +119,18 @@ def test_io_mesh_file_vertex_to_inp_file_node():
     for i, (x, y) in enumerate(zip(xs, ys)):
         fx = trans.io_mesh_file_vertex_to_inp_file_node(node_id=i + 1, input=x)
         assert y == fx
+
+
+def test_cube_mesh_file_to_inp_file():
+    """Given a small, exemplar .mesh file, the cube composed of two
+    hex elements in each of the x, y, and z directions, confirm, a
+    .inp file is properly created.
+    """
+    self_path_file = Path(__file__)
+    self_path = self_path_file.resolve().parent
+    data_path = self_path.joinpath("../", "data", "mesh").resolve()
+    input_mesh_file = data_path.joinpath("hexahexa_2x2x2.mesh")
+    trans.translate_file(path_mesh_file=str(input_mesh_file))
 
 
 @pytest.mark.skip("work in progress")
