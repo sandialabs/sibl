@@ -24,47 +24,9 @@ import pytest
 import ptg.translator as trans
 
 
-def test_io_inp_file_node():
-    """Given three items of inp_file_node type, tests they are converted
-    to three equivalent strings, suitable for serialization.
-    """
-    xs = (
-        trans.inp_file_node(node_id=1, x=-0.54, y=-0.86, z=-0.07),
-        trans.inp_file_node(node_id=2, x=-0.51, y=-0.87, z=-0.08),
-        trans.inp_file_node(node_id=3, x=-0.55, y=-0.88, z=-0.09),
-    )
-    ys = (
-        "1, -0.54, -0.86, -0.07\n",
-        "2, -0.51, -0.87, -0.08\n",
-        "3, -0.55, -0.88, -0.09\n",
-    )
-    for x, y in zip(xs, ys):
-        fx = trans.io_inp_file_node(x)
-        assert y == fx
-
-
-def test_io_mesh_file_hexahedron():
-    """Given three strings, describing three hexahedra from a .mesh file,
-    tests that three items of mesh_file_hexahedra type are returned.
-    """
-    xs = (
-        "1 2 5 4 10 11 14 13 1\n",
-        "2 3 6 5 11 12 15 14 1\n",
-        "4 5 8 7 13 14 17 16 1\n",
-    )
-    ys = (
-        trans.mesh_file_hexahedron(nodes=(1, 2, 5, 4, 10, 11, 14, 13), vol_id=1),
-        trans.mesh_file_hexahedron(nodes=(2, 3, 6, 5, 11, 12, 15, 14), vol_id=1),
-        trans.mesh_file_hexahedron(nodes=(4, 5, 8, 7, 13, 14, 17, 16), vol_id=1),
-    )
-    for (x, y) in zip(xs, ys):
-        fx = trans.io_mesh_file_hexahedron(x)
-        assert y == fx
-
-
-def test_io_mesh_file_vertex():
+def test_string_to_vertex():
     """Given three strings, describing three vertices from a .mesh file,
-    returns three items of mesh_file_vertex type.
+    returns three items of `MeshFileVertex` type.
     """
     xs = (
         "-0.54 -0.86 -0.07 23\n",
@@ -72,37 +34,35 @@ def test_io_mesh_file_vertex():
         "-0.55 -0.88 -0.09 12\n",
     )
     ys = (
-        trans.mesh_file_vertex(x=-0.54, y=-0.86, z=-0.07, face_id=23),
-        trans.mesh_file_vertex(x=-0.51, y=-0.87, z=-0.08, face_id=42),
-        trans.mesh_file_vertex(x=-0.55, y=-0.88, z=-0.09, face_id=12),
+        trans.MeshFileVertex(x=-0.54, y=-0.86, z=-0.07, face_id=23),
+        trans.MeshFileVertex(x=-0.51, y=-0.87, z=-0.08, face_id=42),
+        trans.MeshFileVertex(x=-0.55, y=-0.88, z=-0.09, face_id=12),
     )
     for (x, y) in zip(xs, ys):
-        fx = trans.io_mesh_file_vertex(x)
+        fx = trans.string_to_vertex(vertex_string=x)
         assert y == fx
 
 
-def test_io_mesh_file_hexahedra_to_inp_file_element():
-    """Given three strings, describing three hexahedra from a '.mesh' file,
-    returns three strings in an '.inp' file format.
+def test_node_to_string():
+    """Given three items of `InpFileNode` type, tests they are converted
+    to three equivalent strings, suitable for serialization.
     """
     xs = (
-        "1 2 5 4 10 11 14 13 1\n",
-        "2 3 6 5 11 12 15 14 1\n",
-        "4 5 8 7 13 14 17 16 1\n",
+        trans.InpFileNode(node_id=1, x=-0.54, y=-0.86, z=-0.07),
+        trans.InpFileNode(node_id=2, x=-0.51, y=-0.87, z=-0.08),
+        trans.InpFileNode(node_id=3, x=-0.55, y=-0.88, z=-0.09),
     )
     ys = (
-        "1, 1, 2, 5, 4, 10, 11, 14, 13\n",
-        "2, 2, 3, 6, 5, 11, 12, 15, 14\n",
-        "3, 4, 5, 8, 7, 13, 14, 17, 16\n",
+        "1, -0.54, -0.86, -0.07\n",
+        "2, -0.51, -0.87, -0.08\n",
+        "3, -0.55, -0.88, -0.09\n",
     )
-    for i, (x, y) in enumerate(zip(xs, ys)):
-        fx = trans.io_mesh_file_hexahedron_to_inp_file_element(
-            element_id=i + 1, input=x
-        )
+    for x, y in zip(xs, ys):
+        fx = trans.node_to_string(node=x)
         assert y == fx
 
 
-def test_io_mesh_file_vertex_to_inp_file_node():
+def test_vertex_string_to_node_string():
     """Given three strings, describing three vertices from a '.mesh' file,
     returns three strings in '.inp' file format.
     """
@@ -117,7 +77,45 @@ def test_io_mesh_file_vertex_to_inp_file_node():
         "3, -0.55, -0.88, -0.09\n",
     )
     for i, (x, y) in enumerate(zip(xs, ys)):
-        fx = trans.io_mesh_file_vertex_to_inp_file_node(node_id=i + 1, input=x)
+        fx = trans.vertex_string_to_node_string(node_id=i + 1, vertex_string=x)
+        assert y == fx
+
+
+def test_string_to_hexahedron():
+    """Given three strings, describing three hexahedra from a .mesh file,
+    tests that three items of `MeshFileHexahedra` type are returned.
+    """
+    xs = (
+        "1 2 5 4 10 11 14 13 1\n",
+        "2 3 6 5 11 12 15 14 1\n",
+        "4 5 8 7 13 14 17 16 1\n",
+    )
+    ys = (
+        trans.MeshFileHexahedron(nodes=(1, 2, 5, 4, 10, 11, 14, 13), vol_id=1),
+        trans.MeshFileHexahedron(nodes=(2, 3, 6, 5, 11, 12, 15, 14), vol_id=1),
+        trans.MeshFileHexahedron(nodes=(4, 5, 8, 7, 13, 14, 17, 16), vol_id=1),
+    )
+    for (x, y) in zip(xs, ys):
+        fx = trans.string_to_hexahedron(hex_string=x)
+        assert y == fx
+
+
+def test_hexahedron_string_to_element_string():
+    """Given three strings, describing three hexahedra from a '.mesh' file,
+    returns three strings in an '.inp' file format.
+    """
+    xs = (
+        "1 2 5 4 10 11 14 13 1\n",
+        "2 3 6 5 11 12 15 14 1\n",
+        "4 5 8 7 13 14 17 16 1\n",
+    )
+    ys = (
+        "1, 1, 2, 5, 4, 10, 11, 14, 13\n",
+        "2, 2, 3, 6, 5, 11, 12, 15, 14\n",
+        "3, 4, 5, 8, 7, 13, 14, 17, 16\n",
+    )
+    for i, (x, y) in enumerate(zip(xs, ys)):
+        fx = trans.hexahedron_string_to_element_string(element_id=i + 1, hex_string=x)
         assert y == fx
 
 
@@ -130,7 +128,7 @@ def test_translate_file_bad_file():
     input_mesh_file = data_path.joinpath("this_file_does_not_exist.mesh")
 
     with pytest.raises(FileNotFoundError) as error:
-        trans.translate_file(path_mesh_file=str(input_mesh_file))
+        trans.translate(path_mesh_file=str(input_mesh_file))
     assert error.typename == "FileNotFoundError"
 
 
@@ -146,6 +144,11 @@ def test_cube_mesh_file_to_inp_file():
     input_mesh_file = data_path.joinpath(basename + ".mesh")
     output_inp_file = data_path.joinpath(basename + ".inp")
 
+    # from manual testing, the output file may already exist in the directory,
+    # so if it exists, then delete it
+    if output_inp_file.exists():
+        output_inp_file.unlink()
+
     # assert, prior to translation, that
     # (a) the input file exist and
     assert input_mesh_file.is_file()
@@ -153,7 +156,7 @@ def test_cube_mesh_file_to_inp_file():
     assert not output_inp_file.is_file()
 
     # do the translation
-    translated = trans.translate_file(path_mesh_file=str(input_mesh_file))
+    translated = trans.translate(path_mesh_file=str(input_mesh_file))
 
     # assert the translation function was successful
     assert translated
