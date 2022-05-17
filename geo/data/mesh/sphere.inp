@@ -1,3 +1,7 @@
+***** /Users/cbh/sibl/geo/src/ptg/translator.py
+***** translated from geo/data/mesh/sphere.mesh
+***** to geo/data/mesh/sphere.inp
+***** on 2022-05-17 19:03:30 (UTC)
 ********************************** N O D E S **********************************
 *NODE, NSET=ALLNODES
 1, -0.4996643748206592, -0.49961937182326294, -0.49967352653525565
