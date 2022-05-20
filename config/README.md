@@ -116,8 +116,19 @@ $ git config user.email "jb007@company.com"  # your email address in quotations
 * ~~macOS `> brew install git-flow`~~
 * ~~Windows [download and install](https://git-scm.com/download/win) `git-flow`~~
 
+## Deprecated
+
+* Gitflow
+* Behavior Driven Design (BDD); in favor of simple Test Driven Design (TDD)
+* Extensive git branching.
+
 ## References
 
+* [GitHub Actions](https://docs.github.com/en/actions)
+  * [Events that trigger workflows](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows)
+  * Tip 9: Creating a GitHub release in a [GitHub Actions](https://github.com/actions) workflow, Mar 18, 2022, https://youtu.be/_ueJ3LrRqPU
+    * Create a GitHub release action `create-release`
+    * Upload a release asset action `upload-release-asset`
 * Conda [build](https://docs.conda.io/projects/conda-build/en/latest/resources/build-scripts.html)
 * Conda [managing environments](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html)
 * Conda [cheat sheet](https://docs.conda.io/projects/conda/en/4.6.0/_downloads/52a95608c49671267e40c689e0bc00ca/conda-cheatsheet.pdf)
