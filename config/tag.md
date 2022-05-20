@@ -42,3 +42,4 @@ To github.com:sandialabs/sibl.git
 ## References
 
 * [GitHub book](https://git-scm.com/book/en/v2/Git-Basics-Tagging)
+* Tip 9: Creating a GitHub release in a GitHub Actions workflow, https://youtu.be/_ueJ3LrRqPU

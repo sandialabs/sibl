@@ -1,6 +1,7 @@
 # Follows https://youtu.be/_ueJ3LrRqPU
 # uses https://github.com/actions/create-release
 # ref: semantic versioning https://semver.org/
+# started on 2022-05-20
 
 on:
   push:
