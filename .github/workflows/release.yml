@@ -6,7 +6,7 @@
 # https://youtu.be/WTofttoD2xg for Creating CI/CD Pipeline using GitHub Actions for Python Project (Heroku Deployment Example)
 # ref: semantic versioning https://semver.org/
 # started on 2022-05-20
-https://github.com/marketplace/actions/pypi-publish
+# https://github.com/marketplace/actions/pypi-publish
 
 
 on:
