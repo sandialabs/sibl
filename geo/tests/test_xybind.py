@@ -15,6 +15,7 @@ To run all tests in this module:
 """
 
 # import pytest
+from pathlib import Path
 
 from ptg import command_line
 import xybind as xyb
@@ -211,6 +212,8 @@ def test_unit_circle_quad_mesh():
     # mesh = xyb.QuadMesh(xs, ys)  # xybind version 0.0.7 API
     # mesh.compute(resolution=1)  # xybind version 0.0.7 API
     mesh = xyb.QuadMesh()
+    output_file_basename = "test_unit_circle"
+    output_file_fullname = output_file_basename + ".inp"
     mesh.initialize(
         boundary_xs=xs,
         boundary_ys=ys,
@@ -221,7 +224,7 @@ def test_unit_circle_quad_mesh():
         upper_bound_x=1.5,
         upper_bound_y=1.5,
         developer_output=False,
-        output_file="test_unit_circle",
+        output_file=output_file_basename,
     )
 
     mesh.compute()
@@ -236,3 +239,12 @@ def test_unit_circle_quad_mesh():
     found = (len(nds), len(con))
 
     assert known == found
+
+    # The `test_unit_circle.inp` file gets written to `~/sibl/test_unit_circle.inp`
+    # so clean up by removing this file after the test.
+    sibl_path = Path(__file__).parents[2]
+    path_file_inp = sibl_path.joinpath(output_file_fullname)
+    # check that the file exists and has been written to the ~/sibl folder
+    assert path_file_inp.is_file()
+    path_file_inp.unlink()  # delete the file
+    assert not path_file_inp.is_file()  # check that the file no longer exists

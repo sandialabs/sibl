@@ -208,7 +208,7 @@ def main(argv):
     args = parser.parse_args()
     mesh_file = args.mesh_file
 
-    print(f"translator.py is translating {mesh_file}")
+    print(f"{__file__} is translating:\n{mesh_file}")
     translated = translate(path_mesh_file=mesh_file)
     success: Final[str] = "success: translation completed"
     failure: Final[str] = "error: translation unsucessful"
@@ -220,7 +220,7 @@ if __name__ == "__main__":
     Example:
     $ conda activate siblenv
     $ cd ~/sibl/geo/src/ptg
-    $ python translate.py ../../data/mesh/hexa_2x2x2.mesh
+    $ python translator.py ../../data/mesh/hexa_2x2x2.mesh
 
     produces hexa_2x2x2.inp
     """
