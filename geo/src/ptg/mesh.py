@@ -5,6 +5,9 @@ from itertools import cycle, tee
 # https://docs.python.org/3/library/typing.html#type-aliases
 Vertex = tuple[float, ...]
 Face = tuple[int, ...]
+Faces = tuple[Face, ...]
+Edge = tuple[int, int]
+Edges = tuple[Edge, ...]
 
 
 class Mesh(NamedTuple):
@@ -62,32 +65,32 @@ def pairwise_circular(x: Iterable) -> Iterable:
     return zip(x, a)
 
 
-def pairwise_loop_first(x: tuple[int, ...]) -> tuple[tuple[int, int]]:
-    augmented = x + (x[0],)
-    paired = tuple(pairwise(x=augmented))
-    return paired
+def adjacency_upper_diagonal(x: Face) -> Edges:
+    """Given a single face, composed of integer node numbers, returns indices
+    of all edges that compose that face as the upper diagonal non-zero elements
+    of the adjacency matrix.
+    """
+    a = pairwise_circular(x)
+    b = tuple()
+    for i in a:
+        if i[0] < i[1]:
+            # b += ((i[0], i[1]),)
+            b += (i,)
+        else:
+            # b += ((i[1], i[0]),)
+            b += (tuple(reversed(i)),)
+    return b
 
 
-def upper_diagonal(x: tuple[int, int]) -> tuple[int, int]:
-    """Given (i, j) index in a symmtric matrix M, if
-    (i, j) is in the lower diagonal, return the (j, i)
-    index, otherwise return the (i, j) index."""
-    if x[0] > x[1]:
-        return tuple(reversed(x))
-    else:
-        return x
-
-
-# def adjacency_vector(faces: Iterable):
-#     pairs = pairwise_loop_first(face) for face in faces
-#     bb = tuple([upper_diagonal(pair) for pair in pairs])
-#     return bb
-
-
-# def all_pairs(x: Iterable) -> tuple(tuple[int, int]):
-#     aa = tuple([xi for xi in x])
-#     return aa
-
-
-# def adjacency_vector(mesh: Mesh) -> tuple[tuple[int, int]]:
-#    fs = mesh.faces
+def adjacencies_upper_diagonal(xs: Faces) -> Edges:
+    """Given a Faces collection, returns the indices of all edges that compose
+    the union of Face items as the upper diagonal non-zero elements of the
+    adjacency matrix.
+    """
+    a = tuple()
+    for x in xs:
+        es = adjacency_upper_diagonal(x)
+        for e in es:
+            if e not in a:
+                a += (e,)
+    return a

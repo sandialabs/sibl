@@ -36,32 +36,29 @@ def test_pairwise_circular():
     assert y == fx2
 
 
-def test_two_triangles():
-    # vs = ((0.0, 0.0), (4.0, 0.0), (0.0, 4.0), (4.0, 4.0))  # vertices
-    fs = ((1, 2, 3), (2, 4, 3))  # faces
-
-    y = ((1, 2), (2, 3))
-    fx = tuple(pm.pairwise(x=fs[0]))
+def test_adjacency():
+    x = (3, 4, 1)
+    # y = ((1, 3), (1, 4), (3, 4))
+    y = ((3, 4), (1, 4), (1, 3))
+    fx = pm.adjacency_upper_diagonal(x)
     assert y == fx
 
-    y = ((2, 4), (4, 3))
-    fx = tuple(pm.pairwise(x=fs[1]))
+
+def test_adjacencies():
+    """Given a graph with four nodes and two closed triangular paths:
+    2      1
+    *------*
+    | (2) /|
+    |    / |
+    |   /  |
+    |  /   |
+    | /    |
+    |/ (1) |
+    *------*
+    3      4
+    """
+    x = ((3, 4, 1), (3, 1, 2))
+    # y = ((1, 2), (1, 3), (1, 4), (2, 3), (3, 4))
+    y = ((3, 4), (1, 4), (1, 3), (1, 2), (2, 3))
+    fx = pm.adjacencies_upper_diagonal(x)
     assert y == fx
-
-    y = ((1, 2), (2, 3), (3, 1))
-    fx = pm.pairwise_loop_first(x=fs[0])
-    assert y == fx
-    z = ((1, 2), (2, 3), (1, 3))
-    fz = tuple(pm.upper_diagonal(x) for x in fx)
-    assert z == fz
-
-    y = ((2, 4), (4, 3), (3, 2))
-    fx = pm.pairwise_loop_first(x=fs[1])
-    assert y == fx
-    z = ((2, 4), (3, 4), (2, 3))
-    fz = tuple(pm.upper_diagonal(x) for x in fx)
-    assert z == fz
-
-    # fx = pm.adjacency_vector(faces=fs)
-
-    # m = pm.Mesh(vertices=vs, faces=fs)
