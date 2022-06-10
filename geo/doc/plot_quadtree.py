@@ -218,8 +218,9 @@ def main():
     if serialize:
         extension = ".png"  # ".png" | ".pdf" | ".svg"
         filename = Path(__file__).stem + "_" + test_case + extension
-        fig.savefig(filename, bbox_inches="tight", pad_inches=0)
-        print(f"Serialized to {filename}")
+        pathfilename = Path.cwd().joinpath(filename)
+        fig.savefig(pathfilename, bbox_inches="tight", pad_inches=0)
+        print(f"Serialized to {pathfilename}")
 
 
 if __name__ == "__main__":

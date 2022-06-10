@@ -72,6 +72,62 @@ class InpFileNode(NamedTuple):
     z: float  # z-coordinate
 
 
+def inp_path_file_to_stream(*, pathfile: str):
+    pf = Path(pathfile)
+    if not pf.is_file():
+        print(f"Error: no such file: {pf}")
+        raise FileNotFoundError
+    return open(str(pf), "rt")
+
+
+def inp_path_file_to_vertices(*, pathfile: str):
+    vertices = ()  # emtpy tuple
+    with inp_path_file_to_stream(pathfile=pathfile) as f:
+
+        try:
+            line = f.readline()
+            while line:
+                if "*NODE" in line or "*Node" in line:
+                    # collect all nodes
+                    line = f.readline()  # get the next line
+                    while "*" not in line:
+                        line = line.split(",")
+                        # assume a 3D format even for planar problems, and catch
+                        # exceptions as needed
+                        try:
+                            new_vertex = (
+                                tuple(
+                                    [
+                                        float(eval(line[1])),
+                                        float(eval(line[2])),
+                                        float(eval(line[3])),
+                                    ]
+                                ),
+                            )
+                        except IndexError:  # handle 2D input files, append 0.0 as z coordinate
+                            new_vertex = (
+                                tuple(
+                                    [
+                                        float(eval(line[1])),
+                                        float(eval(line[2])),
+                                        0.0,
+                                    ]
+                                ),
+                            )
+
+                        vertices = vertices + new_vertex
+                        line = f.readline()
+                else:
+                    line = f.readline()
+
+            print(f"Finished reading file: {pathfile}")
+
+        except OSError:
+            print(f"Cannot read file: {pathfile}")
+
+    return vertices
+
+
 def string_to_vertex(*, vertex_string: str) -> MeshFileVertex:
     """Converts a `vertex_string` (e.g., `x y z face_id`) found in a `.mesh` file
     to a `MeshFileVertex`.
