@@ -58,3 +58,12 @@ ax.yaxis.set_major_locator(MultipleLocator(1.0))
 ax.yaxis.set_minor_locator(MultipleLocator(0.25))
 
 plt.show()
+
+# The example from the documentation
+rng = np.random.default_rng()
+points = rng.random((10, 2))
+
+vor = Voronoi(points)
+fig = voronoi_plot_2d(vor)
+# fig = voronoi_plot_2d(vor, show_vertices=False, line_colors='orange', line_width=2, line_alpha=0.6, point_size=2)
+plt.show()
