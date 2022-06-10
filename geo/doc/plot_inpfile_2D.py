@@ -29,7 +29,7 @@ def main():
         rc("font", **{"family": "serif", "serif": ["Computer Modern Roman"]})
         rc("text", usetex=True)
 
-    dpi = 100  # dots per inch
+    dpi = 200  # dots per inch
     # xticks = (-1, 0, 1, 2)
     # yticks = xticks
 
@@ -59,7 +59,7 @@ def main():
         xs = [point[ix] for point in edge_points]
         ys = [point[iy] for point in edge_points]
         # plt.plot(xs, ys, **plot_kwargs)
-        plt.plot(xs, ys, alpha=1.0, color="blue", marker=None, markerfacecolor="red")
+        plt.plot(xs, ys, alpha=1.0, linewidth=0.5, color="blue", marker=None, markerfacecolor="red")
 
     if shown:
         plt.show()
