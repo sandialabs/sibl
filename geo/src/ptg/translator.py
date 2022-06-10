@@ -80,10 +80,9 @@ def inp_path_file_to_stream(*, pathfile: str):
     return open(str(pf), "rt")
 
 
-def inp_path_file_to_vertices(*, pathfile: str):
-    vertices = ()  # emtpy tuple
+def inp_path_file_to_coordinates(*, pathfile: str):
+    coordinates = ()  # emtpy tuple
     with inp_path_file_to_stream(pathfile=pathfile) as f:
-
         try:
             line = f.readline()
             while line:
@@ -92,40 +91,41 @@ def inp_path_file_to_vertices(*, pathfile: str):
                     line = f.readline()  # get the next line
                     while "*" not in line:
                         line = line.split(",")
-                        # assume a 3D format even for planar problems, and catch
-                        # exceptions as needed
-                        try:
-                            new_vertex = (
-                                tuple(
-                                    [
-                                        float(eval(line[1])),
-                                        float(eval(line[2])),
-                                        float(eval(line[3])),
-                                    ]
-                                ),
-                            )
-                        except IndexError:  # handle 2D input files, append 0.0 as z coordinate
-                            new_vertex = (
-                                tuple(
-                                    [
-                                        float(eval(line[1])),
-                                        float(eval(line[2])),
-                                        0.0,
-                                    ]
-                                ),
-                            )
-
-                        vertices = vertices + new_vertex
+                        line = line[1:]  # ignore the first column node number
+                        line = [x.strip() for x in line]  # remove whitespace and \t \n
+                        new_coordinate = tuple(map(lambda x: float(eval(x)), line))
+                        coordinates += (new_coordinate),
                         line = f.readline()
                 else:
                     line = f.readline()
-
             print(f"Finished reading file: {pathfile}")
-
         except OSError:
             print(f"Cannot read file: {pathfile}")
+    return coordinates
 
-    return vertices
+
+def inp_path_file_to_connectivities(*, pathfile: str):
+    connectivities = ()  # empty tuple
+    with inp_path_file_to_stream(pathfile=pathfile) as f:
+        try:
+            line = f.readline()
+            while line:
+                if "*ELEMENT" in line or "*Element" in line:
+                    # collect all elements
+                    line = f.readline()  # get the next line
+                    while "*" not in line and len(line) > 0:
+                        line = line.split(",")
+                        line = line[1:]  # ignore the first column node number
+                        line = [x.strip() for x in line]  # remove whitespace and \t \n
+                        new_connectivity = tuple(map(lambda x: int(eval(x)), line))
+                        connectivities += (new_connectivity),
+                        line = f.readline()
+                else:
+                    line = f.readline()
+            print(f"Finished reading file: {pathfile}")
+        except OSError:
+            print(f"Cannot read file: {pathfile}")
+    return connectivities
 
 
 def string_to_vertex(*, vertex_string: str) -> MeshFileVertex:

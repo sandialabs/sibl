@@ -184,14 +184,15 @@ def test_inp_path_file_to_stream_bad():
     assert error.typename == "FileNotFoundError"
 
 
-def test_inp_path_file_to_vertices():
-    """Given a valid Abaqus input file, tests that the expected vertices
-    are returned."""
+def test_inp_path_file_to_coordinates_and_connectivity():
+    """Given a valid Abaqus input file, tests that the expected coordinates
+    and connectivities are returned."""
     self_path_file = Path(__file__)
     self_path = self_path_file.resolve().parent
     data_path = self_path.joinpath("../", "data", "mesh").resolve()
     input_mesh_file = data_path.joinpath("abaqus_hex_2x2x2.inp")
 
+    # test coordinates
     known = (
         (0.0, 0.0, 0.0),
         (0.5, 0.0, 0.0),
@@ -221,7 +222,21 @@ def test_inp_path_file_to_vertices():
         (0.5, 1.0, 1.0),
         (1.0, 1.0, 1.0),
     )
-    found = trans.inp_path_file_to_vertices(pathfile=str(input_mesh_file))
+    found = trans.inp_path_file_to_coordinates(pathfile=str(input_mesh_file))
+    assert known == found
+
+    # test connectivity
+    known = (
+        (1, 2, 5, 4, 10, 11, 14, 13),
+        (2, 3, 6, 5, 11, 12, 15, 14),
+        (4, 5, 8, 7, 13, 14, 17, 16),
+        (5, 6, 9, 8, 14, 15, 18, 17),
+        (10, 11, 14, 13, 19, 20, 23, 22),
+        (11, 12, 15, 14, 20, 21, 24, 23),
+        (13, 14, 17, 16, 22, 23, 26, 25),
+        (14, 15, 18, 17, 23, 24, 27, 26),
+    )
+    found = trans.inp_path_file_to_connectivities(pathfile=str(input_mesh_file))
     assert known == found
 
 
