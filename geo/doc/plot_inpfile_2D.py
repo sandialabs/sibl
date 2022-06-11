@@ -9,17 +9,22 @@ import ptg.mesh as mesh
 
 
 def main():
-    # input_userstring = "~/sibl/geo/data/mesh/two_quads.inp"
+    input_userstring = "~/sibl/geo/data/mesh/two_quads.inp"
     # input_userstring = "~/sibl/geo/data/mesh/two_quads_nonseq.inp"
-    input_userstring = "~/sibl/geo/doc/dual/lesson_04/lesson_04_mesh.inp"
+    # input_userstring = "~/sibl/geo/doc/dual/lesson_04/lesson_04_mesh.inp"
     #
     # input_pathfile = Path("~/sibl/geo/data/mesh/two_quads.inp").expanduser()
     input_pathfile = Path(input_userstring).expanduser()
     input_pathfile_base = input_pathfile.stem
-    shown: Final = True
+    fig_shown: Final = True
+    nodes_shown: Final = True
+    node_numbers_shown: Final = True
+    node_size: Final = 100
+    node_alpha: Final = 0.9
+
     serialize: Final = True
     ix: Final = 0  # index to x-coordinate
-    iy: Final = 1  # index to x-coordinate
+    iy: Final = 1  # index to y-coordinate
     # color_file: Final = True
     # plot_kwargs: {"alpha": 1.0, "color": "black", "linestyle": "solid", "linewidth": 0.1}
     # plot_kwargs: {"alpha": 1.0, "color": "black"}
@@ -29,7 +34,7 @@ def main():
         rc("font", **{"family": "serif", "serif": ["Computer Modern Roman"]})
         rc("text", usetex=True)
 
-    dpi = 200  # dots per inch
+    dpi = 100  # dots per inch
     # xticks = (-1, 0, 1, 2)
     # yticks = xticks
 
@@ -69,7 +74,22 @@ def main():
             markerfacecolor="red",
         )
 
-    if shown:
+    if nodes_shown:
+        xs = [item[ix] for item in nodes.values()]
+        ys = [item[iy] for item in nodes.values()]
+        ax.scatter(xs, ys, linestyle="solid", edgecolor="black", color="yellow", alpha=node_alpha, s=node_size)
+
+    if node_numbers_shown:
+        # cannot do xs and ys format, must do text one
+        # at a time
+        # for node_number, (x, y) in nodes.items():
+        for item in nodes.items():
+            c = item[0]
+            x = item[1][ix]
+            y = item[1][iy]
+            ax.text(x, y, c, horizontalalignment="center", verticalalignment="center")
+
+    if fig_shown:
         plt.show()
 
     if serialize:

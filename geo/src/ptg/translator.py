@@ -1,8 +1,8 @@
 """This module provides translation functions for `.mesh` file types
 and `.inp` file types.
 
-Acknowledgment: Dr. Sushan Nakarmi, linkedin.com/in/s-nakarmi/, contributed to a
-development of this module.
+Acknowledgment: Dr. Sushan Nakarmi, linkedin.com/in/s-nakarmi/, contributed to
+the development of this module.
 """
 
 import argparse
