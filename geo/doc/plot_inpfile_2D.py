@@ -77,7 +77,15 @@ def main():
     if nodes_shown:
         xs = [item[ix] for item in nodes.values()]
         ys = [item[iy] for item in nodes.values()]
-        ax.scatter(xs, ys, linestyle="solid", edgecolor="black", color="yellow", alpha=node_alpha, s=node_size)
+        ax.scatter(
+            xs,
+            ys,
+            linestyle="solid",
+            edgecolor="black",
+            color="yellow",
+            alpha=node_alpha,
+            s=node_size,
+        )
 
     if node_numbers_shown:
         # cannot do xs and ys format, must do text one
