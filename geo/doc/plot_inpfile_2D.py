@@ -9,8 +9,8 @@ import ptg.mesh as mesh
 
 
 def main():
-    input_userstring = "~/sibl/geo/data/mesh/two_quads.inp"
-    # input_userstring = "~/sibl/geo/data/mesh/two_quads_nonseq.inp"
+    # input_userstring = "~/sibl/geo/data/mesh/two_quads.inp"
+    input_userstring = "~/sibl/geo/data/mesh/two_quads_nonseq.inp"
     # input_userstring = "~/sibl/geo/doc/dual/lesson_04/lesson_04_mesh.inp"
     #
     # input_pathfile = Path("~/sibl/geo/data/mesh/two_quads.inp").expanduser()
@@ -88,9 +88,7 @@ def main():
         )
 
     if node_numbers_shown:
-        # cannot do xs and ys format, must do text one
-        # at a time
-        # for node_number, (x, y) in nodes.items():
+        # cannot do xs and ys format, must do text one at a time
         for item in nodes.items():
             c = item[0]
             x = item[1][ix]

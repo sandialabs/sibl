@@ -57,8 +57,29 @@ def test_adjacencies():
     *------*
     3      4
     """
-    x = ((3, 4, 1), (3, 1, 2))
+    x = ((3, 4, 1), (3, 1, 2))  # right hand rule
     # y = ((1, 2), (1, 3), (1, 4), (2, 3), (3, 4))
     y = ((3, 4), (1, 4), (1, 3), (1, 2), (2, 3))
+    fx = pm.adjacencies_upper_diagonal(x)
+    assert y == fx
+
+
+def test_adjacencies_two_quads_nonsequential():
+    """Given two quadrilaterals with non-sequential node numbers,
+    test that the edge uppder diagonal adjacencies are returned.
+    This example is from:
+    ~/sibl/geo/data/mesh/two_quads_nonseq.inp
+
+     4      105      6
+     *-------*-------*
+     |       |       |
+     |  (1)  |  (2)  |
+     |       |       |
+     *-------*-------*
+    101      2      103
+
+    """
+    x = ((101, 2, 105, 4), (2, 103, 6, 105))  # right hand rule
+    y = ((2, 101), (2, 105), (4, 105), (4, 101), (2, 103), (6, 103), (6, 105))
     fx = pm.adjacencies_upper_diagonal(x)
     assert y == fx
