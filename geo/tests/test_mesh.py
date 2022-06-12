@@ -70,13 +70,13 @@ def test_adjacencies_two_quads_nonsequential():
     This example is from:
     ~/sibl/geo/data/mesh/two_quads_nonseq.inp
 
-     4      105      6
-     *-------*-------*
-     |       |       |
-     |  (1)  |  (2)  |
-     |       |       |
-     *-------*-------*
-    101      2      103
+     4       105       6
+     *--------*--------*
+     |        |        |
+     |   (1)  |  (20)  |
+     |        |        |
+     *--------*--------*
+    101       2       103
 
     """
     x = ((101, 2, 105, 4), (2, 103, 6, 105))  # right hand rule
