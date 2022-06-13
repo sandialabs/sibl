@@ -21,7 +21,7 @@ import ptg.mesh_smoothing as pms
 
 
 def test_two_quads_two_dof():
-    """Given two quadrilaterals with non-squential node numbers and
+    """Given two quadrilaterals with non-sequential node numbers and
     two degrees of freedom, test mesh smoothing for two iterations.
     This example is from:
     ~/sibl/geo/data/mesh/two_quads_nonseq.inp
