@@ -7,8 +7,8 @@ from ptg.mesh import adjacencies_upper_diagonal
 
 def smooth_neighbor_nonweighted(*, nodes, elements, boundary_nodes, update_ratio):
     """Given nonsequential nodes, elements, boundary elements
-    containing homogenous displacements, and update_ratio between
-    (0, 1), returns the nodes in updated positions.
+    containing homogenous displacements in [1 .. n_space_dimensions],
+    and update_ratio between (0, 1), returns the nodes in updated positions.
     """
     assert update_ratio > 0.0 and update_ratio < 1.0
 
