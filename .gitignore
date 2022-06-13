@@ -70,6 +70,9 @@ coverage.xml
 .pytest_cache/
 cover/
 
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
 # Ignore ircad data folder
 geo/data/ircad_numpy/*
 geo/notebooks/.ipynb*
