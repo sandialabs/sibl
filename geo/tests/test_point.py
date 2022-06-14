@@ -20,6 +20,7 @@ import pytest
 # from ptg.point import Point2D, Points
 import ptg.point as pp
 
+
 @pytest.fixture
 def argv():
     return "input/example_old.yml"
