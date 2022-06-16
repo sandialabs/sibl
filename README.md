@@ -26,9 +26,9 @@ The *SIBL Geometry Engine* is an open-source geometry and mesh engine written in
 ## Documentation
 
 * Learn the formulation and Python implementation from the teaching slides: [pdf download](geo/doc/bezier_b-spline/Hovey_2022_Bezier_B-Spline_SAND2022-7702_C.pdf) (3.3 MB).
-* Learn how to use the Python library by going through the vast test suite using `~/sibl> pytest -v`
-* Automatically create a 2D dualized mesh from discrete, well-defined boundary. Start here: [Lessons](geo/doc/dual/README.md)
-* Create high quality $\rm \LaTeX$ figures using [xfigure](cli/doc/README.md) and a `.json` configuration file.  Benefits: consistency and reproducibility.
+* Review the Python library API through the test suite: `~/sibl> pytest -v`
+* Automatically create a 2D dualized mesh from a discrete, well-defined boundary. Start here: [Lessons](geo/doc/dual/README.md)
+* Create high quality $\rm \LaTeX$ figures using [xfigure](cli/doc/README.md) and a `.json` configuration file.
 * Approximate the angular velocity of a quasi-rigid body using the Tree Point Angular Velocity algorithm ([TPAV](cli/tests/tpav/README.md)).
 
 ## Contributing
