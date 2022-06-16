@@ -15,7 +15,7 @@ For more information on the program &mdash; including publications, presentation
 The *SIBL Geometry Engine* is an open-source geometry and mesh engine written in Python and C++ used for 
 * Bézier curves, surfaces, and volumes,
 * B-spline curves, surfaces, and volumes, and
-* Automatic mesh generation of a 2D quadrilateral mesh from dualized, feature-refined quadtree.
+* Automatic mesh generation of a 2D quadrilateral mesh from a dualized, feature-refined quadtree.
 
 ![geo_doc_fig](geo/doc/fig/N_p=2_NCP=8.png)
 > Figure 1:  Eight B-spline quadratic basis functions (reproduction of Cottrell *et al.* Figure 2.5[^Cottrell2009] and Piegl & Tiller Figure 2.6[^Piegl1997]).
