@@ -38,11 +38,6 @@ The mathematical development used in the library is contained in two documents:
 * Create high quality $\rm \LaTeX$ figures using [xfigure](cli/doc/README.md) and a `.json` configuration file.  Benefits: consistency and reproducibility.
 * Approximate the angular velocity of a quasi-rigid body using the Tree Point Angular Velocity algorithm ([TPAV](cli/tests/tpav/README.md)).
 
-## References
-
-[^Cottrell2009]: Cottrell, J. A., Hughes, T. J., and Bazilevs, Y. (2009). *Isogeometric analysis: toward integration of CAD and FEA.* John Wiley & Sons.
-[^Piegl1997]: Piegl, L. and Tiller, W. (1997). *The NURBS book.* Springer Science & Business Media.
-
 ## Contributing
 
 * To get started, developers should [configure](config/README.md) their development environment.
@@ -71,3 +66,7 @@ For five (5) years from  the United States Government is granted for itself and 
 NEITHER THE UNITED STATES GOVERNMENT, NOR THE UNITED STATES DEPARTMENT OF ENERGY, NOR NATIONAL TECHNOLOGY AND ENGINEERING SOLUTIONS OF SANDIA, LLC, NOR ANY OF THEIR EMPLOYEES, MAKES ANY WARRANTY, EXPRESS OR IMPLIED, OR ASSUMES ANY LEGAL RESPONSIBILITY FOR THE ACCURACY, COMPLETENESS, OR USEFULNESS OF ANY INFORMATION, APPARATUS, PRODUCT, OR PROCESS DISCLOSED, OR REPRESENTS THAT ITS USE WOULD NOT INFRINGE PRIVATELY OWNED RIGHTS.
  
 Any licensee of this software has the obligation and responsibility to abide by the applicable export control laws, regulations, and general prohibitions relating to the export of technical data. Failure to obtain an export control license or other authority from the Government may result in criminal liability under U.S. laws.
+
+[^Cottrell2009]: Cottrell, J. A., Hughes, T. J., and Bazilevs, Y. (2009). *Isogeometric analysis: toward integration of CAD and FEA.* John Wiley & Sons.
+[^Piegl1997]: Piegl, L. and Tiller, W. (1997). *The NURBS book.* Springer Science & Business Media.
+
