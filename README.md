@@ -23,13 +23,6 @@ The *SIBL Geometry Engine* is an open-source geometry and mesh engine written in
 ![dualization_workflow](geo/doc/dual/fig/dualization_workflow.png)
 > Figure 2: Automatic mesh generation workflow using dualization.
 
-The *SIBL Geometry Engine* is Python library that creates Bézier and B-spline curves, surfaces, and volumes.
-
-The mathematical development used in the library is contained in two documents:
-
-* [Bézier Geometry](geo/doc/bezier/Bezier-Geometry-2021-12-15.pdf), and
-* [B-Spline Geometry](geo/doc/bspline/B-Spline-Geometry-2021-12-15.pdf).
-
 ## Documentation
 
 * Learn the formulation and Python implementation from the teaching slides: [pdf download](geo/doc/bezier_b-spline/Hovey_2022_Bezier_B-Spline_SAND2022-7702_C.pdf) (3.3 MB).
