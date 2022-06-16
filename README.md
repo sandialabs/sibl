@@ -1,26 +1,27 @@
 # Sandia Injury Biomechanics Laboratory (SIBL)
 
+[![python](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/) ![os](https://img.shields.io/badge/os-ubuntu%20|%20macos%20|%20windows-blue.svg) [![license](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/sandialabs/sibl#license)  [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
+[![pytest](https://github.com/sandialabs/sibl/workflows/pytest/badge.svg)](https://github.com/sandialabs/sibl/actions) [![blacktest](https://github.com/sandialabs/sibl/workflows/blacktest/badge.svg)](https://github.com/sandialabs/sibl/actions) [![covertest](https://github.com/sandialabs/sibl/workflows/covertest/badge.svg)](https://github.com/sandialabs/sibl/actions) [![codecov](https://codecov.io/gh/sandialabs/sibl/branch/master/graph/badge.svg)](https://codecov.io/gh/sandialabs/sibl)
+
 ## Purpose
 
 The Sandia Injury Biomechanics Laboratory analyzes injury due to blast, ballistics, and blunt trauma to help the nation protect the U.S. warfighter. Our contributions to the science of injury causation and prevention aim to significantly reduce the U.S. warfighter's exposure to serious, severe, and fatal injuries.
 
-For more information &mdash; including publications, presentations, and reports &mdash; see our [website](https://www.sandia.gov/biomechanics/).
+For more information on the program &mdash; including publications, presentations, and reports &mdash; see our [Sandia National Laboratories website](https://www.sandia.gov/biomechanics/).
 
 ## Library
 
-The `xyfigure` library is an open-source geometry and mesh engine written in Python and C++.
-
-### Information
-
-[![python](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/) ![os](https://img.shields.io/badge/os-ubuntu%20|%20macos%20|%20windows-blue.svg) [![license](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/sandialabs/sibl#license)  [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-
-### Testing
-
-[![pytest](https://github.com/sandialabs/sibl/workflows/pytest/badge.svg)](https://github.com/sandialabs/sibl/actions) [![blacktest](https://github.com/sandialabs/sibl/workflows/blacktest/badge.svg)](https://github.com/sandialabs/sibl/actions) [![covertest](https://github.com/sandialabs/sibl/workflows/covertest/badge.svg)](https://github.com/sandialabs/sibl/actions) [![codecov](https://codecov.io/gh/sandialabs/sibl/branch/master/graph/badge.svg)](https://codecov.io/gh/sandialabs/sibl)
-
-### Geometry Engine
+The *SIBL Geometry Engine* is an open-source geometry and mesh engine written in Python and C++ used for 
+* Bézier curves, surfaces, and volumes,
+* B-spline curves, surfaces, and volumes, and
+* Automatic mesh generation of a 2D quadrilateral mesh from dualized, feature-refined quadtree.
 
 ![geo_doc_fig](geo/doc/fig/N_p=2_NCP=8.png)
+> Figure 1:  Eight B-spline quadratic basis functions (reproduction of Cottrell *et al.* Figure 2.5[^Cottrell2009] and Piegl & Tiller Figure 2.6[^Piegl1997]).
+
+![dualization_workflow](geo/doc/dual/fig/dualization_workflow.png)
+> Figure 2: Automatic mesh generation workflow using dualization.
 
 The *SIBL Geometry Engine* is Python library that creates Bézier and B-spline curves, surfaces, and volumes.
 
@@ -29,19 +30,20 @@ The mathematical development used in the library is contained in two documents:
 * [Bézier Geometry](geo/doc/bezier/Bezier-Geometry-2021-12-15.pdf), and
 * [B-Spline Geometry](geo/doc/bspline/B-Spline-Geometry-2021-12-15.pdf).
 
-The examples and validations presented in the documents are all created with the *SIBL Geometry Engine*, connecting theory with implementation.  The *Geometry Engine* is a fundamental part of the Pixel to Mesh and Pixel to Geometry (PTM/PTG) [workflows](geo/doc/unit-test-ptm.md).
+## Documentation
 
-### Mesh Engine
+* Learn the formulation and Python implementation from the teaching slides: [pdf download](geo/doc/bezier_b-spline/Hovey_2022_Bezier_B-Spline_SAND2022-7702_C.pdf) (3.3 MB).
+* Learn how to use the Python library by going through the vast test suite using `~/sibl> pytest -v`
+* Automatically create a 2D dualized mesh from discrete, well-defined boundary. Start here: [Lessons](geo/doc/dual/README.md)
+* Create high quality $\rm \LaTeX$ figures using [xfigure](cli/doc/README.md) and a `.json` configuration file.  Benefits: consistency and reproducibility.
+* Approximate the angular velocity of a quasi-rigid body using the Tree Point Angular Velocity algorithm ([TPAV](cli/tests/tpav/README.md)).
 
-![circle_boundary_mesh](geo/doc/dual/fig/circle_boundary_mesh.png)
+## References
 
-The *SIBL Mesh Engine* is a C++ library with Python bindings that creates 2D dualized quadrilateral meshes.  Follow the [Lessons](geo/doc/dual/README.md) to get started.
+* [^Cottrell2009]: Cottrell, J. A., Hughes, T. J., and Bazilevs, Y. (2009). *Isogeometric analysis: toward integration of CAD and FEA.* John Wiley & Sons.
+* [^Piegl1997]: Piegl, L. and Tiller, W. (1997). *The NURBS book.* Springer Science & Business Media.
 
-### Additional Documentation
-
-* Also see the [xyfigure](cli/doc/README.md) and [tpav](cli/tests/tpav/README.md) documentation.
-
-### Contributing
+## Contributing
 
 * To get started, developers should [configure](config/README.md) their development environment.
 * Then, developers should follow the developer [workflow](config/workflow.md).

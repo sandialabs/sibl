@@ -120,7 +120,7 @@ To come.
 <!--- ![letter-g](fig/g.png) -->
 <img src="fig/g.png" alt="letter-g" width="360"/>
 
-> Figure.  The letter "g", composed of Bezier curves. @FontForge2017 from page 47.
+> Figure.  The letter "g", composed of Bézier curves. @FontForge2017 from page 47.
 
 ## References
 
