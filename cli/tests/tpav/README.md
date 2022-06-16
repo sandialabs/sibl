@@ -1,12 +1,12 @@
 # Three-Point Angular Velocity (TPAV)
 
-## Abstract
+## Objective
 
 Given velocity of three points on a quasi-rigid body, calculate the angular velocity of a quasi-rigid body.
 
 ## Methods
 
-The theoretical development is forthcoming, to appear in a SAND report (as of 2020-05-05).
+See Terpsma RJ, Hovey CB. *Blunt Impact Brain Injury Using Cellular Injury Criterion.* Sandia National Lab.(SNL-NM), Albuquerque, NM (United States); 2020 Oct 1 (SAND2020-11444), pp 100-109.  [Download](https://www.osti.gov/servlets/purl/1716577) (20 MB) at OSTI.
 
 ## Verification
 
