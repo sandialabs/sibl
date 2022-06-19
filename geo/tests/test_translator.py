@@ -21,7 +21,7 @@ from pathlib import Path
 
 import pytest
 
-import ptg.translator as trans
+import ptg.translator as translator
 
 
 def test_string_to_vertex():
@@ -34,12 +34,12 @@ def test_string_to_vertex():
         "-0.55 -0.88 -0.09 12\n",
     )
     ys = (
-        trans.MeshFileVertex(x=-0.54, y=-0.86, z=-0.07, face_id=23),
-        trans.MeshFileVertex(x=-0.51, y=-0.87, z=-0.08, face_id=42),
-        trans.MeshFileVertex(x=-0.55, y=-0.88, z=-0.09, face_id=12),
+        translator.MeshFileVertex(x=-0.54, y=-0.86, z=-0.07, face_id=23),
+        translator.MeshFileVertex(x=-0.51, y=-0.87, z=-0.08, face_id=42),
+        translator.MeshFileVertex(x=-0.55, y=-0.88, z=-0.09, face_id=12),
     )
     for (x, y) in zip(xs, ys):
-        fx = trans.string_to_vertex(vertex_string=x)
+        fx = translator.string_to_vertex(vertex_string=x)
         assert y == fx
 
 
@@ -48,9 +48,9 @@ def test_node_to_string():
     to three equivalent strings, suitable for serialization.
     """
     xs = (
-        trans.InpFileNode(node_id=1, x=-0.54, y=-0.86, z=-0.07),
-        trans.InpFileNode(node_id=2, x=-0.51, y=-0.87, z=-0.08),
-        trans.InpFileNode(node_id=3, x=-0.55, y=-0.88, z=-0.09),
+        translator.InpFileNode(node_id=1, x=-0.54, y=-0.86, z=-0.07),
+        translator.InpFileNode(node_id=2, x=-0.51, y=-0.87, z=-0.08),
+        translator.InpFileNode(node_id=3, x=-0.55, y=-0.88, z=-0.09),
     )
     ys = (
         "1, -0.54, -0.86, -0.07\n",
@@ -58,7 +58,7 @@ def test_node_to_string():
         "3, -0.55, -0.88, -0.09\n",
     )
     for x, y in zip(xs, ys):
-        fx = trans.node_to_string(node=x)
+        fx = translator.node_to_string(node=x)
         assert y == fx
 
 
@@ -77,7 +77,7 @@ def test_vertex_string_to_node_string():
         "3, -0.55, -0.88, -0.09\n",
     )
     for i, (x, y) in enumerate(zip(xs, ys)):
-        fx = trans.vertex_string_to_node_string(node_id=i + 1, vertex_string=x)
+        fx = translator.vertex_string_to_node_string(node_id=i + 1, vertex_string=x)
         assert y == fx
 
 
@@ -91,12 +91,12 @@ def test_string_to_hexahedron():
         "4 5 8 7 13 14 17 16 1\n",
     )
     ys = (
-        trans.MeshFileHexahedron(nodes=(1, 2, 5, 4, 10, 11, 14, 13), vol_id=1),
-        trans.MeshFileHexahedron(nodes=(2, 3, 6, 5, 11, 12, 15, 14), vol_id=1),
-        trans.MeshFileHexahedron(nodes=(4, 5, 8, 7, 13, 14, 17, 16), vol_id=1),
+        translator.MeshFileHexahedron(nodes=(1, 2, 5, 4, 10, 11, 14, 13), vol_id=1),
+        translator.MeshFileHexahedron(nodes=(2, 3, 6, 5, 11, 12, 15, 14), vol_id=1),
+        translator.MeshFileHexahedron(nodes=(4, 5, 8, 7, 13, 14, 17, 16), vol_id=1),
     )
     for (x, y) in zip(xs, ys):
-        fx = trans.string_to_hexahedron(hex_string=x)
+        fx = translator.string_to_hexahedron(hex_string=x)
         assert y == fx
 
 
@@ -115,7 +115,7 @@ def test_hexahedron_string_to_element_string():
         "3, 4, 5, 8, 7, 13, 14, 17, 16\n",
     )
     for i, (x, y) in enumerate(zip(xs, ys)):
-        fx = trans.hexahedron_string_to_element_string(element_id=i + 1, hex_string=x)
+        fx = translator.hexahedron_string_to_element_string(element_id=i + 1, hex_string=x)
         assert y == fx
 
 
@@ -128,7 +128,7 @@ def test_translate_file_bad_file():
     input_mesh_file = data_path.joinpath("this_file_does_not_exist.mesh")
 
     with pytest.raises(FileNotFoundError) as error:
-        trans.translate(path_mesh_file=str(input_mesh_file))
+        translator.translate(path_mesh_file=str(input_mesh_file))
     assert error.typename == "FileNotFoundError"
 
 
@@ -156,7 +156,7 @@ def test_cube_mesh_file_to_inp_file():
     assert not output_inp_file.is_file()
 
     # do the translation
-    translated = trans.translate(path_mesh_file=str(input_mesh_file))
+    translated = translator.translate(path_mesh_file=str(input_mesh_file))
 
     # assert the translation function was successful
     assert translated
@@ -169,75 +169,6 @@ def test_cube_mesh_file_to_inp_file():
 
     # confirm the output file no longer exists
     assert not output_inp_file.is_file()
-
-
-def test_inp_path_file_to_stream_bad():
-    """Given a file name or path that does not exist, checks that
-    a FileNotFoundError is raised."""
-    self_path_file = Path(__file__)
-    self_path = self_path_file.resolve().parent
-    data_path = self_path.joinpath("../", "data", "mesh").resolve()
-    input_mesh_file = data_path.joinpath("this_file_does_not_exist.inp")
-
-    with pytest.raises(FileNotFoundError) as error:
-        trans.inp_path_file_to_stream(pathfile=str(input_mesh_file))
-    assert error.typename == "FileNotFoundError"
-
-
-def test_inp_path_file_to_coordinates_and_connectivity():
-    """Given a valid Abaqus input file, tests that the expected coordinates
-    and connectivities are returned."""
-    self_path_file = Path(__file__)
-    self_path = self_path_file.resolve().parent
-    data_path = self_path.joinpath("../", "data", "mesh").resolve()
-    input_mesh_file = data_path.joinpath("abaqus_nonseq_hex_2x2x2.inp")
-
-    # test coordinates
-    known = {
-        "101": (0.0, 0.0, 0.0),
-        "2": (0.5, 0.0, 0.0),
-        "103": (1.0, 0.0, 0.0),
-        "4": (0.0, 0.5, 0.0),
-        "105": (0.5, 0.5, 0.0),
-        "6": (1.0, 0.5, 0.0),
-        "107": (0.0, 1.0, 0.0),
-        "8": (0.5, 1.0, 0.0),
-        "109": (1.0, 1.0, 0.0),
-        "10": (0.0, 0.0, 0.5),
-        "111": (0.5, 0.0, 0.5),
-        "12": (1.0, 0.0, 0.5),
-        "113": (0.0, 0.5, 0.5),
-        "14": (0.5, 0.5, 0.5),
-        "115": (1.0, 0.5, 0.5),
-        "16": (0.0, 1.0, 0.5),
-        "117": (0.5, 1.0, 0.5),
-        "18": (1.0, 1.0, 0.5),
-        "119": (0.0, 0.0, 1.0),
-        "20": (0.5, 0.0, 1.0),
-        "121": (1.0, 0.0, 1.0),
-        "22": (0.0, 0.5, 1.0),
-        "123": (0.5, 0.5, 1.0),
-        "24": (1.0, 0.5, 1.0),
-        "125": (0.0, 1.0, 1.0),
-        "26": (0.5, 1.0, 1.0),
-        "127": (1.0, 1.0, 1.0),
-    }
-    found = trans.inp_path_file_to_coordinates(pathfile=str(input_mesh_file))
-    assert known == found
-
-    # test connectivity
-    known = (
-        (1, 101, 2, 105, 4, 10, 111, 14, 113),
-        (20, 2, 103, 6, 105, 111, 12, 115, 14),
-        (3, 4, 105, 8, 107, 113, 14, 117, 16),
-        (40, 105, 6, 109, 8, 14, 115, 18, 117),
-        (5, 10, 111, 14, 113, 119, 20, 123, 22),
-        (60, 111, 12, 115, 14, 20, 121, 24, 123),
-        (7, 113, 14, 117, 16, 22, 123, 26, 125),
-        (80, 14, 115, 18, 117, 123, 24, 127, 26),
-    )
-    found = trans.inp_path_file_to_connectivities(pathfile=str(input_mesh_file))
-    assert known == found
 
 
 @pytest.mark.skip("work in progress")

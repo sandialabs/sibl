@@ -1,5 +1,6 @@
 from typing import NamedTuple, Iterable
 from itertools import cycle, tee
+from pathlib import Path
 
 # Type alias for functional style methods
 # https://docs.python.org/3/library/typing.html#type-aliases
@@ -94,3 +95,77 @@ def adjacencies_upper_diagonal(xs: Faces) -> Edges:
             if e not in a:
                 a += (e,)
     return a
+
+
+def inp_path_file_to_stream(*, pathfile: str):
+    pf = Path(pathfile)
+    if not pf.is_file():
+        print(f"Error: no such file: {pf}")
+        raise FileNotFoundError
+    return open(str(pf), "rt")
+
+
+def inp_path_file_to_coordinates(*, pathfile: str):
+    """Given an .inp file, returns the coordinates as a dictionary.  The keys
+    of the dictionary are a string index that contains the node number, which
+    is generally nonsequential.  The values of the dictionary contain a tuple of
+    floats that are the (x, y, z) position of the coordinate.
+    """
+    keys = []
+    values = []
+    # coordinates = ()  # emtpy tuple
+    with inp_path_file_to_stream(pathfile=pathfile) as f:
+        try:
+            line = f.readline()
+            while line:
+                if "*NODE" in line or "*Node" in line:
+                    # collect all nodes
+                    line = f.readline()  # get the next line
+                    while "*" not in line:
+                        line = line.split(",")
+                        keys.append(
+                            line[0]
+                        )  # collect the node number, generally nonseqential
+                        line = line[1:]  # ignore the first column node number
+                        line = [x.strip() for x in line]  # remove whitespace and \t \n
+                        new_coordinate = tuple(map(lambda x: float(eval(x)), line))
+                        values.append(new_coordinate)
+                        # coordinates += (new_coordinate),
+                        line = f.readline()
+                else:
+                    line = f.readline()
+            print(f"Finished reading file: {pathfile}")
+        except OSError:
+            print(f"Cannot read file: {pathfile}")
+    # return coordinates
+    zip_iterator = zip(keys, values)
+    return dict(zip_iterator)
+
+
+def inp_path_file_to_connectivities(*, pathfile: str):
+    """Given an .inp file, returns the element number and connectivity as a tuple
+    of ints.  The first item in the tuple is the element number, which is generally
+    non-sequential.  The remaining values in the tuple are the ordered connectivity
+    of the element.
+    """
+    connectivities = ()  # empty tuple
+    with inp_path_file_to_stream(pathfile=pathfile) as f:
+        try:
+            line = f.readline()
+            while line:
+                if "*ELEMENT" in line or "*Element" in line:
+                    # collect all elements
+                    line = f.readline()  # get the next line
+                    while "*" not in line and len(line) > 0:
+                        line = line.split(",")
+                        # line = line[1:]  # ignore the first column node number
+                        line = [x.strip() for x in line]  # remove whitespace and \t \n
+                        new_connectivity = tuple(map(lambda x: int(eval(x)), line))
+                        connectivities += ((new_connectivity),)
+                        line = f.readline()
+                else:
+                    line = f.readline()
+            print(f"Finished reading file: {pathfile}")
+        except OSError:
+            print(f"Cannot read file: {pathfile}")
+    return connectivities
