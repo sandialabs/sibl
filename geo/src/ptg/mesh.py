@@ -175,6 +175,51 @@ def inp_path_file_to_connectivities(*, pathfile: str):
     return connectivities
 
 
+def inp_path_file_to_boundary(*, pathfile: str):
+    """Given an .inp file, returns the boundary as a dictionary.  The keys
+    of the dictionary are a string index that contains the node number, which
+    is generally nonsequential.  The values of the dictionary contain a tuple of
+    degree of freedom as in the boundary (True) thus prescribed, or not in the
+    boundary (False) and thus an active degree of freedom.
+    """
+    keys = []
+    values = []
+    # coordinates = ()  # emtpy tuple
+    with inp_path_file_to_stream(pathfile=pathfile) as f:
+        try:
+            line = f.readline()
+            while line:
+                if "*BOUNDARY" in line or "*Boundary" in line:
+                    # collect all nodes
+                    line = f.readline()  # get the next line
+                    while "*" not in line:
+                        line = line.split(",")
+                        keys.append(
+                            line[0]
+                        )  # collect the node number, generally nonseqential
+                        line = line[1:]  # ignore the first column node number
+                        line = [x.strip() for x in line]  # remove whitespace and \t \n
+                        in_boundary = [False, False]  # default to 2D both dof active
+                        # flip to boundary range
+                        rr = tuple(map(lambda x: int(eval(x)), line))
+                        # include end of domain, thus +1
+                        flips = tuple(range(rr[0], rr[1] + 1))
+                        for k in flips:
+                            in_boundary[k - 1] = True  # 0-index in Python
+                        values.append(tuple(in_boundary))
+                        # coordinates += (new_coordinate),
+                        line = f.readline()
+                else:
+                    line = f.readline()
+            print(f"Finished reading file: {pathfile}")
+        except NameError:
+            print(f"Cannot read file: {pathfile}")
+            raise OSError
+    # return coordinates
+    zip_iterator = zip(keys, values)
+    return dict(zip_iterator)
+
+
 def plot_mesh(*, nodes, edges, options) -> bool:
     """
     Plots the .inp file nodes, edges, with keyword options.

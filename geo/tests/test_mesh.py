@@ -103,7 +103,7 @@ def test_inp_path_file_to_stream_bad():
 
 
 def test_inp_path_file_bad_nodes():
-    """Given a file that does exist, verify the nodes cannot be read."""
+    """Given a file that does exist, verify that bad nodes cannot be read."""
 
     self_path_file = Path(__file__)
     self_path = self_path_file.resolve().parent
@@ -116,7 +116,7 @@ def test_inp_path_file_bad_nodes():
 
 
 def test_inp_path_file_bad_elements():
-    """Given a file that does exist, verify the elements cannot be read."""
+    """Given a file that does exist, verify that bad elements cannot be read."""
 
     self_path_file = Path(__file__)
     self_path = self_path_file.resolve().parent
@@ -128,7 +128,71 @@ def test_inp_path_file_bad_elements():
     assert error.typename == "OSError"
 
 
-def test_inp_path_file_to_coordinates_and_connectivity():
+def test_inp_path_file_bad_boundary():
+    """Given a file that does exist, verify that a bad boundary cannot be read."""
+
+    self_path_file = Path(__file__)
+    self_path = self_path_file.resolve().parent
+    data_path = self_path.joinpath("../", "data", "mesh").resolve()
+    input_mesh_file = data_path.joinpath("four_quads_bad_boundary.inp")
+
+    with pytest.raises(OSError) as error:
+        mesh.inp_path_file_to_boundary(pathfile=str(input_mesh_file))
+    assert error.typename == "OSError"
+
+
+def test_inp_path_file_four_quads():
+    """Given the canonical example, four_quad_nonseq.inp, verify
+    The nodes, elements, and boundary are correctly read.
+    """
+    self_path_file = Path(__file__)
+    self_path = self_path_file.resolve().parent
+    data_path = self_path.joinpath("../", "data", "mesh").resolve()
+    input_mesh_file = data_path.joinpath("four_quads_nonseq.inp")
+
+    # test coordinates
+    known = {
+        "101": (1.0, 1.0),
+        "2": (2.5, 1.0),
+        "103": (3.0, 1.0),
+        "4": (1.0, 2.5),
+        "105": (2.5, 2.5),
+        "6": (3.0, 2.5),
+        "13": (1.0, 3.0),
+        "23": (2.5, 3.0),
+        "33": (3.0, 3.0),
+    }
+
+    found = mesh.inp_path_file_to_coordinates(pathfile=str(input_mesh_file))
+    assert known == found
+
+    # test elements
+    known = (
+        (1, 101, 2, 105, 4),
+        (20, 2, 103, 6, 105),
+        (31, 105, 6, 33, 23),
+        (44, 4, 105, 23, 13),
+    )
+    found = mesh.inp_path_file_to_connectivities(pathfile=str(input_mesh_file))
+    assert known == found
+
+    # test boundary
+    known = {
+        "101": (True, True),
+        "2": (False, True),
+        "103": (True, True),
+        "4": (True, False),
+        "6": (True, False),
+        "13": (True, True),
+        "23": (False, True),
+        "33": (True, True),
+    }
+
+    found = mesh.inp_path_file_to_boundary(pathfile=str(input_mesh_file))
+    assert known == found
+
+
+def test_inp_path_file_to_coordinates_connectivity():
     """Given a valid Abaqus input file, tests that the expected coordinates
     and connectivities are returned."""
     self_path_file = Path(__file__)
