@@ -5,7 +5,7 @@ import numpy as np
 from ptg.mesh import adjacencies_upper_diagonal
 
 
-def smooth_neighbor_nonweighted(*, nodes, elements, boundary_nodes, update_ratio):
+def smooth_neighbor_nonweighted(*, nodes, elements, boundary, update_ratio):
     """Given nonsequential nodes, elements, boundary elements
     containing homogenous displacements in [1 .. n_space_dimensions],
     and update_ratio between (0, 1), returns the nodes in updated positions.
@@ -14,7 +14,7 @@ def smooth_neighbor_nonweighted(*, nodes, elements, boundary_nodes, update_ratio
 
     displacements = dict()  # empty prior to update
 
-    boundary_keys = boundary_nodes.keys()
+    boundary_keys = boundary.keys()
 
     elements_wo_element_number = tuple([x[1:] for x in elements])
     adj = adjacencies_upper_diagonal(xs=elements_wo_element_number)
@@ -26,7 +26,7 @@ def smooth_neighbor_nonweighted(*, nodes, elements, boundary_nodes, update_ratio
             for y in tuple(filter(lambda x: int(key) in x, adj))
         )
         if key in boundary_keys:
-            node_dof_fixed = boundary_nodes[key]
+            node_dof_fixed = boundary[key]
             for i, fixed in enumerate(node_dof_fixed):
                 if not fixed:
                     # position of subject node

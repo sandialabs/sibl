@@ -293,6 +293,8 @@ def plot_mesh(*, nodes, edges, options) -> bool:
         fig.savefig(pathfilename, bbox_inches="tight", pad_inches=0)
         print(f"Serialized to {pathfilename}")
 
+    plt.close("all")
+
     # If we reach this point, we have finished the function.
     success = True  # overwrite False default
     return success
