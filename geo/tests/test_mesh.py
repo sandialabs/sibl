@@ -102,6 +102,32 @@ def test_inp_path_file_to_stream_bad():
     assert error.typename == "FileNotFoundError"
 
 
+def test_inp_path_file_bad_nodes():
+    """Given a file that does exist, verify the nodes cannot be read."""
+
+    self_path_file = Path(__file__)
+    self_path = self_path_file.resolve().parent
+    data_path = self_path.joinpath("../", "data", "mesh").resolve()
+    input_mesh_file = data_path.joinpath("four_quads_bad_nodes.inp")
+
+    with pytest.raises(OSError) as error:
+        mesh.inp_path_file_to_coordinates(pathfile=str(input_mesh_file))
+    assert error.typename == "OSError"
+
+
+def test_inp_path_file_bad_elements():
+    """Given a file that does exist, verify the elements cannot be read."""
+
+    self_path_file = Path(__file__)
+    self_path = self_path_file.resolve().parent
+    data_path = self_path.joinpath("../", "data", "mesh").resolve()
+    input_mesh_file = data_path.joinpath("four_quads_bad_elements.inp")
+
+    with pytest.raises(OSError) as error:
+        mesh.inp_path_file_to_connectivities(pathfile=str(input_mesh_file))
+    assert error.typename == "OSError"
+
+
 def test_inp_path_file_to_coordinates_and_connectivity():
     """Given a valid Abaqus input file, tests that the expected coordinates
     and connectivities are returned."""
@@ -157,3 +183,49 @@ def test_inp_path_file_to_coordinates_and_connectivity():
     found = mesh.inp_path_file_to_connectivities(pathfile=str(input_mesh_file))
     assert known == found
 
+
+def test_plot_mesh():
+    """Given an examplar input file, cover the plotting functionality."""
+    self_path_file = Path(__file__)
+    self_path = self_path_file.resolve().parent
+    data_path = self_path.joinpath("../", "data", "mesh").resolve()
+    input_mesh_file = data_path.joinpath("four_quads_nonseq.inp")
+    basename = Path(__file__).stem
+    ext = ".png"
+    output_path_file = self_path.parent.parent.joinpath(basename + ext)
+
+    # assert, prior to test, that
+    # (a) the input file exists and
+    assert input_mesh_file.is_file()
+    # (b) the output file does not exist
+    assert not output_path_file.is_file()
+
+    nodes = mesh.inp_path_file_to_coordinates(pathfile=str(input_mesh_file))
+
+    elements = mesh.inp_path_file_to_connectivities(pathfile=str(input_mesh_file))
+
+    elements_wo_element_number = tuple([x[1:] for x in elements])
+
+    edges = mesh.adjacencies_upper_diagonal(xs=elements_wo_element_number)
+
+    mesh_dict = {
+        "title": "Test Mesh",
+        "nodes_shown": True,
+        "node_numbers_shown": True,
+        "serialize": True,
+        "basename": basename,
+        "ext": ext,
+    }
+    plotted = mesh.plot_mesh(nodes=nodes, edges=edges, options=mesh_dict)
+
+    # assert the plotting was successful
+    assert plotted
+
+    # assert the output file now does exist
+    assert output_path_file.is_file()
+
+    # clean up, delete the output file
+    output_path_file.unlink()
+
+    # confirm the output file no longer exists
+    assert not output_path_file.is_file()

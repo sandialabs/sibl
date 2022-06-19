@@ -2,6 +2,8 @@ from typing import NamedTuple, Iterable
 from itertools import cycle, tee
 from pathlib import Path
 
+import matplotlib.pyplot as plt
+
 # Type alias for functional style methods
 # https://docs.python.org/3/library/typing.html#type-aliases
 Vertex = tuple[float, ...]
@@ -135,8 +137,9 @@ def inp_path_file_to_coordinates(*, pathfile: str):
                 else:
                     line = f.readline()
             print(f"Finished reading file: {pathfile}")
-        except OSError:
+        except SyntaxError:
             print(f"Cannot read file: {pathfile}")
+            raise OSError
     # return coordinates
     zip_iterator = zip(keys, values)
     return dict(zip_iterator)
@@ -166,6 +169,85 @@ def inp_path_file_to_connectivities(*, pathfile: str):
                 else:
                     line = f.readline()
             print(f"Finished reading file: {pathfile}")
-        except OSError:
+        except NameError:
             print(f"Cannot read file: {pathfile}")
+            raise OSError
     return connectivities
+
+
+def plot_mesh(*, nodes, edges, options) -> bool:
+    """
+    Plots the .inp file nodes, edges, with keyword options.
+    Returns `True` if successful, `False` otherwise.
+    """
+    success = False
+
+    title = options.get("title", "")
+    dpi = options.get("dpi", 100)
+    height = options.get("height", 3.0)
+    width = options.get("width", 3.0)
+    nodes_shown = options.get("nodes_shown", True)
+    node_numbers_shown = options.get("node_numbers_shown", False)
+    serialize = options.get("serialize", False)
+    basename = options.get("basename", Path(__file__).stem)
+    extension = options.get("extension", ".png")  # ".png" | ".pdf" | ".svg"
+
+    (ix, iy) = (0, 1)  # global index with (x, y) semantic
+
+    fig = plt.figure(figsize=(width, height), dpi=dpi)
+    # ax = plt.gca()
+    ax = fig.gca()
+
+    for edge in edges:
+        edge_points = [nodes[ii] for ii in map(str, edge)]
+        # xs = [nodes[e - 1][ix] for e in edge]  # nodes[e-1] to convert from 1-index to 0-index
+        # ys = [nodes[e - 1][iy] for e in edge]
+        xs = [point[ix] for point in edge_points]
+        ys = [point[iy] for point in edge_points]
+        # plt.plot(xs, ys, **plot_kwargs)
+        plt.plot(
+            xs,
+            ys,
+            alpha=1.0,
+            linewidth=0.5,
+            color="blue",
+            marker=None,
+            markerfacecolor="red",
+        )
+
+    ax.set_aspect("equal")
+    ax.set_title(title)
+
+    if nodes_shown:
+        # plot nodes
+        xs = [item[ix] for item in nodes.values()]
+        ys = [item[iy] for item in nodes.values()]
+        ax.scatter(
+            xs,
+            ys,
+            linestyle="solid",
+            edgecolor="black",
+            color="yellow",
+            alpha=0.9,
+            s=100,
+        )
+
+    if node_numbers_shown:
+        # plot node numbers
+        for item in nodes.items():
+            c = item[0]
+            x = item[1][ix]
+            y = item[1][iy]
+            ax.text(x, y, c, horizontalalignment="center", verticalalignment="center")
+
+    if serialize:
+        # extension = ".png"  # ".png" | ".pdf" | ".svg"
+        # filename = Path(__file__).stem + "_" + test_case + extension
+        filename = basename + extension
+        pathfilename = Path.cwd().joinpath(filename)
+        fig.savefig(pathfilename, bbox_inches="tight", pad_inches=0)
+        print(f"Serialized to {pathfilename}")
+
+    # If we reach this point, we have finished the function.
+    success = True  # overwrite False default
+    return success

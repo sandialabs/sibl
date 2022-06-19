@@ -115,7 +115,9 @@ def test_hexahedron_string_to_element_string():
         "3, 4, 5, 8, 7, 13, 14, 17, 16\n",
     )
     for i, (x, y) in enumerate(zip(xs, ys)):
-        fx = translator.hexahedron_string_to_element_string(element_id=i + 1, hex_string=x)
+        fx = translator.hexahedron_string_to_element_string(
+            element_id=i + 1, hex_string=x
+        )
         assert y == fx
 
 
@@ -150,7 +152,7 @@ def test_cube_mesh_file_to_inp_file():
         output_inp_file.unlink()
 
     # assert, prior to translation, that
-    # (a) the input file exist and
+    # (a) the input file exists and
     assert input_mesh_file.is_file()
     # (b) the output file does not exist
     assert not output_inp_file.is_file()
