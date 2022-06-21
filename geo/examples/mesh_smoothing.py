@@ -143,7 +143,6 @@ fig = plt.figure(figsize=(3.0, 3.0), dpi=100)
 ax = fig.gca()
 
 plt.plot(iteration_hx, L2_hx, ".--")
-plt.yscale("log")
 plt.grid(True)
 ax.set_xlabel("iteration (k)")
 ax.set_ylabel("sum L2(u)")
@@ -151,6 +150,19 @@ ax.set_title("Convergence")
 
 if mesh_dict["serialize"]:
     filename = script_name + "_convergence" + ".png"
+    pathfilename = Path.cwd().joinpath(filename)
+    fig.savefig(pathfilename, bbox_inches="tight", pad_inches=0)
+    print(f"Serialized to {pathfilename}")
+
+plt.plot(iteration_hx, L2_hx, ".--")
+plt.yscale("log")
+plt.grid(True)
+ax.set_xlabel("iteration (k)")
+ax.set_ylabel("sum L2(u)")
+ax.set_title("Convergence")
+
+if mesh_dict["serialize"]:
+    filename = script_name + "_convergence_log" + ".png"
     pathfilename = Path.cwd().joinpath(filename)
     fig.savefig(pathfilename, bbox_inches="tight", pad_inches=0)
     print(f"Serialized to {pathfilename}")
