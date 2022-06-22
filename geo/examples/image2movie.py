@@ -5,8 +5,9 @@ from pygifsicle import optimize
 
 
 # base_name = "bspline_surface_biquad2tri_animation"
-base_name = "bspline_surface_cyl2sphere_animation"
-base_name = "mesh_smoothing_iter_"
+# base_name = "bspline_surface_cyl2sphere_animation"
+# base_name = "mesh_smoothing_iter_"
+base_name = "lesson_04b_iter_"
 
 gif_path = base_name + ".gif"
 gif_opt = base_name + "_opt.gif"
@@ -19,7 +20,7 @@ frames_path = base_name + "{i:03d}.png"
 # frames_path = base_name + ".py{i}.png"
 
 # number of frames
-n = 46
+n = 19
 # n = 6  # number of frames
 # n = 21  # number of frames
 

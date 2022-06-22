@@ -116,6 +116,7 @@ def inp_path_file_to_coordinates(*, pathfile: str) -> dict[str, Vertex]:
     is generally nonsequential.  The values of the dictionary contain a tuple of
     floats that are the (x, y, z) position of the coordinate.
     """
+    print(f"Reading coordinates from file: {pathfile}")
     keys = []
     values = []
     with inp_path_file_to_stream(pathfile=pathfile) as f:
@@ -152,6 +153,7 @@ def inp_path_file_to_connectivities(*, pathfile: str) -> Faces:
     non-sequential.  The remaining values in the tuple are the ordered connectivity
     of the element.
     """
+    print(f"Reading connectivities from file: {pathfile}")
     connectivities = ()  # empty tuple
     with inp_path_file_to_stream(pathfile=pathfile) as f:
         try:
@@ -183,6 +185,7 @@ def inp_path_file_to_boundary(*, pathfile: str) -> FixedDisplacements:
     degree of freedom numbers, 1, 2, and/or 3, as prescribed homogeneous
     boundary conditions (fixed x, y, and/or z displacements).
     """
+    print(f"Reading boundary from file: {pathfile}")
     keys = []
     values = []
     with inp_path_file_to_stream(pathfile=pathfile) as f:
