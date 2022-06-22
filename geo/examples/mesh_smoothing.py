@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 import ptg.mesh as mesh
-import ptg.mesh_smoothing as smooth
+import ptg.mesh_morph as morph
 
 """
 * Construct a four-element mesh with non-sequential node numbers and elements numbers, for generality.
@@ -77,7 +77,7 @@ _ = mesh.plot_mesh(nodes=nodes, edges=edges, options=mesh_dict)
 boundary = mesh.inp_path_file_to_boundary(pathfile=str(input_mesh_file))
 
 # Do a single mesh smoothing iteration and plot the updated configuration
-deltas = smooth.smooth_neighbor_nonweighted(
+deltas = morph.smooth_neighbor_nonweighted(
     nodes=nodes, elements=elements, boundary=boundary, update_ratio=0.5
 )
 
@@ -115,7 +115,7 @@ k = 0
 while k <= n_iterations and not converged:
     k += 1
 
-    deltas_k = smooth.smooth_neighbor_nonweighted(
+    deltas_k = morph.smooth_neighbor_nonweighted(
         nodes=configuration_k, elements=elements, boundary=boundary, update_ratio=ur
     )
     L2 = sum_of_deltas_L2_norm(displacements=deltas_k)

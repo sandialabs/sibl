@@ -7,10 +7,13 @@ import matplotlib.pyplot as plt
 # Type alias for functional style methods
 # https://docs.python.org/3/library/typing.html#type-aliases
 Vertex = tuple[float, ...]
-Face = tuple[int, ...]
+Face = tuple[int, ...]  # integer IDs of n vertices forming a face in a CCW convention
 Faces = tuple[Face, ...]
-Edge = tuple[int, int]
+Edge = tuple[int, int]  # integer IDs of two vertices forming a single edge connection
 Edges = tuple[Edge, ...]
+FixedDisplacements = dict[
+    str, tuple[int, ...]
+]  # string IDs of interger degrees of freedom <: (1, 2, 3)
 
 
 class Mesh(NamedTuple):
@@ -107,7 +110,7 @@ def inp_path_file_to_stream(*, pathfile: str):
     return open(str(pf), "rt")
 
 
-def inp_path_file_to_coordinates(*, pathfile: str):
+def inp_path_file_to_coordinates(*, pathfile: str) -> dict[str, Vertex]:
     """Given an .inp file, returns the coordinates as a dictionary.  The keys
     of the dictionary are a string index that contains the node number, which
     is generally nonsequential.  The values of the dictionary contain a tuple of
@@ -115,7 +118,6 @@ def inp_path_file_to_coordinates(*, pathfile: str):
     """
     keys = []
     values = []
-    # coordinates = ()  # emtpy tuple
     with inp_path_file_to_stream(pathfile=pathfile) as f:
         try:
             line = f.readline()
@@ -132,7 +134,6 @@ def inp_path_file_to_coordinates(*, pathfile: str):
                         line = [x.strip() for x in line]  # remove whitespace and \t \n
                         new_coordinate = tuple(map(lambda x: float(eval(x)), line))
                         values.append(new_coordinate)
-                        # coordinates += (new_coordinate),
                         line = f.readline()
                 else:
                     line = f.readline()
@@ -145,7 +146,7 @@ def inp_path_file_to_coordinates(*, pathfile: str):
     return dict(zip_iterator)
 
 
-def inp_path_file_to_connectivities(*, pathfile: str):
+def inp_path_file_to_connectivities(*, pathfile: str) -> Faces:
     """Given an .inp file, returns the element number and connectivity as a tuple
     of ints.  The first item in the tuple is the element number, which is generally
     non-sequential.  The remaining values in the tuple are the ordered connectivity
@@ -175,16 +176,15 @@ def inp_path_file_to_connectivities(*, pathfile: str):
     return connectivities
 
 
-def inp_path_file_to_boundary(*, pathfile: str):
+def inp_path_file_to_boundary(*, pathfile: str) -> FixedDisplacements:
     """Given an .inp file, returns the boundary as a dictionary.  The keys
     of the dictionary are a string index that contains the node number, which
     is generally nonsequential.  The values of the dictionary contain a tuple of
-    degree of freedom as in the boundary (True) thus prescribed, or not in the
-    boundary (False) and thus an active degree of freedom.
+    degree of freedom numbers, 1, 2, and/or 3, as prescribed homogeneous
+    boundary conditions (fixed x, y, and/or z displacements).
     """
     keys = []
     values = []
-    # coordinates = ()  # emtpy tuple
     with inp_path_file_to_stream(pathfile=pathfile) as f:
         try:
             line = f.readline()
@@ -199,15 +199,10 @@ def inp_path_file_to_boundary(*, pathfile: str):
                         )  # collect the node number, generally nonseqential
                         line = line[1:]  # ignore the first column node number
                         line = [x.strip() for x in line]  # remove whitespace and \t \n
-                        in_boundary = [False, False]  # default to 2D both dof active
-                        # flip to boundary range
-                        rr = tuple(map(lambda x: int(eval(x)), line))
-                        # include end of domain, thus +1
-                        flips = tuple(range(rr[0], rr[1] + 1))
-                        for k in flips:
-                            in_boundary[k - 1] = True  # 0-index in Python
-                        values.append(tuple(in_boundary))
-                        # coordinates += (new_coordinate),
+                        new_fixed_displacements = tuple(
+                            map(lambda x: int(eval(x)), line)
+                        )
+                        values.append(new_fixed_displacements)
                         line = f.readline()
                 else:
                     line = f.readline()
@@ -233,6 +228,7 @@ def plot_mesh(*, nodes, edges, options) -> bool:
     width = options.get("width", 3.0)
     nodes_shown = options.get("nodes_shown", True)
     node_numbers_shown = options.get("node_numbers_shown", False)
+    # figure_shown = options.get("figure_shown", False)
     serialize = options.get("serialize", False)
     basename = options.get("basename", Path(__file__).stem)
     extension = options.get("extension", ".png")  # ".png" | ".pdf" | ".svg"
@@ -292,6 +288,9 @@ def plot_mesh(*, nodes, edges, options) -> bool:
         pathfilename = Path.cwd().joinpath(filename)
         fig.savefig(pathfilename, bbox_inches="tight", pad_inches=0)
         print(f"Serialized to {pathfilename}")
+
+    # if figure_shown:
+    #     plt.show()
 
     plt.close("all")
 

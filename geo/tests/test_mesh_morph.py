@@ -3,21 +3,21 @@
 To run:
 conda activate siblenv
 cd ~/sibl
-pytest geo/tests/test_mesh_smoothing.py -v
+pytest geo/tests/test_mesh_morph.py -v
 
 For a specific test (e.g., test_pairwise() function):
-pytest geo/tests/test_mesh_smoothing.py::test_specific_function
+pytest geo/tests/test_mesh_morph.py::test_specific_function
 
 For coverage:
-pytest geo/tests/test_mesh_smoothing.py -v --cov=geo/src/ptg --cov-report term-missing
+pytest geo/tests/test_mesh_morph.py -v --cov=geo/src/ptg --cov-report term-missing
 
 For black style:
-black --check geo/tests/test_mesh_smoothing.py --diff
+black --check geo/tests/test_mesh_morph.py --diff
 
 For flake8:
-flake8 --ignore E203,E501,W503 geo/tests/test_mesh_smoothing.py --statistics
+flake8 --ignore E203,E501,W503 geo/tests/test_mesh_morph.py --statistics
 """
-import ptg.mesh_smoothing as smooth
+import ptg.mesh_morph as morph
 
 
 def test_two_quads_two_dof():
@@ -46,20 +46,6 @@ def test_two_quads_two_dof():
 
     elements = ((1, 101, 2, 105, 4), (20, 2, 103, 6, 105))  # right hand rule
 
-    # boundary = {
-    #     "101": (False, True),
-    #     "2": (True, True),
-    #     "103": (True, False),
-    #     "4": (True, True),
-    #     "6": (True, True),
-    # }
-    # boundary = {
-    #     "101": (2, 2),
-    #     "2": (1, 2),
-    #     "103": (1, 1),
-    #     "4": (1, 2),
-    #     "6": (1, 2),
-    # }
     boundary = {
         "101": (2,),
         "2": (1, 2),
@@ -68,7 +54,7 @@ def test_two_quads_two_dof():
         "6": (1, 2),
     }
 
-    deltas = smooth.smooth_neighbor_nonweighted(
+    deltas = morph.smooth_neighbor_nonweighted(
         nodes=nodes, elements=elements, boundary=boundary, update_ratio=0.1
     )
 
@@ -111,20 +97,6 @@ def test_two_quads_two_dof_3D_representation():
 
     elements = ((1, 101, 2, 105, 4), (20, 2, 103, 6, 105))  # right hand rule
 
-    # boundary = {
-    #     "101": (False, True, True),
-    #     "2": (True, True, True),
-    #     "103": (True, False, True),
-    #     "4": (True, True, True),
-    #     "6": (True, True, True),
-    # }
-    # boundary = {
-    #     "101": (2, 3),
-    #     "2": (1, 3),
-    #     "103": (True, False, True),
-    #     "4": (True, True, True),
-    #     "6": (True, True, True),
-    # }
     boundary = {
         "101": (2, 3),
         "2": (1, 2, 3),
@@ -133,7 +105,7 @@ def test_two_quads_two_dof_3D_representation():
         "6": (1, 2, 3),
     }
 
-    deltas = smooth.smooth_neighbor_nonweighted(
+    deltas = morph.smooth_neighbor_nonweighted(
         nodes=nodes, elements=elements, boundary=boundary, update_ratio=0.1
     )
 

@@ -178,14 +178,14 @@ def test_inp_path_file_four_quads():
 
     # test boundary
     known = {
-        "101": (True, True),
-        "2": (False, True),
-        "103": (True, True),
-        "4": (True, False),
-        "6": (True, False),
-        "13": (True, True),
-        "23": (False, True),
-        "33": (True, True),
+        "101": (1, 2),
+        "2": (2,),
+        "103": (1, 2),
+        "4": (1,),
+        "6": (1,),
+        "13": (1, 2),
+        "23": (2,),
+        "33": (1, 2),
     }
 
     found = mesh.inp_path_file_to_boundary(pathfile=str(input_mesh_file))
