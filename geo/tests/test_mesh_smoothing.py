@@ -46,12 +46,26 @@ def test_two_quads_two_dof():
 
     elements = ((1, 101, 2, 105, 4), (20, 2, 103, 6, 105))  # right hand rule
 
+    # boundary = {
+    #     "101": (False, True),
+    #     "2": (True, True),
+    #     "103": (True, False),
+    #     "4": (True, True),
+    #     "6": (True, True),
+    # }
+    # boundary = {
+    #     "101": (2, 2),
+    #     "2": (1, 2),
+    #     "103": (1, 1),
+    #     "4": (1, 2),
+    #     "6": (1, 2),
+    # }
     boundary = {
-        "101": (False, True),
-        "2": (True, True),
-        "103": (True, False),
-        "4": (True, True),
-        "6": (True, True),
+        "101": (2,),
+        "2": (1, 2),
+        "103": (1,),
+        "4": (1, 2),
+        "6": (1, 2),
     }
 
     deltas = smooth.smooth_neighbor_nonweighted(
@@ -65,6 +79,71 @@ def test_two_quads_two_dof():
         "4": (0.0, 0.0),
         "105": (0.0, -0.03333333333333335),
         "6": (0.0, 0.0),
+    }
+
+    assert known_deltas == deltas
+
+
+def test_two_quads_two_dof_3D_representation():
+    """Given two quadrilaterals with non-sequential node numbers and
+    two degrees of freedom, test mesh smoothing for two iterations.
+    Same as previous test, but now these are faces in 3D, instead of quads in 2D.
+    This example is from:
+    ~/sibl/geo/data/mesh/two_quads_nonseq.inp modified to 3D faces.
+
+     4       105       6
+     *--------*--------*
+     |        |        |
+     |   (1)  |  (20)  |
+     |        |        |
+     *--------*--------*
+    101       2       103
+
+    """
+    nodes = {
+        "101": (1.0, 1.0, 0.0),
+        "2": (2.0, 1.0, 0.0),
+        "103": (3.0, 1.0, 0.0),
+        "4": (1.0, 2.0, 0.0),
+        "105": (2.0, 2.0, 0.0),
+        "6": (3.0, 2.0, 0.0),
+    }
+
+    elements = ((1, 101, 2, 105, 4), (20, 2, 103, 6, 105))  # right hand rule
+
+    # boundary = {
+    #     "101": (False, True, True),
+    #     "2": (True, True, True),
+    #     "103": (True, False, True),
+    #     "4": (True, True, True),
+    #     "6": (True, True, True),
+    # }
+    # boundary = {
+    #     "101": (2, 3),
+    #     "2": (1, 3),
+    #     "103": (True, False, True),
+    #     "4": (True, True, True),
+    #     "6": (True, True, True),
+    # }
+    boundary = {
+        "101": (2, 3),
+        "2": (1, 2, 3),
+        "103": (1, 3),
+        "4": (1, 2, 3),
+        "6": (1, 2, 3),
+    }
+
+    deltas = smooth.smooth_neighbor_nonweighted(
+        nodes=nodes, elements=elements, boundary=boundary, update_ratio=0.1
+    )
+
+    known_deltas = {
+        "101": (0.05, 0.0, 0.0),
+        "2": (0.0, 0.0, 0.0),
+        "103": (0.0, 0.05, 0.0),
+        "4": (0.0, 0.0, 0.0),
+        "105": (0.0, -0.03333333333333335, 0.0),
+        "6": (0.0, 0.0, 0.0),
     }
 
     assert known_deltas == deltas
