@@ -4,6 +4,10 @@
 
 Given the mesh developed in the previous less, using Laplacian iterations to smooth the mesh.
 
+## Methods
+
+We follow the [iterative update method](smoothing.pdf)
+
 ## Steps
 
 ```bash
@@ -24,3 +28,4 @@ Linear Scale | Log Scale
 
 * Convergence tolerance: `0.1`
 * Number of iterations: `18`
+
