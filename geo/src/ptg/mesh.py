@@ -81,10 +81,10 @@ def adjacency_upper_diagonal(x: Face) -> Edges:
     for i in a:
         if i[0] < i[1]:
             # b += ((i[0], i[1]),)
-            b += (i,)
+            b += (i,)  # overwrite
         else:
             # b += ((i[1], i[0]),)
-            b += (tuple(reversed(i)),)
+            b += (tuple(reversed(i)),)  # overwrite
     return b
 
 
