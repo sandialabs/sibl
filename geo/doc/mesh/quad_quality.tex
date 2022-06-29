@@ -140,8 +140,52 @@ where
   N_3(\xi, \eta) & = \tfrac{1}{4} (1 + \xi) (1 + \eta) \\
   N_4(\xi, \eta) & = \tfrac{1}{4} (1 - \xi) (1 + \eta)
 \end{align}
+and $N_a(\xi, \eta)$ is called a {\bf shape function}.
 
-\clearpage
+The Jacobian $\vJ$ is the partial matrix of derivatives of $\vx$ with 
+respect to $\ve{\xi}$, 
+
+\be 
+ \vJ = \left[
+  \begin{tabular}{cc}
+    $x,_{\tiny\xi}$ & $x,_{\tiny\eta}$ \\
+    $y,_{\tiny\xi}$ & $y,_{\tiny\eta}$ 
+  \end{tabular}
+  \right]
+\ee 
+
+Expanded in terms of shape functions, the Jacobian takes the form 
+
+
+\be 
+ \vJ = \frac{1}{4} 
+ \left[
+  \begin{tabular}{rrrr}
+    $-1 + \eta$ & $1 - \eta$ & $1 + \eta$ & $-1 - \eta$ \\
+    $-1 + \xi$ & $-1 - \xi$ & $1 + \xi$ & $1 - \xi$ 
+  \end{tabular}
+  \right]
+  \left[ 
+  \begin{tabular}{cc}
+    $x_1$ & $y_1$ \\
+    $x_2$ & $y_2$ \\
+    $x_3$ & $y_3$ \\
+    $x_4$ & $y_4$ \\
+  \end{tabular}
+  \right]
+\ee 
+
+The determinant of the Jacobian, $\det(\vJ)$, can be found to be 
+
+\be 
+\det(\vJ) = c_0 + c_1 \xi + c_2 \eta
+\ee 
+where
+\begin{align}
+  c_0 & = \frac{1}{8} \left[(x_1 - x_3) (y_2 - y_4) - (x_2 - x_4) (y_1 - y_3) \right] \\
+  c_1 & = \frac{1}{8} \left[(x_3 - x_4) (y_1 - y_2) - (x_1 - x_2) (y_3 - y_4) \right] \\
+  c_2 & = \frac{1}{8} \left[(x_2 - x_3) (y_1 - y_4) - (x_1 - x_4) (y_2 - y_3) \right] 
+\end{align}
 
 
 \end{document}
