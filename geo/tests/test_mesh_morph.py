@@ -17,7 +17,59 @@ black --check geo/tests/test_mesh_morph.py --diff
 For flake8:
 flake8 --ignore E203,E501,W503 geo/tests/test_mesh_morph.py --statistics
 """
+import numpy as np
+
 import ptg.mesh_morph as morph
+
+
+def test_two_springs_one_dof():
+    """Given two 1D springs connected at a single degree of freedom, assure
+    the first two mesh updates are as expected.
+    """
+    nodes = {"1": (0.0,), "2": (1.5,), "3": (1.0,)}
+    elements = ((1, 1, 2), (2, 2, 3))
+    boundary = {"1": (1,), "3": (1,)}
+
+    deltas_k1 = morph.smooth_neighbor_nonweighted(
+        nodes=nodes, elements=elements, boundary=boundary, update_ratio=0.1
+    )
+    known_deltas_k1 = {"1": (0.0,), "2": (-0.1,), "3": (0.0,)}
+    assert known_deltas_k1 == deltas_k1
+
+    # Now perform a second iteration
+    configuration_k1 = {}
+    for key, value in nodes.items():
+        configuration_k1[key] = np.array(nodes[key]) + np.array(deltas_k1[key])
+
+    known_configuration_k1 = {"1": (0.0,), "2": (1.4,), "3": (1.0,)}
+    # assert known_configuration_k1 == configuration_k1
+    tol = 1.0e-10  # tolerance
+    close_k1 = [
+        a - b < tol
+        for (a, b) in zip(known_configuration_k1.values(), configuration_k1.values())
+    ]
+    assert all(close_k1)
+
+    deltas_k2 = morph.smooth_neighbor_nonweighted(
+        nodes=configuration_k1, elements=elements, boundary=boundary, update_ratio=0.1
+    )
+
+    known_deltas_k2 = {"1": (0.0,), "2": (-0.09,), "3": (0.0,)}
+    assert known_deltas_k2 == deltas_k2
+
+    configuration_k2 = {}
+    for key, value in configuration_k1.items():
+        configuration_k2[key] = np.array(configuration_k1[key]) + np.array(
+            deltas_k2[key]
+        )
+
+    known_configuration_k2 = {"1": (0.0,), "2": (1.31,), "3": (1.0,)}
+    # assert known_configuration_k2 == configuration_k2
+    close_k2 = [
+        a - b < tol
+        for (a, b) in zip(known_configuration_k2.values(), configuration_k2.values())
+    ]
+    assert all(close_k2)
 
 
 def test_two_quads_two_dof():

@@ -6,7 +6,7 @@ Given the mesh developed in the previous less, using Laplacian iterations to smo
 
 ## Methods
 
-We follow the [iterative update method](lesson_04/smoothing.pdf).
+We follow the [iterative update method](../../doc/mesh/smoothing.pdf)
 
 ## Steps
 
