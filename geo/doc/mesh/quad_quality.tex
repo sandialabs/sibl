@@ -1,0 +1,148 @@
+\documentclass[11pt, oneside]{article}   	% use "amsart" instead of "article" for AMSLaTeX format
+\usepackage{geometry}                		% See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   		% ... or a4paper or a5paper or ... 
+%\geometry{landscape}                		% Activate for rotated page geometry
+%\usepackage[parfill]{parskip}    		% Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}				% Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
+								% TeX will automatically convert eps --> pdf in pdflatex		
+\usepackage{amssymb}
+
+% % listings begin
+\usepackage{listings}
+% \providecommand{\GitRemote}{}
+% \providecommand{\GitIdentifier}{master}
+% \providecommand{\GitCheckout}[2][\GitIdentifier]{%
+% % #1 being the version/branch
+% % #2 being the file
+% | \string"git archive --remote=\GitRemote #1 \detokenize{#2} 2>/dev/null | tar --extract --file - --to-stdout \string"%
+% }
+% % listings end
+
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usepackage{mathtools}
+
+%SetFonts
+
+%SetFonts
+
+% External dependencies
+\usepackage{pagecolor}
+\input{../../../../include/hmath_descendant.tex}
+% \input{https://github.com/hovey/include/blob/a9bf6db0394b5ba19e69653519a96c10eeb1e133/hmath_descendant.tex}
+% https://tex.stackexchange.com/questions/500463/using-listinputlisting-to-include-a-specific-git-commit
+% https://git-scm.com/docs/git-archive
+% https://tex.stackexchange.com/questions/500463/using-listinputlisting-to-include-a-specific-git-commit
+
+\title{Quadrilateral Quality}
+\author{C.B.~Hovey}
+%\date{}							% Activate to display a given date or n date
+
+\begin{document}
+\maketitle
+%\section{}
+%\subsection{}
+
+% renewcommand{\GitRemote}{ssh://git@trac.sagemath.org/sage.git}
+% \lstinputlisting{\GitCheckout{src/sage/coding/goppa.py}}
+% \renewcommand{\GitRemote}{ssh://git@github.com:hovey/include.git}
+% \lstinputlisting{\GitCheckout{hovey/include/hmath_descendant.tex}}
+
+% \lstinputlisting{|\string"git archive --remote=ssh://git@server/repo.git VERSION path/to/file 2>/dev/null | tar --extract --file - --to-stdout\string"}
+% \lstinputlisting{|\string"git archive --remote=ssh://git@github.com:hovey/include.git v0.0.1 hmath_descendant.tex 2>/dev/null | tar --extract --file hmath_descendant.tex --to-stdout\string"}
+% \lstinputlisting{|\string"git archive --remote=https://git@github.com/hovey/include.git include/hmath_descendant.tex 2>/dev/null | tar --extract --file hmath_descendant.tex --to-stdout\string"}
+% \lstinputlisting{|\string"git archive --remote=https://git@github.com/hovey/include.git v0.0.1 include/hmath_descendant.tex 2>/dev/null | tar --extract --file - --to-stdout\string"}
+
+
+\begin{figure}[htb]
+  \begin{center}
+
+    \begin{tikzpicture}
+      % background grid
+      %\draw[step=1cm,blue,dashed,very thin] (-9,0) grid (5,8);  % background grid
+      %\foreach \x in {-9, -8, -6, -4, -2, 0, 2, 4, 5}
+      %  \draw (\x cm,1pt) -- (\x cm,-1pt) node[anchor=north] {$\x$};
+      % \foreach \y in {0, 2, 4, 6, 8}
+      %  \draw (1pt,\y cm) -- (-1pt,\y cm) node[anchor=east] {$\y$};         
+          
+	  % physical space
+      %\node[draw,align=left] at (2,8.5) {(b) Physical Space}; % boxed
+      \node[align=left] at (2,8.5) {(b) Physical Space $\vx = (x, y)$}; % unboxed
+      % x-axis
+      \draw[black,thick,->] (-1,0) -- (5,0) node[anchor=north west]{$x$};
+      % y-axis
+      \draw[black,thick,->] (-1,0) -- (-1,5) node[anchor=south east]{$y$};
+      % origin
+      \filldraw[black] (-1,0) circle (2pt) node[anchor=east]{$O$};
+
+
+      % parametric space
+      %\node[draw,align=left] at (-6,8.5) {(a) Parametric Space};  % boxed
+      \node[align=left] at (-6,8.5) {(a) Parametric Space $\ve{\xi} = (\xi, \eta)$};  % unboxed
+      % xi-axis
+      \draw[black,thick,->] (-9,4) -- (-3,4) node[anchor=west]{$\xi$};3
+      % eta-axis
+      \draw[black,thick,->] (-6,1) -- (-6,7) node[anchor=south]{$\eta$};
+
+      \draw[step=1cm,gray,very thin] (-8,2) grid (-4,6);  % grid
+      \draw[blue, thick] (-8,2) -- (-4,2);  % nodes 1-2
+      \draw[blue, thick] (-4,2) -- (-4,6);  % nodes 2-3
+      \draw[blue, thick] (-4,6) -- (-8,6);  % nodes 3-4
+      \draw[blue, thick] (-8,6) -- (-8,2);  % nodes 4-1
+      
+      \filldraw[black] (-8,2) circle (2pt) node[anchor=north]{node $1$}; 
+      \node[anchor=north] at (-8,1.5) {$\ve{\xi}= (-1, -1)$};  
+      
+      \filldraw[black] (-4,2) circle (2pt) node[anchor=north]{node $2$};  
+      \node[anchor=north] at (-4,1.5) {$\ve{\xi}= (1, -1)$};  
+      
+      \filldraw[black] (-4,6) circle (2pt) node[anchor=south]{node $3$};
+      \node[anchor=south] at (-4,6.5) {$\ve{\xi}= (1, 1)$};  
+
+      \filldraw[black] (-8,6) circle (2pt) node[anchor=south]{node $4$};
+      \node[anchor=south] at (-8,6.5) {$\ve{\xi}= (-1, 1)$};  
+      
+      \draw[blue, thick] (1,1.5) -- (4,2);  % nodes 1-2
+      \draw[blue, thick] (4,2) -- (5,5);  % nodes 2-3
+      \draw[blue, thick] (5,5) -- (0,6);  % nodes 3-4      
+      \draw[blue, thick] (0,6) -- (1,1.5);  % nodes 4-1            
+      
+      \filldraw[black] (1,1.5) circle (2pt) node[anchor=north]{node $1$}; 
+      \node[anchor=north] at (1,1) {$\vx = (x_1, y_1)$};  
+
+      \filldraw[black] (4,2) circle (2pt) node[anchor=north west]{node $2$}; 
+      \node[anchor=north west] at (4,1.5) {$\vx = (x_2, y_2)$};  
+
+      \filldraw[black] (5,5) circle (2pt) node[anchor=south west]{node $3$}; 
+      \node[anchor=south west] at (5,5.5) {$\vx = (x_3, y_3)$};  
+      
+      \filldraw[black] (0,6) circle (2pt) node[anchor=south east]{node $4$}; 
+      \node[anchor=south east] at (0,6.5) {$\vx = (x_4, y_4)$};  
+
+    \end{tikzpicture}
+
+  \end{center}
+
+  \caption{Parametric mapping $\vx = f(\ve{\xi})$ from parametric space to physical space.}
+\label{fig:parametric_to_physical} % label must come after caption 
+\end{figure}
+
+Let the parametric mapping $f: \ve{\xi} \mapsto \vx$ be defined as
+
+\begin{align}
+  x(\xi,\eta) & = \sum_{a=1}^4 N_a(\xi, \eta) \; x_a \\
+  y(\xi,\eta) & = \sum_{a=1}^4 N_a(\xi, \eta) \; y_a 
+\end{align}
+where 
+\begin{align}
+  N_1(\xi, \eta) & = \tfrac{1}{4} (1 - \xi) (1 - \eta) \\
+  N_2(\xi, \eta) & = \tfrac{1}{4} (1 + \xi) (1 - \eta) \\
+  N_3(\xi, \eta) & = \tfrac{1}{4} (1 + \xi) (1 + \eta) \\
+  N_4(\xi, \eta) & = \tfrac{1}{4} (1 - \xi) (1 + \eta)
+\end{align}
+
+\clearpage
+
+
+\end{document}
+
