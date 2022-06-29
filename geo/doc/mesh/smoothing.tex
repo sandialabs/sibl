@@ -54,8 +54,12 @@
 % \lstinputlisting{|\string"git archive --remote=https://git@github.com/hovey/include.git v0.0.1 include/hmath_descendant.tex 2>/dev/null | tar --extract --file - --to-stdout\string"}
 
 
-Let the subject point $\vp \in \realnsd$ have coordinates $(x)$ in 1D, 
-$(x, y)$ in 2D, and $(x, y, z)$ in 3D.  
+Let the subject node have a current configuration located at 
+point $\vp \in \realnsd$ have coordinates relative to origin $O$
+of
+$(x)$ in 1D, 
+$(x, y)$ in 2D, 
+and $(x, y, z)$ in 3D.  
 The subject point connects to $n$ neighbor points
 $\vq_i$ for $i \in [1, n]$ though $n$ edges.  
 In Fig.~\ref{fig:node_p}, for example, the point $\vp$ connects for four 
@@ -88,13 +92,14 @@ neighbors.
 
   \end{center}
 
-  \caption{Subject node $\vp$ with edge connections (dotted lines) 
+  \caption{Subject node with current configuration at $\vp$ with edge 
+  connections (dotted lines) 
   to neighbor nodes $\vq_i$ 
   with $i \in [1, n]$ (without loss of generality, 
   the specific example of $n = 4$ is shown).  
   The average position of all neighbors of $\vp$ 
-  is denoted $\bar{\vp}$, and the gap (dashed line) 
-  from $\bar{\vp}$ to $\vp$ is gap $\vg$.}
+  is denoted $\bar{\vp}$, and the gap $\vg$ (dashed line) 
+  originates at $\bar{\vp}$ and terminates at $\vp$.}
 \label{fig:node_p} % label must come after caption 
 \end{figure}
 Let $\bar{\vp}$ denote the average position of all neighbors of $\vp$ and be 
