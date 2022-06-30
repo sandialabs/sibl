@@ -29,13 +29,13 @@ The *SIBL Geometry Engine* is an open-source geometry and mesh engine written in
 * Review the Python library API through the test suite: `~/sibl> pytest -v`
 * Automatically create a 2D dualized mesh from a discrete, well-defined boundary. Start here: [Lessons](geo/doc/dual/README.md)
 * Use [xfigure](cli/doc/README.md) and a `.json` configuration file to create high quality LaTeX figures.
-* Approximate the angular velocity of a quasi-rigid body using the Tree Point Angular Velocity algorithm ([TPAV](cli/tests/tpav/README.md)).
+* Approximate the angular velocity of a quasi-rigid body using the Tree Point Angular Velocity Algorithm ([TPAV](cli/tests/tpav/README.md)).
 
 ## Contributing
 
-* To get started, developers should [configure](config/README.md) their development environment.
-* Then, developers should follow the developer [workflow](config/workflow.md).
-* To contribute, developers should submit a merge request.
+* [Configure](config/README.md) the development environment.
+* Follow the developer [workflow](config/workflow.md).
+* To contribute, submit a merge request.
 
 ## Contact
 

@@ -158,9 +158,13 @@
 Let the parametric mapping $f: \ve{\xi} \mapsto \vx$ be defined as
 
 \begin{align}
-  x(\xi,\eta) & = \sum_{a=1}^4 N_a(\xi, \eta) \; x_a, \\
-  y(\xi,\eta) & = \sum_{a=1}^4 N_a(\xi, \eta) \; y_a, 
+  x(\xi,\eta) & = \sum_{a=1}^4 N_a(\xi, \eta) \; x_a, \label{eq:shapex} \\
+  y(\xi,\eta) & = \sum_{a=1}^4 N_a(\xi, \eta) \; y_a, \label{eq:shapey}
 \end{align}
+%\be
+%x(\xi,\eta) = \sum_{a=1}^4 N_a(\xi, \eta) \; x_a, \mbox{ and }
+%y(\xi,\eta) = \sum_{a=1}^4 N_a(\xi, \eta) \; y_a, 
+%\ee
 where a nodal {\bf shape function} is defined for each of the four nodes:
 \begin{align}
   N_1(\xi, \eta) & \defe \tfrac{1}{4} (1 - \xi) (1 - \eta), \\
@@ -169,22 +173,27 @@ where a nodal {\bf shape function} is defined for each of the four nodes:
   N_4(\xi, \eta) & \defe \tfrac{1}{4} (1 - \xi) (1 + \eta).
 \end{align}
 
-The Jacobian $\vJ$ is the partial matrix of derivatives of $\vx$ with 
-respect to $\ve{\xi}$, defined for a quadrilateral element as
+\section{Jacobian}
 
+For the quadrilateral element, the Jacobian $\vJ$ is calculated as 
+the partial matrix of derivatives of $\vx = (x, y)$ with 
+respect to $\ve{\xi} = (\xi, \eta)$, 
 \be 
- \vJ \defe \left[
+ \vJ(\xi, \eta) \defe 
+ \left[
+  \frac{\partial \vx}{\partial \ve{\xi}}
+ \right]
+ = 
+ \left[
   \begin{tabular}{cc}
     $x,_{\tiny\xi}$ & $x,_{\tiny\eta}$ \\
     $y,_{\tiny\xi}$ & $y,_{\tiny\eta}$ 
   \end{tabular}
   \right].
 \ee 
-
-\section{Jacobian}
-
-Expanded in terms of shape functions, the Jacobian takes the form 
-
+Substituting $x(\xi, \eta)$ and $y(\xi, \eta)$ with shape function equations
+(\ref{eq:shapex})-(\ref{eq:shapey}) and expanding terms,  the Jacobian takes 
+the form 
 \be 
  \vJ(\xi, \eta) = \frac{1}{4} 
  \left[
@@ -202,11 +211,9 @@ Expanded in terms of shape functions, the Jacobian takes the form
   \end{tabular}
   \right].
 \ee 
-
 The determinant of the Jacobian, $\det(\vJ)$, can be found to be 
-
 \be 
-\det(\vJ) = c_0 + c_1 \xi + c_2 \eta,
+\det(\vJ\left(\xi, \eta)\right) = c_0 + c_1 \xi + c_2 \eta,
 \ee 
 where
 \begin{align}
