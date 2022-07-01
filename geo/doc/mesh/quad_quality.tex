@@ -1,7 +1,32 @@
-\documentclass[11pt, oneside]{article}   	% use "amsart" instead of "article" for AMSLaTeX format
+% --------------
+% DOCUMENT CLASS
+% --------------
+% \documentclass[10pt,twoside,letterpaper,fleqn]{report}
+%%%%%
+%%%%% ----------------- black on white -> white on black %%%%%
+% Option 1 of 2: article
+%\documentclass[11pt,letterpaper,fleqn]{report}
+% Option 2 of 2: slides
+\documentclass[14pt,letterpaper,fleqn]{extreport}
+%
+%\documentclass[11pt, oneside]{article}   	% use "amsart" instead of "article" for AMSLaTeX format
 \usepackage{geometry}                		% See geometry.pdf to learn the layout options. There are lots.
-\geometry{letterpaper}                   		% ... or a4paper or a5paper or ... 
-%\geometry{landscape}                		% Activate for rotated page geometry
+%\geometry{letterpaper}                   		% ... or a4paper or a5paper or ... 
+\geometry{landscape}                		% Activate for rotated page geometry
+\usepackage{pagecolor}
+\definecolor{hred}{rgb}{1,0,0}
+\definecolor{hivory}{rgb}{1,1,0.94}
+\definecolor{hdarkblueblack}{RGB}{30,30,40}
+\definecolor{hdarkgrayblack}{RGB}{35,35,35}
+%\definecolor{hdarkgrayblack}{RGB}{30,30,30}
+%\definecolor{hdarkgrayblack}{RGB}{25,25,25}
+\pagecolor{hdarkgrayblack} % toggle on for dark mode
+\color{white} % toggle on for dark mode
+%%%%% ----------------- black on white -> white on black %%%%%
+%%%%%
+
+
+
 %\usepackage[parfill]{parskip}    		% Activate to begin paragraphs with an empty line rather than an indent
 \usepackage{graphicx}				% Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
 								% TeX will automatically convert eps --> pdf in pdflatex		
@@ -58,13 +83,18 @@
 % \lstinputlisting{|\string"git archive --remote=https://git@github.com/hovey/include.git include/hmath_descendant.tex 2>/dev/null | tar --extract --file hmath_descendant.tex --to-stdout\string"}
 % \lstinputlisting{|\string"git archive --remote=https://git@github.com/hovey/include.git v0.0.1 include/hmath_descendant.tex 2>/dev/null | tar --extract --file - --to-stdout\string"}
 
+% Define the layers to draw the diagram
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+
 
 \begin{figure}[htb]
   \begin{center}
 
     \begin{tikzpicture}
       % background grid
-      % \draw[step=1cm,blue,dashed,very thin] (-9,0) grid (5,8);  % background grid
+      %\draw[step=1cm,blue,dashed,very thin] (-9,0) grid (5,8);
       % \foreach \x in {-9, -8, -6, -4, -2, 0, 2, 4, 5}
       %   \draw (\x cm,1pt) -- (\x cm,-1pt) node[anchor=north] {$\x$};
       % \foreach \y in {0, 2, 4, 6, 8}
@@ -72,7 +102,7 @@
           
      % physical space
       %\node[draw,align=left] at (2,8.5) {(b) Physical Space}; % boxed
-      \node[align=left] at (2,8.5) {(b) Physical Space $\vx = (x, y)$}; % unboxed
+      \node[align=left, text=black] at (2,8.5) {(b) Physical Space $\vx = (x, y)$}; % unboxed
       % x-axis
       \draw[black,thick,->] (-1,0) -- (5,0) node[anchor=north west]{$x$};
       % y-axis
@@ -83,7 +113,7 @@
 
       % parametric space
       %\node[draw,align=left] at (-6,8.5) {(a) Parametric Space};  % boxed
-      \node[align=left] at (-6,8.5) {(a) Parametric Space $\ve{\xi} = (\xi, \eta)$};  % unboxed
+      \node[align=left, text=black] at (-6,8.5) {(a) Parametric Space $\ve{\xi} = (\xi, \eta)$};  % unboxed
       % xi-axis
       \draw[black,thick,dashed,->] (-9,4) -- (-3,4) node[anchor=west]{$\xi$};
       % eta-axis
@@ -118,16 +148,16 @@
       \draw[blue, thick] (-8,6) -- (-8,2);  % nodes 4-1
       
       \filldraw[black] (-8,2) circle (2pt) node[anchor=north]{node $1$}; 
-      \node[anchor=north] at (-8,1.5) {$\ve{\xi}= (-1, -1)$};  
+      \node[anchor=north, black] at (-8,1.5) {$\ve{\xi}= (-1, -1)$};  
       
       \filldraw[black] (-4,2) circle (2pt) node[anchor=north]{node $2$};  
-      \node[anchor=north] at (-4,1.5) {$\ve{\xi}= (1, -1)$};  
+      \node[anchor=north, black] at (-4,1.5) {$\ve{\xi}= (1, -1)$};  
       
       \filldraw[black] (-4,6) circle (2pt) node[anchor=south]{node $3$};
-      \node[anchor=south] at (-4,6.5) {$\ve{\xi}= (1, 1)$};  
+      \node[anchor=south, black] at (-4,6.5) {$\ve{\xi}= (1, 1)$};  
 
       \filldraw[black] (-8,6) circle (2pt) node[anchor=south]{node $4$};
-      \node[anchor=south] at (-8,6.5) {$\ve{\xi}= (-1, 1)$};  
+      \node[anchor=south, black] at (-8,6.5) {$\ve{\xi}= (-1, 1)$};  
       
       \draw[blue, thick] (1,1.5) -- (4,2);  % nodes 1-2
       \draw[blue, thick] (4,2) -- (5,5);  % nodes 2-3
@@ -135,16 +165,24 @@
       \draw[blue, thick] (0,6) -- (1,1.5);  % nodes 4-1            
       
       \filldraw[black] (1,1.5) circle (2pt) node[anchor=north]{node $1$}; 
-      \node[anchor=north] at (1,1) {$\vx = (x_1, y_1)$};  
+      \node[anchor=north, black] at (1,1) {$\vx = (x_1, y_1)$};  
 
       \filldraw[black] (4,2) circle (2pt) node[anchor=north west]{node $2$}; 
-      \node[anchor=north west] at (4,1.5) {$\vx = (x_2, y_2)$};  
+      \node[anchor=north west, black] at (4,1.5) {$\vx = (x_2, y_2)$};  
 
       \filldraw[black] (5,5) circle (2pt) node[anchor=south west]{node $3$}; 
-      \node[anchor=south west] at (5,5.5) {$\vx = (x_3, y_3)$};  
+      \node[anchor=south west, black] at (5,5.5) {$\vx = (x_3, y_3)$};  
       
-      \filldraw[black] (0,6) circle (2pt) node[anchor=south east]{node $4$}; 
-      \node[anchor=south east] at (0,6.5) {$\vx = (x_4, y_4)$};  
+      \filldraw[black] (0,6) circle (2pt) node[anchor=south]{node $4$}; 
+      \node[anchor=south, black] at (0,6.5) {$\vx = (x_4, y_4)$};  
+
+      % Background
+      \begin{pgfonlayer}{background}
+        \path (-10.25cm, -1.0cm) node (bottomleft) {};
+        \path (8.25cm, 9.5cm) node (topright) {};
+
+        \path[fill=gray!10] (bottomleft) rectangle (topright);
+      \end{pgfonlayer}
 
     \end{tikzpicture}
 
@@ -153,6 +191,8 @@
   \caption{Parametric mapping $\vx = f(\ve{\xi})$ from parametric space to physical space.}
 \label{fig:parametric_to_physical} % label must come after caption 
 \end{figure}
+
+\clearpage
 
 \section{Isoparametric Mapping}
 Let the parametric mapping $f: \ve{\xi} \mapsto \vx$ be defined as
@@ -168,10 +208,15 @@ Let the parametric mapping $f: \ve{\xi} \mapsto \vx$ be defined as
 where a nodal {\bf shape function} is defined for each of the four nodes:
 \begin{align}
   N_1(\xi, \eta) & \defe \tfrac{1}{4} (1 - \xi) (1 - \eta), \\
+  & \nonumber \\
   N_2(\xi, \eta) & \defe \tfrac{1}{4} (1 + \xi) (1 - \eta), \\
+  & \nonumber \\
   N_3(\xi, \eta) & \defe \tfrac{1}{4} (1 + \xi) (1 + \eta), \\
+  & \nonumber \\
   N_4(\xi, \eta) & \defe \tfrac{1}{4} (1 - \xi) (1 + \eta).
 \end{align}
+
+\clearpage
 
 \section{Jacobian}
 
@@ -222,24 +267,38 @@ where
   c_2 & = \frac{1}{8} \left[(x_2 - x_3) (y_1 - y_4) - (x_1 - x_4) (y_2 - y_3) \right].
 \end{align}
 
+\clearpage
+
 \section{Quality}
 
-Important {\em Metrics for Quadrilateral Elements}\footnote{See \href{https://cubit.sandia.gov/files/cubit/16.04/help_manual/WebHelp/cubithelp.htm}{Cubit} or \href{https://coreform.com/cubit_help/mesh_generation/mesh_quality_assessment/quadrilateral_metrics.htm}{Coreform}.} follow:
+Important {\em Metrics for Quadrilateral 
+Elements}\footnote{See \href{link}{https://cubit.sandia.gov/files/cubit/16.04/help\_manual/WebHelp/cubithelp.htm}
+%%or \href{link}{https://coreform.com/cubit\_help/mesh\_generation/mesh\_quality\_assessment/quadrilateral\_metrics.htm}.
+}~%footnote
+follow:
 
 \begin{itemize}
     \item Aspect ratio: Maximum edge length ratios at the quadrilateral center.  Citation: Robinson 1987.\footnote{Robinson J. CRE method of element testing and the Jacobian shape parameters. Engineering Computations. 1987 Feb 1.}
-  \item Jacobian metric: Minimum pointwise volume of local map at the four corners and center of quadrilateral.  Dimension: $L^2$.  Full range: $(-\infty, \infty)$.  Acceptable range: None.  Citation: Knupp 2000.\footnote{Knupp PM. Achieving finite element mesh quality via optimization of the Jacobian matrix norm and associated quantities. Part II—a framework for volume mesh optimization and the condition number of the Jacobian matrix. International Journal for numerical methods in engineering. 2000 Jul 20;48(8):1165-85. OSTI \href{link}{https://www.osti.gov/servlets/purl/5009}.}
-  \item Scaled Jacobian metric: For a linear element, the minimum Jacobian [at a point] divided by the lengths of the two edge vectors [connecting to that point].  Dimension: $L^0$.  Full range: $[-1.0, 1.0]$.  Acceptable range $[0.5, 1.0]$.  Citation: Knupp 2000, {\em op.~cit.}.
+  \item Jacobian metric: Minimum pointwise volume of local map at the four corners and center of quadrilateral.  Dimension: $L^2$.  Full range: $(-\infty, \infty)$.  Acceptable range: None.  Citation: Knupp 2000.\footnote{Knupp PM. Achieving finite element mesh quality via optimization of the Jacobian matrix norm and associated quantities. Part II—a framework for volume mesh optimization and the condition number of the Jacobian matrix. International Journal for numerical methods in engineering. 2000 Jul 20;48(8):1165-85. OSTI \href{link}{https://www.osti.gov/servlets/purl/5009}.}%footnote
+  \item Scaled Jacobian metric: For a linear element, the minimum Jacobian [at a point] divided by the lengths of the two edge vectors [connecting to that point].  Dimension: $L^0$.  Full range: $[-1.0, 1.0]$.  Acceptable range $[0.5, 1.0]$.  Citation: Knupp 2000, {\em op.~cit.}
 \end{itemize}
 
 Following {\em The Verdict Geometry Quality 
-Library} documentation,\footnote{Knupp PM, Ernst CD, Thompson DC, Stimpson CJ, Pebay PP. The verdict geometric quality library. Sandia National Laboratories (SNL), Albuquerque, NM, and Livermore, CA (United States); 2006 Mar 1.  OSTI \href{link}{https://www.osti.gov/servlets/purl/901967}.} we compute the minimum Jacobian as the minimum of the four Jacobians computed at each vertex:\footnote{Knupp 2006, {\em op.~cit.}~at 42.}
+Library} documentation,\footnote{Knupp PM, Ernst CD, Thompson DC, Stimpson CJ, Pebay PP. 
+The verdict geometric quality library. Sandia National Laboratories (SNL), 
+Albuquerque, NM, and Livermore, CA (United States); 2006 Mar 1.  
+OSTI \href{link}{https://www.osti.gov/servlets/purl/901967}.} 
+we compute the minimum Jacobian as the minimum of the four Jacobians computed 
+at each vertex:\footnote{Knupp 2006, {\em op.~cit.}~at 
+42.}$^{,}$\footnote{See 
+\href{link}{https://github.com/Kitware/VTK/blob/master/ThirdParty/verdict/vtkverdict/}
+and in particular, the {\tt quad\_scaled\_jacobian} function in the {\tt V\_QuadMetric.cpp} implementation.}%footnote
 \be 
 J_{\min} \defe \min(J_1, J_2, J_3, J_4),
 \ee 
 and the minimum scaled Jacobian as the minimum of the four Jacobians computed at 
 each vertex divided lengths of the two element edges connected 
-to that vertex\footnote{Knupp 2006, {\em op.~cit.}~at 51.}
+to that vertex,\footnote{Knupp 2006, {\em op.~cit.}~at 51.}
 \be 
 \hat{J}_{\min} \defe \min\left(\frac{J_1}{e_4 e_1}, \frac{J_2}{e_1 e_2}, 
 \frac{J_3}{e_2 e_3}, \frac{J_4}{e_3 e_4}\right),
