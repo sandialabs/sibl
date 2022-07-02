@@ -603,3 +603,44 @@ def test_jacobian_of_quad_pushed_slight_negative(n1, n2, n3, n4):
     assert all(k == pytest.approx(f) for (k, f) in zip(known, found))
 
     assert pytest.approx(mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)) == 0.1
+
+
+def test_jacobian_of_quad_pushed_very_negative(n1, n2, n3, n4):
+    """Given a quadrilateral in 2D, verify the
+    Jacobian matrix, evaluated at each of the four quad corners, quad has node 3 pushed inward
+    to create a slight negative value in the Jacobian map.
+    """
+    cs = ((1.0, 1.0), (2.0, 1.0), (1.1, 1.1), (1.0, 2.0))
+    # The det(J) = 1/80 * (2 - 9a - 9b)
+
+    n = n1  # overwrite
+    assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
+        (0.5, 0.0),
+        (0.0, 0.5),
+    )
+    assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.25
+
+    n = n2  # overwrite
+    known = ((0.5, 0.0), (-0.45, 0.05))
+    found = mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)
+    assert all(k == pytest.approx(f) for (k, f) in zip(known, found))
+    assert (
+        pytest.approx(mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)) == 0.025
+    )
+
+    n = n3  # overwrite
+    known = ((0.05, -0.45), (-0.45, 0.05))
+    found = mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)
+    assert all(k == pytest.approx(f) for (k, f) in zip(known, found))
+    assert (
+        pytest.approx(mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)) == -0.2
+    )
+
+    n = n4  # overwrite
+    known = ((0.05, -0.45), (0.0, 0.5))
+    found = mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)
+    assert all(k == pytest.approx(f) for (k, f) in zip(known, found))
+
+    assert (
+        pytest.approx(mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)) == 0.025
+    )
