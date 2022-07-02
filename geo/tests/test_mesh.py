@@ -18,6 +18,7 @@ For flake8:
 flake8 --ignore E203,E501,W503 geo/tests/test_mesh.py --statistics
 """
 from pathlib import Path
+from typing import NamedTuple
 
 import pytest
 
@@ -293,3 +294,160 @@ def test_plot_mesh():
 
     # confirm the output file no longer exists
     assert not output_path_file.is_file()
+
+
+def test_tri_edge_lengths():
+    """Given a trianguarl element in \real_{\nsd},
+    verifies the lengths of the three edges that are returned."""
+
+    # 1D case
+    cs = (
+        (1.0,),
+        (2.0,),
+        (4.0,),
+    )
+    ls = mesh.perimeter_segment_lengths(coordinates=cs)
+    assert ls == (1.0, 2.0, 3.0)
+
+    # 2D case with 3, 4, 5, triangle
+    cs = ((0.0, 0.0), (3.0, 0.0), (3.0, 4.0))
+    ls = mesh.perimeter_segment_lengths(coordinates=cs)
+    assert ls == (3.0, 4.0, 5.0)
+
+    # 3D case
+    cs = ((-1.0, 2.0, 3.0), (4.0, 5.0, 6.0), (7.0, 8.0, 9.0))
+    ls = mesh.perimeter_segment_lengths(coordinates=cs)
+    knowns = (6.557438524302, 5.196152422706632, 11.661903789690601)
+
+    assert knowns == pytest.approx(ls)
+
+
+def test_quad_edge_lengths():
+    """Given a quadrilateral element in \real_{\nsd},
+    verifies the length of the four edges that are returned.
+    """
+    # Test 2D quad that matches the parameteric space.
+    cs = ((-1.0, -1.0), (1.0, -1.0), (1.0, 1.0), (-1.0, 1.0))
+    ls = mesh.perimeter_segment_lengths(coordinates=cs)
+    assert ls == (2.0, 2.0, 2.0, 2.0)
+
+    # Test 3D quad that matches the parameteric space.
+    cs = ((-1.0, -1.0, 0.0), (1.0, -1.0, 0.0), (1.0, 1.0, 0.0), (-1.0, 1.0, 0.0))
+    ls = mesh.perimeter_segment_lengths(coordinates=cs)
+    assert ls == (2.0, 2.0, 2.0, 2.0)
+
+
+def test_jacobian_of_quad():
+    """Given a quadrilateral in 2D, verify the
+    Jacobian matrix, evaluated at each of the four quad corners."""
+    cs = ((1.0, 1.0), (2.0, 1.0), (2.0, 2.0), (1.0, 2.0))
+
+    class n1(NamedTuple):  # Node 1, etc.
+        a: float = -1.0
+        b: float = -1.0
+
+    class n2(NamedTuple):
+        a: float = 1.0
+        b: float = -1.0
+
+    class n3(NamedTuple):
+        a: float = 1.0
+        b: float = 1.0
+
+    class n4(NamedTuple):
+        a: float = -1.0
+        b: float = 1.0
+
+    n = n1()
+    assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
+        (0.5, 0.0),
+        (0.0, 0.5),
+    )
+    assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.25
+
+    n = n2()  # overwrite
+    assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
+        (0.5, 0.0),
+        (0.0, 0.5),
+    )
+    assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.25
+
+    n = n3()  # overwrite
+    assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
+        (0.5, 0.0),
+        (0.0, 0.5),
+    )
+    assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.25
+
+    n = n4()  # overwrite
+    assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
+        (0.5, 0.0),
+        (0.0, 0.5),
+    )
+    assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.25
+
+    # Quad in simple shear
+    cs = ((1.0, 1.0), (2.0, 1.0), (3.0, 2.0), (2.0, 2.0))
+
+    n = n1()  # overwrite
+    assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
+        (0.5, 0.0),
+        (0.5, 0.5),
+    )
+    assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.25
+
+    n = n2()  # overwrite
+    assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
+        (0.5, 0.0),
+        (0.5, 0.5),
+    )
+    assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.25
+
+    n = n3()  # overwrite
+    assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
+        (0.5, 0.0),
+        (0.5, 0.5),
+    )
+    assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.25
+
+    n = n4()  # overwrite
+    assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
+        (0.5, 0.0),
+        (0.5, 0.5),
+    )
+    assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.25
+
+    # Quad a trapezoid
+    cs = ((1.0, 1.0), (2.5, 1.0), (2.0, 2.0), (1.5, 2.0))
+
+    n = n1()  # overwrite
+    assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
+        (0.75, 0.0),
+        (0.25, 0.5),
+    )
+    assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.375
+
+    n = n2()  # overwrite
+    assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
+        (0.75, 0.0),
+        (-0.25, 0.5),
+    )
+    assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.375
+
+    n = n3()  # overwrite
+    assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
+        (0.25, 0.0),
+        (-0.25, 0.5),
+    )
+    assert (
+        pytest.approx(mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)) == 0.125
+    )
+
+    n = n4()  # overwrite
+    assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
+        (0.25, 0.0),
+        (0.25, 0.5),
+    )
+    assert (
+        pytest.approx(mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)) == 0.125
+    )

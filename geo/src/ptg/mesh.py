@@ -3,17 +3,17 @@ from itertools import cycle, tee
 from pathlib import Path
 
 import matplotlib.pyplot as plt
+import numpy as np
 
-# Type alias for functional style methods
-# https://docs.python.org/3/library/typing.html#type-aliases
-Vertex = tuple[float, ...]
-Face = tuple[int, ...]  # integer IDs of n vertices forming a face in a CCW convention
-Faces = tuple[Face, ...]
-Edge = tuple[int, int]  # integer IDs of two vertices forming a single edge connection
-Edges = tuple[Edge, ...]
-FixedDisplacements = dict[
-    str, tuple[int, ...]
-]  # string IDs of interger degrees of freedom <: (1, 2, 3)
+from ptg.mesh_typing import (
+    Edges,
+    Face,
+    Faces,
+    FixedDisplacements,
+    QuadVertices,
+    Vertices,
+    Vertex,
+)
 
 
 class Mesh(NamedTuple):
@@ -300,3 +300,43 @@ def plot_mesh(*, nodes, edges, options) -> bool:
     # If we reach this point, we have finished the function.
     success = True  # overwrite False default
     return success
+
+
+def perimeter_segment_lengths(*, coordinates: Vertices) -> tuple[float, ...]:
+    pairs = pairwise_circular(coordinates)
+    lengths = tuple()
+
+    for item in pairs:
+        point_i = np.asarray(item[0])
+        point_k = np.asarray(item[1])
+        vector_ik = np.subtract(point_k, point_i)
+        len_ik = np.linalg.norm(vector_ik)
+        lengths = lengths + (len_ik,)
+
+    return lengths
+
+
+def jacobian_of_quad(
+    *, xi: float, eta: float, vertices: QuadVertices
+) -> tuple[tuple[float, float], tuple[float, float]]:
+
+    assert len(vertices) == 4
+    assert -1.0 <= xi and xi <= 1.0
+    assert -1.0 <= eta and eta <= 1.0
+
+    A = 0.25 * np.array(
+        [
+            [-1.0 + eta, 1.0 - eta, 1.0 + eta, -1.0 - eta],
+            [-1.0 + xi, -1.0 - xi, 1.0 + xi, 1.0 - xi],
+        ]
+    )
+
+    B = np.asarray(vertices)
+
+    C = np.matmul(A, B)
+    return ((C[0, 0], C[0, 1]), (C[1, 0], C[1, 1]))
+
+
+def det_jacobian_of_quad(*, xi: float, eta: float, vertices: QuadVertices) -> float:
+    J = jacobian_of_quad(xi=xi, eta=eta, vertices=vertices)
+    return np.linalg.det(np.asarray(J))
