@@ -644,3 +644,57 @@ def test_jacobian_of_quad_pushed_very_negative(n1, n2, n3, n4):
     assert (
         pytest.approx(mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)) == 0.025
     )
+
+
+def test_jacobian_of_quad_bowtie(n1, n2, n3, n4):
+    """Given a quadrilateral in 2D, verify the
+    Jacobian matrix, evaluated at each of the four quad corners, quad has
+    node 2 and 3 inverted along the y-axis; the quad appears in a bowtie
+    shape.
+    """
+    cs = ((1.0, 1.0), (2.0, 2.0), (2.0, 1.0), (1.0, 2.0))
+
+    n = n1  # overwrite
+    assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
+        (0.5, 0.5),
+        (0.0, 0.5),
+    )
+    assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.25
+    assert mesh.det_jacobian_of_quad_check(xi=n.a, eta=n.b, vertices=cs) == 0.25
+
+    n = n2  # overwrite
+    known = ((0.5, 0.5), (0.0, -0.5))
+    found = mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)
+    assert all(k == pytest.approx(f) for (k, f) in zip(known, found))
+    assert (
+        pytest.approx(mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)) == -0.25
+    )
+    assert mesh.det_jacobian_of_quad_check(xi=n.a, eta=n.b, vertices=cs) == -0.25
+
+    n = n3  # overwrite
+    known = ((0.5, -0.5), (0.0, -0.5))
+    found = mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)
+    assert all(k == pytest.approx(f) for (k, f) in zip(known, found))
+    assert (
+        pytest.approx(mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)) == -0.25
+    )
+    assert mesh.det_jacobian_of_quad_check(xi=n.a, eta=n.b, vertices=cs) == -0.25
+
+    n = n4  # overwrite
+    known = ((0.5, -0.5), (0.0, 0.5))
+    found = mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)
+    assert all(k == pytest.approx(f) for (k, f) in zip(known, found))
+
+    assert (
+        pytest.approx(mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)) == 0.25
+    )
+    assert mesh.det_jacobian_of_quad_check(xi=n.a, eta=n.b, vertices=cs) == 0.25
+
+    # for the bowtie case, the Jacboian at the center of the
+    # element should be zero, check this.
+    known = ((0.5, 0.0), (0.0, 0.0))
+    found = mesh.jacobian_of_quad(xi=0.0, eta=0.0, vertices=cs)
+    assert all(k == pytest.approx(f) for (k, f) in zip(known, found))
+
+    assert pytest.approx(mesh.det_jacobian_of_quad(xi=0.0, eta=0.0, vertices=cs)) == 0.0
+    assert mesh.det_jacobian_of_quad_check(xi=0.0, eta=0.0, vertices=cs) == 0.0

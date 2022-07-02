@@ -340,3 +340,16 @@ def jacobian_of_quad(
 def det_jacobian_of_quad(*, xi: float, eta: float, vertices: QuadVertices) -> float:
     J = jacobian_of_quad(xi=xi, eta=eta, vertices=vertices)
     return np.linalg.det(np.asarray(J))
+
+
+def det_jacobian_of_quad_check(
+    *, xi: float, eta: float, vertices: QuadVertices
+) -> float:
+    # The det(J) = c0 + c1 * a + c2 * b, where
+    ((x1, y1), (x2, y2), (x3, y3), (x4, y4)) = vertices
+    c0 = ((x1 - x3) * (y2 - y4) - (x2 - x4) * (y1 - y3)) / 8.0
+    c1 = ((x3 - x4) * (y1 - y2) - (x1 - x2) * (y3 - y4)) / 8.0
+    c2 = ((x2 - x3) * (y1 - y4) - (x1 - x4) * (y2 - y3)) / 8.0
+
+    value = c0 + c1 * xi + c2 * eta
+    return value
