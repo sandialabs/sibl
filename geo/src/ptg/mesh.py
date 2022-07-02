@@ -316,6 +316,51 @@ def perimeter_segment_lengths(*, coordinates: Vertices) -> tuple[float, ...]:
     return lengths
 
 
+class quad_node_1(NamedTuple):
+    """Provides (xi, eta) = (a, b) values of parametric variables
+    at discrete node point 1 of quadrilateral element.
+    """
+
+    a: float = -1.0
+    b: float = -1.0
+
+
+class quad_node_2(NamedTuple):
+    """Provides (xi, eta) = (a, b) values of parametric variables
+    at discrete node point 2 of quadrilateral element.
+    """
+
+    a: float = 1.0
+    b: float = -1.0
+
+
+class quad_node_3(NamedTuple):
+    """Provides (xi, eta) = (a, b) values of parametric variables
+    at discrete node point 3 of quadrilateral element.
+    """
+
+    a: float = 1.0
+    b: float = 1.0
+
+
+class quad_node_4(NamedTuple):
+    """Provides (xi, eta) = (a, b) values of parametric variables
+    at discrete node point 4 of quadrilateral element.
+    """
+
+    a: float = -1.0
+    b: float = 1.0
+
+
+class quad_center(NamedTuple):
+    """Provides (xi, eta) = (a, b) values of parametric variables
+    at center of quadrilateral element.
+    """
+
+    a: float = 0.0
+    b: float = 0.0
+
+
 def jacobian_of_quad(
     *, xi: float, eta: float, vertices: QuadVertices
 ) -> tuple[tuple[float, float], tuple[float, float]]:
@@ -353,3 +398,38 @@ def det_jacobian_of_quad_check(
 
     value = c0 + c1 * xi + c2 * eta
     return value
+
+
+# def min_scaled_jacobian(*, vertices: QuadVertices) -> float:
+
+#     # compute four Jacobians at each of the four nodes
+#     n = quad_node_1()
+#     j1 = det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=vertices)
+
+#     n = quad_node_2()  # overwrite
+#     j2 = det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=vertices)
+
+#     n = quad_node_3()  # overwrite
+#     j3 = det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=vertices)
+
+#     n = quad_node_4()  # overwrite
+#     j4 = det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=vertices)
+
+#     js = (j1, j2, j3, j4)
+
+#     # compute the four adjoining side lengths
+#     ls = perimeter_segment_lengths(coordinates=vertices)
+
+#     # compute the four adjoining side length products
+#     d1 = ls[3] * ls[0]
+#     d2 = ls[0] * ls[1]
+#     d3 = ls[1] * ls[2]
+#     d4 = ls[2] * ls[3]
+
+#     ds = (d1, d2, d3, d4)
+
+#     # compute the four scaled Jacobians
+#     js_hat = tuple(n / d for (n, d) in zip(js, ds))
+
+#     # return the minimum for the Jacobians
+#     return min(js_hat)

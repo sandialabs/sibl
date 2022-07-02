@@ -18,7 +18,6 @@ For flake8:
 flake8 --ignore E203,E501,W503 geo/tests/test_mesh.py --statistics
 """
 from pathlib import Path
-from typing import NamedTuple
 
 import pytest
 
@@ -337,143 +336,104 @@ def test_quad_edge_lengths():
     assert ls == (2.0, 2.0, 2.0, 2.0)
 
 
-@pytest.fixture
-def n1():
-    class node_1(NamedTuple):  # Node 1, etc.
-        a: float = -1.0
-        b: float = -1.0
-
-    return node_1()
-
-
-@pytest.fixture
-def n2():
-    class node_2(NamedTuple):
-        a: float = 1.0
-        b: float = -1.0
-
-    return node_2()
-
-
-@pytest.fixture
-def n3():
-    class node_3(NamedTuple):
-        a: float = 1.0
-        b: float = 1.0
-
-    return node_3()
-
-
-@pytest.fixture
-def n4():
-    class node_4(NamedTuple):
-        a: float = -1.0
-        b: float = 1.0
-
-    return node_4()
-
-
-@pytest.fixture
-def ctr():
-    class center(NamedTuple):
-        a: float = 0.0
-        b: float = 0.0
-
-    return center()
-
-
-def test_jacobian_of_quad_undeformed(n1, n2, n3, n4):
+def test_jacobian_of_quad_undeformed():
     """Given a quadrilateral in 2D, verify the
     Jacobian matrix, evaluated at each of the four quad corners, quad is a simple undeformed quad."""
     # Reference: Memphis_edu_C_03c_slides-quads.pdf
 
     cs = ((1.0, 1.0), (2.0, 1.0), (2.0, 2.0), (1.0, 2.0))
 
-    n = n1  # overwrite
+    n = mesh.quad_node_1()
     assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
         (0.5, 0.0),
         (0.0, 0.5),
     )
     assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.25
 
-    n = n2  # overwrite
+    n = mesh.quad_node_2()  # overwrite
     assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
         (0.5, 0.0),
         (0.0, 0.5),
     )
     assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.25
 
-    n = n3  # overwrite
+    n = mesh.quad_node_3()  # overwrite
     assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
         (0.5, 0.0),
         (0.0, 0.5),
     )
     assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.25
 
-    n = n4  # overwrite
+    n = mesh.quad_node_4()  # overwrite
     assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
         (0.5, 0.0),
         (0.0, 0.5),
     )
     assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.25
+    assert mesh.det_jacobian_of_quad_check(xi=n.a, eta=n.b, vertices=cs) == 0.25
+
+    # assert mesh.min_scaled_jacobian(vertices=cs) == 1.0
 
 
-def test_jacobian_of_quad_shear(n1, n2, n3, n4):
+def test_jacobian_of_quad_shear():
     """Given a quadrilateral in 2D, verify the
     Jacobian matrix, evaluated at each of the four quad corners in simple shear.
     """
     cs = ((1.0, 1.0), (2.0, 1.0), (3.0, 2.0), (2.0, 2.0))
 
-    n = n1  # overwrite
+    n = mesh.quad_node_1()
     assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
         (0.5, 0.0),
         (0.5, 0.5),
     )
     assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.25
 
-    n = n2  # overwrite
+    n = mesh.quad_node_2()  # overwrite
     assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
         (0.5, 0.0),
         (0.5, 0.5),
     )
     assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.25
 
-    n = n3  # overwrite
+    n = mesh.quad_node_3()  # overwrite
     assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
         (0.5, 0.0),
         (0.5, 0.5),
     )
     assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.25
 
-    n = n4  # overwrite
+    n = mesh.quad_node_4()  # overwrite
     assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
         (0.5, 0.0),
         (0.5, 0.5),
     )
     assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.25
+    assert mesh.det_jacobian_of_quad_check(xi=n.a, eta=n.b, vertices=cs) == 0.25
+
+    # assert mesh.min_scaled_jacobian(vertices=cs) == 1.0
 
 
-def test_jacobian_of_quad_trapezoid(n1, n2, n3, n4):
+def test_jacobian_of_quad_trapezoid():
     """Given a quadrilateral in 2D, verify the
     Jacobian matrix, evaluated at each of the four quad corners as a trapezoid.
     """
     cs = ((1.0, 1.0), (2.5, 1.0), (2.0, 2.0), (1.5, 2.0))
 
-    n = n1  # overwrite
+    n = mesh.quad_node_1()
     assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
         (0.75, 0.0),
         (0.25, 0.5),
     )
     assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.375
 
-    n = n2  # overwrite
+    n = mesh.quad_node_2()  # overwrite
     assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
         (0.75, 0.0),
         (-0.25, 0.5),
     )
     assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.375
 
-    n = n3  # overwrite
+    n = mesh.quad_node_3()  # overwrite
     assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
         (0.25, 0.0),
         (-0.25, 0.5),
@@ -482,7 +442,7 @@ def test_jacobian_of_quad_trapezoid(n1, n2, n3, n4):
         pytest.approx(mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)) == 0.125
     )
 
-    n = n4  # overwrite
+    n = mesh.quad_node_4()  # overwrite
     assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
         (0.25, 0.0),
         (0.25, 0.5),
@@ -490,37 +450,43 @@ def test_jacobian_of_quad_trapezoid(n1, n2, n3, n4):
     assert (
         pytest.approx(mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)) == 0.125
     )
+    assert (
+        pytest.approx(mesh.det_jacobian_of_quad_check(xi=n.a, eta=n.b, vertices=cs))
+        == 0.125
+    )
+
+    # assert pytest.approx(mesh.min_scaled_jacobian(vertices=cs)) == tbd
 
 
-def test_jacobian_of_quad_extended(n1, n2, n3, n4):
+def test_jacobian_of_quad_extended():
     """Given a quadrilateral in 2D, verify the
     Jacobian matrix, evaluated at each of the four quad corners, quad has node 3 extended.
     """
     cs = ((1.0, 1.0), (2.0, 1.0), (2.5, 2.5), (1.0, 2.0))
     # The det(J) = 1/16 * (6 + a + b)
 
-    n = n1  # overwrite
+    n = mesh.quad_node_1()
     assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
         (0.5, 0.0),
         (0.0, 0.5),
     )
     assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.25
 
-    n = n2  # overwrite
+    n = mesh.quad_node_2()  # overwrite
     assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
         (0.5, 0.0),
         (0.25, 0.75),
     )
     assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.375
 
-    n = n3  # overwrite
+    n = mesh.quad_node_3()  # overwrite
     assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
         (0.75, 0.25),
         (0.25, 0.75),
     )
     assert pytest.approx(mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)) == 0.5
 
-    n = n4  # overwrite
+    n = mesh.quad_node_4()  # overwrite
     assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
         (0.75, 0.25),
         (0.0, 0.5),
@@ -528,29 +494,35 @@ def test_jacobian_of_quad_extended(n1, n2, n3, n4):
     assert (
         pytest.approx(mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)) == 0.375
     )
+    assert (
+        pytest.approx(mesh.det_jacobian_of_quad_check(xi=n.a, eta=n.b, vertices=cs))
+        == 0.375
+    )
+
+    # assert pytest.approx(mesh.min_scaled_jacobian(vertices=cs)) == tbd
 
 
-def test_jacobian_of_quad_pushed_inward(n1, n2, n3, n4):
+def test_jacobian_of_quad_pushed_inward():
     """Given a quadrilateral in 2D, verify the
     Jacobian matrix, evaluated at each of the four quad corners, quad has node 3 pushed inward.
     """
     cs = ((1.0, 1.0), (2.0, 1.0), (1.6, 1.6), (1.0, 2.0))
     # The det(J) = 1/20 * (3 - a - b)
 
-    n = n1  # overwrite
+    n = mesh.quad_node_1()
     assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
         (0.5, 0.0),
         (0.0, 0.5),
     )
     assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.25
 
-    n = n2  # overwrite
+    n = mesh.quad_node_2()  # overwrite
     known = ((0.5, 0.0), (-0.2, 0.3))
     found = mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)
     assert all(k == pytest.approx(f) for (k, f) in zip(known, found))
     assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.15
 
-    n = n3  # overwrite
+    n = mesh.quad_node_3()  # overwrite
     known = ((0.3, -0.2), (-0.2, 0.3))
     found = mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)
     assert all(k == pytest.approx(f) for (k, f) in zip(known, found))
@@ -558,7 +530,7 @@ def test_jacobian_of_quad_pushed_inward(n1, n2, n3, n4):
         pytest.approx(mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)) == 0.05
     )
 
-    n = n4  # overwrite
+    n = mesh.quad_node_4()  # overwrite
     known = ((0.3, -0.2), (0.0, 0.5))
     found = mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)
     assert all(k == pytest.approx(f) for (k, f) in zip(known, found))
@@ -566,9 +538,15 @@ def test_jacobian_of_quad_pushed_inward(n1, n2, n3, n4):
     assert (
         pytest.approx(mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)) == 0.15
     )
+    assert (
+        pytest.approx(mesh.det_jacobian_of_quad_check(xi=n.a, eta=n.b, vertices=cs))
+        == 0.15
+    )
+
+    # assert pytest.approx(mesh.min_scaled_jacobian(vertices=cs)) == tbd
 
 
-def test_jacobian_of_quad_pushed_slight_negative(n1, n2, n3, n4):
+def test_jacobian_of_quad_pushed_slight_negative():
     """Given a quadrilateral in 2D, verify the
     Jacobian matrix, evaluated at each of the four quad corners, quad has node 3 pushed inward
     to create a slight negative value in the Jacobian map.
@@ -576,20 +554,20 @@ def test_jacobian_of_quad_pushed_slight_negative(n1, n2, n3, n4):
     cs = ((1.0, 1.0), (2.0, 1.0), (1.4, 1.4), (1.0, 2.0))
     # The det(J) = 1/40 * (4 - 3a - 3b)
 
-    n = n1  # overwrite
+    n = mesh.quad_node_1()
     assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
         (0.5, 0.0),
         (0.0, 0.5),
     )
     assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.25
 
-    n = n2  # overwrite
+    n = mesh.quad_node_2()  # overwrite
     known = ((0.5, 0.0), (-0.3, 0.2))
     found = mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)
     assert all(k == pytest.approx(f) for (k, f) in zip(known, found))
     assert pytest.approx(mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)) == 0.1
 
-    n = n3  # overwrite
+    n = mesh.quad_node_3()  # overwrite
     known = ((0.2, -0.3), (-0.3, 0.2))
     found = mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)
     assert all(k == pytest.approx(f) for (k, f) in zip(known, found))
@@ -597,15 +575,21 @@ def test_jacobian_of_quad_pushed_slight_negative(n1, n2, n3, n4):
         pytest.approx(mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)) == -0.05
     )
 
-    n = n4  # overwrite
+    n = mesh.quad_node_4()  # overwrite
     known = ((0.2, -0.3), (0.0, 0.5))
     found = mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)
     assert all(k == pytest.approx(f) for (k, f) in zip(known, found))
 
     assert pytest.approx(mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)) == 0.1
+    assert (
+        pytest.approx(mesh.det_jacobian_of_quad_check(xi=n.a, eta=n.b, vertices=cs))
+        == 0.1
+    )
+
+    # assert pytest.approx(mesh.min_scaled_jacobian(vertices=cs)) ==  tbd
 
 
-def test_jacobian_of_quad_pushed_very_negative(n1, n2, n3, n4):
+def test_jacobian_of_quad_pushed_very_negative():
     """Given a quadrilateral in 2D, verify the
     Jacobian matrix, evaluated at each of the four quad corners, quad has node 3 pushed inward
     to create a slight negative value in the Jacobian map.
@@ -613,14 +597,14 @@ def test_jacobian_of_quad_pushed_very_negative(n1, n2, n3, n4):
     cs = ((1.0, 1.0), (2.0, 1.0), (1.1, 1.1), (1.0, 2.0))
     # The det(J) = 1/80 * (2 - 9a - 9b)
 
-    n = n1  # overwrite
+    n = mesh.quad_node_1()
     assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
         (0.5, 0.0),
         (0.0, 0.5),
     )
     assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.25
 
-    n = n2  # overwrite
+    n = mesh.quad_node_2()  # overwrite
     known = ((0.5, 0.0), (-0.45, 0.05))
     found = mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)
     assert all(k == pytest.approx(f) for (k, f) in zip(known, found))
@@ -628,7 +612,7 @@ def test_jacobian_of_quad_pushed_very_negative(n1, n2, n3, n4):
         pytest.approx(mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)) == 0.025
     )
 
-    n = n3  # overwrite
+    n = mesh.quad_node_3()  # overwrite
     known = ((0.05, -0.45), (-0.45, 0.05))
     found = mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)
     assert all(k == pytest.approx(f) for (k, f) in zip(known, found))
@@ -636,7 +620,7 @@ def test_jacobian_of_quad_pushed_very_negative(n1, n2, n3, n4):
         pytest.approx(mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)) == -0.2
     )
 
-    n = n4  # overwrite
+    n = mesh.quad_node_4()  # overwrite
     known = ((0.05, -0.45), (0.0, 0.5))
     found = mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)
     assert all(k == pytest.approx(f) for (k, f) in zip(known, found))
@@ -644,9 +628,15 @@ def test_jacobian_of_quad_pushed_very_negative(n1, n2, n3, n4):
     assert (
         pytest.approx(mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)) == 0.025
     )
+    assert (
+        pytest.approx(mesh.det_jacobian_of_quad_check(xi=n.a, eta=n.b, vertices=cs))
+        == 0.025
+    )
+
+    # assert pytest.approx(mesh.min_scaled_jacobian(vertices=cs)) ==  tbd
 
 
-def test_jacobian_of_quad_bowtie(n1, n2, n3, n4):
+def test_jacobian_of_quad_bowtie():
     """Given a quadrilateral in 2D, verify the
     Jacobian matrix, evaluated at each of the four quad corners, quad has
     node 2 and 3 inverted along the y-axis; the quad appears in a bowtie
@@ -654,7 +644,7 @@ def test_jacobian_of_quad_bowtie(n1, n2, n3, n4):
     """
     cs = ((1.0, 1.0), (2.0, 2.0), (2.0, 1.0), (1.0, 2.0))
 
-    n = n1  # overwrite
+    n = mesh.quad_node_1()  # overwrite
     assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
         (0.5, 0.5),
         (0.0, 0.5),
@@ -662,7 +652,7 @@ def test_jacobian_of_quad_bowtie(n1, n2, n3, n4):
     assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.25
     assert mesh.det_jacobian_of_quad_check(xi=n.a, eta=n.b, vertices=cs) == 0.25
 
-    n = n2  # overwrite
+    n = mesh.quad_node_2()  # overwrite
     known = ((0.5, 0.5), (0.0, -0.5))
     found = mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)
     assert all(k == pytest.approx(f) for (k, f) in zip(known, found))
@@ -671,7 +661,7 @@ def test_jacobian_of_quad_bowtie(n1, n2, n3, n4):
     )
     assert mesh.det_jacobian_of_quad_check(xi=n.a, eta=n.b, vertices=cs) == -0.25
 
-    n = n3  # overwrite
+    n = mesh.quad_node_3()  # overwrite
     known = ((0.5, -0.5), (0.0, -0.5))
     found = mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)
     assert all(k == pytest.approx(f) for (k, f) in zip(known, found))
@@ -680,7 +670,7 @@ def test_jacobian_of_quad_bowtie(n1, n2, n3, n4):
     )
     assert mesh.det_jacobian_of_quad_check(xi=n.a, eta=n.b, vertices=cs) == -0.25
 
-    n = n4  # overwrite
+    n = mesh.quad_node_4()  # overwrite
     known = ((0.5, -0.5), (0.0, 0.5))
     found = mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)
     assert all(k == pytest.approx(f) for (k, f) in zip(known, found))
@@ -692,9 +682,15 @@ def test_jacobian_of_quad_bowtie(n1, n2, n3, n4):
 
     # for the bowtie case, the Jacboian at the center of the
     # element should be zero, check this.
+    n = mesh.quad_center()  # overwrite
     known = ((0.5, 0.0), (0.0, 0.0))
-    found = mesh.jacobian_of_quad(xi=0.0, eta=0.0, vertices=cs)
+    found = mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)
     assert all(k == pytest.approx(f) for (k, f) in zip(known, found))
 
-    assert pytest.approx(mesh.det_jacobian_of_quad(xi=0.0, eta=0.0, vertices=cs)) == 0.0
-    assert mesh.det_jacobian_of_quad_check(xi=0.0, eta=0.0, vertices=cs) == 0.0
+    assert pytest.approx(mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)) == 0.0
+    assert (
+        pytest.approx(mesh.det_jacobian_of_quad_check(xi=n.a, eta=n.b, vertices=cs))
+        == 0.0
+    )
+
+    # assert pytest.approx(mesh.min_scaled_jacobian(vertices=cs)) ==  tbd
