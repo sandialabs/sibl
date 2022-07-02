@@ -337,104 +337,141 @@ def test_quad_edge_lengths():
     assert ls == (2.0, 2.0, 2.0, 2.0)
 
 
-def test_jacobian_of_quad():
+@pytest.fixture
+def n1():
+    class node_1(NamedTuple):  # Node 1, etc.
+        a: float = -1.0
+        b: float = -1.0
+
+    return node_1()
+
+
+@pytest.fixture
+def n2():
+    class node_2(NamedTuple):
+        a: float = 1.0
+        b: float = -1.0
+
+    return node_2()
+
+
+@pytest.fixture
+def n3():
+    class node_3(NamedTuple):
+        a: float = 1.0
+        b: float = 1.0
+
+    return node_3()
+
+
+@pytest.fixture
+def n4():
+    class node_4(NamedTuple):
+        a: float = -1.0
+        b: float = 1.0
+
+    return node_4()
+
+
+@pytest.fixture
+def ctr():
+    class center(NamedTuple):
+        a: float = 0.0
+        b: float = 0.0
+
+    return center()
+
+
+def test_jacobian_of_quad_undeformed(n1, n2, n3, n4):
     """Given a quadrilateral in 2D, verify the
-    Jacobian matrix, evaluated at each of the four quad corners."""
+    Jacobian matrix, evaluated at each of the four quad corners, quad is a simple undeformed quad."""
     cs = ((1.0, 1.0), (2.0, 1.0), (2.0, 2.0), (1.0, 2.0))
 
-    class n1(NamedTuple):  # Node 1, etc.
-        a: float = -1.0
-        b: float = -1.0
-
-    class n2(NamedTuple):
-        a: float = 1.0
-        b: float = -1.0
-
-    class n3(NamedTuple):
-        a: float = 1.0
-        b: float = 1.0
-
-    class n4(NamedTuple):
-        a: float = -1.0
-        b: float = 1.0
-
-    n = n1()
+    n = n1  # overwrite
     assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
         (0.5, 0.0),
         (0.0, 0.5),
     )
     assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.25
 
-    n = n2()  # overwrite
+    n = n2  # overwrite
     assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
         (0.5, 0.0),
         (0.0, 0.5),
     )
     assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.25
 
-    n = n3()  # overwrite
+    n = n3  # overwrite
     assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
         (0.5, 0.0),
         (0.0, 0.5),
     )
     assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.25
 
-    n = n4()  # overwrite
+    n = n4  # overwrite
     assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
         (0.5, 0.0),
         (0.0, 0.5),
     )
     assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.25
 
-    # Quad in simple shear
+
+def test_jacobian_of_quad_shear(n1, n2, n3, n4):
+    """Given a quadrilateral in 2D, verify the
+    Jacobian matrix, evaluated at each of the four quad corners in simple shear.
+    """
     cs = ((1.0, 1.0), (2.0, 1.0), (3.0, 2.0), (2.0, 2.0))
 
-    n = n1()  # overwrite
+    n = n1  # overwrite
     assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
         (0.5, 0.0),
         (0.5, 0.5),
     )
     assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.25
 
-    n = n2()  # overwrite
+    n = n2  # overwrite
     assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
         (0.5, 0.0),
         (0.5, 0.5),
     )
     assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.25
 
-    n = n3()  # overwrite
+    n = n3  # overwrite
     assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
         (0.5, 0.0),
         (0.5, 0.5),
     )
     assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.25
 
-    n = n4()  # overwrite
+    n = n4  # overwrite
     assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
         (0.5, 0.0),
         (0.5, 0.5),
     )
     assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.25
 
-    # Quad a trapezoid
+
+def test_jacobian_of_quad_trapezoie(n1, n2, n3, n4):
+    """Given a quadrilateral in 2D, verify the
+    Jacobian matrix, evaluated at each of the four quad corners as a trapezoid.
+    """
     cs = ((1.0, 1.0), (2.5, 1.0), (2.0, 2.0), (1.5, 2.0))
 
-    n = n1()  # overwrite
+    n = n1  # overwrite
     assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
         (0.75, 0.0),
         (0.25, 0.5),
     )
     assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.375
 
-    n = n2()  # overwrite
+    n = n2  # overwrite
     assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
         (0.75, 0.0),
         (-0.25, 0.5),
     )
     assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.375
 
-    n = n3()  # overwrite
+    n = n3  # overwrite
     assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
         (0.25, 0.0),
         (-0.25, 0.5),
@@ -443,11 +480,49 @@ def test_jacobian_of_quad():
         pytest.approx(mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)) == 0.125
     )
 
-    n = n4()  # overwrite
+    n = n4  # overwrite
     assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
         (0.25, 0.0),
         (0.25, 0.5),
     )
     assert (
         pytest.approx(mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)) == 0.125
+    )
+
+
+def test_jacobian_of_quad_extended(n1, n2, n3, n4):
+    """Given a quadrilateral in 2D, verify the
+    Jacobian matrix, evaluated at each of the four quad corners, quad has node 3 extended.
+    """
+    cs = ((1.0, 1.0), (2.0, 1.0), (2.5, 2.5), (1.0, 2.0))
+    # The det(J) = 1/16 * (6 + a + b)
+
+    n = n1  # overwrite
+    assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
+        (0.5, 0.0),
+        (0.0, 0.5),
+    )
+    assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.25
+
+    n = n2  # overwrite
+    assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
+        (0.5, 0.0),
+        (0.25, 0.75),
+    )
+    assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.375
+
+    n = n3  # overwrite
+    assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
+        (0.75, 0.25),
+        (0.25, 0.75),
+    )
+    assert pytest.approx(mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)) == 0.5
+
+    n = n4  # overwrite
+    assert mesh.jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == (
+        (0.75, 0.25),
+        (0.0, 0.5),
+    )
+    assert (
+        pytest.approx(mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs)) == 0.375
     )
