@@ -400,7 +400,8 @@ def det_jacobian_of_quad_check(
     return value
 
 
-def minimum_jacobian_of_quad(*, vertices: QuadVertices) -> float:
+def nodal_areas_of_quad(*, vertices: QuadVertices) -> tuple[float, float, float, float]:
+
     ((x1, y1), (x2, y2), (x3, y3), (x4, y4)) = vertices
 
     e1 = np.array([(x2 - x1), (y2 - y1), 0.0])
@@ -426,49 +427,30 @@ def minimum_jacobian_of_quad(*, vertices: QuadVertices) -> float:
 
     areas = tuple([a1, a2, a3, a4])
 
+    return areas
+
+
+def minimum_jacobian_of_quad(*, vertices: QuadVertices) -> float:
+    areas = nodal_areas_of_quad(vertices=vertices)
     return min(areas)
 
 
-# def minimum_scaled_jacobian_of_quad(*, vertices: QuadVertices) -> float:
-#
-#     # signed areas
-#     areas = minimum_jacobian_of_quad(vertices=vertices)
-#
-#     # edge lengths
-#     # ls =
-#
-#     return 1.0
+def minimum_scaled_jacobian_of_quad(*, vertices: QuadVertices) -> float:
 
-# def min_scaled_jacobian(*, vertices: QuadVertices) -> float:
+    # signed areas
+    areas = nodal_areas_of_quad(vertices=vertices)
 
-#     # compute four Jacobians at each of the four nodes
-#     n = quad_node_1()
-#     j1 = det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=vertices)
+    # edge lengths
+    ls = perimeter_segment_lengths(coordinates=vertices)
 
-#     n = quad_node_2()  # overwrite
-#     j2 = det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=vertices)
+    # edge length combinations
+    L4L1 = ls[3] * ls[0]
+    L1L2 = ls[0] * ls[1]
+    L2L3 = ls[1] * ls[2]
+    L3L4 = ls[2] * ls[3]
 
-#     n = quad_node_3()  # overwrite
-#     j3 = det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=vertices)
+    lilk = tuple([L4L1, L1L2, L2L3, L3L4])
 
-#     n = quad_node_4()  # overwrite
-#     j4 = det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=vertices)
+    scaled_js = tuple([a / L for (a, L) in zip(areas, lilk)])
 
-#     js = (j1, j2, j3, j4)
-
-#     # compute the four adjoining side lengths
-#     ls = perimeter_segment_lengths(coordinates=vertices)
-
-#     # compute the four adjoining side length products
-#     d1 = ls[3] * ls[0]
-#     d2 = ls[0] * ls[1]
-#     d3 = ls[1] * ls[2]
-#     d4 = ls[2] * ls[3]
-
-#     ds = (d1, d2, d3, d4)
-
-#     # compute the four scaled Jacobians
-#     js_hat = tuple(n / d for (n, d) in zip(js, ds))
-
-#     # return the minimum for the Jacobians
-#     return min(js_hat)
+    return min(scaled_js)

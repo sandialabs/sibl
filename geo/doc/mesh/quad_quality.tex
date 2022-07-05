@@ -52,6 +52,7 @@
 \definecolor{medium-blue}{rgb}{0,0,1}
 \hypersetup{colorlinks, urlcolor={medium-blue}}
 
+\usepackage{footmisc}
 %SetFonts
 
 %SetFonts
@@ -315,7 +316,7 @@ At the center of the element, there is principal axis normal as well
 \be
  \ve{N}_c  \defe \vX \times \vY, \hspace{2cm} \hat{\ve{n}}_c \defe \; \ve{N}_c \; / \norm{\ve{N}_c}.
 \ee
-There are four contributions to the quadrilateral area from each of the four nodal areas\footnote{It may be tempting to (erroneously) write
+There are four contributions to the quadrilateral area from each of the four nodal areas\footnote{\label{footnote:admonishment} It may be tempting to (erroneously) write
  $\hat{\ve{n}}_1 
  \overset{\tiny \mbox{2D}}{\longrightarrow}
  \hat{\ve{n}}_2 
@@ -400,17 +401,22 @@ lengths of the two edge vector connecting that point\footnote{Knupp 2006, {\em o
   \right),
 \ee 
 %
-When all normals are in the same plane, the Minimum Scaled Jacobian reduces to 
-\be 
-\hat{J}_{\min} \overset{\tiny \mbox{2D}}{\longrightarrow} \; \min
+We warned previously in Footnote~\ref{footnote:admonishment} for Jacobians that 
+errors may result if sign information is not properly retained.  We 
+note a similar admonishment\footnote{It may (again) be tempting to (erroneously) 
+write for the 2D case 
+$\hat{J}_{\min} \overset{\tiny \mbox{2D}}{\longrightarrow} \; \min
   \left(
     \sin \theta_1, \sin \theta_2, \sin \theta_3, \sin \theta_4
-  \right),
-\ee 
+  \right),$
 where $\theta_1$ is the angle between $\ve{e}_4$ and $\ve{e}_1$, 
 $\theta_2$ with $\ve{e}_1$ and $\ve{e}_2$, 
 $\theta_3$ with $\ve{e}_2$ and $\ve{e}_3$, and
 $\theta_4$ with $\ve{e}_3$ and $\ve{e}_4$.
+Such a simplification will only work if $\ve{\theta}$ is retained as a vector quantity (thus 
+retaining the sign).  If $\theta$ is considered only as a scalar, errors will result when
+the Jacobian metric goes negative.} for Scaled Jacobians, since the latter is a function of the
+former.
 
 The dimension is $L^0$.  
 The full range is  $[-1.0, 1.0]$.  
