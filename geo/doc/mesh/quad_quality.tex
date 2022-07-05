@@ -205,7 +205,7 @@ Let the parametric mapping $f: \ve{\xi} \mapsto \vx$ be defined as
 %x(\xi,\eta) = \sum_{a=1}^4 N_a(\xi, \eta) \; x_a, \mbox{ and }
 %y(\xi,\eta) = \sum_{a=1}^4 N_a(\xi, \eta) \; y_a, 
 %\ee
-where a nodal {\bf shape function} is defined for each of the four nodes:
+where a nodal {\bf shape function} is defined for each of the four nodes
 \begin{align}
   N_1(\xi, \eta) & \defe \tfrac{1}{4} (1 - \xi) (1 - \eta), \\
   & \nonumber \\
@@ -271,45 +271,147 @@ where
 
 \section{Quality}
 
-Important {\em Metrics for Quadrilateral 
-Elements}\footnote{See \href{link}{https://cubit.sandia.gov/files/cubit/16.04/help\_manual/WebHelp/cubithelp.htm}
-%%or \href{link}{https://coreform.com/cubit\_help/mesh\_generation/mesh\_quality\_assessment/quadrilateral\_metrics.htm}.
-}~%footnote
-follow:
-
-\begin{itemize}
-    \item Aspect ratio: Maximum edge length ratios at the quadrilateral center.  Citation: Robinson 1987.\footnote{Robinson J. CRE method of element testing and the Jacobian shape parameters. Engineering Computations. 1987 Feb 1.}
-  \item Jacobian metric: Minimum pointwise volume [{\em sic,}~area] of local map at the four corners and center of quadrilateral.  Dimension: $L^2$.  Full range: $(-\infty, \infty)$.  Acceptable range: None.  Citation: Knupp 2000.\footnote{Knupp PM. Achieving finite element mesh quality via optimization of the Jacobian matrix norm and associated quantities. Part II—a framework for volume mesh optimization and the condition number of the Jacobian matrix. International Journal for numerical methods in engineering. 2000 Jul 20;48(8):1165-85. OSTI \href{link}{https://www.osti.gov/servlets/purl/5009}.}%footnote
-  \item Scaled Jacobian metric: For a linear element, the minimum Jacobian [at a point] divided by the lengths of the two edge vectors [connecting to that point].  Dimension: $L^0$.  Full range: $[-1.0, 1.0]$.  Acceptable range $[0.5, 1.0]$.  Citation: Knupp 2000, {\em op.~cit.}
-\end{itemize}
-
-Following {\em The Verdict Geometry Quality 
-Library} documentation,\footnote{Knupp PM, Ernst CD, Thompson DC, Stimpson CJ, Pebay PP. 
+We follow {\em The Verdict Geometry Quality Library} 
+documentation\footnote{Knupp PM, Ernst CD, Thompson DC, Stimpson CJ, Pebay PP. 
 The verdict geometric quality library. Sandia National Laboratories (SNL), 
 Albuquerque, NM, and Livermore, CA (United States); 2006 Mar 1.  
-OSTI \href{link}{https://www.osti.gov/servlets/purl/901967}.} 
-we compute the minimum Jacobian as the minimum of the four Jacobians computed 
-at each vertex:\footnote{Knupp 2006, {\em op.~cit.}~at 
-42.}$^{,}$\footnote{See 
+OSTI \href{link}{https://www.osti.gov/servlets/purl/901967}.}~%footnote
+and 
+implementation\footnote{See
 \href{link}{https://github.com/Kitware/VTK/blob/master/ThirdParty/verdict/vtkverdict/}
-and in particular, the {\tt quad\_scaled\_jacobian} function in the {\tt V\_QuadMetric.cpp} implementation.}%footnote
-\be 
-J_{\min} \defe \min(J_1, J_2, J_3, J_4),
-\ee 
-and the minimum scaled Jacobian as the minimum of the four Jacobians computed at 
-each vertex divided lengths of the two element edges connected 
-to that vertex,\footnote{Knupp 2006, {\em op.~cit.}~at 51.}
-\be 
-\hat{J}_{\min} \defe \min\left(\frac{J_1}{e_4 e_1}, \frac{J_2}{e_1 e_2}, 
-\frac{J_3}{e_2 e_3}, \frac{J_4}{e_3 e_4}\right),
-\ee 
-where the following edge lengths are defined:
+and in particular, the {\tt quad\_scaled\_jacobian} function in the {\tt V\_QuadMetric.cpp} implementation.}~%footnote
+for the definitions of
+quality metrics.  
+The SNL Cubit help manual is also helpful.\footnote{See \href{link}{https://cubit.sandia.gov/files/cubit/16.04/help\_manual/WebHelp/cubithelp.htm}
+%%or \href{link}{https://coreform.com/cubit\_help/mesh\_generation/mesh\_quality\_assessment/quadrilateral\_metrics.htm}.
+}~%footnote
+
+\subsection{Preliminaries}
+
+Let the four edge vectors and their respective lengths be defined as
 \begin{align}
-e_1 &\defe \; \norm{\vx_2 - \vx_1}, \\
-e_2 &\defe \; \norm{\vx_3 - \vx_2}, \\
-e_3 &\defe \; \norm{\vx_4 - \vx_3}, \\
-e_4 &\defe \; \norm{\vx_1 - \vx_4}.
+ \ve{e}_1 & \defe \vx_2 - \vx_1, \hspace{2cm} \ell_1 \defe \; \norm{\ve{e}_1}, \\
+ \ve{e}_2 & \defe \vx_3 - \vx_2, \hspace{2cm} \ell_2 \defe \; \norm{\ve{e}_2}, \\
+ \ve{e}_3 & \defe \vx_4 - \vx_3, \hspace{2cm} \ell_3 \defe \; \norm{\ve{e}_3}, \\
+ \ve{e}_4 & \defe \vx_1 - \vx_4, \hspace{2cm} \ell_4 \defe \; \norm{\ve{e}_4}.
+\end{align}
+%
+The two (non-normalized) {\em principal axes} are the defined though vector addition
+of the two opposing side lengths
+\begin{align}
+ \vX & \defe \ve{e}_1 - \ve{e}_3 = (\vx_2 - \vx_1) - (\vx_4 - \vx_3), \\
+ \vY & \defe \ve{e}_2 - \ve{e}_4 = (\vx_3 - \vx_2) - (\vx_1 - \vx_4).
+\end{align}
+%
+At each vertex, there is a normal vector and its respective normalized unit vector
+\begin{align}
+ \ve{N}_1 & \defe \ve{e}_4 \times \ve{e}_1, \hspace{2cm} \hat{\ve{n}}_1 \defe \; \ve{N}_1 \; / \norm{\ve{N}_1}, \\
+ \ve{N}_2 & \defe \ve{e}_1 \times \ve{e}_2, \hspace{2cm} \hat{\ve{n}}_2 \defe \; \ve{N}_2 \; / \norm{\ve{N}_2}, \\
+ \ve{N}_3 & \defe \ve{e}_2 \times \ve{e}_3, \hspace{2cm} \hat{\ve{n}}_3 \defe \; \ve{N}_3 \; / \norm{\ve{N}_3}, \\
+ \ve{N}_4 & \defe \ve{e}_3 \times \ve{e}_4, \hspace{2cm} \hat{\ve{n}}_4 \defe \; \ve{N}_4 \; / \norm{\ve{N}_4}.
+\end{align}
+%
+At the center of the element, there is principal axis normal as well
+\be
+ \ve{N}_c  \defe \vX \times \vY, \hspace{2cm} \hat{\ve{n}}_c \defe \; \ve{N}_c \; / \norm{\ve{N}_c}.
+\ee
+There are four contributions to the quadrilateral area from each of the four nodal areas
+\begin{align}
+ \alpha_1 & \defe \ve{N}_1 \cdot \hat{\ve{n}}_c, \\
+ \alpha_2 & \defe \ve{N}_2 \cdot \hat{\ve{n}}_c, \\
+ \alpha_3 & \defe \ve{N}_3 \cdot \hat{\ve{n}}_c, \\
+ \alpha_4 & \defe \ve{N}_4 \cdot \hat{\ve{n}}_c.
+\end{align}
+%
+When all vertices of the quadrilateral are in the same plane, as is the case for a 2D
+quadrilateral finite element, all unit norms are the same
+\be 
+ \hat{\ve{n}}_1 
+ \overset{\tiny \mbox{2D}}{\longrightarrow}
+ \hat{\ve{n}}_2 
+ \overset{\tiny \mbox{2D}}{\longrightarrow}
+ \hat{\ve{n}}_3 
+ \overset{\tiny \mbox{2D}}{\longrightarrow}
+ \hat{\ve{n}}_4
+ \overset{\tiny \mbox{2D}}{\longrightarrow}
+ \hat{\ve{n}}_c.
+\ee
+and the four contributions to the quadrilateral areas reduce to
+\begin{align}
+ \alpha_1 & \overset{\tiny \mbox{2D}}{\longrightarrow} \; \norm{\ve{N}_1}, \\
+ \alpha_2 & \overset{\tiny \mbox{2D}}{\longrightarrow} \; \norm{\ve{N}_2}, \\
+ \alpha_3 & \overset{\tiny \mbox{2D}}{\longrightarrow} \; \norm{\ve{N}_3}, \\
+ \alpha_4 & \overset{\tiny \mbox{2D}}{\longrightarrow} \; \norm{\ve{N}_4}.
 \end{align}
 
-\end{document}
+\subsection{Signed Area}
+The {\bf signed area} SA is defined as the average of all nodal area contributions:
+\be 
+\mbox{SA} \defe \; \frac{\alpha_1 + \alpha_2 + \alpha_3 + \alpha_4}{4}.
+\ee
+The metric dimension is $L^2$ and the idea (unit square) value is {\tt 1.0}.
 
+\subsection{Aspect Ratio}
+
+The {\bf aspect ratio} AR is defined as the maximum edge length ratios taken at the 
+quadrilateral center.\footnote{Robinson J. CRE method 
+of element testing and the Jacobian shape parameters. Engineering Computations. 
+1987 Feb 1.}  
+This can be expressed in terms of the norms of the principal axes as
+\be 
+\mbox{AR} = \max\left(
+  \frac{\norm{\vX}}{\norm{\vY}}, 
+  \frac{\norm{\vY}}{\norm{\vX}}, 
+ \right)
+\ee
+
+{\em Alternatively}, the perimeter length multiplied by the maximum side length, 
+divided by four times the area to define a triangle aspect ratio that is 
+meaningful for quadrilaterals,\footnote{Knupp 2006, {\em op.~cit.} at 38.} with 
+dimension $L^0$ and acceptable range $[1.0, 1.3]$.
+
+%\begin{itemize}
+%  \item Dimension: $L^0$.  
+%  \item Acceptable range: $[1.0, 1.3]$.  
+%  \item Citation: Knupp 2006\footnote{Knupp 2006, {\em op.~cit.} at 42.} and Knupp 2000.\footnote{Knupp PM. Achieving finite element mesh quality via optimization of the Jacobian matrix norm and associated quantities. Part II—a framework for volume mesh optimization and the condition number of the Jacobian matrix. International Journal for numerical methods in engineering. 2000 Jul 20;48(8):1165-85. OSTI \href{link}{https://www.osti.gov/servlets/purl/5009}.}%footnote
+%\end{itemize}
+
+\subsection{Minimum Jacobian}
+The {\bf Minimum Jacobian} $J_{\min}$ is defined as the minimum pointwise area of local 
+map at the four corners and center of quadrilateral\footnote{Knupp 2006, {\em op.~cit.}~at 42.}
+\be 
+J_{\min} \defe \min \left(\alpha_1, \alpha_2, \alpha_3, \alpha_4\right).
+\ee 
+
+\subsection{Minimum Scaled Jacobian}
+
+The {\bf Minimum Scaled Jacobian} $\hat{J}_{\min}$ is the minimum nodal area divided by the 
+lengths of the two edge vector connecting that point\footnote{Knupp 2006, {\em op.~cit.}~at 51.}
+\be 
+\hat{J}_{\min} \defe \min
+  \left(
+    \frac{\alpha_1}{\ell_4 \ell_1}, 
+    \frac{\alpha_2}{\ell_1 \ell_2},
+    \frac{\alpha_3}{\ell_2 \ell_3},
+    \frac{\alpha_4}{\ell_3 \ell_4}
+  \right),
+\ee 
+%
+When all normals are in the same plane, the Minimum Scaled Jacobian reduces to 
+\be 
+\hat{J}_{\min} \overset{\tiny \mbox{2D}}{\longrightarrow} \; \min
+  \left(
+    \sin \theta_1, \sin \theta_2, \sin \theta_3, \sin \theta_4
+  \right),
+\ee 
+where $\theta_1$ is the angle between $\ve{e}_4$ and $\ve{e}_1$, 
+$\theta_2$ with $\ve{e}_1$ and $\ve{e}_2$, 
+$\theta_3$ with $\ve{e}_2$ and $\ve{e}_3$, and
+$\theta_4$ with $\ve{e}_3$ and $\ve{e}_4$.
+
+The dimension is $L^0$.  
+The full range is  $[-1.0, 1.0]$.  
+The acceptable range is typically taken as $[0.3, 1.0]$ in the generous case and 
+$[0.5, 1.0]$ in the more restricted case.
+
+\end{document}
