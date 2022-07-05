@@ -502,7 +502,7 @@ def test_jacobian_of_quad_extended():
     # assert pytest.approx(mesh.min_scaled_jacobian(vertices=cs)) == tbd
 
 
-def test_jacobian_of_quad_pushed_inward():
+def test_jacobian_of_quad_tri_positive():
     """Given a quadrilateral in 2D, verify the
     Jacobian matrix, evaluated at each of the four quad corners, quad has node 3 pushed inward.
     """
@@ -546,7 +546,7 @@ def test_jacobian_of_quad_pushed_inward():
     # assert pytest.approx(mesh.min_scaled_jacobian(vertices=cs)) == tbd
 
 
-def test_jacobian_of_quad_pushed_slight_negative():
+def test_jacobian_of_quad_tri_negative():
     """Given a quadrilateral in 2D, verify the
     Jacobian matrix, evaluated at each of the four quad corners, quad has node 3 pushed inward
     to create a slight negative value in the Jacobian map.
@@ -589,7 +589,7 @@ def test_jacobian_of_quad_pushed_slight_negative():
     # assert pytest.approx(mesh.min_scaled_jacobian(vertices=cs)) ==  tbd
 
 
-def test_jacobian_of_quad_pushed_very_negative():
+def test_jacobian_of_quad_near_collapse():
     """Given a quadrilateral in 2D, verify the
     Jacobian matrix, evaluated at each of the four quad corners, quad has node 3 pushed inward
     to create a slight negative value in the Jacobian map.
