@@ -315,18 +315,8 @@ At the center of the element, there is principal axis normal as well
 \be
  \ve{N}_c  \defe \vX \times \vY, \hspace{2cm} \hat{\ve{n}}_c \defe \; \ve{N}_c \; / \norm{\ve{N}_c}.
 \ee
-There are four contributions to the quadrilateral area from each of the four nodal areas
-\begin{align}
- \alpha_1 & \defe \ve{N}_1 \cdot \hat{\ve{n}}_c, \\
- \alpha_2 & \defe \ve{N}_2 \cdot \hat{\ve{n}}_c, \\
- \alpha_3 & \defe \ve{N}_3 \cdot \hat{\ve{n}}_c, \\
- \alpha_4 & \defe \ve{N}_4 \cdot \hat{\ve{n}}_c.
-\end{align}
-%
-When all vertices of the quadrilateral are in the same plane, as is the case for a 2D
-quadrilateral finite element, all unit norms are the same
-\be 
- \hat{\ve{n}}_1 
+There are four contributions to the quadrilateral area from each of the four nodal areas\footnote{It may be tempting to (erroneously) write
+ $\hat{\ve{n}}_1 
  \overset{\tiny \mbox{2D}}{\longrightarrow}
  \hat{\ve{n}}_2 
  \overset{\tiny \mbox{2D}}{\longrightarrow}
@@ -334,15 +324,28 @@ quadrilateral finite element, all unit norms are the same
  \overset{\tiny \mbox{2D}}{\longrightarrow}
  \hat{\ve{n}}_4
  \overset{\tiny \mbox{2D}}{\longrightarrow}
- \hat{\ve{n}}_c.
-\ee
-and the four contributions to the quadrilateral areas reduce to
+ \hat{\ve{n}}_c$
+and
+ $\alpha_1  \overset{\tiny \mbox{2D}}{\longrightarrow} \; \norm{\ve{N}_1}, 
+ \alpha_2  \overset{\tiny \mbox{2D}}{\longrightarrow} \; \norm{\ve{N}_2},
+ \alpha_3  \overset{\tiny \mbox{2D}}{\longrightarrow} \; \norm{\ve{N}_3},
+ \alpha_4  \overset{\tiny \mbox{2D}}{\longrightarrow} \; \norm{\ve{N}_4}$
+ given that for the 2D quadrilateral case, all unit norms are in the same plane.
+ The problem with such a construction is that it destroys the sign information 
+ carried by each normal vector.  
+ For the non-degenerate case, the foregoing simplification is true, since all give normals
+ will carry the same sign.  However, for degenerate cases, such as when a quadrilateral
+ folds over onto itself, 
+ the sign information is no longer homogenous, and the sign information
+ {\em must} be retained to accurately calculate Jacobian metrics that go negative.
+}
 \begin{align}
- \alpha_1 & \overset{\tiny \mbox{2D}}{\longrightarrow} \; \norm{\ve{N}_1}, \\
- \alpha_2 & \overset{\tiny \mbox{2D}}{\longrightarrow} \; \norm{\ve{N}_2}, \\
- \alpha_3 & \overset{\tiny \mbox{2D}}{\longrightarrow} \; \norm{\ve{N}_3}, \\
- \alpha_4 & \overset{\tiny \mbox{2D}}{\longrightarrow} \; \norm{\ve{N}_4}.
+ \alpha_1 & \defe \ve{N}_1 \cdot \hat{\ve{n}}_c, \\
+ \alpha_2 & \defe \ve{N}_2 \cdot \hat{\ve{n}}_c, \\
+ \alpha_3 & \defe \ve{N}_3 \cdot \hat{\ve{n}}_c, \\
+ \alpha_4 & \defe \ve{N}_4 \cdot \hat{\ve{n}}_c.
 \end{align}
+%
 
 \subsection{Signed Area}
 The {\bf signed area} SA is defined as the average of all nodal area contributions:
