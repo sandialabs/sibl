@@ -372,6 +372,10 @@ def test_jacobian_of_quad_undeformed():
     assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.25
     assert mesh.det_jacobian_of_quad_check(xi=n.a, eta=n.b, vertices=cs) == 0.25
 
+    assert mesh.minimum_jacobian_of_quad(vertices=cs) == 1.0
+
+    ls = mesh.perimeter_segment_lengths(coordinates=cs)
+    assert ls == (1.0, 1.0, 1.0, 1.0)
     # assert mesh.min_scaled_jacobian(vertices=cs) == 1.0
 
 
@@ -409,6 +413,11 @@ def test_jacobian_of_quad_shear():
     )
     assert mesh.det_jacobian_of_quad(xi=n.a, eta=n.b, vertices=cs) == 0.25
     assert mesh.det_jacobian_of_quad_check(xi=n.a, eta=n.b, vertices=cs) == 0.25
+
+    assert mesh.minimum_jacobian_of_quad(vertices=cs) == 1.0
+
+    ls = mesh.perimeter_segment_lengths(coordinates=cs)
+    assert ls == pytest.approx((1.0, 1.4142135623730951, 1.0, 1.4142135623730951))
 
     # assert mesh.min_scaled_jacobian(vertices=cs) == 1.0
 
@@ -455,6 +464,10 @@ def test_jacobian_of_quad_trapezoid():
         == 0.125
     )
 
+    assert mesh.minimum_jacobian_of_quad(vertices=cs) == 0.5
+
+    ls = mesh.perimeter_segment_lengths(coordinates=cs)
+    assert ls == (1.5, 1.118033988749895, 0.5, 1.118033988749895)
     # assert pytest.approx(mesh.min_scaled_jacobian(vertices=cs)) == tbd
 
 
@@ -499,6 +512,10 @@ def test_jacobian_of_quad_extended():
         == 0.375
     )
 
+    assert mesh.minimum_jacobian_of_quad(vertices=cs) == 1.0
+
+    ls = mesh.perimeter_segment_lengths(coordinates=cs)
+    assert ls == pytest.approx((1.0, 1.5811388300841898, 1.5811388300841898, 1.0))
     # assert pytest.approx(mesh.min_scaled_jacobian(vertices=cs)) == tbd
 
 
@@ -543,6 +560,10 @@ def test_jacobian_of_quad_tri_positive():
         == 0.15
     )
 
+    assert mesh.minimum_jacobian_of_quad(vertices=cs) == pytest.approx(0.2)
+
+    ls = mesh.perimeter_segment_lengths(coordinates=cs)
+    assert ls == pytest.approx((1.0, 0.7211102550927979, 0.7211102550927979, 1.0))
     # assert pytest.approx(mesh.min_scaled_jacobian(vertices=cs)) == tbd
 
 
@@ -586,6 +607,10 @@ def test_jacobian_of_quad_tri_negative():
         == 0.1
     )
 
+    assert mesh.minimum_jacobian_of_quad(vertices=cs) == pytest.approx(-0.200)
+
+    ls = mesh.perimeter_segment_lengths(coordinates=cs)
+    assert ls == pytest.approx((1.0, 0.7211102550927979, 0.7211102550927979, 1.0))
     # assert pytest.approx(mesh.min_scaled_jacobian(vertices=cs)) ==  tbd
 
 
@@ -633,6 +658,10 @@ def test_jacobian_of_quad_near_collapse():
         == 0.025
     )
 
+    assert mesh.minimum_jacobian_of_quad(vertices=cs) == pytest.approx(-0.800)
+
+    ls = mesh.perimeter_segment_lengths(coordinates=cs)
+    assert ls == pytest.approx((1.0, 0.9055385138137416, 0.9055385138137416, 1.0))
     # assert pytest.approx(mesh.min_scaled_jacobian(vertices=cs)) ==  tbd
 
 
@@ -693,4 +722,8 @@ def test_jacobian_of_quad_bowtie():
         == 0.0
     )
 
+    assert mesh.minimum_jacobian_of_quad(vertices=cs) == pytest.approx(-1.0)
+
+    ls = mesh.perimeter_segment_lengths(coordinates=cs)
+    assert ls == pytest.approx((1.4142135623730951, 1.0, 1.4142135623730951, 1.0))
     # assert pytest.approx(mesh.min_scaled_jacobian(vertices=cs)) ==  tbd

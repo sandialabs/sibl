@@ -400,6 +400,45 @@ def det_jacobian_of_quad_check(
     return value
 
 
+def minimum_jacobian_of_quad(*, vertices: QuadVertices) -> float:
+    ((x1, y1), (x2, y2), (x3, y3), (x4, y4)) = vertices
+
+    e1 = np.array([(x2 - x1), (y2 - y1), 0.0])
+    e2 = np.array([(x3 - x2), (y3 - y2), 0.0])
+    e3 = np.array([(x4 - x3), (y4 - y3), 0.0])
+    e4 = np.array([(x1 - x4), (y1 - y4), 0.0])
+
+    # normals from edges
+    N1 = np.cross(e4, e1)
+    N2 = np.cross(e1, e2)
+    N3 = np.cross(e2, e3)
+    N4 = np.cross(e3, e4)
+
+    # normal at center of quad is defined up and out of the page, +z direction
+    nc = np.array([0.0, 0.0, 1.0])
+
+    # retain this dot product formalism from the 3D case to accurately capture
+    # 2D cases when the Jacobian goes negative
+    a1 = np.dot(N1, nc)
+    a2 = np.dot(N2, nc)
+    a3 = np.dot(N3, nc)
+    a4 = np.dot(N4, nc)
+
+    areas = tuple([a1, a2, a3, a4])
+
+    return min(areas)
+
+
+# def minimum_scaled_jacobian_of_quad(*, vertices: QuadVertices) -> float:
+#
+#     # signed areas
+#     areas = minimum_jacobian_of_quad(vertices=vertices)
+#
+#     # edge lengths
+#     # ls =
+#
+#     return 1.0
+
 # def min_scaled_jacobian(*, vertices: QuadVertices) -> float:
 
 #     # compute four Jacobians at each of the four nodes
