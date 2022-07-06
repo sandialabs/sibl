@@ -1,3 +1,8 @@
+# ignore LaTeX intermediate files .aux, .log, .out
+*.aux
+*.log
+*.out
+
 # ignore .dev file extension, these are developer outputs
 # from the dualization that should not be automatically checked in
 *.dev

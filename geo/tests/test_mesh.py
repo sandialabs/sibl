@@ -151,7 +151,7 @@ def test_inp_path_file_four_quads():
     input_mesh_file = data_path.joinpath("four_quads_nonseq.inp")
 
     # test coordinates
-    known = {
+    known_coordinates = {
         "101": (1.0, 1.0),
         "2": (2.5, 1.0),
         "103": (3.0, 1.0),
@@ -164,7 +164,7 @@ def test_inp_path_file_four_quads():
     }
 
     found = mesh.inp_path_file_to_coordinates(pathfile=str(input_mesh_file))
-    assert known == found
+    assert known_coordinates == found
 
     # test elements
     known = (
@@ -174,6 +174,18 @@ def test_inp_path_file_four_quads():
         (44, 4, 105, 23, 13),
     )
     found = mesh.inp_path_file_to_connectivities(pathfile=str(input_mesh_file))
+    assert known == found
+
+    elements_wo_element_number = tuple([x[1:] for x in known])
+    known = (
+        ((1.0, 1.0), (2.5, 1.0), (2.5, 2.5), (1.0, 2.5)),
+        ((2.5, 1.0), (3.0, 1.0), (3.0, 2.5), (2.5, 2.5)),
+        ((2.5, 2.5), (3.0, 2.5), (3.0, 3.0), (2.5, 3.0)),
+        ((1.0, 2.5), (2.5, 2.5), (2.5, 3.0), (1.0, 3.0)),
+    )
+    found = mesh.faces_as_nodes_to_faces_as_vertices(
+        faces=elements_wo_element_number, coordinates=known_coordinates
+    )
     assert known == found
 
     # test boundary

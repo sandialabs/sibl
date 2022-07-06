@@ -196,7 +196,7 @@
 \clearpage
 
 \section{Isoparametric Mapping}
-Let the parametric mapping $f: \ve{\xi} \mapsto \vx$ be defined as
+Let the parametric mapping $f: \ve{\xi} \in [-1, 1] \times [-1, 1] \mapsto \vx \in \real^2$ be defined as
 
 \begin{align}
   x(\xi,\eta) & = \sum_{a=1}^4 N_a(\xi, \eta) \; x_a, \label{eq:shapex} \\
@@ -222,7 +222,7 @@ where a nodal {\bf shape function} is defined for each of the four nodes
 \section{Jacobian}
 
 For the quadrilateral element, the Jacobian $\vJ$ is calculated as 
-the partial matrix of derivatives of $\vx = (x, y)$ with 
+the matrix of partial derivatives of $\vx = (x, y)$ with 
 respect to $\ve{\xi} = (\xi, \eta)$, 
 \be 
  \vJ(\xi, \eta) \defe 
@@ -353,7 +353,7 @@ The {\bf signed area} SA is defined as the average of all nodal area contributio
 \be 
 \mbox{SA} \defe \; \frac{\alpha_1 + \alpha_2 + \alpha_3 + \alpha_4}{4}.
 \ee
-The metric dimension is $L^2$ and the idea (unit square) value is {\tt 1.0}.
+The metric dimension is $L^2$ and the ideal (unit square) value is {\tt 1.0}.
 
 \subsection{Aspect Ratio}
 

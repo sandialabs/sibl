@@ -218,6 +218,13 @@ def inp_path_file_to_boundary(*, pathfile: str) -> FixedDisplacements:
     return dict(zip_iterator)
 
 
+def faces_as_nodes_to_faces_as_vertices(
+    *, faces: Faces, coordinates: dict[str, Vertex]
+) -> tuple[tuple[Vertex, ...], ...]:
+    result = tuple(tuple(coordinates[str(column)] for column in row) for row in faces)
+    return result
+
+
 def plot_mesh(*, nodes, edges, options) -> bool:
     """
     Plots the .inp file nodes, edges, with keyword options.
