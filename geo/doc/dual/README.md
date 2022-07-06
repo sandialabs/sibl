@@ -8,7 +8,8 @@ Learn how to use the *SIBL Mesh Engine* with the lessons below:
   * [02](lesson_02.md). Next, plot the same 2D boundary using a Python script.
   * [03](lesson_03.md). Use the 2D boundary as an input to the mesher, to create a single domain composed of 2D quadrilateral finite elements.
   * [04](lesson_04.md). Use of a `.yml` input file to create the mesh in Lesson 03.
-  * [04b](lesson_04b.md). Mesh smoothing of the mesh created in Lesson 04.
+    * [04b](lesson_04b.md). Mesh smoothing of the mesh created in Lesson 04.
+    * [04c](lesson_04c.md). Mesh smoothing improves the minimum scaled Jacobians of the mesh created in Lesson 04.
   * [05](lesson_05.md). The `.yml` configuration file options
   * [06](lesson_06.md). Developer output and `.dev` files
 * Introduction - C++ executable with and without MATLAB
