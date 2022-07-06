@@ -7,7 +7,8 @@ from pygifsicle import optimize
 # base_name = "bspline_surface_biquad2tri_animation"
 # base_name = "bspline_surface_cyl2sphere_animation"
 # base_name = "mesh_smoothing_iter_"
-base_name = "lesson_04b_iter_"
+# base_name = "lesson_04b_iter_"
+base_name = "lesson_04c_iter_"
 
 gif_path = base_name + ".gif"
 gif_opt = base_name + "_opt.gif"

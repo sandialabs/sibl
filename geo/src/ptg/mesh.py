@@ -239,6 +239,7 @@ def plot_mesh(*, nodes, edges, options) -> bool:
     nodes_shown = options.get("nodes_shown", True)
     node_numbers_shown = options.get("node_numbers_shown", False)
     # figure_shown = options.get("figure_shown", False)
+    color = options.get("color", "blue")
     serialize = options.get("serialize", False)
     basename = options.get("basename", Path(__file__).stem)
     extension = options.get("extension", ".png")  # ".png" | ".pdf" | ".svg"
@@ -261,7 +262,7 @@ def plot_mesh(*, nodes, edges, options) -> bool:
             ys,
             alpha=1.0,
             linewidth=0.5,
-            color="blue",
+            color=color,
             marker=None,
             markerfacecolor="red",
         )

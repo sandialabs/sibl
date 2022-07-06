@@ -64,6 +64,9 @@ bins = [delta_bin * x for x in range(n_bins + 1)]
 pre_smooth_kwargs = {"alpha": 0.6, "color": "black"}
 post_smooth_kwargs = {"histtype": "step", "alpha": 0.9, "linewidth": 2, "color": "blue"}
 
+rgb_gray = (0.6, 0.6, 0.6)
+rgb_blue = (0.0, 0.0, 1.0)
+
 plt.hist(
     min_scaled_js_pre_smooth,
     bins=bins,
@@ -111,8 +114,8 @@ fig_dict["title"] = "Updated Configuration"  # overwrite
 # Now do k mesh smoothing iterations
 ur = 0.25  # update ratio
 n_iterations = 20
-plot_interval = 18
-
+# plot_interval = 18
+plot_interval = 1
 
 # The k=0 iteration is the initial configuration
 configuration_k = {}
@@ -122,6 +125,7 @@ for key, value in nodes.items():
 
 fig_dict["title"] = "Iteration k=0"
 fig_dict["basename"] = script_name + "_iter_000"
+fig_dict["color"] = rgb_gray
 mesh.plot_mesh(nodes=configuration_k, edges=edges, options=fig_dict)
 
 iteration_hx = []
@@ -155,6 +159,9 @@ while k <= n_iterations and not converged:
         fig_dict["title"] = "Iteration k=" + str(k)
         iter_str_3_digit = f"{k:03d}"
         fig_dict["basename"] = script_name + "_iter_" + iter_str_3_digit
+        fig_dict["color"] = (1.0 - k / n_iterations) * np.array(rgb_gray) + (
+            k / n_iterations
+        ) * np.array(rgb_blue)
         mesh.plot_mesh(nodes=configuration_k, edges=edges, options=fig_dict)
 
         # Plot the histogram of minimum scaled Jacobians

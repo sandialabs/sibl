@@ -21,4 +21,4 @@ Compare the minimum scaled Jacobian quality metric for the mesh in the previous 
 
 Animation Pre- to Post-Smoothed | Histogram of minimum scaled Jacobian
 --|--
-![lesson_04b_iter__opt](fig/lesson_04b_iter__opt.gif) | ![lesson_04c_histogram](fig/lesson_04c_histogram.png)
+![lesson_04c_iter__opt](fig/lesson_04c_iter__opt.gif) | ![lesson_04c_histogram](fig/lesson_04c_histogram.png)
