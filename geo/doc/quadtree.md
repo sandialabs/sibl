@@ -31,7 +31,7 @@ Created with [plot_quadtree.py](plot_quadtree.py):
 ![plot_quadtree_L0](fig/plot_quadtree_L0.png) | ![plot_quadtree_L0](fig/plot_quadtree_L1.png) | ![plot_quadtree_L0](fig/plot_quadtree_L2.png) |
 ![plot_quadtree_L0](fig/plot_quadtree_L3.png) | ![plot_quadtree_L0](fig/plot_quadtree_L4.png) | ![plot_quadtree_L0](fig/plot_quadtree_L5.png) |
 
-## Rebalancing
+## Balancing
 
 * *strongly balanced* [3D volume] cells that differ by more than one level of refinement must not share any vertex, edge, or face. [Livesu 2021, Section 6]
 * *weakly balanced* [3D volume] cells that differ by more than one level of refinement must not share any face.
