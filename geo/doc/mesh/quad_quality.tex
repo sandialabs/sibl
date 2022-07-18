@@ -195,6 +195,8 @@
 
 \clearpage
 
+\chapter{Quality}
+
 \section{Isoparametric Mapping}
 Let the parametric mapping $f: \ve{\xi} \in [-1, 1] \times [-1, 1] \mapsto \vx \in \real^2$ be defined as
 
@@ -260,6 +262,7 @@ the form
 The determinant of the Jacobian, $\det(\vJ)$, can be found to be 
 \be 
 \det(\vJ\left(\xi, \eta)\right) = c_0 + c_1 \xi + c_2 \eta,
+  \label{eq:detJ}
 \ee 
 where
 \begin{align}
@@ -422,5 +425,8 @@ The dimension is $L^0$.
 The full range is  $[-1.0, 1.0]$.  
 The acceptable range is typically taken as $[0.3, 1.0]$ in the generous case and 
 $[0.5, 1.0]$ in the more restricted case.
+
+\input{appendix.tex}
+
 
 \end{document}

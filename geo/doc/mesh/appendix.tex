@@ -1,0 +1,35 @@
+\appendix
+%\appendixpage
+
+% ====================
+\chapter{Computational Details}
+\label{chap:compdetails}
+% ====================
+
+\section{Mathematica}
+
+This section demonstrates the steps used in {\em Mathematica} to obtain 
+the result in Eq.~(\ref{eq:detJ}).
+
+\begin{verbatim}
+
+MatrixForm[A = {{-1 + b, 1 - b, 1 + b, -1 - b}, {-1 + a, -1 - a, 1 + a, 1 - a}}]
+MatrixForm[B = {{x1, y1}, {x2, y2}, {x3, y3}, {x4, y4}}]
+J = 1/4 * (A . B)
+Expand[Det[J]]
+result = Collect[Det[J] // Expand, {a, b}]
+TeXForm[result]
+\end{verbatim}
+produces
+\begin{align}
+\det(\vJ(a, b)) & = 
+   \frac{a}{8}  (-x_1 y_3+x_1 y_4+x_2 y_3-x_2 y_4+x_3 y_1-x_3
+   y_2-x_4 y_1+x_4 y_2)
+   \\ \nonumber
+   & +\frac{b}{8}  (-x_1 y_2+x_1 y_3+x_2
+   y_1-x_2 y_4-x_3 y_1+x_3 y_4+x_4 y_2-x_4 y_3)
+   \\ \nonumber
+   & +\frac{1}{8}
+   (x_1 y_2-x_1 y_4-x_2 y_1+x_2 y_3-x_3 y_2+x_3
+   y_4+x_4 y_1-x_4 y_3)
+\end{align}
