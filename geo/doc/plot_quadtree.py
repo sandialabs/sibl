@@ -20,14 +20,14 @@ def main():
         rc("text", usetex=True)
 
     # test_cases: "benchmark", "diagonal", "nested_0001", "simple", "wall_0011"
-    test_case = "benchmark"
+    test_case = "simple"
 
-    level_max: Final = 2
+    level_max: Final = 3
 
     if test_case == "simple":
         ctr = Point2D(x=0.0, y=0.0)
         cell = qt.Cell(center=ctr, size=2.0)
-        points = Points(pairs=((0.6, 0.6),))
+        points = Points(pairs=((0.2, 0.2),))
         _xticks = [-2, -1, 0, 1, 2]
         _yticks = _xticks
 
