@@ -1,14 +1,13 @@
-
 # sphere
 
 ## Objective
 
-* Compare mesh created with Sculpt to Gen-Adapt-Ref-for-Hexmeshing.
+* Compare mesh created with Gen-Adapt-Ref-for-Hexmeshing (GENA) to Sculpt.
 
 ## Materials
 
-* sphere.obj file on [data page](../../data/obj/README.md)
-* [sphere.stl](../../data/stl/sphere.stl)
+* `sphere.obj` file on the [data page](../../data/obj/README.md)
+* [`sphere.stl`](../../data/stl/sphere.stl)
 * [Gena](../../doc/cinolib/gena.md)
 * [HexaLab](https://www.hexalab.net)
 * Sculpt (to come)
@@ -55,7 +54,7 @@ scp sphere_exo.e.1.0 chovey@machine_name.srn.sandia.gov:~/sibl/geo/data/sculpt/.
 
 ### Gena
 
-In a web browser, open https://www.hexalab.net/, then open the following files:
+With https://www.hexalab.net/, open the following files:
 
 * [`sphere.mesh`](../../data/mesh/sphere.mesh)
 * [`sphere_conforming.mesh`](../../data/mesh/sphere_conforming.mesh)

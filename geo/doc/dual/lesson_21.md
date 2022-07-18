@@ -19,7 +19,7 @@ From the command line:
 > python geo/src/ptg/main.py -i geo/doc/dual/lesson_21/lesson_21.yml
 ```
 
-### Outputs
+## Outputs
 
 The following will appear in the specified `io_path` folder:
 
@@ -38,6 +38,11 @@ The following will appear in the specified `io_path` folder:
 | ![](fig/rushdi_2017_fig_15.png) | ![](fig/lesson_21_res=0.2_.png) |
 
 [Index](README.md)
+
+## Next Steps
+
+* Smooth the mesh.
+* Compare minimum scaled Jacobian pre- and post-smooth.
 
 ## References
 

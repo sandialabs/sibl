@@ -9,12 +9,13 @@ with file format of 16-bit integer (Mac byte order) with no header.
 
 ## Objective
 
-* Compare mesh created with Sculpt to Gen-Adapt-Ref-for-Hexmeshing.
+* Compare mesh created with Gen-Adapt-Ref-for-Hexmeshing (GENA) to Sculpt.
 
 ## Materials
 
-* See bunny.obj on the [data/obj folder](../../data/obj/README.md)
+* `bunny.obj` on the [data page](../../data/obj/README.md)
 * [Gena](../../doc/cinolib/gena.md)
+* [HexaLab](https://www.hexalab.net)
 * Sculpt (to come)
 
 ## Workflow
@@ -63,14 +64,14 @@ with file format of 16-bit integer (Mac byte order) with no header.
 
 ## Methods
 
-One the `[cbh@atlas]` machine:
+On the `[cbh@atlas]` machine:
 
 ```bash
 cd ~/Gen-Adapt-Ref-for-Hexmeshing/build
 ./make_grid --surface --input_mesh_path=/Users/cbh/sibl/geo/data/obj/bunny.obj --output_grid_path=/Users/cbh/sibl/geo/data/mesh/bunny.mesh --use_octree --project_mesh=true
 ```
 
-In a web browser, open https://www.hexalab.net/, then open the following files:
+With https://www.hexalab.net/, open the following files:
 
 * `bunny.mesh`
 * `bunny_conforming.mesh`
