@@ -16,7 +16,7 @@ import ptg.copyright as cr
 def test_text_block():
     """Test that the text block of the copyright is as expected."""
 
-    known = "Copyright 2020 National Technology and Engineering Solutions of Sandia, LLC (NTESS). Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software."
+    known = "Copyright 2020 National Technology and Engineering Solutions of Sandia, LLC (NTESS).\nUnder the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains\ncertain rights in this software."
 
     found = cr.text_block()
 

@@ -1,5 +1,8 @@
 """
-Copyright 2020 National Technology and Engineering Solutions of Sandia, LLC (NTESS). Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software."""
+Copyright 2020 National Technology and Engineering Solutions of Sandia, LLC (NTESS).
+Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains
+certain rights in this software.
+"""
 
 # This is a simple test python module that contains
 # the copyright block.
