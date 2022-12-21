@@ -476,7 +476,7 @@ class Cell:
 #     ):
 class QuadTree:
     def __init__(self, *, cell: Cell, level: int, level_max: int, points: Points):
-        """A QuadTree is a specific instance of a cell with zero ore more recursive cell
+        """A QuadTree is a specific instance of a cell with zero or more recursive cell
         subdivisions.  Points passed into the QuadTree trigger cell division.  If points
         lie within a cell, then a cell will divide, otherwise a cell will not divide.
         Cell division occurs level_max number of times.
