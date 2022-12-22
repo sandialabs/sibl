@@ -16,7 +16,7 @@ import ptg.copyright as cr
 def test_text_block():
     """Test that the text block of the copyright is as expected."""
 
-    known = "Copyright 2020 National Technology and Engineering Solutions of Sandia, LLC (NTESS).\nUnder the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains\ncertain rights in this software."
+    known = "# Copyright 2020 National Technology and Engineering Solutions of Sandia, LLC (NTESS).\n# Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains\n# certain rights in this software.\n"
 
     found = cr.text_block()
 
@@ -76,3 +76,15 @@ def test_prepend_copyright():
     # delete the temporary cloned file
     cc.unlink()
     assert not cc.is_file()
+
+
+def test_modules_have_copyright():
+    aa = Path(__file__).parent.parent.joinpath("src", "ptg")
+    bb = cr.modules_list(aa)
+
+    for item in bb:
+        if not cr.copyright_exists(item):
+            cr.prepend_copyright(item)
+
+    for item in bb:
+        assert cr.copyright_exists(item)

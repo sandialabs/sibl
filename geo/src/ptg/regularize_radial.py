@@ -1,3 +1,8 @@
+# Copyright 2020 National Technology and Engineering Solutions of Sandia, LLC (NTESS).
+# Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains
+# certain rights in this software.
+
+
 """This function returns the radial control point coordinates (P1x, P1y) for a
 Bezier quadratic surface, given the bounding control points (P0x, P0y) and
 (P2x, P2y) interpolating at a given radius and give theta_0 and theta_2, where

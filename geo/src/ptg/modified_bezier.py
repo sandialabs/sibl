@@ -1,3 +1,8 @@
+# Copyright 2020 National Technology and Engineering Solutions of Sandia, LLC (NTESS).
+# Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains
+# certain rights in this software.
+
+
 """This module creates a sequence of modified Bezier curves from 3D control points.
 The modified Bezier bases are derived from the periodic B-spline bases.
 

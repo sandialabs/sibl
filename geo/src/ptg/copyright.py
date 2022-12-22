@@ -1,5 +1,9 @@
+# Copyright 2020 National Technology and Engineering Solutions of Sandia, LLC (NTESS).
+# Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains
+# certain rights in this software.
+
+
 """
-Copyright 2020 National Technology and Engineering Solutions of Sandia, LLC (NTESS). Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software."
 
 This module checks if a copyright assertion text block exists in
 the file(s) contained within a path, recursively.
@@ -18,7 +22,7 @@ from typing import Final
 
 
 def text_block() -> str:
-    copyright_text: Final = "Copyright 2020 National Technology and Engineering Solutions of Sandia, LLC (NTESS).\nUnder the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains\ncertain rights in this software."
+    copyright_text: Final = "# Copyright 2020 National Technology and Engineering Solutions of Sandia, LLC (NTESS).\n# Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains\n# certain rights in this software.\n"
     return copyright_text
 
 

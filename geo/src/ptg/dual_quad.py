@@ -1,3 +1,8 @@
+# Copyright 2020 National Technology and Engineering Solutions of Sandia, LLC (NTESS).
+# Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains
+# certain rights in this software.
+
+
 # L0 refinement is the base quad level, a singleton, the entire domain
 # * full L1 refinement of L0 creates 2x2 = 4 quads
 # * full L2 refinement of L0 creates 4x4 = 16 quads
