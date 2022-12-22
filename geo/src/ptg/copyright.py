@@ -18,7 +18,7 @@ from typing import Final
 
 
 def text_block() -> str:
-    copyright_text: Final = "Copyright 2020 National Technology and Engineering Solutions of Sandia, LLC (NTESS).\nUnder the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains certain rights in this software."
+    copyright_text: Final = "Copyright 2020 National Technology and Engineering Solutions of Sandia, LLC (NTESS).\nUnder the terms of Contract DE-NA0003525 with NTESS, the U.S. Government retains\ncertain rights in this software."
     return copyright_text
 
 
