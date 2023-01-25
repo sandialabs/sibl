@@ -1,141 +1,323 @@
 # Configuration
 
-## Developer configuration
+Following is the recommended configuration for a development environment.
 
-* Required
-  * [Miniconda](https://docs.conda.io/en/latest/miniconda.html) (or [Anaconda](https://docs.anaconda.com/), as an alternative, as both support [conda](https://docs.conda.io/en/latest/) package manager).
-  * Version control: [Git](https://git-scm.com/)
-  * macOS only
-    * May require installation of [Xcode command line tools](https://developer.apple.com/xcode/features/) prior to installation of Git.
-  * Windows only
-    * May require Microsoft C++ Build Tools (see [Updates](#updates) dated 2021-12-20 below).
-  * `> cd ~/sibl/config; ./env_create.sh` to create the conda enivironment.
-* Optional
-  * IDE: [VS Code](https://code.visualstudio.com/), with [settings](https://dev.to/adamlombard/how-to-use-the-black-python-code-formatter-in-vscode-3lo0) for using Black to automatically format Python.
-  * [Neovim](https://neovim.io/) (version 0.5.0 or greater) for compatibility with the vscode-neovim [plugin](https://github.com/asvetliakov/vscode-neovim).
-
-### Updates
-
-* 2021-12-20: `xybind` and Windows:
-  * Upon running `env_create.sh`, the `xybind` module will error out on Windows because of a lacking standalone MSVC compiler.  Following are the steps to fix on Windows.
-  * Download the [Microsoft C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/)
-  * Install (as a list of boxes to check):
-    * Development with C++
-    * Optional
-      * MSVC v142...
-      * Windows 10 SDK...
-      * C++ CMake tools...
-      * Testing tools...
-      * C++ AddressSanitizer
-    * 6.86 GB download
-    * Select the Install button
-  * Install (screenshot):
-  ![standalone_msvc_compiler](fig/standalone_msvc_compiler.png)
-  * Success when VisualStudio Build Tools 2019 (16.11.8) installation completes.
-  * Restart the Windows computer.
-  * Relaunch the `env_create.sh` scipt.
-  * Test the install with
-    * `$ conda activate siblenv; cd ~/sibl; pytest -v`
-* 2021-12-15: Windows an Python 3.9 with `xybind`
-  * [Download](https://visualstudio.microsoft.com/visual-cpp-build-tools/) Microsoft C++ Build Tools, downloads `vs_buildtools__c6a4b5ec79d2436b97e7ac254ee30591.exe` (1,431 kB).
-    * Individual components: Compilers, build tools, runtimes: C++/CLI support for v142 build tools (Latest) (1.26 GB).
-  * [Download](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) C/C++ for Visual Studio Code
-* ~~2021-11-18: Update from Python 3.9 to 3.10 (optional)~~
-  * ~~Windows: from [Python.org](https://www.python.org/downloads/release/python-3100/), download the Windows installer (64-bit), MD5 `c3917c08a7fe85db7203da6dcaa99a70`, which downloads `python-3.10.0-amd64.exe` as 27,653kB.~~
-    * ~~Check hash: `$ certutil -hashfile python-3.10.0-amd64.exe MD5`~~
-    * ~~Checks as `c3917c08a7fe85db7203da6dcaa99a70`~~
-    * ~~Installs to `Titan$ C:\Users\chadh\AppData\Local\Programs\Python\Python310`~~
-    * ~~Stop using `Titan$ C:\Users\chadh\miniconda3\python` (Python 3.9).  As of 2021-12-15, there is no Miniconda installer for Windows for Python 3.10.~~
-* 2021-07-18: Update from Python 3.8.5 to 3.9.
-  * Update Miniconda
-  * Update `env_create.sh` and then
-  * rerun to build the `siblenv` environment again.
+## Virtual Environment
 
 ```bash
-> cd /opt; rm -rf miniconda3 # remove Python 3.8
-# install for 3.9
-# download Python 3.9 Miniconda installer from https://docs.conda.io/en/latest/miniconda.html
-> shasum -a 256 ~/Downloads/Miniconda3-py39_4.9.2-MacOSX-x86_64.pkg  # check SHA256 hash
-# install "only for me", which installs to /Users/sparta/opt/miniconda3
-> cd ~/.config/fish
-# update config_sparta.fish
-> cp config_sparta.fish config.fish  # then restart iterm2
-> which python
-(base)  Sun Jul 18 17:41:41 2021 /Users/sparta/opt/miniconda3/bin/python
+cd ~/sibl
 
-> cd ~/sibl/config
-> ./env_create.sh
+/usr/local/bin/python3.9 -m pip install --upgrade pip setuptools wheel
+
+# create a virtual environment
+# VS Code docs reference:
+# https://code.visualstudio.com/docs/python/environments#_create-a-virtual-environment
+/usr/local/bin/python3.9 -m venv .venv  # create a virtual environment
+
+# activate the venv with one of the following:
+source .venv/bin/activate # for bash shell
+source .venv/bin/activate.csh # for c shell
+source .venv/bin/activate.fish # for fish shell
+source .venv/bin/Activate.fish # for powershell
+
+python --version  # e.g., Python 3.9.7
+
+pip list
+
+Package    Version
+---------- -------
+pip        21.2.1
+setuptools 54.4.0
+WARNING: You are using pip version 21.2.3; however, version 22.3.1 is available.
+You should consider upgrading via the '~/sibl/.venv/bin/python3.9 -m pip install --upgrade pip' command.
+(.venv) ~/copyright>
+
+python -m pip install --upgrade pip
 ```
 
-If using VS Code, make sure the environment points to `/Users/sparta/opt/miniconda3/envs/siblenv/bin/python`.
+## Install `copyright` as a developer
 
-All other configuration note have been [deprecated](deprecated.md).
-
-## Trusted Host
-
-Here we demonstrate upgrading pip first, then upgrading the scikit-image package via pip.
+Reference: https://packaging.python.org/en/latest/tutorials/packaging-projects/
 
 ```bash
-(siblenv) $ python -m pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org --upgrade pip
-(siblenv) $ pip install scikit-image --upgrade
+packaging_tutorial/
+├── LICENSE
+├── pyproject.toml
+├── README.md
+├── src/
+│   └── your_package_name_here/
+│       ├── __init__.py
+│       └── example.py
+└── tests/
 ```
 
-## Git
+Create a `pyproject.toml`, e.g., example `.toml` reference: https://peps.python.org/pep-0621/#example and general setuptools documentation: https://setuptools.pypa.io/en/latest/index.html
 
-For an overview, [read the guide](https://guides.github.com/activities/hello-world/) from GitHub.
+Installing from a local source tree, reference:
 
-Get a local copy of the repository using `git clone` with SSH
+* https://packaging.python.org/en/latest/tutorials/installing-packages/#installing-from-a-local-src-tree, and
+* development mode: https://setuptools.pypa.io/en/latest/userguide/development_mode.html
 
-```console
-$ cd ~  # Starting from the home directory is optional, but recommended.
-$ git clone git@github.com:sandialabs/sibl.git
+```bash
+# create an editable install (aka development mode)
+(.venv) ~/sibl>
+python -m pip install -e geo/.[dev]  # developer
+python -m pip install geo/.  # client
+# note: `-e .` = `--editable .`
 ```
 
+At the time of this writing, the current version of `snl-copyright` is shown below.  Your version may be newer.  Post-install package status:
 
-In the `~/sibl/.git/config` file, add the following:
-
-```python
-[user]
-    name = James Bond  # your first and last name
-    email = jb007@company.com  # your email address
+```bash
+(.venv) ~/sible>
+pip list
+Package            Version Editable project location
+------------------ ------- -------------------------
+anyio                    3.6.2
+appnope                  0.1.3
+argon2-cffi              21.3.0
+argon2-cffi-bindings     21.2.0
+arrow                    1.2.3
+asttokens                2.2.1
+attrs                    22.2.0
+backcall                 0.2.0
+beautifulsoup4           4.11.1
+black                    22.3.0
+bleach                   6.0.0
+cffi                     1.15.1
+click                    8.1.3
+comm                     0.1.2
+contourpy                1.0.7
+copyright                0.0.1
+coverage                 7.0.5
+cycler                   0.11.0
+debugpy                  1.6.6
+decorator                5.1.1
+defusedxml               0.7.1
+entrypoints              0.4
+exceptiongroup           1.1.0
+executing                1.2.0
+fastjsonschema           2.16.2
+flake8                   6.0.0
+fonttools                4.38.0
+fqdn                     1.5.1
+idna                     3.4
+imageio                  2.25.0
+importlib-metadata       6.0.0
+iniconfig                2.0.0
+ipykernel                6.20.2
+ipython                  8.8.0
+ipython-genutils         0.2.0
+isoduration              20.11.0
+jedi                     0.18.2
+Jinja2                   3.1.2
+jsonpointer              2.3
+jsonschema               4.17.3
+jupyter_client           7.4.9
+jupyter_core             5.1.5
+jupyter-events           0.6.3
+jupyter_server           2.1.0
+jupyter_server_terminals 0.4.4
+jupyterlab-pygments      0.2.2
+kiwisolver               1.4.4
+MarkupSafe               2.1.2
+matplotlib               3.6.3
+matplotlib-inline        0.1.6
+mccabe                   0.7.0
+mistune                  2.0.4
+mypy                     0.991
+mypy-extensions          0.4.3
+nbclassic                0.5.0
+nbclient                 0.7.2
+nbconvert                7.2.9
+nbformat                 5.7.3
+nest-asyncio             1.5.6
+networkx                 3.0
+notebook                 6.5.2
+notebook_shim            0.2.2
+numpy                    1.24.1
+packaging                23.0
+pandas                   1.5.3
+pandocfilters            1.5.0
+parso                    0.8.3
+pathspec                 0.11.0
+pexpect                  4.8.0
+pickleshare              0.7.5
+Pillow                   9.4.0
+pip                      22.3.1
+platformdirs             2.6.2
+pluggy                   1.0.0
+prometheus-client        0.16.0
+prompt-toolkit           3.0.36
+psutil                   5.9.4
+ptg                      0.0.4       /Users/chovey/sibl/geo/src
+ptyprocess               0.7.0
+pure-eval                0.2.2
+pybind11                 2.10.3
+pycodestyle              2.10.0
+pycparser                2.21
+pyflakes                 3.0.1
+Pygments                 2.14.0
+pyparsing                3.0.9
+pyrsistent               0.19.3
+pytest                   7.2.1
+pytest-cov               4.0.0
+python-dateutil          2.8.2
+python-json-logger       2.0.4
+pytz                     2022.7.1
+PyWavelets               1.4.1
+PyYAML                   6.0
+pyzmq                    25.0.0
+rfc3339-validator        0.1.4
+rfc3986-validator        0.1.1
+scikit-image             0.19.3
+scipy                    1.10.0
+seaborn                  0.12.2
+Send2Trash               1.8.0
+setuptools               57.4.0
+sibl                     0.0.10
+six                      1.16.0
+sniffio                  1.3.0
+soupsieve                2.3.2.post1
+stack-data               0.6.2
+terminado                0.17.1
+tifffile                 2023.1.23.1
+tinycss2                 1.2.1
+tomli                    2.0.1
+tornado                  6.2
+traitlets                5.8.1
+typing_extensions        4.4.0
+uri-template             1.2.0
+wcwidth                  0.2.6
+webcolors                1.12
+webencodings             0.5.1
+websocket-client         1.4.2
+zipp                     3.11.0
 ```
 
-Configure ssh keys between your local and the repo.  This assumes to you have an existing public key file in `~/.ssh/id_rsa/id_rsa.pub`.  See [this](https://help.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh) to create a public key.  See [this](https://help.github.com/en/github/authenticating-to-github) for troubleshooting.
+Deactivate/Reactivate method:  To deactivate any current `venv`:
 
-Copy the entire **public** key to the GitHub site under [Settings > SSH and GPG keys](https://github.com/settings/keys).
-
-From within the repo `~/sibl/`, set the username and email on a *per-repo* basis:
-
-```console
-$ git config user.name "James Bond"  # your first and last name in quotations
-$ git config user.email "jb007@company.com"  # your email address in quotations
+```bash
+deactivate
 ```
 
-## Releases
+Deactivate/Reactivate method:  To activate the `.venv` virtual environment:
 
-* Releases are autogenerated upon a push with a [tag](tag.md), see [`release.yml`](../.github/workflows/release.yml).
+```bash
+# activate the venv with one of the following:
+source .venv/bin/activate # for bash shell
+source .venv/bin/activate.csh # for c shell
+source .venv/bin/activate.fish # for fish shell
+source .venv/bin/Activate.fish # for powershell
+```
 
-## Deprecated
+Run from the REPL:
 
-* Gitflow
-* Behavior Driven Design (BDD); in favor of simple Test Driven Design (TDD)
-* Extensive git branching.
+```bash
+(.venv) python
+Python 3.7.9 (v3.7.9:13c94747c7, Aug 15 2020, 01:31:08)
+[Clang 6.0 (clang-600.0.57)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+>>> from copyright import command_line as cl
+>>> cl.version()
+copyright version:
+'0.0.1'
+>>> quit()
+```
 
-## ~~Gitflow~~
+Run from the command line:
 
-* ~~macOS `> brew install git-flow`~~
-* ~~Windows [download and install](https://git-scm.com/download/win) `git-flow`~~
+```bash
+(.venv) commands
+---------
+copyright
+---------
+This is the command line interface help for Sandia National Laboratories copyright Python module.
+Available commands:
+commands   (this command)
+scinfo     Describes the installation details.
+version    Prints the semantic verison of the current installation.
+```
 
+Run the tests with `pytest`:
+
+```bash
+(.venv) pytest -v
+```
+
+And `pytest-cov` (coverage) with line numbers missing coverage:
+
+```bash
+(.venv) pytest --cov=copyright --cov-report term-missing
+```
+
+Success!  The `venv` virtual environment `.venv` has been created, 
+and the `atmesh` module is now installed and tested.
+
+## Typical Development Cycle
+
+```bash
+# develop code
+# uninstall the now-outdated developer installation
+pip uninstall copyright
+# reinstall the module with the newly developed code
+pip install -e .[dev]
+```
+
+## Modify VS Code if desired
+
+In the user `settings.json`, add a reference to the Cubit install location.  
+
+Reference: Enable IntelliSense for custom package locations, https://code.visualstudio.com/docs/python/editing#_enable-intellisense-for-custom-package-locations
+
+Before:
+
+```bash
+    "python.autoComplete.extraPaths": [
+        "~/python_modules"
+    ],
+```
+
+After:
+
+```bash
+    "python.autoComplete.extraPaths": [
+        "~/python_modules",
+        "/Applications/Cubit-16.08/Cubit.app/Contents/MacOS"
+    ],
+    "python.envFile": "${workspaceFolder}/.venv",
+```
+
+## Continuous Integration (CI)
+
+Any push to the `main` branch that contains at least one file with a `.py` extension will trigger CI.  The CI tests against the Black code formatter, against `flake8`, and assesses code coverage. 
+
+## Continuous Deployment (CD)
+
+The `.github/workflows/release.yml` automates the build of a release when a `git push` is specified with a version flag, such as `v1.0`, `v20.15.10`, etc.
+
+### Git Tag
+
+* Git Tag [reference](https://git-scm.com/book/en/v2/Git-Basics-Tagging)
+* View the existing tag (if any):
+
+```bash
+$ git tag
+v1.0
+v2.0
+
+# Create a git tag with the `-a` flag:
+$ git tag -a v1.4 -m "my version 1.4"
+
+# Read the tag
+$ git show v1.4
+```
 
 ## References
 
-* [GitHub Actions](https://docs.github.com/en/actions)
-  * [Events that trigger workflows](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows)
-  * Tip 9: Creating a GitHub release in a [GitHub Actions](https://github.com/actions) workflow, Mar 18, 2022, https://youtu.be/_ueJ3LrRqPU
-    * Create a GitHub release action `create-release`
-    * Upload a release asset action `upload-release-asset`
-* Conda [build](https://docs.conda.io/projects/conda-build/en/latest/resources/build-scripts.html)
-* Conda [managing environments](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html)
-* Conda [cheat sheet](https://docs.conda.io/projects/conda/en/4.6.0/_downloads/52a95608c49671267e40c689e0bc00ca/conda-cheatsheet.pdf)
-* [Docker Hub](https://hub.docker.com/)
-* [Pyschool](https://github.com/hovey/pyschool/blob/master/zfolder/doc/introduction.md) example deployment and a specific [configuration](https://github.com/hovey/pyschool/blob/master/zfolder/doc/configuration.md) example.
+* https://github.com/cycjimmy/semantic-release-action
+* https://github.com/anirudh2/setup-jl
+* https://github.com/marketplace/actions/action-for-semantic-release
+* https://github.com/semantic-release/semantic-release
+* https://github.com/python-semantic-release/python-semantic-release
+* https://python-semantic-release.readthedocs.io/en/latest/automatic-releases/github-actions.html

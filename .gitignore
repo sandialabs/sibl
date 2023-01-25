@@ -1,3 +1,6 @@
+# ignore virtual environments
+.venv
+
 # ignore LaTeX intermediate files .aux, .log, .out
 *.aux
 *.log
