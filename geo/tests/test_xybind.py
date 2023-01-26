@@ -24,7 +24,7 @@ import math
 
 def test_ptg_version():
     ptg_version = command_line.version()
-    assert ptg_version == "0.0.4"
+    assert ptg_version == "0.0.11"
 
 
 def test_xyb_version():

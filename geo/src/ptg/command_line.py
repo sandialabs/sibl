@@ -6,8 +6,10 @@
 import pkg_resources  # part of setup tools
 
 
-def say_hello():
-    print("hello world!")
+def say_hello() -> str:
+    aa = "hello world!"
+    print(aa)
+    return aa
 
 
 def version() -> str:
