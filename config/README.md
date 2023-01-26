@@ -27,7 +27,7 @@ pip list
 Package    Version
 ---------- -------
 pip        21.2.1
-setuptools 54.4.0
+setuptools 57.4.0
 WARNING: You are using pip version 21.2.3; however, version 22.3.1 is available.
 You should consider upgrading via the '~/sibl/.venv/bin/python3.9 -m pip install --upgrade pip' command.
 (.venv) ~/copyright>
@@ -35,7 +35,7 @@ You should consider upgrading via the '~/sibl/.venv/bin/python3.9 -m pip install
 python -m pip install --upgrade pip
 ```
 
-## Install `copyright` as a developer
+## Install modules as a developer
 
 Reference: https://packaging.python.org/en/latest/tutorials/packaging-projects/
 
@@ -64,12 +64,14 @@ Installing from a local source tree, reference:
 python -m pip install -e geo/.[dev]  # developer
 python -m pip install geo/.  # client
 # note: `-e .` = `--editable .`
+python -m pip install -e geo/src/bind/
+python -m pip install -e cli/
 ```
 
-At the time of this writing, the current version of `snl-copyright` is shown below.  Your version may be newer.  Post-install package status:
+Post-install package status:
 
 ```bash
-(.venv) ~/sible>
+(.venv) ~/sibl>
 pip list
 Package            Version Editable project location
 ------------------ ------- -------------------------
@@ -192,6 +194,8 @@ wcwidth                  0.2.6
 webcolors                1.12
 webencodings             0.5.1
 websocket-client         1.4.2
+xybind                   0.0.8       /Users/chovey/sibl/geo/src/bind
+xyfigure                 0.0.9       /Users/chovey/sibl/cli/src
 zipp                     3.11.0
 ```
 
@@ -215,7 +219,7 @@ Run from the REPL:
 
 ```bash
 (.venv) python
-Python 3.7.9 (v3.7.9:13c94747c7, Aug 15 2020, 01:31:08)
+Python 3.9.7 (v3.9.7:1016ef3790, Aug 30 2021, 16:39:15)
 [Clang 6.0 (clang-600.0.57)] on darwin
 Type "help", "copyright", "credits" or "license" for more information.
 >>> from copyright import command_line as cl
@@ -242,13 +246,14 @@ version    Prints the semantic verison of the current installation.
 Run the tests with `pytest`:
 
 ```bash
-(.venv) pytest -v
+(.venv) ~/sibl> cd geo
+(.venv) ~/sibl/geo> pytest -v
 ```
 
 And `pytest-cov` (coverage) with line numbers missing coverage:
 
 ```bash
-(.venv) pytest --cov=copyright --cov-report term-missing
+(.venv) ~/sibl/geo> pytest --cov=copyright --cov-report term-missing
 ```
 
 Success!  The `venv` virtual environment `.venv` has been created, 
