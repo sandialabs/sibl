@@ -299,24 +299,7 @@ Any push to the `main` branch that contains at least one file with a `.py` exten
 
 ## Continuous Deployment (CD)
 
-The `.github/workflows/release.yml` automates the build of a release when a `git push` is specified with a version flag, such as `v1.0`, `v20.15.10`, etc.
-
-### Git Tag
-
-* Git Tag [reference](https://git-scm.com/book/en/v2/Git-Basics-Tagging)
-* View the existing tag (if any):
-
-```bash
-$ git tag
-v1.0
-v2.0
-
-# Create a git tag with the `-a` flag:
-$ git tag -a v1.4 -m "my version 1.4"
-
-# Read the tag
-$ git show v1.4
-```
+The `.github/workflows/release.yml` automates the build of a release when a `git push` is specified with a version flag, such as `v1.0`, `v20.15.10` and [Git Tag](tag.md).
 
 ## References
 
