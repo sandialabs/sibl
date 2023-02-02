@@ -547,3 +547,18 @@ def test_domain_merge_key_0001_r0_p1_and_key_0001_r1_p0():
     bounds2 = bounds0[0:2] + bounds0[4:] + bounds1[1:3]
 
     assert bounds2 == b2
+
+
+"""
+Copyright 2023 Sandia National Laboratories
+
+Notice: This computer software was prepared by National Technology and Engineering Solutions of
+Sandia, LLC, hereinafter the Contractor, under Contract DE-NA0003525 with the Department of Energy
+(DOE). All rights in the computer software are reserved by DOE on behalf of the United States
+Government and the Contractor as provided in the Contract. You are authorized to use this computer
+software for Governmental purposes but it is not to be released or distributed to the public.
+NEITHER THE U.S. GOVERNMENT NOR THE CONTRACTOR MAKES ANY WARRANTY, EXPRESS OR IMPLIED, OR ASSUMES
+ANY LIABILITY FOR THE USE OF THIS SOFTWARE. This notice including this sentence must appear on any
+copies of this computer software. Export of this data may require a license from the United States
+Government.
+"""
