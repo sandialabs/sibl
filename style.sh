@@ -25,7 +25,8 @@ black --check . --diff
 echo "----------------------------------"
 echo "Checking code style with flake8..."
 echo "----------------------------------"
-flake8 --ignore E203,E501,W503 . --statistics
+flake8 geo/ --ignore E203,E501,W503 --statistics
+flake8 cli/ --ignore E203,E501,W503 --statistics
 
 # ----
 # mypi

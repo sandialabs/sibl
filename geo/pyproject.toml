@@ -39,7 +39,8 @@ dependencies = [
     "seaborn",
     "scikit-image",
     "scipy",
-    "snlcopyright==0.0.9",
+    # "snlcopyright==0.0.9",
+    "snlcopyright",
 ]
 
 # Optional dependencies video
