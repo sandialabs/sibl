@@ -29,9 +29,11 @@ jobs:
         pip install flake8
     - name: Test with Black
       run: |
-        # black --check cli --diff
-        # black --check geo --diff
-        black --check . --diff
+        # black --check . --diff
+        black --check cli --diff
+        black --check geo --diff
     - name: Test with flake8
       run: |
-        flake8 --ignore E203,E501,W503 . --statistics
+        # flake8 --ignore E203,E501,W503 . --statistics
+        flake8 geo/ --ignore E203,E501,W503 --statistics
+        flake8 cli/ --ignore E203,E501,W503 --statistics

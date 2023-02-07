@@ -37,13 +37,13 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        python -m pip install --user numpy scipy matplotlib pybind11 pytz pyyaml
+        # python -m pip install --user numpy scipy matplotlib pybind11 pytz pyyaml
         pip install pytest
         cd cli/
         pip install -e .
         cd ../
         cd geo/
-        pip install -e .
+        pip install -e .[dev]
         cd ../
         cd geo/src/bind/
         pip install -e .
