@@ -81,3 +81,18 @@ plt.show()
 # Y Zhang, Y Bazilevs, S Goswami, CL Bajaj, TJR Hughes
 # Computer methods in applied mechanics and engineering 196 (29-30), 2943-2959	429
 # "There are two main isocontouring methods from imaging data: Primal Contouring (or Marching Cubes [37]) and Dual Contouring [38]. In this application we choose Dual Contouring to extract the isosurface, because it tends to generate meshes with better aspect ratios. We then modify the model to suit our particular application. This can be done in various ways, for example, by removing unnecessary components, adding necessary components which are not constructed from imaging data, denoising the surface, etc. After getting the vessel path, we can edit it according to simulation requirements."
+
+
+"""
+Copyright 2023 Sandia National Laboratories
+
+Notice: This computer software was prepared by National Technology and Engineering Solutions of
+Sandia, LLC, hereinafter the Contractor, under Contract DE-NA0003525 with the Department of Energy
+(DOE). All rights in the computer software are reserved by DOE on behalf of the United States
+Government and the Contractor as provided in the Contract. You are authorized to use this computer
+software for Governmental purposes but it is not to be released or distributed to the public.
+NEITHER THE U.S. GOVERNMENT NOR THE CONTRACTOR MAKES ANY WARRANTY, EXPRESS OR IMPLIED, OR ASSUMES
+ANY LIABILITY FOR THE USE OF THIS SOFTWARE. This notice including this sentence must appear on any
+copies of this computer software. Export of this data may require a license from the United States
+Government.
+"""
