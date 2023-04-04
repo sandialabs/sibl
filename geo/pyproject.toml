@@ -31,7 +31,7 @@ dependencies = [
     "ipykernel",
     "matplotlib",
     "mypy",
-    "notebook",
+    # "notebook",  # no longer needed
     "pybind11",
     "pygments",
     "pytz",
