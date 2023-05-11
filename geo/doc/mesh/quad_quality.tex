@@ -340,7 +340,7 @@ and
  For the non-degenerate case, the foregoing simplification is true, since all give normals
  will carry the same sign.  However, for degenerate cases, such as when a quadrilateral
  folds over onto itself, 
- the sign information is no longer homogenous, and the sign information
+ the sign information is no longer homogeneous, and the sign information
  {\em must} be retained to accurately calculate Jacobian metrics that go negative.
 }
 \begin{align}
@@ -357,6 +357,14 @@ The {\bf signed area} SA is defined as the average of all nodal area contributio
 \mbox{SA} \defe \; \frac{\alpha_1 + \alpha_2 + \alpha_3 + \alpha_4}{4}.
 \ee
 The metric dimension is $L^2$ and the ideal (unit square) value is {\tt 1.0}.
+
+\subsection{Skew}
+The {\bf skew} is defined as the absolute value of the cosine of the angle
+between the two principal axes:
+\be
+\mbox{skew} \defe \left| \; \frac{\vX}{\norm{\vX}} \cdot \frac{\vY}{\norm{\vY}} \; \right|.
+\ee
+
 
 \subsection{Aspect Ratio}
 
