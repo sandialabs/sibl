@@ -1,8 +1,9 @@
 """This module is a unit test for the Mesh implementation.
 
 To run:
-conda activate siblenv
+# conda activate siblenv
 cd ~/sibl
+source .venv/bin/activate.fish  # activate the virtual environment
 pytest geo/tests/test_mesh.py -v
 
 For a specific test (e.g., test_pairwise() function):
@@ -17,8 +18,10 @@ black --check geo/tests/test_mesh.py --diff
 For flake8:
 flake8 --ignore E203,E501,W503 geo/tests/test_mesh.py --statistics
 """
+from math import isinf, isnan
 from pathlib import Path
 
+import numpy as np
 import pytest
 
 import ptg.mesh as mesh
@@ -309,7 +312,8 @@ def test_plot_mesh():
 
 def test_tri_edge_lengths():
     """Given a trianguarl element in \real_{\nsd},
-    verifies the lengths of the three edges that are returned."""
+    verifies the lengths of the three edges that are returned.
+    """
 
     # 1D case
     cs = (
@@ -348,9 +352,11 @@ def test_quad_edge_lengths():
     assert ls == (2.0, 2.0, 2.0, 2.0)
 
 
-def test_jacobian_of_quad_undeformed():
+def test_quad_undeformed():
     """Given a quadrilateral in 2D, verify the
-    Jacobian matrix, evaluated at each of the four quad corners, quad is a simple undeformed quad."""
+    Jacobian matrix, evaluated at each of the four quad corners, quad is a simple
+    undeformed quad.  Verifies mimimum scaled Jacobian, skew, and aspect ratio.
+    """
     # Reference: Memphis_edu_C_03c_slides-quads.pdf
 
     cs = ((1.0, 1.0), (2.0, 1.0), (2.0, 2.0), (1.0, 2.0))
@@ -391,10 +397,24 @@ def test_jacobian_of_quad_undeformed():
 
     assert mesh.minimum_scaled_jacobian_of_quad(vertices=cs) == 1.0
 
+    # test principal axes
+    a, b = mesh.principal_axes_of_quad(vertices=cs)
+    assert a == (2.0, 0.0)
+    assert b == (0.0, 2.0)
 
-def test_jacobian_of_quad_shear():
+    # test skew
+    skew = mesh.skew_of_quad(vertices=cs)
+    assert skew == 0.0
+
+    # test aspect ratio
+    ar = mesh.aspect_ratio_of_quad(vertices=cs)
+    assert ar == 1.0
+
+
+def test_quad_shear():
     """Given a quadrilateral in 2D, verify the
     Jacobian matrix, evaluated at each of the four quad corners in simple shear.
+    Verifies mimimum scaled Jacobian, skew, and aspect ratio.
     """
     cs = ((1.0, 1.0), (2.0, 1.0), (3.0, 2.0), (2.0, 2.0))
 
@@ -436,10 +456,24 @@ def test_jacobian_of_quad_shear():
         0.7071067811865476
     )
 
+    # test principal axes
+    a, b = mesh.principal_axes_of_quad(vertices=cs)
+    assert a == (2.0, 0.0)
+    assert b == (2.0, 2.0)
 
-def test_jacobian_of_quad_trapezoid():
+    # test skew
+    skew = mesh.skew_of_quad(vertices=cs)
+    assert skew == pytest.approx(np.sqrt(2.0) / 2.0)  # sqrt(2)/2
+
+    # test aspect ratio
+    ar = mesh.aspect_ratio_of_quad(vertices=cs)
+    assert ar == pytest.approx(np.sqrt(2.0))  # sqrt(2)
+
+
+def test_quad_trapezoid():
     """Given a quadrilateral in 2D, verify the
     Jacobian matrix, evaluated at each of the four quad corners as a trapezoid.
+    Verifies mimimum scaled Jacobian, skew, and aspect ratio.
     """
     cs = ((1.0, 1.0), (2.5, 1.0), (2.0, 2.0), (1.5, 2.0))
 
@@ -488,10 +522,24 @@ def test_jacobian_of_quad_trapezoid():
         0.8944271909999159
     )
 
+    # test principal axes
+    a, b = mesh.principal_axes_of_quad(vertices=cs)
+    assert a == (2.0, 0.0)
+    assert b == (0.0, 2.0)
 
-def test_jacobian_of_quad_extended():
+    # test skew
+    skew = mesh.skew_of_quad(vertices=cs)
+    assert skew == 0.0
+
+    # test aspect ratio
+    ar = mesh.aspect_ratio_of_quad(vertices=cs)
+    assert ar == 1.0
+
+
+def test_quad_extended():
     """Given a quadrilateral in 2D, verify the
     Jacobian matrix, evaluated at each of the four quad corners, quad has node 3 extended.
+    Verifies mimimum scaled Jacobian, skew, and aspect ratio.
     """
     cs = ((1.0, 1.0), (2.0, 1.0), (2.5, 2.5), (1.0, 2.0))
     # The det(J) = 1/16 * (6 + a + b)
@@ -537,10 +585,24 @@ def test_jacobian_of_quad_extended():
 
     assert mesh.minimum_scaled_jacobian_of_quad(vertices=cs) == pytest.approx(0.800)
 
+    # test principal axes
+    a, b = mesh.principal_axes_of_quad(vertices=cs)
+    assert a == (2.5, 0.5)
+    assert b == (0.5, 2.5)
 
-def test_jacobian_of_quad_tri_positive():
+    # test skew
+    skew = mesh.skew_of_quad(vertices=cs)
+    assert skew == pytest.approx(0.3846153846153847)
+
+    # test aspect ratio
+    ar = mesh.aspect_ratio_of_quad(vertices=cs)
+    assert ar == 1.0
+
+
+def test_quad_tri_positive():
     """Given a quadrilateral in 2D, verify the
     Jacobian matrix, evaluated at each of the four quad corners, quad has node 3 pushed inward.
+    Verifies mimimum scaled Jacobian, skew, and aspect ratio.
     """
     cs = ((1.0, 1.0), (2.0, 1.0), (1.6, 1.6), (1.0, 2.0))
     # The det(J) = 1/20 * (3 - a - b)
@@ -588,11 +650,25 @@ def test_jacobian_of_quad_tri_positive():
         0.38461538461538486
     )
 
+    # test principal axes
+    a, b = mesh.principal_axes_of_quad(vertices=cs)
+    assert a == pytest.approx((1.6, -0.4))
+    assert b == pytest.approx((-0.4, 1.6))
 
-def test_jacobian_of_quad_tri_negative():
+    # test skew
+    skew = mesh.skew_of_quad(vertices=cs)
+    assert skew == pytest.approx(0.4705882352941174)
+
+    # test aspect ratio
+    ar = mesh.aspect_ratio_of_quad(vertices=cs)
+    assert ar == 1.0
+
+
+def test_quad_tri_negative():
     """Given a quadrilateral in 2D, verify the
     Jacobian matrix, evaluated at each of the four quad corners, quad has node 3 pushed inward
     to create a slight negative value in the Jacobian map.
+    Verifies mimimum scaled Jacobian, skew, and aspect ratio.
     """
     cs = ((1.0, 1.0), (2.0, 1.0), (1.4, 1.4), (1.0, 2.0))
     # The det(J) = 1/40 * (4 - 3a - 3b)
@@ -638,11 +714,24 @@ def test_jacobian_of_quad_tri_negative():
         -0.38461538461538486
     )
 
+    # test principal axes
+    a, b = mesh.principal_axes_of_quad(vertices=cs)
+    assert a == pytest.approx((1.4, -0.6))
+    assert b == pytest.approx((-0.6, 1.4))
 
-def test_jacobian_of_quad_near_collapse():
+    # test skew
+    skew = mesh.skew_of_quad(vertices=cs)
+    assert skew == pytest.approx(0.7241379310344829)
+    # test aspect ratio
+    ar = mesh.aspect_ratio_of_quad(vertices=cs)
+    assert ar == 1.0
+
+
+def test_quad_near_collapse():
     """Given a quadrilateral in 2D, verify the
     Jacobian matrix, evaluated at each of the four quad corners, quad has node 3 pushed inward
     to create a slight negative value in the Jacobian map.
+    Verifies mimimum scaled Jacobian, skew, and aspect ratio.
     """
     cs = ((1.0, 1.0), (2.0, 1.0), (1.1, 1.1), (1.0, 2.0))
     # The det(J) = 1/80 * (2 - 9a - 9b)
@@ -692,12 +781,25 @@ def test_jacobian_of_quad_near_collapse():
         -0.9756097560975608
     )
 
+    # test principal axes
+    a, b = mesh.principal_axes_of_quad(vertices=cs)
+    assert a == pytest.approx((1.1, -0.9))
+    assert b == pytest.approx((-0.9, 1.1))
 
-def test_jacobian_of_quad_bowtie():
+    # test skew
+    skew = mesh.skew_of_quad(vertices=cs)
+    assert skew == pytest.approx(0.9801980198019803)
+    # test aspect ratio
+    ar = mesh.aspect_ratio_of_quad(vertices=cs)
+    assert ar == 1.0
+
+
+def test_quad_bowtie():
     """Given a quadrilateral in 2D, verify the
     Jacobian matrix, evaluated at each of the four quad corners, quad has
     node 2 and 3 inverted along the y-axis; the quad appears in a bowtie
     shape.
+    Verifies mimimum scaled Jacobian, skew, and aspect ratio.
     """
     cs = ((1.0, 1.0), (2.0, 2.0), (2.0, 1.0), (1.0, 2.0))
 
@@ -758,6 +860,18 @@ def test_jacobian_of_quad_bowtie():
     assert mesh.minimum_scaled_jacobian_of_quad(vertices=cs) == pytest.approx(
         -0.7071067811865475
     )
+
+    # test principal axes
+    a, b = mesh.principal_axes_of_quad(vertices=cs)
+    assert a == pytest.approx((2.0, 0.0))
+    assert b == pytest.approx((0.0, 0.0))
+
+    # test skew
+    skew = mesh.skew_of_quad(vertices=cs)
+    assert isnan(skew)  # divide by zero nan
+    # test aspect ratio
+    ar = mesh.aspect_ratio_of_quad(vertices=cs)
+    assert isinf(ar)  # divide by zero inf
 
 
 """

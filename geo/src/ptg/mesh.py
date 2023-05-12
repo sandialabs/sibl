@@ -9,6 +9,7 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
+from numpy import linalg as la
 
 from ptg.mesh_typing import (
     Edges,
@@ -393,6 +394,43 @@ def jacobian_of_quad(
 
     C = np.matmul(A, B)
     return ((C[0, 0], C[0, 1]), (C[1, 0], C[1, 1]))
+
+
+def principal_axes_of_quad(
+    *, vertices: QuadVertices
+) -> tuple[tuple[float, float], tuple[float, float]]:
+    n1, n2, n3, n4 = vertices
+
+    e1 = tuple(map(lambda i, k: k - i, n1, n2))
+    e2 = tuple(map(lambda i, k: k - i, n2, n3))
+    e3 = tuple(map(lambda i, k: k - i, n3, n4))
+    e4 = tuple(map(lambda i, k: k - i, n4, n1))
+
+    prin_axis_X = tuple(map(lambda i, k: k - i, e3, e1))
+    prin_axis_Y = tuple(map(lambda i, k: k - i, e4, e2))
+
+    return (prin_axis_X, prin_axis_Y)
+
+
+def skew_of_quad(*, vertices: QuadVertices) -> float:
+    a, b = principal_axes_of_quad(vertices=vertices)
+    a_hat = np.array(a) / la.norm(a)
+    b_hat = np.array(b) / la.norm(b)
+
+    skew = np.absolute(np.dot(a_hat, b_hat))
+
+    return skew
+
+
+def aspect_ratio_of_quad(*, vertices: QuadVertices) -> float:
+    a, b = principal_axes_of_quad(vertices=vertices)
+
+    r1 = la.norm(a) / la.norm(b)
+    r2 = la.norm(b) / la.norm(a)
+
+    ar = r1 if r1 > r2 else r2  # max(r1, r2)
+
+    return float(ar)
 
 
 def det_jacobian_of_quad(*, xi: float, eta: float, vertices: QuadVertices) -> float:
