@@ -15,10 +15,10 @@ cd ~/sibl
 /usr/local/bin/python3.9 -m venv .venv  # create a virtual environment
 
 # activate the venv with one of the following:
-source .venv/bin/activate # for bash shell
-source .venv/bin/activate.csh # for c shell
-source .venv/bin/activate.fish # for fish shell
-source .venv/bin/Activate.fish # for powershell
+source .venv/bin/activate       # for bash shell
+source .venv/bin/activate.csh   # for c shell
+source .venv/bin/activate.fish  # for fish shell
+.\.venv\Scripts\activate        # for powershell
 
 python --version  # e.g., Python 3.9.7
 
@@ -62,7 +62,7 @@ Installing from a local source tree, reference:
 # create an editable install (aka development mode)
 (.venv) ~/sibl>
 python -m pip install -e geo/.[dev]  # developer
-python -m pip install geo/.  # client
+python -m pip install geo/.          # client
 # note: `-e .` = `--editable .`
 python -m pip install -e geo/src/bind/
 python -m pip install -e cli/

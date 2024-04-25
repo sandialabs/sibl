@@ -74,16 +74,16 @@ The model dictionary contains items that describe how each `(x,y)` data set is c
 
 #### Plot Keywords Dictionary
 
-Dictionary that overrides the [`matplotlib.pyplot.plot()` kwargs](https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.plot.html) default values.  Default values used by XYModel follow:
+Dictionary that overrides the [`matplotlib.pyplot.plot()` kwargs](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html) default values.  Default values used by XYModel follow:
 
 |     |     |     |
 | --- | --- | --- |
-| `"linewidth":` | float  | *optional*<br> Default value is `2.0`. See [matplotlib lines Line2D](https://matplotlib.org/api/_as_gen/matplotlib.lines.Line2D.html#matplotlib.lines.Line2D) for more detail.
-| `"linestyle":` | string | *optional*<br>Default value is `"-"`, which is a solid line. See [matplotlib linestyles](https://matplotlib.org/3.1.0/gallery/lines_bars_and_markers/linestyles.html) for more detail.
+| `"linewidth":` | float  | *optional*<br> Default value is `2.0`. See [matplotlib lines Line2D](https://matplotlib.org/stable/api/_as_gen/matplotlib.lines.Line2D.html) for more detail.
+| `"linestyle":` | string | *optional*<br>Default value is `"-"`, which is a solid line. See [matplotlib linestyles](https://matplotlib.org/stable/gallery/lines_bars_and_markers/linestyles.html) for more detail.
 |                |        | *Some frequently used *optional values* follow.<br>If the keys are omitted, then the matplotlib defaults are used.*<br><br>
-| `"marker":`    | string | *optional*<br>The string to designate a marker at the data point.  See [matplotlib marker](https://matplotlib.org/3.1.1/api/markers_api.html#module-matplotlib.markers) documentation.
+| `"marker":`    | string | *optional*<br>The string to designate a marker at the data point.  See [matplotlib marker](https://matplotlib.org/stable/api/markers_api.html) documentation.
 | `"label":`     | string | *optional*<br>The string appearing in the legend correponding to the data.
-| `"color:"`     | string | *optional*<br>The matplotlib [color](https://matplotlib.org/3.1.1/tutorials/colors/colors.html) used to plot the data.  See also Matplotlib color [defaults](https://matplotlib.org/3.2.1/users/dflt_style_changes.html) and predefined color [names](https://matplotlib.org/3.1.0/gallery/color/named_colors.html).
+| `"color:"`     | string | *optional*<br>The matplotlib [color](https://matplotlib.org/stable/users/explain/colors/colors.html) used to plot the data.  See also Matplotlib color [defaults](https://matplotlib.org/stable/users/prev_whats_new/dflt_style_changes.html) and predefined color [names](https://matplotlib.org/stable/gallery/color/named_colors.html).
 | `"alpha":`     | float  | *optional*<br>Real number in the range from `0` to `1`. Numbers toward `0` are more transparent and numbers toward `1` are more opaque.  
 
 #### Signal Processing Keywords Dictionary

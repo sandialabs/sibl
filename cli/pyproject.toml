@@ -1,0 +1,37 @@
+# reference
+# https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
+# PEP621
+# https://peps.python.org/pep-0621/
+#
+# Python Packages
+# https://py-pkgs.org/welcome
+
+# Use automatic discovery from setuptools
+# https://setuptools.pypa.io/en/latest/userguide/package_discovery.html#src-layout
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "xyfigure"
+version = "0.0.9"
+authors = [
+  { name="Chad Hovey", email="chovey@sandia.gov" },
+]
+description = "SIBL xyfigure, a library for xy plotting and processing"
+readme = "README.md"
+license = { file="LICENSE" }
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "black==22.6.0", "flake8", "matplotlib", "pytest", "pytest-cov", "pyyaml", "scipy"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/sandialabs/sibl"
+"Bug Tracker" = "https://github.com/sandialabs/sibl/issues"
