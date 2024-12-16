@@ -7,3 +7,4 @@
   * [Butterworth filter](butterworth/README.md)
   * [Differentiation](differentiation/README.md)
   * [Integration](integration/README.md)
+* [Cross-correlation](correlation/README.md)
