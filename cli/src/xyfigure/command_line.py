@@ -88,7 +88,7 @@ def main():
     # print(cl.BANNER)
     # print(cl.CLI_DOCS)
     parser = argparse.ArgumentParser(
-        prog="cthin",
+        prog="xyfigure",
         description="Generate an xyfigure.",
         epilog="xyfigure finished",
     )
