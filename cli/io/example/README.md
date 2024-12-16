@@ -1,5 +1,103 @@
 # xyfigure
 
+Given a comma separated values (`.csv`) file, plot columns with `xyfigure`
+
+* Create the example data [file](data.xlsx) in Microsoft Excel.  Here we create a time column `t` (the x-axis), and two functions (two different data series for the y-axis) of time columns `sin(t)` and `cos(2t)`.  
+* Then, from within Excel, export the .xlsx file as a .csv [file](data.csv).
+
+## Getting Started
+
+Activate the virtual environment:
+
+```sh
+cd ~/sibl/cli
+source ~/sibl/.venv/bin/activate
+```
+
+## Example 1
+
+With the input [recipe.yml](recipe.yml):
+
+```sh
+xyfigure io/example/recipe.yml
+```
+
+Output:
+
+```sh
+Processing file: io/example/recipe.yml
+Finished XYViewBase constructor.
+Creating view with guid = "figure"
+  Adding all models to current view.
+  Figure dpi set to 100
+  Figure size set to [8.0, 6.0] inches.
+  Serialized view to: /Users/chovey/sibl/cli/io/example/recipe.png
+====================================
+End of xyfigure/client.py execution.
+```
+
+Result:
+
+![recipe.png](recipe.png)
+
+## Example 2
+
+A minimum working example, with [recipe_minimal.yml](recipe_minimal.yml):
+
+```sh
+xyfigure io/example/recipe_minimal.yml
+```
+
+Output:
+
+```sh
+Processing file: io/example/recipe_minimal.yml
+Finished XYViewBase constructor.
+Creating view with guid = "figure-output"
+  Adding all models to current view.
+  Figure dpi set to 100
+  Figure size set to [11.0, 8.5] inches.
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+  Serialized view to: /Users/chovey/sibl/cli/io/example/recipe_minimal.png
+====================================
+End of xyfigure/client.py execution.
+```
+
+Result:
+
+![recipe_minimal.png](recipe_minimal.png)
+
+## Example 3
+
+An elaborate example, with [recipe_with_background.yml](recipe_with_background.yml):
+
+```sh
+xyfigure io/example/recipe_with_background.yml
+```
+
+Output:
+
+```sh
+Processing file: io/example/recipe_with_background.yml
+Finished XYViewBase constructor.
+Creating view with guid = "figure"
+  Adding all models to current view.
+  Figure dpi set to 100
+  Figure size set to [8.0, 6.0] inches.
+  Serialized view to: /Users/chovey/sibl/cli/io/example/recipe_with_background.png
+====================================
+End of xyfigure/client.py execution.
+```
+
+Result:
+
+![recipe_with_background.png](recipe_with_background.png)
+
+---
+> **Deprecation Warning:**
+> `.json` files still work as input files, but they have been deprecated on 2024-12-16 in favor a `.yml` format input files.
+---
+
 ## Getting Started
 
 Here we create an example data file from an Excel spreadsheet and walk through the steps to create a simple `xyfigure`.

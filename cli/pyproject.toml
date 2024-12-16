@@ -35,7 +35,7 @@ dependencies = [
 # Entry Points
 # https://setuptools.pypa.io/en/latest/userguide/entry_point.html
 [project.scripts]
-xyfigure="xyfigure.xyfigure:main"
+xyfigure="xyfigure.command_line:main"
 #fingerprint="xyfigure.fingerprint_md5:main"
 
 [project.urls]

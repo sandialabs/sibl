@@ -9,6 +9,9 @@ from pathlib import Path
 import yaml
 
 # import xyfigure.constants as cc
+from xyfigure.factory import XYFactory
+from xyfigure.xymodel import XYModel, XYModelAbaqus
+from xyfigure.xyview import XYView, XYViewAbaqus
 
 
 def process(yml_path_file: Path) -> bool:
@@ -45,10 +48,37 @@ def process(yml_path_file: Path) -> bool:
         # raise yaml.YAMLError
         raise OSError from error
 
-    found_keys = tuple(db.keys())
-    breakpoint()
+    # found_keys = tuple(db.keys())
 
-    aa = 4
+    items = []  # cart of items is empty, fill from factory
+    # factory = XYFactory()  # it's static!
+
+    for item in db:
+        kwargs = db[item]
+        i = XYFactory.create(item, **kwargs)
+        if i:
+            items.append(i)
+        else:
+            print("Item is None from factory, nothing added to command_line items.")
+
+    models = [i for i in items if isinstance(i, (XYModel, XYModelAbaqus))]
+    views = [i for i in items if isinstance(i, (XYView, XYViewAbaqus))]
+
+    for view in views:
+        print(f'Creating view with guid = "{view.guid}"')
+
+        if view.model_keys:  # register only selected models with current view
+            print(f"  Adding {view.model_keys} model(s) to current view.")
+            view.models = [m for m in models if m.guid in view.model_keys]
+            view.figure()  # must be within this subset scope
+        else:
+            print("  Adding all models to current view.")
+            view.models = models  # register all models with current view
+            view.figure()  # must be within this subset scope
+
+    print("====================================")
+    print("End of xyfigure execution.")
+
     processed = True  # overwrite
     return processed  # success if we reach this line
 

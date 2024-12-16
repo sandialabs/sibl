@@ -1,0 +1,50 @@
+sine-data:
+    class: model
+    folder: ~/sibl/cli/io/example
+    file: data.csv
+    skip_rows: 1
+    plot_kwargs:
+      label: sin(t)
+      color: darkorange
+      linestyle: "-"
+      linewidth: 4
+      alpha : 0.5
+cosine-data:
+    class: model
+    folder: ~/sibl/cli/io/example
+    file: data.csv
+    skip_rows: 1
+    ycolumn: 2
+    plot_kwargs:
+      label: cos(2t)
+      color: green
+      linestyle: "-."
+      linewidth: 2
+figure:
+    class: view
+    folder: ~/sibl/cli/io/example
+    file: recipe_with_background.png
+    size: [8.0, 6.0]
+    xlim: [-0.25, 2.25]
+    ylim: [-1.25, 1.25]
+    title: Example using xyfigure
+    xlabel: time (s)
+    ylabel: functions of time f(t)
+    xticks: [0, 0.50, 0.785, 1, 1.57, 2]
+    yticks: [-1, -0.5, 0, 0.5, 1]
+    yaxis_rhs:
+      scale: 10
+      label: right-hand-side label with 10 f(t) scale
+      yticks: [-5, 0, 5]
+    background_image:
+      folder: ~/sibl/cli/io/example
+      file: chess_800_800_px.png
+      left: 1.0
+      right: 2.0
+      bottom: -0.5
+      top: 0.5
+      alpha: 0.5
+    details: false
+    display: true
+    latex: false
+    serialize: true

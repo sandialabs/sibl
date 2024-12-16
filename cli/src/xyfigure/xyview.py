@@ -6,6 +6,7 @@ from datetime import datetime
 # related third-party imports
 import matplotlib.pyplot as plt
 from PIL import Image
+from pathlib import Path
 
 # local application/library specific imports
 # from xyfigure.xybase import XYBase
@@ -169,10 +170,12 @@ class XYView(XYViewBase):
             if self._background_image:
                 folder = self._background_image.get("folder", ".")
                 file = self._background_image.get("file", None)
-                rel_path_and_file = os.path.join(
-                    folder, file
-                )  # relative to current run location
-                im = Image.open(rel_path_and_file)
+                # rel_path_and_file = os.path.join(
+                #     folder, file
+                # )  # relative to current run location
+                path_file = Path(folder).expanduser().joinpath(file)
+                # im = Image.open(rel_path_and_file)
+                im = Image.open(path_file)
 
                 left = self._background_image.get("left", 0.0)
                 right = self._background_image.get("right", 1.0)
