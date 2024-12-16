@@ -33,7 +33,7 @@ Creating view with guid = "figure"
   Figure size set to [8.0, 6.0] inches.
   Serialized view to: /Users/chovey/sibl/cli/io/example/recipe.png
 ====================================
-End of xyfigure/client.py execution.
+End of xyfigure execution.
 ```
 
 Result:
@@ -60,7 +60,7 @@ Creating view with guid = "figure-output"
 No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
   Serialized view to: /Users/chovey/sibl/cli/io/example/recipe_minimal.png
 ====================================
-End of xyfigure/client.py execution.
+End of xyfigure execution.
 ```
 
 Result:
@@ -86,7 +86,7 @@ Creating view with guid = "figure"
   Figure size set to [8.0, 6.0] inches.
   Serialized view to: /Users/chovey/sibl/cli/io/example/recipe_with_background.png
 ====================================
-End of xyfigure/client.py execution.
+End of xyfigure execution.
 ```
 
 Result:
