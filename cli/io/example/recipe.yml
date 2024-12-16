@@ -6,8 +6,8 @@ sine-data:
   plot_kwargs:
     label: sin(t)
     color: darkorange
-    linestyle: -,
-    linewidth: 4,
+    linestyle: "-"
+    linewidth: 4
     alpha: 0.5
 cosine-data:
   class: model
@@ -17,13 +17,13 @@ cosine-data:
   ycolumn: 2
   plot_kwargs:
     label: cos(2t)
-    linestyle: -",
+    linestyle: "-."
     linewidth: 2
 figure:
   class: view,
   folder: .
   file: recipe.svg
-  size: [ 8.0, 6.0 ],
+  size: [ 8.0, 6.0 ]
   title: Example using xyfigure
   xlabel: time (s)
   ylabel: functions of time f(t)
@@ -33,6 +33,6 @@ figure:
     yticks: [ -10, -5, 0, 5, 10 ]
   details: false
   display: true
-  dpi: 100,
+  dpi: 100
   latex: false
   serialize: false
