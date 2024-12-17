@@ -1,0 +1,214 @@
+signal_reference:
+  class: model
+  folder: ~/sibl/cli/tests/correlation
+  file: signal_1.csv
+  skip_rows: 1
+  ycolumn: 1
+  plot_kwargs:
+    label: reference signal
+    color: blue
+    linewidth: 2
+    linestyle: "--"
+    marker: D
+    alpha: 0.9
+signal:
+  class: model
+  folder: ~/sibl/cli/tests/correlation
+  file: signal_2.csv
+  skip_rows: 1
+  ycolumn: 1
+  plot_kwargs:
+    label: subject signal
+    color: green
+    linewidth: 3
+    linestyle: "-"
+    marker: o
+    alpha: 0.5
+signal_int_1:
+  class: model
+  folder: ~/sibl/cli/tests/correlation
+  file: signal_2.csv
+  skip_rows: 1
+  ycolumn: 1
+  plot_kwargs:
+    label: int(subject signal)
+    color: magenta
+    linewidth: 3
+    linestyle: "-."
+    marker: "o"
+    alpha: 0.5
+  signal_process:
+    process1:
+      integration:
+        order: 1
+        initial_conditions: [ 4 ]
+        serialize: false
+        folder: ~/sibl/cli/tests/correlation
+        file: out_signal_2_int_1.csv
+signal_int_2:
+  class: model
+  folder: ~/sibl/cli/tests/correlation
+  file: signal_2.csv
+  skip_rows: 1
+  ycolumn: 1
+  plot_kwargs:
+    label: int(int(subject signal))
+    color: red
+    linewidth: 2
+    linestyle: "-"
+    marker: o
+    alpha: 0.9
+  signal_process:
+    process1:
+      integration:
+        order: 2
+        initial_conditions: [ 4, 0 ]
+        serialize: false
+        folder: ~/sibl/cli/tests/correlation
+        file: out_signal_2_int_2.csv
+signal_correlated:
+  class: model
+  folder: ~/sibl/cli/tests/correlation
+  file: signal_2.csv
+  skip_rows: 1
+  ycolumn: 1
+  plot_kwargs:
+    label: subject signal correlated
+    color: green
+    linewidth: 3
+    linestyle: "-"
+    marker: o
+    alpha: 0.5
+  signal_process:
+    process1:
+      correlation:
+        reference:
+          folder: ~/sibl/cli/tests/correlation
+          file: signal_1.csv
+          skip_rows: 1
+          ycolumn: 1
+        verbose: true
+        serialize: false
+        folder: ~/sibl/cli/tests/correlation
+        file: out_signal_correlated.csv
+figure_1:
+  class: view
+  model_keys: [ signal_reference, signal ]
+  folder: ~/sibl/cli/tests/correlation
+  file: out_correlation_recipe_fig_1.png
+  title: two signals (same x and y scales, non-same frequency and offset)
+  xlabel: time (s)
+  ylabel: acceleration (m/s^2)
+  xlim: [ -0.125, 2.125 ]
+  ylim: [ -35, 10 ]
+  xtick: [
+    0,
+    0.2,
+    0.4,
+    0.6,
+    0.8,
+    1,
+    1.2,
+    1.4,
+    1.6,
+    1.8,
+    2
+  ]
+  size: [
+      8.0,
+      6.0
+  ]
+  dpi: 100
+  display: true
+  details: false
+  serialize: true
+figure_2:
+  class: view
+  model_keys: [ signal, signal_int_1 ]
+  folder: ~/sibl/cli/tests/correlation
+  file: out_correlation_recipe_fig_2.png
+  title: signal 2 and int(signal 2) with non-zero i.c.
+  xlabel: time (s)
+  ylabel: acceleration (m/s^2)
+  yaxis_rhs:
+    scale: 1
+    label: velocity (m/s)
+  xlim: [ -0.125, 2.125 ]
+  ylim: [ -35, 10 ]
+  xticks: [
+    0,
+    0.2,
+    0.4,
+    0.6,
+    0.8,
+    1,
+    1.2,
+    1.4,
+    1.6,
+    1.8,
+    2
+  ]
+  size: [ 8.0, 6.0 ]
+  dpi: 100
+  display: true
+  details: false
+  serialize: true
+figure_3:
+  class: view
+  model_keys: [ signal_int_1, signal_int_2 ]
+  folder: ~/sibl/cli/tests/correlation
+  file: out_correlation_recipe_fig_3.png
+  title: int(signal 2) and int(int(signal 2)) with non-zero i.c.
+  xlabel: time (s)
+  ylabel: velocity (m/s)
+  yaxis_rhs:
+    scale: 1
+    label: position (m)
+  xlim: [ -0.125, 2.125 ]
+  ylim: [ -5, 10 ]
+  xticks: [
+      0,
+      0.2,
+      0.4,
+      0.6,
+      0.8,
+      1,
+      1.2,
+      1.4,
+      1.6,
+      1.8,
+      2
+  ]
+  size: [ 8.0, 6.0 ]
+  dpi: 100
+  display: true
+  details: 0
+  serialize: true
+figure_4:
+  class: view
+  model_keys: [ signal_reference, signal_correlated ]
+  folder: ~/sibl/cli/tests/correlation
+  file: out_correlation_recipe_fig_4.png
+  title: reference signal and correlated signal (synchronized frequency and offset
+  xlabel: time (s)
+  ylabel: acceleration (m/s^2)
+  xlim: [ -1.125, 1.125 ]
+  ylim: [ -35, 10 ]
+  xticks: [
+      -1,
+      -0.8,
+      -0.6,
+      -0.4,
+      -0.2,
+      0,
+      0.2,
+      0.4,
+      0.6,
+      0.8,
+      1
+  ]
+  size: [ 8.0, 6.0 ]
+  dpi: 100
+  display: true
+  details: false
+  serialize: true
