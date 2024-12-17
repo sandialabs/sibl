@@ -45,21 +45,48 @@ jobs:
           # cd ../../../
           # 2024-12-17 suppress geo/ for now - stop
           # ----------------------------------------
+
+      - name: Run tests with coverage
+        run: |
+          pytest cli --cov=cli > result.log; tail -n 10 result.log
+      
       - name: Generate coverage report
         run: |
-          # pip install pytest  # already installed in pyproject.toml
-          # pip install pytest-cov  # already installed in pyproject.toml
-          # pytest --cov=cli/src/xyfigure --cov=geo/src/ptg --cov-report=xml
-          pytest cli --cov=cli/src/xyfigure --cov-report=xml
-      - name: Upload coverage to Codecov
-      # uses: codecov/codecov-action@6004246f47ab62d32be025ce173b241cd84ac58e
-        uses: codecov/codecov-action@v1.0.13
+          pytest cli --cov=xyfigure --cov-report=xml --cov-report=html
+          
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v2
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          file: ./coverage.xml
-          directory: ./coverage/reports/
-          flags: unittests
-          env_vars: OS,PYTHON
-          name: codecov-umbrella
-          fail_ci_if_error: true
+          name: coverage-report
+          path: htmlcov/
+
+      - name: Create coverage badge
+        run: |
+          pip install coverage
+          coverage xml
+          coverage-badge -o coverage.svg
+            
+      - name: Upload badge
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-badge
+          path: coverage.svg
+            
+      #- name: Generate coverage report
+      #  run: |
+      #    # pip install pytest  # already installed in pyproject.toml
+      #    # pip install pytest-cov  # already installed in pyproject.toml
+      #    # pytest --cov=cli/src/xyfigure --cov=geo/src/ptg --cov-report=xml
+      #    pytest cli --cov=cli/src/xyfigure --cov-report=xml
+      #- name: Upload coverage to Codecov
+      ## uses: codecov/codecov-action@6004246f47ab62d32be025ce173b241cd84ac58e
+      #  uses: codecov/codecov-action@v1.0.13
+      #  with:
+      #    token: ${{ secrets.CODECOV_TOKEN }}
+      #    file: ./coverage.xml
+      #    directory: ./coverage/reports/
+      #    flags: unittests
+      #    env_vars: OS,PYTHON
+      #    name: codecov-umbrella
+      #    fail_ci_if_error: true
 
