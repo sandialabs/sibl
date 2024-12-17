@@ -438,7 +438,9 @@ class XYModelAbaqus(XYBase):
                                         ]
                                     ),
                                 )
-                            except IndexError:  # handle 2D input files, append 0.0 as z coordinate
+                            except (
+                                IndexError
+                            ):  # handle 2D input files, append 0.0 as z coordinate
                                 new_nodes = (
                                     tuple(
                                         [

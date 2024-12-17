@@ -5,6 +5,7 @@ $ conda activate siblenv
 $ cd ~/sibl
 $ pytest geo/tests/test_bspline.py -v
 """
+
 from unittest import TestCase, main
 import pytest
 import numpy as np

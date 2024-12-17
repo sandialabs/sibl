@@ -11,6 +11,7 @@ We initialize a circle around the astronaut's face and use the default boundary 
 
 1. Snakes: Active contour models. Kass, M.; Witkin, A.; Terzopoulos, D. International Journal of Computer Vision 1 (4): 321 (1988). DOI:10.1007/BF00133570
 """
+
 from pathlib import Path
 
 import numpy as np

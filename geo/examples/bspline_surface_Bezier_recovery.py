@@ -6,6 +6,7 @@ Example:
 > conda activate siblenv
 > python bspline_surface_Bezier_recovery.py
 """
+
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import rc

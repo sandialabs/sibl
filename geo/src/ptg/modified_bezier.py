@@ -168,9 +168,7 @@ def modified_bezier(
         N0 = np.array(tuple(map(lambda t: 0.5 * (1.0 - t) ** 2, t)))  # $\hat{N}_0$
         N1 = np.array(
             tuple(
-                map(
-                    lambda t: 0.5 * (1.0 - t) ** 2 + 2 * (1.0 - t) * t + 0.5 * t**2, t
-                )
+                map(lambda t: 0.5 * (1.0 - t) ** 2 + 2 * (1.0 - t) * t + 0.5 * t**2, t)
             )
         )  # $\hat{N}_1$
         N2 = np.array(tuple(map(lambda t: 0.5 * t**2, t)))  # $\hat{N}_2$

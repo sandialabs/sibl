@@ -687,9 +687,11 @@ class QuadTree:
             n_subquads_per_quad: Final = 4  # given transition from level -> level + 1
             quad_levels_recursive_parent = tuple(
                 (
-                    (level + 1,)
-                    if x == 1
-                    else tuple(repeat((level + 2,), n_subquads_per_quad))
+                    (
+                        (level + 1,)
+                        if x == 1
+                        else tuple(repeat((level + 2,), n_subquads_per_quad))
+                    )
                     for x in n_parent_quads
                 )
             )

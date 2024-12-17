@@ -8,6 +8,7 @@ $ black --check geo/tests/test_bernstein_surface.py
 $ pytest geo/tests/test_view_bernstein_surface.py -v
 $ pytest geo/tests/test_view_bernstein_surface.py -v --cov=geo/src/ptg --cov-report term-missing
 """
+
 from unittest import TestCase, main
 
 import ptg.view_bernstein_surface as bsurf

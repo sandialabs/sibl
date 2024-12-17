@@ -110,7 +110,7 @@ def bspline_basis_manual(
             print(f"f(t) = {f_of_t}")
 
     if p == 1:
-        for (eix, te) in enumerate(t):  # e for evaluations, ix for index
+        for eix, te in enumerate(t):  # e for evaluations, ix for index
             if te >= knot_vector_t[knot_i] and te < knot_vector_t[knot_i + 1]:
                 f_of_t[eix] = (te - knot_vector_t[knot_i]) / (
                     knot_vector_t[knot_i + 1] - knot_vector_t[knot_i]
@@ -121,7 +121,7 @@ def bspline_basis_manual(
                 )
 
     if p == 2:
-        for (eix, te) in enumerate(t):  # e for evaluations, ix for index
+        for eix, te in enumerate(t):  # e for evaluations, ix for index
             if te >= knot_vector_t[knot_i] and te < knot_vector_t[knot_i + 1]:
 
                 a_1 = (te - knot_vector_t[knot_i]) / (

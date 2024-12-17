@@ -29,7 +29,7 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-    "black==22.6.0", "flake8", "matplotlib", "pytest", "pytest-cov", "pyyaml", "scipy"
+    "black", "flake8", "matplotlib", "pytest", "pytest-cov", "pyyaml", "scipy"
 ]
 
 # Entry Points

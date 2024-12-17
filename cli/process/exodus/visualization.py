@@ -8,7 +8,6 @@ Example:
     > python visualization.py
 """
 
-
 import os
 
 import numpy as np

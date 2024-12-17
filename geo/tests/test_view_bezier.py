@@ -8,6 +8,7 @@ $ black --check geo/tests/test_view_bspline.py
 $ pytest geo/tests/test_view_bezier.py -v
 $ pytest geo/tests/test_view_bezier.py -v --cov=geo/src/ptg --cov-report term-missing
 """
+
 # import runpy
 # import sys
 from pathlib import Path  # stop using os.path, use pathlib instead

@@ -3,6 +3,7 @@
     Typical use case:
     $ python image_diff.py image_a image_b
 """
+
 # https://www.python.org/dev/peps/pep-0008/#imports
 # standard library imports
 import sys

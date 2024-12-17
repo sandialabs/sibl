@@ -7,11 +7,19 @@ Given a comma separated values (`.csv`) file, plot columns with `xyfigure`
 
 ## Getting Started
 
+Create a virtual environment:
+
+```sh
+cd ~/sibl
+python -m venv .venv
+```
+
 Activate the virtual environment:
 
 ```sh
-cd ~/sibl/cli
 source ~/sibl/.venv/bin/activate
+cd ~/sibl/cli
+pip install -e .
 ```
 
 ## Example 1

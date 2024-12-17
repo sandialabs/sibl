@@ -18,6 +18,7 @@ to test just one of the test methods:
 # e.g., to test the test_same() method
 $ python -m unittest xyfigure_test.TestImageDiff.test_same
 """
+
 # https://www.python.org/dev/peps/pep-0008/#imports
 # standard library imports
 import os

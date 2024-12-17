@@ -8,6 +8,7 @@ from pathlib import Path
 
 class Kwargs(NamedTuple):
     """The keyword arguments, kwargs, forwarded to Matplotlib."""
+
     alpha: float = 0.5
     color: str = "blue"
     label: str = "label"
@@ -17,6 +18,7 @@ class Kwargs(NamedTuple):
 
 class Model(NamedTuple):
     """The basic ingredients to create a single (x, y) trace."""
+
     folder: Path
     file: Path
     plot_kwargs: Kwargs
@@ -26,6 +28,7 @@ class Model(NamedTuple):
 
 class RhsAxis(NamedTuple):
     """The constituents of a right hand side vertical axis."""
+
     scale: float
     label: str
     yticks: list[float] | None
@@ -33,6 +36,7 @@ class RhsAxis(NamedTuple):
 
 class View(NamedTuple):
     """The plot on which the models are placed."""
+
     folder: Path
     file: Path
     size: list[float]

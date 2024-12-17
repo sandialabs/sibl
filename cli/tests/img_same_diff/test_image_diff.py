@@ -7,6 +7,7 @@ $ python -m unittest test_image_diff.py     # for default interaction, and
 $ python -m unittest -v test_image_diff.py  # for higher verbosity
 
 """
+
 # https://www.python.org/dev/peps/pep-0008/#imports
 # standard library imports
 from unittest import TestCase, main
