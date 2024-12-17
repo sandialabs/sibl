@@ -1,0 +1,81 @@
+signal_a:
+  class: model
+  folder: ~/sibl/cli/tests/correlation
+  file: signal_a.csv
+  skip_rows: 1
+  ycolumn: 1
+  plot_kwargs:
+    label: reference signal a
+    color: red
+    linewidth: 3
+    linestyle: "--"
+    marker: D
+    alpha: 0.9
+signal_b:
+  class: model
+  folder: ~/sibl/cli/tests/correlation
+  file: signal_b.csv
+  skip_rows: 1
+  ycolumn: 1
+  plot_kwargs:
+    label: subject signal b
+    color: darkcyan
+    linewidth: 1
+    linestyle: "-"
+    marker: o
+    alpha: 0.8
+signal_b_correlated:
+  class: model
+  folder: ~/sibl/cli/tests/correlation
+  file: signal_b.csv
+  skip_rows: 1
+  ycolumn: 1
+  plot_kwargs:
+    label: subject signal b
+    color: darkcyan
+    linewidth: 1
+    linestyle: "-"
+    marker: o
+    alpha: 0.8
+  signal_process:
+    process1:
+      correlation:
+        reference:
+          folder: ~/sibl/cli/tests/correlation
+          file: signal_a.csv
+          skip_rows: 1
+          ycolumn: 1
+        verbose: true
+        serialize: false
+        folder: ~/sibl/cli/tests/correlation
+        file: out_signal_b_correlated.csv
+figure_1:
+  class: view
+  model_keys: [ signal_a, signal_b ]
+  folder: ~/sibl/cli/tests/correlation
+  file: out_anomaly_pre_corr.png
+  title: Anomaly site example, pre-correlation
+  xlabel: time (s)
+  ylabel: position (m)
+  xlim: [ -1, 22 ]
+  ylim: [ -1, 5 ]
+  size: [ 8.0, 6.0 ]
+  dpi: 100
+  display: true
+  details: false
+  serialize: true
+figure_2:
+  class: view
+  model_keys: [ signal_a, signal_b_correlated ]
+  folder: ~/sibl/cli/tests/correlation
+  file: out_anomaly_post_corr.png
+  title: Anomaly site example, post-correlation
+  xlabel: time (s)
+  ylabel: position (m)
+  xlim: [ -1, 22 ]
+  ylim: [ -1, 5 ]
+  size: [ 8.0, 6.0 ]
+  dpi: 100
+  display: true
+  details: false
+  serialize: true

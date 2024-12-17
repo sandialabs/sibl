@@ -1,10 +1,11 @@
 # https://www.python.org/dev/peps/pep-0008/#imports
 # standard library imports
-import os
+# import os
 import sys
 
 # related third-party imports
 import numpy as np
+from pathlib import Path
 from scipy import signal
 
 # from scipy.integrate import cumtrapz  # version 0.14.0, now deprecated
@@ -14,7 +15,8 @@ from scipy.integrate import cumulative_trapezoid  # version 1.14.1
 # local application/library specific imports
 # from xyfigure.xybase import XYBase
 # from xyfigure.code.xybase import XYBase
-from xyfigure.xybase import XYBase, absolute_path
+# from xyfigure.xybase import XYBase, absolute_path
+from xyfigure.xybase import XYBase
 
 
 # Helper functions
@@ -285,8 +287,10 @@ class XYModel(XYBase):
             print('Error: keyword "file" not found.')
             sys.exit("Abnormal termination.")
 
-        abs_path = absolute_path(ref_folder)
-        ref_path_file_input = os.path.join(abs_path, ref_file)
+        # abs_path = absolute_path(ref_folder)
+        abs_path = Path(ref_folder).expanduser()
+        # ref_path_file_input = os.path.join(abs_path, ref_file)
+        ref_path_file_input = abs_path.joinpath(ref_file)
 
         ref_skip_rows = reference.get("skip_rows", 0)
         ref_skip_rows_footer = reference.get("skip_rows_footer", 0)
