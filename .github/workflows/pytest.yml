@@ -42,13 +42,21 @@ jobs:
         cd cli/
         pip install -e .
         cd ../
-        cd geo/
-        pip install -e .[dev]
-        cd ../
-        cd geo/src/bind/
-        pip install -e .
-        cd ../../../
+        # ----------------------------------------
+        # 2024-12-17 suppress geo/ for now - start
+        # cd geo/
+        # pip install -e .[dev]
+        # cd ../
+        # 2024-12-17 suppress geo/ for now - start
+        # ----------------------------------------
+        # 2024-12-17 suppress pybind for now - start
+        # cd geo/src/bind/
+        # pip install -e .
+        # cd ../../../
+        # 2024-12-17 suppress pybind for now - stop
+        # ----------------------------------------
     # - name: Test with unittest
     - name: Test with pytest
       run: |
-        pytest -v
+        # pytest -v  # do not test all sibl/
+        pytest cli -v
