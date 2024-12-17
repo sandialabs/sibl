@@ -47,7 +47,7 @@ jobs:
         # cd geo/
         # pip install -e .[dev]
         # cd ../
-        # 2024-12-17 suppress geo/ for now - start
+        # 2024-12-17 suppress geo/ for now - stop
         # ----------------------------------------
         # 2024-12-17 suppress pybind for now - start
         # cd geo/src/bind/
