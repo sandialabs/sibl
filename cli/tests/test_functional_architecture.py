@@ -22,7 +22,9 @@ import xyfigure.functional_architecture as fa
 
 
 # @pytest.mark.skip(reason="work in progress")
-def test_Csv() -> fa.Csv:
+# def test_Csv() -> fa.Csv:
+def the_csv() -> fa.Csv:
+    """Helper function."""
     this_file = Path(__file__)
     this_path = this_file.resolve().parent
 
@@ -35,31 +37,73 @@ def test_Csv() -> fa.Csv:
     assert test_file_pathed.exists()
     assert test_file_pathed.is_file()
 
-    B = fa.Csv(filename=test_file, filepath=str(test_path))
+    bb = fa.Csv(filename=test_file, filepath=str(test_path))
 
-    assert B.filename == test_file
-    assert B.filetype == "csv"
-    assert B.filepath == str(test_path)
+    assert bb.filename == test_file
+    assert bb.filetype == "csv"
+    assert bb.filepath == str(test_path)
 
-    return B
+    return bb
 
 
 def test_csv_data():
-    B = test_Csv()
-    assert isinstance(B, fa.Csv)
+    """
+    Test the functionality of the CSV data handling.
 
-    C = fa.csv_data(B)
+    This function verifies that the CSV data is correctly loaded and processed
+    by checking the type of the loaded data and asserting that the expected
+    values for x and y coordinates match the computed values.
+
+    It performs the following checks:
+    - Asserts that the loaded CSV data is an instance of the `fa.Csv` class.
+    - Asserts that the x values are equal to a known tuple of float values
+      generated from a range of sample indices.
+    - Asserts that the y values are equal to a known tuple of values computed
+      as 0.5 times the square of the corresponding x values.
+
+    Raises:
+        AssertionError: If any of the assertions fail, indicating that the
+        CSV data does not match the expected format or values.
+    """
+    # B = test_Csv()
+    bb = the_csv()
+    assert isinstance(bb, fa.Csv)
+
+    cc = fa.csv_data(bb)
     n_samples = 11  # number of samples
     # known_x = tuple(map(float, [x for x in range(n_samples)]))
     # known_y = tuple([0.5 * y ** 2 for y in range(n_samples)])
     known_x = tuple(map(float, range(n_samples)))
     known_y = tuple(map(lambda x: 0.5 * x**2, range(n_samples)))
-    assert C.x == known_x
-    assert C.y == known_y
+    assert cc.x == known_x
+    assert cc.y == known_y
 
 
 def test_Figure():
-    C0 = fa.csv_data(test_Csv())
+    """
+    Test the functionality of the Figure class in the fa module.
+
+    This function verifies that a Figure object can be created using
+    CSV data loaded from two different sources. It checks that the
+    Figure object is correctly instantiated with the specified parameters.
+
+    The function performs the following steps:
+    - Loads CSV data from a test CSV file using the `fa.csv_data` function.
+    - Resolves the path to the current file and constructs the path to the
+      directory containing the test CSV file.
+    - Loads another set of CSV data from a specified test file located in
+      the "differentiation" directory.
+    - Creates a Figure object using the loaded CSV data, specifying the
+      x-axis maximum and y-axis minimum and maximum values, as well as the
+      filename for saving the figure.
+
+    Raises:
+        AssertionError: If the created Figure object is not an instance of
+        the `fa.Figure` class, indicating that the figure was not created
+        successfully.
+    """
+    # c0 = fa.csv_data(test_Csv())
+    c0 = fa.csv_data(the_csv())
 
     this_file = Path(__file__)
     this_path = this_file.resolve().parent
@@ -67,16 +111,17 @@ def test_Figure():
     test_file = "t-v-sines.csv"
     test_path = this_path.joinpath("differentiation").resolve()
 
-    C1 = fa.csv_data(fa.Csv(filename=test_file, filepath=str(test_path)))
-    D = fa.Figure(
-        series=(C0, C1), xmax=10, ymin=-2, ymax=50, filename="test_figure.pdf"
+    c1 = fa.csv_data(fa.Csv(filename=test_file, filepath=str(test_path)))
+    dd = fa.Figure(
+        series=(c0, c1), xmax=10, ymin=-2, ymax=50, filename="test_figure.pdf"
     )
-    assert isinstance(D, fa.Figure)
+    assert isinstance(dd, fa.Figure)
     # fa.figure_save(D)
 
 
 def main():
-    test_Csv()
+    """The main entry point."""
+    # test_Csv()
     test_csv_data()
     test_Figure()
 
