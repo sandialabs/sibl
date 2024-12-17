@@ -6,7 +6,10 @@ import sys
 # related third-party imports
 import numpy as np
 from scipy import signal
-from scipy.integrate import cumtrapz
+
+# from scipy.integrate import cumtrapz  # version 0.14.0, now deprecated
+from scipy.integrate import cumulative_trapezoid  # version 1.14.1
+
 
 # local application/library specific imports
 # from xyfigure.xybase import XYBase
@@ -43,8 +46,12 @@ def cross_correlation(reference, subject, verbose=False):
         print(
             f"  Reference [t_min, t_max] by dt (s): [{ref_t_min}, {ref_t_max}] by {ref_delta_t}"
         )
-        print(f"  Subject [t_min, t_max] by dt (s): [{t_min}, {t_max}] by {dt}")
-        print(f"  Globalized [t_min, t_max] by dt (s): [{T_MIN}, {T_MAX}] by {DT}")
+        print(
+            f"  Subject [t_min, t_max] by dt (s): [{t_min}, {t_max}] by {dt}"
+        )
+        print(
+            f"  Globalized [t_min, t_max] by dt (s): [{T_MIN}, {T_MAX}] by {DT}"
+        )
         print(f"  Globalized times: {t_span}")
         print(f"  Length of globalized times: {len(t_span)}")
 
@@ -52,7 +59,9 @@ def cross_correlation(reference, subject, verbose=False):
         t_span, reference[:, 0], reference[:, 1], left=0.0, right=0.0
     )
 
-    y_span = np.interp(t_span, subject[:, 0], subject[:, 1], left=0.0, right=0.0)
+    y_span = np.interp(
+        t_span, subject[:, 0], subject[:, 1], left=0.0, right=0.0
+    )
 
     cross_corr = np.correlate(ref_y_span, y_span, mode="full")
     cross_corr_max = np.max(cross_corr)
@@ -63,7 +72,9 @@ def cross_correlation(reference, subject, verbose=False):
         mode="full",
     )
 
-    ref_self_corr = np.correlate(ref_y_span, ref_y_span)[0]  # self correlated reference
+    ref_self_corr = np.correlate(ref_y_span, ref_y_span)[
+        0
+    ]  # self correlated reference
     rel_corr_error = 0.0
 
     if ref_self_corr > 0:
@@ -79,8 +90,12 @@ def cross_correlation(reference, subject, verbose=False):
     T_MIN_CORR = np.minimum(ref_t_min, t_shift[0])
     T_MAX_CORR = np.maximum(ref_t_max, t_shift[-1])
 
-    n_samples_corr = int((T_MAX_CORR - T_MIN_CORR) / DT) + 1  # DT unchanged pre-shift
-    t_span_corr = np.linspace(T_MIN_CORR, T_MAX_CORR, n_samples_corr, endpoint=True)
+    n_samples_corr = (
+        int((T_MAX_CORR - T_MIN_CORR) / DT) + 1
+    )  # DT unchanged pre-shift
+    t_span_corr = np.linspace(
+        T_MIN_CORR, T_MAX_CORR, n_samples_corr, endpoint=True
+    )
 
     ref_y_span_corr = np.interp(
         t_span_corr, reference[:, 0], reference[:, 1], left=0.0, right=0.0
@@ -96,7 +111,9 @@ def cross_correlation(reference, subject, verbose=False):
         print("\nCorrelation...")
         print(f"  Sliding dot product (cross-correlation): {cross_corr}")
         print(f"  Length of the sliding dot product: {len(cross_corr)}")
-        print(f"  Max sliding dot product (cross-correlation): {cross_corr_max}")
+        print(
+            f"  Max sliding dot product (cross-correlation): {cross_corr_max}"
+        )
         print(
             f"  Sliding dot product of normalized signals (cross-correlation): {cross_corr_unit}"
         )
@@ -299,8 +316,8 @@ class XYModel(XYBase):
             usecols=(ref_xcolumn, ref_ycolumn),
         )
 
-        tcorrelated, ycorrelated, cc_relative_error, L2_error = cross_correlation(
-            ref_data, self._data, verbose=verbosity
+        tcorrelated, ycorrelated, cc_relative_error, L2_error = (
+            cross_correlation(ref_data, self._data, verbose=verbosity)
         )
 
         self._data = np.transpose([tcorrelated, ycorrelated])  # overwrite
@@ -333,7 +350,9 @@ class XYModel(XYBase):
         # https://docs.scipy.org/doc/numpy/reference/generated/numpy.gradient.html
         # for k in range(value):
         for k in range(gradient_order):
-            ydot = np.gradient(self._data[:, 1], self._data[:, 0], edge_order=2)
+            ydot = np.gradient(
+                self._data[:, 1], self._data[:, 0], edge_order=2
+            )
             self._data[:, 1] = ydot  # overwrite
             if self._verbose:
                 print(f"  Derivative {k+1} completed.")
@@ -376,10 +395,21 @@ class XYModel(XYBase):
 
         # https://docs.scipy.org/doc/numpy/reference/generated/numpy.trapz.html
         # https://docs.scipy.org/doc/scipy-0.14.0/reference/generated/scipy.integrate.cumtrapz.html
+        # https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.cumulative_trapezoid.html#scipy.integrate.cumulative_trapezoid
         for k in range(integration_order):
             # inty = np.trapz(self._data[:, 1], self._data[:, 0]) + ics[k]
             # inty = cumtrapz(self._data[:, 1], self._data[:, 0], initial=ics[k])
-            inty = cumtrapz(self._data[:, 1], self._data[:, 0], initial=0) + ics[k]
+            # inty = (
+            #     cumtrapz(self._data[:, 1], self._data[:, 0], initial=0)
+            #     + ics[k]
+            # )
+            inty = (
+                cumulative_trapezoid(
+                    self._data[:, 1], self._data[:, 0], initial=0
+                )
+                + ics[k]
+            )
+
             self._data[:, 1] = inty  # overwrite
             print(f"  Integral {k+1} completed.")
 
@@ -492,10 +522,18 @@ class XYModelAbaqus(XYBase):
         }
         self._plot_kwargs = kwargs.get("plot_kwargs", _default)
         self._alpha = self._plot_kwargs.get("alpha", _default["alpha"])
-        self._edgecolor = self._plot_kwargs.get("edgecolor", _default["edgecolor"])
-        self._facecolor = self._plot_kwargs.get("facecolor", _default["facecolor"])
-        self._linestyle = self._plot_kwargs.get("linestyle", _default["linestyle"])
-        self._linewidth = self._plot_kwargs.get("linewidth", _default["linewidth"])
+        self._edgecolor = self._plot_kwargs.get(
+            "edgecolor", _default["edgecolor"]
+        )
+        self._facecolor = self._plot_kwargs.get(
+            "facecolor", _default["facecolor"]
+        )
+        self._linestyle = self._plot_kwargs.get(
+            "linestyle", _default["linestyle"]
+        )
+        self._linewidth = self._plot_kwargs.get(
+            "linewidth", _default["linewidth"]
+        )
 
 
 """
