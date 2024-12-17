@@ -31,21 +31,26 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install --user scipy matplotlib pybind11 pytz pyyaml
+          # python -m pip install --user scipy matplotlib pybind11 pytz pyyaml
           cd cli/
           pip install -e .
           cd ..
-          cd geo/
-          pip install -e .
-          cd ../
-          cd geo/src/bind/
-          pip install -e .
-          cd ../../../
+          # ----------------------------------------
+          # 2024-12-17 suppress geo/ for now - start
+          # cd geo/
+          # pip install -e .
+          # cd ../
+          # cd geo/src/bind/
+          # pip install -e .
+          # cd ../../../
+          # 2024-12-17 suppress geo/ for now - stop
+          # ----------------------------------------
       - name: Generate coverage report
         run: |
           pip install pytest
           pip install pytest-cov
-          pytest --cov=cli/src/xyfigure --cov=geo/src/ptg --cov-report=xml
+          # pytest --cov=cli/src/xyfigure --cov=geo/src/ptg --cov-report=xml
+          pytest --cov=cli/src/xyfigure --cov-report=xml
       - name: Upload coverage to Codecov
       # uses: codecov/codecov-action@6004246f47ab62d32be025ce173b241cd84ac58e
         uses: codecov/codecov-action@v1.0.13
