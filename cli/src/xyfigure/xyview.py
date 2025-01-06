@@ -188,15 +188,11 @@ class XYView(XYViewBase):
                 # https://github.com/matplotlib/matplotlib/issues/3173
                 # https://matplotlib.org/3.1.1/tutorials/intermediate/imshow_extent.html
                 bounds = [left, right, bottom, top]
-                im = ax.imshow(
-                    im, zorder=0, extent=bounds, alpha=al, aspect="auto"
-                )
+                im = ax.imshow(im, zorder=0, extent=bounds, alpha=al, aspect="auto")
 
             for model in self._models:
                 # needs rearchitecting, a logview descends from a view
-                if (
-                    self._xaxislog and not self._yaxislog
-                ):  # needs rearchitecting
+                if self._xaxislog and not self._yaxislog:  # needs rearchitecting
                     ax.semilogx(model.x, model.y, **model.plot_kwargs)
                 elif not self._xaxislog and self._yaxislog:
                     ax.semilogy(model.x, model.y, **model.plot_kwargs)
@@ -268,18 +264,10 @@ class XYView(XYViewBase):
                 # host = str(os.getenv("HOSTNAME"))
                 host = socket.gethostname()
                 details_str = (
-                    self._file
-                    + " created "
-                    + timestamp
-                    + " by "
-                    + user
-                    + " on "
-                    + host
+                    self._file + " created " + timestamp + " by " + user + " on " + host
                 )
 
-                ax.set_title(
-                    details_str, fontsize=8, ha="center", color="dimgray"
-                )
+                ax.set_title(details_str, fontsize=8, ha="center", color="dimgray")
 
             if self._display:
                 plt.show()
@@ -369,9 +357,7 @@ class XYViewAbaqus(XYViewBase):
                 xs, ys, _ = zip(*model._nodes)
 
                 for face in model._elements:
-                    xf = tuple(
-                        xs[k - 1] for k in face
-                    )  # 1-base index to 0-base index
+                    xf = tuple(xs[k - 1] for k in face)  # 1-base index to 0-base index
                     yf = tuple(ys[k - 1] for k in face)
                     # plt.fill(
                     #     xf,
