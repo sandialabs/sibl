@@ -15,7 +15,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "xyfigure"
-version = "0.0.10"
+version = "0.0.12"
 authors = [
   { name="Chad Hovey", email="chovey@sandia.gov" },
 ]
