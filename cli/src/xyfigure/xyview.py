@@ -2,11 +2,13 @@
 # standard library imports
 import os
 from datetime import datetime
+from pathlib import Path
+import socket
 
 # related third-party imports
 import matplotlib.pyplot as plt
 from PIL import Image
-from pathlib import Path
+from tzlocal import get_localzone
 
 # local application/library specific imports
 # from xyfigure.xybase import XYBase
@@ -186,11 +188,15 @@ class XYView(XYViewBase):
                 # https://github.com/matplotlib/matplotlib/issues/3173
                 # https://matplotlib.org/3.1.1/tutorials/intermediate/imshow_extent.html
                 bounds = [left, right, bottom, top]
-                im = ax.imshow(im, zorder=0, extent=bounds, alpha=al, aspect="auto")
+                im = ax.imshow(
+                    im, zorder=0, extent=bounds, alpha=al, aspect="auto"
+                )
 
             for model in self._models:
                 # needs rearchitecting, a logview descends from a view
-                if self._xaxislog and not self._yaxislog:  # needs rearchitecting
+                if (
+                    self._xaxislog and not self._yaxislog
+                ):  # needs rearchitecting
                     ax.semilogx(model.x, model.y, **model.plot_kwargs)
                 elif not self._xaxislog and self._yaxislog:
                     ax.semilogy(model.x, model.y, **model.plot_kwargs)
@@ -249,14 +255,31 @@ class XYView(XYViewBase):
             ax.legend()
 
             if self._details:
-                now = datetime.now()
-                now_str = now.strftime("%Y-%m-%d %H:%M:%S")
+                # Get the local timezone
+                local_timezone = get_localzone()
+
+                # Get the current time in the local timezone
+                current_time = datetime.now(local_timezone)
+
+                # Format the date and time stamp
+                timestamp = current_time.strftime("%Y-%m-%d %H:%M:%S %Z%z")
+
                 user = str(os.getlogin())
-                host = str(os.getenv("HOSTNAME"))
+                # host = str(os.getenv("HOSTNAME"))
+                host = socket.gethostname()
                 details_str = (
-                    self._file + " created " + now_str + " by " + user + " on " + host
+                    self._file
+                    + " created "
+                    + timestamp
+                    + " by "
+                    + user
+                    + " on "
+                    + host
                 )
-                ax.set_title(details_str, fontsize=10, ha="center", color="dimgray")
+
+                ax.set_title(
+                    details_str, fontsize=8, ha="center", color="dimgray"
+                )
 
             if self._display:
                 plt.show()
@@ -346,7 +369,9 @@ class XYViewAbaqus(XYViewBase):
                 xs, ys, _ = zip(*model._nodes)
 
                 for face in model._elements:
-                    xf = tuple(xs[k - 1] for k in face)  # 1-base index to 0-base index
+                    xf = tuple(
+                        xs[k - 1] for k in face
+                    )  # 1-base index to 0-base index
                     yf = tuple(ys[k - 1] for k in face)
                     # plt.fill(
                     #     xf,

@@ -15,7 +15,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "xyfigure"
-version = "0.0.12"
+version = "0.0.13"
 authors = [
   { name="Chad Hovey", email="chovey@sandia.gov" },
 ]
@@ -29,7 +29,7 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-    "black", "flake8", "matplotlib", "pytest", "pytest-cov", "pyyaml", "scipy"
+    "black", "flake8", "matplotlib", "pytest", "pytest-cov", "pyyaml", "scipy", "tzlocal"
 ]
 
 # Entry Points
