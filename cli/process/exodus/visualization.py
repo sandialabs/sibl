@@ -81,7 +81,12 @@ if EXEMPLAR:
     g = sns.JointGrid(x=bill_data, y=tip_data)
     # g = g.plot_joint(plt.scatter, s=10, linewidths=0.05, edgecolors='blue', marker='o', alpha=0.3, label=legend_txt)
     g = g.plot_joint(
-        plt.scatter, s=10, linewidths=0.05, edgecolors="blue", marker="o", alpha=0.3
+        plt.scatter,
+        s=10,
+        linewidths=0.05,
+        edgecolors="blue",
+        marker="o",
+        alpha=0.3,
     )
 
     _ = g.ax_marg_x.hist(bill_data, color="b", bins=np.arange(0, 60, 5))
@@ -118,7 +123,7 @@ else:
             "strain_p95": [0.015],
             "strain_rate_p95": [30],
         }
-        axis_txt = f'time = {probes["time"][idx]*1000:.3f} ms (Bob-TEST-1000-pts)'
+        axis_txt = f'time = {probes["time"][idx] * 1000:.3f} ms (Bob-TEST-1000-pts)'
         blocks = [7]
         labels = ["white matter"]
         colors = ["C1"]  # white plotted as orange, gray -> green
@@ -126,7 +131,12 @@ else:
         strain_rate_files = [
             ["test_ebe_max_principal_rate_of_deformation_51_small.txt"]
         ]
-        marker_dict = {"linestyle": "", "marker": ".", "markersize": 10, "alpha": 0.2}
+        marker_dict = {
+            "linestyle": "",
+            "marker": ".",
+            "markersize": 10,
+            "alpha": 0.2,
+        }
 
     else:
         # not Bob TEST data subset, is the actual full data set, either translation or rotation
@@ -136,7 +146,12 @@ else:
         # combined white + gray = 1,294,607 data points
 
         # markers are very small and light to cope with the large data set
-        marker_dict = {"linestyle": "", "marker": ",", "markersize": 0.7, "alpha": 0.2}
+        marker_dict = {
+            "linestyle": "",
+            "marker": ",",
+            "markersize": 0.7,
+            "alpha": 0.2,
+        }
 
         blocks = [7, 8]
         labels = ["white matter", "gray matter"]
@@ -170,7 +185,7 @@ else:
             }
 
             # axis_txt = f'time = {probes["time"][idx]*1000:.3f} ms (Bob-063f)'
-            axis_txt = f'time = {probes["time"][idx]*1000:.2f} ms'
+            axis_txt = f'time = {probes["time"][idx] * 1000:.2f} ms'
 
             strain_files = [
                 [
@@ -216,7 +231,7 @@ else:
             }
 
             # axis_txt = f'time = {probes["time"][idx]*1000:.3f} ms (Bob-066b)'
-            axis_txt = f'time = {probes["time"][idx]*1000:.1f} ms'
+            axis_txt = f'time = {probes["time"][idx] * 1000:.1f} ms'
 
             strain_files = [
                 ["max_principal_green_lagrange_strain_ts_43.csv"],
@@ -274,14 +289,21 @@ else:
     time_label_x = 0.02  # strain rate
     time_label_y = -0.015  # strain
     g.ax_joint.text(
-        time_label_x, time_label_y, axis_txt, ha="left", va="bottom", bbox=bbox_props
+        time_label_x,
+        time_label_y,
+        axis_txt,
+        ha="left",
+        va="bottom",
+        bbox=bbox_props,
     )
 
     # draw 95th percentile boundaries
     line_prop = dict(color="orange", linewidth=1)
     # vertical line on joint plot
     g.ax_joint.plot(
-        [strain_rate_095th, strain_rate_095th], g.ax_joint.get_ylim(), **line_prop
+        [strain_rate_095th, strain_rate_095th],
+        g.ax_joint.get_ylim(),
+        **line_prop,
     )
 
     # horizontal line on the joint plot
@@ -290,7 +312,9 @@ else:
     # vertical line across marginal strain rate plot
     y0_log_sr, y1_log_sr = g.ax_marg_x.get_ylim()
     g.ax_marg_x.plot(
-        [strain_rate_095th, strain_rate_095th], [y0_log_sr, y1_log_sr], **line_prop
+        [strain_rate_095th, strain_rate_095th],
+        [y0_log_sr, y1_log_sr],
+        **line_prop,
     )
     # marginal strain rate text
     if TRANSLATION:
@@ -408,7 +432,10 @@ else:
                 intercept_txt,
                 xy=(x_intercept, y_intercept),
                 xycoords="data",
-                xytext=(intercept_label_x + x_offset, intercept_label_y + y_offset),
+                xytext=(
+                    intercept_label_x + x_offset,
+                    intercept_label_y + y_offset,
+                ),
                 # arrowprops=dict(facecolor="black", arrowstyle="->"),
                 arrowprops=dict(facecolor="black", arrowstyle="simple"),
                 horizontalalignment="left",

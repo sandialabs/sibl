@@ -343,7 +343,7 @@ class XYModel(XYBase):
             ydot = np.gradient(self._data[:, 1], self._data[:, 0], edge_order=2)
             self._data[:, 1] = ydot  # overwrite
             if self._verbose:
-                print(f"  Derivative {k+1} completed.")
+                print(f"  Derivative {k + 1} completed.")
 
         serialize = value.get("serialize", 0)  # default is not to serialize
         if serialize:
@@ -397,7 +397,7 @@ class XYModel(XYBase):
             )
 
             self._data[:, 1] = inty  # overwrite
-            print(f"  Integral {k+1} completed.")
+            print(f"  Integral {k + 1} completed.")
 
         serialize = value.get("serialize", 0)  # default is not to serialize
         if serialize:
