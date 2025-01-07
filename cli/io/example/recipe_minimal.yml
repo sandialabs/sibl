@@ -1,0 +1,14 @@
+sine-data:
+    class: model
+    folder: ~/sibl/cli/io/example
+    file: data.csv
+cosine-data:
+    class: model
+    folder: ~/sibl/cli/io/example
+    file: data.csv
+    ycolumn: 2
+figure-output:
+    class: view
+    folder: ~/sibl/cli/io/example
+    file: recipe_minimal.png
+    serialize: true

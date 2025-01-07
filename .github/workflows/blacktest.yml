@@ -11,8 +11,9 @@ jobs:
       matrix:
         # python-version: [3.9.5, 3.10.0]
         # python-version: [3.9.5]
-        python-version: [3.9]
+        # python-version: [3.9]
         # python-version: [3.10.0]
+        python-version: ['3.9', '3.10', '3.11', '3.12']
 
     steps:
     - uses: actions/checkout@v2
@@ -25,7 +26,8 @@ jobs:
         python -m pip install --upgrade pip
         # pip install black
         # pip install black==21.10b0  # specify version 21.10b0 exactly
-        pip install black==22.3.0
+        # pip install black==22.3.0
+        pip install black
         pip install flake8
     - name: Test with Black
       run: |

@@ -267,7 +267,6 @@ class ThreePointsAngularVelocityTest(unittest.TestCase):
 
     @unittest.expectedFailure
     def test_t0_insufficient_rank_omega_perpendicular(self):
-
         """
         This function tests a single time step input with a rank-insufficient
         configuration space (rOR gets set to rOQ, which fails to span R3).
@@ -353,7 +352,6 @@ class ThreePointsAngularVelocityTest(unittest.TestCase):
 
     @unittest.expectedFailure
     def test_t0_insufficient_rank_omega_parallel(self):
-
         """
         This function tests a single time step input with a rank-insufficient
         configuration space (rOR gets set to rOQ, which fails to span R3).

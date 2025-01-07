@@ -5,6 +5,7 @@ To run
 > cd ~/sibl/geo/examples
 > python quadtree_example.py
 """
+
 from pathlib import Path
 
 import matplotlib.pyplot as plt

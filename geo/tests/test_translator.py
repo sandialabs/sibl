@@ -17,6 +17,7 @@ black --check geo/tests/test_translator.py --diff
 For flake8:
 flake8 --ignore E203,E501,W503 geo/tests/test_translator.py --statistics
 """
+
 from pathlib import Path
 
 import pytest
@@ -38,7 +39,7 @@ def test_string_to_vertex():
         translator.MeshFileVertex(x=-0.51, y=-0.87, z=-0.08, face_id=42),
         translator.MeshFileVertex(x=-0.55, y=-0.88, z=-0.09, face_id=12),
     )
-    for (x, y) in zip(xs, ys):
+    for x, y in zip(xs, ys):
         fx = translator.string_to_vertex(vertex_string=x)
         assert y == fx
 
@@ -95,7 +96,7 @@ def test_string_to_hexahedron():
         translator.MeshFileHexahedron(nodes=(2, 3, 6, 5, 11, 12, 15, 14), vol_id=1),
         translator.MeshFileHexahedron(nodes=(4, 5, 8, 7, 13, 14, 17, 16), vol_id=1),
     )
-    for (x, y) in zip(xs, ys):
+    for x, y in zip(xs, ys):
         fx = translator.string_to_hexahedron(hex_string=x)
         assert y == fx
 

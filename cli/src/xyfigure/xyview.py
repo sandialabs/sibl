@@ -2,10 +2,13 @@
 # standard library imports
 import os
 from datetime import datetime
+from pathlib import Path
+import socket
 
 # related third-party imports
 import matplotlib.pyplot as plt
 from PIL import Image
+from tzlocal import get_localzone
 
 # local application/library specific imports
 # from xyfigure.xybase import XYBase
@@ -169,10 +172,12 @@ class XYView(XYViewBase):
             if self._background_image:
                 folder = self._background_image.get("folder", ".")
                 file = self._background_image.get("file", None)
-                rel_path_and_file = os.path.join(
-                    folder, file
-                )  # relative to current run location
-                im = Image.open(rel_path_and_file)
+                # rel_path_and_file = os.path.join(
+                #     folder, file
+                # )  # relative to current run location
+                path_file = Path(folder).expanduser().joinpath(file)
+                # im = Image.open(rel_path_and_file)
+                im = Image.open(path_file)
 
                 left = self._background_image.get("left", 0.0)
                 right = self._background_image.get("right", 1.0)
@@ -246,14 +251,23 @@ class XYView(XYViewBase):
             ax.legend()
 
             if self._details:
-                now = datetime.now()
-                now_str = now.strftime("%Y-%m-%d %H:%M:%S")
+                # Get the local timezone
+                local_timezone = get_localzone()
+
+                # Get the current time in the local timezone
+                current_time = datetime.now(local_timezone)
+
+                # Format the date and time stamp
+                timestamp = current_time.strftime("%Y-%m-%d %H:%M:%S %Z%z")
+
                 user = str(os.getlogin())
-                host = str(os.getenv("HOSTNAME"))
+                # host = str(os.getenv("HOSTNAME"))
+                host = socket.gethostname()
                 details_str = (
-                    self._file + " created " + now_str + " by " + user + " on " + host
+                    self._file + " created " + timestamp + " by " + user + " on " + host
                 )
-                ax.set_title(details_str, fontsize=10, ha="center", color="dimgray")
+
+                ax.set_title(details_str, fontsize=8, ha="center", color="dimgray")
 
             if self._display:
                 plt.show()

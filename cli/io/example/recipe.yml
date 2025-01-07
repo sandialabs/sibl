@@ -1,0 +1,38 @@
+sine-data:
+  class: model
+  folder: ~/sibl/cli/io/example
+  file: data.csv
+  skip_rows: 1
+  plot_kwargs:
+    label: sin(t)
+    color: darkorange
+    linestyle: "-"
+    linewidth: 4
+    alpha: 0.5
+cosine-data:
+  class: model
+  folder: ~/sibl/cli/io/example
+  file: data.csv
+  skip_rows: 1
+  ycolumn: 2
+  plot_kwargs:
+    label: cos(2t)
+    linestyle: "-."
+    linewidth: 2
+figure:
+  class: view
+  folder: ~/sibl/cli/io/example
+  file: recipe.png
+  size: [ 8.0, 6.0 ]
+  title: Example using xyfigure
+  xlabel: time (s)
+  ylabel: functions of time f(t)
+  yaxis_rhs:
+    scale: 10
+    label: right-hand-side label with 10 f(t) scale
+    yticks: [ -10, -5, 0, 5, 10 ]
+  details: false
+  display: true
+  dpi: 100
+  latex: true
+  serialize: true

@@ -9,6 +9,7 @@ To run:
 # update benchmark.py as needed
 > python benchmark.py
 """
+
 # from itertools import repeat
 import math
 from pathlib import Path

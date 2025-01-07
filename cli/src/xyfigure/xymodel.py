@@ -1,17 +1,22 @@
 # https://www.python.org/dev/peps/pep-0008/#imports
 # standard library imports
-import os
+# import os
 import sys
 
 # related third-party imports
 import numpy as np
+from pathlib import Path
 from scipy import signal
-from scipy.integrate import cumtrapz
+
+# from scipy.integrate import cumtrapz  # version 0.14.0, now deprecated
+from scipy.integrate import cumulative_trapezoid  # version 1.14.1
+
 
 # local application/library specific imports
 # from xyfigure.xybase import XYBase
 # from xyfigure.code.xybase import XYBase
-from xyfigure.xybase import XYBase, absolute_path
+# from xyfigure.xybase import XYBase, absolute_path
+from xyfigure.xybase import XYBase
 
 
 # Helper functions
@@ -282,8 +287,10 @@ class XYModel(XYBase):
             print('Error: keyword "file" not found.')
             sys.exit("Abnormal termination.")
 
-        abs_path = absolute_path(ref_folder)
-        ref_path_file_input = os.path.join(abs_path, ref_file)
+        # abs_path = absolute_path(ref_folder)
+        abs_path = Path(ref_folder).expanduser()
+        # ref_path_file_input = os.path.join(abs_path, ref_file)
+        ref_path_file_input = abs_path.joinpath(ref_file)
 
         ref_skip_rows = reference.get("skip_rows", 0)
         ref_skip_rows_footer = reference.get("skip_rows_footer", 0)
@@ -336,7 +343,7 @@ class XYModel(XYBase):
             ydot = np.gradient(self._data[:, 1], self._data[:, 0], edge_order=2)
             self._data[:, 1] = ydot  # overwrite
             if self._verbose:
-                print(f"  Derivative {k+1} completed.")
+                print(f"  Derivative {k + 1} completed.")
 
         serialize = value.get("serialize", 0)  # default is not to serialize
         if serialize:
@@ -376,12 +383,21 @@ class XYModel(XYBase):
 
         # https://docs.scipy.org/doc/numpy/reference/generated/numpy.trapz.html
         # https://docs.scipy.org/doc/scipy-0.14.0/reference/generated/scipy.integrate.cumtrapz.html
+        # https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.cumulative_trapezoid.html#scipy.integrate.cumulative_trapezoid
         for k in range(integration_order):
             # inty = np.trapz(self._data[:, 1], self._data[:, 0]) + ics[k]
             # inty = cumtrapz(self._data[:, 1], self._data[:, 0], initial=ics[k])
-            inty = cumtrapz(self._data[:, 1], self._data[:, 0], initial=0) + ics[k]
+            # inty = (
+            #     cumtrapz(self._data[:, 1], self._data[:, 0], initial=0)
+            #     + ics[k]
+            # )
+            inty = (
+                cumulative_trapezoid(self._data[:, 1], self._data[:, 0], initial=0)
+                + ics[k]
+            )
+
             self._data[:, 1] = inty  # overwrite
-            print(f"  Integral {k+1} completed.")
+            print(f"  Integral {k + 1} completed.")
 
         serialize = value.get("serialize", 0)  # default is not to serialize
         if serialize:
@@ -438,7 +454,9 @@ class XYModelAbaqus(XYBase):
                                         ]
                                     ),
                                 )
-                            except IndexError:  # handle 2D input files, append 0.0 as z coordinate
+                            except (
+                                IndexError
+                            ):  # handle 2D input files, append 0.0 as z coordinate
                                 new_nodes = (
                                     tuple(
                                         [

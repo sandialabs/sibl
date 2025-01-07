@@ -73,7 +73,7 @@ ax.grid(True, which="minor", linestyle=":")
 
 for i in np.arange(len(x)):
     # for i in np.arange(1):
-    print(f"element {i+1}")
+    print(f"element {i + 1}")
     color = colors[np.remainder(i, len(colors))]
     ax.plot(
         x[i],

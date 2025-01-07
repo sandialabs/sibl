@@ -9,6 +9,7 @@ To run:
 # update lesson_21.py as needed
 > python lesson_21.py
 """
+
 import math
 from pathlib import Path
 from typing import Final

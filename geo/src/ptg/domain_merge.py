@@ -195,18 +195,22 @@ def domain_merge(
     # renumber faces to global numbering scheme
     faces0 = tuple(
         tuple(
-            domain0.mesh.connectivity[i][j] + nnp0
-            if domain0.mesh.connectivity[i][j] < 0
-            else domain0.mesh.connectivity[i][j]
+            (
+                domain0.mesh.connectivity[i][j] + nnp0
+                if domain0.mesh.connectivity[i][j] < 0
+                else domain0.mesh.connectivity[i][j]
+            )
             for j in range(0, nen0)
         )
         for i in range(0, n_faces0)
     )
     faces1 = tuple(
         tuple(
-            domain1.mesh.connectivity[i][j] + nnp1 + nnp0
-            if domain1.mesh.connectivity[i][j] < 0
-            else domain1.mesh.connectivity[i][j] + nnp0
+            (
+                domain1.mesh.connectivity[i][j] + nnp1 + nnp0
+                if domain1.mesh.connectivity[i][j] < 0
+                else domain1.mesh.connectivity[i][j] + nnp0
+            )
             for j in range(0, nen1)
         )
         for i in range(0, n_faces1)
@@ -215,18 +219,22 @@ def domain_merge(
     # renumber boundaries to global numbering scheme
     bounds0 = tuple(
         tuple(
-            domain0.boundaries[i][j] + nnp0
-            if domain0.boundaries[i][j] < 0
-            else domain0.boundaries[i][j]
+            (
+                domain0.boundaries[i][j] + nnp0
+                if domain0.boundaries[i][j] < 0
+                else domain0.boundaries[i][j]
+            )
             for j in range(0, n_pts_per_bound0[i])
         )
         for i in range(0, n_bound0)
     )
     bounds1 = tuple(
         tuple(
-            domain1.boundaries[i][j] + nnp1 + nnp0
-            if domain1.boundaries[i][j] < 0
-            else domain1.boundaries[i][j] + nnp0
+            (
+                domain1.boundaries[i][j] + nnp1 + nnp0
+                if domain1.boundaries[i][j] < 0
+                else domain1.boundaries[i][j] + nnp0
+            )
             for j in range(0, n_pts_per_bound1[i])
         )
         for i in range(0, n_bound1)

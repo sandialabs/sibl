@@ -18,6 +18,7 @@ black --check geo/tests/test_mesh.py --diff
 For flake8:
 flake8 --ignore E203,E501,W503 geo/tests/test_mesh.py --statistics
 """
+
 from math import isinf, isnan
 from pathlib import Path
 

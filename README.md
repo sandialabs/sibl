@@ -1,8 +1,10 @@
 # Sandia Injury Biomechanics Laboratory (SIBL)
 
-[![python](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/) ![os](https://img.shields.io/badge/os-ubuntu%20|%20macos%20|%20windows-blue.svg) [![license](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/sandialabs/sibl#license)  [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+![os](https://img.shields.io/badge/os-ubuntu%20|%20macos%20|%20windows-blue.svg) [![license](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/sandialabs/sibl#license)  [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-[![pytest](https://github.com/sandialabs/sibl/workflows/pytest/badge.svg)](https://github.com/sandialabs/sibl/actions) [![blacktest](https://github.com/sandialabs/sibl/workflows/blacktest/badge.svg)](https://github.com/sandialabs/sibl/actions) [![covertest](https://github.com/sandialabs/sibl/workflows/covertest/badge.svg)](https://github.com/sandialabs/sibl/actions) [![codecov](https://codecov.io/gh/sandialabs/sibl/branch/master/graph/badge.svg)](https://codecov.io/gh/sandialabs/sibl)
+[![pytest](https://github.com/sandialabs/sibl/workflows/pytest/badge.svg)](https://github.com/sandialabs/sibl/actions) [![blacktest](https://github.com/sandialabs/sibl/workflows/blacktest/badge.svg)](https://github.com/sandialabs/sibl/actions) [![covertest](https://github.com/sandialabs/sibl/workflows/covertest/badge.svg)](https://github.com/sandialabs/sibl/actions) [![test-coverage][test-coverage_badge]](https://sandialabs.github.io/sibl/coverage_reports/htmlcov/index.html)
+
+[test-coverage_badge]: https://sandialabs.github.io/sibl/coverage.svg
 
 ## Purpose
 
@@ -36,6 +38,52 @@ The *SIBL Geometry Engine* is an open-source geometry and mesh engine written in
 * [Configure](config/README.md) the development environment.
 * Follow the developer [workflow](config/workflow.md).
 * To contribute, submit a merge request.
+
+## Distribution
+
+The distribution steps will tag the code state as a release version, with a semantic version number, build the code as a wheel file, and publish to the wheel file as a release to the repository.
+
+### Tag
+
+View existing tags, if any:
+
+```bash
+git tag
+```
+
+Create a tag.  Tags can be *lightweight* or *annotated*.
+Annotated tags are recommended since they store tagger name, email, date, and
+message information.  Create an annotated tag:
+
+```bash
+# example of an annotated tag
+git tag -a v1.0.0 -m "Release version 1.0.0"
+```
+
+Push the tag to GitLab
+
+```bash
+# example continued
+git push origin v1.0.0
+```
+
+Verify the tag appears on GitHub, found on the https://github.com/sandialabs/sibl/tags page.
+
+### Build
+
+Ensure that `setuptools` and `build` are installed:
+
+```bash
+pip install setuptools build
+```
+
+Navigate to the project directory, where the `pyproject.toml` file is located
+and create a wheel distribution.
+
+```bash
+# generates a .whl file in the dist directory
+python -m build --wheel
+```
 
 ## Contact
 
