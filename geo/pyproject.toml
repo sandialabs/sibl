@@ -13,7 +13,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ptg"
-version = "0.0.13"
+version = "0.0.14"
 authors = [
   { name="Chad Hovey", email="chovey@sandia.gov" },
 ]
